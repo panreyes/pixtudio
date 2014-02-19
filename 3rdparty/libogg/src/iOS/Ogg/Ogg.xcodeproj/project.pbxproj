@@ -1,0 +1,226 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9232A5971396CEF100058FDB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9232A5961396CEF100058FDB /* Foundation.framework */; };
+		9232A5A21396CF2F00058FDB /* bitwise.c in Sources */ = {isa = PBXBuildFile; fileRef = 9232A5A01396CF2F00058FDB /* bitwise.c */; };
+		9232A5A31396CF2F00058FDB /* framing.c in Sources */ = {isa = PBXBuildFile; fileRef = 9232A5A11396CF2F00058FDB /* framing.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9232A5931396CEF100058FDB /* libOgg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOgg.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9232A5961396CEF100058FDB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9232A59A1396CEF100058FDB /* Ogg-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ogg-Prefix.pch"; sourceTree = "<group>"; };
+		9232A5A01396CF2F00058FDB /* bitwise.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bitwise.c; path = ../../../src/bitwise.c; sourceTree = "<group>"; };
+		9232A5A11396CF2F00058FDB /* framing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = framing.c; path = ../../../src/framing.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9232A5901396CEF100058FDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9232A5971396CEF100058FDB /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9232A5881396CEF000058FDB = {
+			isa = PBXGroup;
+			children = (
+				9232A5981396CEF100058FDB /* Ogg */,
+				9232A5951396CEF100058FDB /* Frameworks */,
+				9232A5941396CEF100058FDB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9232A5941396CEF100058FDB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9232A5931396CEF100058FDB /* libOgg.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9232A5951396CEF100058FDB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9232A5961396CEF100058FDB /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9232A5981396CEF100058FDB /* Ogg */ = {
+			isa = PBXGroup;
+			children = (
+				9232A5A01396CF2F00058FDB /* bitwise.c */,
+				9232A5A11396CF2F00058FDB /* framing.c */,
+				9232A5991396CEF100058FDB /* Supporting Files */,
+			);
+			path = Ogg;
+			sourceTree = "<group>";
+		};
+		9232A5991396CEF100058FDB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9232A59A1396CEF100058FDB /* Ogg-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		9232A5911396CEF100058FDB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		9232A5921396CEF100058FDB /* Ogg */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9232A59D1396CEF100058FDB /* Build configuration list for PBXNativeTarget "Ogg" */;
+			buildPhases = (
+				9232A58F1396CEF100058FDB /* Sources */,
+				9232A5901396CEF100058FDB /* Frameworks */,
+				9232A5911396CEF100058FDB /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Ogg;
+			productName = Ogg;
+			productReference = 9232A5931396CEF100058FDB /* libOgg.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9232A58A1396CEF000058FDB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+			};
+			buildConfigurationList = 9232A58D1396CEF000058FDB /* Build configuration list for PBXProject "Ogg" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9232A5881396CEF000058FDB;
+			productRefGroup = 9232A5941396CEF100058FDB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9232A5921396CEF100058FDB /* Ogg */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9232A58F1396CEF100058FDB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9232A5A21396CF2F00058FDB /* bitwise.c in Sources */,
+				9232A5A31396CF2F00058FDB /* framing.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		9232A59B1396CEF100058FDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = ../../include;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		9232A59C1396CEF100058FDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = ../../include;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		9232A59E1396CEF100058FDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DSTROOT = /tmp/Ogg.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Ogg/Ogg-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9232A59F1396CEF100058FDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DSTROOT = /tmp/Ogg.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Ogg/Ogg-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9232A58D1396CEF000058FDB /* Build configuration list for PBXProject "Ogg" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9232A59B1396CEF100058FDB /* Debug */,
+				9232A59C1396CEF100058FDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9232A59D1396CEF100058FDB /* Build configuration list for PBXNativeTarget "Ogg" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9232A59E1396CEF100058FDB /* Debug */,
+				9232A59F1396CEF100058FDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9232A58A1396CEF000058FDB /* Project object */;
+}

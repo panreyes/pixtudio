@@ -1,0 +1,5 @@
+This folder contains functions needed by BennuGD and not found
+in Wii's libogc.
+
+Most of them come from one of the various BSD variants and license
+for each is included in the code.

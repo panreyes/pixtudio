@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'tremor' target in the 'tremor' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif

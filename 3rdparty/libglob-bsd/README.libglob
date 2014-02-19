@@ -1,0 +1,11 @@
+This is a recompile of the glob routine implemented by various BSD systems for
+the use with devkitppc.
+
+The source is part of FreeBSD version 7 and was downloaded from:
+http://svn.freebsd.org/viewvc/base/stable/7/lib/libc/gen/glob.c?view=markup
+http://svn.freebsd.org/viewvc/base/stable/7/include/glob.h?view=markup
+http://svn.freebsd.org/viewvc/base/stable/7/lib/libc/locale/collate.h?view=markup
+
+
+Packaging and compile scripts by Joseba García Etxebarria
+                                 <joseba.gar at gmail dot com>

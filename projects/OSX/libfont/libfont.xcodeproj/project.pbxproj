@@ -1,0 +1,234 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		924C6646142D16B8002F8F45 /* bgdrtm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 924C6644142D16B8002F8F45 /* bgdrtm.dylib */; };
+		924C6647142D16B8002F8F45 /* libgrbase.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 924C6645142D16B8002F8F45 /* libgrbase.dylib */; };
+		924C6649142D16CD002F8F45 /* libfont.c in Sources */ = {isa = PBXBuildFile; fileRef = 924C6648142D16CD002F8F45 /* libfont.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		924C663D142D1653002F8F45 /* libfont.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libfont.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		924C6644142D16B8002F8F45 /* bgdrtm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = bgdrtm.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug/bgdrtm.dylib"; sourceTree = "<group>"; };
+		924C6645142D16B8002F8F45 /* libgrbase.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgrbase.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug/libgrbase.dylib"; sourceTree = "<group>"; };
+		924C6648142D16CD002F8F45 /* libfont.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = libfont.c; path = ../../../modules/libfont/libfont.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		924C663A142D1653002F8F45 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				924C6646142D16B8002F8F45 /* bgdrtm.dylib in Frameworks */,
+				924C6647142D16B8002F8F45 /* libgrbase.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		924C6632142D1653002F8F45 = {
+			isa = PBXGroup;
+			children = (
+				924C664A142D16D3002F8F45 /* Sources */,
+				924C663E142D1653002F8F45 /* Products */,
+				924C6644142D16B8002F8F45 /* bgdrtm.dylib */,
+				924C6645142D16B8002F8F45 /* libgrbase.dylib */,
+			);
+			sourceTree = "<group>";
+		};
+		924C663E142D1653002F8F45 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				924C663D142D1653002F8F45 /* libfont.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		924C664A142D16D3002F8F45 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				924C6648142D16CD002F8F45 /* libfont.c */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		924C663B142D1653002F8F45 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		924C663C142D1653002F8F45 /* libfont */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 924C6641142D1653002F8F45 /* Build configuration list for PBXNativeTarget "libfont" */;
+			buildPhases = (
+				924C6639142D1653002F8F45 /* Sources */,
+				924C663A142D1653002F8F45 /* Frameworks */,
+				924C663B142D1653002F8F45 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libfont;
+			productName = libfont;
+			productReference = 924C663D142D1653002F8F45 /* libfont.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		924C6634142D1653002F8F45 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 924C6637142D1653002F8F45 /* Build configuration list for PBXProject "libfont" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 924C6632142D1653002F8F45;
+			productRefGroup = 924C663E142D1653002F8F45 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				924C663C142D1653002F8F45 /* libfont */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		924C6639142D1653002F8F45 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				924C6649142D16CD002F8F45 /* libfont.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		924C663F142D1653002F8F45 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../core/include,
+					../../../core/bgdrtm/include,
+					../../../modules/libgrbase/,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VALID_ARCHS = i386;
+			};
+			name = Debug;
+		};
+		924C6640142D1653002F8F45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../core/include,
+					../../../core/bgdrtm/include,
+					../../../modules/libgrbase/,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+				VALID_ARCHS = i386;
+			};
+			name = Release;
+		};
+		924C6642142D1653002F8F45 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = "";
+				GCC_PREPROCESSOR_DEFINITIONS = TARGET_MAC;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		924C6643142D1653002F8F45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = "";
+				GCC_PREPROCESSOR_DEFINITIONS = TARGET_MAC;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		924C6637142D1653002F8F45 /* Build configuration list for PBXProject "libfont" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				924C663F142D1653002F8F45 /* Debug */,
+				924C6640142D1653002F8F45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		924C6641142D1653002F8F45 /* Build configuration list for PBXNativeTarget "libfont" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				924C6642142D1653002F8F45 /* Debug */,
+				924C6643142D1653002F8F45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 924C6634142D1653002F8F45 /* Project object */;
+}

@@ -1,0 +1,9 @@
+Compiled from libogg 1.2.2
+
+Configure line for iOS (in my system):
+======================================
+CC=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 CFLAGS="-arch armv6 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/" LDFLAGS="-arch armv6 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/" ./configure --prefix=/Users/joseba/cvs/bennugd/monolithic/3rdparty/libogg/iOS/ --disable-shared --enable-static --host=arm-apple-darwin10
+
+Configure line for iOSSimulator:
+================================
+CC=/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 CFLAGS="-arch i386 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk" LDFLAGS="-arch i386 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk" ./configure --prefix=/Users/joseba/cvs/bennugd/monolithic/3rdparty/libogg/iOSSimulator/ --disable-shared --enable-static

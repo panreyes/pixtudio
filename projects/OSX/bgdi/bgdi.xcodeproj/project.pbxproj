@@ -1,0 +1,253 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		92B5446B142D0ED9002AFF41 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B5446A142D0ED9002AFF41 /* main.c */; };
+		92B5446F142D0F32002AFF41 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B5446E142D0F32002AFF41 /* libz.dylib */; };
+		92B54475142D0F90002AFF41 /* bgdrtm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B54474142D0F90002AFF41 /* bgdrtm.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		92B5445B142D0E15002AFF41 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		92B5445D142D0E15002AFF41 /* bgdi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = bgdi; sourceTree = BUILT_PRODUCTS_DIR; };
+		92B5446A142D0ED9002AFF41 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../../../../core/bgdi/src/main.c; sourceTree = "<group>"; };
+		92B5446D142D0EE7002AFF41 /* bgdi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bgdi.h; path = ../../../core/bgdi/include/bgdi.h; sourceTree = "<group>"; };
+		92B5446E142D0F32002AFF41 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		92B54474142D0F90002AFF41 /* bgdrtm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = bgdrtm.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug/bgdrtm.dylib"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		92B5445A142D0E15002AFF41 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92B54475142D0F90002AFF41 /* bgdrtm.dylib in Frameworks */,
+				92B5446F142D0F32002AFF41 /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		92B54452142D0E15002AFF41 = {
+			isa = PBXGroup;
+			children = (
+				92B5446C142D0EDD002AFF41 /* Headers */,
+				92B54460142D0E15002AFF41 /* Sources */,
+				92B5445E142D0E15002AFF41 /* Products */,
+				92B5446E142D0F32002AFF41 /* libz.dylib */,
+				92B54474142D0F90002AFF41 /* bgdrtm.dylib */,
+			);
+			sourceTree = "<group>";
+		};
+		92B5445E142D0E15002AFF41 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				92B5445D142D0E15002AFF41 /* bgdi */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		92B54460142D0E15002AFF41 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				92B5446A142D0ED9002AFF41 /* main.c */,
+			);
+			name = Sources;
+			path = bgdi;
+			sourceTree = "<group>";
+		};
+		92B5446C142D0EDD002AFF41 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				92B5446D142D0EE7002AFF41 /* bgdi.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		92B5445C142D0E15002AFF41 /* bgdi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 92B54467142D0E15002AFF41 /* Build configuration list for PBXNativeTarget "bgdi" */;
+			buildPhases = (
+				92B54459142D0E15002AFF41 /* Sources */,
+				92B5445A142D0E15002AFF41 /* Frameworks */,
+				92B5445B142D0E15002AFF41 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = bgdi;
+			productName = bgdi;
+			productReference = 92B5445D142D0E15002AFF41 /* bgdi */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		92B54454142D0E15002AFF41 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 92B54457142D0E15002AFF41 /* Build configuration list for PBXProject "bgdi" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 92B54452142D0E15002AFF41;
+			productRefGroup = 92B5445E142D0E15002AFF41 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				92B5445C142D0E15002AFF41 /* bgdi */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		92B54459142D0E15002AFF41 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92B5446B142D0ED9002AFF41 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		92B54465142D0E15002AFF41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					__BGDI__,
+					TARGET_MAC,
+					"VERSION='\"1.0.0\"'",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../core/include,
+					../../../core/bgdi/include,
+					../../../core/bgdrtm/include,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
+				SDKROOT = macosx;
+				VALID_ARCHS = i386;
+			};
+			name = Debug;
+		};
+		92B54466142D0E15002AFF41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					__BGDI__,
+					TARGET_MAC,
+					"VERSION='\"1.0.0\"'",
+				);
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../core/include,
+					../../../core/bgdi/include,
+					../../../core/bgdrtm/include,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = "";
+				SDKROOT = macosx;
+				VALID_ARCHS = i386;
+			};
+			name = Release;
+		};
+		92B54468142D0E15002AFF41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		92B54469142D0E15002AFF41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		92B54457142D0E15002AFF41 /* Build configuration list for PBXProject "bgdi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92B54465142D0E15002AFF41 /* Debug */,
+				92B54466142D0E15002AFF41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		92B54467142D0E15002AFF41 /* Build configuration list for PBXNativeTarget "bgdi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92B54468142D0E15002AFF41 /* Debug */,
+				92B54469142D0E15002AFF41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 92B54454142D0E15002AFF41 /* Project object */;
+}

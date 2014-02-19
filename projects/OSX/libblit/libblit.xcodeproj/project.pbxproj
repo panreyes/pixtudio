@@ -1,0 +1,247 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		92B54491142D11A0002AFF41 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B54490142D11A0002AFF41 /* libz.dylib */; };
+		92B54495142D11B7002AFF41 /* g_blit.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B54492142D11B7002AFF41 /* g_blit.c */; };
+		92B54496142D11B7002AFF41 /* g_pixel.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B54493142D11B7002AFF41 /* g_pixel.c */; };
+		92B54497142D11B7002AFF41 /* libblit.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B54494142D11B7002AFF41 /* libblit.c */; };
+		92B544C2142D130B002AFF41 /* libgrbase.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B544C1142D130B002AFF41 /* libgrbase.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		92B54481142D10CA002AFF41 /* libblit.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libblit.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		92B54490142D11A0002AFF41 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		92B54492142D11B7002AFF41 /* g_blit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = g_blit.c; path = ../../../modules/libblit/g_blit.c; sourceTree = "<group>"; };
+		92B54493142D11B7002AFF41 /* g_pixel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = g_pixel.c; path = ../../../modules/libblit/g_pixel.c; sourceTree = "<group>"; };
+		92B54494142D11B7002AFF41 /* libblit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = libblit.c; path = ../../../modules/libblit/libblit.c; sourceTree = "<group>"; };
+		92B544C1142D130B002AFF41 /* libgrbase.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgrbase.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug/libgrbase.dylib"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		92B5447E142D10CA002AFF41 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92B544C2142D130B002AFF41 /* libgrbase.dylib in Frameworks */,
+				92B54491142D11A0002AFF41 /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		92B54476142D10CA002AFF41 = {
+			isa = PBXGroup;
+			children = (
+				92B54498142D11C0002AFF41 /* Sources */,
+				92B54482142D10CA002AFF41 /* Products */,
+				92B54490142D11A0002AFF41 /* libz.dylib */,
+				92B544C1142D130B002AFF41 /* libgrbase.dylib */,
+			);
+			sourceTree = "<group>";
+		};
+		92B54482142D10CA002AFF41 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				92B54481142D10CA002AFF41 /* libblit.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		92B54498142D11C0002AFF41 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				92B54492142D11B7002AFF41 /* g_blit.c */,
+				92B54493142D11B7002AFF41 /* g_pixel.c */,
+				92B54494142D11B7002AFF41 /* libblit.c */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		92B5447F142D10CA002AFF41 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		92B54480142D10CA002AFF41 /* libblit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 92B54485142D10CA002AFF41 /* Build configuration list for PBXNativeTarget "libblit" */;
+			buildPhases = (
+				92B5447D142D10CA002AFF41 /* Sources */,
+				92B5447E142D10CA002AFF41 /* Frameworks */,
+				92B5447F142D10CA002AFF41 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libblit;
+			productName = libblit;
+			productReference = 92B54481142D10CA002AFF41 /* libblit.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		92B54478142D10CA002AFF41 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 92B5447B142D10CA002AFF41 /* Build configuration list for PBXProject "libblit" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 92B54476142D10CA002AFF41;
+			productRefGroup = 92B54482142D10CA002AFF41 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				92B54480142D10CA002AFF41 /* libblit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		92B5447D142D10CA002AFF41 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92B54495142D11B7002AFF41 /* g_blit.c in Sources */,
+				92B54496142D11B7002AFF41 /* g_pixel.c in Sources */,
+				92B54497142D11B7002AFF41 /* libblit.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		92B54483142D10CA002AFF41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					COLORSPACE_BGR,
+					TARGET_MAC,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../core/include,
+					../../../core/bgdrtm/include,
+					../../../modules/libblit,
+					../../../modules/libgrbase,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VALID_ARCHS = i386;
+			};
+			name = Debug;
+		};
+		92B54484142D10CA002AFF41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					COLORSPACE_BGR,
+					TARGET_MAC,
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../core/include,
+					../../../core/bgdrtm/include,
+					../../../modules/libblit,
+					../../../modules/libgrbase,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+				VALID_ARCHS = i386;
+			};
+			name = Release;
+		};
+		92B54486142D10CA002AFF41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		92B54487142D10CA002AFF41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		92B5447B142D10CA002AFF41 /* Build configuration list for PBXProject "libblit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92B54483142D10CA002AFF41 /* Debug */,
+				92B54484142D10CA002AFF41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		92B54485142D10CA002AFF41 /* Build configuration list for PBXNativeTarget "libblit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92B54486142D10CA002AFF41 /* Debug */,
+				92B54487142D10CA002AFF41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 92B54478142D10CA002AFF41 /* Project object */;
+}

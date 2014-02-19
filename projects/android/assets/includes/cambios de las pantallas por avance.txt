@@ -1,0 +1,53 @@
+01_ 1 coco de 0 rebotes (1 tiro de 0 rebotes) Robots simples 1 y 2
+
+* Actualizar coco a 1 rebote mas al finalizar
+
+02_ 1 coco de 1 rebotes - Robots simple 1 y 2
+03_ 1 coco de 0 rebores 
+04_ 1 coco de 1 rebotes 
+05_ 1 coco de 1 rebotes
+
+* Agregar robot de 2 vidas 
+
+----------------------------------------------------
+
+06_ 1 coco de 1 rebotes - Robot de 2 vidas
+
+* Actualizar coco a 2 rebotes
+
+07_ 1 coco de 2 rebotes - Robot de 2 vidas
+08_ 1 coco de 2 rebotes - Robot de 2 vidas
+
+* Actualizar robots que se mueven (todos)
+
+09_ 1 coco de 1 rebotes - Robot de 2 vidas
+10_ 1 coco de 2 rebotes - Robot de 2 vidas (sugerir para este punto mas de 1 coco)
+
+----------------------------------------------------
+
+11_ 1 coco de 1 rebote - Robot de 2 vidas (sugerir para este punto coco de 3 vidas y mas cocos)
+12_ 1 coco de 1 rebote - Robot de 2 vidas (podemos ver de actualizar robot de 2 vidas)
+13_ 1 coco de 1 rebote - Robot que se mueven (nada nuevo -para mi facil para uds dificil)
+14_ 1 coco de 1 rebote - Robots que se mueven (nothing new)
+15_ 1 coco de 1 rebote - Robots que se mueven (nothing new)
+
+* Actualizar robot que Aparece / Desaparece
+----------------------------------------------------
+
+16_ 1 coco de 1 rebote - robot que aparece y desaparece, otros que se mueven y robot de 2 vidas
+17_ 1 coco de 1 rebotes - Robot que aparece desaparece, robot de 2 vidas
+18_ 1 coco de 2 rebote _ Robot que aparece y robots que se mueven
+19_ 1 coco de 2 rebotes - Robots que desaparecen y robot que se mueve
+20_ 1 coco de 1 rebote _ todos robots que aparecen y desaparecen
+
+------------------------------------------------
+
+21_ 1 coco con 0 rebotes - robots que aparecen y desaparecen y se mueven
+
+* Actualizar robots que disparan
+
+22_ 1 coco con 0 rebotes - robots que disparan
+23_ 1 coco con 2 rebotes - robots que se mueven y desaparecen
+24_ 1 coco con 2 rebotes - robots que se mueven y uno de 2 vidas
+25_ 1 coco con 1 rebote - robots que desaparecen
+

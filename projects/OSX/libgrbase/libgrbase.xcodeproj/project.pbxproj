@@ -1,0 +1,259 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		92B544B2142D1245002AFF41 /* g_bitmap.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B544AB142D1245002AFF41 /* g_bitmap.c */; };
+		92B544B3142D1245002AFF41 /* g_blendop.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B544AC142D1245002AFF41 /* g_blendop.c */; };
+		92B544B4142D1245002AFF41 /* g_clear.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B544AD142D1245002AFF41 /* g_clear.c */; };
+		92B544B5142D1245002AFF41 /* g_conversion.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B544AE142D1245002AFF41 /* g_conversion.c */; };
+		92B544B6142D1245002AFF41 /* g_grlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B544AF142D1245002AFF41 /* g_grlib.c */; };
+		92B544B7142D1245002AFF41 /* g_pal.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B544B0142D1245002AFF41 /* g_pal.c */; };
+		92B544B8142D1245002AFF41 /* libgrbase.c in Sources */ = {isa = PBXBuildFile; fileRef = 92B544B1142D1245002AFF41 /* libgrbase.c */; };
+		92B544BC142D1261002AFF41 /* bgdrtm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B544BA142D1261002AFF41 /* bgdrtm.dylib */; };
+		92B544BF142D1268002AFF41 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B544BE142D1268002AFF41 /* libz.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		92B544A4142D11D9002AFF41 /* libgrbase.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libgrbase.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		92B544AB142D1245002AFF41 /* g_bitmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = g_bitmap.c; path = ../../../modules/libgrbase/g_bitmap.c; sourceTree = "<group>"; };
+		92B544AC142D1245002AFF41 /* g_blendop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = g_blendop.c; path = ../../../modules/libgrbase/g_blendop.c; sourceTree = "<group>"; };
+		92B544AD142D1245002AFF41 /* g_clear.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = g_clear.c; path = ../../../modules/libgrbase/g_clear.c; sourceTree = "<group>"; };
+		92B544AE142D1245002AFF41 /* g_conversion.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = g_conversion.c; path = ../../../modules/libgrbase/g_conversion.c; sourceTree = "<group>"; };
+		92B544AF142D1245002AFF41 /* g_grlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = g_grlib.c; path = ../../../modules/libgrbase/g_grlib.c; sourceTree = "<group>"; };
+		92B544B0142D1245002AFF41 /* g_pal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = g_pal.c; path = ../../../modules/libgrbase/g_pal.c; sourceTree = "<group>"; };
+		92B544B1142D1245002AFF41 /* libgrbase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = libgrbase.c; path = ../../../modules/libgrbase/libgrbase.c; sourceTree = "<group>"; };
+		92B544BA142D1261002AFF41 /* bgdrtm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = bgdrtm.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug/bgdrtm.dylib"; sourceTree = "<group>"; };
+		92B544BE142D1268002AFF41 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		92B544A1142D11D9002AFF41 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92B544BF142D1268002AFF41 /* libz.dylib in Frameworks */,
+				92B544BC142D1261002AFF41 /* bgdrtm.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		92B54499142D11D9002AFF41 = {
+			isa = PBXGroup;
+			children = (
+				92B544B9142D124A002AFF41 /* Sources */,
+				92B544A5142D11D9002AFF41 /* Products */,
+				92B544BE142D1268002AFF41 /* libz.dylib */,
+				92B544BA142D1261002AFF41 /* bgdrtm.dylib */,
+			);
+			sourceTree = "<group>";
+		};
+		92B544A5142D11D9002AFF41 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				92B544A4142D11D9002AFF41 /* libgrbase.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		92B544B9142D124A002AFF41 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				92B544AB142D1245002AFF41 /* g_bitmap.c */,
+				92B544AC142D1245002AFF41 /* g_blendop.c */,
+				92B544AD142D1245002AFF41 /* g_clear.c */,
+				92B544AE142D1245002AFF41 /* g_conversion.c */,
+				92B544AF142D1245002AFF41 /* g_grlib.c */,
+				92B544B0142D1245002AFF41 /* g_pal.c */,
+				92B544B1142D1245002AFF41 /* libgrbase.c */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		92B544A2142D11D9002AFF41 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		92B544A3142D11D9002AFF41 /* libgrbase */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 92B544A8142D11D9002AFF41 /* Build configuration list for PBXNativeTarget "libgrbase" */;
+			buildPhases = (
+				92B544A0142D11D9002AFF41 /* Sources */,
+				92B544A1142D11D9002AFF41 /* Frameworks */,
+				92B544A2142D11D9002AFF41 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libgrbase;
+			productName = libgrbase;
+			productReference = 92B544A4142D11D9002AFF41 /* libgrbase.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		92B5449B142D11D9002AFF41 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 92B5449E142D11D9002AFF41 /* Build configuration list for PBXProject "libgrbase" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 92B54499142D11D9002AFF41;
+			productRefGroup = 92B544A5142D11D9002AFF41 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				92B544A3142D11D9002AFF41 /* libgrbase */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		92B544A0142D11D9002AFF41 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92B544B2142D1245002AFF41 /* g_bitmap.c in Sources */,
+				92B544B3142D1245002AFF41 /* g_blendop.c in Sources */,
+				92B544B4142D1245002AFF41 /* g_clear.c in Sources */,
+				92B544B5142D1245002AFF41 /* g_conversion.c in Sources */,
+				92B544B6142D1245002AFF41 /* g_grlib.c in Sources */,
+				92B544B7142D1245002AFF41 /* g_pal.c in Sources */,
+				92B544B8142D1245002AFF41 /* libgrbase.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		92B544A6142D11D9002AFF41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					COLORSPACE_BGR,
+					TARGET_MAC,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../core/include,
+					../../../core/bgdrtm/include,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VALID_ARCHS = i386;
+			};
+			name = Debug;
+		};
+		92B544A7142D11D9002AFF41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					COLORSPACE_BGR,
+					TARGET_MAC,
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../core/include,
+					../../../core/bgdrtm/include,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+				VALID_ARCHS = i386;
+			};
+			name = Release;
+		};
+		92B544A9142D11D9002AFF41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		92B544AA142D11D9002AFF41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		92B5449E142D11D9002AFF41 /* Build configuration list for PBXProject "libgrbase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92B544A6142D11D9002AFF41 /* Debug */,
+				92B544A7142D11D9002AFF41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		92B544A8142D11D9002AFF41 /* Build configuration list for PBXNativeTarget "libgrbase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92B544A9142D11D9002AFF41 /* Debug */,
+				92B544AA142D11D9002AFF41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 92B5449B142D11D9002AFF41 /* Project object */;
+}

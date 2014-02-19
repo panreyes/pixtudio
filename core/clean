@@ -1,0 +1,13 @@
+#!/bin/sh
+
+cd $(dirname 0)/..
+
+for i in $(find . -name "*.o" -print); do rm $i; done
+for i in $(find . -name "*.d" -print); do rm $i; done
+for i in $(find . -name "bgdrtm.a" -print); do rm $i; done
+for i in $(find . -name "*.elf" -print); do rm $i; done
+for i in $(find . -name "*.dol" -print); do rm $i; done
+for i in $(find . -name "*.FBP" -print); do rm $i; done
+for i in $(find . -name "*.SFO" -print); do rm $i; done
+
+cd -

@@ -1,0 +1,226 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		924C662D142D15CB002F8F45 /* libdraw.c in Sources */ = {isa = PBXBuildFile; fileRef = 924C662C142D15CB002F8F45 /* libdraw.c */; };
+		924C6630142D161E002F8F45 /* libblit.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 924C662E142D161E002F8F45 /* libblit.dylib */; };
+		924C6631142D161E002F8F45 /* libgrbase.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 924C662F142D161E002F8F45 /* libgrbase.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		924C6625142D1555002F8F45 /* libdraw.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libdraw.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		924C662C142D15CB002F8F45 /* libdraw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = libdraw.c; path = ../../../modules/libdraw/libdraw.c; sourceTree = "<group>"; };
+		924C662E142D161E002F8F45 /* libblit.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libblit.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug/libblit.dylib"; sourceTree = "<group>"; };
+		924C662F142D161E002F8F45 /* libgrbase.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgrbase.dylib; path = "../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug/libgrbase.dylib"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		924C6622142D1555002F8F45 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				924C6630142D161E002F8F45 /* libblit.dylib in Frameworks */,
+				924C6631142D161E002F8F45 /* libgrbase.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		924C661A142D1555002F8F45 = {
+			isa = PBXGroup;
+			children = (
+				924C662E142D161E002F8F45 /* libblit.dylib */,
+				924C662F142D161E002F8F45 /* libgrbase.dylib */,
+				924C662C142D15CB002F8F45 /* libdraw.c */,
+				924C6626142D1555002F8F45 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		924C6626142D1555002F8F45 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				924C6625142D1555002F8F45 /* libdraw.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		924C6623142D1555002F8F45 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		924C6624142D1555002F8F45 /* libdraw */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 924C6629142D1555002F8F45 /* Build configuration list for PBXNativeTarget "libdraw" */;
+			buildPhases = (
+				924C6621142D1555002F8F45 /* Sources */,
+				924C6622142D1555002F8F45 /* Frameworks */,
+				924C6623142D1555002F8F45 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libdraw;
+			productName = libdraw;
+			productReference = 924C6625142D1555002F8F45 /* libdraw.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		924C661C142D1555002F8F45 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 924C661F142D1555002F8F45 /* Build configuration list for PBXProject "libdraw" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 924C661A142D1555002F8F45;
+			productRefGroup = 924C6626142D1555002F8F45 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				924C6624142D1555002F8F45 /* libdraw */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		924C6621142D1555002F8F45 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				924C662D142D15CB002F8F45 /* libdraw.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		924C6627142D1555002F8F45 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = TARGET_MAC;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../core/include,
+					../../../core/bgdrtm/include,
+					../../../modules/libgrbase/,
+					../../../modules/libblit,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VALID_ARCHS = i386;
+			};
+			name = Debug;
+		};
+		924C6628142D1555002F8F45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = TARGET_MAC;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../core/include,
+					../../../core/bgdrtm/include,
+					../../../modules/libgrbase/,
+					../../../modules/libblit,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+				VALID_ARCHS = i386;
+			};
+			name = Release;
+		};
+		924C662A142D1555002F8F45 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				EXECUTABLE_PREFIX = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		924C662B142D1555002F8F45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				EXECUTABLE_PREFIX = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/BennuGD-cadtqqqxurunkidxrlgrcnpqnpyn/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		924C661F142D1555002F8F45 /* Build configuration list for PBXProject "libdraw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				924C6627142D1555002F8F45 /* Debug */,
+				924C6628142D1555002F8F45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		924C6629142D1555002F8F45 /* Build configuration list for PBXNativeTarget "libdraw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				924C662A142D1555002F8F45 /* Debug */,
+				924C662B142D1555002F8F45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 924C661C142D1555002F8F45 /* Project object */;
+}
