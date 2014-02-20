@@ -2600,7 +2600,11 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         mode = SDL_BLENDMODE_BLEND;
 
         if(flags & B_ABLEND) {
-            mode |= SDL_BLENDMODE_ADD;
+            mode = SDL_BLENDMODE_ADD;
+        }
+
+        if(flags & B_NOCOLORKEY) {
+            mode = SDL_BLENDMODE_NONE;
         }
 
         SDL_SetTextureBlendMode(gr->texture, mode);
@@ -2608,7 +2612,6 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, 0., NULL, flip);
     } else {
         /* Calculate the clipping coordinates */
-
         if ( clip )
         {
             min.x = MAX( clip->x, 0 );

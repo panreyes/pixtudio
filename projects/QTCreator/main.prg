@@ -10,21 +10,23 @@ Process main()
 Private
 int width = 640;
 int height = 480;
-int vx = 5;
-int vy = 5;
+int vx = 0;
+int vy = 0;
 int img = 0;
+int font = 0;
 
 Begin
     set_mode(width, height, 32);
     FRAME;
-    /*graph = new_map(20, 20, 16);
+    //graph = new_map(20, 20, 16);
     drawing_map(0, graph);
     drawing_color(rgb(255, 0, 0));
-    draw_box(0, 0, 20, 20);*/
+    draw_box(0, 0, 20, 20);//
     graph = load_png("ball.png");
     img = load_png("image.png");
     put(0, img, width/2, height/2);
-    write(0, width/2, height/2, 4, "OLA, KE ASE?");
+    font = load_fnt("font.fnt");
+    write(font, width/2, height/2, 4, "OLA, KE ASE?");
     x = width/2; y = width/2;
     while(! key(_esc))
         if(x+10 > width || x-10 < 0)
@@ -67,4 +69,5 @@ Begin
     end
     unload_map(0, graph);
     unload_map(0, img);
+    unload_fnt(font);
 End
