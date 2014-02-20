@@ -56,7 +56,6 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/libwm/ \
 	$(MODULES_PATH)/mod_wm/ \
 	$(MODULES_PATH)/mod_sys/ \
-	$(MODULES_PATH)/mod_flic/ \
 	$(MODULES_PATH)/mod_regex/ \
 	$(MODULES_PATH)/mod_multi/ \
 	$(MODULES_PATH)/mod_curl/ \
@@ -157,7 +156,6 @@ LOCAL_SRC_FILES := \
 	../../../../modules/libwm/libwm.c \
 	../../../../modules/mod_wm/mod_wm.c \
 	../../../../modules/mod_sys/mod_sys.c \
-	../../../../modules/mod_flic/mod_flic.c \
 	../../../../modules/mod_regex/mod_regex.c \
 	../../../../modules/mod_regex/regex.c \
 	../../../../modules/mod_multi/mod_multi.c \

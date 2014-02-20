@@ -108,7 +108,6 @@ INCLUDES	:=	../../core/include \
 	../../modules/libwm/ \
 	../../modules/mod_wm/ \
 	../../modules/mod_sys/ \
-	../../modules/mod_flic/ \
 	../../modules/mod_regex/
 
 #---------------------------------------------------------------------------------
@@ -220,7 +219,6 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 	../../../modules/libwm/libwm.c \
 	../../../modules/mod_wm/mod_wm.c \
 	../../../modules/mod_sys/mod_sys.c \
-	../../../modules/mod_flic/mod_flic.c \
 	../../../modules/mod_regex/mod_regex.c \
 	../../../modules/mod_regex/regex.c
 

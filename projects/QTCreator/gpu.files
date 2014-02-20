@@ -778,9 +778,6 @@
 ../../modules/mod_effects/mod_effects_symbols.h
 ../../modules/mod_file/mod_file.c
 ../../modules/mod_file/mod_file_symbols.h
-../../modules/mod_flic/mod_flic.c
-../../modules/mod_flic/mod_flic.h
-../../modules/mod_flic/mod_flic_symbols.h
 ../../modules/mod_fmodex/mod_fmodex.c
 ../../modules/mod_fmodex/mod_fmodex_symbols.h
 ../../modules/mod_fsock/fsock.c

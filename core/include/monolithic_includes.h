@@ -75,7 +75,6 @@
 #ifndef NO_MODMEM
 #  include <mod_mem_symbols.h>
 #endif
-#include <mod_flic_symbols.h>
 //#include <mod_debug_symbols.h>
 /* Unofficial modules */
 #ifndef NO_MODICONV
@@ -194,7 +193,6 @@ basic_symbols symbol_list[] =
 #ifndef NO_MODMEM
     { "mod_mem.fakelib"      , NULL, NULL, NULL, NULL, NULL, mod_mem_functions_exports },
 #endif
-    { "mod_flic.fakelib"     , NULL, NULL, NULL, NULL, NULL, mod_flic_functions_exports },
     //  { "mod_debug.fakelib"    , mod_debug_modules_dependency, NULL, NULL, NULL, NULL, NULL },
     /* Unofficial modules */
 #ifndef NO_MODICONV
@@ -290,7 +288,6 @@ extra_symbols symbol_list_runtime[] =
 #ifndef NO_MODMEM
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_mem
 #endif
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_flic
     //  { mod_debug_globals_fixup, mod_debug_locals_fixup, mod_debug_module_initialize, mod_debug_module_finalize, NULL, NULL, mod_debug_process_exec_hook, NULL }, //mod_debug
     /* Unofficial modules */
 #ifndef NO_MODICONV
