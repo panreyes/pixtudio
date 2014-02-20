@@ -107,6 +107,9 @@
 #ifndef NO_MODIAP
 #   include <mod_iap_symbols.h>
 #endif
+#ifndef NO_MODTHEORA
+#   include <mod_theora_symbols.h>
+#endif
 
 typedef struct
 {
@@ -225,6 +228,9 @@ basic_symbols symbol_list[] =
 #ifndef NO_MODIAP
     { "mod_iap.fakelib" , NULL, NULL, NULL, NULL, NULL, mod_iap_functions_exports },
 #endif
+#ifndef NO_MODTHEORA
+    { "mod_theora.fakelib" , mod_theora_constants_def, NULL, NULL, NULL, NULL, mod_theora_functions_exports },
+#endif
     { NULL              , NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
@@ -319,6 +325,9 @@ extra_symbols symbol_list_runtime[] =
 #endif
 #ifndef NO_MODIAP
     { NULL, NULL, NULL, mod_iap_module_finalize, NULL, NULL, NULL, NULL }, //mod_iap
+#endif
+#ifndef NO_MODTHEORA
+    { NULL, NULL, mod_theora_module_initialize, mod_theora_module_finalize, NULL, NULL, NULL, mod_theora_handler_hooks }, //mod_theora
 #endif
 };
 #endif

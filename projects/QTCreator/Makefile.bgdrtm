@@ -115,8 +115,9 @@ INCLUDES	:=	../../core/include \
 #---------------------------------------------------------------------------------
 
 CFLAGS		=	-m32 -g -Wall -D__BGDRTM__ -D__MONOLITHIC__ -DTARGET_MAC -DNO_MODIMAGE -DNO_MODMATHI \
-	-DNO_MODIMAGE -DNO_MODICONV -DNO_MODFMODEX -DNO_FSOCK -DNO_MODCHIPMUNK -DNO_MODMULTI -DNO_MODCURL -DNO_MODSENSOR \
-	-DNO_MODIAP -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE) -finline-functions -fno-strict-aliasing
+	-DNO_MODIMAGE -DNO_MODICONV -DNO_MODFMODEX -DNO_FSOCK -DNO_MODCHIPMUNK -DNO_MODMULTI -DNO_MODCURL \
+	-DNO_MODSENSOR -DNO_MODIAP -DNO_MODTHEORA -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE) \
+	-finline-functions -fno-strict-aliasing
 CXXFLAGS	=	-m32 -save-temps -Xassembler -aln=$@.lst $(CFLAGS)
 LDFLAGS		=	-m32 -g $(MACHDEP)
 
