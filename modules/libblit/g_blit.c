@@ -1987,10 +1987,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
             flip |= SDL_FLIP_VERTICAL;
         }
 
-        mode = SDL_BLENDMODE_NONE;
-        if(flags & B_ALPHA) {
-            mode |= SDL_BLENDMODE_BLEND;
-        }
+        mode = SDL_BLENDMODE_BLEND;
 
         if(flags & B_ABLEND) {
             mode |= SDL_BLENDMODE_ADD;
@@ -2600,10 +2597,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             flip |= SDL_FLIP_VERTICAL;
         }
 
-        mode = SDL_BLENDMODE_NONE;
-        if(flags & B_ALPHA) {
-            mode |= SDL_BLENDMODE_BLEND;
-        }
+        mode = SDL_BLENDMODE_BLEND;
 
         if(flags & B_ABLEND) {
             mode |= SDL_BLENDMODE_ADD;

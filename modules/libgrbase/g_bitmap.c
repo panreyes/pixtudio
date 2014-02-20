@@ -35,6 +35,8 @@
 #include "bitwise_map.h"
 #include "g_video.h"
 
+#include <SDL_render.h>
+
 /* --------------------------------------------------------------------------- */
 
 uint32_t * map_code_bmp = NULL ;

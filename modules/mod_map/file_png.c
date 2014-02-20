@@ -120,13 +120,7 @@ GRAPH * gr_read_png( const char * filename )
     }
 
     /* Configura los distintos modos disponibles */
-/*
-    if ( ( color == PNG_COLOR_TYPE_GRAY && depth == 1 ) || color == PNG_COLOR_TYPE_GRAY_ALPHA )
-    {
-        png_set_gray_to_rgb( png_ptr );
-        if ( color == PNG_COLOR_TYPE_GRAY ) png_set_filler( png_ptr, 0xFF, PNG_FILLER_AFTER ) ;
-    }
-*/
+
     if ( depth == 16 ) png_set_strip_16( png_ptr ) ;
 
     if ( color == PNG_COLOR_TYPE_RGB ) png_set_filler( png_ptr, 0xFF, PNG_FILLER_AFTER ) ;

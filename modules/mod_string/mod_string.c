@@ -248,7 +248,10 @@ static char * strrev( char * str )
     char *left = str;
     char ch;
 
-    while ( *str++ ); str -= 2;
+    while ( *str++ )
+    {
+        str -= 2;
+    }
 
     while ( left < str )
     {

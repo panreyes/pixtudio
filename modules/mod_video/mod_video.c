@@ -97,17 +97,6 @@ static int modvideo_set_fps( INSTANCE * my, int * params )
 }
 
 /* --------------------------------------------------------------------------- */
-
-static int get_sdl_flags( int flags )
-{
-    int sdl_flags = SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_MOUSE_FOCUS;
-    sdl_flags |= ( flags & MODE_FULLSCREEN ) ? SDL_WINDOW_FULLSCREEN : 0;
-    sdl_flags |= ( flags & MODE_FRAMELESS ) ? SDL_WINDOW_BORDERLESS : 0;
-
-    return sdl_flags;
-}
-
-/* --------------------------------------------------------------------------- */
 /*
 Return a pointer to an array of available screen dimensions for the given format and video flags,
 sorted largest to smallest.
@@ -118,42 +107,7 @@ or -1 if any dimension is okay for the given format.
 
 static int modvideo_list_modes( INSTANCE * my, int * params )
 {
-#if SDL_VERSION_ATLEAST(2,0,0)
     return NULL;
-#else
-    SDL_Rect **modes;
-    SDL_PixelFormat vfmt;
-    int sdl_flags = get_sdl_flags( params[1] );
-    int depth = params[0];
-    int i, n;
-    static int * available_modes = NULL ;
-
-    if ( !depth ) depth = ( params[1] & MODE_32BITS ) ? 32 : (( params[1] & MODE_16BITS ) ? 16 : 8 );
-
-    vfmt.BitsPerPixel = depth ;
-
-    /* Get available fullscreen/hardware modes */
-    modes = SDL_ListModes( params[0] ? &vfmt : NULL, sdl_flags );
-
-    if ( modes == ( SDL_Rect ** )0 ) return 0; /* No video modes available for this criteria */
-    if ( modes == ( SDL_Rect ** ) - 1 ) return -1; /* Any video mode for this criteria */
-
-    n = 0;
-    for ( i = 0; modes[i]; ++i ) ++n ;
-
-    available_modes = realloc( available_modes, ( 1 + n ) * sizeof( int ) * 2 );
-    if ( !available_modes ) return -2;
-
-    for ( i = 0; modes[i]; ++i )
-    {
-        available_modes[i*2  ] = modes[i]->w;
-        available_modes[i*2+1] = modes[i]->h;
-    }
-    available_modes[i*2  ] = 0;
-    available_modes[i*2+1] = 0;
-
-    return ( int )available_modes;
-#endif
 }
 
 /* --------------------------------------------------------------------------- */
@@ -170,16 +124,7 @@ static int modvideo_list_modes( INSTANCE * my, int * params )
 
 static int modvideo_mode_is_ok( INSTANCE * my, int * params )
 {
-#if SDL_VERSION_ATLEAST(2,0,0)
     return 0;
-#else
-    int sdl_flags = get_sdl_flags( params[3] );
-    int depth = params[2];
-
-    if ( !depth ) depth = ( params[3] & MODE_32BITS ) ? 32 : (( params[3] & MODE_16BITS ) ? 16 : 8 );
-
-    return ( SDL_VideoModeOK( params[0], params[1], depth, sdl_flags ) );
-#endif
 }
 
 /* --------------------------------------------------------------------------- */

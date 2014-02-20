@@ -62,6 +62,7 @@
 ../../3rdparty/SDL/src/video/x11
 ../../3rdparty/SDL/test
 ../../3rdparty/SDL/Xcode-iOS/Demos/src
+../../3rdparty/libpng
 ../../core/bgdc/include
 ../../core/bgdc/src
 ../../core/bgdi/include

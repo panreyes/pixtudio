@@ -33,6 +33,8 @@
 #include "bgddl.h"
 #include "xstrings.h"
 
+#include <SDL_log.h>
+
 /* ---------------------------------------------------------------------- */
 
 static int modsay_say( INSTANCE * my, int * params )

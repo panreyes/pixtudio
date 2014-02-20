@@ -57,7 +57,6 @@ static int gr_read_lib( file * fp )
     GRAPH * gr ;
     PALETTE * pal = NULL ;
     int st = 0;
-    int len = 0, tempcolor = 0;
 
     libid = grlib_new() ;
     if ( libid < 0 ) return -1 ;

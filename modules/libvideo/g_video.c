@@ -348,7 +348,6 @@ int gr_set_mode( int width, int height, int depth )
         sdl_flags = SDL_WINDOW_SHOWN;
         if (frameless) {
             sdl_flags |= SDL_WINDOW_BORDERLESS;
-        } else {
         }
         if (full_screen) {
             sdl_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;

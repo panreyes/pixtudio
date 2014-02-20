@@ -38,7 +38,6 @@ static GRAPH * scrbitmap_extra = NULL ;
 
 static int updaterects_count = 0;
 static REGION updaterects[ DIRTYCOLS * DIRTYROWS ];
-static SDL_Rect rects[ DIRTYCOLS * DIRTYROWS ];
 
 /* --------------------------------------------------------------------------- */
 /*
@@ -64,7 +63,6 @@ static SDL_Rect rects[ DIRTYCOLS * DIRTYROWS ];
 
 void gr_draw_screen( GRAPH * dest, int restore_type, int dump_type )
 {
-    int a ;
     GRAPH * orig_scrbitmap = scrbitmap;
 
     scrbitmap = dest ;
