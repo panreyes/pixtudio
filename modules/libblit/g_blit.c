@@ -1990,7 +1990,11 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         mode = SDL_BLENDMODE_BLEND;
 
         if(flags & B_ABLEND) {
-            mode |= SDL_BLENDMODE_ADD;
+            mode = SDL_BLENDMODE_ADD;
+        }
+
+        if(flags & B_NOCOLORKEY) {
+            mode = SDL_BLENDMODE_NONE;
         }
 
         SDL_SetTextureBlendMode(gr->texture, mode);
