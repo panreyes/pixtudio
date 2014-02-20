@@ -2583,8 +2583,8 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
     // When drawing to screen, use SDL_Render directly, otherwise use homegrown
     // software solution
     if( scrbitmap && dest->code == scrbitmap->code ) {
-        dstRect.x = scrx;
-        dstRect.y = scry;
+        dstRect.x = scrx-gr->width/2;
+        dstRect.y = scry-gr->height/2;
         dstRect.w = gr->width;
         dstRect.h = gr->height;
 

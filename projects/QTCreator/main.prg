@@ -4,6 +4,7 @@ import "mod_map"
 import "mod_draw"
 import "mod_say"
 import "mod_screen"
+import "mod_text"
 
 Process main()
 Private
@@ -23,6 +24,7 @@ Begin
     graph = load_png("ball.png");
     img = load_png("image.png");
     put(0, img, width/2, height/2);
+    write(0, width/2, height/2, 4, "OLA, KE ASE?");
     x = width/2; y = width/2;
     while(! key(_esc))
         if(x+10 > width || x-10 < 0)
