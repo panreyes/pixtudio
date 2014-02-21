@@ -2539,10 +2539,9 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
                 }
             }
         }
+        // Update the texture
+        SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
     }
-
-    // Update the texture
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
 
     dest->info_flags &= ~GI_CLEAN;
     dest->modified = 2 ;
@@ -3042,10 +3041,10 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         if ( flags & B_HMIRROR ) direction = -1;
 
         if ( p > 0 ) draw_hspan( scr, tex, p, direction, l, scr_inc, tex_inc );
-    }
 
-    // Update the texture
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+        // Update the texture
+        SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+    }
 
     dest->info_flags &= ~GI_CLEAN;
     dest->modified = 2 ;

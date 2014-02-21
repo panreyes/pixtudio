@@ -148,7 +148,6 @@ DLVARFIXUP __bgdexport( libscroll, globals_fixup )[] =
 
 /* --------------------------------------------------------------------------- */
 
-static void draw_scroll( int n, REGION * clip );
 static int info_scroll( int n, REGION * clip, int * z, int * drawme );
 
 /* --------------------------------------------------------------------------- */
@@ -188,7 +187,7 @@ void scroll_start( int n, int fileid, int graphid, int backid, int region, int f
         data->reserved[0] = ( int32_t ) &scrolls[n]; /* First reserved dword point to internal scrolldata struct */
 
         if ( scrolls_objects[n] ) gr_destroy_object( scrolls_objects[n] );
-        scrolls_objects[n] = ( int )gr_new_object( 0, info_scroll, draw_scroll, n );
+        scrolls_objects[n] = ( int )gr_new_object( 0, info_scroll, scroll_draw, n );
     }
 }
 
@@ -509,13 +508,6 @@ void scroll_draw( int n, REGION * clipping )
             draw_instance_at( proclist[nproc], &r, x - scrolls[n].posx0 + scrolls[n].region->x, y - scrolls[n].posy0 + scrolls[n].region->y, dest ) ;
         }
     }
-}
-
-/* --------------------------------------------------------------------------- */
-
-static void draw_scroll( int n, REGION * clip )
-{
-    scroll_draw( n, clip ) ;
 }
 
 /* --------------------------------------------------------------------------- */
