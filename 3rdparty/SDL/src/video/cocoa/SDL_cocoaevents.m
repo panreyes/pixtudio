@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_config.h"
+#include "../../SDL_internal.h"
 
 #if SDL_VIDEO_DRIVER_COCOA
 #include "SDL_timer.h"
@@ -36,20 +36,92 @@
 #define UsrActivity 1
 #endif
 
+@interface SDLApplication : NSApplication
+
+- (void)terminate:(id)sender;
+
+@end
+
+@implementation SDLApplication
+
+// Override terminate to handle Quit and System Shutdown smoothly.
+- (void)terminate:(id)sender
+{
+    SDL_SendQuit();
+}
+
+@end // SDLApplication
+
 /* setAppleMenu disappeared from the headers in 10.4 */
 @interface NSApplication(NSAppleMenu)
 - (void)setAppleMenu:(NSMenu *)menu;
 @end
 
-@interface SDLAppDelegate : NSObject
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;
+@interface SDLAppDelegate : NSObject {
+@public
+    BOOL seenFirstActivate;
+}
+
+- (id)init;
 @end
 
 @implementation SDLAppDelegate : NSObject
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+- (id)init
 {
-    SDL_SendQuit();
-    return NSTerminateCancel;
+    self = [super init];
+
+    if (self) {
+        seenFirstActivate = NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(focusSomeWindow:)
+                                                     name:NSApplicationDidBecomeActiveNotification
+                                                   object:nil];
+    }
+
+    return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
+}
+
+- (void)focusSomeWindow:(NSNotification *)aNotification
+{
+    /* HACK: Ignore the first call. The application gets a
+     * applicationDidBecomeActive: a little bit after the first window is
+     * created, and if we don't ignore it, a window that has been created with
+     * SDL_WINDOW_MINIZED will ~immediately be restored.
+     */
+    if (!seenFirstActivate) {
+        seenFirstActivate = YES;
+        return;
+    }
+
+    SDL_VideoDevice *device = SDL_GetVideoDevice();
+    if (device && device->windows)
+    {
+        SDL_Window *window = device->windows;
+        int i;
+        for (i = 0; i < device->num_displays; ++i)
+        {
+            SDL_Window *fullscreen_window = device->displays[i].fullscreen_window;
+            if (fullscreen_window)
+            {
+                if (fullscreen_window->flags & SDL_WINDOW_MINIMIZED) {
+                    SDL_RestoreWindow(fullscreen_window);
+                }
+                return;
+            }
+        }
+
+        if (window->flags & SDL_WINDOW_MINIMIZED) {
+            SDL_RestoreWindow(window);
+        } else {
+            SDL_RaiseWindow(window);
+        }
+    }
 }
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
@@ -58,16 +130,17 @@
 }
 @end
 
+static SDLAppDelegate *appDelegate = nil;
+
 static NSString *
 GetApplicationName(void)
 {
-    NSDictionary *dict;
-    NSString *appName = 0;
+    NSString *appName;
 
     /* Determine the application name */
-    dict = (NSDictionary *)CFBundleGetInfoDictionary(CFBundleGetMainBundle());
-    if (dict)
-        appName = [dict objectForKey: @"CFBundleName"];
+    appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+    if (!appName)
+        appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
 
     if (![appName length])
         appName = [[NSProcessInfo processInfo] processName];
@@ -83,8 +156,13 @@ CreateApplicationMenus(void)
     NSMenu *appleMenu;
     NSMenu *serviceMenu;
     NSMenu *windowMenu;
+    NSMenu *viewMenu;
     NSMenuItem *menuItem;
 
+    if (NSApp == nil) {
+        return;
+    }
+    
     /* Create the main menu bar */
     [NSApp setMainMenu:[[NSMenu alloc] init]];
 
@@ -152,6 +230,25 @@ CreateApplicationMenus(void)
     /* Tell the application object that this is now the window menu */
     [NSApp setWindowsMenu:windowMenu];
     [windowMenu release];
+
+
+    /* Add the fullscreen view toggle menu option, if supported */
+    if ([NSApp respondsToSelector:@selector(setPresentationOptions:)]) {
+        /* Create the view menu */
+        viewMenu = [[NSMenu alloc] initWithTitle:@"View"];
+
+        /* Add menu items */
+        menuItem = [viewMenu addItemWithTitle:@"Toggle Full Screen" action:@selector(toggleFullScreen:) keyEquivalent:@"f"];
+        [menuItem setKeyEquivalentModifierMask:NSControlKeyMask | NSCommandKeyMask];
+
+        /* Put menu into the menubar */
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"View" action:nil keyEquivalent:@""];
+        [menuItem setSubmenu:viewMenu];
+        [[NSApp mainMenu] addItem:menuItem];
+        [menuItem release];
+
+        [viewMenu release];
+    }
 }
 
 void
@@ -168,15 +265,30 @@ Cocoa_RegisterApp(void)
 
     pool = [[NSAutoreleasePool alloc] init];
     if (NSApp == nil) {
-        [NSApplication sharedApplication];
+        [SDLApplication sharedApplication];
 
         if ([NSApp mainMenu] == nil) {
             CreateApplicationMenus();
         }
         [NSApp finishLaunching];
+        NSDictionary *appDefaults = [[NSDictionary alloc] initWithObjectsAndKeys:
+            [NSNumber numberWithBool:NO], @"AppleMomentumScrollSupported",
+            [NSNumber numberWithBool:NO], @"ApplePressAndHoldEnabled",
+            nil];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
+
     }
-    if ([NSApp delegate] == nil) {
-        [NSApp setDelegate:[[SDLAppDelegate alloc] init]];
+    if (NSApp && !appDelegate) {
+        appDelegate = [[SDLAppDelegate alloc] init];
+
+        /* If someone else has an app delegate, it means we can't turn a
+         * termination into SDL_Quit, and we can't handle application:openFile:
+         */
+        if (![NSApp delegate]) {
+            [NSApp setDelegate:appDelegate];
+        } else {
+            appDelegate->seenFirstActivate = YES;
+        }
     }
     [pool release];
 }
@@ -191,7 +303,7 @@ Cocoa_PumpEvents(_THIS)
         SDL_VideoData *data = (SDL_VideoData *)_this->driverdata;
         Uint32 now = SDL_GetTicks();
         if (!data->screensaver_activity ||
-            (int)(now-data->screensaver_activity) >= 30000) {
+            SDL_TICKS_PASSED(now, data->screensaver_activity + 30000)) {
             UpdateSystemActivity(UsrActivity);
             data->screensaver_activity = now;
         }

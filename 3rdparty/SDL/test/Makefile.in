@@ -4,7 +4,7 @@ srcdir  = @srcdir@
 
 CC      = @CC@
 EXE	= @EXE@
-CFLAGS  = @CFLAGS@
+CFLAGS  = @CFLAGS@ -g
 LIBS	= @LIBS@
 
 TARGETS = \
@@ -13,14 +13,18 @@ TARGETS = \
 	testaudioinfo$(EXE) \
 	testautomation$(EXE) \
 	testdraw2$(EXE) \
+	testdrawchessboard$(EXE) \
+	testdropfile$(EXE) \
 	testerror$(EXE) \
 	testfile$(EXE) \
 	testgamecontroller$(EXE) \
 	testgesture$(EXE) \
 	testgl2$(EXE) \
 	testgles$(EXE) \
+	testgles2$(EXE) \
 	testhaptic$(EXE) \
 	testrumble$(EXE) \
+	testhotplug$(EXE) \
 	testthread$(EXE) \
 	testiconv$(EXE) \
 	testime$(EXE) \
@@ -35,6 +39,7 @@ TARGETS = \
 	testoverlay2$(EXE) \
 	testplatform$(EXE) \
 	testpower$(EXE) \
+	testfilesystem$(EXE) \
 	testrendertarget$(EXE) \
 	testresample$(EXE) \
 	testscale$(EXE) \
@@ -46,11 +51,13 @@ TARGETS = \
 	teststreaming$(EXE) \
 	testtimer$(EXE) \
 	testver$(EXE) \
+	testviewport$(EXE) \
 	testwm2$(EXE) \
 	torturethread$(EXE) \
 	testrendercopyex$(EXE) \
 	testmessage$(EXE) \
-
+	controllermap$(EXE) \
+	
 all: Makefile $(TARGETS)
 
 Makefile: $(srcdir)/Makefile.in
@@ -103,6 +110,12 @@ testrelative$(EXE): $(srcdir)/testrelative.c
 testdraw2$(EXE): $(srcdir)/testdraw2.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+testdrawchessboard$(EXE): $(srcdir)/testdrawchessboard.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+testdropfile$(EXE): $(srcdir)/testdropfile.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 testerror$(EXE): $(srcdir)/testerror.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
@@ -116,12 +129,18 @@ testgesture$(EXE): $(srcdir)/testgesture.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) @MATHLIB@
  
 testgl2$(EXE): $(srcdir)/testgl2.c
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) @GLLIB@ @MATHLIB@
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) @MATHLIB@
 
 testgles$(EXE): $(srcdir)/testgles.c
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) @GLLIB@ @MATHLIB@
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) @GLESLIB@ @MATHLIB@
+
+testgles2$(EXE): $(srcdir)/testgles2.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) @MATHLIB@
 
 testhaptic$(EXE): $(srcdir)/testhaptic.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+testhotplug$(EXE): $(srcdir)/testhotplug.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 testrumble$(EXE): $(srcdir)/testrumble.c
@@ -150,8 +169,9 @@ testlock$(EXE): $(srcdir)/testlock.c
 
 ifeq (@ISMACOSX@,true)
 testnative$(EXE): $(srcdir)/testnative.c \
-			$(srcdir)/testnativecocoa.m
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) -framework Cocoa
+			$(srcdir)/testnativecocoa.m \
+			$(srcdir)/testnativex11.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) -framework Cocoa @XLIB@
 endif
 
 ifeq (@ISWINDOWS@,true)
@@ -163,7 +183,7 @@ endif
 ifeq (@ISUNIX@,true)
 testnative$(EXE): $(srcdir)/testnative.c \
 			$(srcdir)/testnativex11.c
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) -L/usr/X11/lib -lX11
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) @XLIB@
 endif
 
 testoverlay2$(EXE): $(srcdir)/testoverlay2.c
@@ -173,6 +193,9 @@ testplatform$(EXE): $(srcdir)/testplatform.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 testpower$(EXE): $(srcdir)/testpower.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+testfilesystem$(EXE): $(srcdir)/testfilesystem.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 testrendertarget$(EXE): $(srcdir)/testrendertarget.c
@@ -205,6 +228,9 @@ testtimer$(EXE): $(srcdir)/testtimer.c
 testver$(EXE): $(srcdir)/testver.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+testviewport$(EXE): $(srcdir)/testviewport.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 testwm2$(EXE): $(srcdir)/testwm2.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
@@ -216,6 +242,10 @@ testrendercopyex$(EXE): $(srcdir)/testrendercopyex.c
 
 testmessage$(EXE): $(srcdir)/testmessage.c
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+controllermap$(EXE): $(srcdir)/controllermap.c
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 
 clean:
 	rm -f $(TARGETS)

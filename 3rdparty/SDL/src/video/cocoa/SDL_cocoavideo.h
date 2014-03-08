@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_config.h"
+#include "../../SDL_internal.h"
 
 #ifndef _SDL_cocoavideo_h
 #define _SDL_cocoavideo_h
@@ -39,16 +39,6 @@
 #include "SDL_cocoaopengl.h"
 #include "SDL_cocoawindow.h"
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-#if __LP64__
-typedef long NSInteger;
-typedef unsigned long NSUInteger;
-#else
-typedef int NSInteger;
-typedef unsigned int NSUInteger;
-#endif
-#endif
-
 /* Private display data */
 
 @class SDLTranslatorResponder;
@@ -56,6 +46,7 @@ typedef unsigned int NSUInteger;
 typedef struct SDL_VideoData
 {
     SInt32 osversion;
+    int allow_spaces;
     unsigned int modifierFlags;
     void *key_layout;
     SDLTranslatorResponder *fieldEdit;

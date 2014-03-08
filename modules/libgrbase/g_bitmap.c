@@ -154,12 +154,9 @@ GRAPH * bitmap_new_ex( int code, int w, int h, int depth, void * data, int pitch
 
     gr->data = data ;
 
-    if ( depth == 1 ) {
-        format = SDL_PIXELFORMAT_UNKNOWN;
-    } else if ( depth == 16 ) {
+    format = SDL_PIXELFORMAT_ARGB8888 ;
+    if ( depth == 16 ) {
         format = SDL_PIXELFORMAT_RGB565 ;
-    } else if ( depth == 32 ) {
-        format = SDL_PIXELFORMAT_ARGB8888 ;
     }
     gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STREAMING, w, h);
     if (! gr->texture)
@@ -224,12 +221,9 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
         return NULL;
     }
 
-    if ( depth == 1 ) {
-        format = SDL_PIXELFORMAT_UNKNOWN ;
-    } else if ( depth == 16 ) {
+    format = SDL_PIXELFORMAT_ARGB8888 ;
+    if ( depth == 16 ) {
         format = SDL_PIXELFORMAT_RGB565 ;
-    } else if ( depth == 32 ) {
-        format = SDL_PIXELFORMAT_ARGB8888 ;
     }
     gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, w, h) ;
     if (! gr->texture)

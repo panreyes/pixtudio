@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,18 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_config.h"
+#include "../SDL_internal.h"
 
 #ifndef _SDL_thread_c_h
 #define _SDL_thread_c_h
 
+#include "SDL_thread.h"
+
 /* Need the definitions of SYS_ThreadHandle */
 #if SDL_THREADS_DISABLED
 #include "generic/SDL_systhread_c.h"
-#elif SDL_THREAD_BEOS
-#include "beos/SDL_systhread_c.h"
-#elif SDL_THREAD_EPOC
-#include "epoc/SDL_systhread_c.h"
 #elif SDL_THREAD_PTHREAD
 #include "pthread/SDL_systhread_c.h"
 #elif SDL_THREAD_WINDOWS
@@ -42,12 +40,21 @@
 #endif
 #include "../SDL_error_c.h"
 
+typedef enum SDL_ThreadState
+{
+    SDL_THREAD_STATE_ALIVE,
+    SDL_THREAD_STATE_DETACHED,
+    SDL_THREAD_STATE_ZOMBIE,
+    SDL_THREAD_STATE_CLEANED,
+} SDL_ThreadState;
+
 /* This is the system-independent thread info structure */
 struct SDL_Thread
 {
     SDL_threadID threadid;
     SYS_ThreadHandle handle;
     int status;
+    SDL_atomic_t state;  /* SDL_THREAD_STATE_* */
     SDL_error errbuf;
     char *name;
     void *data;
@@ -55,6 +62,30 @@ struct SDL_Thread
 
 /* This is the function called to run a thread */
 extern void SDL_RunThread(void *data);
+
+/* This is the system-independent thread local storage structure */
+typedef struct {
+    unsigned int limit;
+    struct {
+        void *data;
+        void (*destructor)(void*);
+    } array[1];
+} SDL_TLSData;
+
+/* This is how many TLS entries we allocate at once */
+#define TLS_ALLOC_CHUNKSIZE 4
+
+/* Get cross-platform, slow, thread local storage for this thread.
+   This is only intended as a fallback if getting real thread-local
+   storage fails or isn't supported on this platform.
+ */
+extern SDL_TLSData *SDL_Generic_GetTLSData();
+
+/* Set cross-platform, slow, thread local storage for this thread.
+   This is only intended as a fallback if getting real thread-local
+   storage fails or isn't supported on this platform.
+ */
+extern int SDL_Generic_SetTLSData(SDL_TLSData *data);
 
 #endif /* _SDL_thread_c_h */
 

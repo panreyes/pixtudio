@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_config.h"
+#include "../../SDL_internal.h"
 
 #if SDL_VIDEO_DRIVER_COCOA
 
@@ -28,7 +28,6 @@
 static NSString *
 GetTextFormat(_THIS)
 {
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1060
     SDL_VideoData *data = (SDL_VideoData *) _this->driverdata;
 
     if (data->osversion >= 0x1060) {
@@ -36,9 +35,6 @@ GetTextFormat(_THIS)
     } else {
         return NSStringPboardType;
     }
-#else
-    return NSStringPboardType;
-#endif
 }
 
 int
@@ -99,7 +95,7 @@ Cocoa_HasClipboardText(_THIS)
     SDL_bool result = SDL_FALSE;
     char *text = Cocoa_GetClipboardText(_this);
     if (text) {
-    result = (SDL_strlen(text)>0) ? SDL_TRUE : SDL_FALSE;
+        result = text[0] != '\0' ? SDL_TRUE : SDL_FALSE;
     SDL_free(text);
     }
     return result;

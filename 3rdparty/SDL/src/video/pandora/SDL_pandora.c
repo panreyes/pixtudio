@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_config.h"
+#include "../../SDL_internal.h"
 
 #if SDL_VIDEO_DRIVER_PANDORA
 
@@ -294,8 +294,6 @@ PND_restorewindow(_THIS, SDL_Window * window)
 void
 PND_setwindowgrab(_THIS, SDL_Window * window)
 {
-    SDL_VideoData *phdata = (SDL_VideoData *) _this->driverdata;
-    eglTerminate(phdata->egl_display);
 }
 void
 PND_destroywindow(_THIS, SDL_Window * window)

@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -19,7 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_config.h"
+#include "../../SDL_internal.h"
 
 #if SDL_VIDEO_DRIVER_COCOA
 
@@ -33,9 +33,11 @@ SDL_WindowShaper*
 Cocoa_CreateShaper(SDL_Window* window) {
     SDL_WindowData* windata = (SDL_WindowData*)window->driverdata;
     [windata->nswindow setOpaque:NO];
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-    [windata->nswindow setStyleMask:NSBorderlessWindowMask];
-#endif
+
+    if ([windata->nswindow respondsToSelector:@selector(setStyleMask:)]) {
+        [windata->nswindow setStyleMask:NSBorderlessWindowMask];
+    }
+
     SDL_WindowShaper* result = result = malloc(sizeof(SDL_WindowShaper));
     result->window = window;
     result->mode.mode = ShapeModeDefault;
@@ -80,8 +82,8 @@ Cocoa_SetWindowShape(SDL_WindowShaper *shaper,SDL_Surface *shape,SDL_WindowShape
         data->saved = SDL_FALSE;
     }
 
-    //[data->context saveGraphicsState];
-    //data->saved = SDL_TRUE;
+    /*[data->context saveGraphicsState];*/
+    /*data->saved = SDL_TRUE;*/
     [NSGraphicsContext setCurrentContext:data->context];
 
     [[NSColor clearColor] set];
@@ -90,10 +92,11 @@ Cocoa_SetWindowShape(SDL_WindowShaper *shaper,SDL_Surface *shape,SDL_WindowShape
 
     pool = [[NSAutoreleasePool alloc] init];
     closure.view = [windata->nswindow contentView];
-    closure.path = [[NSBezierPath bezierPath] autorelease];
+    closure.path = [[NSBezierPath bezierPath] init];
     closure.window = shaper->window;
     SDL_TraverseShapeTree(data->shape,&ConvertRects,&closure);
     [closure.path addClip];
+    [pool release];
 
     return 0;
 }

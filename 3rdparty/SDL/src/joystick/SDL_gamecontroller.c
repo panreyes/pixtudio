@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_config.h"
+#include "../SDL_internal.h"
 
 /* This is the game controller API for Simple DirectMedia Layer */
 
@@ -26,12 +26,14 @@
 #include "SDL_assert.h"
 #include "SDL_sysjoystick.h"
 #include "SDL_hints.h"
+#include "SDL_gamecontrollerdb.h"
 
 #if !SDL_EVENTS_DISABLED
 #include "../events/SDL_events_c.h"
 #endif
 #define ABS(_x) ((_x) < 0 ? -(_x) : (_x))
 
+#define SDL_CONTROLLER_PLATFORM_FIELD "platform:"
 
 /* a list of currently opened game controllers */
 static SDL_GameController *SDL_gamecontrollers = NULL;
@@ -51,7 +53,7 @@ struct _SDL_HatMapping
  */
 #define k_nMaxHatEntries 0x3f + 1
 
-/* our in memory mapping db between joystick objects and controller mappings*/
+/* our in memory mapping db between joystick objects and controller mappings */
 struct _SDL_ControllerMapping
 {
     SDL_JoystickGUID guid;
@@ -84,43 +86,6 @@ typedef struct _ControllerMapping_t
     char *mapping;
     struct _ControllerMapping_t *next;
 } ControllerMapping_t;
-
-
-/* default mappings we support */
-const char *s_ControllerMappings [] =
-{
-#ifdef SDL_JOYSTICK_DINPUT
-    "xinput,X360 Controller,a:b10,b:b11,y:b13,x:b12,start:b4,guide:b14,back:b5,dpup:b0,dpleft:b2,dpdown:b1,dpright:b3,leftshoulder:b8,rightshoulder:b9,leftstick:b6,rightstick:b7,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:a4,righttrigger:a5",
-    "341a3608000000000000504944564944,Afterglow PS3 Controller,a:b1,b:b2,y:b3,x:b0,start:b9,guide:b12,back:b8,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftshoulder:b4,rightshoulder:b5,leftstick:b10,rightstick:b11,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7",
-    "88880803000000000000504944564944,PS3 Controller,a:b2,b:b1,x:b0,y:b3,start:b11,back:b8,leftstick:b9,rightstick:b10,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.4,dpdown:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a3,righty:a4,lefttrigger:b6,righttrigger:b7,guide:b12",
-    "4c056802000000000000504944564944,PS3 Controller,a:b14,b:b13,y:b12,x:b15,start:b3,guide:b16,back:b0,leftstick:b1,rightstick:b2,leftshoulder:b10,rightshoulder:b11,dpup:b4,dpleft:b7,dpdown:b6,dpright:b5,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b8,righttrigger:b9,",
-    "25090500000000000000504944564944,PS3 DualShock,a:b2,b:b1,x:b0,y:b3,start:b8,guide:,back:b9,leftstick:b10,rightstick:b11,leftshoulder:b6,rightshoulder:b7,dpup:h0.1,dpleft:h0.4,dpdown:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b4,righttrigger:b5",
-    "ffff0000000000000000504944564944,GameStop Gamepad,a:b0,b:b1,y:b3,x:b2,start:b9,guide:,back:b8,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,",
-	"6d0419c2000000000000504944564944,Logitech F710 Gamepad,a:b1,b:b2,y:b3,x:b0,start:b9,back:b8,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,", /* Guide button doesn't seem to be sent in DInput mode. */
-    "6d0416c2000000000000504944564944,Generic DirectInput Controller,a:b1,b:b2,y:b3,x:b0,start:b9,back:b8,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,",
-#elif defined(__MACOSX__)
-    "5e040000000000008e02000000000000,X360 Controller,a:b0,b:b1,y:b3,x:b2,start:b8,guide:b10,back:b9,dpup:b11,dpleft:b13,dpdown:b12,dpright:b14,leftshoulder:b4,rightshoulder:b5,leftstick:b6,rightstick:b7,leftx:a0,lefty:a1,rightx:a3,righty:a4,lefttrigger:a2,righttrigger:a5",
-    "4c050000000000006802000000000000,PS3 Controller,a:b14,b:b13,x:b15,y:b12,start:b3,guide:b16,back:b0,leftstick:b1,rightstick:b2,leftshoulder:b10,rightshoulder:b11,dpup:b4,dpleft:b7,dpdown:b6,dpright:b5,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b8,righttrigger:b9",
-    "0500000047532047616d657061640000,GameStop Gamepad,a:b0,b:b1,y:b3,x:b2,start:b9,guide:,back:b8,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,",
-    "6d040000000000001fc2000000000000,Logitech F710 Gamepad (XInput),a:b0,b:b1,y:b3,x:b2,start:b8,guide:b10,back:b9,leftstick:b6,rightstick:b7,leftshoulder:b4,rightshoulder:b5,dpup:b11,dpleft:b13,dpdown:b12,dpright:b14,leftx:a0,lefty:a1,rightx:a3,righty:a4,lefttrigger:a2,righttrigger:a5,",
-    "6d0400000000000016c2000000000000,Logitech F310 Gamepad (DInput),a:b1,b:b2,y:b3,x:b0,start:b9,back:b8,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,", /* Guide button doesn't seem to be sent in DInput mode. */
-    "6d0400000000000019c2000000000000,Logitech Wireless Gamepad (DInput),a:b1,b:b2,y:b3,x:b0,start:b9,back:b8,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,", /* This includes F710 in DInput mode and the "Logitech Cordless RumblePad 2", at the very least. */
-    "6d0400000000000018c2000000000000,Logitech Rumble Gamepad F510(DInput),a:b1,b:b2,y:b3,x:b0,start:b9,back:b8,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,rightx:a2,lefty:a1,righty:a3,lefttrigger:b6,righttrigger:b7,",
-#elif defined(__LINUX__)
-    "030000005e0400008e02000014010000,X360 Controller,a:b0,b:b1,y:b3,x:b2,start:b7,guide:b8,back:b6,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftshoulder:b4,rightshoulder:b5,leftstick:b9,rightstick:b10,leftx:a0,lefty:a1,rightx:a3,righty:a4,lefttrigger:a2,righttrigger:a5",
-    "030000005e0400008e02000010010000,X360 Controller,a:b0,b:b1,y:b3,x:b2,start:b7,guide:b8,back:b6,leftstick:b9,rightstick:b10,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a3,righty:a4,lefttrigger:a2,righttrigger:a5,",
-    "030000005e0400001907000000010000,X360 Wireless Controller,a:b0,b:b1,y:b3,x:b2,start:b7,guide:b8,back:b6,leftstick:b9,rightstick:b10,leftshoulder:b4,rightshoulder:b5,dpup:b13,dpleft:b11,dpdown:b14,dpright:b12,leftx:a0,lefty:a1,rightx:a3,righty:a4,lefttrigger:a2,righttrigger:a5,",
-    "030000004c0500006802000011010000,PS3 Controller,a:b14,b:b13,x:b15,y:b12,start:b3,guide:b16,back:b0,leftstick:b1,rightstick:b2,leftshoulder:b10,rightshoulder:b11,dpup:b4,dpleft:b7,dpdown:b6,dpright:b5,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b8,righttrigger:b9",
-    "030000006d0400001fc2000005030000,Logitech F710 Gamepad (XInput),a:b0,b:b1,y:b3,x:b2,start:b7,guide:b8,back:b6,leftstick:b9,rightstick:b10,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a3,righty:a4,lefttrigger:a2,righttrigger:a5,",
-    "030000006d04000019c2000011010000,Logitech F710 Gamepad (DInput),a:b1,b:b2,y:b3,x:b0,start:b9,back:b8,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,", /* Guide button doesn't seem to be sent in DInput mode. */
-    "030000006d0400001dc2000014400000,Logitech F310 Gamepad (XInput),a:b0,b:b1,y:b3,x:b2,start:b7,guide:b8,back:b6,leftstick:b9,rightstick:b10,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a3,righty:a4,lefttrigger:a2,righttrigger:a5,",
-    "030000006d04000019c2000010010000,Logitech Cordless RumblePad 2,a:b1,b:b2,y:b3,x:b0,start:b9,guide:,back:b8,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,",
-    "0500000047532047616d657061640000,GameStop Gamepad,a:b0,b:b1,y:b3,x:b2,start:b9,guide:,back:b8,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,",
-    "03000000ba2200002010000001010000,Jess Technology USB Game Controller,start:b9,a:b2,b:b1,x:b3,y:b0,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a3,righty:a2,lefttrigger:b6,righttrigger:b7,leftshoulder:b4,rightshoulder:b5,guide:,back:b8",
-    "030000006d0400001ec2000020200000,Logitech Rumble Gamepad F510 (XInput),a:b0,b:b1,x:b2,y:b3,start:b7,back:b6,guide:b8,leftstick:b9,rightstick:b10,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpleft:h0.8,dpdown:h0.4,dpright:h0.2,leftx:a0,lefty:a1,rightx:a3,righty:a4,lefttrigger:a2,righttrigger:a5,",
-#endif
-    NULL
-};
 
 static ControllerMapping_t *s_pSupportedControllers = NULL;
 #ifdef SDL_JOYSTICK_DINPUT
@@ -325,8 +290,6 @@ ControllerMapping_t *SDL_PrivateGetControllerMapping(int device_index)
         SDL_JoystickGUID jGUID = SDL_JoystickGetDeviceGUID( device_index );
         return SDL_PrivateGetControllerMappingForGUID(&jGUID);
     }
-
-    return NULL;
 }
 
 static const char* map_StringForControllerAxis[] = {
@@ -695,6 +658,78 @@ void SDL_PrivateGameControllerRefreshMapping( ControllerMapping_t *pControllerMa
  * Add or update an entry into the Mappings Database
  */
 int
+SDL_GameControllerAddMappingsFromRW( SDL_RWops * rw, int freerw )
+{
+    const char *platform = SDL_GetPlatform();
+    int controllers = 0;
+    char *buf, *line, *line_end, *tmp, *comma, line_platform[64];
+    size_t db_size, platform_len;
+    
+    if (rw == NULL) {
+        return SDL_SetError("Invalid RWops");
+    }
+    db_size = (size_t)SDL_RWsize(rw);
+    
+    buf = (char *)SDL_malloc(db_size + 1);
+    if (buf == NULL) {
+        if (freerw) {
+            SDL_RWclose(rw);
+        }
+        return SDL_SetError("Could allocate space to not read DB into memory");
+    }
+    
+    if (SDL_RWread(rw, buf, db_size, 1) != 1) {
+        if (freerw) {
+            SDL_RWclose(rw);
+        }
+        SDL_free(buf);
+        return SDL_SetError("Could not read DB");
+    }
+    
+    if (freerw) {
+        SDL_RWclose(rw);
+    }
+    
+    buf[db_size] = '\0';
+    line = buf;
+    
+    while (line < buf + db_size) {
+        line_end = SDL_strchr( line, '\n' );
+        if (line_end != NULL) {
+            *line_end = '\0';
+        }
+        else {
+            line_end = buf + db_size;
+        }
+        
+        /* Extract and verify the platform */
+        tmp = SDL_strstr(line, SDL_CONTROLLER_PLATFORM_FIELD);
+        if ( tmp != NULL ) {
+            tmp += SDL_strlen(SDL_CONTROLLER_PLATFORM_FIELD);
+            comma = SDL_strchr(tmp, ',');
+            if (comma != NULL) {
+                platform_len = comma - tmp + 1;
+                if (platform_len + 1 < SDL_arraysize(line_platform)) {
+                    SDL_strlcpy(line_platform, tmp, platform_len);
+                    if(SDL_strncasecmp(line_platform, platform, platform_len) == 0
+                        && SDL_GameControllerAddMapping(line) > 0) {
+                        controllers++;
+                    }
+                }
+            }
+        }
+        
+        line = line_end + 1;
+    }
+
+    SDL_free(buf);
+    return controllers;
+}
+
+/*
+ * Add or update an entry into the Mappings Database
+ */
+int
 SDL_GameControllerAddMapping( const char *mappingString )
 {
     char *pchGUID;
@@ -708,7 +743,7 @@ SDL_GameControllerAddMapping( const char *mappingString )
 
     pchGUID = SDL_PrivateGetControllerGUIDFromMappingString( mappingString );
     if (!pchGUID) {
-        return -1;
+        return SDL_SetError("Couldn't parse GUID from %s", mappingString);
     }
 #ifdef SDL_JOYSTICK_DINPUT
     if ( !SDL_strcasecmp( pchGUID, "xinput" ) ) {
@@ -718,16 +753,18 @@ SDL_GameControllerAddMapping( const char *mappingString )
     jGUID = SDL_JoystickGetGUIDFromString(pchGUID);
     SDL_free(pchGUID);
 
-    pControllerMapping = SDL_PrivateGetControllerMappingForGUID(&jGUID);
-
     pchName = SDL_PrivateGetControllerNameFromMappingString( mappingString );
-    if (!pchName) return -1;
+    if (!pchName) {
+        return SDL_SetError("Couldn't parse name from %s", mappingString);
+    }
 
     pchMapping = SDL_PrivateGetControllerMappingFromMappingString( mappingString );
     if (!pchMapping) {
         SDL_free( pchName );
-        return -1;
+        return SDL_SetError("Couldn't parse %s", mappingString);
     }
+
+    pControllerMapping = SDL_PrivateGetControllerMappingForGUID(&jGUID);
 
     if (pControllerMapping) {
         /* Update existing mapping */
@@ -794,10 +831,11 @@ SDL_GameControllerLoadHints()
 {
     const char *hint = SDL_GetHint(SDL_HINT_GAMECONTROLLERCONFIG);
     if ( hint && hint[0] ) {
-        int nchHints = SDL_strlen( hint );
+        size_t nchHints = SDL_strlen( hint );
         char *pUserMappings = SDL_malloc( nchHints + 1 );
         char *pTempMappings = pUserMappings;
         SDL_memcpy( pUserMappings, hint, nchHints );
+        pUserMappings[nchHints] = '\0';
         while ( pUserMappings ) {
             char *pchNewLine = NULL;
 
@@ -826,8 +864,7 @@ SDL_GameControllerInit(void)
     const char *pMappingString = NULL;
     s_pSupportedControllers = NULL;
     pMappingString = s_ControllerMappings[i];
-    while ( pMappingString )
-    {
+    while ( pMappingString ) {
         SDL_GameControllerAddMapping( pMappingString );
 
         i++;
@@ -839,6 +876,16 @@ SDL_GameControllerInit(void)
 
     /* watch for joy events and fire controller ones if needed */
     SDL_AddEventWatch( SDL_GameControllerEventWatcher, NULL );
+
+    /* Send added events for controllers currently attached */
+    for (i = 0; i < SDL_NumJoysticks(); ++i) {
+        if (SDL_IsGameController(i)) {
+            SDL_Event deviceevent;
+            deviceevent.type = SDL_CONTROLLERDEVICEADDED;
+            deviceevent.cdevice.which = i;
+            SDL_PushEvent(&deviceevent);
+        }
+    }
 
     return (0);
 }
@@ -1177,6 +1224,7 @@ SDL_GameControllerQuit(void)
         pControllerMap = s_pSupportedControllers;
         s_pSupportedControllers = s_pSupportedControllers->next;
         SDL_free( pControllerMap->name );
+        SDL_free( pControllerMap->mapping );
         SDL_free( pControllerMap );
     }
 

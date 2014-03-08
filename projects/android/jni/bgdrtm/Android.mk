@@ -59,7 +59,6 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_regex/ \
 	$(MODULES_PATH)/mod_multi/ \
 	$(MODULES_PATH)/mod_curl/ \
-	$(MODULES_PATH)/mod_sensor/ \
 	$(MODULES_PATH)/mod_chipmunk/ \
 	$(MODULES_PATH)/mod_iap/
 
@@ -72,6 +71,7 @@ LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-DNO_MODFMODEX \
 	-DNO_FSOCK \
 	-DNO_MODTHEORA \
+    -DNO_MODSENSOR \
 	-DCP_USE_DOUBLES=0 \
 	-DTARGET_LINUX \
 	-DTARGET_ANDROID \
@@ -161,7 +161,6 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_regex/regex.c \
 	../../../../modules/mod_multi/mod_multi.c \
 	../../../../modules/mod_curl/mod_curl.c \
-	../../../../modules/mod_sensor/mod_sensor.c \
 	../../../../modules/mod_chipmunk/Arreglos.c \
 	../../../../modules/mod_chipmunk/Constraints.c \
 	../../../../modules/mod_chipmunk/Cuerpo.c \

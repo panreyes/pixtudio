@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_config.h"
+#include "../../SDL_internal.h"
 
 #if SDL_VIDEO_DRIVER_UIKIT
 
@@ -104,6 +104,12 @@ SDL_GLContext UIKit_GL_CreateContext(_THIS, SDL_Window * window)
     SDL_DisplayData *displaydata = display->driverdata;
     SDL_DisplayModeData *displaymodedata = display->current_mode.driverdata;
     UIWindow *uiwindow = data->uiwindow;
+    EAGLSharegroup *share_group = nil;
+
+    if (_this->gl_config.share_with_current_context) {
+        SDL_uikitopenglview *view = (SDL_uikitopenglview *) SDL_GL_GetCurrentContext();
+        share_group = [view.context sharegroup];
+    }
 
     /* construct our view, passing in SDL's OpenGL configuration data */
     CGRect frame;
@@ -121,7 +127,8 @@ SDL_GLContext UIKit_GL_CreateContext(_THIS, SDL_Window * window)
                                     aBits: _this->gl_config.alpha_size
                                     depthBits: _this->gl_config.depth_size
                                     stencilBits: _this->gl_config.stencil_size
-                                    majorVersion: _this->gl_config.major_version];
+                                    majorVersion: _this->gl_config.major_version
+                                    shareGroup: share_group];
     if (!view) {
         return NULL;
     }

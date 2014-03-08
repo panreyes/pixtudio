@@ -415,6 +415,18 @@
 				RelativePath="..\..\include\SDL_cpuinfo.h"
 				>
 			</File>
+			<File 
+				RelativePath="..\..\include\\SDL_egl.h" 
+				>
+			</File>
+			<File 
+				RelativePath="..\..\src\video\sdl_egl_c.h" 
+				>
+			</File>
+			<File 
+				RelativePath="..\..\src\video\windows\SDL_windowsopengles.h" 
+				>
+			</File>
 			<File
 				RelativePath="..\..\include\SDL_endian.h"
 				>
@@ -425,6 +437,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\SDL_events.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\SDL_filesystem.h"
 				>
 			</File>
 			<File
@@ -865,14 +881,6 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\SDL_fatal.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\SDL_fatal.h"
-			>
-		</File>
-		<File
 			RelativePath="..\..\src\video\SDL_fillrect.c"
 			>
 		</File>
@@ -1097,6 +1105,10 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\src\filesystem\windows\SDL_sysfilesystem.c"
+			>
+		</File>
+		<File
 			RelativePath="..\..\src\haptic\windows\SDL_syshaptic.c"
 			>
 		</File>
@@ -1130,6 +1142,10 @@
 		</File>
 		<File
 			RelativePath="..\..\src\thread\windows\SDL_systhread.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\thread\windows\SDL_systls.c"
 			>
 		</File>
 		<File
@@ -1209,6 +1225,22 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\src\dynapi\SDL_dynapi.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\dynapi\SDL_dynapi_overrides.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\dynapi\SDL_dynapi_procs.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\dynapi\SDL_dynapi.c"
+			>
+		</File>
+		<File
 			RelativePath="..\..\src\video\windows\SDL_windowsclipboard.c"
 			>
 		</File>
@@ -1266,6 +1298,22 @@
 		</File>
 		<File
 			RelativePath="..\..\src\video\windows\SDL_windowsopengl.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\render\opengles2\SDL_render_gles2.c" 
+			>
+		</File>
+		<File 
+			RelativePath="..\..\src\render\opengles2\SDL_shaders_gles2.c" 
+			>
+		</File>
+		<File 
+			RelativePath="..\..\src\video\SDL_egl.c" 
+			>
+		</File>
+		<File 
+			RelativePath="..\..\src\video\windows\SDL_windowsopengles.c" 
 			>
 		</File>
 		<File

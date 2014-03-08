@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,7 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_config.h"
+#include "./SDL_internal.h"
+
+#if defined(__WIN32__)
+#include "core/windows/SDL_windows.h"
+#endif
 
 /* Simple log messages in SDL */
 
@@ -28,9 +32,7 @@
 #include <stdio.h>
 #endif
 
-#if defined(__WIN32__)
-#include "core/windows/SDL_windows.h"
-#elif defined(__ANDROID__)
+#if defined(__ANDROID__)
 #include <android/log.h>
 #endif
 
@@ -84,6 +86,7 @@ static const char *SDL_category_prefixes[SDL_LOG_CATEGORY_RESERVED1] = {
 };
 
 static int SDL_android_priority[SDL_NUM_LOG_PRIORITIES] = {
+    ANDROID_LOG_UNKNOWN,
     ANDROID_LOG_VERBOSE,
     ANDROID_LOG_DEBUG,
     ANDROID_LOG_INFO,
@@ -317,6 +320,7 @@ SDL_LogOutput(void *userdata, int category, SDL_LogPriority priority,
 {
 #if defined(__WIN32__)
     /* Way too many allocations here, urgh */
+    /* Note: One can't call SDL_SetError here, since that function itself logs. */
     {
         char *output;
         size_t length;
@@ -331,16 +335,16 @@ SDL_LogOutput(void *userdata, int category, SDL_LogPriority priority,
             if (!attachResult) {
                     attachError = GetLastError();
                     if (attachError == ERROR_INVALID_HANDLE) {
-                        SDL_SetError("Parent process has no console");
+                        OutputDebugString(TEXT("Parent process has no console\r\n"));
                         consoleAttached = -1;
                     } else if (attachError == ERROR_GEN_FAILURE) {
-                         SDL_SetError("Could not attach to console of parent process");
+                         OutputDebugString(TEXT("Could not attach to console of parent process\r\n"));
                          consoleAttached = -1;
                     } else if (attachError == ERROR_ACCESS_DENIED) {  
                          /* Already attached */
                         consoleAttached = 1;
                     } else {
-                        SDL_SetError("Error %d attaching console", attachError);
+                        OutputDebugString(TEXT("Error attaching console\r\n"));
                         consoleAttached = -1;
                     }
                 } else {
@@ -353,9 +357,9 @@ SDL_LogOutput(void *userdata, int category, SDL_LogPriority priority,
                 }
         }
 
-        length = SDL_strlen(SDL_priority_prefixes[priority]) + 2 + SDL_strlen(message) + 1 + 1;
+        length = SDL_strlen(SDL_priority_prefixes[priority]) + 2 + SDL_strlen(message) + 1 + 1 + 1;
         output = SDL_stack_alloc(char, length);
-        SDL_snprintf(output, length, "%s: %s\n", SDL_priority_prefixes[priority], message);
+        SDL_snprintf(output, length, "%s: %s\r\n", SDL_priority_prefixes[priority], message);
         tstr = WIN_UTF8ToString(output);
         
         /* Output to debugger */
@@ -364,10 +368,10 @@ SDL_LogOutput(void *userdata, int category, SDL_LogPriority priority,
         /* Screen output to stderr, if console was attached. */
         if (consoleAttached == 1) {
                 if (!WriteConsole(stderrHandle, tstr, lstrlen(tstr), &charsWritten, NULL)) {
-                    SDL_SetError("Error %d calling WriteConsole", GetLastError());
+                    OutputDebugString(TEXT("Error calling WriteConsole\r\n"));
                 }
                 if (charsWritten == ERROR_NOT_ENOUGH_MEMORY) {
-                    SDL_SetError("Insufficient heap memory to write message of size %d", length);
+                    OutputDebugString(TEXT("Insufficient heap memory to write message\r\n"));
                 }
         }
 

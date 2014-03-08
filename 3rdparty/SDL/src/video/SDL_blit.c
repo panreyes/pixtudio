@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2014 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_config.h"
+#include "../SDL_internal.h"
 
 #include "SDL_video.h"
 #include "SDL_sysvideo.h"
@@ -61,7 +61,7 @@ SDL_SoftBlit(SDL_Surface * src, SDL_Rect * srcrect,
     }
 
     /* Set up source and destination buffer pointers, and BLIT! */
-    if (okay && srcrect->w && srcrect->h) {
+    if (okay && !SDL_RectEmpty(srcrect)) {
         SDL_BlitFunc RunBlit;
         SDL_BlitInfo *info = &src->map->info;
 
