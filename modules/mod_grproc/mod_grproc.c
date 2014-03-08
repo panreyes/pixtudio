@@ -725,10 +725,10 @@ static int check_collision( INSTANCE * proc1, GRAPH * bmp1, REGION * bbox3, INST
     bbox2.x2 = w - 1 ;
     bbox2.y2 = h - 1 ;
 
-    bmp1 = bitmap_new( 0, w, h, sys_pixel_format->depth ) ;
+    bmp1 = bitmap_new( -1, w, h, sys_pixel_format->depth ) ;
     if ( !bmp1 ) return 0;
 
-    bmp2 = bitmap_new( 0, w, h, sys_pixel_format->depth ) ;
+    bmp2 = bitmap_new( -1, w, h, sys_pixel_format->depth ) ;
     if ( !bmp2 )
     {
         bitmap_destroy( bmp1 ) ;
@@ -764,10 +764,8 @@ static int check_collision( INSTANCE * proc1, GRAPH * bmp1, REGION * bbox3, INST
 
         for ( y = 0 ; y < h ; y++ )
         {
-            for ( x = 0 ; x < w ; x++, ptr1++, ptr2++ )
-            {
-                if ( *ptr1 && *ptr2 )
-                {
+            for ( x = 0 ; x < w ; x++, ptr1++, ptr2++ ) {
+                if ( *ptr1 && *ptr2 ) {
                     bitmap_destroy( bmp1 ) ;
                     bitmap_destroy( bmp2 ) ;
                     return 1;

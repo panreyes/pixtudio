@@ -303,25 +303,11 @@ int gr_set_mode( int width, int height, int depth )
 
     if ( scale_resolution_orientation < 0 || scale_resolution_orientation > 4 ) scale_resolution_orientation = 0;
 
-    if ( !depth )
-    {
-        enable_32bits = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_32BITS ) ? 1 : 0 ;
-        if ( !enable_32bits )
-            enable_16bits = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_16BITS ) ? 1 : 0 ;
-        else
-            enable_16bits = 0;
-        depth = enable_32bits ? 32 : ( enable_16bits ? 16 : 8 );
-    }
-    else if ( depth == 16 )
-    {
-        enable_16bits = 1;
-        enable_32bits = 0;
-    }
-    else if ( depth == 32 )
-    {
-        enable_16bits = 0;
-        enable_32bits = 1;
-    }
+    // Only 32bpp will be supported here
+    depth = 32;
+    enable_16bits = 0;
+    enable_32bits = 1;
+    format = SDL_PIXELFORMAT_ARGB8888;
 
     /* Inicializa el modo gráfico */
 
@@ -393,14 +379,6 @@ int gr_set_mode( int width, int height, int depth )
     }
     if (height == 0) {
         SDL_GetWindowSize(window, NULL, &height);
-    }
-
-    // What's the mode for 8bpp?
-    // We could support BGR/YUV and other display modes here, too
-    if(enable_16bits) {
-        format = SDL_PIXELFORMAT_RGB565;
-    } else if (enable_32bits) {
-        format = SDL_PIXELFORMAT_ARGB8888;
     }
     
     // Create a SDL_Surface for the pixel data until the complete rendering pipeline

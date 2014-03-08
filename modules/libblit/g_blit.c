@@ -1938,7 +1938,7 @@ void gr_get_bbox( REGION * dest, REGION * clip, int x, int y, int flags, int ang
 void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, int angle, int scalex, int scaley, GRAPH * gr )
 {
     _POINTF corners[4];
-    _POINT  min, max;
+    _POINT  min, max, center;
     VERTEX  vertex[4];
     SDL_Rect dstRect;
     SDL_RendererFlip flip;
@@ -1967,14 +1967,25 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
 
     if ( !dest ) dest = scrbitmap;
 
-    if ( !dest->data || !gr->data || !gr->texture) return;
+    if ( !dest->data || !gr->data || !gr->texture) {
+        SDL_Log("gr_rotated_blit failed");
+        return;
+    }
     if ( scalex <= 0 || scaley <= 0 ) return;
 
     // When drawing to screen, use SDL_Render directly, otherwise use homegrown
     // software solution
     if( scrbitmap && dest->code == scrbitmap->code ) {
-        dstRect.x = scrx - (int)(gr->width * scalex/200.);
-        dstRect.y = scry - (int)(gr->height * scaley/200.);
+        // Consider control points when drawing
+        if ( gr->ncpoints && gr->cpoints[0].x != CPOINT_UNDEFINED ) {
+            center.x = gr->cpoints[0].x ;
+            center.y = gr->cpoints[0].y ;
+        } else {
+            center.x = gr->width / 2.0;
+            center.y = gr->height / 2.0;
+        }
+        dstRect.x = scrx - (int)(center.x * scalex/100.);
+        dstRect.y = scry - (int)(center.y * scaley/100.);
         dstRect.w = (int)(gr->width * scalex/100.);
         dstRect.h = (int)(gr->height * scaley/100.);
 
@@ -2581,13 +2592,25 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
     DRAW_HSPAN  * draw_hspan = ( DRAW_HSPAN * )NULL;
 
     if ( !dest ) dest = scrbitmap ;
-    if ( !dest->data || !gr->data || !gr->texture ) return;
+    if ( !dest->data || !gr->data || !gr->texture ) {
+        SDL_Log("gr_blit failed");
+        return;
+    }
 
     // When drawing to screen, use SDL_Render directly, otherwise use homegrown
     // software solution
     if( scrbitmap && dest->code == scrbitmap->code ) {
-        dstRect.x = scrx-gr->width/2;
-        dstRect.y = scry-gr->height/2;
+        // Consider control points when drawing
+        if ( gr->ncpoints && gr->cpoints[0].x != CPOINT_UNDEFINED ) {
+            center.x = gr->cpoints[0].x ;
+            center.y = gr->cpoints[0].y ;
+        } else {
+            center.x = gr->width / 2.0;
+            center.y = gr->height / 2.0;
+        }
+
+        dstRect.x = scrx-center.x;
+        dstRect.y = scry-center.y;
         dstRect.w = gr->width;
         dstRect.h = gr->height;
 

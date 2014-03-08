@@ -263,14 +263,28 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
 GRAPH * bitmap_clone( GRAPH * map )
 {
     GRAPH * gr ;
-    uint32_t y;
+    uint32_t y ;
+    Uint32 format;
 
     gr = bitmap_new( 0, map->width, map->height, map->format->depth ) ;
     if ( gr == NULL ) return NULL;
 
-    for ( y = 0 ; y < map->height ; y++ )
-        memcpy(( uint8_t* ) gr->data + gr->pitch * y, ( uint8_t* ) map->data + gr->pitch * y, gr->widthb );
+    // Copy the data either from the display renderer or from the original map
+    if( scrbitmap && map->code == scrbitmap->code ) {
+        format = SDL_PIXELFORMAT_ARGB8888 ;
+        if ( map->format->depth == 16 ) {
+            format = SDL_PIXELFORMAT_RGB565 ;
+        }
+        if(SDL_RenderReadPixels(renderer, NULL, format, gr->data, gr->pitch) < 0) {
+            SDL_Log("Could not clone screen data (%s)", SDL_GetError());
+        }
+    } else {
+        for ( y = 0 ; y < map->height ; y++ ) {
+            memcpy(( uint8_t* ) gr->data + gr->pitch * y, ( uint8_t* ) map->data + gr->pitch * y, gr->widthb );
+        }
+    }
 
+    // Update the associated SDL_Texture
     SDL_UpdateTexture(gr->texture, NULL, map->data, map->pitch);
 
     if ( map->cpoints )
