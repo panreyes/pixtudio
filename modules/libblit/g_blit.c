@@ -1968,7 +1968,6 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
     if ( !dest ) dest = scrbitmap;
 
     if ( !dest->data || !gr->data || !gr->texture) {
-        SDL_Log("gr_rotated_blit failed");
         return;
     }
     if ( scalex <= 0 || scaley <= 0 ) return;
@@ -2593,7 +2592,6 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
 
     if ( !dest ) dest = scrbitmap ;
     if ( !dest->data || !gr->data || !gr->texture ) {
-        SDL_Log("gr_blit failed");
         return;
     }
 
