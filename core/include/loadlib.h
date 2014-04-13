@@ -28,28 +28,29 @@
 #define _LOADLIB_H
 
 #ifdef _WIN32
-#include <windows.h>
-#include <winbase.h>
+    #include <windows.h>
+    #include <winbase.h>
 #else
-#define _GNU_SOURCE
-#ifndef __MONOLITHIC__
-#include <dlfcn.h>
-#else
-#include <monolithic_includes.h>
+    #define _GNU_SOURCE
+    #include <unistd.h>
+    #include <stdlib.h>
+
+    #define __stdcall
+    #define __dllexport
+    #define __dllimport
 #endif
-#include <unistd.h>
-#include <stdlib.h>
+
+#ifndef __MONOLITHIC__
+    #include <dlfcn.h>
+    #ifdef _WIN32
+        #define dlclose(a)
+    #endif
+#else
+    #include <monolithic_includes.h>
+#endif
+
 #include <stdio.h>
 #include <string.h>
-
-#define __stdcall
-#define __dllexport
-#define __dllimport
-#endif
-
-#ifdef _WIN32
-#define dlclose(a)
-#endif
 
 // This first part handles systems where dynamic library opening is posible
 #ifndef __MONOLITHIC__
