@@ -131,6 +131,7 @@ void gr_unlock_screen()
     screen_locked = 0 ;
     
     if ( waitvsync ) gr_wait_vsync();
+    SDL_RenderSetClipRect(renderer, NULL);
     SDL_RenderPresent(renderer);
 }
 

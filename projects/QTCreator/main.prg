@@ -14,6 +14,7 @@ End;
 
 Process bouncer(graph, x, y, vx, vy)
 Begin
+    region = 1;
     loop
         if(x + graphic_info(0, graph, G_WIDTH)/2 > width || x - graphic_info(0, graph, G_WIDTH)/2 < 0)
             vx = -vx;
@@ -44,6 +45,7 @@ Begin
     font = load_fnt("font.fnt");
     write(font, width/2, height/2, 4, "OLA, KE ASE?");
     x = width/2; y = width/2;
+    define_region(1, 0, 0, width/2, height/2);
     while(! key(_esc))
         if(x+10 > width || x-10 < 0)
             vx = -vx;

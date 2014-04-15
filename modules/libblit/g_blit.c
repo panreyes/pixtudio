@@ -1941,6 +1941,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
     _POINT  min, max, center;
     VERTEX  vertex[4];
     SDL_Rect dstRect;
+    SDL_Rect clipRect;
     SDL_RendererFlip flip;
     SDL_BlendMode mode;
     int     i;
@@ -1988,6 +1989,18 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         dstRect.w = (int)(gr->width * scalex/100.);
         dstRect.h = (int)(gr->height * scaley/100.);
 
+        if (clip) {
+            clipRect.x = clip->x;
+            clipRect.y = clip->y;
+            clipRect.w = clip->x2-clip->x;
+            clipRect.h = clip->y2-clip->y;
+        } else {
+            clipRect.x = 0;
+            clipRect.y = 0;
+            clipRect.w = dest->width;
+            clipRect.h = dest->height;
+        }
+
         flip = SDL_FLIP_NONE;
         if(flags & B_HMIRROR) {
             flip |= SDL_FLIP_HORIZONTAL;
@@ -2008,6 +2021,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         }
 
         SDL_SetTextureBlendMode(gr->texture, mode);
+        SDL_RenderSetClipRect(renderer, &clipRect);
 
         SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, (double) (-angle/1000.), NULL, flip);
     } else {
@@ -2579,6 +2593,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
     _POINT  min, max;
     _POINT  center;
     SDL_Rect dstRect;
+    SDL_Rect clipRect;
     SDL_RendererFlip flip;
     SDL_BlendMode mode;
     int     x, y, s, t, p, l;
@@ -2612,6 +2627,18 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         dstRect.w = gr->width;
         dstRect.h = gr->height;
 
+        if (clip) {
+            clipRect.x = clip->x;
+            clipRect.y = clip->y;
+            clipRect.w = clip->x2-clip->x;
+            clipRect.h = clip->y2-clip->y;
+        } else {
+            clipRect.x = 0;
+            clipRect.y = 0;
+            clipRect.w = dest->width;
+            clipRect.h = dest->height;
+        }
+
         flip = SDL_FLIP_NONE;
         if(flags & B_HMIRROR) {
             flip |= SDL_FLIP_HORIZONTAL;
@@ -2632,6 +2659,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         }
 
         SDL_SetTextureBlendMode(gr->texture, mode);
+        SDL_RenderSetClipRect(renderer, &clipRect);
 
         SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, 0., NULL, flip);
     } else {
