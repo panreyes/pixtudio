@@ -1942,6 +1942,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
     VERTEX  vertex[4];
     SDL_Rect dstRect;
     SDL_Rect clipRect;
+    SDL_Point rcenter;
     SDL_RendererFlip flip;
     SDL_BlendMode mode;
     int     i;
@@ -1978,11 +1979,11 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
     if( scrbitmap && dest->code == scrbitmap->code ) {
         // Consider control points when drawing
         if ( gr->ncpoints && gr->cpoints[0].x != CPOINT_UNDEFINED ) {
-            center.x = gr->cpoints[0].x ;
-            center.y = gr->cpoints[0].y ;
+            rcenter.x = center.x = gr->cpoints[0].x ;
+            rcenter.y = center.y = gr->cpoints[0].y ;
         } else {
-            center.x = gr->width / 2.0;
-            center.y = gr->height / 2.0;
+            rcenter.x = center.x = gr->width / 2.0;
+            rcenter.y = center.y = gr->height / 2.0;
         }
         dstRect.x = scrx - (int)(center.x * scalex/100.);
         dstRect.y = scry - (int)(center.y * scaley/100.);
@@ -2023,7 +2024,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         SDL_SetTextureBlendMode(gr->texture, mode);
         SDL_RenderSetClipRect(renderer, &clipRect);
 
-        SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, (double) (-angle/1000.), NULL, flip);
+        SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, (double) (-angle/1000.), &rcenter, flip);
     } else {
         /* Analize the bitmap if needed (find if no color key used) */
 
