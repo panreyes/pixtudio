@@ -70,6 +70,14 @@ Begin
             size_y += 5;
         end
 
+        if(key(_a))
+            alpha += 1;
+        end
+
+        if(key(_z))
+            alpha -= 1;
+        end
+
         if(key(_space))
             save_png(0, get_screen(), "shot.png");
             say("Saved as shot.png");
