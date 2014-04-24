@@ -86,7 +86,6 @@
 ../../modules/libvideo
 ../../modules/libwm
 ../../modules/mod_blendop
-../../modules/mod_cd
 ../../modules/mod_chipmunk
 ../../modules/mod_curl
 ../../modules/mod_debug
@@ -103,10 +102,8 @@
 ../../modules/mod_image
 ../../modules/mod_joy
 ../../modules/mod_key
-../../modules/mod_m7
 ../../modules/mod_map
 ../../modules/mod_math
-../../modules/mod_mathi
 ../../modules/mod_mem
 ../../modules/mod_mouse
 ../../modules/mod_multi

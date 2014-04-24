@@ -793,9 +793,6 @@
 ../../modules/mod_joy/mod_joy_symbols.h
 ../../modules/mod_key/mod_key.c
 ../../modules/mod_key/mod_key_symbols.h
-../../modules/mod_m7/mod_m7.c
-../../modules/mod_m7/mod_m7.h
-../../modules/mod_m7/mod_m7_symbols.h
 ../../modules/mod_map/file_fnt.c
 ../../modules/mod_map/file_fpg.c
 ../../modules/mod_map/file_map.c
