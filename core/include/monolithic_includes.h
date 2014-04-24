@@ -26,11 +26,7 @@
 #include <libjoy_symbols.h>
 #include <mod_say_symbols.h>
 #include <mod_string_symbols.h>
-#ifndef NO_MODMATHI
-#  include <mod_mathi_symbols.h>
-#else
-#  include <mod_math_symbols.h>
-#endif
+#include <mod_math_symbols.h>
 #include <mod_time_symbols.h>
 #include <mod_file_symbols.h>
 #ifndef NO_MODSOUND
@@ -159,9 +155,6 @@ basic_symbols symbol_list[] =
     { "mod_say.fakelib"      , NULL, NULL, NULL, NULL, NULL, mod_say_functions_exports },
     { "mod_string.fakelib"   , NULL, NULL, NULL, NULL, NULL, mod_string_functions_exports },
     { "mod_math.fakelib"     , NULL, mod_math_constants_def, NULL, NULL, NULL, mod_math_functions_exports },
-#ifndef NO_MODMATHI
-    { "mod_mathi.fakelib"    , NULL, mod_mathi_constants_def, NULL, NULL, NULL, mod_mathi_functions_exports },
-#endif
     { "mod_time.fakelib"     , NULL, NULL, NULL, NULL, NULL, mod_time_functions_exports },
     { "mod_file.fakelib"     , NULL, mod_file_constants_def, NULL, NULL, NULL, mod_file_functions_exports },
 #ifndef NO_MODSOUND
@@ -257,9 +250,6 @@ extra_symbols symbol_list_runtime[] =
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_say
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_string
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_math
-#ifndef NO_MODMATHI
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_mathi
-#endif
     { NULL, NULL, mod_time_module_initialize, mod_time_module_finalize, NULL, NULL, NULL, NULL }, //mod_time
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_file
 #ifndef NO_MODSOUND
