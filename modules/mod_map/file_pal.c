@@ -42,14 +42,6 @@ PALETTE * gr_read_pal( file * fp )
 
     for ( i = 0; i < 768; i++ ) colors[i] <<= 2;
 
-#ifdef COLORSPACE_BGR
-    for ( i = 0; i < 768; i+=3 ){
-    	uint8_t temp_color =colors[i];
-    	colors[i]=colors[i+2];
-    	colors[i+2]=temp_color;
-    }
-#endif
-
     pal = pal_new_rgb(( uint8_t * )colors );
     pal_refresh( pal );
 

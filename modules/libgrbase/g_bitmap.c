@@ -66,17 +66,6 @@ PIXEL_FORMAT * bitmap_create_format( int bpp )
         format->Gloss = 0;
         format->Bloss = 0;
 
-#ifdef COLORSPACE_BGR
-        format->Ashift = 0x18;
-        format->Rshift = 0x00;
-        format->Gshift = 0x08;
-        format->Bshift = 0x10;
-
-        format->Amask = 0xFF000000;
-        format->Rmask = 0x000000FF;
-        format->Gmask = 0x0000FF00;
-        format->Bmask = 0x00FF0000;
-#else
         format->Ashift = 24;
         format->Rshift = 16;
         format->Gshift = 8;
@@ -86,7 +75,6 @@ PIXEL_FORMAT * bitmap_create_format( int bpp )
         format->Rmask = 0x00FF0000;
         format->Gmask = 0x0000FF00;
         format->Bmask = 0x000000FF;
-#endif
     }
     else if ( bpp > 8 )
     {
@@ -97,15 +85,9 @@ PIXEL_FORMAT * bitmap_create_format( int bpp )
         format->Gloss = 8 - ( bpp / 3 ) - ( bpp % 3 );
         format->Bloss = 8 - ( bpp / 3 );
 
-#ifdef COLORSPACE_BGR
-        format->Rshift = 0;
-        format->Gshift = ( bpp / 3 );
-        format->Bshift = (( bpp / 3 ) + ( bpp % 3 ) ) + ( bpp / 3 );
-#else
         format->Rshift = (( bpp / 3 ) + ( bpp % 3 ) ) + ( bpp / 3 );
         format->Gshift = ( bpp / 3 );
         format->Bshift = 0;
-#endif
 
         format->Rmask = (( 0xFF >> format->Rloss ) << format->Rshift );
         format->Gmask = (( 0xFF >> format->Gloss ) << format->Gshift );
