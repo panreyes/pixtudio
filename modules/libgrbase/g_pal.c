@@ -643,29 +643,16 @@ int gr_rgb( int r, int g, int b )
 
     if ( sys_pixel_format->depth == 32 )
     {
-#ifdef COLORSPACE_BGR
-        return                 0xff000000   |
-                (( b << 16 ) & 0x00ff0000 ) |
-                (( g <<  8 ) & 0x0000ff00 ) |
-                (( r       ) & 0x000000ff ) ;
-#else
         return                 0xff000000   |
                 (( r << 16 ) & 0x00ff0000 ) |
                 (( g <<  8 ) & 0x0000ff00 ) |
                 (( b       ) & 0x000000ff ) ;
-#endif
     }
 
     /* 16 bits */
-#ifdef COLORSPACE_BGR
-    color = (( b >> sys_pixel_format->Rloss ) << sys_pixel_format->Rshift ) |
-            (( g >> sys_pixel_format->Gloss ) << sys_pixel_format->Gshift ) |
-            (( r >> sys_pixel_format->Bloss ) << sys_pixel_format->Bshift ) ;
-#else
     color = (( r >> sys_pixel_format->Rloss ) << sys_pixel_format->Rshift ) |
             (( g >> sys_pixel_format->Gloss ) << sys_pixel_format->Gshift ) |
             (( b >> sys_pixel_format->Bloss ) << sys_pixel_format->Bshift ) ;
-#endif
 
     if ( !color ) return 1 ;
 
@@ -681,29 +668,16 @@ int gr_rgba( int r, int g, int b, int a )
 
     if ( sys_pixel_format->depth == 32 )
     {
-#ifdef COLORSPACE_BGR
-        return  (( a << 24 ) & 0xff000000 ) |
-                (( b << 16 ) & 0x00ff0000 ) |
-                (( g <<  8 ) & 0x0000ff00 ) |
-                (( r       ) & 0x000000ff ) ;
-#else
         return  (( a << 24 ) & 0xff000000 ) |
                 (( r << 16 ) & 0x00ff0000 ) |
                 (( g <<  8 ) & 0x0000ff00 ) |
                 (( b       ) & 0x000000ff ) ;
-#endif
     }
 
     /* 16 bits */
-#ifdef COLORSPACE_BGR
-    color = (( b >> sys_pixel_format->Rloss ) << sys_pixel_format->Rshift ) |
-            (( g >> sys_pixel_format->Gloss ) << sys_pixel_format->Gshift ) |
-            (( r >> sys_pixel_format->Bloss ) << sys_pixel_format->Bshift ) ;    
-#else
     color = (( r >> sys_pixel_format->Rloss ) << sys_pixel_format->Rshift ) |
             (( g >> sys_pixel_format->Gloss ) << sys_pixel_format->Gshift ) |
             (( b >> sys_pixel_format->Bloss ) << sys_pixel_format->Bshift ) ;
-#endif
 
     if ( !color ) return 1 ;
 

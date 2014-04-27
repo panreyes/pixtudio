@@ -1945,6 +1945,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
     SDL_Point rcenter;
     SDL_RendererFlip flip;
     SDL_BlendMode mode;
+    Uint8     alpha;
     int     i;
 
     float   half_texel_size_x = 0;
@@ -2020,6 +2021,17 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         if(flags & B_NOCOLORKEY) {
             mode = SDL_BLENDMODE_NONE;
         }
+
+        // Default to opaque, use given value otherwise
+        alpha = 255;
+        if ( flags & B_ALPHA ) {
+            if ( flags & B_TRANSLUCENT ) {
+                alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) ) >> 1;
+            } else {
+                alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
+            }
+        }
+        SDL_SetTextureAlphaMod(gr->texture, alpha);
 
         SDL_SetTextureBlendMode(gr->texture, mode);
         SDL_RenderSetClipRect(renderer, &clipRect);
@@ -2597,6 +2609,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
     SDL_Rect clipRect;
     SDL_RendererFlip flip;
     SDL_BlendMode mode;
+    Uint8 alpha;
     int     x, y, s, t, p, l;
     void *  tex;
     void *  scr;
@@ -2658,6 +2671,17 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         if(flags & B_NOCOLORKEY) {
             mode = SDL_BLENDMODE_NONE;
         }
+
+        // Default to opaque, use given value otherwise
+        alpha = 255;
+        if ( flags & B_ALPHA ) {
+            if ( flags & B_TRANSLUCENT ) {
+                alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) ) >> 1;
+            } else {
+                alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
+            }
+        }
+        SDL_SetTextureAlphaMod(gr->texture, alpha);
 
         SDL_SetTextureBlendMode(gr->texture, mode);
         SDL_RenderSetClipRect(renderer, &clipRect);

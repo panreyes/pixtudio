@@ -6,6 +6,7 @@ import "mod_say"
 import "mod_screen"
 import "mod_text"
 import "mod_proc"
+import "mod_file"
 
 GLOBAL
 int width = 640;
@@ -34,10 +35,15 @@ int vx = 2;
 int vy = 2;
 int img = 0;
 int font = 0;
+int fd = 0;
 
 Begin
     set_mode(width, height, 32);
-    FRAME;
+    fd = fopen("main.prg", O_READ);
+    while(!feof(fd))
+        say(fgets(fd));
+    end
+    say("EOF");
     graph = load_png("logo.png");
     bouncer(graph, width/2, height/2, -3*vx, -3*vy);
     img = load_png("image.png");
@@ -68,6 +74,14 @@ Begin
 
         if(key(_y))
             size_y += 5;
+        end
+
+        if(key(_a))
+            alpha += 1;
+        end
+
+        if(key(_z))
+            alpha -= 1;
         end
 
         if(key(_space))

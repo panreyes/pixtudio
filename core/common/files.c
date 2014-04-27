@@ -145,6 +145,8 @@ int file_read( file * fp, void * buffer, int len )
     if ( fp->type == F_RWOPS )
     {
         int retval = SDL_RWread( fp->rwops, buffer, 1, len );
+        fp->error = (retval < len);
+        fp->eof = (retval == 0);
         return retval;
     }
 #endif

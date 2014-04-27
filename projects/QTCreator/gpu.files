@@ -731,8 +731,6 @@
 ../../modules/libwm/libwm_symbols.h
 ../../modules/mod_blendop/mod_blendop.c
 ../../modules/mod_blendop/mod_blendop_symbols.h
-../../modules/mod_cd/mod_cd.c
-../../modules/mod_cd/mod_cd_symbols.h
 ../../modules/mod_chipmunk/agua.c
 ../../modules/mod_chipmunk/agua.h
 ../../modules/mod_chipmunk/arbitros.c
@@ -795,9 +793,6 @@
 ../../modules/mod_joy/mod_joy_symbols.h
 ../../modules/mod_key/mod_key.c
 ../../modules/mod_key/mod_key_symbols.h
-../../modules/mod_m7/mod_m7.c
-../../modules/mod_m7/mod_m7.h
-../../modules/mod_m7/mod_m7_symbols.h
 ../../modules/mod_map/file_fnt.c
 ../../modules/mod_map/file_fpg.c
 ../../modules/mod_map/file_map.c
@@ -809,8 +804,6 @@
 ../../modules/mod_map/mod_map_symbols.h
 ../../modules/mod_math/mod_math.c
 ../../modules/mod_math/mod_math_symbols.h
-../../modules/mod_mathi/mod_mathi.c
-../../modules/mod_mathi/mod_mathi_symbols.h
 ../../modules/mod_mem/mod_mem.c
 ../../modules/mod_mem/mod_mem_symbols.h
 ../../modules/mod_mouse/mod_mouse_symbols.h

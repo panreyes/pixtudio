@@ -52,7 +52,6 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_path/ \
 	$(MODULES_PATH)/mod_effects/ \
 	$(MODULES_PATH)/mod_blendop/ \
-	$(MODULES_PATH)/mod_m7/ \
 	$(MODULES_PATH)/libwm/ \
 	$(MODULES_PATH)/mod_wm/ \
 	$(MODULES_PATH)/mod_sys/ \
@@ -153,7 +152,6 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_path/mod_path.c \
 	../../../../modules/mod_effects/mod_effects.c \
 	../../../../modules/mod_blendop/mod_blendop.c \
-	../../../../modules/mod_m7/mod_m7.c \
 	../../../../modules/libwm/libwm.c \
 	../../../../modules/mod_wm/mod_wm.c \
 	../../../../modules/mod_sys/mod_sys.c \

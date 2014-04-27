@@ -26,11 +26,7 @@
 #include <libjoy_symbols.h>
 #include <mod_say_symbols.h>
 #include <mod_string_symbols.h>
-#ifndef NO_MODMATHI
-#  include <mod_mathi_symbols.h>
-#else
-#  include <mod_math_symbols.h>
-#endif
+#include <mod_math_symbols.h>
 #include <mod_time_symbols.h>
 #include <mod_file_symbols.h>
 #ifndef NO_MODSOUND
@@ -68,7 +64,6 @@
 #include <mod_path_symbols.h>
 #include <mod_effects_symbols.h>
 #include <mod_blendop_symbols.h>
-#include <mod_m7_symbols.h>
 #include <libwm_symbols.h>
 #include <mod_wm_symbols.h>
 #include <mod_sys_symbols.h>
@@ -79,9 +74,6 @@
 /* Unofficial modules */
 #ifndef NO_MODICONV
 #   include <iconv_symbols.h>
-#endif
-#ifdef TARGET_WII
-#   include <mod_wpad_symbols.h>
 #endif
 #ifndef NO_MODIMAGE
 #   include <image_symbols.h>
@@ -159,9 +151,6 @@ basic_symbols symbol_list[] =
     { "mod_say.fakelib"      , NULL, NULL, NULL, NULL, NULL, mod_say_functions_exports },
     { "mod_string.fakelib"   , NULL, NULL, NULL, NULL, NULL, mod_string_functions_exports },
     { "mod_math.fakelib"     , NULL, mod_math_constants_def, NULL, NULL, NULL, mod_math_functions_exports },
-#ifndef NO_MODMATHI
-    { "mod_mathi.fakelib"    , NULL, mod_mathi_constants_def, NULL, NULL, NULL, mod_mathi_functions_exports },
-#endif
     { "mod_time.fakelib"     , NULL, NULL, NULL, NULL, NULL, mod_time_functions_exports },
     { "mod_file.fakelib"     , NULL, mod_file_constants_def, NULL, NULL, NULL, mod_file_functions_exports },
 #ifndef NO_MODSOUND
@@ -190,7 +179,6 @@ basic_symbols symbol_list[] =
     { "mod_path.fakelib"     , mod_path_modules_dependency, NULL, NULL, NULL, NULL, mod_path_functions_exports },
     { "mod_effects.fakelib"  , mod_effects_modules_dependency, mod_effects_constants_def, NULL, NULL, NULL, mod_effects_functions_exports },
     { "mod_blendop.fakelib"  , mod_blendop_modules_dependency, NULL, NULL, NULL, NULL, mod_blendop_functions_exports },
-    { "mod_m7.fakelib"       , mod_m7_modules_dependency, mod_m7_constants_def, NULL, mod_m7_globals_def, mod_m7_locals_def, mod_m7_functions_exports },
     { "mod_wm.fakelib"       , mod_wm_modules_dependency, NULL, NULL, NULL, NULL, mod_wm_functions_exports },
     { "mod_sys.fakelib"      , NULL, mod_sys_constants_def, NULL, NULL, NULL, mod_sys_functions_exports },
 #ifndef NO_MODMEM
@@ -200,9 +188,6 @@ basic_symbols symbol_list[] =
     /* Unofficial modules */
 #ifndef NO_MODICONV
     { "mod_iconv.fakelib"    , NULL, NULL, NULL, NULL, NULL, mod_iconv_functions_exports },
-#endif
-#ifdef TARGET_WII
-    { "mod_wpad.fakelib"     , mod_wpad_modules_dependency, mod_wpad_constants_def, NULL, NULL, NULL, mod_wpad_functions_exports },
 #endif
 #ifndef NO_MODIMAGE
     { "image.fakelib"        , image_modules_dependency, NULL, NULL, NULL, NULL, image_functions_exports },
@@ -257,9 +242,6 @@ extra_symbols symbol_list_runtime[] =
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_say
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_string
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_math
-#ifndef NO_MODMATHI
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_mathi
-#endif
     { NULL, NULL, mod_time_module_initialize, mod_time_module_finalize, NULL, NULL, NULL, NULL }, //mod_time
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_file
 #ifndef NO_MODSOUND
@@ -288,7 +270,6 @@ extra_symbols symbol_list_runtime[] =
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_path
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_effects
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_blendop
-    { mod_m7_globals_fixup, mod_m7_locals_fixup, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_m7
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_wm
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_sys
 #ifndef NO_MODMEM
@@ -298,9 +279,6 @@ extra_symbols symbol_list_runtime[] =
     /* Unofficial modules */
 #ifndef NO_MODICONV
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_iconv
-#endif
-#ifdef TARGET_WII
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_wpad
 #endif
 #ifndef NO_MODIMAGE
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_image
