@@ -200,7 +200,7 @@ void bgdrtm_ptimer_cleanup(void)
 
 /* --------------------------------------------------------------------------- */
 /*
- *  FUNCTION : strncmpi
+ *  FUNCTION : bgdrtm_strncmpi
  *
  *  Compare two strings (case-insensitive version)
  *
@@ -212,7 +212,7 @@ void bgdrtm_ptimer_cleanup(void)
  *      Result of the comparison
  */
 
-int strncmpi( char * str1, char * str2, int sz )
+int bgdrtm_strncmpi( char * str1, char * str2, int sz )
 {
     while (( *str1 || *str2 ) && sz )
     {

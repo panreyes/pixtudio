@@ -123,9 +123,9 @@ int main( int argc, char *argv[] )
 #endif
 
 #ifdef TARGET_PSP
-    standalone = ( strncmpi( appexename, "EBOOT", 4 ) == 0 ) ;
+    standalone = ( bgdrtm_strncmpi( appexename, "EBOOT", 4 ) == 0 ) ;
 #else
-    standalone = ( strncmpi( appexename, "bgdi", 4 ) == 0 ) ;
+    standalone = ( bgdrtm_strncmpi( appexename, "bgdi", 4 ) == 0 ) ;
 #endif
 
     /* add binary path */

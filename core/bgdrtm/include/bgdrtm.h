@@ -72,15 +72,7 @@ extern int trace_sentence;
 extern INSTANCE * trace_instance;
 
 /* --------------------------------------------------------------------------- */
-// Some SDKs define strcmpi to strncasecmp, but we want to user our own
-
-#if defined(TARGET_WII) || defined(TARGET_PSP)
-#ifdef strncmpi
-#undef strncmpi
-#endif
-#endif
-
-extern int strncmpi( char * str1, char * str2, int sz );
+extern int bgdrtm_strncmpi( char * str1, char * str2, int sz );
 
 extern int dcb_load( const char * filename ) ;
 extern int dcb_load_from( file * fp, char * dcbname, int offset ) ;
