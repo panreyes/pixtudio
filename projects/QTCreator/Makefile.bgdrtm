@@ -104,7 +104,6 @@ INCLUDES	:=	../../core/include \
 	../../modules/mod_path/ \
 	../../modules/mod_effects/ \
 	../../modules/mod_blendop/ \
-	../../modules/mod_m7/ \
 	../../modules/libwm/ \
 	../../modules/mod_wm/ \
 	../../modules/mod_sys/ \
@@ -216,7 +215,6 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 	../../../modules/mod_path/mod_path.c \
 	../../../modules/mod_effects/mod_effects.c \
 	../../../modules/mod_blendop/mod_blendop.c \
-	../../../modules/mod_m7/mod_m7.c \
 	../../../modules/libwm/libwm.c \
 	../../../modules/mod_wm/mod_wm.c \
 	../../../modules/mod_sys/mod_sys.c \
@@ -238,7 +236,9 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					-I$(CURDIR)/$(BUILD) \
 					-I/opt/local/include \
-					-I/opt/local/include/SDL2
+					-I/opt/local/include/SDL2 \
+					-I/usr/include \
+					-I/usr/include/SDL2
 
 #---------------------------------------------------------------------------------
 # build a list of library paths
