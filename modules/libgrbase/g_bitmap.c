@@ -147,6 +147,7 @@ GRAPH * bitmap_new_ex( int code, int w, int h, int depth, void * data, int pitch
         SDL_Log("bitmap_new_ex: Could not create GRAPH texture (%s)", SDL_GetError());
         return NULL;
     }
+    SDL_UpdateTexture(gr->texture, NULL, data, pitch);
 
     gr->width = w ;
     gr->height = h ;
@@ -178,7 +179,10 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
 {
     GRAPH * gr ;
     int bytesPerRow, wb ;
+    int nx, ny, i, j ;
+    int _w, _h ;
     Uint32 format ;
+    TEXTURE_PIECE * next;
 
     if ( w < 1 || h < 1 ) return NULL;
 
@@ -207,13 +211,49 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
     if ( depth == 16 ) {
         format = SDL_PIXELFORMAT_RGB565 ;
     }
-    gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, w, h) ;
-    if (! gr->texture)
-    {
-        if ( gr->data ) free( gr->data ) ;
-        free( gr ) ;
-        SDL_Log("bitmap_new: Could not create GRAPH texture (%s)", SDL_GetError());
-        return NULL;
+
+    // Create the graph's texture, but handle the case where the GRAPH is bigger
+    // than the limit allowed by the graphics card
+    if(w <= renderer_info.max_texture_height && h <= renderer_info.max_texture_height) {
+        gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, w, h) ;
+        if (! gr->texture)
+        {
+            if ( gr->data ) free( gr->data ) ;
+            free( gr ) ;
+            SDL_Log("bitmap_new: Could not create GRAPH texture (%s)", SDL_GetError());
+            return NULL;
+        }
+        gr->next_piece = NULL;
+    } else {
+        nx = (int)(w/renderer_info.max_texture_width) + 1;
+        ny = (int)(h/renderer_info.max_texture_height) + 1;
+
+        // The first one will always have the maximum size
+        gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC,
+                                        renderer_info.max_texture_width,
+                                        renderer_info.max_texture_height);
+
+        next = gr->next_piece;
+
+        for(j=0; j<ny; j++) {
+            for(i=0; i<nx; i++) {
+                _w = renderer_info.max_texture_width * (i+1) > w ?
+                            w-(renderer_info.max_texture_width * i) :
+                            renderer_info.max_texture_width;
+                _h = renderer_info.max_texture_height * (j+1) > h ?
+                            h-(renderer_info.max_texture_height * i) :
+                            renderer_info.max_texture_height;
+
+                SDL_Log("Creating piece %dx%d", i, j);
+
+                next = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
+                next->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, _w, _h);
+                next->x = renderer_info.max_texture_width * i;
+                next->y = renderer_info.max_texture_height * j;
+
+                next = (i < nx && j < ny) ? next->next : NULL;
+            }
+        }
     }
 
     gr->width = w ;

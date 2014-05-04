@@ -40,10 +40,11 @@ int fd = 0;
 Begin
     set_mode(width, height, 32);
     fd = fopen("main.prg", O_READ);
-    while(!feof(fd))
-        say(fgets(fd));
-    end
-    say("EOF");
+    //while(!feof(fd))
+        //say(fgets(fd));
+    //end
+    //say("EOF");
+    fclose(fd);
     graph = load_png("logo.png");
     bouncer(graph, width/2, height/2, -3*vx, -3*vy);
     img = load_png("image.png");

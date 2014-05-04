@@ -74,6 +74,14 @@ typedef struct _pixel_format
 }
 PIXEL_FORMAT;
 
+typedef struct _texture_piece
+{
+    uint32_t x;
+    uint32_t y;
+    SDL_Texture *texture;
+    struct _texture_piece *next;
+} TEXTURE_PIECE;
+
 typedef struct _bitmap
 {
     int code;               /* Identifier of the graphic (in the graphic library) */
@@ -96,6 +104,7 @@ typedef struct _bitmap
 
     void * data;            /* Pointer to the bitmap data at current frame */
     SDL_Texture *texture;   /* Pointer to the SDL Texture for this graph */
+    TEXTURE_PIECE *next_piece;
 
     uint32_t ncpoints;        /* Number of control points */
     CPOINT * cpoints;       /* Pointer to the control points ([0] = center) */
