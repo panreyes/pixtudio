@@ -1980,14 +1980,14 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
     if( scrbitmap && dest->code == scrbitmap->code ) {
         // Consider control points when drawing
         if ( gr->ncpoints && gr->cpoints[0].x != CPOINT_UNDEFINED ) {
-            rcenter.x = center.x = gr->cpoints[0].x ;
-            rcenter.y = center.y = gr->cpoints[0].y ;
+            rcenter.x = center.x = gr->cpoints[0].x * scalex/100. ;
+            rcenter.y = center.y = gr->cpoints[0].y * scaley/100. ;
         } else {
-            rcenter.x = center.x = gr->width / 2.0;
-            rcenter.y = center.y = gr->height / 2.0;
+            rcenter.x = center.x = gr->width * scalex / 200.;
+            rcenter.y = center.y = gr->height * scaley / 200.;
         }
-        dstRect.x = scrx - (int)(center.x * scalex/100.);
-        dstRect.y = scry - (int)(center.y * scaley/100.);
+        dstRect.x = scrx - center.x;
+        dstRect.y = scry - center.y;
         dstRect.w = (int)(gr->width * scalex/100.);
         dstRect.h = (int)(gr->height * scaley/100.);
 
