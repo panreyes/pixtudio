@@ -50,6 +50,7 @@ GRAPH * icon = NULL ;
 SDL_Surface * screen = NULL ;
 SDL_Window * window = NULL;
 SDL_Renderer * renderer = NULL;
+SDL_RendererInfo renderer_info;
 
 char * apptitle = NULL ;
 
@@ -345,20 +346,27 @@ int gr_set_mode( int width, int height, int depth )
         window = SDL_CreateWindow(apptitle,
                                   SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                   surface_width, surface_height, sdl_flags);
-        if(window) {
-            sdl_flags = 0;
-            if (waitvsync) {
-                sdl_flags = SDL_RENDERER_PRESENTVSYNC;
-            }
-            renderer = SDL_CreateRenderer(window, -1, sdl_flags);
-            // Store the renderer resolution
-            SDL_GetRendererOutputSize(renderer, &renderer_width, &renderer_height);
+        if (!window) {
+            SDL_Log("Error creating window (%s)", SDL_GetError());
+            return -1;
         }
-        if (!window || !renderer) {
-            SDL_Log("Error creating window and/or renderer (%s)", SDL_GetError());
+
+        sdl_flags = 0;
+        if (waitvsync) {
+            sdl_flags = SDL_RENDERER_PRESENTVSYNC;
+        }
+        renderer = SDL_CreateRenderer(window, -1, sdl_flags);
+        if (!renderer) {
+            SDL_Log("Error creating renderer (%s)", SDL_GetError());
+            SDL_DestroyWindow(window);
             return -1;
         }
     }
+
+    // Store the renderer info too
+    SDL_GetRendererInfo(renderer, &renderer_info);
+    // Store the renderer resolution
+    SDL_GetRendererOutputSize(renderer, &renderer_width, &renderer_height);
     
     // Clear the screen
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
