@@ -182,7 +182,7 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
     int nx, ny, i, j ;
     int _w, _h ;
     Uint32 format ;
-    TEXTURE_PIECE * next;
+    TEXTURE_PIECE * next = NULL;
 
     if ( w < 1 || h < 1 ) return NULL;
 
@@ -225,15 +225,15 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
         }
         gr->next_piece = NULL;
     } else {
-        nx = (int)(w/renderer_info.max_texture_width) + 1;
-        ny = (int)(h/renderer_info.max_texture_height) + 1;
+        nx = (int)(w/renderer_info.max_texture_width)+1;
+        ny = (int)(h/renderer_info.max_texture_height)+1;
 
         // The first one will always have the maximum size
         gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC,
                                         renderer_info.max_texture_width,
                                         renderer_info.max_texture_height);
 
-        next = gr->next_piece;
+        next = gr->next_piece = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
 
         for(j=0; j<ny; j++) {
             for(i=0; i<nx; i++) {
@@ -246,12 +246,16 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
 
                 SDL_Log("Creating piece %dx%d", i, j);
 
-                next = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
                 next->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, _w, _h);
                 next->x = renderer_info.max_texture_width * i;
                 next->y = renderer_info.max_texture_height * j;
 
-                next = (i < nx && j < ny) ? next->next : NULL;
+                if(i < nx && j < ny) {
+                    next->next = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
+                    next = next->next;
+                } else {
+                    next->next = NULL;
+                }
             }
         }
     }
