@@ -2609,6 +2609,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
     SDL_Rect clipRect;
     SDL_RendererFlip flip;
     SDL_BlendMode mode;
+    TEXTURE_PIECE *piece;
     Uint8 alpha;
     int     x, y, s, t, p, l;
     void *  tex;
@@ -2635,11 +2636,6 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             center.x = gr->width / 2.0;
             center.y = gr->height / 2.0;
         }
-
-        dstRect.x = scrx-center.x;
-        dstRect.y = scry-center.y;
-        dstRect.w = gr->width;
-        dstRect.h = gr->height;
 
         if (clip) {
             clipRect.x = clip->x;
@@ -2686,7 +2682,18 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         SDL_SetTextureBlendMode(gr->texture, mode);
         SDL_RenderSetClipRect(renderer, &clipRect);
 
+        dstRect.x = scrx-center.x;
+        dstRect.y = scry-center.y;
+        SDL_QueryTexture(gr->texture, NULL, NULL, &dstRect.w, &dstRect.h);
         SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, 0., NULL, flip);
+        piece = gr->next_piece;
+        while(piece) {
+            dstRect.x = scrx - center.x + piece->x;
+            dstRect.y = scry - center.y + piece->y;
+            SDL_QueryTexture(piece->texture, NULL, NULL, &dstRect.w, &dstRect.h);
+            SDL_RenderCopyEx(renderer, piece->texture, NULL, &dstRect, 0., NULL, flip);
+            piece = piece->next;
+        }
     } else {
         /* Calculate the clipping coordinates */
         if ( clip )

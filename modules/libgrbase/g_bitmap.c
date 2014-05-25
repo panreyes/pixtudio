@@ -182,7 +182,7 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
     int nx, ny, i, j ;
     int _w, _h ;
     Uint32 format ;
-    TEXTURE_PIECE * next = NULL;
+    TEXTURE_PIECE * piece = NULL;
 
     if ( w < 1 || h < 1 ) return NULL;
 
@@ -214,7 +214,7 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
 
     // Create the graph's texture, but handle the case where the GRAPH is bigger
     // than the limit allowed by the graphics card
-    if(w <= renderer_info.max_texture_height && h <= renderer_info.max_texture_height) {
+    if(w <= renderer_info.max_texture_width || h <= renderer_info.max_texture_height) {
         gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, w, h) ;
         if (! gr->texture)
         {
@@ -225,7 +225,7 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
         }
         gr->next_piece = NULL;
     } else {
-        nx = (int)(w/renderer_info.max_texture_width)+1;
+        nx = (int)(w/renderer_info.max_texture_width)+1;   // renderer_info.max_texture_width;
         ny = (int)(h/renderer_info.max_texture_height)+1;
 
         // The first one will always have the maximum size
@@ -233,7 +233,7 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
                                         renderer_info.max_texture_width,
                                         renderer_info.max_texture_height);
 
-        next = gr->next_piece = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
+        piece = gr->next_piece = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
 
         for(j=0; j<ny; j++) {
             for(i=0; i<nx; i++) {
@@ -246,18 +246,13 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
 
                 SDL_Log("Creating piece %dx%d", i, j);
 
-                next->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, _w, _h);
-                next->x = renderer_info.max_texture_width * i;
-                next->y = renderer_info.max_texture_height * j;
+                piece->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, _w, _h);
 
-                if(i < nx && j < ny) {
-                    next->next = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
-                    next = next->next;
-                } else {
-                    next->next = NULL;
-                }
+                piece->next = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
+                piece = piece->next;
             }
         }
+        piece->next = NULL;
     }
 
     gr->width = w ;
