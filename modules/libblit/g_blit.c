@@ -2690,8 +2690,10 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         while(piece) {
             dstRect.x = scrx - center.x + piece->x;
             dstRect.y = scry - center.y + piece->y;
-            SDL_QueryTexture(piece->texture, NULL, NULL, &dstRect.w, &dstRect.h);
-            SDL_RenderCopyEx(renderer, piece->texture, NULL, &dstRect, 0., NULL, flip);
+            if(piece->texture) {
+                SDL_QueryTexture(piece->texture, NULL, NULL, &dstRect.w, &dstRect.h);
+                SDL_RenderCopyEx(renderer, piece->texture, NULL, &dstRect, 0., NULL, flip);
+            }
             piece = piece->next;
         }
     } else {

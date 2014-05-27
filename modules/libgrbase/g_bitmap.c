@@ -179,7 +179,7 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
 {
     GRAPH * gr ;
     int bytesPerRow, wb ;
-    int nx, ny, i, j ;
+    int nx, ny, i, j, i_0;
     int _w, _h ;
     Uint32 format ;
     TEXTURE_PIECE * piece = NULL;
@@ -214,7 +214,7 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
 
     // Create the graph's texture, but handle the case where the GRAPH is bigger
     // than the limit allowed by the graphics card
-    if(w <= renderer_info.max_texture_width || h <= renderer_info.max_texture_height) {
+    if(w <= renderer_info.max_texture_width && h <= renderer_info.max_texture_height) {
         gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, w, h) ;
         if (! gr->texture)
         {
@@ -234,23 +234,32 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
                                         renderer_info.max_texture_height);
 
         piece = gr->next_piece = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
+        piece->x = piece->y = 0;
+
+        i_0 = 1;
 
         for(j=0; j<ny; j++) {
-            for(i=0; i<nx; i++) {
+            for(i=i_0; i<nx; i++) {
                 _w = renderer_info.max_texture_width * (i+1) > w ?
                             w-(renderer_info.max_texture_width * i) :
                             renderer_info.max_texture_width;
                 _h = renderer_info.max_texture_height * (j+1) > h ?
-                            h-(renderer_info.max_texture_height * i) :
+                            h-(renderer_info.max_texture_height * j) :
                             renderer_info.max_texture_height;
 
-                SDL_Log("Creating piece %dx%d", i, j);
-
                 piece->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, _w, _h);
+                if(! piece->texture) {
+                    SDL_Log("Could not create big map texture piece %dx%d (%s)", i, j, SDL_GetError());
+                }
 
                 piece->next = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
+                piece->next->x = piece->x + renderer_info.max_texture_width;
+                piece->next->y = piece->y;
                 piece = piece->next;
             }
+            piece->x  = 0;
+            piece->y += renderer_info.max_texture_height;
+            i_0 = 0;
         }
         piece->next = NULL;
     }
@@ -377,6 +386,9 @@ void bitmap_set_cpoint( GRAPH * map, uint32_t point, int x, int y )
 
 void bitmap_destroy( GRAPH * map )
 {
+    TEXTURE_PIECE * old_piece;
+    TEXTURE_PIECE * piece;
+
     if ( !map ) return ;
 
     if ( map->cpoints ) free( map->cpoints ) ;
@@ -384,7 +396,16 @@ void bitmap_destroy( GRAPH * map )
     if ( map->code > 999 ) bit_clr( map_code_bmp, map->code - 1000 );
 
     if ( map->data && !( map->info_flags & GI_EXTERNAL_DATA ) ) free( map->data ) ;
-    if ( map->texture && !( map->info_flags & GI_EXTERNAL_DATA ) ) SDL_DestroyTexture( map->texture ) ;
+    if ( map->texture && !( map->info_flags & GI_EXTERNAL_DATA ) ) {
+        SDL_DestroyTexture( map->texture ) ;
+        piece = map->next_piece;
+        while(piece) {
+            SDL_DestroyTexture(piece->texture);
+            old_piece = piece;
+            piece = piece->next;
+            free(old_piece);
+        }
+    }
 
     if ( map->format )
     {

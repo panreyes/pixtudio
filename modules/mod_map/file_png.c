@@ -32,6 +32,7 @@
 #include <strings.h>
 
 #include "mod_map.h"
+#include "g_bitmap.h"
 
 /* --------------------------------------------------------------------------- */
 
@@ -59,6 +60,8 @@ GRAPH * gr_read_png( const char * filename )
     png_infop info_ptr, end_info ;
     png_uint_32 width, height, rowbytes;
     int depth, color, num_text;
+
+    TEXTURE_PIECE * piece = NULL;
 
     /* Abre el fichero y se asegura de que screen está inicializada */
 
@@ -379,7 +382,51 @@ GRAPH * gr_read_png( const char * filename )
     if ( !setjmp( png_jmpbuf( png_ptr ) ) )
         png_read_end( png_ptr, 0 ) ;
 
-    SDL_UpdateTexture(bitmap->texture, NULL, bitmap->data, bitmap->pitch);
+    int nx = 0, ny = 0;
+    int _w = 0, _h = 0;
+    int i = 0, j=0, i_0=0;
+    GRAPH * aux = NULL;
+    REGION clip ;
+
+    if(width > renderer_info.max_texture_width || height > renderer_info.max_texture_height) {
+        SDL_Log("Loading big PNG into pieces");
+
+        SDL_UpdateTexture(bitmap->texture, NULL, bitmap->data, bitmap->pitch);
+        nx = (int)(width/renderer_info.max_texture_width)+1;   // renderer_info.max_texture_width;
+        ny = (int)(height/renderer_info.max_texture_height)+1;
+
+        piece = bitmap->next_piece;
+        ptr = bitmap->data;
+
+        i_0 = 1;
+
+        for(j=0; j<ny; j++) {
+            for(i=i_0; i<nx; i++) {
+                _w = renderer_info.max_texture_width * (i+1) > width ?
+                            width-(renderer_info.max_texture_width * i) :
+                            renderer_info.max_texture_width;
+                _h = renderer_info.max_texture_height * (j+1) > height ?
+                            height-(renderer_info.max_texture_height * j) :
+                            renderer_info.max_texture_height;
+
+                SDL_Log("Loading piece %dx%d", i, j);
+
+                aux = bitmap_new(-1, _w, _h, depth);
+                clip.x = 0;
+                clip.y = 0;
+                clip.x2 = _w;
+                clip.y2 = _h;
+                gr_blit(aux, &clip, 0, 0, 0, bitmap);
+                SDL_UpdateTexture(piece->texture, NULL, aux->data, aux->pitch);
+                bitmap_destroy(aux);
+
+                piece = piece->next;
+            }
+            i_0 = 0;
+        }
+    } else {
+        SDL_UpdateTexture(bitmap->texture, NULL, bitmap->data, bitmap->pitch);
+    }
     bitmap->modified = 1 ;
 
     png_destroy_read_struct( &png_ptr, &info_ptr, &end_info ) ;

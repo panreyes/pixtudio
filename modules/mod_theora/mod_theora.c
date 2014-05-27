@@ -1,6 +1,6 @@
 /*  Theora module for BennuGD
  *
- *  Originally written by Joseba GarcÃ­a Etxebarria <joseba.gar@gmail.com>
+ *  Originally written by Joseba Garci­a Etxebarria <joseba.gar@gmail.com>
  *  based on the simplesdl.c example included with theoraplay
  *
  *  This software is provided 'as-is', without any express or implied
@@ -207,7 +207,7 @@ void refresh_video()
             if (!warned)
             {
                 warned = 1;
-                fprintf(stderr, "WARNING: Playback can't keep up!\n");
+                SDL_Log("WARNING: Video playback can't keep up, skipping frames!\n");
             } // if
         } // if        
         else

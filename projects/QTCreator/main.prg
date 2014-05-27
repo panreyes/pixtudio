@@ -9,8 +9,8 @@ import "mod_proc"
 import "mod_file"
 
 GLOBAL
-int width = 640;
-int height = 480;
+int width = 1024;
+int height = 768;
 End;
 
 Process bouncer(graph, x, y, vx, vy)
@@ -45,7 +45,7 @@ Begin
     //end
     //say("EOF");
     fclose(fd);
-    graph = load_png("logo.png");
+    graph = load_png("bigimage.png");
     bouncer(graph, width/2, height/2, -3*vx, -3*vy);
     img = load_png("image.png");
     put(0, img, width/2, height/2);
@@ -54,7 +54,7 @@ Begin
     x = width/2; y = width/2;
     define_region(1, 0, 0, width/2, height/2);
     while(! key(_esc))
-        if(x+10 > width || x-10 < 0)
+        /*if(x+10 > width || x-10 < 0)
             vx = -vx;
         end
         if(y+10 > height || y-10 < 0)
@@ -83,6 +83,19 @@ Begin
 
         if(key(_z))
             alpha -= 1;
+        end*/
+
+        if(key(_left))
+            x -= 100;
+        end
+        if(key(_right))
+            x += 100;
+        end
+        if(key(_up))
+            y -= 100;
+        end
+        if(key(_down))
+            y += 100;
         end
 
         if(key(_space))
@@ -90,8 +103,8 @@ Begin
             say("Saved as shot.png");
         end
 
-        x += vx;
-        y += vy;
+        /*x += vx;
+        y += vy;*/
 
         FRAME;
     end
