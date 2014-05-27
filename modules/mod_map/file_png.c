@@ -385,6 +385,7 @@ GRAPH * gr_read_png( const char * filename )
     int nx = 0, ny = 0;
     int _w = 0, _h = 0;
     int i = 0, j=0, i_0=0;
+    int centerx = 0, centery = 0;
     GRAPH * aux = NULL;
     REGION clip ;
 
@@ -392,7 +393,7 @@ GRAPH * gr_read_png( const char * filename )
         SDL_Log("Loading big PNG into pieces");
 
         SDL_UpdateTexture(bitmap->texture, NULL, bitmap->data, bitmap->pitch);
-        nx = (int)(width/renderer_info.max_texture_width)+1;   // renderer_info.max_texture_width;
+        nx = (int)(width/renderer_info.max_texture_width)+1;
         ny = (int)(height/renderer_info.max_texture_height)+1;
 
         piece = bitmap->next_piece;
@@ -409,14 +410,23 @@ GRAPH * gr_read_png( const char * filename )
                             height-(renderer_info.max_texture_height * j) :
                             renderer_info.max_texture_height;
 
-                SDL_Log("Loading piece %dx%d", i, j);
-
                 aux = bitmap_new(-1, _w, _h, depth);
                 clip.x = 0;
                 clip.y = 0;
                 clip.x2 = _w;
                 clip.y2 = _h;
-                gr_blit(aux, &clip, 0, 0, 0, bitmap);
+                if ( bitmap->ncpoints > 0 && bitmap->cpoints[0].x != CPOINT_UNDEFINED )
+                {
+                    centerx = bitmap->cpoints[0].x ;
+                    centery = bitmap->cpoints[0].y ;
+                }
+                else
+                {
+                    centerx = bitmap->width / 2 ;
+                    centery = bitmap->height / 2 ;
+                }
+                gr_blit(aux, &clip, 0, centerx-i*renderer_info.max_texture_width,
+                        centery-j*renderer_info.max_texture_height, bitmap);
                 SDL_UpdateTexture(piece->texture, NULL, aux->data, aux->pitch);
                 bitmap_destroy(aux);
 
