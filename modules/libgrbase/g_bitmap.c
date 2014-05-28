@@ -233,13 +233,21 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
                                         renderer_info.max_texture_width,
                                         renderer_info.max_texture_height);
 
-        piece = gr->next_piece = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
-        piece->x = piece->y = 0;
-
         i_0 = 1;
 
         for(j=0; j<ny; j++) {
             for(i=i_0; i<nx; i++) {
+                if(piece == NULL) {
+                    piece = gr->next_piece = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
+                    piece->x = renderer_info.max_texture_width;
+                    piece->x = 0;
+                    piece->y = 0;
+                } else {
+                    piece->next = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
+                    piece->next->x = i * renderer_info.max_texture_width;
+                    piece->next->y = j * renderer_info.max_texture_height;
+                    piece = piece->next;
+                }
                 _w = renderer_info.max_texture_width * (i+1) > w ?
                             w-(renderer_info.max_texture_width * i) :
                             renderer_info.max_texture_width;
@@ -248,17 +256,7 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
                             renderer_info.max_texture_height;
 
                 piece->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, _w, _h);
-                if(! piece->texture) {
-                    SDL_Log("Could not create big map texture piece %dx%d (%s)", i, j, SDL_GetError());
-                }
-
-                piece->next = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
-                piece->next->x = piece->x + renderer_info.max_texture_width;
-                piece->next->y = piece->y;
-                piece = piece->next;
             }
-            piece->x  = 0;
-            piece->y += renderer_info.max_texture_height;
             i_0 = 0;
         }
         piece->next = NULL;

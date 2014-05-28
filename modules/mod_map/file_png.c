@@ -392,7 +392,9 @@ GRAPH * gr_read_png( const char * filename )
     if(width > renderer_info.max_texture_width || height > renderer_info.max_texture_height) {
         SDL_Log("Loading big PNG into pieces");
 
-        SDL_UpdateTexture(bitmap->texture, NULL, bitmap->data, bitmap->pitch);
+        if(SDL_UpdateTexture(bitmap->texture, NULL, bitmap->data, bitmap->pitch) != 0) {
+            SDL_Log("Error updating main part of texture: %s", SDL_GetError());
+        }
         nx = (int)(width/renderer_info.max_texture_width)+1;
         ny = (int)(height/renderer_info.max_texture_height)+1;
 
@@ -404,13 +406,14 @@ GRAPH * gr_read_png( const char * filename )
         for(j=0; j<ny; j++) {
             for(i=i_0; i<nx; i++) {
                 _w = renderer_info.max_texture_width * (i+1) > width ?
-                            width-(renderer_info.max_texture_width * i) :
+                            width-(i * renderer_info.max_texture_width) :
                             renderer_info.max_texture_width;
                 _h = renderer_info.max_texture_height * (j+1) > height ?
-                            height-(renderer_info.max_texture_height * j) :
+                            height-(j * renderer_info.max_texture_height) :
                             renderer_info.max_texture_height;
 
-                aux = bitmap_new(-1, _w, _h, depth);
+                aux = bitmap_new(-2, _w, _h, 32);
+
                 clip.x = 0;
                 clip.y = 0;
                 clip.x2 = _w;
@@ -425,8 +428,8 @@ GRAPH * gr_read_png( const char * filename )
                     centerx = bitmap->width / 2 ;
                     centery = bitmap->height / 2 ;
                 }
-                gr_blit(aux, &clip, 0, centerx-i*renderer_info.max_texture_width,
-                        centery-j*renderer_info.max_texture_height, bitmap);
+                gr_blit(aux, &clip, centerx-i*renderer_info.max_texture_width,
+                        centery-j*renderer_info.max_texture_height, B_TRANSLUCENT, bitmap);
                 SDL_UpdateTexture(piece->texture, NULL, aux->data, aux->pitch);
                 bitmap_destroy(aux);
 

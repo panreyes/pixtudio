@@ -7,6 +7,7 @@ import "mod_screen"
 import "mod_text"
 import "mod_proc"
 import "mod_file"
+import "mod_mouse"
 
 GLOBAL
 int width = 1024;
@@ -15,6 +16,7 @@ End;
 
 Process bouncer(graph, x, y, vx, vy)
 Begin
+    return;
     region = 1;
     loop
         if(x + graphic_info(0, graph, G_WIDTH)/2 > width || x - graphic_info(0, graph, G_WIDTH)/2 < 0)
@@ -97,6 +99,9 @@ Begin
         if(key(_down))
             y += 100;
         end
+
+        x = mouse.x;
+        y = mouse.y;
 
         if(key(_space))
             save_png(0, get_screen(), "shot.png");
