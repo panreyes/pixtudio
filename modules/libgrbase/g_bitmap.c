@@ -229,9 +229,9 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
         ny = (int)(h/renderer_info.max_texture_height)+1;
 
         // The first one will always have the maximum size
-        gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC,
-                                        renderer_info.max_texture_width,
-                                        renderer_info.max_texture_height);
+        _w = MIN(renderer_info.max_texture_width, w);
+        _h = MIN(renderer_info.max_texture_height, h);
+        gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, _w, _h);
 
         i_0 = 1;
 
@@ -240,7 +240,6 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
                 if(piece == NULL) {
                     piece = gr->next_piece = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
                     piece->x = renderer_info.max_texture_width;
-                    piece->x = 0;
                     piece->y = 0;
                 } else {
                     piece->next = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));

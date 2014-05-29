@@ -2692,13 +2692,11 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             dstRect.y = scry - center.y + piece->y;
             if(piece->texture) {
                 SDL_QueryTexture(piece->texture, NULL, NULL, &dstRect.w, &dstRect.h);
-                SDL_Log("%dx%d (%dx%d)", dstRect.x, dstRect.y, dstRect.w, dstRect.h);
                 SDL_RenderCopyEx(renderer, piece->texture, NULL, &dstRect, 0., NULL, 0);
             }
             piece = piece->next;
         }
     } else {
-        SDL_Log("Software blitting bitmap with code %d to %d (%dx%d->%dx%d)", gr->code, dest->code, gr->width, gr->height, dest->width, dest->height);
         /* Calculate the clipping coordinates */
         if ( clip )
         {
@@ -3129,8 +3127,6 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
 
         // Update the texture
         SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
-
-        SDL_Log("Done updating GRAPH");
     }
 
     dest->info_flags &= ~GI_CLEAN;

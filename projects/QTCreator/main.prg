@@ -1,120 +1,61 @@
-import "mod_video"
-import "mod_key"
-import "mod_map"
-import "mod_draw"
+// import modules
 import "mod_say"
-import "mod_screen"
-import "mod_text"
 import "mod_proc"
-import "mod_file"
-import "mod_mouse"
+import "mod_grproc"
+import "mod_map"
+import "mod_text"
+import "mod_key"
+import "mod_video"
+import "mod_screen"
+import "mod_draw"
+import "mod_scroll"
+
+
 
 GLOBAL
-int width = 1024;
-int height = 768;
-End;
 
-Process bouncer(graph, x, y, vx, vy)
-Begin
-    return;
-    region = 1;
-    loop
-        if(x + graphic_info(0, graph, G_WIDTH)/2 > width || x - graphic_info(0, graph, G_WIDTH)/2 < 0)
-            vx = -vx;
-        end
-        if(y + graphic_info(0, graph, G_HEIGHT)/2 > width || y - graphic_info(0, graph, G_HEIGHT)/2 < 0)
-            vy = -vy;
-        end
-        x += vx;
-        y += vy;
-        FRAME;
-    End
-End
+   int graphic;
+   int font;
+   int scroll_window;
 
-Process main()
-Private
-int vx = 2;
-int vy = 2;
-int img = 0;
-int font = 0;
-int fd = 0;
 
-Begin
-    set_mode(width, height, 32);
-    fd = fopen("main.prg", O_READ);
-    //while(!feof(fd))
-        //say(fgets(fd));
-    //end
-    //say("EOF");
-    fclose(fd);
-    graph = load_png("bigimage.png");
-    bouncer(graph, width/2, height/2, -3*vx, -3*vy);
-    img = load_png("image.png");
-    put(0, img, width/2, height/2);
+PROCESS int main();
+BEGIN
+
+    //set_mode(800,600,32);
+    set_fps(0, 0);
+
+    // load the PNG file with the graphics
+    graphic = load_png("longbg.png");
     font = load_fnt("font.fnt");
-    write(font, width/2, height/2, 4, "OLA, KE ASE?");
-    x = width/2; y = width/2;
-    define_region(1, 0, 0, width/2, height/2);
-    while(! key(_esc))
-        /*if(x+10 > width || x-10 < 0)
-            vx = -vx;
-        end
-        if(y+10 > height || y-10 < 0)
-            vy = -vy;
-        end
 
-        if(key(_right))
-            angle -= 5000;
-        end
+    // (standard version)
+    // int start_scroll (int scrollnumber,
+    //                   int file,
+    //                   int graph,
+    //                   int backgroundgraph,
+    //                   int regionnumber,
+    //                   int lockindicator);
 
+    // create an extended scroll, drawn on the "scroll_blit_graph".
+    scroll_window=start_scroll(0,0,graphic,0,0,3,);
+    write_var(font, 10, 10, 0, fps);
+
+    WHILE (NOT key(_esc))
+        if(key(_right) || mouse.left)
+            scroll[0].x0 += 30;
+        end
         if(key(_left))
-            angle += 5000;
+            scroll[0].x0 -= 30;
         end
-
-        if(key(_x))
-            size_x += 5;
-        end
-
-        if(key(_y))
-            size_y += 5;
-        end
-
-        if(key(_a))
-            alpha += 1;
-        end
-
-        if(key(_z))
-            alpha -= 1;
-        end*/
-
-        if(key(_left))
-            x -= 100;
-        end
-        if(key(_right))
-            x += 100;
-        end
-        if(key(_up))
-            y -= 100;
-        end
-        if(key(_down))
-            y += 100;
-        end
-
-        x = mouse.x;
-        y = mouse.y;
-
-        if(key(_space))
-            save_png(0, get_screen(), "shot.png");
-            say("Saved as shot.png");
-        end
-
-        /*x += vx;
-        y += vy;*/
-
         FRAME;
-    end
+    END
+
+    // stop scroll window.
+    stop_scroll(0);
+
+
+    // kill all processes, execpt the "main" process.
     let_me_alone();
-    unload_map(0, graph);
-    unload_map(0, img);
-    unload_fnt(font);
-End
+END
+

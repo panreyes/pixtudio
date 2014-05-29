@@ -392,9 +392,8 @@ GRAPH * gr_read_png( const char * filename )
     if(width > renderer_info.max_texture_width || height > renderer_info.max_texture_height) {
         SDL_Log("Loading big PNG into pieces");
 
-        if(SDL_UpdateTexture(bitmap->texture, NULL, bitmap->data, bitmap->pitch) != 0) {
-            SDL_Log("Error updating main part of texture: %s", SDL_GetError());
-        }
+        SDL_UpdateTexture(bitmap->texture, NULL, bitmap->data, bitmap->pitch);
+
         nx = (int)(width/renderer_info.max_texture_width)+1;
         ny = (int)(height/renderer_info.max_texture_height)+1;
 
@@ -429,7 +428,7 @@ GRAPH * gr_read_png( const char * filename )
                     centery = bitmap->height / 2 ;
                 }
                 gr_blit(aux, &clip, centerx-i*renderer_info.max_texture_width,
-                        centery-j*renderer_info.max_texture_height, B_TRANSLUCENT, bitmap);
+                        centery-j*renderer_info.max_texture_height, 0, bitmap);
                 SDL_UpdateTexture(piece->texture, NULL, aux->data, aux->pitch);
                 bitmap_destroy(aux);
 
