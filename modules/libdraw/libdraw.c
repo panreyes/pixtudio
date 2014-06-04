@@ -546,7 +546,7 @@ void draw_vline( GRAPH * dest, REGION * clip, int x, int y, int h )
 
     drawing_stipple = old_stipple;
 
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+    bitmap_update_texture(dest);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -684,7 +684,7 @@ void draw_hline( GRAPH * dest, REGION * clip, int x, int y, int w )
 
     drawing_stipple = old_stipple;
 
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+    bitmap_update_texture(dest);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -795,7 +795,7 @@ void draw_box( GRAPH * dest, REGION * clip, int x, int y, int w, int h )
         break;
     }
 
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+    bitmap_update_texture(dest);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -831,7 +831,7 @@ void draw_rectangle( GRAPH * dest, REGION * clip, int x, int y, int w, int h )
 
     drawing_stipple = stipple ;
 
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+    bitmap_update_texture(dest);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -931,7 +931,7 @@ void draw_circle( GRAPH * dest, REGION * clip, int x, int y, int r )
 
     drawing_stipple = old_stipple;
 
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+    bitmap_update_texture(dest);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -982,7 +982,7 @@ void draw_fcircle( GRAPH * dest, REGION * clip, int x, int y, int r )
 
     drawing_stipple = old_stipple;
 
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+    bitmap_update_texture(dest);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -1563,7 +1563,7 @@ void draw_line( GRAPH * dest, REGION * clip, int x, int y, int w, int h )
 
     drawing_stipple = old_stipple;
 
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+    bitmap_update_texture(dest);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -1645,7 +1645,7 @@ void draw_bezier( GRAPH * dest, REGION * clip, int x1, int y1, int x2, int y2, i
         yp = y;
     }
 
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+    bitmap_update_texture(dest);
 }
 
 /* --------------------------------------------------------------------------- */

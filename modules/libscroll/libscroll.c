@@ -428,7 +428,7 @@ void scroll_draw( int n, REGION * clipping )
             x = scrolls[n].region->x - scrolls[n].x1 ;
             while ( x < scrolls[n].region->x2 )
             {
-                gr_blit( dest, &r, x + cx, y + cy, data->flags2, back ) ;
+                gr_blit( dest, &r, x + cx, y + cy, data->flags2, back, 1 ) ;
                 x += back->width ;
             }
             y += back->height ;
@@ -454,7 +454,7 @@ void scroll_draw( int n, REGION * clipping )
         x = scrolls[n].region->x - scrolls[n].x0 ;
         while ( x < scrolls[n].region->x2 )
         {
-            gr_blit( dest, &r, x + cx, y + cy, data->flags1, graph ) ;
+            gr_blit( dest, &r, x + cx, y + cy, data->flags1, graph, 1 ) ;
             x += graph->width ;
         }
         y += graph->height ;

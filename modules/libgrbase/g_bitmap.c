@@ -311,9 +311,6 @@ GRAPH * bitmap_clone( GRAPH * map )
         }
     }
 
-    // Update the associated SDL_Texture
-    SDL_UpdateTexture(gr->texture, NULL, map->data, map->pitch);
-
     if ( map->cpoints )
     {
         gr->cpoints = malloc( sizeof( CPOINT ) * map->ncpoints ) ;
@@ -327,9 +324,72 @@ GRAPH * bitmap_clone( GRAPH * map )
     gr->format->palette = map->format->palette ;
     pal_use( map->format->palette );
 
-    memcpy( gr->name, map->name, sizeof( map->name ) ) ;
+    bitmap_update_texture(gr);
 
     return gr ;
+}
+
+/* --------------------------------------------------------------------------- */
+
+void bitmap_update_texture( GRAPH * map )
+{
+    int nx = 0, ny = 0;
+    int _w = 0, _h = 0;
+    int i = 0, j=0, i_0=0;
+    int centerx = 0, centery = 0;
+    GRAPH * aux = NULL;
+    TEXTURE_PIECE * piece = NULL;
+    REGION clip ;
+
+    if(map->width > renderer_info.max_texture_width || map->height > renderer_info.max_texture_height) {
+        SDL_Log("Loading big PNG into pieces");
+
+        SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch);
+
+        nx = (int)(map->width/renderer_info.max_texture_width)+1;
+        ny = (int)(map->height/renderer_info.max_texture_height)+1;
+
+        piece = map->next_piece;
+
+        i_0 = 1;
+
+        for(j=0; j<ny; j++) {
+            for(i=i_0; i<nx; i++) {
+                _w = renderer_info.max_texture_width * (i+1) > map->width ?
+                            map->width-(i * renderer_info.max_texture_width) :
+                            renderer_info.max_texture_width;
+                _h = renderer_info.max_texture_height * (j+1) > map->height ?
+                            map->height-(j * renderer_info.max_texture_height) :
+                            renderer_info.max_texture_height;
+
+                aux = bitmap_new(-2, _w, _h, 32);
+
+                clip.x = 0;
+                clip.y = 0;
+                clip.x2 = _w;
+                clip.y2 = _h;
+                if ( map->ncpoints > 0 && map->cpoints[0].x != CPOINT_UNDEFINED )
+                {
+                    centerx = map->cpoints[0].x ;
+                    centery = map->cpoints[0].y ;
+                }
+                else
+                {
+                    centerx = map->width / 2 ;
+                    centery = map->height / 2 ;
+                }
+                gr_blit(aux, &clip, centerx-i*renderer_info.max_texture_width,
+                        centery-j*renderer_info.max_texture_height, 0, map, 0);
+                SDL_UpdateTexture(piece->texture, NULL, aux->data, aux->pitch);
+                bitmap_destroy(aux);
+
+                piece = piece->next;
+            }
+            i_0 = 0;
+        }
+    } else {
+        SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch);
+    }
 }
 
 /* --------------------------------------------------------------------------- */

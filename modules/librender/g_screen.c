@@ -79,7 +79,7 @@ void gr_draw_screen( GRAPH * dest, int restore_type, int dump_type )
     if ( background->info_flags & GI_CLEAN )
         gr_clear( scrbitmap ) ;
     else
-        gr_blit( scrbitmap, NULL, 0, 0, B_NOCOLORKEY, background );
+        gr_blit( scrbitmap, NULL, 0, 0, B_NOCOLORKEY, background, 1 );
 
     updaterects_count = 1;
     updaterects[ 0 ].x = 0;

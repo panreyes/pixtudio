@@ -170,7 +170,7 @@ static int gr_read_lib( file * fp )
             }
         }
 
-        SDL_UpdateTexture(gr->texture, NULL, gr->data, gr->pitch);
+        bitmap_update_texture(gr);
         code = grlib_add_map( libid, gr ) ;
         if ( bpp == 8 ) pal_map_assign( libid, code, pal ) ;
     }

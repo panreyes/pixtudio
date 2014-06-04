@@ -51,7 +51,7 @@
 void gr_clear( GRAPH * dest )
 {
     memset( dest->data, 0, dest->pitch * dest->height ) ;
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+    bitmap_update_texture(dest);
 
     dest->modified = 1 ; /* Doesn't need analysis */
 
@@ -132,7 +132,7 @@ void gr_clear_as( GRAPH * dest, int color )
         }
     }
 
-    SDL_UpdateTexture(dest->texture, NULL, dest->data, dest->pitch);
+    bitmap_update_texture(dest);
 
     dest->modified = 1 ; /* Doesn't need analysis */
     if ( dest->format->depth != 32 || ( color & 0xff000000 ) == 0xff000000 )

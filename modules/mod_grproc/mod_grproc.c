@@ -431,7 +431,7 @@ static void draw_at( GRAPH * dest, int x, int y, REGION * r, INSTANCE * i )
     {
         if ( LOCDWORD( mod_grproc, i, XGRAPH ) && scalex == 100 && scaley == 100 )
         {
-            gr_blit( dest, r, x, y, LOCDWORD( mod_grproc, i, FLAGS ) & ( B_HMIRROR | B_VMIRROR ), map ) ;
+            gr_blit( dest, r, x, y, LOCDWORD( mod_grproc, i, FLAGS ) & ( B_HMIRROR | B_VMIRROR ), map, 1 ) ;
         }
         else
         {
@@ -447,7 +447,7 @@ static void draw_at( GRAPH * dest, int x, int y, REGION * r, INSTANCE * i )
     }
     else
     {
-        gr_blit( dest, r, x, y, LOCDWORD( mod_grproc, i, FLAGS ) & ( B_HMIRROR | B_VMIRROR ), map ) ;
+        gr_blit( dest, r, x, y, LOCDWORD( mod_grproc, i, FLAGS ) & ( B_HMIRROR | B_VMIRROR ), map, 1 ) ;
     }
 }
 

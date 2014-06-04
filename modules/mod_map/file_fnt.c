@@ -236,7 +236,7 @@ static int gr_font_loadfrom( file * fp )
             }
         }
 
-        SDL_UpdateTexture(gr->texture, NULL, gr->data, gr->pitch);
+        bitmap_update_texture(gr);
 
         f->glyph[i].yoffset = chardata[i].yoffset ;
     }

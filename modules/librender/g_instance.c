@@ -181,7 +181,7 @@ void draw_instance_at( INSTANCE * i, REGION * region, int x, int y, GRAPH * dest
     }
     else
     {
-        gr_blit( dest, region, x, y, flags, map ) ;
+        gr_blit( dest, region, x, y, flags, map, 1 ) ;
     }
 
     if ( paletteid ) map->format->palette = palette;
@@ -258,7 +258,7 @@ void draw_instance( INSTANCE * i, REGION * clip )
     if ( scalex != 100 || scaley != 100 || ( LOCINT32( librender, i, ANGLE ) && !LOCDWORD( librender, i, XGRAPH ) ) )
         gr_rotated_blit( 0, &region, x, y, flags, LOCDWORD( librender, i, XGRAPH ) ? 0 : LOCINT32( librender, i, ANGLE ), scalex, scaley, map ) ;
     else
-        gr_blit( 0, &region, x, y, flags, map ) ;
+        gr_blit( 0, &region, x, y, flags, map, 1 ) ;
 
     if ( paletteid ) map->format->palette = palette;
     if ( blendop ) map->blend_table = blend_table;

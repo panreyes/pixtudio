@@ -167,7 +167,7 @@ GRAPH * gr_read_pcx( const char * filename )
         return NULL;
     }
 
-    SDL_UpdateTexture(bitmap->texture, NULL, bitmap->data, bitmap->pitch);
+    bitmap_update_texture(bitmap);
 
     bitmap->modified = 0 ;
     bitmap_analyze( bitmap );

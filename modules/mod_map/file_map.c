@@ -134,7 +134,7 @@ static GRAPH * gr_read_map( file * fp )
     gr->format->palette = pal;
 /*    pal_use( pal ); */
 
-    SDL_UpdateTexture(gr->texture, NULL, gr->data, gr->pitch);
+    bitmap_update_texture(gr);
 
     gr->modified = 0 ;
     bitmap_analyze( gr );

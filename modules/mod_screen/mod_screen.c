@@ -140,7 +140,7 @@ static int modscreen_put( INSTANCE * my, int * params )
 
     if ( !map ) return 0 ;
 
-    gr_blit( background, 0, params[2], params[3], 0, map ) ;
+    gr_blit( background, 0, params[2], params[3], 0, map, 1 ) ;
 
     return 1 ;
 }
@@ -157,7 +157,7 @@ static int modscreen_xput( INSTANCE * my, int * params )
     if ( r < 0 || r > 31 ) return 0 ;
 
     if ( params[4] == 0 && params[5] == 100 )
-        gr_blit( background, &regions[r], params[2], params[3], params[6], map ) ;
+        gr_blit( background, &regions[r], params[2], params[3], params[6], map, 1 ) ;
     else
         gr_rotated_blit( background, &regions[r], params[2], params[3], params[6], params[4], params[5], params[5], map ) ;
 
@@ -183,7 +183,7 @@ static int modscreen_put_screen( INSTANCE * my, int * params )
     }
 
     gr_clear( background ) ;
-    gr_blit( background, 0, x, y, B_NOCOLORKEY, map ) ;
+    gr_blit( background, 0, x, y, B_NOCOLORKEY, map, 1 ) ;
 
     return 1 ;
 }

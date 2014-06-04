@@ -125,6 +125,7 @@ GRAPH;
 extern GRAPH * bitmap_new( int code, int w, int h, int depth );
 extern GRAPH * bitmap_new_ex( int code, int w, int h, int depth, void * data, int pitch );
 extern GRAPH * bitmap_clone( GRAPH * t );
+extern void bitmap_update_texture( GRAPH * map );
 extern GRAPH * bitmap_new_syslib( int w, int h, int depth );
 extern void bitmap_destroy( GRAPH * map );
 extern void bitmap_destroy_fake( GRAPH * map );
