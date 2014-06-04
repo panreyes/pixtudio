@@ -22,7 +22,7 @@ GLOBAL
 PROCESS int main();
 BEGIN
 
-    //set_mode(800,600,32);
+    set_mode(800,600,32);
     set_fps(0, 0);
 
     // load the PNG file with the graphics
@@ -48,6 +48,7 @@ BEGIN
         if(key(_left))
             scroll[0].x0 -= 30;
         end
+        scroll[0].x0 += 30;
         FRAME;
     END
 
