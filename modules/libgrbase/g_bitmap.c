@@ -342,8 +342,6 @@ void bitmap_update_texture( GRAPH * map )
     REGION clip ;
 
     if(map->width > renderer_info.max_texture_width || map->height > renderer_info.max_texture_height) {
-        SDL_Log("Loading big PNG into pieces");
-
         SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch);
 
         nx = (int)(map->width/renderer_info.max_texture_width)+1;
