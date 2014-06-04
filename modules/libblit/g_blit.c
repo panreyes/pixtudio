@@ -2628,7 +2628,6 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
     // When drawing to screen, use SDL_Render directly, otherwise use homegrown
     // software solution
     if( scrbitmap && dest == scrbitmap ) {
-//    if( scrbitmap && dest->code == scrbitmap->code ) {
         // Consider control points when drawing
         if ( gr->ncpoints && gr->cpoints[0].x != CPOINT_UNDEFINED ) {
             center.x = gr->cpoints[0].x ;
