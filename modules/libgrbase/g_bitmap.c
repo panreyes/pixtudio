@@ -34,6 +34,7 @@
 #include "libgrbase.h"
 #include "bitwise_map.h"
 #include "g_video.h"
+#include "g_blit.h"
 
 #include <SDL_render.h>
 
@@ -216,8 +217,7 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
     // than the limit allowed by the graphics card
     if(w <= renderer_info.max_texture_width && h <= renderer_info.max_texture_height) {
         gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, w, h) ;
-        if (! gr->texture)
-        {
+        if (! gr->texture) {
             if ( gr->data ) free( gr->data ) ;
             free( gr ) ;
             SDL_Log("bitmap_new: Could not create GRAPH texture (%s)", SDL_GetError());
@@ -232,6 +232,12 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
         _w = MIN(renderer_info.max_texture_width, w);
         _h = MIN(renderer_info.max_texture_height, h);
         gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, _w, _h);
+        if(! gr->texture) {
+            if ( gr->data ) free( gr->data ) ;
+            free( gr ) ;
+            SDL_Log("bitmap_new: Could not create GRAPH texture (%s)", SDL_GetError());
+            return NULL;
+        }
 
         i_0 = 1;
 
@@ -239,10 +245,16 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
             for(i=i_0; i<nx; i++) {
                 if(piece == NULL) {
                     piece = gr->next_piece = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
-                    piece->x = renderer_info.max_texture_width;
-                    piece->y = 0;
+                    if(!piece) {
+                        SDL_Log("bitmap_new: Could not create texture piece");
+                    }
+                    piece->x = _w*i;
+                    piece->y = _h*j;
                 } else {
                     piece->next = ( TEXTURE_PIECE * ) malloc(sizeof( TEXTURE_PIECE ));
+                    if(!piece) {
+                        SDL_Log("bitmap_new: Could not create texture piece");
+                    }
                     piece->next->x = i * renderer_info.max_texture_width;
                     piece->next->y = j * renderer_info.max_texture_height;
                     piece = piece->next;
@@ -255,6 +267,9 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
                             renderer_info.max_texture_height;
 
                 piece->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC, _w, _h);
+                if(! piece->texture) {
+                    SDL_Log("bitmap_new: Could not create GRAPH texture (%s)", SDL_GetError());
+                }
             }
             i_0 = 0;
         }
@@ -341,9 +356,9 @@ void bitmap_update_texture( GRAPH * map )
     TEXTURE_PIECE * piece = NULL;
     REGION clip ;
 
-    if(map->width > renderer_info.max_texture_width || map->height > renderer_info.max_texture_height) {
-        SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch);
+    SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch);
 
+    if(map->width > renderer_info.max_texture_width || map->height > renderer_info.max_texture_height) {
         nx = (int)(map->width/renderer_info.max_texture_width)+1;
         ny = (int)(map->height/renderer_info.max_texture_height)+1;
 
@@ -385,8 +400,6 @@ void bitmap_update_texture( GRAPH * map )
             }
             i_0 = 0;
         }
-    } else {
-        SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch);
     }
 }
 
