@@ -392,7 +392,7 @@ void bitmap_update_texture( GRAPH * map )
                     centery = map->height / 2 ;
                 }
                 gr_blit(aux, &clip, centerx-i*renderer_info.max_texture_width,
-                        centery-j*renderer_info.max_texture_height, 0, map, 0);
+                        centery-j*renderer_info.max_texture_height, B_NOCOLORKEY, map, 0);
                 SDL_UpdateTexture(piece->texture, NULL, aux->data, aux->pitch);
                 bitmap_destroy(aux);
 

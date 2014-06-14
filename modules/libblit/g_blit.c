@@ -2692,6 +2692,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             dstRect.y = scry - center.y + piece->y;
             if(piece->texture) {
                 SDL_QueryTexture(piece->texture, NULL, NULL, &dstRect.w, &dstRect.h);
+                SDL_SetTextureBlendMode(piece->texture, mode);
                 SDL_RenderCopyEx(renderer, piece->texture, NULL, &dstRect, 0., NULL, 0);
             }
             piece = piece->next;
