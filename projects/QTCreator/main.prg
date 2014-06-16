@@ -16,8 +16,8 @@ GLOBAL
 
    int graphic;
    int font;
-   int fpg;
    int scroll_window;
+   int scroll_window2;
 
 
 PROCESS int main();
@@ -27,9 +27,8 @@ BEGIN
     set_fps(0, 0);
 
     // load the PNG file with the graphics
-    graphic = load_png("longbg_y.png");
+    graphic = load_png("longbg_x.png");
     font = load_fnt("font.fnt");
-    fpg = load_fpg("platforms.fpg");
 
     // (standard version)
     // int start_scroll (int scrollnumber,
@@ -40,17 +39,19 @@ BEGIN
     //                   int lockindicator);
 
     // create an extended scroll, drawn on the "scroll_blit_graph".
-    scroll_window=start_scroll(0,0,graphic,0,0,3,);
+    scroll_window=start_scroll(0,0,graphic,0,0,3);
+    scroll_window2=start_scroll(1,0,graphic,0,0,3);
     write_var(font, 10, 10, 0, fps);
 
     WHILE (NOT key(_esc))
         if(key(_right) || mouse.left)
-            scroll[0].y0 += 30;
+            scroll[0].x0 += 30;
         end
         if(key(_left))
-            scroll[0].y0 -= 30;
+            scroll[0].x0 -= 30;
         end
-        scroll[0].y0 += 30;
+        scroll[0].x0 += 30;
+        scroll[1].x0 -= 15;
         FRAME;
     END
 
