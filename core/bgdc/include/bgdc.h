@@ -51,7 +51,7 @@
 #define exit( retval ) printf("\nQUITTING in 5 seconds.\n"); sleep(5); exit(retval);
 #endif
 
-#ifdef TARGET_MAC
+#ifdef __APPLE__
 #define _printf(...) printf(__VA_ARGS__)
 #endif
 

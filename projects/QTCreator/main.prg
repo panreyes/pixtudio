@@ -24,7 +24,7 @@ PROCESS int main();
 BEGIN
 
     set_mode(800,600,32);
-    set_fps(0, 0);
+    set_fps(30, 0);
 
     // load the PNG file with the graphics
     graphic = load_png("longbg_x.png");

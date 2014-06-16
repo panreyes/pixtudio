@@ -365,12 +365,12 @@ void compile_warning( int notoken, const char *fmt, ... )
 {
     char text[4000] ;
     char * fname = ( import_filename ) ? import_filename : (( current_file != -1 && files[current_file] && *files[current_file] ) ? files[current_file] : NULL );
-    
+
     va_list ap;
     va_start( ap, fmt );
     vsprintf( text, fmt, ap );
     va_end( ap );
-    
+
     fprintf( stdout, MSG_COMPILE_WARNING,
             ( fname && ( fname[0] != '/' && fname[0] != '\\' && fname[1] != ':' ) ) ?  main_path : "",
             fname ? fname : "N/A",
@@ -384,7 +384,7 @@ void compile_warning( int notoken, const char *fmt, ... )
     } else {
         fprintf( stdout, ".\n" );
     }
-    
+
 }
 
 /* ---------------------------------------------------------------------- */
@@ -480,7 +480,7 @@ static void import_module( const char * filename )
 #elif defined( WIN32 )
 #define DLLEXT      ".dll"
 #define SIZEDLLEXT  4
-#elif defined(TARGET_MAC)
+#elif defined(__APPLE__)
 #define DLLEXT      ".dylib"
 #define SIZEDLLEXT  6
 #else
