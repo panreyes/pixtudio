@@ -425,7 +425,7 @@ void sysproc_init()
 #elif defined( WIN32 )
 #define DLLEXT      ".dll"
 #define SIZEDLLEXT  4
-#elif defined(TARGET_MAC)
+#elif defined(__APPLE__)
 #define DLLEXT      ".dylib"
 #define SIZEDLLEXT  6
 #else

@@ -317,9 +317,9 @@ int gr_set_mode( int width, int height, int depth )
         bitmap_destroy( scrbitmap ) ;
         scrbitmap = NULL ;
     }
-    
+
     // Use the new & fancy SDL 2 routines
-#if !defined(TARGET_ANDROID) && !defined(TARGET_IOS)
+#if !defined(__ANDROID__) && !defined(TARGET_IOS)
     if(renderer) {
         SDL_DestroyRenderer(renderer);
         renderer = NULL;
@@ -371,12 +371,12 @@ int gr_set_mode( int width, int height, int depth )
     SDL_Log("Renderer info:");
     SDL_Log("Accelerated rendering: %d", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
     SDL_Log("Render to texture:     %d", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
-    
+
     // Clear the screen
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
-    
+
     // Enable SDL scaling, if needed
     if(renderer_width != width || renderer_height != height) {
         // I should add support for this from BennuGD
@@ -384,7 +384,7 @@ int gr_set_mode( int width, int height, int depth )
         SDL_RenderSetLogicalSize(renderer, width, height);
         SDL_Log("Set logical size to: %dx%d", width, height);
     }
-    
+
     // This way we can force only one of the sizes (or both) to be native
     if (width == 0) {
         SDL_GetWindowSize(window, &width, NULL);
@@ -392,7 +392,7 @@ int gr_set_mode( int width, int height, int depth )
     if (height == 0) {
         SDL_GetWindowSize(window, NULL, &height);
     }
-    
+
     // Create a SDL_Surface for the pixel data until the complete rendering pipeline
     // is handled by SDL_Render
     SDL_PixelFormatEnumToMasks(format, &texture_depth, &Rmask, &Gmask, &Bmask, &Amask);
@@ -478,7 +478,7 @@ int gr_set_mode( int width, int height, int depth )
 
 int gr_init( int width, int height )
 {
-#if defined(TARGET_ANDROID) || defined(TARGET_IOS)
+#if defined(__ANDROID__) || defined(TARGET_IOS)
     return gr_set_mode( 0, 0, 0 );
 #else
     return gr_set_mode( width, height, 0 );
@@ -525,15 +525,15 @@ void __bgdexport( libvideo, module_finalize )()
         directdraw = NULL;
     }
 #endif
-    
+
     if ( renderer ) {
         SDL_DestroyRenderer(renderer);
     }
-    
+
     if ( window ) {
         SDL_DestroyWindow(window);
     }
-        
+
     if ( SDL_WasInit( SDL_INIT_VIDEO ) ) SDL_QuitSubSystem( SDL_INIT_VIDEO );
 }
 
