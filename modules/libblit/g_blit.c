@@ -1977,7 +1977,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
 
     // When drawing to screen, use SDL_Render directly, otherwise use homegrown
     // software solution
-    if( scrbitmap && dest->code == scrbitmap->code ) {
+    if( scrbitmap && dest == scrbitmap ) {
         // Consider control points when drawing
         if ( gr->ncpoints && gr->cpoints[0].x != CPOINT_UNDEFINED ) {
             rcenter.x = center.x = gr->cpoints[0].x * scalex/100. ;
@@ -2692,7 +2692,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             dstRect.y = scry - center.y + piece->y;
             if(piece->texture) {
                 SDL_QueryTexture(piece->texture, NULL, NULL, &dstRect.w, &dstRect.h);
-                SDL_RenderCopyEx(renderer, piece->texture, NULL, &dstRect, 0., NULL, 0);
+                SDL_RenderCopyEx(renderer, piece->texture, NULL, &dstRect, 0., NULL, flip);
             }
             piece = piece->next;
         }
@@ -2717,7 +2717,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
 
         if ( gr->modified > 1 ) bitmap_analyze( gr ) ;
 
-        if ( gr->info_flags & GI_NOCOLORKEY ) flags |= B_NOCOLORKEY ;
+        if ( gr->info_flags & GI_NOCOLORKEY ) flags |= B_NOCOLORKEY;
 
         /* Setup the 16 bits translucency tables if necessay */
 

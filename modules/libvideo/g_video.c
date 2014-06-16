@@ -367,6 +367,10 @@ int gr_set_mode( int width, int height, int depth )
     SDL_GetRendererInfo(renderer, &renderer_info);
     // Store the renderer resolution
     SDL_GetRendererOutputSize(renderer, &renderer_width, &renderer_height);
+
+    SDL_Log("Renderer info:");
+    SDL_Log("Accelerated rendering: %d", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
+    SDL_Log("Render to texture:     %d", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
     
     // Clear the screen
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

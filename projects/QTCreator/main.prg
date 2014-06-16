@@ -16,6 +16,7 @@ GLOBAL
 
    int graphic;
    int font;
+   int fpg;
    int scroll_window;
 
 
@@ -26,8 +27,9 @@ BEGIN
     set_fps(0, 0);
 
     // load the PNG file with the graphics
-    graphic = load_png("longbg.png");
+    graphic = load_png("longbg_y.png");
     font = load_fnt("font.fnt");
+    fpg = load_fpg("platforms.fpg");
 
     // (standard version)
     // int start_scroll (int scrollnumber,
@@ -43,12 +45,12 @@ BEGIN
 
     WHILE (NOT key(_esc))
         if(key(_right) || mouse.left)
-            scroll[0].x0 += 30;
+            scroll[0].y0 += 30;
         end
         if(key(_left))
-            scroll[0].x0 -= 30;
+            scroll[0].y0 -= 30;
         end
-        scroll[0].x0 += 30;
+        scroll[0].y0 += 30;
         FRAME;
     END
 

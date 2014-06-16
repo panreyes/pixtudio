@@ -170,7 +170,9 @@ static int gr_read_lib( file * fp )
             }
         }
 
-        bitmap_update_texture(gr);
+        if(bpp >= 16) {
+            bitmap_update_texture(gr);
+        }
         code = grlib_add_map( libid, gr ) ;
         if ( bpp == 8 ) pal_map_assign( libid, code, pal ) ;
     }
