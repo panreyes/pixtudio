@@ -298,7 +298,7 @@ static int play_song( int id, int loops )
         return result;
     }
 
-    fprintf( stderr, "Play song called with invalid handle" );
+    fprintf( stderr, "Play song called with invalid handle\n" );
     return( -1 );
 }
 

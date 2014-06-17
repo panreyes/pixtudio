@@ -137,18 +137,22 @@ GRAPH * bitmap_new_ex( int code, int w, int h, int depth, void * data, int pitch
 
     gr->data = data ;
 
-    format = SDL_PIXELFORMAT_ARGB8888 ;
+    format = 0;
     if ( depth == 16 ) {
         format = SDL_PIXELFORMAT_RGB565 ;
+    } else {
+        format = SDL_PIXELFORMAT_ARGB8888 ;
     }
-    gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STREAMING, w, h);
+    gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC|SDL_TEXTUREACCESS_TARGET, w, h);
     if (! gr->texture)
     {
         free( gr ) ;
         SDL_Log("bitmap_new_ex: Could not create GRAPH texture (%s)", SDL_GetError());
         return NULL;
     }
-    SDL_UpdateTexture(gr->texture, NULL, data, pitch);
+    if(SDL_UpdateTexture(gr->texture, NULL, data, pitch) < 0) {
+        SDL_Log("Error updating texture: %s", SDL_GetError());
+    }
 
     gr->width = w ;
     gr->height = h ;
@@ -359,7 +363,9 @@ void bitmap_update_texture( GRAPH * map )
     TEXTURE_PIECE * piece = NULL;
     REGION clip ;
 
-    SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch);
+    if(SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch) < 0) {
+        SDL_Log("Error updating texture: %s", SDL_GetError());
+    }
 
     if(map->width > renderer_info.max_texture_width || map->height > renderer_info.max_texture_height) {
         nx = (int)(map->width/renderer_info.max_texture_width)+1;
@@ -396,7 +402,9 @@ void bitmap_update_texture( GRAPH * map )
                 }
                 gr_blit(aux, &clip, centerx-i*renderer_info.max_texture_width,
                         centery-j*renderer_info.max_texture_height, B_NOCOLORKEY, map, 0);
-                SDL_UpdateTexture(piece->texture, NULL, aux->data, aux->pitch);
+                if(SDL_UpdateTexture(piece->texture, NULL, aux->data, aux->pitch) < 0) {
+                    SDL_Log("Error updating texture: %s", SDL_GetError());
+                }
                 bitmap_destroy(aux);
 
                 piece = piece->next;
@@ -521,7 +529,7 @@ void bitmap_analyze( GRAPH * bitmap )
             for ( y = bitmap->height; y--; ptr = ( int16_t * )((( uint8_t * ) ptr ) + inc ) )
             {
                 for ( x = bitmap->width; x--; ) if ( !*ptr++ ) break;
-                if ( x >= 0 ) break;
+                break;
             }
         }
         break;
@@ -533,12 +541,10 @@ void bitmap_analyze( GRAPH * bitmap )
             for ( y = bitmap->height; y--; ptr = ( int32_t * )((( uint8_t * ) ptr ) + inc ) )
             {
                 for ( x = bitmap->width; x--; ) if ( !*ptr++ ) break;
-                if ( x >= 0 ) break;
+                break;
             }
         }
     }
-
-    if ( y < 0 ) bitmap->info_flags |= GI_NOCOLORKEY ;
 }
 
 /* --------------------------------------------------------------------------- */
