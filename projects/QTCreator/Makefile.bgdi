@@ -77,12 +77,12 @@ LDFLAGS		=	-m32 -g $(MACHDEP)
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS := ../bgdrtm.a -lpng -lSDL2_mixer -lSDL2 -lpthread -lz -lm -lc
+LIBS := ../bgdrtm.a -lpng -lSDL2_mixer -lSDL2 -lpthread -lz -lm -lmingw32 -mwindows
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= /opt/local
+LIBDIRS	:= /opt/local /usr
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
