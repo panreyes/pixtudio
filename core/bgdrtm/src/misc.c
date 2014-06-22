@@ -69,7 +69,7 @@ int debug = 0;  /* 1 if running in debug mode      */
 #define _OS_ID          OS_WIN32
 #endif
 
-#ifdef TARGET_LINUX
+#ifdef __linux__
 #define _OS_ID          OS_LINUX
 #endif
 
@@ -77,7 +77,7 @@ int debug = 0;  /* 1 if running in debug mode      */
 #define _OS_ID          OS_BEOS
 #endif
 
-#ifdef TARGET_MAC
+#ifdef __APPLE__
 #define _OS_ID          OS_MACOS
 #endif
 
@@ -142,7 +142,7 @@ int debug = 0;  /* 1 if running in debug mode      */
 #define _OS_ID          OS_IOS
 #endif
 
-#ifdef TARGET_ANDROID
+#ifdef __ANDROID__
 #ifdef _OS_ID
 #undef _OS_ID
 #endif

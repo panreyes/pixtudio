@@ -112,19 +112,19 @@ void fmodex_init()
         printf("Error! You are using an old version of FMOD %08x.  This program requires %08x\n", version, FMOD_VERSION);
     }
 
-#ifdef TARGET_LINUX
+#ifdef __linux__
     result = FMOD_System_SetOutput(fsystem, FMOD_OUTPUTTYPE_PULSEAUDIO);
     ERRCHECK("FMODEx_Init");
 #endif
 
     result = FMOD_System_Init(fsystem, MAXCHANNELS, FMOD_INIT_NORMAL, NULL);
     ERRCHECK("FMODEx_Init");
-    
+
     // Set the global sound_freq variable
     result = FMOD_System_GetSoftwareFormat(fsystem, &outputrate, 0, 0, 0, 0, 0);
     ERRCHECK("FMODEX_GET_SPECTRUM");
     GLODWORD(mod_fmodex, SOUND_FREQ) = outputrate;
-    
+
     GLODWORD(mod_fmodex, FMODEX_SPECTRUMSIZE) = SPECTRUMSIZE;
 }
 
@@ -135,7 +135,7 @@ int mod_fmodex_load_song(INSTANCE * i, int * params)
     FMOD_CHANNEL     *channel = 0;
     FMOD_RESULT       result;
     int channel_index=0;
-    
+
     FMOD_System_Update(fsystem);
 
     /* Load the song as a stream */
@@ -179,14 +179,14 @@ int mod_fmodex_is_playing_song(INSTANCE * i, int * params)
     FMOD_RESULT              result;
     FMOD_CHANNEL            *channel = 0;
     int playing=0;
-    
+
     /* Retrieve the channel from the given ID */
     result = FMOD_System_GetChannel(fsystem, params[0], &channel);
     ERRCHECK_RETURN("FMODEX_IS_PLAYING_SONG", -1);
 
     result = FMOD_Channel_IsPlaying(channel, &playing);
     ERRCHECK_RETURN("FMODEX_IS_PLAYING_SONG", -1);
-    
+
     return playing;
 }
 
@@ -212,7 +212,7 @@ int mod_fmodex_stop_song(INSTANCE * i, int * params)
     /* Release the FMOD_SOUND */
     result = FMOD_Sound_Release( sound );
     ERRCHECK_RETURN("FMODEX_SONG_STOP", -1);
-    
+
     return 0;
 }
 
@@ -223,21 +223,21 @@ int mod_fmodex_song_get_spectrum(INSTANCE * i, int * params)
     FMOD_RESULT              result;
     FMOD_CHANNEL            *channel = 0;
     int                      playing = 0;
-    
+
     if( analyzing_spectrum != 0 )
         return -1;
-    
+
     // Check the given channel is actually playing a song
     result = FMOD_System_GetChannel(fsystem, params[0], &channel);
     ERRCHECK_RETURN("FMODEX_IS_PLAYING_SONG", -1);
-    
+
     result = FMOD_Channel_IsPlaying(channel, &playing);
     ERRCHECK_RETURN("FMODEX_IS_PLAYING_SONG", -1);
-    
+
     spectrum_channel = channel;
-    
+
     analyzing_spectrum = 2;
-    
+
     return 0;
 }
 
@@ -296,7 +296,7 @@ void spectrum_update()
         return;
 
     result = FMOD_Channel_GetSpectrum(spectrum_channel, fmodex_spectrum, SPECTRUMSIZE, 0,
-                        FMOD_DSP_FFT_WINDOW_TRIANGLE ); 
+                        FMOD_DSP_FFT_WINDOW_TRIANGLE );
     ERRCHECK("FMODEX_GET_SPECTRUM");
 
     spectrum = ( float * ) ( &GLODWORD( mod_fmodex, FMODEX_SPECTRUM ) );
@@ -319,7 +319,7 @@ void fmodex_stop_spectrum_analysis()
         /* Stop the recording */
         result = FMOD_Sound_Release(mic_sound);
         ERRCHECK("FMODEX_STOP_SPECTRUM");
-    
+
         FMOD_System_RecordStop(fsystem, 0);
     }
 
@@ -333,7 +333,7 @@ int mod_fmodex_mic_get_spectrum(INSTANCE * i, int * params)
     FMOD_RESULT             result;
     FMOD_CREATESOUNDEXINFO  exinfo;
     int                     outputrate=0;
-    
+
     if( analyzing_spectrum != 0 )
         return -1;
 
@@ -359,11 +359,11 @@ int mod_fmodex_mic_get_spectrum(INSTANCE * i, int * params)
     /* Now, start recording, updating the spectrum matrix is done separately */
     result = FMOD_System_RecordStart(fsystem, params[0], mic_sound, 1);
     ERRCHECK("FMODEX_GET_SPECTRUM");
-    
+
     result = FMOD_System_PlaySound(fsystem, FMOD_CHANNEL_FREE,
                                    mic_sound, 0, &spectrum_channel);
     ERRCHECK("FMODEX_GET_SPECTRUM");
-    
+
     /* Dont hear what is being recorded otherwise it will feedback.
      Spectrum analysis is done before volume scaling in the DSP chain */
     result = FMOD_Channel_SetVolume(spectrum_channel, 0);
@@ -372,7 +372,7 @@ int mod_fmodex_mic_get_spectrum(INSTANCE * i, int * params)
     // Announce we're doing spectrum analysis, so that we don't start
     // two separate ones.
     analyzing_spectrum = 1;
-    
+
     return 0;
 }
 

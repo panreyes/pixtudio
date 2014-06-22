@@ -49,7 +49,7 @@
 #endif
 
 /* LINUX INCLUDES */
-#ifdef TARGET_LINUX
+#ifdef __linux__
 #include <unistd.h>
 #include <sys/sysinfo.h>
 #include <sys/utsname.h>
@@ -60,7 +60,7 @@
 #endif
 
 /* Mac OS X INCLUDES */
-#ifdef TARGET_MAC
+#ifdef __APPLE__
 #include <unistd.h>
 #include <sys/utsname.h>
 #include <ctype.h>
@@ -81,7 +81,7 @@
 
 /* Linux utility function */
 
-#ifdef TARGET_LINUX
+#ifdef __linux__
 static int kernel_version_type( void )
 {
     struct utsname sysinf;
@@ -133,7 +133,7 @@ static int modmem_memory_free( INSTANCE * my, int * params )
     get_system_info( &info );
     return B_PAGE_SIZE * ( info.max_pages - info.used_pages );
 
-#elif defined(TARGET_LINUX)
+#elif defined(__linux__)
     /* Linux and other Unix (?) */
     struct sysinfo meminf;
     int fv;
@@ -171,7 +171,7 @@ static int modmem_memory_total( INSTANCE * my, int * params )
     get_system_info( &info );
     return  B_PAGE_SIZE * ( info.max_pages );
 
-#elif defined(TARGET_LINUX)
+#elif defined(__linux__)
     /* Linux and other Unix (?) */
     struct sysinfo meminf;
     int fv;
