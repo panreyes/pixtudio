@@ -28,6 +28,7 @@
 
 /* --------------------------------------------------------------------------- */
 
+#include <stdlib.h>
 #include "mod_map.h"
 
 /* --------------------------------------------------------------------------- */
@@ -161,8 +162,7 @@ static int gr_read_lib( file * fp )
                     break;
             }
 
-            if ( !st )
-            {
+            if ( !st ) {
                 bitmap_destroy( gr );
                 grlib_destroy( libid ) ;
                 if ( bpp == 8 ) pal_destroy( pal );
@@ -170,10 +170,10 @@ static int gr_read_lib( file * fp )
             }
         }
 
+        code = grlib_add_map( libid, gr ) ;
         if(bpp >= 16) {
             bitmap_update_texture(gr);
         }
-        code = grlib_add_map( libid, gr ) ;
         if ( bpp == 8 ) pal_map_assign( libid, code, pal ) ;
     }
 

@@ -38,11 +38,6 @@
 
 #include "libvideo.h"
 
-#ifdef _WIN32
-#include <initguid.h>
-#include "ddraw.h"
-#endif
-
 /* --------------------------------------------------------------------------- */
 
 GRAPH * icon = NULL ;
@@ -172,55 +167,8 @@ DLVARFIXUP __bgdexport( libvideo, globals_fixup )[] =
 
 /* --------------------------------------------------------------------------- */
 
-#ifdef _WIN32
-/* Based on allegro */
-
-LPDIRECTDRAW2 directdraw = NULL;
-DDCAPS ddcaps;
-
-HRESULT WINAPI( *_DirectDrawCreate )( GUID FAR *lpGUID, LPDIRECTDRAW FAR *lplpDD, IUnknown FAR *pUnkOuter );
-
-/* --------------------------------------------------------------------------- */
-
-int init_dx( void )
-{
-    HINSTANCE handle;
-    LPDIRECTDRAW directdraw1;
-    HRESULT hr;
-    LPVOID temp;
-
-    handle = LoadLibrary( "DDRAW.DLL" );
-    if ( handle == NULL ) return -1;
-
-    _DirectDrawCreate = GetProcAddress( handle, "DirectDrawCreate" );
-
-    hr = _DirectDrawCreate( NULL, &directdraw1, NULL );
-    if ( FAILED( hr ) ) return -1;
-
-    hr = IDirectDraw_QueryInterface( directdraw1, &IID_IDirectDraw2, &directdraw );
-    if ( FAILED( hr ) ) return -1;
-
-    IDirectDraw_Release( directdraw1 );
-
-    hr = IDirectDraw2_SetCooperativeLevel( directdraw, NULL, DDSCL_NORMAL );
-    if ( FAILED( hr ) ) return -1;
-
-    /* get capabilities */
-    ddcaps.dwSize = sizeof( ddcaps );
-    hr = IDirectDraw2_GetCaps( directdraw, &ddcaps, NULL );
-    if ( FAILED( hr ) ) return -1;
-
-    return 0;
-}
-#endif
-
-/* --------------------------------------------------------------------------- */
-
 void gr_wait_vsync()
 {
-#ifdef _WIN32
-    if ( directdraw ) IDirectDraw2_WaitForVerticalBlank( directdraw, DDWAITVB_BLOCKBEGIN, NULL );
-#endif
 }
 
 /* --------------------------------------------------------------------------- */
@@ -355,6 +303,7 @@ int gr_set_mode( int width, int height, int depth )
         if (waitvsync) {
             sdl_flags = SDL_RENDERER_PRESENTVSYNC;
         }
+        SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
         renderer = SDL_CreateRenderer(window, -1, sdl_flags);
         if (!renderer) {
             SDL_Log("Error creating renderer (%s)", SDL_GetError());
@@ -371,6 +320,7 @@ int gr_set_mode( int width, int height, int depth )
     SDL_Log("Renderer info:");
     SDL_Log("Accelerated rendering: %d", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
     SDL_Log("Render to texture:     %d", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
+    //SDL_Log("Rendering driver:      %s", SDL_GetHint(SDL_HINT_RENDER_DRIVER));
 
     // Clear the screen
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -493,9 +443,6 @@ void __bgdexport( libvideo, module_initialize )()
 
     if ( !SDL_WasInit( SDL_INIT_VIDEO ) ) SDL_InitSubSystem( SDL_INIT_VIDEO );
 
-#ifdef _WIN32
-    if ( !directdraw ) init_dx();
-#endif
     apptitle = appname;
 
     if ( ( e = getenv( "VIDEO_WIDTH"  ) ) ) scr_width = atoi(e);
@@ -513,19 +460,6 @@ void __bgdexport( libvideo, module_initialize )()
 
 void __bgdexport( libvideo, module_finalize )()
 {
-#ifdef _WIN32
-    if ( directdraw )
-    {
-        /* set cooperative level back to normal */
-        IDirectDraw2_SetCooperativeLevel( directdraw, NULL, DDSCL_NORMAL );
-
-        /* release DirectDraw interface */
-        IDirectDraw2_Release( directdraw );
-
-        directdraw = NULL;
-    }
-#endif
-
     if ( renderer ) {
         SDL_DestroyRenderer(renderer);
     }
