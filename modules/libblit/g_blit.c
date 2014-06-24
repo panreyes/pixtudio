@@ -1970,7 +1970,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
 
     if ( !dest ) dest = scrbitmap;
 
-    if ( !dest->data || !gr->data) {
+    if ( !dest->data || !gr->data ) {
         return;
     }
     if ( scalex <= 0 || scaley <= 0 ) return;
