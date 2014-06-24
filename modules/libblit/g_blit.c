@@ -1970,7 +1970,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
 
     if ( !dest ) dest = scrbitmap;
 
-    if ( !dest->data || !gr->data || !gr->texture) {
+    if ( !dest->data || !gr->data) {
         return;
     }
     if ( scalex <= 0 || scaley <= 0 ) return;
@@ -1978,6 +1978,9 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
     // When drawing to screen, use SDL_Render directly, otherwise use homegrown
     // software solution
     if( scrbitmap && dest == scrbitmap ) {
+        if(! gr->texture) {
+            return;
+        }
         // Consider control points when drawing
         if ( gr->ncpoints && gr->cpoints[0].x != CPOINT_UNDEFINED ) {
             rcenter.x = center.x = gr->cpoints[0].x * scalex/100. ;
@@ -2621,13 +2624,17 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
     DRAW_HSPAN  * draw_hspan = ( DRAW_HSPAN * )NULL;
 
     if ( !dest ) dest = scrbitmap ;
-    if ( !dest->data || !gr->data || !gr->texture ) {
+    if ( !dest->data || !gr->data ) {
         return;
     }
 
     // When drawing to screen, use SDL_Render directly, otherwise use homegrown
     // software solution
     if( scrbitmap && dest == scrbitmap ) {
+        if(! gr->texture) {
+            return;
+        }
+
         // Consider control points when drawing
         if ( gr->ncpoints && gr->cpoints[0].x != CPOINT_UNDEFINED ) {
             center.x = gr->cpoints[0].x ;
