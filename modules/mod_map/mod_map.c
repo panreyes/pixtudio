@@ -285,7 +285,9 @@ static int modmap_map_xput( INSTANCE * my, int * params )
     GRAPH * dest = bitmap_get( params[0], params[1] ) ;
     GRAPH * orig = bitmap_get( params[0], params[2] ) ;
 
-    if ( !dest || !orig ) return 0;
+    if ( !dest || !orig ) {
+        return 0;
+    }
 
     if ( params[5] == 0 && params[6] == 100 )
         gr_blit( dest, 0, params[3], params[4], params[7], orig, 1 ) ;
@@ -304,10 +306,15 @@ static int modmap_map_xputnp( INSTANCE * my, int * params )
     GRAPH * dest = bitmap_get( params[0], params[1] ) ;
     GRAPH * orig = bitmap_get( params[2], params[3] ) ;
 
-    if ( params[6] == 0 && params[7] == 100 && params[8] == 100 )
+    if( !orig || !dest ) {
+        return 0;
+    }
+
+    if ( params[6] == 0 && params[7] == 100 && params[8] == 100 ) {
         gr_blit( dest, 0, params[4], params[5], params[9], orig, 1 ) ;
-    else
+    } else {
         gr_rotated_blit( dest, 0, params[4], params[5], params[9], params[6], params[7], params[8], orig ) ;
+    }
     return 1 ;
 }
 

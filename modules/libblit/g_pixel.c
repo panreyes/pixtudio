@@ -88,7 +88,7 @@ int gr_get_pixel( GRAPH * dest, int x, int y )
  *  PARAMS :
  *      dest            Destination bitmap
  *      x, y            Pixel coordinates
- *      color           1, 8 or 16-bit pixel value
+ *      color           1, 8, 16 or 32-bit pixel value
  *
  *  RETURN VALUE :
  *      None
@@ -171,6 +171,8 @@ void gr_put_pixel( GRAPH * dest, int x, int y, int color )
         dest->modified = 1 ; /* Doesn't need analysis */
         dest->info_flags &= ~GI_NOCOLORKEY;
     }
+
+    bitmap_update_texture(dest);
 }
 
 /* --------------------------------------------------------------------------- */
