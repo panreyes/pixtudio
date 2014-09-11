@@ -1,7 +1,8 @@
 /*
- *  Copyright © 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright © 2002-2006 Fenix Team (Fenix)
- *  Copyright © 1999-2002 José Luis Cebrián Pagüe (Fenix)
+ *  Copyright (C) 2014 Joseba García Echebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of Bennu - Game Development
  *
@@ -140,7 +141,7 @@ int file_read( file * fp, void * buffer, int len )
         return result ;
     }
 #endif
-    
+
 #ifdef WITH_SDLRWOPS
     if ( fp->type == F_RWOPS )
     {
@@ -199,7 +200,7 @@ int file_qgets( file * fp, char * buffer, int len )
     char * result = NULL ;
     char * ptr = result = buffer ;
     int l = 0;
-    
+
     if ( fp->type == F_XFILE )
     {
         XFILE * xf ;
@@ -241,7 +242,7 @@ int file_qgets( file * fp, char * buffer, int len )
             if ( *ptr++ == '\n' ) break ;
         }
         *ptr = 0 ;
-        
+
         if ( l == 0 ) return 0 ;
     }
 #endif
@@ -331,7 +332,7 @@ int file_gets( file * fp, char * buffer, int len )
             if ( *ptr++ == '\n' ) break ;
         }
         *ptr = 0 ;
-        
+
         if ( l == 0 ) return 0 ;
     }
 #endif
@@ -560,7 +561,7 @@ int file_write( file * fp, void * buffer, int len )
         return ( result < len ) ? 0 : len ;
     }
 #endif
-    
+
 #ifdef WITH_SDLRWOPS
     if ( fp->type == F_RWOPS )
     {
@@ -603,7 +604,7 @@ int file_size( file * fp )
 int file_pos( file * fp )
 {
     if ( fp->type == F_XFILE ) return fp->pos - x_file[fp->n].offset ;
-    
+
 #ifndef NO_ZLIB
     if ( fp->type == F_GZFILE ) return gztell( fp->gz ) ;
 #endif
@@ -611,14 +612,14 @@ int file_pos( file * fp )
 #ifdef WITH_SDLRWOPS
     if ( fp->type == F_RWOPS ) return SDL_RWtell( fp->rwops ) ;
 #endif
-    
+
     return ftell( fp->fp ) ;
 }
 
 int file_flush( file * fp )
 {
     if ( fp->type == F_XFILE ) return 0 ;
-    
+
 #ifndef NO_ZLIB
     if ( fp->type == F_GZFILE ) return 0 ;
 #endif
@@ -626,7 +627,7 @@ int file_flush( file * fp )
 #ifdef WITH_SDLRWOPS
     if ( fp->type == F_RWOPS ) return 0 ;
 #endif
-    
+
     return fflush( fp->fp ) ;
 }
 

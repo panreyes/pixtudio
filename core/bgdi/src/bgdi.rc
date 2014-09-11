@@ -84,7 +84,7 @@ BEGIN
             VALUE "FileDescription", "BGDI - Bennu Game Development Interpreter\0"
             VALUE "FileVersion", "1, 0, 0, 1\0"
             VALUE "InternalName", "BGDI\0"
-            VALUE "LegalCopyright", "Copyright © 2006-2009 SplinterGU\0"
+            VALUE "LegalCopyright", "Copyright (C) 2006-2009 SplinterGU\0"
             VALUE "LegalTrademarks", "Distributed under GNU General Public License\0"
             VALUE "OriginalFilename", "BGDI.exe\0"
             VALUE "PrivateBuild", "\0"

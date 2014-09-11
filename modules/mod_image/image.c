@@ -17,9 +17,9 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  *
- *  Copyright © 1999 José Luis Cebrián Pagüe
- *  Copyright © 2002 Fenix Team
- *  Copyright © 2009 Joseba García Etxebarria
+ *  Copyright (C) 1999 José Luis Cebrián Pagüe
+ *  Copyright (C) 2002 Fenix Team
+ *  Copyright (C) 2009 Joseba García Etxebarria
  *
  */
 

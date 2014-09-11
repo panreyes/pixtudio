@@ -1,7 +1,8 @@
 /*
- *  Copyright © 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright © 2002-2006 Fenix Team (Fenix)
- *  Copyright © 1999-2002 José Luis Cebrián Pagüe (Fenix)
+ *  Copyright (C) 2014 Joseba García Echebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of Bennu - Game Development
  *
@@ -98,9 +99,9 @@ GRAPH * gr_read_png( const char * filename )
     png_set_read_fn( png_ptr, png, user_read_data ) ;
     png_read_info( png_ptr, info_ptr ) ;
     png_get_IHDR( png_ptr, info_ptr, &width, &height, &depth, &color, 0, 0, 0 ) ;
-    
+
     /* Read control point info */
-    
+
     png_get_text(png_ptr, info_ptr, &text_ptr, &num_text);
 
     row = malloc( sizeof( uint32_t ) * width );
@@ -140,9 +141,9 @@ GRAPH * gr_read_png( const char * filename )
         file_close( png ) ;
         return NULL;
     }
-    
+
     /* Set control point info from metadata */
-    
+
     for ( n = 0 ; n < num_text ; n++ )
     {
         if(strncmp(text_ptr[n].key, "BennuGD_CP", 10) == 0)
@@ -152,7 +153,7 @@ GRAPH * gr_read_png( const char * filename )
                 bitmap->ncpoints = (cp+1);
         }
     }
-    
+
     if ( bitmap->ncpoints )
     {
         bitmap->cpoints = ( CPOINT * ) malloc( bitmap->ncpoints * sizeof( CPOINT ) ) ;
@@ -164,7 +165,7 @@ GRAPH * gr_read_png( const char * filename )
             file_close( png ) ;
             return NULL;
         }
-        
+
         for ( n = 0 ; n < num_text ; n++ )
         {
             if ( strncmp(text_ptr[n].key, "BennuGD_CP", 10) == 0 )

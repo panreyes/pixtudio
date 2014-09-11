@@ -1,7 +1,8 @@
 /*
- *  Copyright © 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright © 2002-2006 Fenix Team (Fenix)
- *  Copyright © 1999-2002 José Luis Cebrián Pagüe (Fenix)
+ *  Copyright (C) 2014 Joseba García Echebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of Bennu - Game Development
  *
@@ -118,7 +119,7 @@ int gr_lock_screen()
 
     SDL_RenderClear(renderer);
 
-    
+
     return 1 ;
 }
 
@@ -129,7 +130,7 @@ void gr_unlock_screen()
     if ( !screen_locked || !screen->pixels ) return ;
 
     screen_locked = 0 ;
-    
+
     if ( waitvsync ) gr_wait_vsync();
     SDL_RenderSetClipRect(renderer, NULL);
     SDL_RenderPresent(renderer);

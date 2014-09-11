@@ -1,5 +1,6 @@
 /*
- *  Copyright © 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2014 Joseba García Echebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
  *
  *  This file is part of Bennu - Game Development
  *

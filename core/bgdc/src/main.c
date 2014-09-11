@@ -1,7 +1,8 @@
 /*
- *  Copyright (c) 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright (c) 2002-2006 Fenix Team (Fenix)
- *  Copyright (c) 1999-2002 José Luis Cebrián Pagüe (Fenix)
+ *  Copyright (C) 2014 Joseba García Echebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of Bennu - Game Development
  *
@@ -101,7 +102,7 @@ int main( int argc, char *argv[] )
     char compilerimport[__MAX_PATH] = "";
     int i, j;
     char *ptr;
-    
+
 /* The following code has been stolen from devkitpro project's wii-examples */
 #ifdef TARGET_WII
     /* Now initialize the console, needed by printf */
@@ -110,26 +111,26 @@ int main( int argc, char *argv[] )
 
     // Initialise the video system
     VIDEO_Init();
-	
+
     // This function initialises the attached controllers
     WPAD_Init();
-	
+
     // Obtain the preferred video mode from the system
     // This will correspond to the settings in the Wii menu
     rmode = VIDEO_GetPreferredMode(NULL);
 
     // Allocate memory for the display in the uncached region
     xfb = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
-    
+
     // Initialise the console, required for printf
     console_init(xfb,20,20,rmode->fbWidth,rmode->xfbHeight,rmode->fbWidth*VI_DISPLAY_PIX_SZ);
 
     // Set up the video registers with the chosen mode
     VIDEO_Configure(rmode);
-	
+
     // Tell the video hardware where our display memory is
     VIDEO_SetNextFramebuffer(xfb);
-	
+
     // Make the display visible
     VIDEO_SetBlack(FALSE);
 
@@ -140,7 +141,7 @@ int main( int argc, char *argv[] )
     VIDEO_WaitVSync();
     if(rmode->viTVMode&VI_NON_INTERLACE) VIDEO_WaitVSync();
 #endif
-    
+
     /* get my executable name */
     ptr = argv[0] + strlen( argv[0] );
     while ( ptr > argv[0] && ptr[-1] != '\\' && ptr[-1] != '/' ) ptr-- ;
@@ -167,9 +168,7 @@ int main( int argc, char *argv[] )
     strncpy( appexepath, appexefullpath, ptr - appexefullpath );
 
     printf( BGDC_VERSION "\n"
-            "Copyright © 2006-2012 SplinterGU (Fenix/BennuGD)\n"
-            "Copyright © 2002-2006 Fenix Team (Fenix)\n"
-            "Copyright © 1999-2002 José Luis Cebrián Pagüe (Fenix)\n"
+            "Copyright (C) 2014 Joseba García Echebarria\n"
             "Bennu Game Development comes with ABSOLUTELY NO WARRANTY;\n"
             "see COPYING for details\n\n" );
 

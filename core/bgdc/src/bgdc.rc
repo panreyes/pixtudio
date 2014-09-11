@@ -84,7 +84,7 @@ BEGIN
             VALUE "FileDescription", "BGDC - Bennu Game Development Compiler\0"
             VALUE "FileVersion", "1, 0, 0, 1\0"
             VALUE "InternalName", "BGDC\0"
-            VALUE "LegalCopyright", "Copyright © 2006-2009 SplinterGU\0"
+            VALUE "LegalCopyright", "Copyright (C) 2006-2009 SplinterGU\0"
             VALUE "LegalTrademarks", "Distributed under GNU General Public License\0"
             VALUE "OriginalFilename", "BGDC.exe\0"
             VALUE "PrivateBuild", "\0"

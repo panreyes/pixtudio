@@ -1,7 +1,8 @@
 /*
- *  Copyright © 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright © 2002-2006 Fenix Team (Fenix)
- *  Copyright © 1999-2002 José Luis Cebrián Pagüe (Fenix)
+ *  Copyright (C) 2014 Joseba García Echebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of Bennu - Game Development
  *
@@ -89,7 +90,7 @@ DLVARFIXUP  __bgdexport( libwm, globals_fixup )[] =
 static void wm_events()
 {
     SDL_Event e ;
-    
+
     /* Procesa los eventos de ventana pendientes */
 
     GLODWORD( libwm, EXIT_STATUS ) = 0 ;
@@ -131,7 +132,7 @@ static void wm_events()
                         GLODWORD(libwm, FOCUS_STATUS) = 1;
                         break;
                 }
-            
+
             case SDL_SYSWMEVENT:
                 break ;
         }

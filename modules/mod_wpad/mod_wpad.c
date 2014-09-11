@@ -1,5 +1,5 @@
 /*
- *  Copyright © 2011 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2011 Joseba García Etxebarria <joseba.gar@gmail.com>
  *
  *  mod_wpad is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ int is_bb(int i)
 int has_nunchuk(int i)
 {
     u32 type;
-	
+
     WPAD_Probe(i, &type);
     if (type==WPAD_EXP_NUNCHUK)
         return 1;
@@ -64,7 +64,7 @@ int has_motionplus(int i)
 int has_classic(int i)
 {
     u32 type;
-	
+
     WPAD_Probe(i, &type);
     if (type==WPAD_EXP_CLASSIC)
         return 1;
@@ -77,7 +77,7 @@ int has_classic(int i)
 int has_guitar(int i)
 {
     u32 type;
-	
+
     WPAD_Probe(i, &type);
     if (type==WPAD_EXP_GUITARHERO3)
         return 1;
@@ -131,11 +131,11 @@ int modwpad_info( INSTANCE * my, int * params )
             return wd->accel.y;
         case WPAD_ACCELZ:     // Acceleration in (local) z axis
             return wd->accel.z;
-		case WPAD_GX:         // Gravity in the (local) X axis 
+		case WPAD_GX:         // Gravity in the (local) X axis
 			return wd->gforce.x;
-		case WPAD_GY:         // Gravity in the (local) Y axis 
+		case WPAD_GY:         // Gravity in the (local) Y axis
 			return wd->gforce.y;
-		case WPAD_GZ:         // Gravity in the (local) Z axis 
+		case WPAD_GZ:         // Gravity in the (local) Z axis
 			return wd->gforce.z;
         case WPAD_IS_BB:      // Check wether controller is a balance board
             return is_bb(params[0]);
@@ -155,7 +155,7 @@ int modwpad_info_nunchuk( INSTANCE * my, int * params )
 {
     u32 type;
     struct expansion_t exp;
-	
+
     // Ensure it's been correctly initialized
     if( WPAD_Probe(params[0], &type) != 0 )
         return 0;
@@ -163,7 +163,7 @@ int modwpad_info_nunchuk( INSTANCE * my, int * params )
 	// Make sure the device has a nunchuk attached to it
 	if( type != WPAD_EXP_NUNCHUK )
 		return 0;
-	
+
     // Return the info the user asked for
     WPAD_Expansion(params[0], &exp);
     switch(params[1]) {
@@ -181,14 +181,14 @@ int modwpad_info_nunchuk( INSTANCE * my, int * params )
             return exp.nunchuk.accel.y;
         case WPAD_ACCELZ:     // Acceleration in z axis
             return exp.nunchuk.accel.z;
-		case WPAD_GX:         // Gravity in the (local) X axis 
+		case WPAD_GX:         // Gravity in the (local) X axis
 			return exp.nunchuk.gforce.x;
-		case WPAD_GY:         // Gravity in the (local) Y axis 
+		case WPAD_GY:         // Gravity in the (local) Y axis
 			return exp.nunchuk.gforce.y;
-		case WPAD_GZ:         // Gravity in the (local) Z axis 
+		case WPAD_GZ:         // Gravity in the (local) Z axis
 			return exp.nunchuk.gforce.z;
     }
-	
+
     return 0;
 }
 
@@ -201,7 +201,7 @@ int modwpad_info_bb( INSTANCE * my, int * params )
     // Ensure it's been correctly initialized
     if( WPAD_Probe(params[0], &type) != 0 )
         return 0;
-	
+
 	// Make sure the device is a BB
 	if( type != WPAD_EXP_WIIBOARD )
 		return 0;
@@ -233,7 +233,7 @@ int modwpad_info_classic( INSTANCE * my, int * params )
 {
     u32 type;
     struct expansion_t exp;
-	
+
     // Ensure it's been correctly initialized
     if( WPAD_Probe(params[0], &type) != 0 )
         return 0;
@@ -241,14 +241,14 @@ int modwpad_info_classic( INSTANCE * my, int * params )
 	// Make sure the device has a classic controller attached to it
 	if( type != WPAD_EXP_CLASSIC )
 		return 0;
-	
+
     // Return the info the user asked for
     WPAD_Expansion(params[0], &exp);
     switch(params[1]) {
         case WPAD_BATT:     // Battery level (0<level<256)
             return (int)WPAD_BatteryLevel(params[0]);
     }
-	
+
     return 0;
 }
 
@@ -257,7 +257,7 @@ int modwpad_info_guitar( INSTANCE * my, int * params )
 {
     u32 type;
     struct expansion_t exp;
-	
+
     // Ensure it's been correctly initialized
     if( WPAD_Probe(params[0], &type) != 0 )
         return 0;
@@ -265,14 +265,14 @@ int modwpad_info_guitar( INSTANCE * my, int * params )
 	// Make sure the device has a guitar attached to it
 	if( type != WPAD_EXP_GUITARHERO3 )
 		return 0;
-	
+
     // Return the info the user asked for
     WPAD_Expansion(params[0], &exp);
     switch(params[1]) {
         case WPAD_BATT:     // Battery level (0<level<256)
             return (int)WPAD_BatteryLevel(params[0]);
     }
-	
+
     return 0;
 }
 

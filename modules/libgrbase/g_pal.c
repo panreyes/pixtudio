@@ -1,7 +1,8 @@
 /*
- *  Copyright © 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright © 2002-2006 Fenix Team (Fenix)
- *  Copyright © 1999-2002 José Luis Cebrián Pagüe (Fenix)
+ *  Copyright (C) 2014 Joseba García Echebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of Bennu - Game Development
  *
@@ -924,17 +925,17 @@ void gr_make_trans_table()
 void gr_set_rgb( int color, int r, int g, int b )
 {
     if ( color < 0 || color > 255 ) return ;
-    
+
     if ( !sys_pixel_format->palette )
     {
         sys_pixel_format->palette = pal_new( NULL );
         memset ( sys_pixel_format->palette->rgb, '\0', sizeof( sys_pixel_format->palette->rgb ) );
     }
-    
+
     sys_pixel_format->palette->rgb[ color ].r = r << 2;
     sys_pixel_format->palette->rgb[ color ].g = g << 2;
     sys_pixel_format->palette->rgb[ color ].b = b << 2;
-    
+
     palette_changed = 1 ;
 }
 
@@ -945,15 +946,15 @@ void gr_set_rgb( int color, int r, int g, int b )
 void gr_get_colors( int color, int num, uint8_t * pal )
 {
     rgb_component * rgb;
-    
+
     if ( num < 1 || color < 0 || color > 255 ) return ;
     if ( color + num > 256 ) num = 256 - color ;
-    
+
     if ( !sys_pixel_format->palette )
         rgb = ( rgb_component * ) default_palette;
     else
         rgb = ( rgb_component * ) sys_pixel_format->palette->rgb;
-    
+
     while ( num-- )
     {
         *pal++ = rgb[ color ].r ;

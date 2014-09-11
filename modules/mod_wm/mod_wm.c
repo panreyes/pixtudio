@@ -1,7 +1,8 @@
 /*
- *  Copyright © 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright © 2002-2006 Fenix Team (Fenix)
- *  Copyright © 1999-2002 José Luis Cebrián Pagüe (Fenix)
+ *  Copyright (C) 2014 Joseba García Echebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of Bennu - Game Development
  *
@@ -107,7 +108,7 @@ static int bgd_get_window_size( INSTANCE * my, int * params )
     if ( params[1] ) *(( int * )( params[1] ) ) = h;
     //FIXME: Get this working
     if ( params[2] ) *(( int * )( params[2] ) ) = w;
-    if ( params[3] ) *(( int * )( params[3] ) ) = h;    
+    if ( params[3] ) *(( int * )( params[3] ) ) = h;
 
     return 1 ;
 }
@@ -117,7 +118,7 @@ static int bgd_get_window_size( INSTANCE * my, int * params )
 static int bgd_get_desktop_size( INSTANCE * my, int * params )
 {
     SDL_DisplayMode mode;
-    
+
     if(SDL_GetDesktopDisplayMode(0, &mode) < 0 ) return -1;
 
     if ( params[0] ) *(( int * )( params[0] ) ) = mode.w;

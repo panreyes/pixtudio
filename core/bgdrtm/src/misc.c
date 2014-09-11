@@ -1,5 +1,5 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright Â(C) 2006-2012 SplinterGU (Fenix/Bennugd)
  *
  *  This file is part of Bennu - Game Development
  *

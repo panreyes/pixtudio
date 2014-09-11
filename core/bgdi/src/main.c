@@ -1,7 +1,8 @@
 /*
- *  Copyright © 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright © 2002-2006 Fenix Team (Fenix)
- *  Copyright © 1999-2002 José Luis Cebrián Pagüe (Fenix)
+ *  Copyright (C) 2014 Joseba García Echebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of Bennu - Game Development
  *
@@ -213,33 +214,12 @@ int main( int argc, char *argv[] )
         if ( !filename )
         {
             printf( BGDI_VERSION "\n"
-                    "Copyright (c) 2006-2012 SplinterGU (Fenix/BennuGD)\n"
-                    "Copyright (c) 2002-2006 Fenix Team (Fenix)\n"
-                    "Copyright (c) 1999-2002 José Luis Cebrián Pagüe (Fenix)\n"
+                    "Copyright (C) 2014 Joseba García Echebarria\n"
                     "Bennu Game Development comes with ABSOLUTELY NO WARRANTY;\n"
                     "see COPYING for details\n\n"
                     "Usage: %s [options] <data code block file>[.dcb]\n\n"
                     "   -d       Activate DEBUG mode\n"
                     "   -i dir   Adds the directory to the PATH\n"
-                    "\n"
-                    "This software is provided 'as-is', without any express or implied\n"
-                    "warranty. In no event will the authors be held liable for any damages\n"
-                    "arising from the use of this software.\n"
-                    "\n"
-                    "Permission is granted to anyone to use this software for any purpose,\n"
-                    "including commercial applications, and to alter it and redistribute it\n"
-                    "freely, subject to the following restrictions:\n"
-                    "\n"
-                    "   1. The origin of this software must not be misrepresented; you must not\n"
-                    "   claim that you wrote the original software. If you use this software\n"
-                    "   in a product, an acknowledgment in the product documentation would be\n"
-                    "   appreciated but is not required.\n"
-                    "\n"
-                    "   2. Altered source versions must be plainly marked as such, and must not be\n"
-                    "   misrepresented as being the original software.\n"
-                    "\n"
-                    "   3. This notice may not be removed or altered from any source\n"
-                    "   distribution.\n",
                     argv[0] ) ;
             return -1 ;
         }
