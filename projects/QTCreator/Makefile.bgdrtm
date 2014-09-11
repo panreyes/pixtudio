@@ -107,14 +107,15 @@ INCLUDES	:=	../../core/include \
 	../../modules/libwm/ \
 	../../modules/mod_wm/ \
 	../../modules/mod_sys/ \
-	../../modules/mod_regex/
+	../../modules/mod_regex/ \
+    ../../modules/mod_fsock/
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
 CFLAGS		=	-m32 -g -Wall -D__BGDRTM__ -D__MONOLITHIC__ -DNO_ZLIB -DNO_MODIMAGE -DNO_MODMATHI \
-	-DNO_MODIMAGE -DNO_MODICONV -DNO_MODFMODEX -DNO_FSOCK -DNO_MODCHIPMUNK -DNO_MODMULTI -DNO_MODCURL \
+	-DNO_MODIMAGE -DNO_MODICONV -DNO_MODFMODEX -DNO_MODCHIPMUNK -DNO_MODMULTI -DNO_MODCURL \
 	-DNO_MODSENSOR -DNO_MODIAP -DNO_MODTHEORA -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE) \
 	-finline-functions -fno-strict-aliasing
 CXXFLAGS	=	-m32 -save-temps -Xassembler -aln=$@.lst $(CFLAGS)
@@ -219,7 +220,8 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 	../../../modules/mod_wm/mod_wm.c \
 	../../../modules/mod_sys/mod_sys.c \
 	../../../modules/mod_regex/mod_regex.c \
-	../../../modules/mod_regex/regex.c
+	../../../modules/mod_regex/regex.c \
+    ../../../modules/mod_fsock/fsock.c
 
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C

@@ -7,14 +7,17 @@
 #include "bgddl.h"
 #include "xstrings.h"
 
-#include <netdb.h>
 #include <unistd.h>
+#ifdef WIN32
+#include <winsock.h>
+#else
+#include <netdb.h>
 #include <arpa/inet.h>
 #include <netinet/tcp.h>
 #include <sys/ipc.h>
-//#include <sys/msg.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
+#endif
 #include <fcntl.h>
 #include <errno.h>
 
