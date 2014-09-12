@@ -219,7 +219,7 @@ int main( int argc, char *argv[] )
                     "see COPYING for details\n\n"
                     "Usage: %s [options] <data code block file>[.dcb]\n\n"
                     "   -d       Activate DEBUG mode\n"
-                    "   -i dir   Adds the directory to the PATH\n"
+                    "   -i dir   Adds the directory to the PATH\n",
                     argv[0] ) ;
             return -1 ;
         }
