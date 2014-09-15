@@ -251,6 +251,12 @@ int gr_set_mode( int width, int height, int depth )
     if ( ( e = getenv( "SCALE_RESOLUTION_ASPECTRATIO" ) ) ) scale_resolution_aspectratio = atol( e );
     if ( ( e = getenv( "SCALE_RESOLUTION_ORIENTATION" ) ) ) scale_resolution_orientation = atol( e );
 
+    /* Emulate old scale_mode vales */
+    if( GLODWORD( libvideo, SCALE_MODE ) > 0 ) {
+        surface_width = 2*width;
+        surface_height = 2*height;
+    }
+
     if ( scale_resolution_orientation < 0 || scale_resolution_orientation > 4 ) scale_resolution_orientation = 0;
 
     // Only 32bpp will be supported here
@@ -318,9 +324,9 @@ int gr_set_mode( int width, int height, int depth )
     // Store the renderer resolution
     SDL_GetRendererOutputSize(renderer, &renderer_width, &renderer_height);
 
-    SDL_Log("Renderer info:");
-    SDL_Log("Accelerated rendering: %d", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
-    SDL_Log("Render to texture:     %d", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
+    //SDL_Log("Renderer info:");
+    //SDL_Log("Accelerated rendering: %d", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
+    //SDL_Log("Render to texture:     %d", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
     //SDL_Log("Rendering driver:      %s", SDL_GetHint(SDL_HINT_RENDER_DRIVER));
 
     // Clear the screen
