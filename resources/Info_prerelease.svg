@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="Warning_1.svg"
+   inkscape:export-filename="/home/joseba/Escritorio/Warning_1.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <radialGradient
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.351613,0,16.55413)"
+       r="9.6875"
+       fy="25.53125"
+       fx="17.3125"
+       cy="25.53125"
+       cx="17.3125"
+       id="radialGradient3107"
+       xlink:href="#linearGradient3101"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient3101"
+       inkscape:collect="always">
+      <stop
+         id="stop3103"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:1;" />
+      <stop
+         id="stop3105"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:0;" />
+    </linearGradient>
+    <inkscape:perspective
+       id="perspective17"
+       inkscape:persp3d-origin="24 : 16 : 1"
+       inkscape:vp_z="48 : 24 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 24 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="293.34673"
+     inkscape:cy="562.96763"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1024"
+     inkscape:window-height="547"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:#e6e6e6;stroke-width:9.82093906;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2987"
+       width="630.17908"
+       height="470.17905"
+       x="28.481897"
+       y="256.55838"
+       rx="19.693096"
+       ry="19.590796" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3869"
+       style="font-size:72px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Droid Sans;-inkscape-font-specification:Droid Sans"
+       transform="matrix(1.8298349,0,0,1.8298349,-133.19654,-262.19384)"><flowRegion
+         id="flowRegion3871"><rect
+           id="rect3873"
+           width="290"
+           height="100"
+           x="225.71428"
+           y="288.07648"
+           style="font-size:72px;fill:#ffffff"
+           ry="2.8571429" /></flowRegion><flowPara
+         id="flowPara3875"
+         style="font-size:72px;fill:#ffffff">Info</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3877"
+       style="font-size:36px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#cccccc;fill-opacity:1;stroke:none;font-family:Droid Sans;-inkscape-font-specification:Droid Sans"
+       transform="translate(-1.4285714,-11.428572)"><flowRegion
+         id="flowRegion3879"><rect
+           id="rect3881"
+           width="565.71429"
+           height="272.85715"
+           x="71.428574"
+           y="433.79074"
+           style="font-size:36px;fill:#cccccc" /></flowRegion><flowPara
+         id="flowPara3885"
+         style="font-size:36px">The game you are about to play is an unfinished version released for preview purposes.</flowPara><flowPara
+         style="font-size:36px"
+         id="flowPara3889">Please, don't consider it done or upload it to the HBB yet.</flowPara><flowPara
+         style="font-size:36px"
+         id="flowPara3891">We hope you have fun!</flowPara></flowRoot>    <path
+       sodipodi:type="arc"
+       style="fill:none;stroke:#ffff99;stroke-width:15;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path4330"
+       sodipodi:cx="169.28572"
+       sodipodi:cy="335.93362"
+       sodipodi:rx="62.142857"
+       sodipodi:ry="56.42857"
+       d="m 231.42858,335.93362 a 62.142857,56.42857 0 1 1 -124.28572,0 62.142857,56.42857 0 1 1 124.28572,0 z"
+       transform="matrix(0.94879727,0,0,1.0448781,15.453598,-6.1475027)" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4840"
+       style="font-size:40px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffbe;fill-opacity:1;stroke:none;font-family:Droid Sans Mono;-inkscape-font-specification:Droid Sans Mono Italic"
+       transform="translate(-405.71429,-18.571429)"><flowRegion
+         id="flowRegion4842"><rect
+           id="rect4844"
+           width="92.857147"
+           height="158.57143"
+           x="548.57141"
+           y="306.64789"
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffbe;font-family:Droid Sans Mono;-inkscape-font-specification:Droid Sans Mono Italic;fill-opacity:1" /></flowRegion><flowPara
+         id="flowPara4846"
+         style="font-size:90px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffbe;font-family:Droid Sans Mono;-inkscape-font-specification:Droid Sans Mono Italic;fill-opacity:1">i</flowPara></flowRoot>  </g>
+</svg>
