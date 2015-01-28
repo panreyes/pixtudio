@@ -104,9 +104,11 @@ int modChipmunkPintaAgua(INSTANCE * my, int * params){
         for (y4=miny;y4<maxy;y4++){
              if ( Metaball(x4,y4,x,y,tam,*(float*)&params[5],*(float*)&params[6]))
             // *( uint32_t * ) (( uint8_t * ) map->data + map->pitch * y4 + ( x4 << 2 ))=color;
-                gr_put_pixel(map,x4,y4,params[2]);
+                gr_put_pixel(map,x4,y4,params[2],0);
         }
     }
+
+    bitmap_update_texture(map);
 }
 
 

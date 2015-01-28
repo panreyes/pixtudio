@@ -193,7 +193,7 @@ static void _moddraw_object_draw( DRAWING_OBJECT * dr, REGION * clip )
     switch ( dr->type )
     {
         case DRAWOBJ_LINE:
-            draw_line( scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1 );
+            draw_line( scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1, 1 );
             break;
 
         case DRAWOBJ_RECT:
@@ -456,7 +456,7 @@ static int moddraw_line( INSTANCE * my, int * params )
         return _moddraw_object_new( dr, drawing_z );
     }
 
-    draw_line( drawing_graph, 0, params[ 0 ], params[ 1 ], params[ 2 ] - params[ 0 ], params[ 3 ] - params[ 1 ] );
+    draw_line( drawing_graph, 0, params[ 0 ], params[ 1 ], params[ 2 ] - params[ 0 ], params[ 3 ] - params[ 1 ], 1 );
     return 1 ;
 }
 
@@ -534,7 +534,7 @@ static int moddraw_get_pixel( INSTANCE * my, int * params )
 
 static int moddraw_put_pixel( INSTANCE * my, int * params )
 {
-    gr_put_pixel( background, params[ 0 ], params[ 1 ], params[ 2 ] ) ;
+    gr_put_pixel( background, params[ 0 ], params[ 1 ], params[ 2 ], 1 ) ;
     return 1 ;
 }
 
@@ -553,7 +553,7 @@ static int moddraw_map_put_pixel( INSTANCE * my, int * params )
 {
     GRAPH * map = bitmap_get( params[ 0 ], params[ 1 ] ) ;
     if ( !map ) return 0 ;
-    gr_put_pixel( map, params[ 2 ], params[ 3 ], params[ 4 ] ) ;
+    gr_put_pixel( map, params[ 2 ], params[ 3 ], params[ 4 ], 1 ) ;
     return 1 ;
 }
 

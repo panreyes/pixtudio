@@ -96,7 +96,7 @@ int gr_get_pixel( GRAPH * dest, int x, int y )
  *
  */
 
-void gr_put_pixel( GRAPH * dest, int x, int y, int color )
+void gr_put_pixel( GRAPH * dest, int x, int y, int color, int update_texture )
 {
     if ( x < 0 || y < 0 || x >= ( int ) dest->width || y >= ( int ) dest->height ) return ;
 
@@ -173,7 +173,9 @@ void gr_put_pixel( GRAPH * dest, int x, int y, int color )
         dest->info_flags &= ~GI_NOCOLORKEY;
     }
 
-    bitmap_update_texture(dest);
+    if(update_texture) {
+        bitmap_update_texture(dest);
+    }
 }
 
 /* --------------------------------------------------------------------------- */
@@ -192,10 +194,10 @@ void gr_put_pixel( GRAPH * dest, int x, int y, int color )
  *
  */
 
-void gr_put_pixelc( GRAPH * dest, REGION * clip, int x, int y, int color )
+void gr_put_pixelc( GRAPH * dest, REGION * clip, int x, int y, int color, int update_texture )
 {
     if ( clip && x >= clip->x && x <= clip->x2 && y >= clip->y && y <= clip->y2 )
-        gr_put_pixel( dest, x, y, color );
+        gr_put_pixel( dest, x, y, color, update_texture );
 }
 
 /* --------------------------------------------------------------------------- */

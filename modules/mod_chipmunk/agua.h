@@ -5,6 +5,7 @@
 #include "bgdrtm.h"
 #include "xstrings.h"
 #include "dlvaracc.h"
+#include "g_bitmap.h"
 #include "libdraw.h"
 #include "librender.h"
 #include "mod_map.h"
