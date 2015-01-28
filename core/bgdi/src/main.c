@@ -48,11 +48,6 @@
 
 #if defined(TARGET_IOS)
 #include <SDL.h>
-#elif defined(TARGET_WII)
-#include <SDL.h>
-#include <fat.h>
-#elif defined(TARGET_PSP)
-#include "psp.h"
 #endif
 
 /* ---------------------------------------------------------------------- */
@@ -117,28 +112,10 @@ int main( int argc, char *argv[] )
     appname = strdup( appexename );
 #endif
 
-#ifdef TARGET_PSP
-    PSP_HEAP_SIZE_MAX ();
-    pspDebugScreenInit();
-    SetupCallbacks();
-#endif
-
-#ifdef TARGET_PSP
-    standalone = ( bgdrtm_strncmpi( appexename, "EBOOT", 4 ) == 0 ) ;
-#else
     standalone = ( bgdrtm_strncmpi( appexename, "bgdi", 4 ) == 0 ) ;
-#endif
 
     /* add binary path */
     file_addp( appexepath );
-
-#ifdef TARGET_WII
-    // Initialize the Wii FAT filesystem, check stuff
-    if (!fatInitDefault()) {
-        printf("Sorry, I cannot access the FAT filesystem on your card :(\n");
-        exit(1);
-    }
-#endif
 
     if ( !standalone )
     {
@@ -162,16 +139,6 @@ int main( int argc, char *argv[] )
     if ( standalone )
     {
         /* Calling BGDI.EXE so we must get all command line params */
-#ifdef TARGET_PSP
-    	filename="EBOOT.dcb";
-    	glob_t globbuf;
-    	glob("*.dcb", 0, NULL, &globbuf);
-    	if (globbuf.gl_pathc>0){
-    		filename=globbuf.gl_pathv[0];
-    		filename[strlen(filename)-4]=0;
-    	}
-#endif
-
         for ( i = 1 ; i < argc ; i++ )
         {
             if ( argv[i][0] == '-' )
@@ -291,10 +258,6 @@ int main( int argc, char *argv[] )
         mainproc_running = instance_new( mainproc, NULL ) ;
         ret = instance_go_all() ;
     }
-
-#ifdef TARGET_PSP
-    sceKernelExitGame();
-#endif
 
     bgdrtm_exit( ret );
 

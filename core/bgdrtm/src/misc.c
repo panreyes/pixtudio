@@ -248,44 +248,6 @@ void bgdrtm_entry( int argc, char * argv[] )
     else
         GLODWORD( OS_ID ) = _OS_ID ;
 
-#if defined(TARGET_GP2X_WIZ) || defined(TARGET_CAANOO)
-
-#ifdef TARGET_CAANOO
-    {
-        FILE * fp = fopen( "/usr/gp2x/version", "r" );
-        if ( fp )
-        {
-            char *p1, *p2;
-            char b[32] = "";
-
-            fgets( b, sizeof(b), fp );
-            fclose( fp );
-
-            if ( ( p2 = strchr( b, '.' ) ) )
-            {
-                *p2++ = '\0';
-                caanoo_firmware_version = atol( b ) * 1000000L;
-                if ( ( p1 = strchr( p2, '.' ) ) )
-                {
-                    *p1++ = '\0';
-                    caanoo_firmware_version += atol( p2 ) * 1000L;
-                    caanoo_firmware_version += atol( p1 );
-                }
-                else
-                {
-                    caanoo_firmware_version += atol( p2 ) * 1000L;
-                }
-            }
-        }
-    }
-#endif
-
-    __bgdrtm_memdev = open( "/dev/mem", O_RDWR );
-    __bgdrtm_memregl = mmap( 0, 0x20000, PROT_READ|PROT_WRITE, MAP_SHARED, __bgdrtm_memdev, 0xc0000000 );
-
-    bgdrtm_ptimer_init();
-#endif
-
     init_cos_tables();
 }
 
@@ -310,13 +272,6 @@ void bgdrtm_exit( int exit_value )
     if ( module_finalize_count )
         for ( n = 0; n < module_finalize_count; n++ )
             module_finalize_list[n]();
-
-#if defined(TARGET_GP2X_WIZ) || defined(TARGET_CAANOO)
-    bgdrtm_ptimer_cleanup();
-
-    __bgdrtm_memregl = munmap( 0, 0x20000 ); __bgdrtm_memregl = NULL;
-    close( __bgdrtm_memdev ); __bgdrtm_memdev = -1;
-#endif
 
     exit( exit_value ) ;
 }

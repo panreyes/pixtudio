@@ -111,18 +111,10 @@ void gr_wait_frame()
     /* -------------- */
 
     /* Tomo Tick actual */
-#if defined(TARGET_GP2X_WIZ) || defined(TARGET_CAANOO)
-    frame_ticks = bgdrtm_ptimer_get_ticks_us() / 1000L;
-#else
     frame_ticks = SDL_GetTicks() ;
-#endif
     if ( !FPS_init_sync )
     {
-#if defined(TARGET_GP2X_WIZ) || defined(TARGET_CAANOO)
-        FPS_init_sync = FPS_init = bgdrtm_ptimer_get_ticks_us() / 1000L;
-#else
         FPS_init_sync = FPS_init = SDL_GetTicks() ;
-#endif
         FPS_count_sync = FPS_count = 0 ;
         jump = 0;
 
