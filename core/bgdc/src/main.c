@@ -41,12 +41,6 @@
 #include "Shlwapi.h"
 #endif
 
-#ifdef TARGET_WII
-#include <fat.h>
-#include <wiiuse/wpad.h>
-#endif
-
-
 #include "bgdc.h"
 
 #include "errors.h"
