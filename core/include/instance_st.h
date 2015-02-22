@@ -100,8 +100,7 @@ typedef struct _instance
 
     int breakpoint;
 
-}
-INSTANCE ;
+} INSTANCE ;
 
 /* Macros para acceder a datos locales o privados de una instancia */
 

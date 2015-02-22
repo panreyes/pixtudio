@@ -50,8 +50,7 @@ typedef struct _sentence
     int line ;
     int col ;
     int offset ;
-}
-SENTENCE ;
+} SENTENCE ;
 
 typedef struct _procdef
 {
@@ -83,8 +82,7 @@ typedef struct _procdef
 
     SENTENCE    * sentences ;
     int         sentence_count ;
-}
-PROCDEF ;
+} PROCDEF ;
 
 extern int procdef_count ;
 extern int procdef_maxid ;

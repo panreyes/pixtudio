@@ -32,7 +32,7 @@
 
 #include "instance_st.h"
 
-/* Process definitions, more simple that in the compiler */
+/* Process definitions, more simple than in the compiler */
 
 typedef struct _procdef
 {

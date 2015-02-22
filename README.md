@@ -8,3 +8,4 @@ The main differences of this projects with the regular BennuGD version are:
 * Support for graphics with a bit depth below 16bpp does not work and will be removed, at some point
 
 Most of these changes were performed in order to improve the engine for use with the (unsuccessful) Kickstarter for [Explosive Dinosaurs](https://www.kickstarter.com/projects/rawrlab/explosive-dinosaurs-minigames-dinosaurs-and-explos)
+

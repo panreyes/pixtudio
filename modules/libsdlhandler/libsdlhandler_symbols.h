@@ -29,10 +29,9 @@
 #ifndef __SDLHANDLER_H
 #define __SDLHANDLER_H
 
-#include <bgddl.h>
-
 #ifdef __BGDC__
 #else
+#include <bgddl.h>
 extern void __bgdexport( libsdlhandler, module_initialize )();
 extern void __bgdexport( libsdlhandler, module_finalize )();
 extern HOOK __bgdexport( libsdlhandler, handler_hooks )[];

@@ -58,12 +58,6 @@ DLCONSTANT __bgdexport( librender, constants_def )[] =
     { "BACKGROUND",         TYPE_DWORD, 0 },
     { "SCREEN",             TYPE_DWORD, -1 },
 
-    { "SCALE_SCALE2X",      TYPE_DWORD, SCALE_SCALE2X    },
-    { "SCALE_HQ2X",         TYPE_DWORD, SCALE_HQ2X       },
-    { "SCALE_SCANLINE2X",   TYPE_DWORD, SCALE_SCANLINE2X },
-    { "SCALE_NORMAL2X",     TYPE_DWORD, SCALE_NOFILTER   },
-    { "SCALE_NOFILTER",     TYPE_DWORD, SCALE_NOFILTER   },
-
     { NULL          , 0         ,  0  }
 } ;
 
