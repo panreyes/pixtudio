@@ -235,9 +235,12 @@ int file_qgets( file * fp, char * buffer, int len )
         {
             retval = SDL_RWread( fp->rwops, ptr, 1, 1 );
             fp->eof = (retval == 0);
-            l += retval ;
+            if retval > 0 {
+                l += retval ;
+            } else {
+                break;
+            }
             if ( *ptr++ == '\n' ) break ;
-            if ( retval == 0 ) break ;
         }
         *ptr = 0 ;
 
@@ -327,9 +330,12 @@ int file_gets( file * fp, char * buffer, int len )
         {
             retval = SDL_RWread(fp->rwops, ptr, 1, 1);
             fp->eof = (retval == 0);
-            l += retval ;
+            if(retval > 0) {
+                l += retval ;
+            } else {
+                break;
+            }
             if ( *ptr++ == '\n' ) break ;
-            if ( retval == 0 ) break ;
         }
         *ptr = 0 ;
 
