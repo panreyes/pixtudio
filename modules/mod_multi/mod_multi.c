@@ -23,14 +23,13 @@
  */
 
 #include <stdio.h>
-#include <strings.h>
-#include <bgddl.h>
 #include <libvideo.h>
 #include <g_video.h>
 #include <libmouse_symbols.h>
 #include <SDL.h>
 #include "bgddl.h"
 #include "dlvaracc.h"
+ #include "xstrings.h"
 
 #ifndef MAX_POINTERS
 #   define MAX_POINTERS 10
@@ -230,7 +229,6 @@ static int modmulti_info(INSTANCE * my, int * params) {
         if(pointers[n].active == SDL_TRUE) {
             return 1;
         } else {
-
             return 0;
         }
     }
