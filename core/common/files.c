@@ -42,10 +42,6 @@
 #include <assert.h>
 #endif
 
-#ifdef TARGET_WII
-#include <realpath.h>
-#endif
-
 #ifdef WITH_SDLRWOPS
 #include <SDL_rwops.h>
 #endif
@@ -193,13 +189,13 @@ int file_qputs( file * fp, char * buffer )
     return file_write( fp, dest, optr - dest ) ;
 }
 
-/* Load a string from a file and unquoted it */
+/* Load a string from a file and unquote it */
 
 int file_qgets( file * fp, char * buffer, int len )
 {
     char * result = NULL ;
     char * ptr = result = buffer ;
-    int l = 0;
+    int l = 0, retval = 0;
 
     if ( fp->type == F_XFILE )
     {
@@ -237,9 +233,11 @@ int file_qgets( file * fp, char * buffer, int len )
     {
         while ( l < len )
         {
-            SDL_RWread( fp->rwops, ptr, 1, 1 );
-            l++ ;
+            retval = SDL_RWread( fp->rwops, ptr, 1, 1 );
+            fp->eof = (retval == 0);
+            l += retval ;
             if ( *ptr++ == '\n' ) break ;
+            if ( retval == 0 ) break ;
         }
         *ptr = 0 ;
 
@@ -289,7 +287,7 @@ int file_gets( file * fp, char * buffer, int len )
 {
     char * result = NULL ;
     char * ptr = result = buffer ;
-    int l = 0;
+    int l = 0, retval = 0;
 
     if ( fp->type == F_XFILE )
     {
@@ -327,9 +325,11 @@ int file_gets( file * fp, char * buffer, int len )
     {
         while ( l < len )
         {
-            SDL_RWread(fp->rwops, ptr, 1, 1);
-            l++ ;
+            retval = SDL_RWread(fp->rwops, ptr, 1, 1);
+            fp->eof = (retval == 0);
+            l += retval ;
             if ( *ptr++ == '\n' ) break ;
+            if ( retval == 0 ) break ;
         }
         *ptr = 0 ;
 
