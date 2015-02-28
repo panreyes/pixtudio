@@ -50,9 +50,6 @@ define bin2o
 	echo "extern const u32" `(echo $(<F) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`_size";" >> `(echo $(<F) | tr . _)`.h
 endef
 
-
-
-
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
 # BUILD is the directory where object files & intermediate files will be placed
@@ -78,7 +75,7 @@ LDFLAGS		=	-m32 -g $(MACHDEP)
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
 ifeq ($(OS),Windows_NT)
-	EXTRA_LIBS = -lmingw32 -mwindows
+	EXTRA_LIBS = -lmingw32 -mwindows -lwsock32 -Wl,-subsystem,console
 else
 	EXTRA_LIBS = -lc
 endif
