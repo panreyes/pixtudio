@@ -136,7 +136,7 @@ basic_symbols symbol_list[] =
     { "libsdlhandler.fakelib", NULL, NULL, NULL, NULL, NULL, NULL },
     { "libjoy.fakelib"       , libjoy_modules_dependency, libjoy_constants_def, NULL, NULL, NULL, NULL },
     { "libgrbase.fakelib"    , NULL, NULL, NULL, libgrbase_globals_def, NULL, NULL },
-    { "libblit.fakelib"      , NULL, NULL, NULL, NULL, NULL, NULL },
+    { "libblit.fakelib"      , NULL, libblit_constants_def, NULL, NULL, NULL, NULL },
     { "libvideo.fakelib"     , libvideo_modules_dependency, libvideo_constants_def, NULL, libvideo_globals_def, NULL, NULL },
     { "librender.fakelib"    , librender_modules_dependency, librender_constants_def, NULL, librender_globals_def, librender_locals_def, NULL },
     { "libmouse.fakelib"     , libmouse_modules_dependency, NULL, NULL, libmouse_globals_def, NULL, NULL },

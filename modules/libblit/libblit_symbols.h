@@ -31,6 +31,8 @@
 
 #include <bgddl.h>
 
+/* --------------------------------------------------------------------------- */
+#ifdef __BGDC__
 #define B_HMIRROR       0x0001
 #define B_VMIRROR       0x0002
 #define B_TRANSLUCENT   0x0004
@@ -39,8 +41,21 @@
 #define B_SBLEND        0x0020
 #define B_NOCOLORKEY    0x0080
 
-/* --------------------------------------------------------------------------- */
+DLCONSTANT __bgdexport( libblit, constants_def )[] =
+{
+    /* Flags para gr_blit */
+    { "B_HMIRROR"           , TYPE_DWORD, B_HMIRROR     },
+    { "B_VMIRROR"           , TYPE_DWORD, B_VMIRROR     },
+    { "B_TRANSLUCENT"       , TYPE_DWORD, B_TRANSLUCENT },
+    { "B_ALPHA"             , TYPE_DWORD, B_ALPHA       },
+    { "B_ABLEND"            , TYPE_DWORD, B_ABLEND      },
+    { "B_SBLEND"            , TYPE_DWORD, B_SBLEND      },
+    { "B_NOCOLORKEY"        , TYPE_DWORD, B_NOCOLORKEY  },
 
+    { NULL                  , 0         ,  0            }
+} ;
+#else
 extern DLCONSTANT __bgdexport( libblit, constants_def )[];
+#endif
 
 #endif
