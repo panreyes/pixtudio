@@ -176,7 +176,7 @@ basic_symbols symbol_list[] =
 #endif
     { "mod_draw.fakelib"     , mod_draw_modules_dependency, NULL, NULL, NULL, NULL, mod_draw_functions_exports },
     { "mod_screen.fakelib"   , mod_screen_modules_dependency, NULL, NULL, NULL, NULL, mod_screen_functions_exports },
-    { "mod_path.fakelib"     , mod_path_modules_dependency, NULL, NULL, NULL, NULL, mod_path_functions_exports },
+    { "mod_path.fakelib"     , mod_path_modules_dependency, mod_path_constants_def, NULL, NULL, NULL, mod_path_functions_exports },
     { "mod_effects.fakelib"  , mod_effects_modules_dependency, mod_effects_constants_def, NULL, NULL, NULL, mod_effects_functions_exports },
     { "mod_blendop.fakelib"  , mod_blendop_modules_dependency, NULL, NULL, NULL, NULL, mod_blendop_functions_exports },
     { "mod_wm.fakelib"       , mod_wm_modules_dependency, NULL, NULL, NULL, NULL, mod_wm_functions_exports },

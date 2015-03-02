@@ -46,8 +46,7 @@ typedef struct _node
     struct _node * parent ;
     struct _node * next ;
     struct _node * inext ;
-}
-node ;
+} node ;
 
 /* --------------------------------------------------------------------------- */
 
