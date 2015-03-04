@@ -1,5 +1,5 @@
 /*
- *  Copyright ï¿½ 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
  *
  *  This file is part of PixTudio
  *
