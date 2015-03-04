@@ -103,13 +103,11 @@ char * __bgdexport( librender, locals_def ) =
     "size_x=100;\n"
     "size_y=100;\n"
     "blendop=0;\n"
-    "pointer xgraph;\n"
     "collision_graph;\n"
 
     "STRUCT _render_reserved_\n"
     "object_id=0;\n"
     "graph_ptr=0;\n"
-    "xgraph_flags;\n"
     "STRUCT _saved_\n"
     "x;\n"
     "y;\n"
@@ -124,7 +122,6 @@ char * __bgdexport( librender, locals_def ) =
     "size_x;\n"
     "size_y;\n"
     "blendop;\n"
-    "pointer xgraph;\n"
     "centerx;\n"
     "centery;\n"
     "END\n"
@@ -173,12 +170,10 @@ DLVARFIXUP __bgdexport( librender, locals_fixup )[] =
     { "size_x" , NULL, -1, -1 },                                            // 14           GRAPHSIZEX          14
     { "size_y" , NULL, -1, -1 },                                            // 15           GRAPHSIZEY          15
     { "blendop" , NULL, -1, -1 },                                           // 16           BLENDOP             16
-    { "xgraph" , NULL, -1, -1 },                                            // 17           XGRAPH              17
     { "collision_graph" , NULL, -1, -1 },                                   // 18           COLLISIONGRAPHID    18
 
     { "_render_reserved_.object_id" , NULL, -1, -1 },                       // 19           OBJECTID            19
     { "_render_reserved_.graph_ptr" , NULL, -1, -1 },                       // 20           GRAPHPTR            20
-    { "_render_reserved_.xgraph_flags" , NULL, -1, -1 },                    // 21           XGRAPH_FLAGS        21
 
     { "_render_reserved_._saved_.x" , NULL, -1, -1 },                       // 22           SAVED_COORDX        22
     { "_render_reserved_._saved_.y" , NULL, -1, -1 },                       // 23           SAVED_COORDY        23
@@ -193,7 +188,6 @@ DLVARFIXUP __bgdexport( librender, locals_fixup )[] =
     { "_render_reserved_._saved_.size_x" , NULL, -1, -1 },                  // 32           SAVED_GRAPHSIZEX    32
     { "_render_reserved_._saved_.size_y" , NULL, -1, -1 },                  // 33           SAVED_GRAPHSIZEY    33
     { "_render_reserved_._saved_.blendop" , NULL, -1, -1 },                 // 34           SAVED_BLENDOP       34
-    { "_render_reserved_._saved_.xgraph" , NULL, -1, -1 },                  // 35           SAVED_XGRAPH        35
     { "_render_reserved_._saved_.centerx" , NULL, -1, -1 },                 // 36           SAVED_COORDX        36
     { "_render_reserved_._saved_.centery" , NULL, -1, -1 },                 // 37           SAVED_COORDY        37
 
