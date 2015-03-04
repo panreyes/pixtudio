@@ -95,6 +95,7 @@ enum {
     GRAPHSIZEY,
     BLENDOP,
     XGRAPH,
+    COLLISIONGRAPHID,
 
     OBJECTID,
     GRAPHPTR,

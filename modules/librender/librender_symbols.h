@@ -108,6 +108,7 @@ char __bgdexport( librender, locals_def )[] =
     "size_y=100;\n"
     "blendop=0;\n"
     "pointer xgraph;\n"
+    "collision_graph;\n"
 
     "STRUCT _render_reserved_\n"
     "object_id=0;\n"

@@ -91,7 +91,10 @@ GRAPH * instance_graph( INSTANCE * i )
     }
 
     // Get GRAPH * to draw
-    if (( c = LOCDWORD( librender, i, GRAPHID ) ) )
+    if (( c = LOCDWORD( librender, i, COLLISIONGRAPHID ) ) )
+    {
+        return bitmap_get( LOCDWORD( librender, i, FILEID ), c ) ;
+    } else if (( c = LOCDWORD( librender, i, GRAPHID ) ) )
     {
         return bitmap_get( LOCDWORD( librender, i, FILEID ), c ) ;
     }

@@ -104,6 +104,7 @@ char * __bgdexport( librender, locals_def ) =
     "size_y=100;\n"
     "blendop=0;\n"
     "pointer xgraph;\n"
+    "collision_graph;\n"
 
     "STRUCT _render_reserved_\n"
     "object_id=0;\n"
@@ -173,29 +174,30 @@ DLVARFIXUP __bgdexport( librender, locals_fixup )[] =
     { "size_y" , NULL, -1, -1 },                                            // 15           GRAPHSIZEY          15
     { "blendop" , NULL, -1, -1 },                                           // 16           BLENDOP             16
     { "xgraph" , NULL, -1, -1 },                                            // 17           XGRAPH              17
+    { "collision_graph" , NULL, -1, -1 },                                   // 18           COLLISIONGRAPHID    18
 
-    { "_render_reserved_.object_id" , NULL, -1, -1 },                       // 18           OBJECTID            18
-    { "_render_reserved_.graph_ptr" , NULL, -1, -1 },                       // 19           GRAPHPTR            19
-    { "_render_reserved_.xgraph_flags" , NULL, -1, -1 },                    // 20           XGRAPH_FLAGS        20
+    { "_render_reserved_.object_id" , NULL, -1, -1 },                       // 19           OBJECTID            19
+    { "_render_reserved_.graph_ptr" , NULL, -1, -1 },                       // 20           GRAPHPTR            20
+    { "_render_reserved_.xgraph_flags" , NULL, -1, -1 },                    // 21           XGRAPH_FLAGS        21
 
-    { "_render_reserved_._saved_.x" , NULL, -1, -1 },                       // 21           SAVED_COORDX        21
-    { "_render_reserved_._saved_.y" , NULL, -1, -1 },                       // 22           SAVED_COORDY        22
-    { "_render_reserved_._saved_.z" , NULL, -1, -1 },                       // 23           SAVED_COORDZ        23
-    { "_render_reserved_._saved_.file" , NULL, -1, -1 },                    // 24           SAVED_FILEID        24
-    { "_render_reserved_._saved_.graph" , NULL, -1, -1 },                   // 25           SAVED_GRAPHID       25
-    { "_render_reserved_._saved_.size" , NULL, -1, -1 },                    // 26           SAVED_GRAPHSIZE     26
-    { "_render_reserved_._saved_.angle" , NULL, -1, -1 },                   // 27           SAVED_ANGLE         27
-    { "_render_reserved_._saved_.flags" , NULL, -1, -1 },                   // 28           SAVED_FLAGS         28
-    { "_render_reserved_._saved_.alpha" , NULL, -1, -1 },                   // 29           SAVED_ALPHA         29
-    { "_render_reserved_._saved_.palette" , NULL, -1, -1 },                 // 30           SAVED_PALETTE       30
-    { "_render_reserved_._saved_.size_x" , NULL, -1, -1 },                  // 31           SAVED_GRAPHSIZEX    31
-    { "_render_reserved_._saved_.size_y" , NULL, -1, -1 },                  // 32           SAVED_GRAPHSIZEY    32
-    { "_render_reserved_._saved_.blendop" , NULL, -1, -1 },                 // 33           SAVED_BLENDOP       33
-    { "_render_reserved_._saved_.xgraph" , NULL, -1, -1 },                  // 34           SAVED_XGRAPH        34
-    { "_render_reserved_._saved_.centerx" , NULL, -1, -1 },                 // 35           SAVED_COORDX        35
-    { "_render_reserved_._saved_.centery" , NULL, -1, -1 },                 // 36           SAVED_COORDY        36
+    { "_render_reserved_._saved_.x" , NULL, -1, -1 },                       // 22           SAVED_COORDX        22
+    { "_render_reserved_._saved_.y" , NULL, -1, -1 },                       // 23           SAVED_COORDY        23
+    { "_render_reserved_._saved_.z" , NULL, -1, -1 },                       // 24           SAVED_COORDZ        24
+    { "_render_reserved_._saved_.file" , NULL, -1, -1 },                    // 25           SAVED_FILEID        25
+    { "_render_reserved_._saved_.graph" , NULL, -1, -1 },                   // 26           SAVED_GRAPHID       26
+    { "_render_reserved_._saved_.size" , NULL, -1, -1 },                    // 27           SAVED_GRAPHSIZE     27
+    { "_render_reserved_._saved_.angle" , NULL, -1, -1 },                   // 28           SAVED_ANGLE         28
+    { "_render_reserved_._saved_.flags" , NULL, -1, -1 },                   // 29           SAVED_FLAGS         29
+    { "_render_reserved_._saved_.alpha" , NULL, -1, -1 },                   // 30           SAVED_ALPHA         30
+    { "_render_reserved_._saved_.palette" , NULL, -1, -1 },                 // 31           SAVED_PALETTE       31
+    { "_render_reserved_._saved_.size_x" , NULL, -1, -1 },                  // 32           SAVED_GRAPHSIZEX    32
+    { "_render_reserved_._saved_.size_y" , NULL, -1, -1 },                  // 33           SAVED_GRAPHSIZEY    33
+    { "_render_reserved_._saved_.blendop" , NULL, -1, -1 },                 // 34           SAVED_BLENDOP       34
+    { "_render_reserved_._saved_.xgraph" , NULL, -1, -1 },                  // 35           SAVED_XGRAPH        35
+    { "_render_reserved_._saved_.centerx" , NULL, -1, -1 },                 // 36           SAVED_COORDX        36
+    { "_render_reserved_._saved_.centery" , NULL, -1, -1 },                 // 37           SAVED_COORDY        37
 
-    { "reserved.status" , NULL, -1, -1 },                                   // 37           STATUS              37
+    { "reserved.status" , NULL, -1, -1 },                                   // 38           STATUS              38
 
     { NULL , NULL, -1, -1 }
 };
