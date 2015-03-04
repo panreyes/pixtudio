@@ -13,27 +13,27 @@
 #---------------------------------------------------------------------------------
 %.o: %.cpp
 	@echo $(notdir $<)
-	@$(CXX) -MMD -MP $(CXXFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CXX) -MP $(CXXFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.c
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP $(CFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MP $(CFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.m
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP $(OBJCFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MP $(OBJCFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.s
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MP -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.S
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MP -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %:
@@ -56,7 +56,7 @@ endef
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
 #---------------------------------------------------------------------------------
-TARGET		:=	main
+TARGET		:=	bgdi
 BUILD       :=	build
 SOURCES		:=	../../core/bgdi/src
 INCLUDES	:=	../../core/include \
@@ -148,14 +148,10 @@ clean:
 #---------------------------------------------------------------------------------
 else
 
-DEPENDS	:=	$(OFILES:.o=.d)
-
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
 $(OUTPUT): $(OFILES)
-
--include $(DEPENDS)
 
 #---------------------------------------------------------------------------------
 endif

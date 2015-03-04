@@ -13,27 +13,27 @@
 #---------------------------------------------------------------------------------
 %.o: %.cpp
 	@echo $(notdir $<)
-	@$(CXX) -MMD -MP $(CXXFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CXX) -MP $(CXXFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.c
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP $(CFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MP $(CFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.m
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP $(OBJCFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MP $(OBJCFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.s
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MP -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.S
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MP -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.elf:
@@ -266,8 +266,6 @@ clean:
 #---------------------------------------------------------------------------------
 else
 
-DEPENDS	:=	$(OFILES:.o=.d)
-
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
@@ -275,8 +273,6 @@ $(OUTPUT).a: $(OFILES)
 	@echo Gonna link $(OUTPUT).a
 	@ar crs $@ $(OFILES)
 	@echo done linking
-
--include $(DEPENDS)
 
 #---------------------------------------------------------------------------------
 endif

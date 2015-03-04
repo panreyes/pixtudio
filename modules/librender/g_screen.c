@@ -35,8 +35,6 @@
 
 /* --------------------------------------------------------------------------- */
 
-static GRAPH * scrbitmap_extra = NULL ;
-
 static int updaterects_count = 0;
 static REGION updaterects[ DIRTYCOLS * DIRTYROWS ];
 

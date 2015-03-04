@@ -362,7 +362,8 @@ static int modmap_map_block_copy( INSTANCE * my, int * params )
     GRAPH * dest, * orig ;
     REGION clip ;
     int centerx, centery, flag ;
-    uint32_t x, y, w, h, dx, dy ;
+    int32_t x, y, dx, dy ;
+    uint32_t w, h ;
 
     dest = bitmap_get( params[0], params[1] ) ;
     if ( !dest ) return 0;
@@ -461,88 +462,6 @@ static int modmap_save_map( INSTANCE * my, int * params )
     return r ;
 }
 
-/* ---------------------------------------------------------------------- */
-
-static int modmap_load_pal( INSTANCE * my, int * params )
-{
-    int r = gr_load_pal( string_get( params[0] ) ) ;
-    string_discard( params[0] ) ;
-    return r ;
-}
-
-/* ---------------------------------------------------------------------- */
-
-static int modmap_save_pal( INSTANCE * my, int * params )
-{
-    int r = gr_save_pal( string_get( params[0] ), ( PALETTE * )params[1] );
-    string_discard( params[0] );
-    return r;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_save_system_pal( INSTANCE * my, int * params )
-{
-    int r = gr_save_system_pal( string_get( params[0] ) );
-    string_discard( params[0] );
-    return r;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_convert_palette( INSTANCE * my, int * params )
-{
-    GRAPH * map = bitmap_get( params[0], params[1] ) ;
-    int * newpal = ( int * ) params[2];
-    uint32_t x, y ;
-    uint8_t * orig, * ptr ;
-
-    if ( !map ) return -1 ;
-    if ( map->format->depth != 8 ) return 0;
-
-    orig = ( uint8_t * )map->data ;
-    for ( y = 0 ; y < map->height; y++ )
-    {
-        ptr = orig + map->pitch * y ;
-        for ( x = 0 ; x < map->width ; x++, ptr++ ) *ptr = newpal[*ptr] ;
-    }
-
-    map->modified = 1;
-
-    return 1 ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_set_colors( INSTANCE * my, int * params )
-{
-    gr_set_colors( params[0], params[1], ( uint8_t * )params[2] ) ;
-    return 1 ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_get_colors( INSTANCE * my, int * params )
-{
-    gr_get_colors( params[0], params[1], ( uint8_t * )params[2] ) ;
-    return 1 ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_roll_palette( INSTANCE * my, int * params )
-{
-    gr_roll_palette( params[0], params[1], params[2] ) ;
-    return 1 ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_find_color( INSTANCE * my, int * params )
-{
-    return gr_find_nearest_color( params[0], params[1], params[2] ) ;
-}
-
 /* --------------------------------------------------------------------------- */
 
 static int modmap_get_rgb( INSTANCE * my, int * params )
@@ -633,108 +552,6 @@ static int modmap_fade_off( INSTANCE * my, int * params )
 {
     gr_fade_init( 0, 0, 0, 16 ) ;
     return 1;
-}
-
-/* --------------------------------------------------------------------------- */
-/* Palette */
-
-static int modmap_pal_create( INSTANCE * my, int * params )
-{
-    return ( int ) pal_new(( PALETTE * )NULL ) ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_pal_clone( INSTANCE * my, int * params )
-{
-    return ( int ) pal_new(( PALETTE * )( params[0] ) ) ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_pal_unload( INSTANCE * my, int * params )
-{
-    pal_destroy(( PALETTE * )( params[0] ) ) ;
-    return 1;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_pal_refresh( INSTANCE * my, int * params )
-{
-    pal_refresh( NULL ) ;
-    return 1;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_pal_refresh_2( INSTANCE * my, int * params )
-{
-    pal_refresh(( PALETTE * )( params[0] ) );
-    return 1;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_pal_map_assign( INSTANCE * my, int * params )
-{
-    return pal_map_assign( params[0], params[1], ( PALETTE * )( params[2] ) );
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_pal_map_remove( INSTANCE * my, int * params )
-{
-    return pal_map_remove( params[0], params[1] );
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_pal_map_getid( INSTANCE * my, int * params )
-{
-    GRAPH * bmp = bitmap_get( params[0], params[1] ) ;
-    if ( !bmp || bmp->format->depth != 8 ) return 0 ;
-    return ( int ) bmp->format->palette ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_set_system_pal( INSTANCE * my, int * params )
-{
-    if ( pal_set(( PALETTE * )NULL, 0, 256, ( uint8_t * )(( PALETTE * )params[0])->rgb ) )
-    {
-        pal_refresh( sys_pixel_format->palette );
-        return 1;
-    }
-    return 0;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_set_system_pal_raw( INSTANCE * my, int * params )
-{
-    if ( pal_set(( PALETTE * )NULL, 0, 256, ( uint8_t * )params[0] ) )
-    {
-        pal_refresh( sys_pixel_format->palette );
-        return 1;
-    }
-    return 0;
-}
-
-/* ---------------------------------------------------------------------- */
-
-static int modmap_pal_set( INSTANCE * my, int * params )
-{
-    int ret = pal_set(( PALETTE * )( params[0] ), params[1], params[2], ( uint8_t * )params[3] ) ;
-    if ( ret && !params[0] ) pal_refresh( sys_pixel_format->palette );
-    return ret;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modmap_pal_get( INSTANCE * my, int * params )
-{
-    return ( pal_get(( PALETTE * )( params[0] ), params[1], params[2], ( uint8_t * )params[3] ) ) ;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -987,12 +804,6 @@ static int modmap_bgload_pcx( INSTANCE * my, int * params )
     return 0 ;
 }
 
-static int modmap_bgload_pal( INSTANCE * my, int * params )
-{
-    bgload( gr_load_pal, params ) ;
-    return 0 ;
-}
-
 static int modmap_bgload_fnt( INSTANCE * my, int * params )
 {
     bgload( gr_font_load, params );
@@ -1037,37 +848,6 @@ DLSYSFUNCS  __bgdexport( mod_map, functions_exports )[] =
     { "FPG_SAVE"            , "IS"          , TYPE_INT      , modmap_save_fpg           },
     { "FPG_DEL"             , "I"           , TYPE_INT      , modmap_unload_fpg         },
     { "FPG_UNLOAD"          , "I"           , TYPE_INT      , modmap_unload_fpg         },
-
-    /* Palette */
-    { "PAL_NEW"             , ""            , TYPE_INT      , modmap_pal_create         },
-    { "PAL_DEL"             , "I"           , TYPE_INT      , modmap_pal_unload         },
-    { "PAL_UNLOAD"          , "I"           , TYPE_INT      , modmap_pal_unload         },
-    { "PAL_CLONE"           , "I"           , TYPE_INT      , modmap_pal_clone          },
-    { "PAL_REFRESH"         , ""            , TYPE_INT      , modmap_pal_refresh        },
-    { "PAL_REFRESH"         , "I"           , TYPE_INT      , modmap_pal_refresh_2      },
-    { "PAL_MAP_GETID"       , "II"          , TYPE_INT      , modmap_pal_map_getid      },
-    { "PAL_MAP_ASSIGN"      , "III"         , TYPE_INT      , modmap_pal_map_assign     },
-    { "PAL_MAP_REMOVE"      , "II"          , TYPE_INT      , modmap_pal_map_remove     },
-    { "PAL_GET"             , "IIP"         , TYPE_INT      , modmap_get_colors         },
-    { "PAL_GET"             , "IIIP"        , TYPE_INT      , modmap_pal_get            },
-    { "PAL_SYS_SET"         , "I"           , TYPE_INT      , modmap_set_system_pal     },
-    { "PAL_SYS_SET"         , "P"           , TYPE_INT      , modmap_set_system_pal_raw },
-    { "PAL_SET"             , "IIP"         , TYPE_INT      , modmap_set_colors         },
-    { "PAL_SET"             , "IIIP"        , TYPE_INT      , modmap_pal_set            },
-    { "PAL_SAVE"            , "S"           , TYPE_INT      , modmap_save_system_pal    },
-    { "PAL_SAVE"            , "SI"          , TYPE_INT      , modmap_save_pal           },
-    { "PAL_LOAD"            , "S"           , TYPE_INT      , modmap_load_pal           },
-    { "PAL_LOAD"            , "SP"          , TYPE_INT      , modmap_bgload_pal         },
-
-    { "COLORS_SET"          , "IIP"         , TYPE_INT      , modmap_set_colors         },
-    { "COLORS_SET"          , "IIIP"        , TYPE_INT      , modmap_pal_set            },
-    { "COLORS_GET"          , "IIP"         , TYPE_INT      , modmap_get_colors         },
-    { "COLORS_GET"          , "IIIP"        , TYPE_INT      , modmap_pal_get            },
-
-    { "PALETTE_ROLL"        , "III"         , TYPE_INT      , modmap_roll_palette       },
-    { "PALETTE_CONVERT"     , "IIP"         , TYPE_INT      , modmap_convert_palette    },
-
-    { "COLOR_FIND"          , "BBB"         , TYPE_INT      , modmap_find_color         },
 
     { "RGB"                 , "BBBI"        , TYPE_INT      , modmap_rgb_depth          },
     { "RGBA"                , "BBBBI"       , TYPE_INT      , modmap_rgba_depth         },
@@ -1120,68 +900,6 @@ DLSYSFUNCS  __bgdexport( mod_map, functions_exports )[] =
 
     /* Exportacion de mapas Graficos */
     { "PNG_SAVE"            , "IIS"         , TYPE_INT      , modmap_save_png           },
-
-    /* ------------ Compatibility ------------ */
-
-    /* Mapas */
-    { "NEW_MAP"             , "III"         , TYPE_INT      , modmap_new_map            },
-    { "LOAD_MAP"            , "S"           , TYPE_INT      , modmap_load_map           },
-    { "LOAD_MAP"            , "SP"          , TYPE_INT      , modmap_bgload_map         },
-    { "UNLOAD_MAP"          , "II"          , TYPE_INT      , modmap_unload_map         },
-    { "SAVE_MAP"            , "IIS"         , TYPE_INT      , modmap_save_map           },
-
-    /* Palette */
-    { "NEW_PAL"             , ""            , TYPE_INT      , modmap_pal_create         },
-    { "LOAD_PAL"            , "S"           , TYPE_INT      , modmap_load_pal           },
-    { "LOAD_PAL"            , "SP"          , TYPE_INT      , modmap_bgload_pal         },
-    { "UNLOAD_PAL"          , "I"           , TYPE_INT      , modmap_pal_unload         },
-    { "SAVE_PAL"            , "S"           , TYPE_INT      , modmap_save_system_pal    },
-    { "SAVE_PAL"            , "SI"          , TYPE_INT      , modmap_save_pal           },
-    { "SET_COLORS"          , "IIP"         , TYPE_INT      , modmap_set_colors         },
-    { "SET_COLORS"          , "IIIP"        , TYPE_INT      , modmap_pal_set            },
-    { "GET_COLORS"          , "IIP"         , TYPE_INT      , modmap_get_colors         },
-    { "GET_COLORS"          , "IIIP"        , TYPE_INT      , modmap_pal_get            },
-    { "ROLL_PALETTE"        , "III"         , TYPE_INT      , modmap_roll_palette       },
-    { "CONVERT_PALETTE"     , "IIP"         , TYPE_INT      , modmap_convert_palette    },
-    { "FIND_COLOR"          , "BBB"         , TYPE_INT      , modmap_find_color         },
-    { "GET_RGB"             , "IPPPI"       , TYPE_INT      , modmap_get_rgb_depth      },
-    { "GET_RGBA"            , "IPPPPI"      , TYPE_INT      , modmap_get_rgba_depth     },
-    { "GET_RGB"             , "IPPP"        , TYPE_INT      , modmap_get_rgb            },
-    { "GET_RGBA"            , "IPPPP"       , TYPE_INT      , modmap_get_rgba           },
-
-    /* FPG */
-    { "NEW_FPG"             , ""            , TYPE_INT      , modmap_fpg_new            },
-    { "LOAD_FPG"            , "S"           , TYPE_INT      , modmap_load_fpg           },
-    { "LOAD_FPG"            , "SP"          , TYPE_INT      , modmap_bgload_fpg         },
-    { "SAVE_FPG"            , "IS"          , TYPE_INT      , modmap_save_fpg           },
-    { "UNLOAD_FPG"          , "I"           , TYPE_INT      , modmap_unload_fpg         },
-
-    /* Puntos de control */
-    { "GET_POINT"           , "IIIPP"       , TYPE_INT      , modmap_get_point          },
-    { "SET_POINT"           , "IIIII"       , TYPE_INT      , modmap_set_point          },
-    { "SET_CENTER"          , "IIII"        , TYPE_INT      , modmap_set_center         },
-
-    /* Fonts */
-    { "NEW_FNT"             , "I"           , TYPE_INT      , modmap_fnt_new            },
-    { "NEW_FNT"             , "II"          , TYPE_INT      , modmap_fnt_new_charset    },
-    { "NEW_FNT"             , "IIIIIIII"    , TYPE_INT      , modmap_fnt_new_from_bitmap},
-    { "LOAD_FNT"            , "S"           , TYPE_INT      , modmap_load_fnt           },
-    { "LOAD_FNT"            , "SP"          , TYPE_INT      , modmap_bgload_fnt         },
-    { "UNLOAD_FNT"          , "I"           , TYPE_INT      , modmap_unload_fnt         },
-    { "SAVE_FNT"            , "IS"          , TYPE_INT      , modmap_save_fnt           },
-    { "LOAD_BDF"            , "S"           , TYPE_INT      , modmap_load_bdf           },
-    { "LOAD_BDF"            , "SP"          , TYPE_INT      , modmap_bgload_bdf         },
-    { "GET_GLYPH"           , "II"          , TYPE_INT      , modmap_get_glyph          },
-    { "SET_GLYPH"           , "IIII"        , TYPE_INT      , modmap_set_glyph          },
-
-    /* Importacion de archivos graficos */
-    { "LOAD_PNG"            , "S"           , TYPE_INT      , modmap_load_png           },
-    { "LOAD_PNG"            , "SP"          , TYPE_INT      , modmap_bgload_png         },
-    { "LOAD_PCX"            , "S"           , TYPE_INT      , modmap_load_pcx           },
-    { "LOAD_PCX"            , "SP"          , TYPE_INT      , modmap_bgload_pcx         },
-
-    /* Exportacion de mapas Graficos */
-    { "SAVE_PNG"            , "IIS"         , TYPE_INT      , modmap_save_png           },
 
     { 0                     , 0             , 0             , 0                         }
 };

@@ -136,6 +136,8 @@ init_syntax_once ()
 /* isalpha etc. are used for the character classes.  */
 #include <ctype.h>
 
+#include <stdlib.h>
+
 #ifndef isascii
 #define isascii(c) 1
 #endif

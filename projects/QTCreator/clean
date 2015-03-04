@@ -3,7 +3,8 @@
 cd "$(dirname $0)"
 
 rm -rf build
-rm -f main
+rm -f bgdc
+rm -f bgdi
 rm -f bgdrtm.a
 cd ../../core
 for i in $(find * | grep "\.o"); do rm $i; done
@@ -11,4 +12,4 @@ for i in $(find * | grep "\.d"); do rm $i; done
 cd ../modules
 for i in $(find * | grep "\.o"); do rm $i; done
 for i in $(find * | grep "\.d"); do rm $i; done
-echo "Done"
+echo "Done cleaning"

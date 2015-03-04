@@ -851,6 +851,3 @@
 ../../modules/mod_video/mod_video_symbols.h
 ../../modules/mod_wm/mod_wm.c
 ../../modules/mod_wm/mod_wm_symbols.h
-../../modules/mod_wpad/mod_wpad.c
-../../modules/mod_wpad/mod_wpad.h
-../../modules/mod_wpad/mod_wpad_symbols.h
