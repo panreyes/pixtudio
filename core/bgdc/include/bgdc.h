@@ -123,8 +123,7 @@ typedef struct _sysproc
 
     /* For sysproc_list */
     struct _sysproc * next;
-}
-SYSPROC ;
+} SYSPROC ;
 
 extern int         sysproc_add    (char * name, char * paramtypes, int type, void * func);
 extern SYSPROC *   sysproc_get    (int id) ;

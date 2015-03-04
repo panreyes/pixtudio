@@ -62,11 +62,9 @@ GRAPH * instance_graph( INSTANCE * i )
 {
     int * xgraph, c, a ;
 
-    if (( xgraph = ( int * ) LOCDWORD( librender, i, XGRAPH ) ) ) // Get offset of XGRAPH table
-    {
+    if (( xgraph = ( int * ) LOCDWORD( librender, i, XGRAPH ) ) ) { // Get offset of XGRAPH table
         c = *xgraph++;  // Get number of graphs ids in XGRAPH table
-        if ( c )
-        {
+        if ( c ) {
             // Normalize ANGLE
             a = LOCINT32( librender, i, ANGLE ) % 360000 ;
             if ( a < 0 ) a += 360000 ;
@@ -75,13 +73,10 @@ GRAPH * instance_graph( INSTANCE * i )
             c = xgraph[a * c / 360000] ;
 
             // If graph id value is negative, then graphic must be mirrored
-            if ( c < 0 )
-            {
+            if ( c < 0 ) {
                 c = -c;
                 LOCDWORD( librender, i, XGRAPH_FLAGS ) = B_HMIRROR;
-            }
-            else
-            {
+            } else {
                 LOCDWORD( librender, i, XGRAPH_FLAGS ) = 0;
             }
 
@@ -91,11 +86,57 @@ GRAPH * instance_graph( INSTANCE * i )
     }
 
     // Get GRAPH * to draw
-    if (( c = LOCDWORD( librender, i, COLLISIONGRAPHID ) ) )
-    {
+    if (( c = LOCDWORD( librender, i, GRAPHID ) ) ) {
         return bitmap_get( LOCDWORD( librender, i, FILEID ), c ) ;
-    } else if (( c = LOCDWORD( librender, i, GRAPHID ) ) )
-    {
+    }
+
+    return 0 ; // No graph to draw
+}
+
+/* --------------------------------------------------------------------------- */
+/*
+ *  FUNCTION : instance_collision_graph
+ *
+ *  Returns the instance collision graphic or NULL if there is none
+ *
+ *  PARAMS :
+ *      i           Pointer to the instance
+ *
+ *  RETURN VALUE :
+ *      Pointer to the graphic or NULL if none
+ */
+
+GRAPH * instance_collision_graph( INSTANCE * i )
+{
+    int * xgraph, c, a ;
+
+    if (( xgraph = ( int * ) LOCDWORD( librender, i, XGRAPH ) ) ) { // Get offset of XGRAPH table
+        c = *xgraph++;  // Get number of graphs ids in XGRAPH table
+        if ( c ) {
+            // Normalize ANGLE
+            a = LOCINT32( librender, i, ANGLE ) % 360000 ;
+            if ( a < 0 ) a += 360000 ;
+
+            // Get graph id in XGRAPH table to draw
+            c = xgraph[a * c / 360000] ;
+
+            // If graph id value is negative, then graphic must be mirrored
+            if ( c < 0 ) {
+                c = -c;
+                LOCDWORD( librender, i, XGRAPH_FLAGS ) = B_HMIRROR;
+            } else {
+                LOCDWORD( librender, i, XGRAPH_FLAGS ) = 0;
+            }
+
+            // Get GRAPH * to draw
+            return bitmap_get( LOCDWORD( librender, i, FILEID ), c ) ;
+        }
+    }
+
+    // Get GRAPH * to draw
+    if (( c = LOCDWORD( librender, i, COLLISIONGRAPHID ) ) ) {
+        return bitmap_get( LOCDWORD( librender, i, FILEID ), c ) ;
+    } else if (( c = LOCDWORD( librender, i, GRAPHID ) ) ) {
         return bitmap_get( LOCDWORD( librender, i, FILEID ), c ) ;
     }
 

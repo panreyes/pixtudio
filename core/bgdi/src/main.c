@@ -77,6 +77,7 @@ int main( int argc, char *argv[] )
     char * filename = NULL, dcbname[ __MAX_PATH ], *ptr ;
     int i, j, ret = -1;
     file * fp = NULL;
+    INSTANCE * mainproc_running;
     dcb_signature dcb_signature;
 
     /* get my executable name */
@@ -180,8 +181,8 @@ int main( int argc, char *argv[] )
         if ( !filename )
         {
             printf( BGDI_VERSION "\n"
-                    "Copyright (C) 2014 Joseba García Echebarria\n"
-                    "Bennu Game Development comes with ABSOLUTELY NO WARRANTY;\n"
+                    "Copyright (C) 2015 Joseba García Echebarria\n"
+                    "Pixtudio comes with ABSOLUTELY NO WARRANTY;\n"
                     "see COPYING for details\n\n"
                     "Usage: %s [options] <data code block file>[.dcb]\n\n"
                     "   -d       Activate DEBUG mode\n"

@@ -3,8 +3,6 @@
 cd "$(dirname $0)"
 
 rm -rf build
-rm -f bgdc
-rm -f bgdi
 rm -f bgdrtm.a
 cd ../../core
 for i in $(find * | grep "\.o"); do rm $i; done

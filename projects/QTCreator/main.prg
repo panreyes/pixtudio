@@ -19,6 +19,21 @@ GLOBAL
    int scroll_window;
    int scroll_window2;
 
+Process collisioner()
+Private
+    int v = 2;
+    string collided;
+BEGIN
+    graph = png_load("image.png");
+    collision_graph = mouse.graph;
+    x = 400; y = 300;
+    write_var(font, 800, 0, 2, collided);
+    LOOP
+        collided = "Collision: " + collision(TYPE mouse);
+        FRAME;
+    END
+END
+
 
 PROCESS int main();
 BEGIN
@@ -26,9 +41,12 @@ BEGIN
     set_mode(800,600,32);
     set_fps(60, 0);
 
+    flags=B_HMIRROR;
+
     // load the PNG file with the graphics
-    graphic = load_png("longbg_x.png");
-    font = load_fnt("font.fnt");
+    mouse.graph = png_load("ball_opaque.png");
+    graphic = png_load("longbg_x.png");
+    font = fnt_load("font.fnt");
 
     // (standard version)
     // int start_scroll (int scrollnumber,
@@ -42,6 +60,8 @@ BEGIN
     scroll_window=start_scroll(0,0,graphic,0,0,3);
     scroll_window2=start_scroll(1,0,graphic,0,0,3);
     write_var(font, 10, 10, 0, fps);
+
+    collisioner();
 
     WHILE (NOT key(_esc))
         if(key(_right) || mouse.left)

@@ -225,8 +225,7 @@ static int inline get_distance( int x1, int y1, int r1, int x2, int y2, int r2 )
 
 static int inline get_distance_xy( INSTANCE * a, int x2, int y2, int r2 )
 {
-    if ( a )
-    {
+    if ( a ) {
         int x1, y1;
         int res = LOCINT32( mod_grproc, a, RESOLUTION ) ;
 
@@ -477,6 +476,29 @@ static int get_bbox( REGION * bbox, INSTANCE * proc )
     return 1 ;
 }
 
+static int get_collision_bbox( REGION * bbox, INSTANCE * proc )
+{
+    GRAPH * b ;
+    int     x, y ;
+    int     scalex, scaley ;
+
+    b = instance_collision_graph( proc ) ;
+    if ( !b ) return 0 ;
+
+    scalex = LOCINT32( mod_grproc, proc, GRAPHSIZEX );
+    scaley = LOCINT32( mod_grproc, proc, GRAPHSIZEY );
+    if ( scalex == 100 && scaley == 100 ) scalex = scaley = LOCINT32( mod_grproc, proc, GRAPHSIZE );
+
+    x = LOCINT32( mod_grproc, proc, COORDX ) ;
+    y = LOCINT32( mod_grproc, proc, COORDY ) ;
+
+    RESOLXY( mod_grproc, proc, x, y );
+
+    gr_get_bbox( bbox, 0, x, y, LOCDWORD( mod_grproc, proc, FLAGS ) & ( B_HMIRROR | B_VMIRROR ), LOCINT32( mod_grproc, proc, ANGLE ), scalex, scaley, b ) ;
+
+    return 1 ;
+}
+
 /* --------------------------------------------------------------------------- */
 /* Colisiones */
 
@@ -486,11 +508,10 @@ static int check_collision_with_mouse( INSTANCE * proc1, int colltype )
     int x, y, mx, my ;
     static GRAPH * bmp = NULL;
 
-    switch ( colltype )
-    {
+    switch ( colltype ) {
         case    COLLISION_BOX:
         case    COLLISION_CIRCLE:
-                if ( !get_bbox( &bbox2, proc1 ) ) return 0 ;
+                if ( !get_collision_bbox( &bbox2, proc1 ) ) return 0 ;
 
         case    COLLISION_NORMAL:
                 break;
@@ -505,12 +526,10 @@ static int check_collision_with_mouse( INSTANCE * proc1, int colltype )
     /* Checks the process's bounding box to optimize checking
        (only for screen-type objects) */
 
-    if ( LOCDWORD( mod_grproc, proc1, CTYPE ) == C_SCREEN )
-    {
-        switch ( colltype )
-        {
+    if ( LOCDWORD( mod_grproc, proc1, CTYPE ) == C_SCREEN ) {
+        switch ( colltype ) {
             case    COLLISION_NORMAL:
-                    if ( !get_bbox( &bbox2, proc1 ) ) return 0 ;
+                    if ( !get_collision_bbox( &bbox2, proc1 ) ) return 0 ;
                     if ( bbox2.x > mx || bbox2.x2 < mx || bbox2.y > my || bbox2.y2 < my ) return 0 ;
                     break;
 
@@ -628,8 +647,7 @@ static int check_collision_with_mouse( INSTANCE * proc1, int colltype )
                 /* Collision check (blits into temporary space and checks the resulting pixel) */
                 draw_at( bmp, x - mx, y - my, &bbox1, proc1 ) ;
 
-                switch ( sys_pixel_format->depth )
-                {
+                switch ( sys_pixel_format->depth ) {
                     case    8:
                         if ( *( uint8_t * )bmp->data ) return 1;
                         break;
@@ -672,7 +690,7 @@ static int check_collision_circle( INSTANCE * proc1, GRAPH * bmp1, REGION * bbox
     GRAPH * bmp2 ;
     int cx1, cy1, cx2, cy2, dx1, dy1, dx2, dy2;
 
-    bmp2 = instance_graph( proc2 ) ; if ( !bmp2 ) return 0 ;
+    bmp2 = instance_collision_graph( proc2 ) ; if ( !bmp2 ) return 0 ;
     instance_get_bbox( proc2, bmp2, &bbox2 );
 
     cx1 = bbox1->x + ( dx1 = ( bbox1->x2 - bbox1->x + 1 ) ) / 2 ;
@@ -693,7 +711,7 @@ static int check_collision_box( INSTANCE * proc1, GRAPH * bmp1, REGION * bbox1, 
     REGION bbox2 ;
     GRAPH * bmp2 ;
 
-    bmp2 = instance_graph( proc2 ) ; if ( !bmp2 ) return 0 ;
+    bmp2 = instance_collision_graph( proc2 ) ; if ( !bmp2 ) return 0 ;
     instance_get_bbox( proc2, bmp2, &bbox2 );
 
     region_union( &bbox2, bbox1 ) ;
@@ -712,7 +730,7 @@ static int check_collision( INSTANCE * proc1, GRAPH * bmp1, REGION * bbox3, INST
 
     bbox1 = *bbox3;
 
-    bmp2 = instance_graph( proc2 ) ; if ( !bmp2 ) return 0 ;
+    bmp2 = instance_collision_graph( proc2 ) ; if ( !bmp2 ) return 0 ;
     instance_get_bbox( proc2, bmp2, &bbox2 );
 
     region_union( &bbox1, &bbox2 ) ;
@@ -861,7 +879,7 @@ static int __collision( INSTANCE * my, int id, int colltype )
                 return 0;
     }
 
-    bmp1 = instance_graph( my ) ; if ( !bmp1 ) return 0 ;
+    bmp1 = instance_collision_graph( my ) ; if ( !bmp1 ) return 0 ;
     instance_get_bbox( my, bmp1, &bbox1 );
 
     int ctype = LOCDWORD( mod_grproc, my, CTYPE );
