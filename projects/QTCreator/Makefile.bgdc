@@ -13,27 +13,27 @@
 #---------------------------------------------------------------------------------
 %.o: %.cpp
 	@echo $(notdir $<)
-	@$(CXX) -MMD -MP -MF $(DEPSDIR)/$*.d $(CXXFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CXX) -MMD -MP $(CXXFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.c
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP -MF $(DEPSDIR)/$*.d $(CFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MMD -MP $(CFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.m
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP -MF $(DEPSDIR)/$*.d $(OBJCFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MMD -MP $(OBJCFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.s
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP -MF $(DEPSDIR)/$*.d -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MMD -MP -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %.o: %.S
 	@echo $(notdir $<)
-	@$(CC) -MMD -MP -MF $(DEPSDIR)/$*.d -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
+	@$(CC) -MMD -MP -x assembler-with-cpp $(ASFLAGS) -c $< -o $@ $(ERROR_FILTER)
 
 #---------------------------------------------------------------------------------
 %:
@@ -110,7 +110,7 @@ INCLUDES	:=	../../core/bgdc/include \
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS		=	-m32  -g -O2 -Wall -D__BGDC__ -D__MONOLITHIC__ -DTARGET_LINUX -DNO_MODIMAGE -DNO_MODMATHI \
+CFLAGS		=	-m32  -g -O2 -Wall -D__BGDC__ -D__MONOLITHIC__ -DNO_MODIMAGE -DNO_MODMATHI \
 	-DNO_MODIMAGE -DNO_MODICONV -DNO_MODFMODEX -DNO_MODCHIPMUNK -DNO_MODMULTI -DNO_MODCURL \
 	-DNO_MODSENSOR -DNO_MODIAP -DNO_MODTHEORA -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE)
 CXXFLAGS	=	-save-temps -Xassembler -aln=$@.lst $(CFLAGS)
