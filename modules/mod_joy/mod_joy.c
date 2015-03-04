@@ -365,14 +365,6 @@ DLSYSFUNCS  __bgdexport( mod_joy, functions_exports )[] =
     { "JOY_GETACCEL"        , "PPP"   , TYPE_INT    , modjoy_get_accel             },
     { "JOY_GETACCEL"        , "IPPP"  , TYPE_INT    , modjoy_get_accel_specific    },
 
-    /* Compatibility */
-
-    { "NUMBER_JOY"          , ""      , TYPE_INT    , modjoy_num                   },
-    { "SELECT_JOY"          , "I"     , TYPE_INT    , modjoy_select                },
-    { "GET_JOY_BUTTON"      , "I"     , TYPE_INT    , modjoy_get_button            },
-    { "GET_JOY_BUTTON"      , "II"    , TYPE_INT    , modjoy_get_button_specific   },
-    { "GET_JOY_POSITION"    , "I"     , TYPE_INT    , modjoy_get_position          },
-    { "GET_JOY_POSITION"    , "II"    , TYPE_INT    , modjoy_get_position_specific },
     { 0                     , 0       , 0           , 0                             }
 };
 

@@ -62,13 +62,6 @@ DLSYSFUNCS  __bgdexport( mod_joy, functions_exports )[] =
     { "JOY_GETBALL"         , "IIPP"  , TYPE_INT    , 0 },   /* Added by Sandman */
     { "JOY_GETACCEL"        , "PPP"   , TYPE_INT    , 0 },
     { "JOY_GETACCEL"        , "IPPP"  , TYPE_INT    , 0 },
-    /* Compatibility */
-    { "NUMBER_JOY"          , ""      , TYPE_INT    , 0 },
-    { "SELECT_JOY"          , "I"     , TYPE_INT    , 0 },
-    { "GET_JOY_BUTTON"      , "I"     , TYPE_INT    , 0 },
-    { "GET_JOY_BUTTON"      , "II"    , TYPE_INT    , 0 },
-    { "GET_JOY_POSITION"    , "I"     , TYPE_INT    , 0 },
-    { "GET_JOY_POSITION"    , "II"    , TYPE_INT    , 0 },
     { 0                     , 0       , 0           , 0 }
 };
 

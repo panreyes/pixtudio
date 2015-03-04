@@ -230,19 +230,6 @@ DLSYSFUNCS  __bgdexport( mod_screen, functions_exports )[] =
     /* Video */
     { "SCREEN_GET"           , ""           , TYPE_INT      , modscreen_get_screen      },
 
-    /* ------------ Compatibility ------------ */
-
-    /* Regiones */
-    { "DEFINE_REGION"        , "IIIII"      , TYPE_INT      , modscreen_define_region   },
-    { "OUT_REGION"           , "II"         , TYPE_INT      , modscreen_out_region      },
-
-    /* Fondo de pantalla */
-    { "PUT_SCREEN"           , "II"         , TYPE_INT      , modscreen_put_screen      },
-    { "CLEAR_SCREEN"         , ""           , TYPE_INT      , modscreen_clear_screen    },
-
-    /* Video */
-    { "GET_SCREEN"           , ""           , TYPE_INT      , modscreen_get_screen      },
-
     { 0                     , 0             , 0             , 0                         }
 };
 
