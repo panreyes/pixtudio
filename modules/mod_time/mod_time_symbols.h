@@ -1,10 +1,10 @@
 /*
- *  Copyright (C) 2014 Joseba García Echebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
  *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
  *  Copyright (C) 2002-2006 Fenix Team (Fenix)
  *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
- *  This file is part of Bennu - Game Development
+ *  This file is part of PixTudio
  *
  *  Bennu is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

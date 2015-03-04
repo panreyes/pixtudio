@@ -3,7 +3,7 @@
  *  Copyright Â© 2002-2006 Fenix Team (Fenix)
  *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
  *
- *  This file is part of Bennu - Game Development
+ *  This file is part of PixTudio
  *
  *  This software is provided 'as-is', without any express or implied
  *  warranty. In no event will the authors be held liable for any damages

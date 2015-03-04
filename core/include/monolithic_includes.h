@@ -1,7 +1,7 @@
 /*
  *  Copyright ï¿½ 2006-2012 SplinterGU (Fenix/Bennugd)
  *
- *  This file is part of Bennu - Game Development
+ *  This file is part of PixTudio
  *
  *  Bennu is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by

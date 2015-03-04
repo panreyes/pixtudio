@@ -1,7 +1,7 @@
 /*
  *  Copyright Â© 2013 Joseba GarcÃ­a Etxebarria <joseba.gar@gmail.com>
  *
- *  This file is part of Bennu - Game Development
+ *  This file is part of PixTudio
  *
  *  This software is provided 'as-is', without any express or implied
  *  warranty. In no event will the authors be held liable for any damages

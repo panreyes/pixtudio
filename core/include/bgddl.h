@@ -1,7 +1,7 @@
 /*
  *  Copyright ï¿½ 2006-2012 SplinterGU (Fenix/Bennugd)
  *
- *  This file is part of Bennu - Game Development
+ *  This file is part of PixTudio
  *
  *  This software is provided 'as-is', without any express or implied
  *  warranty. In no event will the authors be held liable for any damages
