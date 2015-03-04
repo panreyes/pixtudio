@@ -77,7 +77,6 @@ int main( int argc, char *argv[] )
     char * filename = NULL, dcbname[ __MAX_PATH ], *ptr ;
     int i, j, ret = -1;
     file * fp = NULL;
-    INSTANCE * mainproc_running;
     dcb_signature dcb_signature;
 
     /* get my executable name */
