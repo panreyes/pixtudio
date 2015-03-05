@@ -855,23 +855,22 @@ void draw_rectangle( GRAPH * dest, REGION * clip, int x, int y, int w, int h )
 void draw_circle( GRAPH * dest, REGION * clip, int x, int y, int r )
 {
     int cx = 0, cy = r;
-    int lcy = -1;
     int df = 1 - r, de = 3, dse = -2 * r + 5;
     int old_stipple = drawing_stipple;
     REGION base_clip ;
     int color = 0;
 
-    if ( !dest ) dest = scrbitmap ;
-    if ( !clip )
-    {
+    if ( !dest ) {
+        dest = scrbitmap ;
+    }
+
+    if ( !clip ) {
         clip = &base_clip ;
         clip->x = 0 ;
         clip->y = 0 ;
         clip->x2 = dest->width - 1 ;
         clip->y2 = dest->height - 1 ;
-    }
-    else
-    {
+    } else {
         base_clip = *clip ;
         clip = &base_clip ;
         clip->x = MAX( MIN( clip->x, clip->x2 ), 0 ) ;
@@ -883,47 +882,38 @@ void draw_circle( GRAPH * dest, REGION * clip, int x, int y, int r )
     dest->modified = 2 ;
     dest->info_flags &= ~GI_CLEAN;
 
-    if ( dest->format->depth == 8 || dest->format->depth == 1 )
-    {
+    if ( dest->format->depth == 8 || dest->format->depth == 1 ) {
         color = pixel_color8;
-    }
-    else if ( dest->format->depth == 16 )
-    {
+    } else if ( dest->format->depth == 16 ) {
         color = pixel_color16;
-    }
-    else if ( dest->format->depth == 32 )
-    {
+    } else if ( dest->format->depth == 32 ) {
         color = pixel_color32;
     }
 
-    do
-    {
-        if ( drawing_stipple & 1 )
-        {
+    do {
+        if ( drawing_stipple & 1 ) {
             gr_put_pixelc( dest, clip, x - cx, y - cy, color, 0 ) ;
-            if ( cx ) gr_put_pixelc( dest, clip, x + cx, y - cy, color, 0 ) ;
+            if ( cx ) {
+                gr_put_pixelc( dest, clip, x + cx, y - cy, color, 0 ) ;
+            }
 
-            if ( cy )
-            {
+            if ( cy ) {
                 gr_put_pixelc( dest, clip, x - cx, y + cy, color, 0 ) ;
                 if ( cx ) gr_put_pixelc( dest, clip, x + cx, y + cy, color, 0 ) ;
             }
 
-            if ( cx != cy )
-            {
+            if ( cx != cy ) {
                 gr_put_pixelc( dest, clip, x - cy, y - cx, color, 0 ) ;
                 if ( cy ) gr_put_pixelc( dest, clip, x + cy, y - cx, color, 0 ) ;
             }
 
-            if ( cx && cy != cx )
-            {
+            if ( cx && cy != cx ) {
                 gr_put_pixelc( dest, clip, x - cy, y + cx, color, 0 ) ;
                 if ( cy ) gr_put_pixelc( dest, clip, x + cy, y + cx, color, 0 ) ;
             }
         }
         drawing_stipple = (( drawing_stipple << 1 ) | (( drawing_stipple & 0x80000000 ) ? 1 : 0 ) );
 
-        lcy = cy;
         cx++ ;
         if ( df < 0 ) df += de, de += 2, dse += 2 ;
         else df += dse, de += 2, dse += 4, cy-- ;
@@ -952,26 +942,20 @@ void draw_circle( GRAPH * dest, REGION * clip, int x, int y, int r )
  *
  */
 
-void draw_fcircle( GRAPH * dest, REGION * clip, int x, int y, int r )
-{
+void draw_fcircle( GRAPH * dest, REGION * clip, int x, int y, int r ) {
     int cx = 0, cy = r;
     int df = 1 - r, de = 3, dse = -2 * r + 5;
     int old_stipple = drawing_stipple;
     drawing_stipple = 0xFFFFFFFF;
 
-    do
-    {
-        if ( cx != cy )
-        {
+    do {
+        if ( cx != cy ) {
             draw_hline( dest, clip, x - cy, y - cx, cy << 1 /*+1*/, 0 ) ;
             if ( cx ) draw_hline( dest, clip, x - cy, y + cx, cy << 1 /*+1*/, 0 ) ;
         }
-        if ( df < 0 )
-        {
+        if ( df < 0 ) {
             df += de, de += 2, dse += 2 ;
-        }
-        else
-        {
+        } else {
             df += dse, de += 2, dse += 4;
             draw_hline( dest, clip, x - cx, y - cy, cx << 1 /*+1*/, 0 ) ;
             if ( cy ) draw_hline( dest, clip, x - cx, y + cy, cx << 1 /*+1*/, 0 ) ;

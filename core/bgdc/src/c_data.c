@@ -28,11 +28,7 @@
  */
 
 #include <stdio.h>
-#ifdef TARGET_BEOS
-#include <posix/assert.h>
-#else
 #include <assert.h>
-#endif
 #include <string.h>
 #include <stdlib.h>
 

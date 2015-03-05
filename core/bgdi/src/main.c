@@ -54,7 +54,7 @@
 
 static char * dcb_exts[] = { ".dcb", ".dat", ".bin", NULL };
 
-static int standalone  = 0;  /* 1 only if this is an standalone interpreter   */
+static int standalone  = 0;  /* 1 only if this is an standalone interpreter (exe name: bgdi)  */
 static int embedded    = 0;  /* 1 only if this is a stub with an embedded DCB */
 
 /* ---------------------------------------------------------------------- */
@@ -72,26 +72,24 @@ static int embedded    = 0;  /* 1 only if this is a stub with an embedded DCB */
  *
  */
 
-int main( int argc, char *argv[] )
-{
+int main( int argc, char *argv[] ) {
     char * filename = NULL, dcbname[ __MAX_PATH ], *ptr ;
     int i, j, ret = -1;
     file * fp = NULL;
-    INSTANCE * mainproc_running;
     dcb_signature dcb_signature;
 
     /* get my executable name */
     ptr = argv[0] + strlen( argv[0] );
-    while ( ptr > argv[0] && ptr[-1] != '\\' && ptr[-1] != '/' ) ptr-- ;
+    while ( ptr > argv[0] && ptr[-1] != '\\' && ptr[-1] != '/' ) {
+        ptr-- ;
+    }
     appexename = strdup( ptr );
 
     /* get executable full pathname  */
     appexefullpath = getfullpath( argv[0] );
-    if ( ( !strchr( argv[0], '\\' ) && !strchr( argv[0], '/' ) ) && !file_exists( appexefullpath ) )
-    {
+    if ( ( !strchr( argv[0], '\\' ) && !strchr( argv[0], '/' ) ) && !file_exists( appexefullpath ) ) {
         char *p = whereis( appexename );
-        if ( p )
-        {
+        if ( p ) {
             char * tmp = calloc( 1, strlen( p ) + strlen( appexename ) + 2 );
             free( appexefullpath );
             sprintf( tmp, "%s/%s", p, appexename );
@@ -117,42 +115,33 @@ int main( int argc, char *argv[] )
     /* add binary path */
     file_addp( appexepath );
 
-    if ( !standalone )
-    {
+    if ( !standalone ) {
         /* Hand-made interpreter: search for DCB at EOF */
         fp = file_open( argv[0], "rb0" );
-        if ( fp )
-        {
+        if ( fp ) {
             file_seek( fp, -( int )sizeof( dcb_signature ), SEEK_END );
             file_read( fp, &dcb_signature, sizeof( dcb_signature ) );
 
-            if ( strcmp( dcb_signature.magic, DCB_STUB_MAGIC ) == 0 )
-            {
+            if ( strcmp( dcb_signature.magic, DCB_STUB_MAGIC ) == 0 ) {
                 ARRANGE_DWORD( &dcb_signature.dcb_offset );
                 embedded = 1;
             }
         }
 
         filename = appname;
-    }
-
-    if ( standalone )
-    {
+    } else {
         /* Calling BGDI.EXE so we must get all command line params */
-        for ( i = 1 ; i < argc ; i++ )
-        {
-            if ( argv[i][0] == '-' )
-            {
+        for ( i = 1 ; i < argc ; i++ ) {
+            if ( argv[i][0] == '-' ) {
                 j = 1 ;
-                while ( argv[i][j] )
-                {
-                    if ( argv[i][j] == 'd' ) debug = 1 ;
-                    if ( argv[i][j] == 'i' )
-                    {
-                        if ( argv[i][j+1] == 0 )
-                        {
-                            if ( i == argc - 1 )
-                            {
+                while ( argv[i][j] ) {
+                    if ( argv[i][j] == 'd' ) {
+                        debug = 1 ;
+                    }
+
+                    if ( argv[i][j] == 'i' ) {
+                        if ( argv[i][j+1] == 0 ) {
+                            if ( i == argc - 1 ) {
                                 fprintf( stderr, "You must provide a directory" ) ;
                                 exit( 0 );
                             }
@@ -165,11 +154,8 @@ int main( int argc, char *argv[] )
                     }
                     j++ ;
                 }
-            }
-            else
-            {
-                if ( !filename )
-                {
+            } else {
+                if ( !filename ) {
                     filename = argv[i] ;
                     if ( i < argc - 1 ) memmove( &argv[i], &argv[i+1], sizeof( char* ) * ( argc - i - 1 ) ) ;
                     argc-- ;
@@ -178,8 +164,7 @@ int main( int argc, char *argv[] )
             }
         }
 
-        if ( !filename )
-        {
+        if ( !filename ) {
             printf( BGDI_VERSION "\n"
                     "Copyright (C) 2015 Joseba García Echebarria\n"
                     "Pixtudio comes with ABSOLUTELY NO WARRANTY;\n"
@@ -201,43 +186,38 @@ int main( int argc, char *argv[] )
 
     strcpy( dcbname, filename ) ;
 
-    if ( appname && filename != appname )
-    {
+    if ( appname && filename != appname ) {
         free( appname );
         appname = strdup( filename ) ;
     }
 
-    if ( !embedded )
-    {
+    if ( !embedded ) {
         /* First try to load directly (we expect myfile.dcb) */
-        if ( !dcb_load( dcbname ) )
-        {
+        if ( !dcb_load( dcbname ) ) {
             char ** dcbext = dcb_exts;
             int dcbloaded = 0;
 
-            while ( dcbext && *dcbext )
-            {
+            while ( dcbext && *dcbext ) {
                 strcpy( dcbname, filename ) ;
                 strcat( dcbname, *dcbext ) ;
                 if (( dcbloaded = dcb_load( dcbname ) ) ) break;
                 dcbext++;
             }
 
-            if ( !dcbloaded )
-            {
-                printf( "%s: doesn't exist or isn't version %d DCB compatible\n", filename, DCB_VERSION >> 8 ) ;
+            if ( !dcbloaded ) {
+                fprintf( stderr, "%s: doesn't exist or isn't version %d DCB compatible\n", filename, DCB_VERSION >> 8 ) ;
                 return -1 ;
             }
         }
-    }
-    else
-    {
+    } else {
         dcb_load_from( fp, dcbname, dcb_signature.dcb_offset );
     }
 
     /* If the dcb is not in debug mode */
 
-    if ( dcb.data.NSourceFiles == 0 ) debug = 0;
+    if ( dcb.data.NSourceFiles == 0 ) {
+        debug = 0;
+    }
 
     /* Initialization (modules needed after dcb_load) */
 
@@ -255,7 +235,7 @@ int main( int argc, char *argv[] )
 
     if ( mainproc )
     {
-        mainproc_running = instance_new( mainproc, NULL ) ;
+        instance_new( mainproc, NULL ) ;
         ret = instance_go_all() ;
     }
 

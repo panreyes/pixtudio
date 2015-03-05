@@ -83,8 +83,7 @@ DLCONSTANT __bgdexport( mod_path, constants_def )[] =
 
 /* --------------------------------------------------------------------------- */
 
-static double heuristic( int x, int y )
-{
+static double heuristic( int x, int y ) {
     int dx, dy ;
     uint8_t block = (( uint8_t* )map->data )[map->pitch*y+x] ;
 
@@ -101,8 +100,7 @@ static double heuristic( int x, int y )
 
 /* Uso: pf_open = add(pf_open, this) ; */
 /* La lista permanecerá ordenada */
-static node * node_add( node * list, node * this )
-{
+static node * node_add( node * list, node * this ) {
     node * curr = list ;
     if ( !curr )
     {
@@ -136,8 +134,7 @@ static node * node_add( node * list, node * this )
 /* --------------------------------------------------------------------------- */
 
 /* Uso: pf_open = remove(pf_open, this) ; */
-static node * node_remove( node * list, node * this )
-{
+static node * node_remove( node * list, node * this ) {
     node * curr = list ;
     if ( curr == this ) return this->next ;
     while ( curr )
@@ -154,8 +151,7 @@ static node * node_remove( node * list, node * this )
 
 /* --------------------------------------------------------------------------- */
 
-static node * node_find( node * list, int x, int y )
-{
+static node * node_find( node * list, int x, int y ) {
     while ( list )
     {
         if ( list->x == ( unsigned )x && list->y == ( unsigned )y ) return list ;
@@ -165,22 +161,8 @@ static node * node_find( node * list, int x, int y )
 }
 
 /* --------------------------------------------------------------------------- */
-/*
-static void node_reset( node * list )
-{
-    node * next ;
-    while ( list )
-    {
-        next = list->next ;
-        free( list ) ;
-        list = next ;
-    }
-}
-*/
-/* --------------------------------------------------------------------------- */
 
-static node * node_new( node * parent, int x, int y, int cost_inc )
-{
+static node * node_new( node * parent, int x, int y, int cost_inc ) {
     node * curr ;
 
     curr = ( node * ) malloc( sizeof( node ) ) ;
@@ -199,8 +181,7 @@ static node * node_new( node * parent, int x, int y, int cost_inc )
 
 /* --------------------------------------------------------------------------- */
 
-static void node_push_succesor( node * parent, int ix, int iy, int cost )
-{
+static void node_push_succesor( node * parent, int ix, int iy, int cost ) {
     node * curr, * f_op, * f_cl ;
 
     curr = node_new( parent, parent->x + ix, parent->y + iy, cost ) ;
@@ -232,8 +213,7 @@ static void node_push_succesor( node * parent, int ix, int iy, int cost )
 
 /* --------------------------------------------------------------------------- */
 
-static void node_push_succesors( node * parent, int options )
-{
+static void node_push_succesors( node * parent, int options ) {
     node * prior = parent->parent ;
     if ( !prior ) prior = parent ;
 
@@ -253,8 +233,7 @@ static void node_push_succesors( node * parent, int options )
 
 /* --------------------------------------------------------------------------- */
 
-static int path_find( GRAPH * bitmap, int sx, int sy, int dx, int dy, int options )
-{
+static int path_find( GRAPH * bitmap, int sx, int sy, int dx, int dy, int options ) {
     node * curr, * inext ;
 
     startup_x = sx ;
@@ -262,10 +241,7 @@ static int path_find( GRAPH * bitmap, int sx, int sy, int dx, int dy, int option
     map = bitmap ;
     destination_x = dx ;
     destination_y = dy ;
-/*
-    node_reset( pf_open ) ;
-    node_reset( pf_closed ) ;
-*/
+
     /* Release all resources */
 
     curr = pf_all;
@@ -291,46 +267,37 @@ static int path_find( GRAPH * bitmap, int sx, int sy, int dx, int dy, int option
     curr->f = curr->h = 1 ;
     pf_open = node_add( pf_open, curr ) ;
 
-    while ( pf_open )
-    {
+    while ( pf_open ) {
         curr = pf_open ;
         pf_open = node_remove( pf_open, curr ) ;
 
-        if ( curr->x == ( unsigned )destination_x && curr->y == ( unsigned )destination_y )
-        {
+        if ( curr->x == ( unsigned )destination_x && curr->y == ( unsigned )destination_y ) {
             int count = 1 ;
 
             found = curr ;
-            while ( curr->parent )
-            {
+            while ( curr->parent ) {
                 count++ ;
                 curr = curr->parent ;
             }
 
             path_result = malloc( sizeof( int ) * 2 * ( count + 4 ) ) ;
-            if ( !( options & PF_REVERSE ) )
-            {
+            if ( !( options & PF_REVERSE ) ) {
                 path_result_pointer = path_result + count * 2 + 1;
                 *path_result_pointer-- = -1 ;
                 *path_result_pointer-- = -1 ;
-                while ( found )
-                {
+                while ( found ) {
                     *path_result_pointer-- = found->y ;
                     *path_result_pointer-- = found->x ;
                     found = found->parent ;
                 }
 
-                if ( path_result_pointer != path_result - 1 )
-                {
+                if ( path_result_pointer != path_result - 1 ) {
                     path_result_pointer = NULL;
                     return 0;
                 }
-            }
-            else
-            {
+            } else {
                 path_result_pointer = path_result ;
-                while ( found )
-                {
+                while ( found ) {
                     *path_result_pointer++ = found->x ;
                     *path_result_pointer++ = found->y ;
                     found = found->parent ;
@@ -353,10 +320,8 @@ static int path_find( GRAPH * bitmap, int sx, int sy, int dx, int dy, int option
 
 /* --------------------------------------------------------------------------- */
 
-static int path_get( int * x, int * y )
-{
-    if ( path_result_pointer )
-    {
+static int path_get( int * x, int * y ) {
+    if ( path_result_pointer ) {
         ( *x ) = *path_result_pointer++ ;
         ( *y ) = *path_result_pointer++ ;
         if ( *path_result_pointer == -1 ) path_result_pointer = NULL ;
@@ -367,33 +332,33 @@ static int path_get( int * x, int * y )
 
 /* --------------------------------------------------------------------------- */
 
-static int path_set_wall( int n )
-{
-    if ( n >= 1 ) block_if = n ;
+static int path_set_wall( int n ) {
+    if ( n >= 1 ) {
+        block_if = n ;
+    }
     return block_if ;
 }
 
 /* --------------------------------------------------------------------------- */
 /* Funciones de búsqueda de caminos */
 
-static int modpathfind_path_find( INSTANCE * my, int * params )
-{
+static int modpathfind_path_find( INSTANCE * my, int * params ) {
     GRAPH * gpath = bitmap_get( params[0], params[1] ) ;
-    if ( !gpath || !gpath->format || gpath->format->depth != 8 ) return 0;
+    if ( !gpath || !gpath->format || gpath->format->depth != 8 ) {
+        return 0;
+    }
     return path_find( gpath, params[2], params[3], params[4], params[5], params[6] ) ;
 }
 
 /* --------------------------------------------------------------------------- */
 
-static int modpathfind_path_getxy( INSTANCE * my, int * params )
-{
+static int modpathfind_path_getxy( INSTANCE * my, int * params ) {
     return path_get(( int * )params[0], ( int * )params[1] ) ;
 }
 
 /* --------------------------------------------------------------------------- */
 
-static int modpathfind_path_wall( INSTANCE * my, int * params )
-{
+static int modpathfind_path_wall( INSTANCE * my, int * params ) {
     return path_set_wall( params[0] ) ;
 }
 

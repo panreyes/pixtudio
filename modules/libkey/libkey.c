@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <SDL.h>
 
@@ -74,7 +75,7 @@ static int hotkey_count = 0 ;
 
 /* ---------------------------------------------------------------------- */
 
-/* Publicas */
+/* Public */
 key_equiv key_table[127] ;              /* Now we have a search table with equivs */
 const Uint8 * keystate = NULL;        /* Pointer to key states */
 
@@ -391,7 +392,7 @@ void hotkey_add( int mod, int sym, HOTKEY_CALLBACK callback )
 
     if ( !hotkey_list )
     {
-        fprintf( stderr, "No memory for alloc hotkey\n" );
+        fprintf( stderr, "No memory for hotkey\n" );
         exit( -1 );
     }
 
@@ -570,8 +571,7 @@ HOOK __bgdexport( libkey, handler_hooks )[] =
 /* ---------------------------------------------------------------------- */
 /* Funciones de inicializacion del modulo/plugin                     */
 
-void __bgdexport( libkey, module_initialize )()
-{
+void __bgdexport( libkey, module_initialize )() {
     int * ptr = equivs ;
 
     if ( !SDL_WasInit( SDL_INIT_VIDEO ) ) SDL_InitSubSystem( SDL_INIT_VIDEO );
@@ -591,26 +591,19 @@ void __bgdexport( libkey, module_initialize )()
 
 /* ---------------------------------------------------------------------- */
 
-void __bgdexport( libkey, module_finalize )()
-{
-    /* FREE used key_equivs... note base 127 equivs are static not allocated... */
-    int i ;
+void __bgdexport( libkey, module_finalize )() {
+    /* FREE used key_equivs... */
     key_equiv * aux ;
     key_equiv * curr = key_table ;
 
-    for ( i = 0;i < 127;i++ )
-    {
-        if ( curr->next != NULL )
-        {
-            curr = curr->next ;
-            while ( curr->next != NULL )
-            {
-                aux = curr ;
-                curr = curr->next;
-                free( aux ) ;
-            }
-            free( curr ) ;
+    if ( curr->next != NULL ) {
+        curr = curr->next ;
+        while ( curr->next != NULL ) {
+            aux = curr ;
+            curr = curr->next;
+            free( aux ) ;
         }
+        free( curr ) ;
     }
 
     if ( SDL_WasInit( SDL_INIT_VIDEO ) ) SDL_QuitSubSystem( SDL_INIT_VIDEO );

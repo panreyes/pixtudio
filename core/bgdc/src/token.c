@@ -64,8 +64,7 @@ typedef struct _define
     char *  text;
     int     param_count;
     int     param_id[MAX_MACRO_PARAMS];
-}
-DEFINE;
+} DEFINE;
 
 static const char * source_ptr;
 static char       * source_start;
@@ -258,7 +257,7 @@ void include_file( int bprepro )
         {
             if ( bprepro )
             {
-                compile_warning( 0,"extra tokens at end of #include directive" );
+                compile_warning( 0, "extra tokens at end of #include directive" );
                 SKIP_ALL_UNTIL_LF_AND_COUNT_LINES;
                 if ( *source_ptr == '\n' ) line_count--;
             }
@@ -762,8 +761,8 @@ void preprocessor()
         SKIP_SPACES_UNTIL_LF_AND_COUNT_LINES;
         if ( *source_ptr && *source_ptr != '\n' )
         {
-            if ( token.code == id_else ) compile_warning( 0,"extra tokens at end of #else directive" );
-            else if ( token.code == id_endif ) compile_warning( 0,"extra tokens at end of #endif directive" );
+            if ( token.code == id_else ) compile_warning( 0, "extra tokens at end of #else directive" );
+            else if ( token.code == id_endif ) compile_warning( 0, "extra tokens at end of #endif directive" );
             SKIP_ALL_UNTIL_LF_AND_COUNT_LINES;
         }
         if ( *source_ptr == '\n' ) line_count--;

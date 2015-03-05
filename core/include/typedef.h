@@ -32,7 +32,7 @@
 
 #include <typedef_st.h>
 
-/* Tipos de dato */
+/* Data types */
 
 extern TYPEDEF      typedef_new      (BASETYPE type) ;
 extern TYPEDEF      typedef_enlarge  (TYPEDEF base) ;

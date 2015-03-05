@@ -28,6 +28,7 @@
  */
 
 #define __LIB_RENDER
+#include <string.h>
 #include "librender.h"
 #include "fmath.h"
 

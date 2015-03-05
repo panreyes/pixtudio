@@ -30,11 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef TARGET_BEOS
-#include <posix/assert.h>
-#else
 #include <assert.h>
-#endif
 
 #include "bgdc.h"
 
@@ -96,7 +92,7 @@ int string_new( const char * text )
         string_offset = ( int * ) realloc( string_offset, string_max * sizeof( int ) ) ;
         if ( string_offset == 0 )
         {
-            fprintf( stdout, "Too many strings\n" ) ;
+            fprintf( stderr, "Too many strings, quitting\n" ) ;
             exit( 1 ) ;
         }
     }
@@ -148,7 +144,7 @@ int string_compile( const char ** source )
         string_offset = ( int * ) realloc( string_offset, string_max * sizeof( int ) ) ;
         if ( string_offset == 0 )
         {
-            fprintf( stdout, "Too many strings\n" ) ;
+            fprintf( stderr, "Too many strings, quitting\n" ) ;
             exit( 1 ) ;
         }
     }

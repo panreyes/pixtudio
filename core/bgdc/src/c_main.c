@@ -1084,7 +1084,7 @@ void compile_process()
                 }
                 else
                 {
-                    /* Crear la variable privada */
+                    /* Create the private variable */
                     if ( proc->privars->reserved == proc->privars->count ) varspace_alloc( proc->privars, 16 ) ;
 
                     if ( type == TYPE_STRING ) varspace_varstring( proc->privars, proc->pridata->current ) ;

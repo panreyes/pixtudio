@@ -30,6 +30,7 @@
 /* --------------------------------------------------------------------------- */
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "bgdrtm.h"
 
@@ -84,8 +85,7 @@ DLCONSTANT __bgdexport( mod_map, constants_def )[] =
 
 /* --------------------------------------------------------------------------- */
 
-static int modmap_graphic_set( INSTANCE * my, int * params )
-{
+static int modmap_graphic_set( INSTANCE * my, int * params ) {
     GRAPH * map ;
 
     map = bitmap_get( params[0], params[1] ) ;
@@ -334,12 +334,10 @@ static int modmap_map_name( INSTANCE * my, int * params )
 
 /* --------------------------------------------------------------------------- */
 
-static int modmap_map_set_name( INSTANCE * my, int * params )
-{
+static int modmap_map_set_name( INSTANCE * my, int * params ) {
     GRAPH * map = bitmap_get( params[0], params[1] );
     const char * ptr = string_get( params[2] ) ;
-    if ( map )
-    {
+    if ( map ) {
         strncpy( map->name, ptr, sizeof( map->name ) );
         map->name[sizeof( map->name )-1] = 0;
     }
@@ -349,16 +347,14 @@ static int modmap_map_set_name( INSTANCE * my, int * params )
 
 /* --------------------------------------------------------------------------- */
 
-static int modmap_map_exists( INSTANCE * my, int * params )
-{
+static int modmap_map_exists( INSTANCE * my, int * params ) {
     GRAPH * map = bitmap_get( params[0], params[1] );
     return map == NULL ? 0 : 1 ;
 }
 
 /* --------------------------------------------------------------------------- */
 
-static int modmap_map_block_copy( INSTANCE * my, int * params )
-{
+static int modmap_map_block_copy( INSTANCE * my, int * params ) {
     GRAPH * dest, * orig ;
     REGION clip ;
     int centerx, centery, flag ;

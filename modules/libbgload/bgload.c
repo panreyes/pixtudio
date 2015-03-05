@@ -28,7 +28,7 @@
  */
 
 #include "xstrings.h"
-
+#include <stdlib.h>
 #include <string.h>
 #include <SDL.h>
 

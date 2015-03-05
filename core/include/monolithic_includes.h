@@ -75,17 +75,11 @@
 #ifndef NO_MODICONV
 #   include <iconv_symbols.h>
 #endif
-#ifndef NO_MODIMAGE
-#   include <image_symbols.h>
-#endif
 #ifndef NO_MODCHIPMUNK
 #   include <mod_chipmunk_symbols.h>
 #endif
 #ifndef NO_MODMULTI
 #   include <mod_multi_symbols.h>
-#endif
-#ifndef NO_MODFMODEX
-#   include <mod_fmodex_symbols.h>
 #endif
 #ifndef NO_MODCURL
 #   include <mod_curl_symbols.h>

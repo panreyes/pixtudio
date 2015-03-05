@@ -37,16 +37,14 @@
 
 /* --------------------------------------------------------------------------- */
 
-static void user_read_data( png_structp png_ptr, png_bytep data, png_size_t length )
-{
+static void user_read_data( png_structp png_ptr, png_bytep data, png_size_t length ) {
     file * png = (file *)png_get_io_ptr( png_ptr );
     file_read( png, data, length ) ;
 }
 
-GRAPH * gr_read_png( const char * filename )
-{
+GRAPH * gr_read_png( const char * filename ) {
     GRAPH * bitmap ;
-    unsigned int n, x, y, cp ;
+    unsigned int n, x;
     uint16_t * ptr ;
     uint32_t * ptr32 ;
     uint32_t * orig ;
@@ -59,7 +57,7 @@ GRAPH * gr_read_png( const char * filename )
 
     png_structp png_ptr ;
     png_infop info_ptr, end_info ;
-    png_uint_32 width, height, rowbytes;
+    png_uint_32 width, height;
     int depth, color, num_text;
 
     /* Abre el fichero y se asegura de que screen está inicializada */
@@ -131,7 +129,6 @@ GRAPH * gr_read_png( const char * filename )
 
     /* Recupera el fichero, convirtiendo a 16 bits si es preciso */
 
-    rowbytes = png_get_rowbytes( png_ptr, info_ptr ) ;
     bitmap = bitmap_new( 0, width, height, ( color == PNG_COLOR_TYPE_GRAY ) ? depth : ( color == PNG_COLOR_TYPE_PALETTE ) ? 8 : ( sys_pixel_format->depth == 16 ? 16 : 32 ) ) ;
     if ( !bitmap )
     {
@@ -140,47 +137,6 @@ GRAPH * gr_read_png( const char * filename )
         free( row ) ;
         file_close( png ) ;
         return NULL;
-    }
-
-    /* Set control point info from metadata */
-
-    for ( n = 0 ; n < num_text ; n++ )
-    {
-        if(strncmp(text_ptr[n].key, "BennuGD_CP", 10) == 0)
-        {
-            cp = atoi(text_ptr[n].key + 10);
-            if( (cp+1) > bitmap->ncpoints )
-                bitmap->ncpoints = (cp+1);
-        }
-    }
-
-    if ( bitmap->ncpoints )
-    {
-        bitmap->cpoints = ( CPOINT * ) malloc( bitmap->ncpoints * sizeof( CPOINT ) ) ;
-        if ( !bitmap->cpoints )
-        {
-            png_destroy_read_struct( &png_ptr, &info_ptr, &end_info ) ;
-            free( rowpointers ) ;
-            free( row ) ;
-            file_close( png ) ;
-            return NULL;
-        }
-
-        for ( n = 0 ; n < num_text ; n++ )
-        {
-            if ( strncmp(text_ptr[n].key, "BennuGD_CP", 10) == 0 )
-            {
-                cp = atoi(text_ptr[n].key + 10);
-                if ( cp < bitmap->ncpoints )
-                {
-                    x = atoi( strtok( text_ptr[n].text, ";" ) );
-                    y = atoi( strtok( NULL, ";" ) );
-
-                    bitmap->cpoints[cp].x = x ;
-                    bitmap->cpoints[cp].y = y ;
-                }
-            }
-        }
     }
 
     if ( color == PNG_COLOR_TYPE_GRAY )

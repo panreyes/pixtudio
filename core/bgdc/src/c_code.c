@@ -412,22 +412,6 @@ expresion_result compile_sublvalue( VARSPACE * from, int base_offset, VARSPACE *
         token_next() ;
     }
 
-    /* Un acceso a un array es un acceso a su primer elemento */
-/*
-    res.count = 1;
-    if ( reduce_arrays == 1 && typedef_is_array( res.type ) )
-    {
-        if ( res.type.chunk[1].type != TYPE_CHAR )
-        {
-            while ( typedef_is_array( res.type ) )
-            {
-                res.count *= ( typedef_count( res.type ) ? typedef_count( res.type ) : 1 );
-                res.type = typedef_reduce( res.type ) ;
-            }
-        }
-    }
-*/
-
     token_back() ;
 
     return res ;

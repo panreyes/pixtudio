@@ -174,7 +174,7 @@ WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
     mem->memory = realloc(mem->memory, mem->size + realsize + 1);
     if (mem->memory == NULL) {
         /* out of memory! */
-        printf("not enough memory (realloc returned NULL)\n");
+        fprintf(stderr, "not enough memory (realloc returned NULL)\n");
         exit(EXIT_FAILURE);
     }
 
@@ -423,6 +423,5 @@ DLSYSFUNCS __bgdexport( mod_curl, functions_exports )[] =
     { "CURL_SETOPT"         , "IIS"   , TYPE_INT    , bgd_curl_easy_setopt2   },
     { "CURL_SETOPT"         , "IIP"   , TYPE_INT    , bgd_curl_easy_setopt3   },
     { "CURL_PERFORM"        , "IP"    , TYPE_INT    , bgd_curl_easy_perform   },
-//    { "CURL_FETCH"          , "I"     , TYPE_STRING , bgd_curl_fetch          },
     { 0                     , 0       , 0           , 0                       }
 };

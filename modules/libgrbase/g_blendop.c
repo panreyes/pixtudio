@@ -140,8 +140,7 @@ int16_t * blend_create( void )
  *      1               OK
  */
 
-void blend_apply( GRAPH * graph, int16_t * blend )
-{
+void blend_apply( GRAPH * graph, int16_t * blend ) {
     uint16_t * ptr;
     uint32_t x, y;
     uint8_t * ptr8;
@@ -182,8 +181,7 @@ void blend_apply( GRAPH * graph, int16_t * blend )
  *      None
  */
 
-void blend_assign( GRAPH * graph, int16_t * blend )
-{
+void blend_assign( GRAPH * graph, int16_t * blend ) {
     if ( !graph ) return ;
     graph->blend_table = blend;
     graph->modified = 1; /* Doesn't need analysis */
@@ -202,8 +200,7 @@ void blend_assign( GRAPH * graph, int16_t * blend )
  *      None
  */
 
-void blend_free( int16_t * blend )
-{
+void blend_free( int16_t * blend ) {
     if ( !blend ) return ;
     free( blend );
 }
@@ -232,8 +229,7 @@ void blend_free( int16_t * blend )
  *      1               Ok
  */
 
-void blend_grayscale( int16_t * blend, int method )
-{
+void blend_grayscale( int16_t * blend, int method ) {
     int i, r, g, b, max, min;
     int16_t * blend2;
 
@@ -308,8 +304,7 @@ void blend_grayscale( int16_t * blend, int method )
  *      None
  */
 
-void blend_translucency( int16_t * blend, float amount )
-{
+void blend_translucency( int16_t * blend, float amount ) {
     int i, r, g, b;
     float amount2;
     int16_t * blend2;
@@ -356,8 +351,7 @@ void blend_translucency( int16_t * blend, float amount )
  *      None
  */
 
-void blend_intensity( int16_t * blend, float amount )
-{
+void blend_intensity( int16_t * blend, float amount ) {
     int i, r, g, b;
 
     if ( !blend ) return ;
@@ -427,8 +421,7 @@ void blend_swap( int16_t * blend )
  *      None
  */
 
-void blend_tint( int16_t * blend, float amount, uint8_t cr, uint8_t cg, uint8_t cb )
-{
+void blend_tint( int16_t * blend, float amount, uint8_t cr, uint8_t cg, uint8_t cb ) {
     int i, r, g, b;
 
     if ( !blend ) return ;

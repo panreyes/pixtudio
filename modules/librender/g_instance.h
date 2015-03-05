@@ -35,6 +35,7 @@ extern void draw_instance_at( INSTANCE * i, REGION * r, int x, int y, GRAPH * de
 extern void draw_instance( INSTANCE * i, REGION * clip ) ;
 extern void instance_update_bbox( INSTANCE * i ) ;
 extern GRAPH * instance_graph( INSTANCE * i ) ;
+extern GRAPH * instance_collision_graph( INSTANCE * i ) ;
 extern int instance_visible( INSTANCE * i );
 
 #endif

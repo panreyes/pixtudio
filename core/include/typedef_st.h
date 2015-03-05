@@ -30,7 +30,7 @@
 #ifndef __TYPEDEF_ST_H
 #define __TYPEDEF_ST_H
 
-/* Tipos de dato */
+/* Data types */
 
 typedef enum {
 	TYPE_UNDEFINED = 0,
@@ -55,9 +55,8 @@ BASETYPE ;
 typedef struct _typechunk
 {
 	BASETYPE   type ;
-	int	   count ;	/* Para type == TYPE_ARRAY */
-}
-TYPECHUNK ;
+	int	   count ;	/* For type == TYPE_ARRAY */
+} TYPECHUNK ;
 
 #define MAX_TYPECHUNKS 8
 
@@ -66,8 +65,7 @@ typedef struct _typedef
 	TYPECHUNK	   chunk[MAX_TYPECHUNKS] ;
 	int		   depth ;
 	struct _varspace * varspace ;
-}
-TYPEDEF ;
+} TYPEDEF ;
 
 #define typedef_is_numeric(t)   ((t).chunk[0].type < 16)
 #define typedef_is_integer(t)   ((t).chunk[0].type < 8)
