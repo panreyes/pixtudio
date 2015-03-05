@@ -35,13 +35,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-
-#ifdef TARGET_BEOS
-#include <posix/assert.h>
-#else
 #include <assert.h>
-#endif
-
 #ifdef WITH_SDLRWOPS
 #include <SDL_rwops.h>
 #endif

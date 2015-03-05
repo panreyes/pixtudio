@@ -30,13 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#ifdef TARGET_BEOS
-#include <posix/assert.h>
-#else
 #include <assert.h>
-#endif
-
 #include "offsets.h"
 #include "bgdrtm.h"
 #include "sysprocs_p.h"

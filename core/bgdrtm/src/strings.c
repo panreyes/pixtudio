@@ -38,13 +38,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-#ifdef TARGET_BEOS
-#include <posix/assert.h>
-#else
 #include <assert.h>
-#endif
-
 #include "files.h"
 #include "xctype.h"
 

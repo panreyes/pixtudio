@@ -43,14 +43,6 @@
 
 #include "fmath.h"
 
-#if defined(TARGET_GP2X_WIZ) || defined(TARGET_CAANOO)
-    #include <sys/types.h>
-    #include <sys/stat.h>
-    #include <fcntl.h>
-
-    #include <sys/mman.h>
-#endif
-
 /* --------------------------------------------------------------------------- */
 
 char * appname          = NULL;
