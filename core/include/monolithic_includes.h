@@ -62,7 +62,6 @@
 #include <mod_draw_symbols.h>
 #include <mod_screen_symbols.h>
 #include <mod_path_symbols.h>
-#include <mod_effects_symbols.h>
 #include <mod_blendop_symbols.h>
 #include <libwm_symbols.h>
 #include <mod_wm_symbols.h>
@@ -171,7 +170,6 @@ basic_symbols symbol_list[] =
     { "mod_draw.fakelib"     , mod_draw_modules_dependency, NULL, NULL, NULL, NULL, mod_draw_functions_exports },
     { "mod_screen.fakelib"   , mod_screen_modules_dependency, NULL, NULL, NULL, NULL, mod_screen_functions_exports },
     { "mod_path.fakelib"     , mod_path_modules_dependency, mod_path_constants_def, NULL, NULL, NULL, mod_path_functions_exports },
-    { "mod_effects.fakelib"  , mod_effects_modules_dependency, mod_effects_constants_def, NULL, NULL, NULL, mod_effects_functions_exports },
     { "mod_blendop.fakelib"  , mod_blendop_modules_dependency, NULL, NULL, NULL, NULL, mod_blendop_functions_exports },
     { "mod_wm.fakelib"       , mod_wm_modules_dependency, NULL, NULL, NULL, NULL, mod_wm_functions_exports },
     { "mod_sys.fakelib"      , NULL, mod_sys_constants_def, NULL, NULL, NULL, mod_sys_functions_exports },
@@ -191,9 +189,6 @@ basic_symbols symbol_list[] =
 #endif
 #ifndef NO_MODMULTI
     { "mod_multi.fakelib" , mod_multi_modules_dependency, NULL, NULL, NULL, NULL, mod_multi_functions_exports },
-#endif
-#ifndef NO_MODFMODEX
-    { "mod_fmodex.fakelib" , NULL, NULL, NULL, mod_fmodex_globals_def, NULL, mod_fmodex_functions_exports },
 #endif
 #ifndef NO_MODCURL
     { "mod_curl.fakelib" , NULL, mod_curl_constants_def, NULL, NULL, NULL, mod_curl_functions_exports },
@@ -262,7 +257,6 @@ extra_symbols symbol_list_runtime[] =
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_draw
     { mod_screen_globals_fixup, mod_screen_locals_fixup, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_screen
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_path
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_effects
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_blendop
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_wm
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_sys
@@ -282,9 +276,6 @@ extra_symbols symbol_list_runtime[] =
 #endif
 #ifndef NO_MODMULTI
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, mod_multi_handler_hooks }, //mod_multi
-#endif
-#ifndef NO_MODFMODEX
-    { mod_fmodex_globals_fixup, NULL, mod_fmodex_module_initialize, mod_fmodex_module_finalize, NULL, NULL, NULL, mod_fmodex_handler_hooks }, //mod_fmodex
 #endif
 #ifndef NO_MODCURL
     { NULL, NULL, mod_curl_module_initialize, mod_curl_module_finalize, NULL, NULL, NULL, NULL }, //mod_curl
