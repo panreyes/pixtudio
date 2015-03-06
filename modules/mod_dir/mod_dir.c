@@ -42,10 +42,6 @@
 #include <windef.h>
 #else
 #include <unistd.h>
-/* BeOS INCLUDES */
-#ifdef TARGET_BEOS
-#include <sys/types.h>
-#endif
 #include <sys/stat.h>
 #include <glob.h>
 #endif

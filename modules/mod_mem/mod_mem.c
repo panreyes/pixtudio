@@ -40,15 +40,6 @@
 #include <windef.h>
 #endif
 
-/* BeOS INCLUDES */
-#ifdef TARGET_BEOS
-#include <unistd.h>
-#include <sys/utsname.h>
-#include <sys/types.h>
-#include <ctype.h>
-#include <be/kernel/OS.h>
-#endif
-
 /* LINUX INCLUDES */
 #ifdef __linux__
 #include <unistd.h>
@@ -129,11 +120,6 @@ static int modmem_memory_free( INSTANCE * my, int * params )
     GlobalMemoryStatus( &mem ) ;
     return mem.dwAvailPhys ;
 
-#elif defined(TARGET_BEOS)
-    system_info info;
-    get_system_info( &info );
-    return B_PAGE_SIZE * ( info.max_pages - info.used_pages );
-
 #elif defined(__linux__)
     /* Linux and other Unix (?) */
     struct sysinfo meminf;
@@ -166,11 +152,6 @@ static int modmem_memory_total( INSTANCE * my, int * params )
     MEMORYSTATUS mem ;
     GlobalMemoryStatus( &mem ) ;
     return mem.dwTotalPhys ;
-
-#elif defined(TARGET_BEOS)
-    system_info info;
-    get_system_info( &info );
-    return  B_PAGE_SIZE * ( info.max_pages );
 
 #elif defined(__linux__)
     /* Linux and other Unix (?) */

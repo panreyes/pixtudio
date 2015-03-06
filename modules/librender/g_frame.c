@@ -152,21 +152,9 @@ void gr_wait_frame()
 
             if ( delay > 0 )
             {
-#if defined(TARGET_GP2X_WIZ) || defined(TARGET_CAANOO)
-                {
-                    unsigned long ta = bgdrtm_ptimer_get_ticks_us(), te = ta + delay * 1000;
-                    if ( ta > te ) while ( bgdrtm_ptimer_get_ticks_us() > te );
-                    while ( bgdrtm_ptimer_get_ticks_us() < te );
-                }
-#else
                 SDL_Delay( delay ) ;
-#endif
                 /* Reajust after delay */
-#if defined(TARGET_GP2X_WIZ) || defined(TARGET_CAANOO)
-                frame_ticks = bgdrtm_ptimer_get_ticks_us() / 1000L;
-#else
                 frame_ticks = SDL_GetTicks() ;
-#endif
                 ticks_per_frame = ( ( float ) ( frame_ticks - FPS_init_sync ) ) / ( float ) FPS_count_sync ;
                 fps_partial = 1000.0 / ticks_per_frame ;
             }
@@ -299,18 +287,18 @@ void gr_draw_frame()
 
 void __bgdexport( librender, module_initialize )()
 {
-#ifndef TARGET_DINGUX_A320
-    if ( !SDL_WasInit( SDL_INIT_TIMER ) ) SDL_InitSubSystem( SDL_INIT_TIMER );
-#endif
+    if ( !SDL_WasInit( SDL_INIT_TIMER ) ) {
+        SDL_InitSubSystem( SDL_INIT_TIMER );
+    }
 }
 
 /* --------------------------------------------------------------------------- */
 
 void __bgdexport( librender, module_finalize )()
 {
-#ifndef TARGET_DINGUX_A320
-    if ( SDL_WasInit( SDL_INIT_TIMER ) ) SDL_QuitSubSystem( SDL_INIT_TIMER );
-#endif
+    if ( SDL_WasInit( SDL_INIT_TIMER ) ) {
+        SDL_QuitSubSystem( SDL_INIT_TIMER );
+    }
 }
 
 /* --------------------------------------------------------------------------- */

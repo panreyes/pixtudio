@@ -9,8 +9,7 @@ import "mod_video"
 import "mod_screen"
 import "mod_draw"
 import "mod_scroll"
-
-
+import "mod_sound"
 
 GLOBAL
 
@@ -36,8 +35,10 @@ END
 
 
 PROCESS int main();
-BEGIN
+Private
+    int songid;
 
+BEGIN
     set_mode(800,600,32);
     set_fps(60, 0);
 
@@ -47,6 +48,9 @@ BEGIN
     mouse.graph = png_load("ball_opaque.png");
     graphic = png_load("longbg_x.png");
     font = fnt_load("font.fnt");
+    songid = load_song("1.ogg");
+    say("Song ID: "+songid);
+    play_song(songid, 0);
 
     // (standard version)
     // int start_scroll (int scrollnumber,
@@ -67,8 +71,14 @@ BEGIN
         if(key(_right) || mouse.left)
             scroll[0].x0 += 30;
         end
+
         if(key(_left))
             scroll[0].x0 -= 30;
+        end
+
+        if(key(_enter) && songid >= 0)
+            fade_music_out(3000);
+            songid = -1;
         end
         scroll[0].x0 += 30;
         scroll[1].x0 -= 15;
@@ -77,6 +87,9 @@ BEGIN
 
     // stop scroll window.
     stop_scroll(0);
+
+    // Stop the music
+    stop_song();
 
 
     // kill all processes, execpt the "main" process.

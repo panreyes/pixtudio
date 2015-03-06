@@ -189,7 +189,7 @@ int file_qgets( file * fp, char * buffer, int len )
 {
     char * result = NULL ;
     char * ptr = result = buffer ;
-    int l = 0, retval = 0;
+    int l = 0;
 
     if ( fp->type == F_XFILE )
     {
@@ -216,15 +216,14 @@ int file_qgets( file * fp, char * buffer, int len )
         if ( l == 0 ) return 0 ;
     }
 #ifndef NO_ZLIB
-    else if ( fp->type == F_GZFILE )
-    {
+    else if ( fp->type == F_GZFILE ) {
         result = gzgets( fp->gz, buffer, len ) ;
     }
 #endif
 
 #ifdef WITH_SDLRWOPS
-    else if ( fp->type == F_RWOPS )
-    {
+    else if ( fp->type == F_RWOPS ) {
+        int retval = 0
         while ( l < len )
         {
             retval = SDL_RWread( fp->rwops, ptr, 1, 1 );
@@ -241,13 +240,11 @@ int file_qgets( file * fp, char * buffer, int len )
         if ( l == 0 ) return 0 ;
     }
 #endif
-    else
-    {
+    else {
         result = fgets( buffer, len, fp->fp );
     }
 
-    if ( result == NULL )
-    {
+    if ( result == NULL ) {
         buffer[0] = 0 ; return 0 ;
     }
 
