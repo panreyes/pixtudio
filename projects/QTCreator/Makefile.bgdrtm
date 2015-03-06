@@ -63,6 +63,7 @@ INCLUDES	:=	../../core/include \
 	../../core/bgdrtm/include/ \
 	../../3rdparty/SDL/include/ \
 	../../3rdparty/SDL_mixer/ \
+	../../3rdparty/stb/ \
 	../../modules/libbgload/ \
 	../../modules/mod_say/ \
 	../../modules/mod_string/ \

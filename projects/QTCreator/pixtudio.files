@@ -851,3 +851,4 @@
 ../../modules/mod_video/mod_video_symbols.h
 ../../modules/mod_wm/mod_wm.c
 ../../modules/mod_wm/mod_wm_symbols.h
+../../3rdparty/stb/stretchy_buffer.h
