@@ -211,13 +211,11 @@ typedef struct
 
 static char * __dliberr = NULL;
 
-static char * dliberror( void )
-{
+static char * dliberror( void ) {
     return __dliberr;
 }
 
-static dlibhandle * dlibopen( const char * fname )
-{
+static dlibhandle * dlibopen( const char * fname ) {
     int i=0;
 
     // Fake-load the library

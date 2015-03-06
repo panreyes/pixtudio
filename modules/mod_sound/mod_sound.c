@@ -568,7 +568,7 @@ static int set_song_volume( int volume ) {
 
 static int32_t load_wav( const char * filename ) {
     Mix_Chunk *sound = NULL;
-    int32_t    n = 0, id = 0;
+    int32_t    id = 0;
     file      *fp;
 
     if ( !audio_initialized && sound_init() ) {
