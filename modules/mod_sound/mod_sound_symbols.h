@@ -69,7 +69,7 @@ DLSYSFUNCS  __bgdexport( mod_sound, functions_exports )[] =
     { "IS_PLAYING_WAV"      , "I"    , TYPE_INT , 0 },
     { "SET_WAV_VOLUME"      , "II"   , TYPE_INT , 0 },
     { "FADE_MUSIC_IN"       , "III"  , TYPE_INT , 0 },
-    { "FADE_MUSIC_OFF"      , "I"    , TYPE_INT , 0 },
+    { "FADE_MUSIC_OUT"      , "I"    , TYPE_INT , 0 },
     { "SET_CHANNEL_VOLUME"  , "II"   , TYPE_INT , 0 },
     { "RESERVE_CHANNELS"    , "I"    , TYPE_INT , 0 },
     { "SET_PANNING"         , "III"  , TYPE_INT , 0 },
