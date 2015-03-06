@@ -98,7 +98,6 @@ INCLUDES	:=	../../core/bgdc/include \
 				../../modules/mod_draw/ \
 				../../modules/mod_screen/ \
 				../../modules/mod_path/ \
-				../../modules/mod_effects/ \
 				../../modules/mod_blendop/ \
 				../../modules/libwm/ \
 				../../modules/mod_wm/ \
