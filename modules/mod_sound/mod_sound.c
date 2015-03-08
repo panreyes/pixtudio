@@ -146,9 +146,9 @@ static SDL_RWops *SDL_RWFromBGDFP( file *fp ) {
 /* --------------------------------------------------------------------------- */
 
 /*
- *  FUNCTION : find_free_spot
+ *  FUNCTION : find_free_musicID
  *
- *  Find a free spot in given array.
+ *  Find a free music spot in given array.
  *  If no spots are available, increment the size of the given array
  *  and return the index of the last element.
  *
@@ -161,7 +161,38 @@ static SDL_RWops *SDL_RWFromBGDFP( file *fp ) {
  *
  */
 
-static int find_free_spot(void **where) {
+static int find_free_musicID(Mix_Music **where) {
+    int32_t i = 0, len = 0;
+
+    // Try to find an empty spot (the pointer should be NULL there)
+    len = sb_count(where);
+    for(i=0; i<len; i++) {
+        if(where[i] == NULL) {
+            return i;
+        }
+    }
+
+    // None available => return -1
+    return -1;
+}
+
+/*
+ *  FUNCTION : find_free_chunkID
+ *
+ *  Find a free chunk spot in given array.
+ *  If no spots are available, increment the size of the given array
+ *  and return the index of the last element.
+ *
+ *  PARAMS:
+ *      array to find free spot in
+ *
+ *  RETURN VALUE:
+ *
+ *      an integer with the position index, or -1 if an error occurred
+ *
+ */
+
+static int find_free_chunkID(Mix_Chunk **where) {
     int32_t i = 0, len = 0;
 
     // Try to find an empty spot (the pointer should be NULL there)
@@ -299,7 +330,7 @@ static int32_t load_song( const char * filename ) {
         return( 0 );
     }
 
-    id = find_free_spot(loaded_songs);
+    id = find_free_musicID(loaded_songs);
     if (id == -1 ) {
         sb_push(loaded_songs, music);
         id = sb_count(loaded_songs) - 1;
@@ -585,7 +616,7 @@ static int32_t load_wav( const char * filename ) {
         return( 0 );
     }
 
-    id = find_free_spot(loaded_sounds);
+    id = find_free_chunkID(loaded_sounds);
     if ( id == -1 ) {
         sb_push(loaded_sounds, sound);
         id = sb_count(loaded_sounds) - 1;

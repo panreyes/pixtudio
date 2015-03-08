@@ -73,8 +73,7 @@ INCLUDES	:=	../../core/include \
 	../../modules/mod_file/ \
 	../../modules/mod_sound/ \
 	../../modules/libsdlhandler/ \
-	../../modules/mod_joy/ \
-	../../modules/libjoy/ \
+	../../modules/mod_gamecontroller/ \
 	../../modules/libkey/ \
 	../../modules/mod_key/ \
 	../../modules/mod_proc/ \
@@ -169,8 +168,7 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 	../../../modules/mod_file/mod_file.c \
 	../../../modules/mod_sound/mod_sound.c \
 	../../../modules/libsdlhandler/libsdlhandler.c \
-	../../../modules/libjoy/libjoy.c \
-	../../../modules/mod_joy/mod_joy.c \
+	../../../modules/mod_gamecontroller/mod_gamecontroller.c \
 	../../../modules/libkey/libkey.c \
 	../../../modules/mod_key/mod_key.c \
 	../../../modules/mod_proc/mod_proc.c \

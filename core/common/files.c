@@ -281,7 +281,7 @@ int file_gets( file * fp, char * buffer, int len )
 {
     char * result = NULL ;
     char * ptr = result = buffer ;
-    int l = 0, retval = 0;
+    int l = 0 ;
 
     if ( fp->type == F_XFILE )
     {
@@ -319,7 +319,7 @@ int file_gets( file * fp, char * buffer, int len )
     {
         while ( l < len )
         {
-            retval = SDL_RWread(fp->rwops, ptr, 1, 1);
+            int retval = SDL_RWread(fp->rwops, ptr, 1, 1);
             fp->eof = (retval == 0);
             if(retval > 0) {
                 l += retval ;

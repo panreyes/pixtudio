@@ -737,13 +737,10 @@ GRAPH * gr_text_bitmap( int fontid, const char * text, int alignment )
 {
     GRAPH * gr ;
     int x, y ;
-    FONT   * f ;
 
     // Splinter
     if ( !text || !*text ) return NULL;
     if ( fontid < 0 || fontid >= MAX_FONTS || !fonts[fontid] ) return NULL; // Incorrect font type
-
-    f = fonts[fontid] ;
 
     /* Un refresco de paleta en mitad de gr_text_put puede provocar efectos
      * desagradables al modificar el tipo de letra del sistema */

@@ -23,7 +23,6 @@
 #define __MONOLITHIC_INCLUDES_H
 
 #include <libsdlhandler_symbols.h>
-#include <libjoy_symbols.h>
 #include <mod_say_symbols.h>
 #include <mod_string_symbols.h>
 #include <mod_math_symbols.h>
@@ -32,7 +31,6 @@
 #ifndef NO_MODSOUND
 #  include <mod_sound_symbols.h>
 #endif
-#include <mod_joy_symbols.h>
 #include <mod_proc_symbols.h>
 #include <mod_sort_symbols.h>
 #include <mod_timers_symbols.h>
@@ -43,6 +41,7 @@
 #include <libblit_symbols.h>
 #include <libvideo_symbols.h>
 #include <librender_symbols.h>
+#include <mod_gamecontroller_symbols.h>
 #include <mod_video_symbols.h>
 #include <libmouse_symbols.h>
 #include <mod_mouse_symbols.h>
@@ -127,7 +126,7 @@ basic_symbols symbol_list[] =
     // Libs go first, modules later
     // name              , deps, constants, types, globals, locals, func_exp
     { "libsdlhandler.fakelib", NULL, NULL, NULL, NULL, NULL, NULL },
-    { "libjoy.fakelib"       , libjoy_modules_dependency, libjoy_constants_def, NULL, NULL, NULL, NULL },
+    { "mod_gamecontroller.fakelib" , NULL, mod_gamecontroller_constants_def, NULL, NULL, NULL, mod_gamecontroller_functions_exports },
     { "libgrbase.fakelib"    , NULL, NULL, NULL, libgrbase_globals_def, NULL, NULL },
     { "libblit.fakelib"      , NULL, libblit_constants_def, NULL, NULL, NULL, NULL },
     { "libvideo.fakelib"     , libvideo_modules_dependency, libvideo_constants_def, NULL, libvideo_globals_def, NULL, NULL },
@@ -149,7 +148,6 @@ basic_symbols symbol_list[] =
 #ifndef NO_MODSOUND
     { "mod_sound.fakelib"    , NULL, mod_sound_constants_def, NULL, mod_sound_globals_def, NULL, mod_sound_functions_exports },
 #endif
-    { "mod_joy.fakelib"      , mod_joy_modules_dependency, NULL, NULL, NULL, NULL, mod_joy_functions_exports },
     { "mod_proc.fakelib"     , NULL, mod_proc_constants_def, NULL, NULL, mod_proc_locals_def, mod_proc_functions_exports },
     { "mod_sort.fakelib"     , NULL, NULL, NULL, NULL, NULL, mod_sort_functions_exports },
     { "mod_timers.fakelib"   , NULL, NULL, NULL, mod_timers_globals_def, NULL, NULL },
@@ -214,7 +212,7 @@ basic_symbols symbol_list[] =
 extra_symbols symbol_list_runtime[] =
 {
     { NULL, NULL, libsdlhandler_module_initialize, libsdlhandler_module_finalize, NULL, NULL, NULL, libsdlhandler_handler_hooks },      //libsdlhandler
-    { NULL, NULL, libjoy_module_initialize, libjoy_module_finalize, NULL, NULL, NULL, NULL }, //libjoy
+    { NULL, NULL, mod_gamecontroller_module_initialize, mod_gamecontroller_module_finalize, NULL, NULL, NULL, NULL }, //mod_gamecontroller
     { libgrbase_globals_fixup, NULL, libgrbase_module_initialize, NULL, NULL, NULL, NULL, NULL }, //libgrbase
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //libblit
     { libvideo_globals_fixup, NULL, libvideo_module_initialize, libvideo_module_finalize, NULL, NULL, NULL, NULL }, //libvideo
@@ -236,7 +234,6 @@ extra_symbols symbol_list_runtime[] =
 #ifndef NO_MODSOUND
     { mod_sound_globals_fixup, NULL, mod_sound_module_initialize, mod_sound_module_finalize, NULL, NULL, NULL, NULL}, //mod_sound
 #endif
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_joy
     { NULL, mod_proc_locals_fixup, NULL, NULL, NULL, NULL, mod_proc_process_exec_hook, NULL}, //mod_proc
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_sort
     { mod_timers_globals_fixup, NULL, NULL, NULL, NULL, NULL, NULL, mod_timers_handler_hooks }, //mod_timers

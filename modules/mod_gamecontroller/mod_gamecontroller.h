@@ -27,8 +27,6 @@
 #ifndef __MODGAMECONTROLLER_H
 #define __MODGAMECONTROLLER_H
 
-#define GAMECONTROLLER_INVALID -1
-
-extern int modgamecontroller_num( INSTANCE * my, int * params );
+#define CONTROLLER_INVALID -1
 
 #endif

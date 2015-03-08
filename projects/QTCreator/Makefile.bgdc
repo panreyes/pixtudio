@@ -71,7 +71,7 @@ INCLUDES	:=	../../core/bgdc/include \
 				../../modules/mod_file/ \
 				../../modules/mod_sound/ \
 				../../modules/libsdlhandler/ \
-				../../modules/mod_joy/ \
+				../../modules/mod_gamecontroller/ \
 				../../modules/libjoy/ \
 				../../modules/libkey/ \
 				../../modules/mod_key/ \
