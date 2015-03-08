@@ -1,7 +1,5 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright Â© 2002-2006 Fenix Team (Fenix)
- *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
+ *  Copyright (C) 2015 Joseba García Etxebarria <joseba.gar@gmail.com>
  *
  *  This file is part of PixTudio
  *
@@ -29,12 +27,45 @@
 #ifndef __MODGAMECONTROLLER_SYMBOLS_H
 #define __MODGAMECONTROLLER_SYMBOLS_H
 
+#include <SDL_gamecontroller.h>
 #include <bgddl.h>
 #include "mod_gamecontroller.h"
 
+/* --------------------------------------------------------------------------- */
+DLCONSTANT  __bgdexport( mod_gamecontroller, constants_def )[] = {
+    { "CONTROLLER_INVALID"               , TYPE_DWORD, CONTROLLER_INVALID },
+    { "CONTROLLER_BUTTON_INVALID"        , TYPE_DWORD, SDL_CONTROLLER_BUTTON_INVALID },
+    { "CONTROLLER_BUTTON_A"              , TYPE_DWORD, SDL_CONTROLLER_BUTTON_A },
+    { "CONTROLLER_BUTTON_B"              , TYPE_DWORD, SDL_CONTROLLER_BUTTON_B },
+    { "CONTROLLER_BUTTON_X"              , TYPE_DWORD, SDL_CONTROLLER_BUTTON_X },
+    { "CONTROLLER_BUTTON_Y"              , TYPE_DWORD, SDL_CONTROLLER_BUTTON_Y },
+    { "CONTROLLER_BUTTON_BACK"           , TYPE_DWORD, SDL_CONTROLLER_BUTTON_BACK },
+    { "CONTROLLER_BUTTON_GUIDE"          , TYPE_DWORD, SDL_CONTROLLER_BUTTON_GUIDE },
+    { "CONTROLLER_BUTTON_START"          , TYPE_DWORD, SDL_CONTROLLER_BUTTON_START },
+    { "CONTROLLER_BUTTON_LEFTSTICK"      , TYPE_DWORD, SDL_CONTROLLER_BUTTON_LEFTSTICK },
+    { "CONTROLLER_BUTTON_RIGHTSTICK"     , TYPE_DWORD, SDL_CONTROLLER_BUTTON_RIGHTSTICK },
+    { "CONTROLLER_BUTTON_LEFTSHOULDER"   , TYPE_DWORD, SDL_CONTROLLER_BUTTON_LEFTSHOULDER },
+    { "CONTROLLER_BUTTON_RIGHTSHOULDER"  , TYPE_DWORD, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER },
+    { "CONTROLLER_BUTTON_DPAD_UP"        , TYPE_DWORD, SDL_CONTROLLER_BUTTON_DPAD_UP },
+    { "CONTROLLER_BUTTON_DPAD_DOWN"      , TYPE_DWORD, SDL_CONTROLLER_BUTTON_DPAD_DOWN },
+    { "CONTROLLER_BUTTON_DPAD_LEFT"      , TYPE_DWORD, SDL_CONTROLLER_BUTTON_DPAD_LEFT },
+    { "CONTROLLER_BUTTON_DPAD_RIGHT"     , TYPE_DWORD, SDL_CONTROLLER_BUTTON_DPAD_RIGHT },
+    { "CONTROLLER_BUTTON_MAX"            , TYPE_DWORD, SDL_CONTROLLER_BUTTON_MAX },
+    { "CONTROLLER_AXIS_INVALID"          , TYPE_DWORD, SDL_CONTROLLER_AXIS_INVALID },
+    { "CONTROLLER_AXIS_LEFTX"            , TYPE_DWORD, SDL_CONTROLLER_AXIS_LEFTX },
+    { "CONTROLLER_AXIS_LEFTY"            , TYPE_DWORD, SDL_CONTROLLER_AXIS_LEFTY },
+    { "CONTROLLER_AXIS_RIGHTX"           , TYPE_DWORD, SDL_CONTROLLER_AXIS_RIGHTX },
+    { "CONTROLLER_AXIS_RIGHTY"           , TYPE_DWORD, SDL_CONTROLLER_AXIS_RIGHTY },
+    { "CONTROLLER_AXIS_TRIGGERLEFT"      , TYPE_DWORD, SDL_CONTROLLER_AXIS_TRIGGERLEFT },
+    { "CONTROLLER_AXIS_TRIGGERRIGHT"     , TYPE_DWORD, SDL_CONTROLLER_AXIS_TRIGGERRIGHT },
+    { "CONTROLLER_AXIS_MAX"              , TYPE_DWORD, SDL_CONTROLLER_AXIS_MAX },
+    { NULL          , 0       , 0  }
+}
+
 DLSYSFUNCS  __bgdexport( mod_gamecontroller, functions_exports )[] =
 {
-    { "JOY_NUM"            , ""      , TYPE_INT    , FUNC(modgamecontroller_num) },
+    { "CONTROLLER_NUM"  , ""      , TYPE_INT    , FUNC(modgamecontroller_num) },
+    { "CONTROLLER_OPEN" , "I"     , TYPE_INT    , FUNC(modgamecontroller_open) },
     { 0                     , 0       , 0           , 0 }
 };
 

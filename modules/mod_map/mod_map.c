@@ -536,7 +536,7 @@ static int modmap_fade( INSTANCE * my, int * params )
 
 /* --------------------------------------------------------------------------- */
 
-static int modmap_fade_on( INSTANCE * my, int * params )
+static int modmap_fade_in( INSTANCE * my, int * params )
 {
     gr_fade_init( 100, 100, 100, 16 ) ;
     return 1 ;
@@ -544,7 +544,7 @@ static int modmap_fade_on( INSTANCE * my, int * params )
 
 /* --------------------------------------------------------------------------- */
 
-static int modmap_fade_off( INSTANCE * my, int * params )
+static int modmap_fade_out( INSTANCE * my, int * params )
 {
     gr_fade_init( 0, 0, 0, 16 ) ;
     return 1;
@@ -856,8 +856,8 @@ DLSYSFUNCS  __bgdexport( mod_map, functions_exports )[] =
     { "RGBA_GET"            , "IPPPP"       , TYPE_INT      , modmap_get_rgba           },
 
     { "FADE"                , "IIII"        , TYPE_INT      , modmap_fade               },
-    { "FADE_ON"             , ""            , TYPE_INT      , modmap_fade_on            },
-    { "FADE_OFF"            , ""            , TYPE_INT      , modmap_fade_off           },
+    { "FADE_IN"             , ""            , TYPE_INT      , modmap_fade_in            },
+    { "FADE_OUT"            , ""            , TYPE_INT      , modmap_fade_out           },
 
     /* Informacion de graficos */
     { "MAP_INFO_SET"        , "IIII"        , TYPE_INT      , modmap_graphic_set        },
