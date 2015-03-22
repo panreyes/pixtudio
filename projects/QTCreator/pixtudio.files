@@ -852,3 +852,6 @@
 ../../modules/mod_wm/mod_wm.c
 ../../modules/mod_wm/mod_wm_symbols.h
 ../../3rdparty/stb/stretchy_buffer.h
+../../modules/mod_gamecontroller/mod_gamecontroller.c
+../../modules/mod_gamecontroller/mod_gamecontroller_symbols.h
+../../modules/mod_gamecontroller/mod_gamecontroller.h
