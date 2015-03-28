@@ -547,7 +547,9 @@ void draw_vline(GRAPH * dest, REGION * clip, int x, int y, int h , int update_te
 
     drawing_stipple = old_stipple;
 
-    bitmap_update_texture(dest);
+    if(update_texture) {
+        bitmap_update_texture(dest);
+    }
 }
 
 /* --------------------------------------------------------------------------- */
@@ -685,7 +687,9 @@ void draw_hline( GRAPH * dest, REGION * clip, int x, int y, int w, int update_te
 
     drawing_stipple = old_stipple;
 
-    bitmap_update_texture(dest);
+    if(update_texture) {
+        bitmap_update_texture(dest);
+    }
 }
 
 /* --------------------------------------------------------------------------- */
