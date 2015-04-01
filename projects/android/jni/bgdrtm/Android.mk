@@ -52,7 +52,6 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/libwm/ \
 	$(MODULES_PATH)/mod_wm/ \
 	$(MODULES_PATH)/mod_sys/ \
-	$(MODULES_PATH)/mod_regex/ \
 	$(MODULES_PATH)/mod_multi/ \
 	$(MODULES_PATH)/mod_curl/ \
 	$(MODULES_PATH)/mod_gamecontroller/
@@ -67,10 +66,10 @@ LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-DNO_FSOCK \
 	-DNO_MODTHEORA \
     -DNO_MODSENSOR \
-	-DWITH_SDLRWOPS \
-	-DWITH_GPL_CODE \
-	-ffast-math \
+	-DNO_MODREGEX \
     -DNO_MODCHIPMUNK \
+	-DWITH_SDLRWOPS \
+	-ffast-math \
 	-O3
 
 LOCAL_SRC_FILES := \
@@ -146,8 +145,6 @@ LOCAL_SRC_FILES := \
 	../../../../modules/libwm/libwm.c \
 	../../../../modules/mod_wm/mod_wm.c \
 	../../../../modules/mod_sys/mod_sys.c \
-	../../../../modules/mod_regex/mod_regex.c \
-	../../../../modules/mod_regex/regex.c \
 	../../../../modules/mod_multi/mod_multi.c \
 	../../../../modules/mod_curl/mod_curl.c \
 	../../../../modules/mod_gamecontroller/mod_gamecontroller.c
