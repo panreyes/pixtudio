@@ -41,9 +41,7 @@
 #include <process.h>
 #endif
 
-#if defined(TARGET_WII)
-#include <ogc/wiilaunch.h>
-#elif defined(TARGET_IOS)
+#if defined(TARGET_IOS)
 #import <UIKit/UIKit.h>
 #elif defined(__ANDROID__)
 extern void Android_JNI_openURL(const char* url);
@@ -77,13 +75,7 @@ DLCONSTANT __bgdexport( mod_sys, constants_def )[] =
 
 static int modsys_exec( INSTANCE * my, int * params )
 {
-#if defined(TARGET_PSP)
-    return 0;
-#elif defined(TARGET_WII)
-    WII_OpenURL(string_get(params[1]));
-    string_discard(params[1]);
-    return 0;
-#elif defined(TARGET_IOS)
+#if defined(TARGET_IOS)
     NSString *urlString = [NSString stringWithFormat:@"%s" , string_get(params[1])];
     string_discard(params[1]);
 
@@ -92,42 +84,38 @@ static int modsys_exec( INSTANCE * my, int * params )
 #elif defined(__ANDROID__)
     Android_JNI_openURL(string_get(params[1]));
     string_discard(params[1]);
+    return 0;
 #else
     int mode = params[0];
     char * filename = ( char * ) string_get( params[1] );
     int argc = params[2];
     char ** argv;
     int n = 0;
-#ifndef WIN32
+#   ifndef WIN32
     pid_t child;
-#endif
+#   endif
     int status = -1;
 
     // fill argv
     argv = ( char ** ) calloc( argc + 2, sizeof( char * ) );
     argv[0] = filename;
-    for ( n = 0; n < argc; n++ )
+    for ( n = 0; n < argc; n++ ) {
         argv[n + 1] = ( char * ) string_get((( int * )( params[3] ) )[n] );
+    }
 
     // Execute program
-#ifdef WIN32
+#   ifdef WIN32
     status = spawnvp( mode, filename, ( const char ** )argv );
-#else
-    if (( child = fork() ) == -1 )
-    {
+#   else
+    if (( child = fork() ) == -1 ) {
         //Error
         status = -1 ;
-    }
-    else if ( child == 0 )
-    {
+    } else if ( child == 0 ) {
         execvp( filename, ( const char ** )argv );
         exit(-1);
-    }
-    else
-    {
+    } else {
         /* father */
-        switch ( mode )
-        {
+        switch ( mode ) {
             case _P_WAIT:
                 if ( waitpid( child, &status, WUNTRACED ) != child )
                     status = -1;
@@ -144,7 +132,9 @@ static int modsys_exec( INSTANCE * my, int * params )
 
     // Free resources
     string_discard( params[1] );
-    if ( argv ) free( argv );
+    if ( argv ) {
+        free( argv );
+    }
 
     return ( status ) ;
 #endif

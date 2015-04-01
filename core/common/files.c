@@ -361,7 +361,7 @@ int file_writeUint8( file * fp, uint8_t * buffer )
 
 int file_writeSint16( file * fp, int16_t * buffer )
 {
-#if __BYTEORDER == __LIL_ENDIAN
+#if __BYTEORDER == __LIL_ENDIAN_ORDERING
     return file_write( fp, buffer, sizeof( int16_t ) );
 #else
     file_write( fp, ( uint8_t * )buffer + 1, 1 );
@@ -376,7 +376,7 @@ int file_writeUint16( file * fp, uint16_t * buffer )
 
 int file_writeSint32( file * fp, int32_t * buffer )
 {
-#if __BYTEORDER == __LIL_ENDIAN
+#if __BYTEORDER == __LIL_ENDIAN_ORDERING
     return file_write( fp, buffer, sizeof( int32_t ) );
 #else
     file_write( fp, ( uint8_t * )buffer + 3, 1 );
@@ -405,7 +405,7 @@ int file_writeUint8A( file * fp, uint8_t * buffer, int n )
 
 int file_writeSint16A( file * fp, int16_t * buffer, int n )
 {
-#if __BYTEORDER == __LIL_ENDIAN
+#if __BYTEORDER == __LIL_ENDIAN_ORDERING
     return file_write( fp, buffer, n << 1 ) >> 1 ;
 #else
     int i;
@@ -422,7 +422,7 @@ int file_writeUint16A( file * fp, uint16_t * buffer, int n )
 
 int file_writeSint32A( file * fp, int32_t * buffer, int n )
 {
-#if __BYTEORDER == __LIL_ENDIAN
+#if __BYTEORDER == __LIL_ENDIAN_ORDERING
     return file_write( fp, buffer, n << 2 ) >> 2;
 #else
     int i;
@@ -451,7 +451,7 @@ int file_readUint8( file * fp, uint8_t * buffer )
 
 int file_readSint16( file * fp, int16_t * buffer )
 {
-#if __BYTEORDER == __LIL_ENDIAN
+#if __BYTEORDER == __LIL_ENDIAN_ORDERING
     return file_read( fp, buffer, sizeof( int16_t ) );
 #else
     file_read( fp, ( uint8_t * )buffer + 1, 1 );
@@ -466,7 +466,7 @@ int file_readUint16( file * fp, uint16_t * buffer )
 
 int file_readSint32( file * fp, int32_t * buffer )
 {
-#if __BYTEORDER == __LIL_ENDIAN
+#if __BYTEORDER == __LIL_ENDIAN_ORDERING
     return file_read( fp, buffer, sizeof( int32_t ) );
 #else
     file_read( fp, ( uint8_t * )buffer + 3, 1 );
@@ -495,7 +495,7 @@ int file_readUint8A( file * fp, uint8_t * buffer, int n )
 
 int file_readSint16A( file * fp, int16_t * buffer, int n )
 {
-#if __BYTEORDER == __LIL_ENDIAN
+#if __BYTEORDER == __LIL_ENDIAN_ORDERING
     return file_read( fp, buffer, n << 1 ) >> 1;
 #else
     int i;
@@ -512,7 +512,7 @@ int file_readUint16A( file * fp, uint16_t * buffer, int n )
 
 int file_readSint32A( file * fp, int32_t * buffer, int n )
 {
-#if __BYTEORDER == __LIL_ENDIAN
+#if __BYTEORDER == __LIL_ENDIAN_ORDERING
     return file_read( fp, buffer, n << 2 ) >> 2;
 #else
     int i;
