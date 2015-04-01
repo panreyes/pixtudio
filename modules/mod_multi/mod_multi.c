@@ -208,7 +208,7 @@ static int modmulti_numpointers(INSTANCE * my, int * params) {
 
 // Get some info about the given pointer
 static int modmulti_info(INSTANCE * my, int * params) {
-    const unsigned char *info = (unsigned char *) string_get(params[1]);
+    const char *info = (char *) string_get(params[1]);
     int n=params[0];
 
     string_discard(params[1]);

@@ -62,7 +62,6 @@ int main( int argc, char *argv[] ) {
     int i, j, ret = -1;
     file * fp = NULL;
     INSTANCE * mainproc_running;
-    dcb_signature dcb_signature;
 
     SDL_Log ("BennuGD init\n");
 

@@ -856,3 +856,4 @@
 ../../modules/mod_gamecontroller/mod_gamecontroller_symbols.h
 ../../modules/mod_gamecontroller/mod_gamecontroller.h
 ../android/jni/src/main.c
+../../3rdparty/SDL/src/core/android/SDL_android.c
