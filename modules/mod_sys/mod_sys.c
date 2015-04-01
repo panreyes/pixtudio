@@ -44,7 +44,8 @@
 #if defined(TARGET_IOS)
 #import <UIKit/UIKit.h>
 #elif defined(__ANDROID__)
-extern void Android_JNI_openURL(const char* url);
+#include <jni.h>
+extern jclass Android_JNI_GetActivityClass(void);
 #endif
 
 /* ---------------------------------------------------------------------- */
@@ -82,7 +83,17 @@ static int modsys_exec( INSTANCE * my, int * params )
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
     return 0;
 #elif defined(__ANDROID__)
-    Android_JNI_openURL(string_get(params[1]));
+    jmethodID mid;
+    jclass mActivityClass;
+
+    JNIEnv *mEnv = Android_JNI_GetEnv();
+    mActivityClass = Android_JNI_GetActivityClass();
+    mid = (*mEnv)->GetStaticMethodID(mEnv, mActivityClass, "openURL", "(Ljava/lang/String;)V");
+    if (mid) {
+        jstring Url = (*mEnv)->NewStringUTF(mEnv, string_get(params[1]));
+        (*mEnv)->CallStaticVoidMethod(mEnv, mActivityClass, mid, Url);
+        (*mEnv)->DeleteLocalRef(mEnv, Url);
+    }
     string_discard(params[1]);
     return 0;
 #else
