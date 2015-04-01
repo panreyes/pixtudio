@@ -1,2 +1,3 @@
-APP_ABI := armeabi-v7a
-NDK_TOOLCHAIN_VERSION=clang3.5
+APP_ABI := armeabi-v7a x86
+APP_OPTIM=debug
+NDK_TOOLCHAIN_VERSION=clang
