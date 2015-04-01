@@ -143,6 +143,10 @@ struct SDL_Renderer
     SDL_Rect clip_rect;
     SDL_Rect clip_rect_backup;
 
+    /* Wether or not the clipping rectangle is used. */
+    SDL_bool clipping_enabled;
+    SDL_bool clipping_enabled_backup;
+
     /* The render output coordinate scale */
     SDL_FPoint scale;
     SDL_FPoint scale_backup;
@@ -170,6 +174,9 @@ struct SDL_RenderDriver
 
 #if SDL_VIDEO_RENDER_D3D
 extern SDL_RenderDriver D3D_RenderDriver;
+#endif
+#if SDL_VIDEO_RENDER_D3D11
+extern SDL_RenderDriver D3D11_RenderDriver;
 #endif
 #if SDL_VIDEO_RENDER_OGL
 extern SDL_RenderDriver GL_RenderDriver;

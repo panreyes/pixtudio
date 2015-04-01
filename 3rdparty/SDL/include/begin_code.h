@@ -41,9 +41,17 @@
 #  endif
 #endif
 
+#ifndef SDL_UNUSED
+#  ifdef __GNUC__
+#    define SDL_UNUSED __attribute__((unused))
+#  else
+#    define SDL_UNUSED
+#  endif
+#endif
+
 /* Some compilers use a special export keyword */
 #ifndef DECLSPEC
-# if defined(__WIN32__)
+# if defined(__WIN32__) || defined(__WINRT__)
 #  ifdef __BORLANDC__
 #   ifdef BUILD_SDL
 #    define DECLSPEC
@@ -66,7 +74,7 @@
 
 /* By default SDL uses the C calling convention */
 #ifndef SDLCALL
-#if defined(__WIN32__) && !defined(__GNUC__)
+#if (defined(__WIN32__) || defined(__WINRT__)) && !defined(__GNUC__)
 #define SDLCALL __cdecl
 #else
 #define SDLCALL

@@ -56,6 +56,8 @@ MIR_CreateWindowFramebuffer(_THIS, SDL_Window* window, Uint32* format,
     MIR_Window* mir_window;
     MirSurfaceParameters surfaceparm;
 
+    mir_data->software = SDL_TRUE;
+
     if (MIR_CreateWindow(_this, window) < 0)
         return SDL_SetError("Failed to created a mir window.");
 
@@ -91,11 +93,13 @@ MIR_UpdateWindowFramebuffer(_THIS, SDL_Window* window,
     MirGraphicsRegion region;
     int i, j, x, y, w, h, start;
     int bytes_per_pixel, bytes_per_row, s_stride, d_stride;
+    char* s_dest;
+    char* pixels;
 
     MIR_mir_surface_get_graphics_region(mir_window->surface, &region);
 
-    char* s_dest = region.vaddr;
-    char* pixels = (char*)window->surface->pixels;
+    s_dest = region.vaddr;
+    pixels = (char*)window->surface->pixels;
 
     s_stride = window->surface->pitch;
     d_stride = region.stride;

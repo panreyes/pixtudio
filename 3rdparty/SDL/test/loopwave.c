@@ -24,8 +24,11 @@
 #include <signal.h>
 #endif
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten/emscripten.h>
+#endif
+
 #include "SDL.h"
-#include "SDL_audio.h"
 
 struct
 {
@@ -75,10 +78,20 @@ poked(int sig)
     done = 1;
 }
 
+#ifdef __EMSCRIPTEN__
+void
+loop()
+{
+    if(done || (SDL_GetAudioStatus() != SDL_AUDIO_PLAYING))
+        emscripten_cancel_main_loop();
+}
+#endif
+
 int
 main(int argc, char *argv[])
 {
     int i;
+    char filename[4096];
 
 	/* Enable standard application logging */
 	SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
@@ -89,12 +102,14 @@ main(int argc, char *argv[])
         return (1);
     }
 
-    if (argv[1] == NULL) {
-        argv[1] = "sample.wav";
+    if (argc > 1) {
+        SDL_strlcpy(filename, argv[1], sizeof(filename));
+    } else {
+        SDL_strlcpy(filename, "sample.wav", sizeof(filename));
     }
     /* Load the wave file into memory */
-    if (SDL_LoadWAV(argv[1], &wave.spec, &wave.sound, &wave.soundlen) == NULL) {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't load %s: %s\n", argv[1], SDL_GetError());
+    if (SDL_LoadWAV(filename, &wave.spec, &wave.sound, &wave.soundlen) == NULL) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't load %s: %s\n", filename, SDL_GetError());
         quit(1);
     }
 
@@ -128,8 +143,13 @@ main(int argc, char *argv[])
 
     /* Let the audio run */
     SDL_PauseAudio(0);
+
+#ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop(loop, 0, 1);
+#else
     while (!done && (SDL_GetAudioStatus() == SDL_AUDIO_PLAYING))
         SDL_Delay(1000);
+#endif
 
     /* Clean up on signal */
     SDL_CloseAudio();

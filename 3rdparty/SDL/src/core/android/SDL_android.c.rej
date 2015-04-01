@@ -1,0 +1,10 @@
+--- SDL_android.c
++++ SDL_android.c
+@@ -32,6 +32,7 @@
+ 
+ #include "../../events/SDL_events_c.h"
+ #include "../../video/android/SDL_androidkeyboard.h"
++#include "../../video/android/SDL_androidmouse.h"
+ #include "../../video/android/SDL_androidtouch.h"
+ #include "../../video/android/SDL_androidvideo.h"
+ #include "../../video/android/SDL_androidwindow.h"

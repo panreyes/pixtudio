@@ -38,6 +38,8 @@
 #include "../../events/SDL_events_c.h"
 #endif
 
+#define SDL_JOYSTICK_RUNLOOP_MODE CFSTR("SDLJoystick")
+
 /* The base object of the HID Manager API */
 static IOHIDManagerRef hidman = NULL;
 
@@ -67,6 +69,11 @@ FreeDevice(recDevice *removeDevice)
 {
     recDevice *pDeviceNext = NULL;
     if (removeDevice) {
+        if (removeDevice->deviceRef) {
+            IOHIDDeviceUnscheduleFromRunLoop(removeDevice->deviceRef, CFRunLoopGetCurrent(), SDL_JOYSTICK_RUNLOOP_MODE);
+            removeDevice->deviceRef = NULL;
+        }
+
         /* save next device prior to disposing of this device */
         pDeviceNext = removeDevice->pNext;
 
@@ -131,7 +138,8 @@ static void
 JoystickDeviceWasRemovedCallback(void *ctx, IOReturn result, void *sender)
 {
     recDevice *device = (recDevice *) ctx;
-    device->removed = 1;
+    device->removed = SDL_TRUE;
+    device->deviceRef = NULL; // deviceRef was invalidated due to the remove
 #if SDL_HAPTIC_IOKIT
     MacHaptic_MaybeRemoveDevice(device->ffservice);
 #endif
@@ -356,15 +364,33 @@ GetDeviceInfo(IOHIDDeviceRef hidDevice, recDevice *pDevice)
     return SDL_TRUE;
 }
 
+static SDL_bool
+JoystickAlreadyKnown(IOHIDDeviceRef ioHIDDeviceObject)
+{
+    recDevice *i;
+    for (i = gpDeviceList; i != NULL; i = i->pNext) {
+        if (i->deviceRef == ioHIDDeviceObject) {
+            return SDL_TRUE;
+        }
+    }
+    return SDL_FALSE;
+}
+
 
 static void
 JoystickDeviceWasAddedCallback(void *ctx, IOReturn res, void *sender, IOHIDDeviceRef ioHIDDeviceObject)
 {
+    recDevice *device;
+
     if (res != kIOReturnSuccess) {
         return;
     }
 
-    recDevice *device = (recDevice *) SDL_calloc(1, sizeof(recDevice));
+    if (JoystickAlreadyKnown(ioHIDDeviceObject)) {
+        return;  /* IOKit sent us a duplicate. */
+    }
+
+    device = (recDevice *) SDL_calloc(1, sizeof(recDevice));
 
     if (!device) {
         SDL_OutOfMemory();
@@ -378,7 +404,7 @@ JoystickDeviceWasAddedCallback(void *ctx, IOReturn res, void *sender, IOHIDDevic
 
     /* Get notified when this device is disconnected. */
     IOHIDDeviceRegisterRemovalCallback(ioHIDDeviceObject, JoystickDeviceWasRemovedCallback, device);
-    IOHIDDeviceScheduleWithRunLoop(ioHIDDeviceObject, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+    IOHIDDeviceScheduleWithRunLoop(ioHIDDeviceObject, CFRunLoopGetCurrent(), SDL_JOYSTICK_RUNLOOP_MODE);
 
     /* Allocate an instance ID for this device */
     device->instance_id = ++s_joystick_instance_id;
@@ -386,29 +412,25 @@ JoystickDeviceWasAddedCallback(void *ctx, IOReturn res, void *sender, IOHIDDevic
     /* We have to do some storage of the io_service_t for SDL_HapticOpenFromJoystick */
     if (IOHIDDeviceGetService != NULL) {  /* weak reference: available in 10.6 and later. */
         const io_service_t ioservice = IOHIDDeviceGetService(ioHIDDeviceObject);
+#if SDL_HAPTIC_IOKIT
         if ((ioservice) && (FFIsForceFeedback(ioservice) == FF_OK)) {
             device->ffservice = ioservice;
-#if SDL_HAPTIC_IOKIT
             MacHaptic_MaybeAddDevice(ioservice);
-#endif
         }
+#endif
     }
 
     device->send_open_event = 1;
     s_bDeviceAdded = SDL_TRUE;
 
     /* Add device to the end of the list */
-    if ( !gpDeviceList )
-    {
+    if ( !gpDeviceList ) {
         gpDeviceList = device;
-    }
-    else
-    {
+    } else {
         recDevice *curdevice;
 
         curdevice = gpDeviceList;
-        while ( curdevice->pNext )
-        {
+        while ( curdevice->pNext ) {
             curdevice = curdevice->pNext;
         }
         curdevice->pNext = device;
@@ -420,25 +442,19 @@ ConfigHIDManager(CFArrayRef matchingArray)
 {
     CFRunLoopRef runloop = CFRunLoopGetCurrent();
 
-    /* Run in a custom RunLoop mode just while initializing,
-       so we can detect sticks without messing with everything else. */
-    CFStringRef tempRunLoopMode = CFSTR("SDLJoystickInit");
-
     if (IOHIDManagerOpen(hidman, kIOHIDOptionsTypeNone) != kIOReturnSuccess) {
         return SDL_FALSE;
     }
 
-    IOHIDManagerRegisterDeviceMatchingCallback(hidman, JoystickDeviceWasAddedCallback, NULL);
-    IOHIDManagerScheduleWithRunLoop(hidman, runloop, tempRunLoopMode);
     IOHIDManagerSetDeviceMatchingMultiple(hidman, matchingArray);
+    IOHIDManagerRegisterDeviceMatchingCallback(hidman, JoystickDeviceWasAddedCallback, NULL);
+    IOHIDManagerScheduleWithRunLoop(hidman, runloop, SDL_JOYSTICK_RUNLOOP_MODE);
 
-    while (CFRunLoopRunInMode(tempRunLoopMode,0,TRUE)==kCFRunLoopRunHandledSource) {
+    while (CFRunLoopRunInMode(SDL_JOYSTICK_RUNLOOP_MODE,0,TRUE) == kCFRunLoopRunHandledSource) {
         /* no-op. Callback fires once per existing device. */
     }
 
-    /* Put this in the normal RunLoop mode now, for future hotplug events. */
-    IOHIDManagerUnscheduleFromRunLoop(hidman, runloop, tempRunLoopMode);
-    IOHIDManagerScheduleWithRunLoop(hidman, runloop, kCFRunLoopDefaultMode);
+    /* future hotplug events will come through SDL_JOYSTICK_RUNLOOP_MODE now. */
 
     return SDL_TRUE;  /* good to go. */
 }
@@ -593,12 +609,12 @@ SDL_SYS_JoystickDetect()
             }
         }
     }
-}
 
-SDL_bool
-SDL_SYS_JoystickNeedsPolling()
-{
-    return s_bDeviceAdded || s_bDeviceRemoved;
+	// run this after the checks above so we don't set device->removed and delete the device before
+	// SDL_SYS_JoystickUpdate can run to clean up the SDL_Joystick object that owns this device
+	while (CFRunLoopRunInMode(SDL_JOYSTICK_RUNLOOP_MODE,0,TRUE) == kCFRunLoopRunHandledSource) {
+		/* no-op. Pending callbacks will fire in CFRunLoopRunInMode(). */
+	}
 }
 
 /* Function to get the device-dependent name of a joystick */
@@ -630,7 +646,7 @@ SDL_SYS_GetInstanceIdOfDeviceIndex(int device_index)
 }
 
 /* Function to open a joystick for use.
- * The joystick to open is specified by the index field of the joystick.
+ * The joystick to open is specified by the device index.
  * This should fill the nbuttons and naxes fields of the joystick structure.
  * It returns 0, or -1 if there is an error.
  */
@@ -656,21 +672,12 @@ SDL_SYS_JoystickOpen(SDL_Joystick * joystick, int device_index)
 }
 
 /* Function to query if the joystick is currently attached
- *   It returns 1 if attached, 0 otherwise.
+ * It returns SDL_TRUE if attached, SDL_FALSE otherwise.
  */
 SDL_bool
 SDL_SYS_JoystickAttached(SDL_Joystick * joystick)
 {
-    recDevice *device = gpDeviceList;
-
-    while (device) {
-        if (joystick->instance_id == device->instance_id) {
-            return SDL_TRUE;
-        }
-        device = device->pNext;
-    }
-
-    return SDL_FALSE;
+    return joystick->hwdata != NULL;
 }
 
 /* Function to update the state of a joystick - called as a device poll.
@@ -691,9 +698,10 @@ SDL_SYS_JoystickUpdate(SDL_Joystick * joystick)
     }
 
     if (device->removed) {      /* device was unplugged; ignore it. */
-        joystick->closed = 1;
-        joystick->uncentered = 1;
-        joystick->hwdata = NULL;
+        if (joystick->hwdata) {
+            joystick->force_recentering = SDL_TRUE;
+            joystick->hwdata = NULL;
+        }
         return;
     }
 
@@ -781,7 +789,6 @@ SDL_SYS_JoystickUpdate(SDL_Joystick * joystick)
 void
 SDL_SYS_JoystickClose(SDL_Joystick * joystick)
 {
-    joystick->closed = 1;
 }
 
 /* Function to perform any system-specific joystick related cleanup */
@@ -793,6 +800,7 @@ SDL_SYS_JoystickQuit(void)
     }
 
     if (hidman) {
+        IOHIDManagerUnscheduleFromRunLoop(hidman, CFRunLoopGetCurrent(), SDL_JOYSTICK_RUNLOOP_MODE);
         IOHIDManagerClose(hidman, kIOHIDOptionsTypeNone);
         CFRelease(hidman);
         hidman = NULL;

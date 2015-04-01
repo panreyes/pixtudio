@@ -38,9 +38,13 @@
 #include "cocoa/SDL_rwopsbundlesupport.h"
 #endif /* __APPLE__ */
 
-#ifdef ANDROID
+#ifdef __ANDROID__
 #include "../core/android/SDL_android.h"
 #include "SDL_system.h"
+#endif
+
+#if __NACL__
+#include "nacl_io/nacl_io.h"
 #endif
 
 #ifdef __WIN32__
@@ -316,6 +320,10 @@ stdio_seek(SDL_RWops * context, Sint64 offset, int whence)
     if (fseeko(context->hidden.stdio.fp, (off_t)offset, whence) == 0) {
         return ftello(context->hidden.stdio.fp);
     }
+#elif defined(HAVE__FSEEKI64)
+    if (_fseeki64(context->hidden.stdio.fp, offset, whence) == 0) {
+        return _ftelli64(context->hidden.stdio.fp);
+    }
 #else
     if (fseek(context->hidden.stdio.fp, offset, whence) == 0) {
         return ftell(context->hidden.stdio.fp);
@@ -462,7 +470,7 @@ SDL_RWFromFile(const char *file, const char *mode)
         SDL_SetError("SDL_RWFromFile(): No file or no mode specified");
         return NULL;
     }
-#if defined(ANDROID)
+#if defined(__ANDROID__)
 #ifdef HAVE_STDIO_H
     /* Try to open the file on the filesystem first */
     if (*file == '/') {
@@ -522,6 +530,9 @@ SDL_RWFromFile(const char *file, const char *mode)
     {
         #ifdef __APPLE__
         FILE *fp = SDL_OpenFPFromBundleOrFallback(file, mode);
+        #elif __WINRT__
+        FILE *fp = NULL;
+        fopen_s(&fp, file, mode);
         #else
         FILE *fp = fopen(file, mode);
         #endif
