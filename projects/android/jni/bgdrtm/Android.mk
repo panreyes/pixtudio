@@ -13,6 +13,7 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(LOCAL_PATH)/../../../../3rdparty/libpng/ \
 	$(LOCAL_PATH)/../../../../3rdparty/libglob-bsd/include/ \
 	$(LOCAL_PATH)/../../../../3rdparty/curl-7.23.1/include/ \
+	$(LOCAL_PATH)/../../../../3rdparty/stb/ \
 	$(MODULES_PATH)/libbgload/ \
 	$(MODULES_PATH)/mod_say/ \
 	$(MODULES_PATH)/mod_string/ \
@@ -22,8 +23,6 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_file/ \
 	$(MODULES_PATH)/mod_sound/ \
 	$(MODULES_PATH)/libsdlhandler/ \
-	$(MODULES_PATH)/mod_joy/ \
-	$(MODULES_PATH)/libjoy/ \
 	$(MODULES_PATH)/libkey/ \
 	$(MODULES_PATH)/mod_key/ \
 	$(MODULES_PATH)/mod_proc/ \
@@ -49,7 +48,6 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_draw/ \
 	$(MODULES_PATH)/mod_screen/ \
 	$(MODULES_PATH)/mod_path/ \
-	$(MODULES_PATH)/mod_effects/ \
 	$(MODULES_PATH)/mod_blendop/ \
 	$(MODULES_PATH)/libwm/ \
 	$(MODULES_PATH)/mod_wm/ \
@@ -57,7 +55,7 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_regex/ \
 	$(MODULES_PATH)/mod_multi/ \
 	$(MODULES_PATH)/mod_curl/ \
-	$(MODULES_PATH)/mod_iap/
+	$(MODULES_PATH)/mod_gamecontroller/
 
 LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-D__BGDRTM__ \
@@ -99,8 +97,6 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_file/mod_file.c \
 	../../../../modules/mod_sound/mod_sound.c \
 	../../../../modules/libsdlhandler/libsdlhandler.c \
-	../../../../modules/libjoy/libjoy.c \
-	../../../../modules/mod_joy/mod_joy.c \
 	../../../../modules/libkey/libkey.c \
 	../../../../modules/mod_key/mod_key.c \
 	../../../../modules/mod_proc/mod_proc.c \
@@ -146,7 +142,6 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_draw/mod_draw.c \
 	../../../../modules/mod_screen/mod_screen.c \
 	../../../../modules/mod_path/mod_path.c \
-	../../../../modules/mod_effects/mod_effects.c \
 	../../../../modules/mod_blendop/mod_blendop.c \
 	../../../../modules/libwm/libwm.c \
 	../../../../modules/mod_wm/mod_wm.c \
@@ -155,7 +150,7 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_regex/regex.c \
 	../../../../modules/mod_multi/mod_multi.c \
 	../../../../modules/mod_curl/mod_curl.c \
-	../../../../modules/mod_iap/mod_iap_fake.c
+	../../../../modules/mod_gamecontroller/mod_gamecontroller.c
 
 LOCAL_LDLIBS := -llog -ldl -lz
 LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png

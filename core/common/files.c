@@ -223,12 +223,12 @@ int file_qgets( file * fp, char * buffer, int len )
 
 #ifdef WITH_SDLRWOPS
     else if ( fp->type == F_RWOPS ) {
-        int retval = 0
+        int retval = 0;
         while ( l < len )
         {
             retval = SDL_RWread( fp->rwops, ptr, 1, 1 );
             fp->eof = (retval == 0);
-            if retval > 0 {
+            if (retval > 0) {
                 l += retval ;
             } else {
                 break;
