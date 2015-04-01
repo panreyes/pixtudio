@@ -855,3 +855,4 @@
 ../../modules/mod_gamecontroller/mod_gamecontroller.c
 ../../modules/mod_gamecontroller/mod_gamecontroller_symbols.h
 ../../modules/mod_gamecontroller/mod_gamecontroller.h
+../android/jni/src/main.c
