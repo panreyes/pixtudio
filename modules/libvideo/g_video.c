@@ -450,6 +450,9 @@ void __bgdexport( libvideo, module_initialize )()
 
     if ( !SDL_WasInit( SDL_INIT_VIDEO ) ) SDL_InitSubSystem( SDL_INIT_VIDEO );
 
+    // Disable screensaver/screen-lock. According to SDL docs it'll reenable after SDL quits
+    SDL_DisableScreenSaver();
+
     apptitle = appname;
 
     if ( ( e = getenv( "VIDEO_WIDTH"  ) ) ) scr_width = atoi(e);
