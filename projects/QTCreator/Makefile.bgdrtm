@@ -64,6 +64,7 @@ INCLUDES	:=	../../core/include \
 	../../3rdparty/SDL/include/ \
 	../../3rdparty/SDL_mixer/ \
 	../../3rdparty/stb/ \
+	../../3rdparty/theoraplay/ \
 	../../modules/libbgload/ \
 	../../modules/mod_say/ \
 	../../modules/mod_string/ \
@@ -170,7 +171,7 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 	../../../modules/libsdlhandler/libsdlhandler.c \
 	../../../modules/mod_gamecontroller/mod_gamecontroller.c \
 	../../../modules/mod_theora/mod_theora.c \
-	../../../modules/mod_theora/theoraplay.c \
+	../../../3rdparty/theoraplay/theoraplay.c \
 	../../../modules/libkey/libkey.c \
 	../../../modules/mod_key/mod_key.c \
 	../../../modules/mod_proc/mod_proc.c \
