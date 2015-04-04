@@ -842,7 +842,6 @@
 ../../modules/mod_theora/mod_theora.c
 ../../modules/mod_theora/theoraplay.c
 ../../modules/mod_theora/theoraplay.h
-../../modules/mod_theora/theoraplay_cvtrgb.h
 ../../modules/mod_time/mod_time.c
 ../../modules/mod_time/mod_time_symbols.h
 ../../modules/mod_timers/mod_timers.c
