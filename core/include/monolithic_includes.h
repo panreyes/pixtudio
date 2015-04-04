@@ -183,21 +183,21 @@ basic_symbols symbol_list[] =
     { "mod_chipmunk.fakelib" , mod_chipmunk_modules_dependency, mod_chipmunk_constants_def, mod_chipmunk_types_def, mod_chipmunk_globals_def, mod_chipmunk_locals_def, mod_chipmunk_functions_exports },
 #endif
 #ifndef NO_MODMULTI
-    { "mod_multi.fakelib" , mod_multi_modules_dependency, NULL, NULL, NULL, NULL, mod_multi_functions_exports },
+    { "mod_multi.fakelib"    , mod_multi_modules_dependency, NULL, NULL, NULL, NULL, mod_multi_functions_exports },
 #endif
 #ifndef NO_MODCURL
-    { "mod_curl.fakelib" , NULL, mod_curl_constants_def, NULL, NULL, NULL, mod_curl_functions_exports },
+    { "mod_curl.fakelib"     , NULL, mod_curl_constants_def, NULL, NULL, NULL, mod_curl_functions_exports },
 #endif
 #ifndef NO_MODSENSOR
-    { "mod_sensor.fakelib" , NULL, mod_sensor_constants_def, NULL, NULL, NULL, mod_sensor_functions_exports },
+    { "mod_sensor.fakelib"   , NULL, mod_sensor_constants_def, NULL, NULL, NULL, mod_sensor_functions_exports },
 #endif
 #ifndef NO_FSOCK
-    { "fsock.fakelib" , NULL, NULL, NULL, NULL, NULL, fsock_functions_exports },
+    { "fsock.fakelib"        , NULL, NULL, NULL, NULL, NULL, fsock_functions_exports },
 #endif
 #ifndef NO_MODTHEORA
-    { "mod_theora.fakelib" , mod_theora_constants_def, NULL, NULL, NULL, NULL, mod_theora_functions_exports },
+    { "mod_theora.fakelib"   , NULL, NULL, NULL, NULL, NULL, mod_theora_functions_exports },
 #endif
-    { NULL              , NULL, NULL, NULL, NULL, NULL, NULL }
+    { NULL                   , NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
 #ifndef __BGDC__

@@ -74,6 +74,7 @@ INCLUDES	:=	../../core/include \
 	../../modules/mod_sound/ \
 	../../modules/libsdlhandler/ \
 	../../modules/mod_gamecontroller/ \
+	../../modules/mod_theora/ \
 	../../modules/libkey/ \
 	../../modules/mod_key/ \
 	../../modules/mod_proc/ \
@@ -103,7 +104,6 @@ INCLUDES	:=	../../core/include \
 	../../modules/libwm/ \
 	../../modules/mod_wm/ \
 	../../modules/mod_sys/ \
-	../../modules/mod_regex/ \
     ../../modules/mod_fsock/
 
 #---------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ INCLUDES	:=	../../core/include \
 
 CFLAGS		=	-m32 -g -Wall -D__BGDRTM__ -D__MONOLITHIC__ -DNO_ZLIB -DNO_MODIMAGE \
 	-DNO_MODICONV -DNO_MODCHIPMUNK -DNO_MODMULTI -DNO_MODCURL \
-	-DNO_MODSENSOR -DNO_MODTHEORA -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE) \
+	-DNO_MODSENSOR -DNO_MODREGEX -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE) \
 	-finline-functions -fno-strict-aliasing
 CXXFLAGS	=	-m32 -save-temps -Xassembler -aln=$@.lst $(CFLAGS)
 LDFLAGS		=	-m32 -g $(MACHDEP)
@@ -169,6 +169,8 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 	../../../modules/mod_sound/mod_sound.c \
 	../../../modules/libsdlhandler/libsdlhandler.c \
 	../../../modules/mod_gamecontroller/mod_gamecontroller.c \
+	../../../modules/mod_theora/mod_theora.c \
+	../../../modules/mod_theora/theoraplay.c \
 	../../../modules/libkey/libkey.c \
 	../../../modules/mod_key/mod_key.c \
 	../../../modules/mod_proc/mod_proc.c \
@@ -218,8 +220,6 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 	../../../modules/libwm/libwm.c \
 	../../../modules/mod_wm/mod_wm.c \
 	../../../modules/mod_sys/mod_sys.c \
-	../../../modules/mod_regex/mod_regex.c \
-	../../../modules/mod_regex/regex.c \
     ../../../modules/mod_fsock/fsock.c
 
 #---------------------------------------------------------------------------------
