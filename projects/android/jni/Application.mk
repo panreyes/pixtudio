@@ -1,3 +1,3 @@
-APP_ABI := armeabi-v7a x86
+APP_ABI := armeabi-v7a
 APP_OPTIM=debug
 NDK_TOOLCHAIN_VERSION=clang

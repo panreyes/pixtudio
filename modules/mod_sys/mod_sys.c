@@ -45,6 +45,7 @@
 #import <UIKit/UIKit.h>
 #elif defined(__ANDROID__)
 #include <jni.h>
+extern JNIEnv *Android_JNI_GetEnv();
 extern jclass Android_JNI_GetActivityClass(void);
 #endif
 

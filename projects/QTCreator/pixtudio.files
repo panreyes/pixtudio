@@ -856,3 +856,9 @@
 ../../modules/mod_gamecontroller/mod_gamecontroller.h
 ../android/jni/src/main.c
 ../../3rdparty/SDL/src/core/android/SDL_android.c
+../../3rdparty/theoraplay/theoraplay.c
+../../3rdparty/theoraplay/theoraplay.h
+../../3rdparty/theoraplay/theoraplay_cvtrgb.h
+../../3rdparty/theoraplay/theoraplay.c
+../../3rdparty/theoraplay/theoraplay.h
+../../3rdparty/theoraplay/theoraplay_cvtrgb.h
