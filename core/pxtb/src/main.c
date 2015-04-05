@@ -419,10 +419,6 @@ int main( int argc, char *argv[] )
     }
 
     if ( !sourcefile ) {
-        /*printf( MSG_USING
-                MSG_OPTION_D
-                MSG_OPTIONS
-                MSG_LICENSE, argv[0] );*/
         printf( MSG_USING
                 MSG_OPTION_D
                 MSG_OPTIONS,
@@ -484,7 +480,7 @@ int main( int argc, char *argv[] )
     /* destroy error messages list */
     err_destroyErrorTable();
 
-    return 1;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
