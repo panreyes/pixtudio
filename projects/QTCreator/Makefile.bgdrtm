@@ -65,7 +65,6 @@ INCLUDES	:=	../../core/include \
 	../../3rdparty/SDL_mixer/ \
 	../../3rdparty/stb/ \
 	../../3rdparty/theoraplay/ \
-	../../3rdparty/libtheora/include/ \
 	../../modules/libbgload/ \
 	../../modules/mod_say/ \
 	../../modules/mod_string/ \
