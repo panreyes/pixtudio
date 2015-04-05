@@ -14,6 +14,9 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(LOCAL_PATH)/../../../../3rdparty/libglob-bsd/include/ \
 	$(LOCAL_PATH)/../../../../3rdparty/curl-7.23.1/include/ \
 	$(LOCAL_PATH)/../../../../3rdparty/stb/ \
+	$(LOCAL_PATH)/../../../../3rdparty/theoraplay/ \
+	$(LOCAL_PATH)/../../../../3rdparty/libtheora/include/ \
+	$(LOCAL_PATH)/../../../../3rdparty/SDL_mixer/external/libvorbis-1.3.3/include \
 	$(MODULES_PATH)/libbgload/ \
 	$(MODULES_PATH)/mod_say/ \
 	$(MODULES_PATH)/mod_string/ \
@@ -54,7 +57,8 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_sys/ \
 	$(MODULES_PATH)/mod_multi/ \
 	$(MODULES_PATH)/mod_curl/ \
-	$(MODULES_PATH)/mod_gamecontroller/
+	$(MODULES_PATH)/mod_gamecontroller/ \
+	$(MODULES_PATH)/mod_theora/
 
 LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-D__BGDRTM__ \
@@ -64,7 +68,6 @@ LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-DNO_MODICONV \
 	-DNO_MODFMODEX \
 	-DNO_FSOCK \
-	-DNO_MODTHEORA \
     -DNO_MODSENSOR \
 	-DNO_MODREGEX \
     -DNO_MODCHIPMUNK \
@@ -147,10 +150,12 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_sys/mod_sys.c \
 	../../../../modules/mod_multi/mod_multi.c \
 	../../../../modules/mod_curl/mod_curl.c \
-	../../../../modules/mod_gamecontroller/mod_gamecontroller.c
+	../../../../modules/mod_gamecontroller/mod_gamecontroller.c \
+	../../../../modules/mod_theora/mod_theora.c \
+	../../../../3rdparty/theoraplay/theoraplay.c
 
 LOCAL_LDLIBS := -llog -ldl -lz
-LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png
+LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png theora
 LOCAL_STATIC_LIBRARIES += curl
 
 include $(BUILD_SHARED_LIBRARY)
