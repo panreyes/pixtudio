@@ -167,11 +167,13 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio)
 } // queue_audio
 
 // Paint the current video frame onscreen, skipping those that we already missed
-void refresh_video()
-{
+void refresh_video() {
     if(! playing_video) {
         return;
     }
+
+    void *pixels;
+    int pitch;
 
     const Uint32 now = SDL_GetTicks() - video.baseticks;
 
@@ -201,28 +203,27 @@ void refresh_video()
                 video.frame = last;
         } // if
 
-        if (!video.frame)  // do nothing; we're far behind and out of options.
-        {
+        // do nothing; we're far behind and out of options.
+        if (!video.frame) {
             static int warned = 0;
-            if (!warned)
-            {
+            if (!warned) {
                 warned = 1;
                 SDL_Log("WARNING: Video playback can't keep up, skipping frames!\n");
             } // if
-        } // if
-        else
-        {
-            memcpy(video.graph->data, video.frame->pixels, video.graph->height * video.graph->pitch);
-            // Mark the video GRAPH as dirty so that BennuGD redraws it
-            video.graph->modified = 1;
-            video.graph->info_flags &=~GI_CLEAN;
+        } else {
+            if(SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) != 0) {
+                SDL_Log("Error updating texture: %s", SDL_GetError());
+            }
+            memcpy(pixels, video.frame->pixels, pitch);
+            SDL_UnlockTexture(video.graph->texture);
         }
         THEORAPLAY_freeVideo(video.frame);
         video.frame = NULL;
     } // if
 
-    while ((video.audio = THEORAPLAY_getAudio(video.decoder)) != NULL)
+    while ((video.audio = THEORAPLAY_getAudio(video.decoder)) != NULL) {
         queue_audio(video.audio);
+    }
 
 
     return;
@@ -235,13 +236,14 @@ static int video_is_playing() {
 
 static int video_play(INSTANCE *my, int * params)
 {
-    int bpp;
+    int bpp, graphid;
     const int MAX_FRAMES = 30;
 
     bpp = screen->format->BitsPerPixel;
 
-    if(playing_video == 1)
+    if(playing_video == 1) {
         return -1;
+    }
 
 	if(! scr_initialized) return (-1);
 
@@ -264,9 +266,8 @@ static int video_play(INSTANCE *my, int * params)
             break;
     }
 
-    if (!video.decoder)
-    {
-        fprintf(stderr, "Failed to start decoding '%s'!\n", string_get(params[0]));
+    if (!video.decoder) {
+        SDL_Log("Failed to start decoding '%s'!\n", string_get(params[0]));
         string_discard(params[0]);
         return -1;
     }
@@ -299,14 +300,13 @@ static int video_play(INSTANCE *my, int * params)
         if (SDL_BuildAudioCVT(&video.cvt,
                               AUDIO_S16, video.audio->channels, video.audio->freq,
                               mixer_format, mixer_channels, mixer_freq) == -1) {
-            fprintf(stderr, "Couldn't create required audio conversion SDL_AudioCVT, sorry\n");
+            SDL_Log("Couldn't create required audio conversion SDL_AudioCVT, sorry\n");
         } else {
             video.convertaudio = 1;
         }
     }
 
-    while (video.audio)
-    {
+    while (video.audio) {
         queue_audio(video.audio);
         video.audio = THEORAPLAY_getAudio(video.decoder);
     } // while
@@ -314,7 +314,9 @@ static int video_play(INSTANCE *my, int * params)
     video.baseticks = SDL_GetTicks();
 
     // Create the graph holding the video surface
-    video.graph = bitmap_new_syslib(video.frame->width, video.frame->height, bpp);
+    graphid = bitmap_next_code();
+    video.graph = bitmap_new_streaming(graphid, video.frame->width, video.frame->height, bpp);
+    grlib_add_map( 0, video.graph ) ;
     THEORAPLAY_freeVideo(video.frame);
     video.frame = NULL;
     if(! video.graph) {

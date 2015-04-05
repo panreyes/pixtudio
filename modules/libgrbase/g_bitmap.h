@@ -126,6 +126,7 @@ GRAPH;
 
 extern GRAPH * bitmap_new( int code, int w, int h, int depth );
 extern GRAPH * bitmap_new_ex( int code, int w, int h, int depth, void * data, int pitch );
+extern GRAPH * bitmap_new_streaming( int code, int w, int h, int depth );
 extern GRAPH * bitmap_clone( GRAPH * t );
 extern void bitmap_update_texture( GRAPH * map );
 extern GRAPH * bitmap_new_syslib( int w, int h, int depth );

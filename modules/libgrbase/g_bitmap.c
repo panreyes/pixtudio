@@ -320,6 +320,73 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
 }
 
 /* --------------------------------------------------------------------------- */
+// Create a new graph with a SDL_TEXTURE_STREAMING flag
+// You're responsible for ensuring's this map's texture is not bigger than
+// what the graphics card can handle
+// A streaming graph's gr->data field is NULL
+GRAPH * bitmap_new_streaming( int code, int w, int h, int depth )
+{
+    GRAPH * gr ;
+    int wb, bytesPerRow ;
+    Uint32 format ;
+
+    if ( w < 1 || h < 1 ) return NULL;
+
+    /* Create and fill the struct */
+
+    gr = ( GRAPH * ) malloc( sizeof( GRAPH ) ) ;
+    if ( !gr ) return NULL; // sin memoria
+
+    /* Calculate the row size (dword-aligned) */
+
+    wb = w * depth / 8;
+    if (( wb * 8 / depth ) < w ) wb++;
+
+    bytesPerRow = wb;
+    if ( bytesPerRow & 0x03 ) bytesPerRow = ( bytesPerRow & ~3 ) + 4;
+
+    gr->data = NULL ;
+    gr->texture = NULL ;
+
+    // Create associated textures only for graphs with bpp >= 16
+    if( depth == 16 || depth == 32 ) {
+        format = SDL_PIXELFORMAT_ARGB8888 ;
+        if ( depth == 16 ) {
+            format = SDL_PIXELFORMAT_RGB565 ;
+        }
+        gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STREAMING, w, h);
+        if (! gr->texture) {
+            free( gr ) ;
+            SDL_Log("bitmap_new_streaming: Could not create GRAPH texture (%s)", SDL_GetError());
+            return NULL;
+        }
+    }
+
+    gr->width = w ;
+    gr->height = h ;
+
+    gr->format = bitmap_create_format( depth ) ;
+
+    gr->pitch = bytesPerRow ;
+    gr->widthb = wb ;
+
+    gr->code = code ;
+    gr->name[ 0 ] = '\0';
+
+    gr->ncpoints = 0;
+    gr->cpoints = NULL ;
+
+    gr->format->palette = NULL ;
+
+    gr->blend_table = NULL ;
+
+    gr->modified = 0;
+    gr->info_flags = 0 ;
+
+    return gr ;
+}
+
+/* --------------------------------------------------------------------------- */
 
 GRAPH * bitmap_clone( GRAPH * map )
 {
