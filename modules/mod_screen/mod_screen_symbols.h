@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS  __bgdexport( mod_screen, functions_exports )[] =
 {
     { "REGION_DEFINE"        , "IIIII"      , TYPE_INT      , 0 },

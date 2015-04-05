@@ -264,7 +264,7 @@ static void * _dlibaddr( dlibhandle * handle, const char * symbol )
     if(strncmp(symbol, "functions_exports", strlen("functions_exports")) == 0)
         return symbol_list[handle->index].functions_exports;
 
-#ifndef __BGDC__
+#ifndef __PXTB__
     if(strncmp(symbol, "globals_fixup", strlen("globals_fixup")) == 0)
         return symbol_list_runtime[handle->index].globals_fixup;
 

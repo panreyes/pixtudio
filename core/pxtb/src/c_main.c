@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <limits.h>
 
-#include "bgdc.h"
+#include "pxtb.h"
 
 #include <bgddl.h>
 

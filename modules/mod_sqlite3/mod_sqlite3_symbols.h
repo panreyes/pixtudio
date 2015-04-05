@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifndef __BGDC__
+#ifndef __PXTB__
 extern CONDITIONALLY_STATIC int modsqlite3_enableCache(INSTANCE * my, int * params);
 extern CONDITIONALLY_STATIC int modsqlite3_openDb (INSTANCE * my, int * params);
 extern CONDITIONALLY_STATIC int modsqlite3_closeDb (INSTANCE * my, int * params);

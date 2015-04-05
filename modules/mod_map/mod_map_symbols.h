@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 #define G_WIDE          0
 #define G_WIDTH         0
 #define G_HEIGHT        1

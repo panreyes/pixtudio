@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 /* --------------------------------------------------------------------------- */
 /* Definicion de variables globales (usada en tiempo de compilacion) */
 

@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 #define STAT_RSHIFT             0x0000001
 #define STAT_LSHIFT             0x0000002
 #define STAT_CTRL               0x0000004

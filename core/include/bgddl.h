@@ -30,7 +30,7 @@
 
 /* --------------------------------------------------------------------------- */
 
-#ifndef __BGDC__
+#ifndef __PXTB__
   #if defined(WIN32) && !defined( __STATIC__ )
     #define DLLEXPORT   __declspec(dllexport)
     #define DLLIMPORT   __declspec(dllimport)
@@ -42,7 +42,7 @@
 
 /* --------------------------------------------------------------------------- */
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 #define FUNC(a,b,c,d)     { a, b, c, NULL }
 #else
 #define FUNC(a,b,c,d)     { a, b, c, d }

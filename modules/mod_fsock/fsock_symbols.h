@@ -9,7 +9,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS  __bgdexport( fsock, functions_exports )[] =
 {
     { "FSOCK_INIT"                , "I"      , TYPE_DWORD , 0 },

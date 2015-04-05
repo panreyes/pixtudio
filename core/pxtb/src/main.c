@@ -41,7 +41,7 @@
 #include "Shlwapi.h"
 #endif
 
-#include "bgdc.h"
+#include "pxtb.h"
 
 #include "errors.h"
 
@@ -118,8 +118,7 @@ int main( int argc, char *argv[] )
     appexepath = calloc( 1, ptr - appexefullpath + 1 );
     strncpy( appexepath, appexefullpath, ptr - appexefullpath );
 
-    printf( BGDC_VERSION "\n"
-            "Copyright (C) 2015 Joseba García Echebarria\n"
+    printf( PXTB_VERSION "\n"
             "Pixtudio comes with ABSOLUTELY NO WARRANTY;\n"
             "see COPYING for details\n\n" );
 
@@ -130,8 +129,9 @@ int main( int argc, char *argv[] )
     GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_SABBREVCTRYNAME, langinfo, 64 );
     strlwr( langinfo );
 #else
-    if ( getenv( "LANG" ) != NULL && strlen( getenv( "LANG" ) ) >= 2 )
+    if ( getenv( "LANG" ) != NULL && strlen( getenv( "LANG" ) ) >= 2 ) {
         strcpy( langinfo, getenv( "LANG" ) );
+    }
 #endif
     langinfo[2] = 0;
 
@@ -418,12 +418,15 @@ int main( int argc, char *argv[] )
         }
     }
 
-    if ( !sourcefile )
-    {
-        printf( MSG_USING
+    if ( !sourcefile ) {
+        /*printf( MSG_USING
                 MSG_OPTION_D
                 MSG_OPTIONS
-                MSG_LICENSE, argv[0] );
+                MSG_LICENSE, argv[0] );*/
+        printf( MSG_USING
+                MSG_OPTION_D
+                MSG_OPTIONS,
+                argv[0] );
         return 0;
     }
 

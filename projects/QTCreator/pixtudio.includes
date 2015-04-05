@@ -63,8 +63,8 @@
 ../../3rdparty/SDL/test
 ../../3rdparty/SDL/Xcode-iOS/Demos/src
 ../../3rdparty/libpng
-../../core/bgdc/include
-../../core/bgdc/src
+../../core/pxtb/include
+../../core/pxtb/src
 ../../core/bgdi/include
 ../../core/bgdi/src
 ../../core/bgdrtm/include

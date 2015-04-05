@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifndef __BGDC__
+#ifndef __PXTB__
 extern int bgd_load_image (INSTANCE * i, int * params);
 extern int bgd_is_PCX (INSTANCE * i, int * params);
 extern int bgd_is_GIF (INSTANCE * i, int * params);

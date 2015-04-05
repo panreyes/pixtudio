@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS __bgdexport( mod_scroll, functions_exports )[] =
 {
     { "SCROLL_START"    , "IIIIIIII", TYPE_INT   , 0 },

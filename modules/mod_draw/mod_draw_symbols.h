@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS __bgdexport( mod_draw, functions_exports )[] =
 {
     /* Funciones de primitivas */

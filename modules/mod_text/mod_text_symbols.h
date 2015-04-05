@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 #define ALIGN_TOP_LEFT      0
 #define ALIGN_TOP           1
 #define ALIGN_TOP_RIGHT     2

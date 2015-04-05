@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 char __bgdexport( mod_grproc, locals_def )[] =
     "STRUCT _mod_grproc_reserved\n"
     "int type_scan;\n"

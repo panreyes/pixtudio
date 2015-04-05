@@ -103,7 +103,7 @@ typedef struct
     void       * functions_exports;
 } basic_symbols ;
 
-#ifndef __BGDC__
+#ifndef __PXTB__
 typedef struct
 {
     void          * globals_fixup;
@@ -200,7 +200,7 @@ basic_symbols symbol_list[] =
     { NULL                   , NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
-#ifndef __BGDC__
+#ifndef __PXTB__
 // Symbols only required by the runtime, ordered just as on symbol_list
 // As a separate array to avoid compilation nightmares
 extra_symbols symbol_list_runtime[] =

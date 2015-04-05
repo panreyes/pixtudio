@@ -34,7 +34,7 @@
 #include <chipmunk.h>
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 char __bgdexport( mod_chipmunk, globals_def )[] =
     "STRUCT gphysics\n"
     "int space;\n"

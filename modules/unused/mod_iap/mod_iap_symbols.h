@@ -27,7 +27,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS __bgdexport( mod_iap, functions_exports )[] =
 {
     { "IAP_INIT"            , "S"     , TYPE_INT       , 0 },

@@ -28,7 +28,7 @@
 #include <curl/curl.h>
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLCONSTANT  __bgdexport( mod_curl, constants_def )[] = {
     { "CURLOPT_VERBOSE"               , TYPE_DWORD, CURLOPT_VERBOSE                },
     { "CURLOPT_HEADER"                , TYPE_DWORD, CURLOPT_HEADER                 },

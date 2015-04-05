@@ -25,7 +25,7 @@
 #ifndef __MODFMODEX_SYMBOLS_H
 #define __MODFMODEX_SYMBOLS_H
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 char __bgdexport( mod_fmodex, globals_def )[] =
 "float fmodex_spectrum[256];\n"
 "int   sound_freq = 48000;\n"

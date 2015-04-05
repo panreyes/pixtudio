@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS  __bgdexport( mod_video, functions_exports )[] =
 {
     { "SET_MODE"        , "I"     , TYPE_INT        , 0 },

@@ -32,7 +32,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "bgdc.h"
+#include "pxtb.h"
 
 /* ---------------------------------------------------------------------- */
 /* Gestor de cadenas                                                      */

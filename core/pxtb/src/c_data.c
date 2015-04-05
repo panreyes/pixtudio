@@ -32,7 +32,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "bgdc.h"
+#include "pxtb.h"
 #include "xctype.h"
 
 /* ---------------------------------------------------------------------- */

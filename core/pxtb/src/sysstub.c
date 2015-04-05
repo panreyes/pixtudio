@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgdc.h"
+#include "pxtb.h"
 
 /* Fast access sysproc list, by identifier code */
 

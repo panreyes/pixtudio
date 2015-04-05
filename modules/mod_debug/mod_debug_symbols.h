@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifndef __BGDC__
+#ifndef __PXTB__
 extern DLVARFIXUP __bgdexport( mod_debug, locals_fixup )[];
 extern DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[];
 extern void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r );

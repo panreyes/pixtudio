@@ -29,7 +29,7 @@
 #ifndef __MODSYS_SYMBOLS_H
 #define __MODSYS_SYMBOLS_H
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 #define _P_WAIT     0
 #define _P_NOWAIT   1
 

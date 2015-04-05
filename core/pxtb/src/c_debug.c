@@ -35,7 +35,7 @@
 #include <assert.h>
 #endif
 
-#include "bgdc.h"
+#include "pxtb.h"
 
 /* ---------------------------------------------------------------------- */
 /* Este módulo contiene funciones que muestran el equivalente en texto de */

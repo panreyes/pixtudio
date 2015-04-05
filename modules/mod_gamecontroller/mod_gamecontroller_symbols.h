@@ -31,7 +31,7 @@
 #include <bgddl.h>
 #include "mod_gamecontroller.h"
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLCONSTANT  __bgdexport( mod_gamecontroller, constants_def )[] = {
     { "CONTROLLER_INVALID"               , TYPE_DWORD, CONTROLLER_INVALID                  },
     { "CONTROLLER_BUTTON_INVALID"        , TYPE_DWORD, SDL_CONTROLLER_BUTTON_INVALID       },

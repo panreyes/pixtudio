@@ -36,7 +36,7 @@
 #include <assert.h>
 #endif
 
-#include "bgdc.h"
+#include "pxtb.h"
 
 /* ---------------------------------------------------------------------- */
 /* Gestor de procesos y bloques de código. Este módulo contiene funciones */

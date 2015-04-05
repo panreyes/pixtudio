@@ -32,7 +32,7 @@
 #include <bgddl.h>
 #include <SDL_joystick.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 /* --------------------------------------------------------------------------- */
 /* Funciones de inicializacion del modulo/plugin                               */
 

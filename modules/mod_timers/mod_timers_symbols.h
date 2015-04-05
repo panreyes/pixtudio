@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 char __bgdexport( mod_timers, globals_def )[] = "timer[9];\n";
 #else
 extern char __bgdexport( mod_timers, globals_def )[];

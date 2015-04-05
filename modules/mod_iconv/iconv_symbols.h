@@ -22,7 +22,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS __bgdexport( mod_iconv, functions_exports )[] =
 {
 	{ "ICONV"            , "SSS"  , TYPE_STRING, 0 },

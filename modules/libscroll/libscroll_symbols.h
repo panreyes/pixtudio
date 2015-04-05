@@ -32,7 +32,7 @@
 #include <bgddl.h>
 #include "libscroll.h"
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 /* --------------------------------------------------------------------------- */
 
 DLCONSTANT __bgdexport( libscroll, constants_def )[] =

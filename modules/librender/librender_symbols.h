@@ -32,7 +32,7 @@
 #include <bgddl.h>
 #include "librender.h"
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 /* --------------------------------------------------------------------------- */
 
 char * __bgdexport( librender, modules_dependency )[] =

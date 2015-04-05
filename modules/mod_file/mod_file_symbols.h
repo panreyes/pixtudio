@@ -27,7 +27,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLCONSTANT  __bgdexport( mod_file, constants_def)[] =
 {
     { "O_READ"      , TYPE_INT, 0  },

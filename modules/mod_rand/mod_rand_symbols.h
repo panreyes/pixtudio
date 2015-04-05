@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS  __bgdexport( mod_rand, functions_exports )[] =
 {
     { "RAND_SEED"   , "I"   , TYPE_INT  , 0 },

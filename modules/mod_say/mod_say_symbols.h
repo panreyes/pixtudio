@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS  __bgdexport( mod_say, functions_exports )[] =
 {
     { "SAY"     , "S", TYPE_UNDEFINED, 0              },

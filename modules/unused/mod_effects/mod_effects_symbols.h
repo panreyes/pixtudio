@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 #define BLUR_NORMAL     0
 #define BLUR_3x3        1
 #define BLUR_5x5        2

@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 /* --------------------------------------------------------------------------- */
 
 char __bgdexport( libmouse, globals_def )[] =

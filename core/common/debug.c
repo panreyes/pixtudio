@@ -34,7 +34,7 @@
 #include "xstrings.h"
 
 #ifndef __BGDRTM__
-#include "bgdc.h"
+#include "pxtb.h"
 #include "identifiers.h"
 #else
 #include "sysprocs_p.h"

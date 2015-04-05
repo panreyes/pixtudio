@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 #define ALL_PROCESS         0
 #define S_KILL              0
 #define S_WAKEUP            1

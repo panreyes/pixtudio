@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 char __bgdexport( mod_regex, globals_def )[] = "STRING regex_reg[15];\n";
 DLSYSFUNCS __bgdexport( mod_regex, functions_exports) [] = {
     /* Regex */

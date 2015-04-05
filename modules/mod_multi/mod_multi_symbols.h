@@ -27,7 +27,7 @@
 
 #include "bgddl.h"
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 char * __bgdexport( mod_multi, modules_dependency )[] =
 {
     "libsdlhandler",

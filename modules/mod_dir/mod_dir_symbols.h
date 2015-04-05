@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 char  __bgdexport( mod_dir, globals_def )[] =
     "STRUCT fileinfo\n"
     "    STRING path;\n"

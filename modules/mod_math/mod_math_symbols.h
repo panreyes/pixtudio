@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLCONSTANT __bgdexport( mod_math, constants_def )[] =
 {
     { "PI"  , TYPE_INT  , 180000    },

@@ -24,7 +24,7 @@
 #include <instance_st.h>
 #include "mod_wpad.h"
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS  __bgdexport( mod_wpad, functions_exports )[] =
 {
     { "WPAD_IS_READY"          , "I" , TYPE_INT      , 0 },
@@ -40,7 +40,7 @@ DLSYSFUNCS  __bgdexport( mod_wpad, functions_exports )[] =
 extern DLSYSFUNCS  __bgdexport( mod_wpad, functions_exports )[];
 #endif
 
-#ifndef __BGDC__
+#ifndef __PXTB__
 /* Function declaration */
 extern int modwpad_is_ready( INSTANCE * my, int * params );
 extern int modwpad_info( INSTANCE * my, int * params );

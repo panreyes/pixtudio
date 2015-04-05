@@ -29,7 +29,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 
 DLCONSTANT  __bgdexport( mod_sensor, constants_def )[] = {
     { "SENSOR_UNKNOWN"              , TYPE_DWORD    , 0               },

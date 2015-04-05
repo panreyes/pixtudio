@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS __bgdexport( mod_mem, functions_exports )[] =
 {
     { "MEM_CALLOC"      , "II"    , TYPE_POINTER, 0 },

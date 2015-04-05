@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgdc.h"
+#include "pxtb.h"
 
 static int max_id = 0 ;
 static int free_id[1024] ;

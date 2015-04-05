@@ -38,7 +38,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "bgdc.h"
+#include "pxtb.h"
 #include "dcb.h"
 
 #define SYSPROCS_ONLY_DECLARE

@@ -32,7 +32,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLCONSTANT  __bgdexport( mod_sound, constants_def )[] =
 {
     { "MODE_MONO"   , TYPE_INT, 0  },

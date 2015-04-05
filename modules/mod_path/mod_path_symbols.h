@@ -34,7 +34,7 @@
 #define PF_NODIAG       1
 #define PF_REVERSE      2
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLCONSTANT __bgdexport( mod_path, constants_def )[] =
 {
     { "PF_NODIAG"   , TYPE_INT, PF_NODIAG   },

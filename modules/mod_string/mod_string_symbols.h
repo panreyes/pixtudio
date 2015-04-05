@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS  __bgdexport( mod_string, functions_exports )[] =
 {
     { "STRLEN"     , "S"   , TYPE_INT   , 0 },

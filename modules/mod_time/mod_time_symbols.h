@@ -27,7 +27,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS __bgdexport( mod_time, functions_exports )[] =
 {
     /* Fecha/Hora */

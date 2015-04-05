@@ -29,7 +29,7 @@
 #ifndef __SDLHANDLER_H
 #define __SDLHANDLER_H
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 #else
 #include <bgddl.h>
 extern void __bgdexport( libsdlhandler, module_initialize )();

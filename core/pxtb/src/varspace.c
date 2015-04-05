@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgdc.h"
+#include "pxtb.h"
 
 /* ---------------------------------------------------------------------- */
 /* Este módulo contiene funciones de utilidad para crear e ir rellenando  */

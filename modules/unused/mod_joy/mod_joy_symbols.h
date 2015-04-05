@@ -31,7 +31,7 @@
 
 #include <bgddl.h>
 
-#ifdef __BGDC__
+#ifdef __PXTB__
 DLSYSFUNCS  __bgdexport( mod_joy, functions_exports )[] =
 {
     { "JOY_AXES"            , ""      , TYPE_INT    , 0 },
