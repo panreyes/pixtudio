@@ -56,10 +56,10 @@ endef
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
 #---------------------------------------------------------------------------------
-TARGET		:=	bgdc
+TARGET		:=	pxtb
 BUILD       :=	build
-SOURCES		:=	../../core/bgdc/src
-INCLUDES	:=	../../core/bgdc/include \
+SOURCES		:=	../../core/pxtb/src
+INCLUDES	:=	../../core/pxtb/include \
 				../../core/include \
 				../../3rdparty/SDL/include/ \
 				../../modules/libbgload/ \
@@ -109,7 +109,7 @@ INCLUDES	:=	../../core/bgdc/include \
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS		=	-m32  -g -O2 -Wall -D__BGDC__ -D__MONOLITHIC__ -DNO_MODIMAGE -DNO_MODMATHI \
+CFLAGS		=	-m32  -g -O2 -Wall -D__PXTB__ -D__MONOLITHIC__ -DNO_MODIMAGE -DNO_MODMATHI \
 	-DNO_MODIMAGE -DNO_MODICONV -DNO_MODFMODEX -DNO_MODCHIPMUNK -DNO_MODMULTI -DNO_MODCURL \
 	-DNO_MODSENSOR -DNO_MODTHEORA -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE)
 CXXFLAGS	=	-save-temps -Xassembler -aln=$@.lst $(CFLAGS)
@@ -187,7 +187,7 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@rm -fr $(OUTPUT)
-	make -C $(BUILD) -f $(CURDIR)/Makefile.bgdc
+	make -C $(BUILD) -f $(CURDIR)/Makefile.pxtb
 
 #---------------------------------------------------------------------------------
 clean:

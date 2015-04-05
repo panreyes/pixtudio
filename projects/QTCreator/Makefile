@@ -1,5 +1,5 @@
 all:
-	$(MAKE) -f Makefile.bgdc
+	$(MAKE) -f Makefile.pxtb
 	./clean
 	$(MAKE) -f Makefile.bgdrtm
 	$(MAKE) -f Makefile.bgdi
