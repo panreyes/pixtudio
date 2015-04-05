@@ -297,7 +297,6 @@ int gr_set_mode( int width, int height, int depth )
         if (grab_input) {
             sdl_flags |= SDL_WINDOW_INPUT_GRABBED;
         }
-        SDL_Log("Creating window with size %dx%d", surface_width, surface_height);
         window = SDL_CreateWindow(apptitle,
                                   SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                   surface_width, surface_height, sdl_flags);
