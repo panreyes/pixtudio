@@ -1948,6 +1948,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
     SDL_BlendMode mode;
     Uint8     alpha;
     int     i;
+    int     flip_factor = 1;
 
     float   half_texel_size_x = 0;
     float   half_texel_size_y = 0;
@@ -2005,12 +2006,15 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         }
 
         flip = SDL_FLIP_NONE;
+        flip_factor = 1;
         if(flags & B_HMIRROR) {
             flip |= SDL_FLIP_HORIZONTAL;
+            flip_factor = -1 * flip_factor;
         }
 
         if(flags & B_VMIRROR) {
             flip |= SDL_FLIP_VERTICAL;
+            flip_factor = -1 * flip_factor;
         }
 
         mode = SDL_BLENDMODE_BLEND;
@@ -2037,7 +2041,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         SDL_SetTextureBlendMode(gr->texture, mode);
         SDL_RenderSetClipRect(renderer, &clipRect);
 
-        SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, (double) (-angle/1000.), &rcenter, flip);
+        SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, (double) (flip_factor * angle/-1000.), &rcenter, flip);
     } else {
         // Software blit
         if ( !dest->data || !gr->data ) {
