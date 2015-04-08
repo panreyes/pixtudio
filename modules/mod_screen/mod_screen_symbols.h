@@ -41,11 +41,6 @@ DLSYSFUNCS  __bgdexport( mod_screen, functions_exports )[] =
     { "SCREEN_PUT"           , "II"         , TYPE_INT      , 0 },
     { "SCREEN_CLEAR"         , ""           , TYPE_INT      , 0 },
     { "SCREEN_GET"           , ""           , TYPE_INT      , 0 },
-    { "DEFINE_REGION"        , "IIIII"      , TYPE_INT      , 0 },
-    { "OUT_REGION"           , "II"         , TYPE_INT      , 0 },
-    { "PUT_SCREEN"           , "II"         , TYPE_INT      , 0 },
-    { "CLEAR_SCREEN"         , ""           , TYPE_INT      , 0 },
-    { "GET_SCREEN"           , ""           , TYPE_INT      , 0 },
     { 0                     , 0             , 0             , 0 }
 };
 
