@@ -1939,7 +1939,7 @@ void gr_get_bbox( REGION * dest, REGION * clip, int x, int y, int flags, int ang
 void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, int angle, int scalex, int scaley, GRAPH * gr )
 {
     _POINTF corners[4];
-    _POINT  min, max, center;
+    _POINT  min, max;
     VERTEX  vertex[4];
     SDL_Rect dstRect;
     SDL_Rect clipRect;
@@ -1974,24 +1974,21 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
 
     if ( scalex <= 0 || scaley <= 0 ) return;
 
-    // When drawing to screen, use SDL_Render directly, otherwise use homegrown
-    // software solution
+    // When drawing to screen, use SDL_Render directly, otherwise use
+    // the software blitter
     if( scrbitmap && dest == scrbitmap ) {
         if(! gr->texture) {
             return;
         }
+
         // Consider control points when drawing
         if ( gr->ncpoints && gr->cpoints[0].x != CPOINT_UNDEFINED ) {
-            rcenter.x = center.x = gr->cpoints[0].x * scalex/100. ;
-            rcenter.y = center.y = gr->cpoints[0].y * scaley/100. ;
+            rcenter.x = gr->cpoints[0].x * scalex / 100. ;
+            rcenter.y = gr->cpoints[0].y * scaley / 100. ;
         } else {
-            rcenter.x = center.x = gr->width * scalex / 200.;
-            rcenter.y = center.y = gr->height * scaley / 200.;
+            rcenter.x = gr->width * scalex / 200.;
+            rcenter.y = gr->height * scaley / 200.;
         }
-        dstRect.x = scrx - center.x;
-        dstRect.y = scry - center.y;
-        dstRect.w = (int)(gr->width * scalex/100.);
-        dstRect.h = (int)(gr->height * scaley/100.);
 
         if (clip) {
             clipRect.x = clip->x;
@@ -2007,14 +2004,20 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
 
         flip = SDL_FLIP_NONE;
         flip_factor = 1;
+        dstRect.x = scrx - rcenter.x;
+        dstRect.y = scry - rcenter.y;
+        dstRect.w = (int)(gr->width * scalex/100.);
+        dstRect.h = (int)(gr->height * scaley/100.);
         if(flags & B_HMIRROR) {
             flip |= SDL_FLIP_HORIZONTAL;
-            flip_factor = -1 * flip_factor;
+            flip_factor *= -1;
+            dstRect.x = scrx - (dstRect.w - rcenter.x);
+            dstRect.y = scry - rcenter.y;
         }
 
         if(flags & B_VMIRROR) {
             flip |= SDL_FLIP_VERTICAL;
-            flip_factor = -1 * flip_factor;
+            flip_factor *= -1;
         }
 
         mode = SDL_BLENDMODE_BLEND;
@@ -2661,12 +2664,16 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         }
 
         flip = SDL_FLIP_NONE;
+        dstRect.x = scrx-center.x;
+        dstRect.y = scry-center.y;
         if(flags & B_HMIRROR) {
             flip |= SDL_FLIP_HORIZONTAL;
+            dstRect.x = scrx - gr->width + center.x;
         }
 
         if(flags & B_VMIRROR) {
             flip |= SDL_FLIP_VERTICAL;
+            dstRect.y = scry - gr->height + center.y;
         }
 
         mode = SDL_BLENDMODE_BLEND;
@@ -2693,8 +2700,6 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         SDL_SetTextureBlendMode(gr->texture, mode);
         SDL_RenderSetClipRect(renderer, &clipRect);
 
-        dstRect.x = scrx-center.x;
-        dstRect.y = scry-center.y;
         SDL_QueryTexture(gr->texture, NULL, NULL, &dstRect.w, &dstRect.h);
         SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, 0., NULL, flip);
         piece = gr->next_piece;
