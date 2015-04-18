@@ -39,6 +39,7 @@
 #include <xstrings.h>
 #include <libgrbase.h>
 #include <g_video.h>
+#include <mod_sound.h>
 
 struct ctx
 {
@@ -211,11 +212,16 @@ void refresh_video() {
                 SDL_Log("WARNING: Video playback can't keep up, skipping frames!\n");
             } // if
         } else {
-            if(SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) != 0) {
+            if(SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
                 SDL_Log("Error updating texture: %s", SDL_GetError());
+            } else {
+                memcpy(pixels, video.frame->pixels, pitch);
+                SDL_UnlockTexture(video.graph->texture);
+
+                // Mark the video GRAPH as dirty so that BennuGD redraws it
+                video.graph->modified = 1;
+                video.graph->info_flags &=~GI_CLEAN;
             }
-            memcpy(pixels, video.frame->pixels, pitch);
-            SDL_UnlockTexture(video.graph->texture);
         }
         THEORAPLAY_freeVideo(video.frame);
         video.frame = NULL;
@@ -224,7 +230,6 @@ void refresh_video() {
     while ((video.audio = THEORAPLAY_getAudio(video.decoder)) != NULL) {
         queue_audio(video.audio);
     }
-
 
     return;
 }
@@ -300,7 +305,7 @@ static int video_play(INSTANCE *my, int * params)
         if (SDL_BuildAudioCVT(&video.cvt,
                               AUDIO_S16, video.audio->channels, video.audio->freq,
                               mixer_format, mixer_channels, mixer_freq) == -1) {
-            SDL_Log("Couldn't create required audio conversion SDL_AudioCVT, sorry\n");
+            SDL_Log("Couldn't create required audio conversion SDL_AudioCVT:\n%s", SDL_GetError());
         } else {
             video.convertaudio = 1;
         }
@@ -316,13 +321,14 @@ static int video_play(INSTANCE *my, int * params)
     // Create the graph holding the video surface
     graphid = bitmap_next_code();
     video.graph = bitmap_new_streaming(graphid, video.frame->width, video.frame->height, bpp);
-    grlib_add_map( 0, video.graph ) ;
-    THEORAPLAY_freeVideo(video.frame);
-    video.frame = NULL;
     if(! video.graph) {
         THEORAPLAY_stopDecode(video.decoder);
         video.decoder = NULL;
     }
+
+    grlib_add_map( 0, video.graph ) ;
+    THEORAPLAY_freeVideo(video.frame);
+    video.frame = NULL;
 
     Mix_HookMusic(audio_callback, NULL);
 
@@ -392,8 +398,13 @@ char * __bgdexport( mod_theora, modules_dependency )[] =
 
 void __bgdexport( mod_theora, module_initialize )()
 {
-    if ( !SDL_WasInit( SDL_INIT_AUDIO ) ) SDL_InitSubSystem( SDL_INIT_AUDIO );
-    //if ( !audio_initialized ) sound_init();
+    if ( !SDL_WasInit( SDL_INIT_AUDIO ) ) {
+        SDL_InitSubSystem( SDL_INIT_AUDIO );
+    }
+
+    if ( !audio_initialized ) {
+        sound_init();
+    }
 }
 
 void __bgdexport( mod_theora, module_finalize )()
