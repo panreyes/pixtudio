@@ -234,9 +234,8 @@ int instance_go( INSTANCE * r )
     /* ------------------------------------------------------------------------------- */
     /* Restore if exit by debug                                                        */
 
-    if ( debug > 0 )
-    {
-        printf( "\n>>> Instance:%s ProcID:%d StackUsed:%d/%d\n", r->proc->name,
+    if ( debug > 0 ) {
+        printf( "\n>>> Instance:%s ProcID:%d StackUsed:%lu/%d\n", r->proc->name,
                                                                  LOCDWORD( r, PROCESS_ID ),
                                                                  ( r->stack_ptr - r->stack ) / sizeof( r->stack[0] ),
                                                                  ( r->stack[0] & ~STACK_RETURN_VALUE )

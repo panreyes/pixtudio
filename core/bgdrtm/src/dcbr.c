@@ -211,7 +211,7 @@ DCB_VAR * read_and_arrange_varspace( file * fp, int count )
 
 /* ---------------------------------------------------------------------- */
 
-int dcb_load_from( file * fp, char * filename, int offset )
+int dcb_load_from( file * fp, const char * filename, int offset )
 {
     unsigned int n ;
     uint32_t size;

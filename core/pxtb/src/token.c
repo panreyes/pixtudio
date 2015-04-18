@@ -1406,7 +1406,7 @@ tok_pos token_pos()
     tp.line_count   = line_count;
     tp.current_file = current_file;
     tp.token_prev   = token_prev;
-    tp.source_ptr   = source_ptr;
+    tp.source_ptr   = (char *) source_ptr;
 
     return tp;
 }

@@ -73,7 +73,7 @@ void xfile_init( int maxfiles )
     max_x_files = maxfiles;
 }
 
-void file_add_xfile( file * fp, char * stubname, long offset, char * name, int size )
+void file_add_xfile( file * fp, const char * stubname, long offset, char * name, int size )
 {
     char * ptr ;
 

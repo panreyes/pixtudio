@@ -2112,7 +2112,7 @@ expresion_result compile_rotation()
 {
     expresion_result left = compile_operation(), right, res ;
     int op ;
-    BASETYPE t ;
+    int t ;
 
     for ( ;; )
     {
@@ -2120,17 +2120,23 @@ expresion_result compile_rotation()
         if ( token.type == IDENTIFIER && ( token.code == identifier_ror || token.code == identifier_rol ) ) /* ">>" or "<<" */
         {
             op = token.code == identifier_ror ? MN_ROR : MN_ROL ;
-            if ( left.lvalue ) codeblock_add( code, mntype( left.type, 0 ) | MN_PTR, 0 ) ;
+            if ( left.lvalue ) {
+                codeblock_add( code, mntype( left.type, 0 ) | MN_PTR, 0 ) ;
+            }
 
             right = compile_operation() ;
-            if ( right.lvalue ) codeblock_add( code, mntype( right.type, 0 ) | MN_PTR, 0 ) ;
+            if ( right.lvalue ) {
+                codeblock_add( code, mntype( right.type, 0 ) | MN_PTR, 0 ) ;
+            }
 
             t = check_numeric_types( &left, &right ) ;
             codeblock_add( code, op | mntype( left.type, 0 ), 0 ) ;
 
             res.constant   = ( right.constant && left.constant ) ;
 
-            if ( t == MN_FLOAT ) compile_error( MSG_INTEGER_REQUIRED ) ;
+            if ( t == MN_FLOAT ) {
+                compile_error( MSG_INTEGER_REQUIRED ) ;
+            }
 
             res.type       = left.type /*typedef_new( TYPE_DWORD ) */;
             res.value      = ( op == MN_ROR ? ( left.value >> right.value ) : ( left.value << right.value ) ) ;
