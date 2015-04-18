@@ -266,7 +266,7 @@ extra_symbols symbol_list_runtime[] =
     { mod_chipmunk_globals_fixup, mod_chipmunk_locals_fixup, mod_chipmunk_module_initialize, mod_chipmunk_module_finalize, NULL, NULL, NULL, mod_chipmunk_handler_hooks }, //mod_chipmunk
 #endif
 #ifndef NO_MODMULTI
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, mod_multi_handler_hooks }, //mod_multi
+    { NULL, NULL, mod_multi_module_initialize, NULL, NULL, NULL, NULL, mod_multi_handler_hooks }, //mod_multi
 #endif
 #ifndef NO_MODCURL
     { NULL, NULL, mod_curl_module_initialize, mod_curl_module_finalize, NULL, NULL, NULL, NULL }, //mod_curl

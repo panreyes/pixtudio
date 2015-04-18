@@ -43,5 +43,6 @@ DLSYSFUNCS __bgdexport( mod_multi, functions_exports )[] =
 extern DLSYSFUNCS __bgdexport( mod_multi, functions_exports )[];
 extern HOOK __bgdexport( mod_multi, handler_hooks )[];
 extern char * __bgdexport( mod_multi, modules_dependency )[];
+extern void __bgdexport( mod_multi, module_initialize )();
 #endif
 #endif

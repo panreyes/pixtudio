@@ -375,7 +375,6 @@ char * __bgdexport( libmouse, modules_dependency )[] =
 void __bgdexport( libmouse, module_initialize )()
 {
     gr_new_object( GLOINT32( libmouse, MOUSEZ ), mouse_info, mouse_draw, 0 );
-    SDL_SetHint("SDL_ANDROID_SEPARATE_MOUSE_AND_TOUCH", "1");
 }
 
 /* --------------------------------------------------------------------------- */

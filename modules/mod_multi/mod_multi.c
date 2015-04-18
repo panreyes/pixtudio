@@ -257,6 +257,11 @@ char * __bgdexport( mod_multi, modules_dependency )[] =
     NULL
 };
 
+void __bgdexport( mod_multi, module_initialize )()
+{
+    SDL_SetHint("SDL_ANDROID_SEPARATE_MOUSE_AND_TOUCH", "1");
+}
+
 /* ----------------------------------------------------------------- */
 
 /*
