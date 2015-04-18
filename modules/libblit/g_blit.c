@@ -1948,10 +1948,11 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
     SDL_BlendMode mode;
     Uint8     alpha;
     int     i;
-    int     flip_factor = 1;
+    double  flip_factor = 1.0;
+    double  d = 0.0;
 
-    float   half_texel_size_x = 0;
-    float   half_texel_size_y = 0;
+    float   half_texel_size_x = 0.0;
+    float   half_texel_size_y = 0.0;
 
     /* Data for the left line */
     int     left_steps;
@@ -2003,21 +2004,22 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         }
 
         flip = SDL_FLIP_NONE;
-        flip_factor = 1;
         dstRect.x = scrx - rcenter.x;
         dstRect.y = scry - rcenter.y;
         dstRect.w = (int)(gr->width * scalex/100.);
         dstRect.h = (int)(gr->height * scaley/100.);
         if(flags & B_HMIRROR) {
             flip |= SDL_FLIP_HORIZONTAL;
-            flip_factor *= -1;
-            dstRect.x = scrx - (gr->width + rcenter.x) * scalex/100.;
-            rcenter.x = (gr->width - gr->cpoints[0].x) * scalex/100.;
+            flip_factor *= -1.0;
+            d = gr->width * scalex/100. - 2.0 * rcenter.x;
+            dstRect.x -= d * cos(M_PI * (angle/1000.) / (180000));
+            dstRect.y -= d * sin(M_PI * (angle/1000.) / (180000));
+            rcenter.x += d;
         }
 
         if(flags & B_VMIRROR) {
             flip |= SDL_FLIP_VERTICAL;
-            flip_factor *= -1;
+            flip_factor *= -1.0;
             dstRect.y = scry - gr->height + rcenter.y;
         }
 
@@ -2045,7 +2047,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         SDL_SetTextureBlendMode(gr->texture, mode);
         SDL_RenderSetClipRect(renderer, &clipRect);
 
-        SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, (double) (flip_factor * angle/-1000.), &rcenter, flip);
+        SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, flip_factor * angle/-1000., &rcenter, flip);
     } else {
         // Software blit
         if ( !dest->data || !gr->data ) {
