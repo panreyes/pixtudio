@@ -40,6 +40,8 @@
 #include <SDL.h>
 #include <stretchy_buffer.h>
 
+#include "mod_sound.h"
+
 #include <SDL_mixer.h>
 
 #include "files.h"
@@ -51,15 +53,8 @@
 
 /* --------------------------------------------------------------------------- */
 
-static int audio_initialized = 0 ;
 static Mix_Music **loaded_songs = NULL;
 static Mix_Chunk **loaded_sounds = NULL;
-
-/* --------------------------------------------------------------------------- */
-
-#define SOUND_FREQ              0
-#define SOUND_MODE              1
-#define SOUND_CHANNELS          2
 
 /* --------------------------------------------------------------------------- */
 /* Definicion de constantes (usada en tiempo de compilacion)                   */
@@ -223,7 +218,7 @@ static int find_free_chunkID(Mix_Chunk **where) {
  *
  */
 
-static int sound_init() {
+int sound_init() {
     int audio_rate;
     Uint16 audio_format;
     int audio_channels;
