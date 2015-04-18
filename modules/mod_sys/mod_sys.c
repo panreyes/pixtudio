@@ -123,7 +123,7 @@ static int modsys_exec( INSTANCE * my, int * params )
         //Error
         status = -1 ;
     } else if ( child == 0 ) {
-        execvp( filename, ( const char ** )argv );
+        execvp( filename, ( char * const * )argv );
         exit(-1);
     } else {
         /* father */
