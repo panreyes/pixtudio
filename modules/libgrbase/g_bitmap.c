@@ -138,6 +138,7 @@ GRAPH * bitmap_new_ex( int code, int w, int h, int depth, void * data, int pitch
 
     gr->data = data ;
     gr->texture = NULL ;
+    gr->next_piece = NULL ;
 
     // Create associated textures only for graphs with bpp >= 16
     if( depth == 16 || depth == 32 ) {
@@ -146,12 +147,12 @@ GRAPH * bitmap_new_ex( int code, int w, int h, int depth, void * data, int pitch
             format = SDL_PIXELFORMAT_RGB565 ;
         }
         gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STATIC|SDL_RENDERER_TARGETTEXTURE, w, h);
-        if (! gr->texture)
-        {
+        if (! gr->texture) {
             free( gr ) ;
             SDL_Log("bitmap_new_ex: Could not create GRAPH texture (%s)", SDL_GetError());
             return NULL;
         }
+
         if(SDL_UpdateTexture(gr->texture, NULL, data, pitch) < 0) {
             SDL_Log("Error updating texture: %s", SDL_GetError());
             free( gr );
@@ -347,6 +348,7 @@ GRAPH * bitmap_new_streaming( int code, int w, int h, int depth )
 
     gr->data = NULL ;
     gr->texture = NULL ;
+    gr->next_piece = NULL ;
 
     // Create associated textures only for graphs with bpp >= 16
     if( depth == 16 || depth == 32 ) {
@@ -403,6 +405,7 @@ GRAPH * bitmap_clone( GRAPH * map )
         if ( map->format->depth == 16 ) {
             format = SDL_PIXELFORMAT_RGB565 ;
         }
+
         if(SDL_RenderReadPixels(renderer, NULL, format, gr->data, gr->pitch) < 0) {
             SDL_Log("Could not clone screen data (%s)", SDL_GetError());
         }
@@ -412,8 +415,7 @@ GRAPH * bitmap_clone( GRAPH * map )
         }
     }
 
-    if ( map->cpoints )
-    {
+    if ( map->cpoints ) {
         gr->cpoints = malloc( sizeof( CPOINT ) * map->ncpoints ) ;
         memcpy( gr->cpoints, map->cpoints, sizeof( CPOINT ) * map->ncpoints ) ;
         gr->ncpoints = map->ncpoints ;

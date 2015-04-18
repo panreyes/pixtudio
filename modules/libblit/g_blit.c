@@ -2012,7 +2012,6 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
             flip |= SDL_FLIP_HORIZONTAL;
             flip_factor *= -1;
             dstRect.x = scrx - (gr->width + rcenter.x) * scalex/100.;
-            dstRect.y -= rcenter.y * sin(angle*M_PI/-1000);
             rcenter.x = (gr->width - gr->cpoints[0].x) * scalex/100.;
         }
 
