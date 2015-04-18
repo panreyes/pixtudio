@@ -108,7 +108,8 @@ or -1 if any dimension is okay for the given format.
 
 static int modvideo_list_modes( INSTANCE * my, int * params )
 {
-    return NULL;
+#warning modvideo_list_modes is a stub implementation (See https://wiki.libsdl.org/SDL_GetDisplayMode)
+    return -1;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -125,6 +126,7 @@ static int modvideo_list_modes( INSTANCE * my, int * params )
 
 static int modvideo_mode_is_ok( INSTANCE * my, int * params )
 {
+#warning modvideo_mode_is_ok is a stub implementation
     return 0;
 }
 
