@@ -2020,7 +2020,10 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         if(flags & B_VMIRROR) {
             flip |= SDL_FLIP_VERTICAL;
             flip_factor *= -1.0;
-            dstRect.y = scry - gr->height + rcenter.y;
+            d = gr->height * scaley/100. - 2.0 * rcenter.y;
+            dstRect.x += d * sin(M_PI * (angle/1000.) / (180000));
+            dstRect.y -= d * cos(M_PI * (angle/1000.) / (180000));
+            rcenter.y += d;
         }
 
         mode = SDL_BLENDMODE_BLEND;
