@@ -23,6 +23,7 @@
  */
 
 #include <stdio.h>
+#include <strings.h>
 #include <libvideo.h>
 #include <g_video.h>
 #include <libmouse_symbols.h>
@@ -85,7 +86,6 @@ void parse_input_events() {
     int n=0;
     float x=0.0, y=0.0;
     double width=0, height=0;
-    double w_width=0, w_height=0;
     SDL_DisplayMode mode;
     SDL_Event e;
 
