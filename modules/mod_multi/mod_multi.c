@@ -23,6 +23,7 @@
  */
 
 #include <stdio.h>
+#include <strings.h>
 #include <libvideo.h>
 #include <g_video.h>
 #include <libmouse_symbols.h>
