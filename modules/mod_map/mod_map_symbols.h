@@ -32,7 +32,6 @@
 #include <bgddl.h>
 
 #ifdef __PXTB__
-#define G_WIDE          0
 #define G_WIDTH         0
 #define G_HEIGHT        1
 #define G_CENTER_X      2
@@ -48,7 +47,6 @@
 
 DLCONSTANT __bgdexport( mod_map, constants_def )[] =
 {
-    { "G_WIDE"          , TYPE_INT, G_WIDE              },    /* Obsolete */
     { "G_WIDTH"         , TYPE_INT, G_WIDTH             },
     { "G_HEIGHT"        , TYPE_INT, G_HEIGHT            },
     { "G_CENTER_X"      , TYPE_INT, G_CENTER_X          },

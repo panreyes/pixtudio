@@ -86,6 +86,7 @@ INCLUDES	:=	../../core/pxtb/include \
 				../../modules/mod_video/ \
 				../../modules/libmouse/ \
 				../../modules/mod_mouse/ \
+                ../../modules/mod_multi/ \
 				../../modules/mod_map/ \
 				../../modules/libfont/ \
 				../../modules/mod_dir/ \
@@ -111,7 +112,7 @@ INCLUDES	:=	../../core/pxtb/include \
 #---------------------------------------------------------------------------------
 
 CFLAGS		=	-m32  -g -O2 -Wall -D__PXTB__ -D__MONOLITHIC__ -DNO_MODIMAGE -DNO_MODMATHI \
-	-DNO_MODIMAGE -DNO_MODICONV -DNO_MODFMODEX -DNO_MODCHIPMUNK -DNO_MODMULTI -DNO_MODCURL \
+	-DNO_MODIMAGE -DNO_MODICONV -DNO_MODFMODEX -DNO_MODCHIPMUNK -DNO_MODCURL \
 	-DNO_MODSENSOR -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE)
 CXXFLAGS	=	-save-temps -Xassembler -aln=$@.lst $(CFLAGS)
 LDFLAGS		=	-m32 -g $(MACHDEP)

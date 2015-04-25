@@ -226,7 +226,7 @@ void refresh_video() {
         }
         THEORAPLAY_freeVideo(video.frame);
         video.frame = NULL;
-    } // if
+    }
 
     while ((video.audio = THEORAPLAY_getAudio(video.decoder)) != NULL) {
         queue_audio(video.audio);
@@ -286,6 +286,11 @@ static int video_play(INSTANCE *my, int * params)
     }
 
     if(! THEORAPLAY_hasVideoStream(video.decoder)) {
+        THEORAPLAY_stopDecode(video.decoder);
+        return -1;
+    }
+
+    if(! THEORAPLAY_hasAudioStream(video.decoder)) {
         THEORAPLAY_stopDecode(video.decoder);
         return -1;
     }
@@ -403,9 +408,9 @@ void __bgdexport( mod_theora, module_initialize )()
         SDL_InitSubSystem( SDL_INIT_AUDIO );
     }
 
-    if ( !audio_initialized ) {
+    /*if ( !audio_initialized ) {
         sound_init();
-    }
+    }*/
 }
 
 void __bgdexport( mod_theora, module_finalize )()
