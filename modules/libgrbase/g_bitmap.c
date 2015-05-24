@@ -449,10 +449,6 @@ void bitmap_update_texture( GRAPH * map )
         return;
     }
 
-    if(map->code == 1000) {
-        printf("Asked to gr_update_bitmap 1000!!\n");
-    }
-
     if(SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch) < 0) {
         SDL_Log("Error updating texture: %s", SDL_GetError());
     }
