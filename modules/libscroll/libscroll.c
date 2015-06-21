@@ -191,7 +191,7 @@ void scroll_start( int n, int fileid, int graphid, int backid, int region, int f
             gr_destroy_object( scrolls_objects[n] );
         }
 
-        scrolls_objects[n] = ( int )gr_new_object( 0, info_scroll, scroll_draw, &n );
+        scrolls_objects[n] = ( int )gr_new_object( 0, info_scroll, scroll_draw, n );
     }
 }
 
