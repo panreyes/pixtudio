@@ -1121,7 +1121,6 @@ void compile_process()
                         type == TYPE_FLOAT
                      ) ) {
                 // Parameter type was implicitly defined to some other compatible type
-                compile_warning(0, "Function parameter type redifined");
                 proc->paramtype[params] = type ;
             } else if ( type == TYPE_DWORD && ( proc->paramtype[params] == TYPE_BYTE || proc->paramtype[params] == TYPE_WORD ) ) {
                 proc->paramtype[params] = type ;
