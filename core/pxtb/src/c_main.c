@@ -349,7 +349,7 @@ void compile_error( const char *fmt, ... )
     vsprintf( text, fmt, ap );
     va_end( ap );
 
-    fprintf( stdout, MSG_COMPILE_ERROR,
+    fprintf( stderr, MSG_COMPILE_ERROR,
             ( fname && ( fname[0] != '/' && fname[0] != '\\' && fname[1] != ':' ) ) ?  main_path : "",
             fname ? fname : "N/A",
             ( import_filename ) ? import_line : line_count,
@@ -372,7 +372,7 @@ void compile_warning( int notoken, const char *fmt, ... )
     vsprintf( text, fmt, ap );
     va_end( ap );
 
-    fprintf( stdout, MSG_COMPILE_WARNING,
+    fprintf( stderr, MSG_COMPILE_WARNING,
             ( fname && ( fname[0] != '/' && fname[0] != '\\' && fname[1] != ':' ) ) ?  main_path : "",
             fname ? fname : "N/A",
             ( import_filename ) ? import_line : line_count,
