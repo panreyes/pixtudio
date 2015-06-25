@@ -138,9 +138,8 @@ int check_controller_id(id) {
 void controller_close(index) {
     if(check_controller_id(index)) {
         SDL_GameControllerClose(open_controllers[index]);
+        open_controllers[index] = NULL;
     }
-
-    open_controllers[index] = NULL;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -234,7 +233,7 @@ void  __bgdexport( mod_gamecontroller, module_initialize )()
 void __bgdexport( mod_gamecontroller, module_finalize )()
 {
     int32_t i=0, n=0;
-    // Unload songs, if any
+    // Unload controllers, if any
     n = sb_count(open_controllers);
     for(i=0; i<n; i++) {
         controller_close(i);
