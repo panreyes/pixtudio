@@ -292,7 +292,7 @@ int gr_set_mode( int width, int height, int depth )
             sdl_flags |= SDL_WINDOW_BORDERLESS;
         }
         if (full_screen) {
-            sdl_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+            sdl_flags |= SDL_WINDOW_FULLSCREEN;
         }
         if (grab_input) {
             sdl_flags |= SDL_WINDOW_INPUT_GRABBED;
@@ -357,28 +357,22 @@ int gr_set_mode( int width, int height, int depth )
         SDL_Log("You asked for %dbpp but got %d, bad luck :(", depth, texture_depth);
     }
 
-    if ( !sys_pixel_format )
-    {
+    if ( !sys_pixel_format ) {
         sys_pixel_format = bitmap_create_format( depth );
-    }
-    else
-    {
+    } else {
         PALETTE * p = sys_pixel_format->palette;
 
         free( sys_pixel_format );
         sys_pixel_format = bitmap_create_format( depth );
 
-        if ( p )
-        {
+        if ( p ) {
             sys_pixel_format->palette = p;
             pal_refresh( sys_pixel_format->palette ) ;
         }
     }
 
-    if ( sys_pixel_format->depth == 16 )
-    {
-        for ( n = 0 ; n < 65536 ; n++ )
-        {
+    if ( sys_pixel_format->depth == 16 ) {
+        for ( n = 0 ; n < 65536 ; n++ ) {
             colorghost[ n ] =
                 ((( n & screen->format->Rmask ) >> 1 ) & screen->format->Rmask ) +
                 ((( n & screen->format->Gmask ) >> 1 ) & screen->format->Gmask ) +
@@ -402,12 +396,12 @@ int gr_set_mode( int width, int height, int depth )
     if (
         !background ||
         scr_width != screen->w || scr_height != screen->h ||
-        sys_pixel_format->depth != background->format->depth )
-    {
-        if ( background ) bitmap_destroy( background );
+        sys_pixel_format->depth != background->format->depth ) {
+        if ( background ) {
+            bitmap_destroy( background );
+        }
         background = bitmap_new( 0, screen->w, screen->h, sys_pixel_format->depth ) ;
-        if ( background )
-        {
+        if ( background ) {
             gr_clear( background ) ;
             bitmap_add_cpoint( background, 0, 0 ) ;
         }
