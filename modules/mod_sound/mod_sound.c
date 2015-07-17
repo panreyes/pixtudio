@@ -1719,12 +1719,18 @@ void  __bgdexport( mod_sound, module_initialize )()
     if ( !SDL_WasInit( SDL_INIT_AUDIO ) ) {
         SDL_InitSubSystem( SDL_INIT_AUDIO );
     }
+
+    sound_init();
 }
 
 /* --------------------------------------------------------------------------- */
 
 void __bgdexport( mod_sound, module_finalize )()
 {
+    if(audio_initialized) {
+        sound_close();
+    }
+
     int32_t i=0, n=0;
     // Unload songs, if any
     n = sb_count(loaded_songs);

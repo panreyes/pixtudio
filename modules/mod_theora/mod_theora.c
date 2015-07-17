@@ -311,8 +311,10 @@ static int video_play(INSTANCE *my, int * params)
 
     if ( video.audio && (video.audio->freq != mixer_freq || video.audio->channels != mixer_channels) ) {
         if (SDL_BuildAudioCVT(&video.cvt,
-                              AUDIO_S16, video.audio->channels, video.audio->freq,
+                              AUDIO_F32, video.audio->channels, video.audio->freq,
                               mixer_format, mixer_channels, mixer_freq) == -1) {
+            SDL_Log("Source: %d, %d", video.audio->channels, video.audio->freq);
+            SDL_Log("Destination: %d, %d", mixer_channels, mixer_freq);
             SDL_Log("Couldn't create required audio conversion SDL_AudioCVT:\n%s", SDL_GetError());
         } else {
             video.convertaudio = 1;
