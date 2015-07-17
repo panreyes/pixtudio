@@ -244,6 +244,8 @@ static int video_play(INSTANCE *my, int * params)
 {
     int bpp, graphid;
     const int MAX_FRAMES = 30;
+    void *pixels;
+    int pitch;
 
     bpp = screen->format->BitsPerPixel;
 
@@ -330,6 +332,14 @@ static int video_play(INSTANCE *my, int * params)
     if(! video.graph) {
         THEORAPLAY_stopDecode(video.decoder);
         video.decoder = NULL;
+    }
+
+    // Blank the GRAPH texture before showing it, otherwise junk will be shown
+    if(SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
+        SDL_Log("Error updating texture: %s", SDL_GetError());
+    } else {
+        memset(pixels, 0, video.graph->height * pitch);
+        SDL_UnlockTexture(video.graph->texture);
     }
 
     grlib_add_map( 0, video.graph ) ;
