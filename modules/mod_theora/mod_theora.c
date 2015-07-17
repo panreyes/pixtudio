@@ -216,7 +216,7 @@ void refresh_video() {
             if(SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
                 SDL_Log("Error updating texture: %s", SDL_GetError());
             } else {
-                memcpy(pixels, video.frame->pixels, pitch);
+                memcpy(pixels, video.frame->pixels, video.graph->height * pitch);
                 SDL_UnlockTexture(video.graph->texture);
 
                 // Mark the video GRAPH as dirty so that BennuGD redraws it
