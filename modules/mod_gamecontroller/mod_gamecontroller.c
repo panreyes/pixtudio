@@ -221,8 +221,7 @@ static int modgamecontroller_open( INSTANCE * my, int * params ) {
 /* ------------------------------------------------------------ */
 /* Module initialisation routines                               */
 
-void  __bgdexport( mod_gamecontroller, module_initialize )()
-{
+void  __bgdexport( mod_gamecontroller, module_initialize )() {
     if ( !SDL_WasInit( SDL_INIT_GAMECONTROLLER ) ) {
         SDL_InitSubSystem( SDL_INIT_GAMECONTROLLER );
     }
@@ -230,8 +229,7 @@ void  __bgdexport( mod_gamecontroller, module_initialize )()
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport( mod_gamecontroller, module_finalize )()
-{
+void __bgdexport( mod_gamecontroller, module_finalize )() {
     int32_t i=0, n=0;
     // Unload controllers, if any
     n = sb_count(open_controllers);
