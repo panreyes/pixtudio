@@ -349,12 +349,12 @@ void compile_error( const char *fmt, ... )
     vsprintf( text, fmt, ap );
     va_end( ap );
 
-    fprintf( stdout, MSG_COMPILE_ERROR,
+    fprintf( stderr, MSG_COMPILE_ERROR,
             ( fname && ( fname[0] != '/' && fname[0] != '\\' && fname[1] != ':' ) ) ?  main_path : "",
             fname ? fname : "N/A",
             ( import_filename ) ? import_line : line_count,
             text ) ;
-    fprintf( stdout, " ( token error: " );
+    fprintf( stdout, " ( error in token: " );
     token_dump() ;
     fprintf( stdout, " ).\n" );
     exit( 2 ) ;
@@ -372,14 +372,14 @@ void compile_warning( int notoken, const char *fmt, ... )
     vsprintf( text, fmt, ap );
     va_end( ap );
 
-    fprintf( stdout, MSG_COMPILE_WARNING,
+    fprintf( stderr, MSG_COMPILE_WARNING,
             ( fname && ( fname[0] != '/' && fname[0] != '\\' && fname[1] != ':' ) ) ?  main_path : "",
             fname ? fname : "N/A",
             ( import_filename ) ? import_line : line_count,
             text ) ;
     if ( !notoken )
     {
-        fprintf( stdout, " ( token warning: " );
+        fprintf( stdout, " ( warning in token: " );
         token_dump() ;
         fprintf( stdout, " ).\n" );
     } else {
@@ -1026,9 +1026,9 @@ void compile_process()
                             but both are integers. The error is ignored, but no
                             conversion is done. This can lead to type conversion issues.
                         */
-                    }
-                    else
+                    } else {
                         compile_error( MSG_INVALID_PARAMT ) ;
+                    }
                 }
                 codeblock_add( &proc->code, MN_LOCAL, var->offset ) ;
                 codeblock_add( &proc->code, MN_PRIVATE, proc->pridata->current ) ;
@@ -1109,19 +1109,28 @@ void compile_process()
         {
             /* El proceso fue usado previamente */
 
-            if ( proc->paramtype[params] == TYPE_UNDEFINED ) proc->paramtype[params] = type ;
-            else if (( proc->paramtype[params] == TYPE_DWORD || proc->paramtype[params] == TYPE_INT ) &&
+            if ( proc->paramtype[params] == TYPE_UNDEFINED ) {
+                proc->paramtype[params] = type ;
+            } else if (( proc->paramtype[params] == TYPE_DWORD || proc->paramtype[params] == TYPE_INT ) &&
                      (  type == TYPE_DWORD ||
                         type == TYPE_INT   ||
                         type == TYPE_BYTE  ||
                         type == TYPE_WORD  ||
                         type == TYPE_SHORT ||
-                        type == TYPE_SBYTE
-                     ) ) proc->paramtype[params] = type ;
-            else if ( type == TYPE_DWORD && ( proc->paramtype[params] == TYPE_BYTE || proc->paramtype[params] == TYPE_WORD ) ) proc->paramtype[params] = type ;
-            else if ( proc->paramtype[params] != type ) compile_error( MSG_INVALID_PARAMT ) ;
+                        type == TYPE_SBYTE ||
+                        type == TYPE_FLOAT
+                     ) ) {
+                // Parameter type was implicitly defined to some other compatible type
+                proc->paramtype[params] = type ;
+            } else if ( type == TYPE_DWORD && ( proc->paramtype[params] == TYPE_BYTE || proc->paramtype[params] == TYPE_WORD ) ) {
+                proc->paramtype[params] = type ;
+            } else if ( proc->paramtype[params] != type ) {
+                // Parameter type was implicitly defined to some other incompatible type
+                compile_error("Parameter was implicitly set to an incompatible type");
+            }
+        } else {
+            proc->paramtype[params] = type;
         }
-        else proc->paramtype[params] = type;
 
         proc->paramname[params] = token.code;
 

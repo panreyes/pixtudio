@@ -42,6 +42,8 @@
 #include <libvideo_symbols.h>
 #include <librender_symbols.h>
 #include <mod_gamecontroller_symbols.h>
+#include <libjoy_symbols.h>
+#include <mod_joy_symbols.h>
 #include <mod_video_symbols.h>
 #include <libmouse_symbols.h>
 #include <mod_mouse_symbols.h>
@@ -124,6 +126,8 @@ basic_symbols symbol_list[] =
     // name              , deps, constants, types, globals, locals, func_exp
     { "libsdlhandler.fakelib", NULL, NULL, NULL, NULL, NULL, NULL },
     { "mod_gamecontroller.fakelib" , NULL, mod_gamecontroller_constants_def, NULL, NULL, NULL, mod_gamecontroller_functions_exports },
+	{ "libjoy.fakelib"       , libjoy_modules_dependency, libjoy_constants_def, NULL, NULL, NULL, NULL },
+	{ "mod_joy.fakelib"      , mod_joy_modules_dependency, NULL, NULL, NULL, NULL, mod_joy_functions_exports },
     { "libgrbase.fakelib"    , NULL, NULL, NULL, libgrbase_globals_def, NULL, NULL },
     { "libblit.fakelib"      , NULL, libblit_constants_def, NULL, NULL, NULL, NULL },
     { "libvideo.fakelib"     , libvideo_modules_dependency, libvideo_constants_def, NULL, libvideo_globals_def, NULL, NULL },
@@ -207,6 +211,8 @@ extra_symbols symbol_list_runtime[] =
 {
     { NULL, NULL, libsdlhandler_module_initialize, libsdlhandler_module_finalize, NULL, NULL, NULL, libsdlhandler_handler_hooks },      //libsdlhandler
     { NULL, NULL, mod_gamecontroller_module_initialize, mod_gamecontroller_module_finalize, NULL, NULL, NULL, NULL }, //mod_gamecontroller
+	{ NULL, NULL, libjoy_module_initialize, libjoy_module_finalize, NULL, NULL, NULL, NULL }, //libjoy
+    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_joy
     { libgrbase_globals_fixup, NULL, libgrbase_module_initialize, NULL, NULL, NULL, NULL, NULL }, //libgrbase
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //libblit
     { libvideo_globals_fixup, NULL, libvideo_module_initialize, libvideo_module_finalize, NULL, NULL, NULL, NULL }, //libvideo

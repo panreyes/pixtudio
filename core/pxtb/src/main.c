@@ -411,8 +411,7 @@ int main( int argc, char *argv[] )
             /* Load Main Source File */
             load_file( sourcefile );
 
-            if ( !dcbname[0] )
-            {
+            if ( !dcbname[0] ) {
                 strcpy( dcbname, basepathname ); strcat( dcbname, !libmode ? ".dcb" : ".dcl" );
             }
         }
