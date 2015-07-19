@@ -75,10 +75,11 @@ void gr_draw_screen( GRAPH * dest, int restore_type, int dump_type )
     /* Update the object list */
     gr_update_objects_mark_rects( restore_type, dump_type );
 
-    if ( background->info_flags & GI_CLEAN )
+    if ( background->info_flags & GI_CLEAN ) {
         gr_clear( scrbitmap ) ;
-    else
+    } else {
         gr_blit( scrbitmap, NULL, 0, 0, B_NOCOLORKEY, background, 1 );
+    }
 
     updaterects_count = 1;
     updaterects[ 0 ].x = 0;

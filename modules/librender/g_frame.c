@@ -271,8 +271,7 @@ void gr_draw_frame()
 
     /* Fading */
 
-    if ( fade_on || fade_set )
-    {
+    if ( fade_on || fade_set ) {
         gr_fade_step() ;
         if ( background ) background->modified = 1 ;
     }

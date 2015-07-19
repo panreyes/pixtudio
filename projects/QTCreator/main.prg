@@ -8,8 +8,8 @@ import "mod_say"
 import "mod_proc"
 import "mod_mouse"
 import "mod_draw"
-//import "mod_theora"
-//import "mod_sound"
+import "mod_theora"
+import "mod_sound"
 
 PROCESS int main();
 Private
@@ -17,21 +17,16 @@ Private
     int time;
 
 BEGIN
-    set_mode(800,600,32);
+    set_mode(1600, 1200, 16);
     set_fps(60, 0);
 
     font = fnt_load("font.fnt");
-    graph = png_load("logo.png");
-    drawing_map(0, graph);
-    drawing_color(rgb(0, 255, 0));
-    point_set(0, graph, 0, 50, 50);
-    draw_fcircle(50, 50, 10);
-    //if((graph = video_play("sintel_trailer.ogv")) == -1)
-    //    say("Sorry, I couldn't play your video :(");
-    //    exit();
-    //end;
+    if((graph = video_play("sintel_trailer-1080p.ogv")) == -1)
+        say("Sorry, I couldn't play your video :(");
+        exit();
+    end;
     write(font, 0, 0, 0, "No flags");
-    x = 400; y = 300;
+    x = 800; y = 600;
     time = timer[0];
     LOOP
         if(key(_right))
@@ -45,14 +40,14 @@ BEGIN
                 flags = B_HMIRROR;
                 delete_text(ALL_TEXT);
                 write(font, 0, 0, 0, "B_HMIRROR");
-            /*elif(flags == B_HMIRROR)
+            elif(flags == B_HMIRROR)
                 flags = B_VMIRROR;
                 delete_text(ALL_TEXT);
                 write(font, 0, 0, 0, "B_VMIRROR");
             elif(flags == B_VMIRROR)
                 flags = B_HMIRROR+B_VMIRROR;
                 delete_text(ALL_TEXT);
-                write(font, 0, 0, 0, "B_HMIRROR+B_VMIRROR");*/
+                write(font, 0, 0, 0, "B_HMIRROR+B_VMIRROR");
             else
                 flags = 0;
                 delete_text(ALL_TEXT);
@@ -66,8 +61,7 @@ BEGIN
         FRAME;
     End
 
-    //video_stop();
-    map_unload(0, graph);
+    video_stop();
     fnt_unload(font);
 END
 
