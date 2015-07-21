@@ -122,7 +122,7 @@ static int find_free_controllerID(SDL_GameController **where) {
  *      an integer with the 1 for still valid, 0 for invalid
  *
  */
-int check_controller_id(id) {
+int check_controller_id(int id) {
     if(id < 0 || id > (sb_count(open_controllers) - 1)) {
         return 0;
     }
@@ -135,7 +135,7 @@ int check_controller_id(id) {
 }
 
 /* --------------------------------------------------------------------------- */
-void controller_close(index) {
+void controller_close(int index) {
     if(check_controller_id(index)) {
         SDL_GameControllerClose(open_controllers[index]);
         open_controllers[index] = NULL;
