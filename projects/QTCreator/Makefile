@@ -2,7 +2,7 @@ all:
 	$(MAKE) -f Makefile.pxtb
 	./clean
 	$(MAKE) -f Makefile.bgdrtm
-	$(MAKE) -f Makefile.bgdi
+	$(MAKE) -f Makefile.pxtp
 
 clean:
 	./clean
