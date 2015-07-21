@@ -27,7 +27,7 @@
  */
 
 /*
- * FILE        : bgdi.h
+ * FILE        : pxtp.h
  * DESCRIPTION : Base includes in intepreter and some vars and const defines
  *
  * HISTORY:
@@ -38,7 +38,7 @@
  *  VERSION
  */
 
-#define BGDI_VERSION     "BGDI " VERSION " (" __DATE__ " " __TIME__ ")"
+#define PXTP_VERSION     "PXTP " VERSION " (" __DATE__ " " __TIME__ ")"
 
 /*
  *  HEADER FILES

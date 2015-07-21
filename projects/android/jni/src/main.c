@@ -67,7 +67,7 @@ int main( int argc, char *argv[] ) {
 
     filename = "main.dcb";
     if(file_exists("main.dcb")) {
-        SDL_Log("main.dcb exists in APK\n");
+        SDL_Log("Loading main.dcb from the APK...\n");
     } else {
         SDL_Log("main.dcb doesn't exist in APK, quitting\n");
         return 1;
@@ -84,8 +84,6 @@ int main( int argc, char *argv[] ) {
     /* Init application title for windowed modes */
 
     strcpy( dcbname, filename ) ;
-
-    SDL_Log("Loading main.dcb...\n");
 
     /* First try to load directly (we expect myfile.dcb) */
     if ( !dcb_load( dcbname ) ) {

@@ -16,7 +16,7 @@ LOCAL_C_INCLUDES := \
 
 # Add any compilation flags for your project here...
 LOCAL_CFLAGS := \
-	-D__BGDI__ \
+	-D__PXTP__ \
 	-DWITH_SDLRWOPS \
 	-DVERSION='"1.0.0"' \
 	-O3
