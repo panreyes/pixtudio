@@ -88,7 +88,7 @@ extern int procdef_count ;
 extern int procdef_maxid ;
 
 extern int       procdef_getid() ;
-extern PROCDEF * procdef_new (int typeid, int identifier) ;
+extern PROCDEF * procdef_new (int typeid, int id) ;
 extern PROCDEF * procdef_get (int typeid) ;
 extern PROCDEF * procdef_search (int identifier) ;
 extern PROCDEF * procdef_search_by_codeblock (CODEBLOCK * p);

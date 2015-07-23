@@ -339,8 +339,7 @@ void compile_init()
 
 /* ---------------------------------------------------------------------- */
 
-void compile_error( const char *fmt, ... )
-{
+void compile_error( const char *fmt, ... ) {
     char text[4000] ;
     char * fname = ( import_filename ) ? import_filename : (( current_file != -1 && files[current_file] && *files[current_file] ) ? files[current_file] : NULL );
 
@@ -354,16 +353,15 @@ void compile_error( const char *fmt, ... )
             fname ? fname : "N/A",
             ( import_filename ) ? import_line : line_count,
             text ) ;
-    fprintf( stdout, " ( error in token: " );
+    fprintf( stderr, " ( error in token: " );
     token_dump() ;
-    fprintf( stdout, " ).\n" );
+    fprintf( stderr, " ).\n" );
     exit( 2 ) ;
 }
 
 /* ---------------------------------------------------------------------- */
 
-void compile_warning( int notoken, const char *fmt, ... )
-{
+void compile_warning( int notoken, const char *fmt, ... ) {
     char text[4000] ;
     char * fname = ( import_filename ) ? import_filename : (( current_file != -1 && files[current_file] && *files[current_file] ) ? files[current_file] : NULL );
 
@@ -377,21 +375,19 @@ void compile_warning( int notoken, const char *fmt, ... )
             fname ? fname : "N/A",
             ( import_filename ) ? import_line : line_count,
             text ) ;
-    if ( !notoken )
-    {
-        fprintf( stdout, " ( warning in token: " );
+    if ( !notoken ) {
+        fprintf( stderr, " ( warning in token: " );
         token_dump() ;
-        fprintf( stdout, " ).\n" );
+        fprintf( stderr, " ).\n" );
     } else {
-        fprintf( stdout, ".\n" );
+        fprintf( stderr, ".\n" );
     }
 
 }
 
 /* ---------------------------------------------------------------------- */
 
-static char * trim( char * ptr )
-{
+static char * trim( char * ptr ) {
     char * ostr = ptr;
     char * bptr = ptr;
 
@@ -408,8 +404,7 @@ static char * trim( char * ptr )
 
 /* ---------------------------------------------------------------------- */
 
-static int import_exists( char * libname )
-{
+static int import_exists( char * libname ) {
     int n;
     for ( n = 0; n < nimports_aux; n++ ) if ( !strcmp( libname, string_get( imports_aux[n] ) ) ) return n;
     return -1;
@@ -417,8 +412,7 @@ static int import_exists( char * libname )
 
 /* ---------------------------------------------------------------------- */
 
-void compile_type()
-{
+void compile_type() {
     int code;
     segment  * s = segment_new() ;
     VARSPACE * v = varspace_new() ;
@@ -440,16 +434,14 @@ void compile_type()
 
 /* ---------------------------------------------------------------------- */
 
-static char * modules_exts[] =
-{
+static char * modules_exts[] = {
     ".dll",
     ".dylib",
     ".so",
     NULL
 } ;
 
-static char * dlsearchpath[] =
-{
+static char * dlsearchpath[] = {
     "modules",
     "mod",
     "mods",
@@ -491,29 +483,26 @@ static void import_module( const char * filename )
 
     strncpy( soname, filename, sizeof( soname ) );
 
-    for ( ptr = soname; *ptr; ptr++ )
-    {
+    for ( ptr = soname; *ptr; ptr++ ) {
         if ( *ptr == PATH_CHAR_SEP ) *ptr = PATH_CHAR_ISEP ;
         else *ptr = TOLOWER( *ptr );
     }
 
     pex = modules_exts;
-    while ( pex && * pex )
-    {
+    while ( pex && * pex ) {
         int nlen = strlen( soname );
         int elen = strlen( *pex );
-        if ( nlen > elen && strcmp( &soname[nlen - elen], *pex ) == 0 )
-        {
+        if ( nlen > elen && strcmp( &soname[nlen - elen], *pex ) == 0 ) {
             soname[nlen - elen] = '\0' ;
             pex = modules_exts;
-        }
-        else
-        {
+        } else {
             pex++;
         }
     }
 
-    if ( import_exists(( char * )soname ) != -1 ) return;
+    if ( import_exists(( char * )soname ) != -1 ) {
+        return;
+    }
 
     filename = soname;
     libid = string_new( soname );
@@ -527,8 +516,7 @@ static void import_module( const char * filename )
     library  = dlibopen( filename ) ;
 
     spath = dlsearchpath;
-    while( !library && spath && *spath )
-    {
+    while( !library && spath && *spath ) {
 #ifdef _WIN32
         sprintf( fullsoname, "%s%s\\%s", appexepath, *spath, filename );
 #else
@@ -538,17 +526,16 @@ static void import_module( const char * filename )
         spath++;
     }
 
-    if ( !library ) compile_error( MSG_LIBRARY_NOT_FOUND, filename ) ;
+    if ( !library ) {
+        compile_error( MSG_LIBRARY_NOT_FOUND, filename ) ;
+    }
 
     modules_dependency = ( char ** ) _dlibaddr( library, "modules_dependency" ) ;
 
-    if ( modules_dependency )
-    {
+    if ( modules_dependency ) {
         char * old_import_filename = import_filename;
-        while ( *modules_dependency )
-        {
-            if ( import_exists( *modules_dependency ) == -1 )
-            {
+        while ( *modules_dependency ) {
+            if ( import_exists( *modules_dependency ) == -1 ) {
                 import_filename = *modules_dependency ;
                 import_module( *modules_dependency );
                 import_filename = NULL ;
@@ -561,10 +548,8 @@ static void import_module( const char * filename )
     imports[nimports++] = libid;
 
     constants_def = ( DLCONSTANT * ) _dlibaddr( library, "constants_def" ) ;
-    if ( constants_def )
-    {
-        while ( constants_def->name )
-        {
+    if ( constants_def ) {
+        while ( constants_def->name ) {
             int code = identifier_search_or_add( constants_def->name ) ;
             constants_add( code, typedef_new( constants_def->type ), constants_def->code ) ;
             constants_def++ ;
@@ -572,28 +557,24 @@ static void import_module( const char * filename )
     }
 
     types_def = ( char ** ) _dlibaddr( library, "types_def" ) ;
-    if ( types_def && *types_def )
-    {
+    if ( types_def && *types_def ) {
         token_init( *types_def, -1 ) ;
         token_next();
-        while ( token.type == IDENTIFIER && token.code == identifier_type )
-        {
+        while ( token.type == IDENTIFIER && token.code == identifier_type ) {
             compile_type() ;
             token_next();
         }
     }
 
     globals_def = ( char ** ) _dlibaddr( library, "globals_def" ) ;
-    if ( globals_def && *globals_def )
-    {
+    if ( globals_def && *globals_def ) {
         VARSPACE * v[] = {&local, NULL};
         token_init( *globals_def, -1 ) ;
         compile_varspace( &global, globaldata, 1, 1, 0, v, DEFAULT_ALIGNMENT, 1 ) ;
     }
 
     locals_def  = ( char ** ) _dlibaddr( library, "locals_def" ) ;
-    if ( locals_def && *locals_def )
-    {
+    if ( locals_def && *locals_def ) {
         VARSPACE * v[] = {&global, NULL};
 
         token_init( *locals_def, -1 ) ;
@@ -601,10 +582,8 @@ static void import_module( const char * filename )
     }
 
     functions_exports = ( DLSYSFUNCS * ) _dlibaddr( library, "functions_exports" ) ;
-    if ( functions_exports )
-    {
-        while ( functions_exports->name )
-        {
+    if ( functions_exports ) {
+        while ( functions_exports->name ) {
             sysproc_add( functions_exports->name, functions_exports->paramtypes, functions_exports->type, functions_exports->func );
             functions_exports++;
         }
@@ -613,22 +592,28 @@ static void import_module( const char * filename )
 
 /* ---------------------------------------------------------------------- */
 
-void import_files( char * filename )
-{
+void import_files( char * filename ) {
     file * fp = file_open( filename, "rb0" );
     char libname[__MAX_PATH];
 
-    if ( !fp ) return;
+    if ( !fp ) {
+        return;
+    }
 
     import_line = 0;
 
-    while ( !file_eof( fp ) )
-    {
+    while ( !file_eof( fp ) ) {
         import_line++;
-        if ( !file_gets( fp, libname, sizeof( libname ) ) ) break;
+        if ( !file_gets( fp, libname, sizeof( libname ) ) ) {
+            break;
+        }
         trim( libname );
-        if ( *libname == '\0' ) continue;
-        if ( import_exists( libname ) != -1 ) continue;
+        if ( *libname == '\0' ) {
+            continue;
+        }
+        if ( import_exists( libname ) != -1 ) {
+            continue;
+        }
         import_filename = filename ;
         import_module( libname );
         import_filename = NULL ;
@@ -639,10 +624,11 @@ void import_files( char * filename )
 
 /* ---------------------------------------------------------------------- */
 
-void import_mod( char * libname )
-{
+void import_mod( char * libname ) {
     import_line = 0;
-    if ( import_exists( libname ) != -1 ) return;
+    if ( import_exists( libname ) != -1 ) {
+        return;
+    }
     import_filename = libname ;
     import_module( libname );
     import_filename = NULL ;
@@ -650,58 +636,72 @@ void import_mod( char * libname )
 
 /* ---------------------------------------------------------------------- */
 
-void compile_import( void )
-{
+void compile_import( void ) {
     no_include_this_file = 1;
 
     token_next() ;
-    if ( token.type != STRING ) compile_error( MSG_STRING_EXP ) ;
+    if ( token.type != STRING ) {
+        compile_error( MSG_STRING_EXP ) ;
+    }
 
     import_module( string_get( token.code ) );
 }
 
 /* ---------------------------------------------------------------------- */
 
-void compile_constants()
-{
+void compile_constants() {
     int code;
     expresion_result res;
 
-    for ( ;; )
-    {
+    for ( ;; ) {
         token_next() ;
-        if ( token.type == NOTOKEN ) break ;
+        if ( token.type == NOTOKEN ) {
+            break ;
+        }
 
-        if ( token.type != IDENTIFIER ) compile_error( MSG_CONSTANT_NAME_EXP ) ;
+        if ( token.type != IDENTIFIER ) {
+            compile_error( MSG_CONSTANT_NAME_EXP ) ;
+        }
 
-        if ( token.code == identifier_semicolon ) continue ;
+        if ( token.code == identifier_semicolon ) {
+            continue ;
+        }
 
         if ( token.code == identifier_begin ||
              token.code == identifier_local ||
              token.code == identifier_public ||
              token.code == identifier_private ||
-             token.code == identifier_global )
-        {
+             token.code == identifier_global ) {
             token_back() ;
             return ;
         }
 
-        if ( token.code == identifier_end ) return ;
+        if ( token.code == identifier_end ) {
+            return ;
+        }
 
-        if ( token.code < reserved_words ) compile_error( MSG_INVALID_IDENTIFIER );
+        if ( token.code < reserved_words ) {
+            compile_error( MSG_INVALID_IDENTIFIER );
+        }
 
         code = token.code ;
 
         token_next() ;
-        if ( token.type != IDENTIFIER || token.code != identifier_equal ) compile_error( MSG_EXPECTED, "=" ) ;
+        if ( token.type != IDENTIFIER || token.code != identifier_equal ) {
+            compile_error( MSG_EXPECTED, "=" ) ;
+        }
 
         res = compile_expresion( 1, 0, 0, 0 ) ;
-        if ( !typedef_is_float( res.type ) && !typedef_is_string( res.type ) && !typedef_is_integer( res.type ) ) compile_error( MSG_INVALID_TYPE );
+        if ( !typedef_is_float( res.type ) && !typedef_is_string( res.type ) && !typedef_is_integer( res.type ) ) {
+            compile_error( MSG_INVALID_TYPE );
+        }
 
         constants_add( code, res.type, typedef_base( res.type ) == TYPE_FLOAT ? *( int * )&res.fvalue : res.value ) ;
 
         token_next() ;
-        if ( token.type == IDENTIFIER && token.code == identifier_semicolon ) continue ;
+        if ( token.type == IDENTIFIER && token.code == identifier_semicolon ) {
+            continue ;
+        }
 
         compile_error( MSG_EXPECTED, ";" ) ;
     }
@@ -709,8 +709,7 @@ void compile_constants()
 
 /* ---------------------------------------------------------------------- */
 
-void compile_process()
-{
+void compile_process() {
     PROCDEF * proc, * external_proc ;
     VARIABLE  * var ;
     int is_declare = 0 ;
@@ -725,56 +724,52 @@ void compile_process()
 
     tcode = token.code ;
 
-    if ( tcode == identifier_declare )   /* Is it a declaration? */
-    {
+    if ( tcode == identifier_declare ) {  /* Is it a declaration? */
         is_declare = 1;
         token_next() ;
         tcode = token.code;
     }
 
     /* Is it a function? */
-    if ( tcode == identifier_function ) is_function = 1;
+    if ( tcode == identifier_function ) {
+        is_function = 1;
+    }
 
-    if (( tcode == identifier_process || tcode == identifier_function ) )   /* If it's a process or function, obtain the sign */
-    {
+    if (( tcode == identifier_process || tcode == identifier_function ) ) {  /* If it's a process or function, obtain the sign */
         token_next() ;
         tcode = token.code;
     }
 
-    if ( token.code == identifier_signed ) /* signed */
-    {
+    if ( token.code == identifier_signed ) { /* signed */
         signed_prefix = 1;
         token_next();
         tcode = token.code;
-    }
-    else if ( token.code == identifier_unsigned ) /* unsigned */
-    {
+    } else if ( token.code == identifier_unsigned ) {/* unsigned */
         unsigned_prefix = 1;
         token_next();
         tcode = token.code;
     }
 
-    if ( segment_by_name( token.code ) )   /* Name of the segment it belongs to */
-    {
+    if ( segment_by_name( token.code ) ) {  /* Name of the segment it belongs to */
         tcode = identifier_pointer ;
         token_next() ;
     }
 
-    if ( identifier_is_basic_type( token.code ) )   /* Salto identificador de tipo basico */
-    {
+    if ( identifier_is_basic_type( token.code ) ) {  /* Salto identificador de tipo basico */
         tcode = token.code ;
         token_next();
     }
 
-    while ( token.code == identifier_pointer || token.code == identifier_multiply ) /* Jump to identifier POINTER */
-    {
+    while ( token.code == identifier_pointer || token.code == identifier_multiply ) {/* Jump to identifier POINTER */
         tcode = token.code ;
         token_next() ;
     }
 
     /* Check if the process name is valid */
 
-    if ( token.type != IDENTIFIER || token.code < reserved_words ) compile_error( MSG_PROCNAME_EXP ) ;
+    if ( token.type != IDENTIFIER || token.code < reserved_words ) {
+        compile_error( MSG_PROCNAME_EXP ) ;
+    }
 
     code = token.code ;
 
