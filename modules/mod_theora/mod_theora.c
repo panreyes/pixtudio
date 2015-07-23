@@ -329,7 +329,7 @@ static int video_play(INSTANCE *my, int * params)
     if(SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
         SDL_Log("Error updating texture: %s", SDL_GetError());
     } else {
-        memset(pixels, '\0', video.graph->height * pitch * 1.5);
+        memcpy(pixels, video.frame->pixels, video.graph->height * pitch*1.5);
         SDL_UnlockTexture(video.graph->texture);
     }
 
