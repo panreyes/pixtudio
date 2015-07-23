@@ -725,17 +725,17 @@ void compile_process()
 
     tcode = token.code ;
 
-    if ( tcode == identifier_declare )   /* Es una declaracion? */
+    if ( tcode == identifier_declare )   /* Is it a declaration? */
     {
         is_declare = 1;
         token_next() ;
         tcode = token.code;
     }
 
-    /* Es funcion? */
+    /* Is it a function? */
     if ( tcode == identifier_function ) is_function = 1;
 
-    if (( tcode == identifier_process || tcode == identifier_function ) )   /* Si proceso o funcion, obtengo el signo */
+    if (( tcode == identifier_process || tcode == identifier_function ) )   /* If it's a process or function, obtain the sign */
     {
         token_next() ;
         tcode = token.code;
@@ -754,7 +754,7 @@ void compile_process()
         tcode = token.code;
     }
 
-    if ( segment_by_name( token.code ) )   /* Nombre del Segmento al que pertenece */
+    if ( segment_by_name( token.code ) )   /* Name of the segment it belongs to */
     {
         tcode = identifier_pointer ;
         token_next() ;
@@ -766,7 +766,7 @@ void compile_process()
         token_next();
     }
 
-    while ( token.code == identifier_pointer || token.code == identifier_multiply ) /* Salto el indentificador POINTER */
+    while ( token.code == identifier_pointer || token.code == identifier_multiply ) /* Jump to identifier POINTER */
     {
         tcode = token.code ;
         token_next() ;
@@ -780,87 +780,107 @@ void compile_process()
 
     /* Create the process if it is not defined already */
     proc = procdef_search( code ) ;
-    if ( !proc ) proc = procdef_new( procdef_getid(), code ) ;
-    else if ( proc->defined ) compile_error( MSG_PROC_ALREADY_DEFINED );
-    else if ( is_declare && proc->declared ) compile_error( MSG_PROC_ALREADY_DECLARED );
+    if ( !proc ) {
+        proc = procdef_new( procdef_getid(), code ) ;
+    } else if ( proc->defined ) {
+        compile_error( MSG_PROC_ALREADY_DEFINED );
+    } else if ( is_declare && proc->declared ) {
+        compile_error( MSG_PROC_ALREADY_DECLARED );
+    }
 
     /* is declaration? */
-    if ( !is_declare ) proc->defined = 1 ;
+    if ( !is_declare ) {
+        proc->defined = 1 ;
+    }
 
     /* is a function? */
-    if ( is_function )
-    {
-        if ( is_declare && proc->declared && !( proc->flags & PROC_FUNCTION ) ) compile_error( MSG_PROTO_ERROR ) ;
+    if ( is_function ) {
+        if ( is_declare && proc->declared && !( proc->flags & PROC_FUNCTION ) ) {
+            compile_error( MSG_PROTO_ERROR ) ;
+        }
         proc->flags |= PROC_FUNCTION;
     }
 
     /* Get function/process return type */
 
-    if ( tcode == identifier_float )
-    {
-        if ( is_declare && proc->declared && proc->type != TYPE_FLOAT ) compile_error( MSG_PROTO_ERROR ) ;
+    if ( tcode == identifier_float ) {
+        if ( is_declare && proc->declared && proc->type != TYPE_FLOAT ) {
+            compile_error( MSG_PROTO_ERROR ) ;
+        }
         proc->type = TYPE_FLOAT ;
     }
 
-    if ( tcode == identifier_string )
-    {
-        if ( is_declare && proc->declared && proc->type != TYPE_STRING ) compile_error( MSG_PROTO_ERROR ) ;
+    if ( tcode == identifier_string ) {
+        if ( is_declare && proc->declared && proc->type != TYPE_STRING ) {
+            compile_error( MSG_PROTO_ERROR ) ;
+        }
         proc->type = TYPE_STRING ;
     }
 
-    if ( tcode == identifier_word )
-    {
-        if ( is_declare && proc->declared && proc->type != ( signed_prefix ? TYPE_SHORT : TYPE_WORD ) ) compile_error( MSG_PROTO_ERROR ) ;
+    if ( tcode == identifier_word ) {
+        if ( is_declare && proc->declared && proc->type != ( signed_prefix ? TYPE_SHORT : TYPE_WORD ) ) {
+            compile_error( MSG_PROTO_ERROR ) ;
+        }
         proc->type = signed_prefix ? TYPE_SHORT : TYPE_WORD;
         signed_prefix = unsigned_prefix = 0;
     }
 
-    if ( tcode == identifier_dword )
-    {
-        if ( is_declare && proc->declared && proc->type != ( signed_prefix ? TYPE_INT : TYPE_DWORD ) ) compile_error( MSG_PROTO_ERROR ) ;
+    if ( tcode == identifier_dword ) {
+        if ( is_declare && proc->declared && proc->type != ( signed_prefix ? TYPE_INT : TYPE_DWORD ) ) {
+            compile_error( MSG_PROTO_ERROR ) ;
+        }
         proc->type = signed_prefix ? TYPE_INT : TYPE_DWORD;
         signed_prefix = unsigned_prefix = 0;
     }
 
-    if ( tcode == identifier_byte )
-    {
-        if ( is_declare && proc->declared && proc->type != ( signed_prefix ? TYPE_SBYTE : TYPE_BYTE ) ) compile_error( MSG_PROTO_ERROR ) ;
+    if ( tcode == identifier_byte ) {
+        if ( is_declare && proc->declared && proc->type != ( signed_prefix ? TYPE_SBYTE : TYPE_BYTE ) ) {
+            compile_error( MSG_PROTO_ERROR ) ;
+        }
         proc->type = signed_prefix ? TYPE_SBYTE : TYPE_BYTE;
         signed_prefix = unsigned_prefix = 0;
     }
 
-    if ( tcode == identifier_int )
-    {
-        if ( is_declare && proc->declared && proc->type != ( unsigned_prefix ? TYPE_DWORD : TYPE_INT ) ) compile_error( MSG_PROTO_ERROR ) ;
+    if ( tcode == identifier_int ) {
+        if ( is_declare && proc->declared && proc->type != ( unsigned_prefix ? TYPE_DWORD : TYPE_INT ) ) {
+            compile_error( MSG_PROTO_ERROR ) ;
+        }
         proc->type = unsigned_prefix ? TYPE_DWORD : TYPE_INT;
         signed_prefix = unsigned_prefix = 0;
     }
 
-    if ( tcode == identifier_short )
-    {
-        if ( is_declare && proc->declared && proc->type != ( unsigned_prefix ? TYPE_WORD : TYPE_SHORT ) ) compile_error( MSG_PROTO_ERROR ) ;
+    if ( tcode == identifier_short ) {
+        if ( is_declare && proc->declared && proc->type != ( unsigned_prefix ? TYPE_WORD : TYPE_SHORT ) ) {
+            compile_error( MSG_PROTO_ERROR ) ;
+        }
         proc->type = unsigned_prefix ? TYPE_WORD : TYPE_SHORT;
         signed_prefix = unsigned_prefix = 0;
     }
 
-    if ( tcode == identifier_char )
-    {
-        if ( is_declare && proc->declared && proc->type != TYPE_CHAR ) compile_error( MSG_PROTO_ERROR ) ;
+    if ( tcode == identifier_char ) {
+        if ( is_declare && proc->declared && proc->type != TYPE_CHAR ) {
+            compile_error( MSG_PROTO_ERROR ) ;
+        }
         proc->type = TYPE_CHAR;
     }
 
-    if ( tcode == identifier_pointer || tcode == identifier_multiply )
-    {
-        if ( is_declare && proc->declared && proc->type != TYPE_POINTER ) compile_error( MSG_PROTO_ERROR ) ;
+    if ( tcode == identifier_pointer || tcode == identifier_multiply ) {
+        if ( is_declare && proc->declared && proc->type != TYPE_POINTER ) {
+            compile_error( MSG_PROTO_ERROR ) ;
+        }
         proc->type = TYPE_POINTER ;
     }
 
-    if ( signed_prefix || unsigned_prefix ) compile_error( MSG_INVALID_TYPE );
+    if ( signed_prefix || unsigned_prefix ) {
+            compile_error( MSG_INVALID_TYPE );
+    }
 
     /* Parse the process parameters */
 
     token_next() ;
-    if ( token.type != IDENTIFIER || token.code != identifier_leftp ) compile_error( MSG_EXPECTED, "(" ) ;
+    if ( token.type != IDENTIFIER || token.code != identifier_leftp ) {
+        compile_error( MSG_EXPECTED, "(" ) ;
+    }
 
     token_next() ;
 
@@ -873,111 +893,87 @@ void compile_process()
     signed_prefix = unsigned_prefix = 0;
     external_proc = NULL;
 
-    while ( token.type != IDENTIFIER || token.code != identifier_rightp )
-    {
+    while ( token.type != IDENTIFIER || token.code != identifier_rightp ) {
         type = typeb;
         ctype = ctypeb;
 
         /* Recogo signo del parametro */
-        if ( token.type == IDENTIFIER && token.code == identifier_unsigned )
-        {
+        if ( token.type == IDENTIFIER && token.code == identifier_unsigned ) {
             unsigned_prefix = 1;
             token_next();
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_signed )
-        {
+        } else if ( token.type == IDENTIFIER && token.code == identifier_signed ) {
             signed_prefix = 1;
             token_next();
         }
 
         /* Recogo tipo del parametro */
-        if ( token.type == IDENTIFIER && token.code == identifier_dword )
-        {
+        if ( token.type == IDENTIFIER && token.code == identifier_dword ) {
             type_implicit = 0;
             type = signed_prefix ? TYPE_INT : TYPE_DWORD;
             unsigned_prefix = signed_prefix = 0;
             ctype = typedef_new( type ) ;
             external_proc = NULL;
             token_next() ;
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_int )
-        {
+        } else if ( token.type == IDENTIFIER && token.code == identifier_int ) {
             type_implicit = 0;
             type = unsigned_prefix ? TYPE_DWORD : TYPE_INT;
             unsigned_prefix = signed_prefix = 0;
             ctype = typedef_new( type ) ;
             external_proc = NULL;
             token_next() ;
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_word )
-        {
+        } else if ( token.type == IDENTIFIER && token.code == identifier_word ) {
             type_implicit = 0;
             type = signed_prefix ? TYPE_SHORT : TYPE_WORD ;
             unsigned_prefix = signed_prefix = 0;
             ctype = typedef_new( type ) ;
             external_proc = NULL;
             token_next() ;
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_short )
-        {
+        } else if ( token.type == IDENTIFIER && token.code == identifier_short ) {
             type_implicit = 0;
             type = unsigned_prefix ? TYPE_WORD : TYPE_SHORT;
             unsigned_prefix = signed_prefix = 0;
             ctype = typedef_new( type ) ;
             external_proc = NULL;
             token_next() ;
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_byte )
-        {
+        } else if ( token.type == IDENTIFIER && token.code == identifier_byte ) {
             type_implicit = 0;
             type = signed_prefix ? TYPE_SBYTE : TYPE_BYTE ;
             unsigned_prefix = signed_prefix = 0;
             ctype = typedef_new( type ) ;
             external_proc = NULL;
             token_next() ;
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_char )
-        {
+        } else if ( token.type == IDENTIFIER && token.code == identifier_char ) {
             type_implicit = 0;
             type = TYPE_CHAR ;
             ctype = typedef_new( type ) ;
             external_proc = NULL;
             token_next() ;
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_string )
-        {
+        } else if ( token.type == IDENTIFIER && token.code == identifier_string ) {
             type_implicit = 0;
             type = TYPE_STRING ;
             ctype = typedef_new( type ) ;
             external_proc = NULL;
             token_next() ;
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_float )
-        {
+        } else if ( token.type == IDENTIFIER && token.code == identifier_float ) {
             type_implicit = 0;
             type = TYPE_FLOAT ;
             ctype = typedef_new( type ) ;
             external_proc = NULL;
             token_next() ;
-        }
-        else if ( token.type == IDENTIFIER && segment_by_name( token.code ) )
-        {
+        } else if ( token.type == IDENTIFIER && segment_by_name( token.code ) ) {
             type_implicit = 0;
             type = TYPE_STRUCT ;
             ctype = *typedef_by_name( token.code ) ;
             external_proc = NULL;
             token_next() ;
-        }
-        else if ( !external_proc && ( external_proc = procdef_search( token.code ) ) )    /* Variables tipo proceso, Splinter */
-        {
+        } else if ( !external_proc && ( external_proc = procdef_search( token.code ) ) ) {   /* process type var, Splinter */
             type_implicit = 0;
             type = TYPE_INT ;
             ctype = typedef_new( type ) ;
             token_next();
         }
 
-        if ( signed_prefix || unsigned_prefix )
-        {
+        if ( signed_prefix || unsigned_prefix ) {
             compile_error( MSG_INVALID_TYPE );
             signed_prefix = unsigned_prefix = 0;
         }
@@ -985,41 +981,38 @@ void compile_process()
         typeb = type;
         ctypeb = ctype;
 
-        while ( token.type == IDENTIFIER && ( token.code == identifier_pointer || token.code == identifier_multiply ) )
-        {
+        while ( token.type == IDENTIFIER && ( token.code == identifier_pointer || token.code == identifier_multiply ) ) {
             type_implicit = 0;
             type = TYPE_POINTER ;
             ctype = typedef_pointer( ctype ) ;
             token_next() ;
         }
 
-        if ( type == TYPE_STRUCT )
-        {
+        if ( type == TYPE_STRUCT ) {
             type_implicit = 0;
             type = TYPE_POINTER ;
             ctype = typedef_pointer( ctype ) ;
         }
 
-        if ( token.type != IDENTIFIER || token.code < reserved_words ) compile_error( MSG_INVALID_PARAM ) ;
+        if ( token.type != IDENTIFIER || token.code < reserved_words ) {
+            compile_error( MSG_INVALID_PARAM ) ;
+        }
 
-        if ( constants_search( token.code ) ) compile_error( MSG_CONSTANT_REDECLARED_AS_VARIABLE ) ;
+        if ( constants_search( token.code ) ) {
+            compile_error( MSG_CONSTANT_REDECLARED_AS_VARIABLE ) ;
+        }
 
         /* Check if the process was used before declared */
-        if ( !proc->declared )
-        {
+        if ( !proc->declared ) {
             var = varspace_search( &local, token.code ) ;
-            if ( var )
-            {
-                /* El parámetro es en realidad un local */
-                if ( type_implicit )
-                {
+            if ( var ) {
+                /* The parameter is, in fact, local */
+                if ( type_implicit ) {
                     type = typedef_base( var->type );
                     ctype = var->type;
                 }
-                if ( typedef_base( var->type ) != type )
-                {
-                    if ( typedef_is_integer( var->type ) && typedef_is_integer( typedef_new( type ) ) )
-                    {
+                if ( typedef_base( var->type ) != type ) {
+                    if ( typedef_is_integer( var->type ) && typedef_is_integer( typedef_new( type ) ) ) {
                         /*
                             A parameter was used before the process is declared. The
                             data type declared is different from the data type used,
@@ -1034,12 +1027,17 @@ void compile_process()
                 codeblock_add( &proc->code, MN_PRIVATE, proc->pridata->current ) ;
                 codeblock_add( &proc->code, MN_PTR, 0 ) ;
 
-                if ( typedef_base( var->type ) == TYPE_STRING ) codeblock_add( &proc->code, MN_LET | MN_STRING, 0 ) ;
-                else codeblock_add( &proc->code, MN_LET, 0 ) ;
+                if ( typedef_base( var->type ) == TYPE_STRING ) {
+                    codeblock_add( &proc->code, MN_LET | MN_STRING, 0 ) ;
+                } else {
+                    codeblock_add( &proc->code, MN_LET, 0 ) ;
+                }
 
                 codeblock_add( &proc->code, MN_POP, 0 ) ;
 
-                if ( proc->privars->reserved == proc->privars->count ) varspace_alloc( proc->privars, 16 ) ;
+                if ( proc->privars->reserved == proc->privars->count ) {
+                    varspace_alloc( proc->privars, 16 ) ;
+                }
 
                 proc->privars->vars[proc->privars->count].type   = typedef_new( TYPE_DWORD );
                 proc->privars->vars[proc->privars->count].offset = proc->pridata->current ;
@@ -1048,31 +1046,34 @@ void compile_process()
                 proc->privars->count++ ;
 
                 segment_add_dword( proc->pridata, 0 ) ;
-            }
-            else
-            {
+            } else {
                 var = varspace_search( &global, token.code );
-                if ( var )
-                {
+                if ( var ) {
                     /* El parámetro es en realidad un global */
-                    if ( type_implicit )
-                    {
+                    if ( type_implicit ) {
                         type = typedef_base( var->type );
                         ctype = var->type;
                     }
 
-                    if ( typedef_base( var->type ) != type ) compile_error( MSG_INVALID_PARAMT ) ;
+                    if ( typedef_base( var->type ) != type ) {
+                        compile_error( MSG_INVALID_PARAMT ) ;
+                    }
 
                     codeblock_add( &proc->code, MN_GLOBAL, var->offset ) ;
                     codeblock_add( &proc->code, MN_PRIVATE, proc->pridata->current ) ;
                     codeblock_add( &proc->code, MN_PTR, 0 ) ;
 
-                    if ( typedef_base( var->type ) == TYPE_STRING ) codeblock_add( &proc->code, MN_LET | MN_STRING, 0 ) ;
-                    else codeblock_add( &proc->code, MN_LET, 0 ) ;
+                    if ( typedef_base( var->type ) == TYPE_STRING ) {
+                        codeblock_add( &proc->code, MN_LET | MN_STRING, 0 ) ;
+                    } else {
+                        codeblock_add( &proc->code, MN_LET, 0 ) ;
+                    }
 
                     codeblock_add( &proc->code, MN_POP, 0 ) ;
 
-                    if ( proc->privars->reserved == proc->privars->count ) varspace_alloc( proc->privars, 16 ) ;
+                    if ( proc->privars->reserved == proc->privars->count ) {
+                        varspace_alloc( proc->privars, 16 ) ;
+                    }
 
                     proc->privars->vars[proc->privars->count].type   = typedef_new( TYPE_DWORD );
                     proc->privars->vars[proc->privars->count].offset = proc->pridata->current ;
@@ -1081,33 +1082,36 @@ void compile_process()
                     proc->privars->count++ ;
 
                     segment_add_dword( proc->pridata, 0 ) ;
-                }
-                else
-                {
+                } else {
                     /* Create the private variable */
-                    if ( proc->privars->reserved == proc->privars->count ) varspace_alloc( proc->privars, 16 ) ;
+                    if ( proc->privars->reserved == proc->privars->count ) {
+                        varspace_alloc( proc->privars, 16 ) ;
+                    }
 
-                    if ( type == TYPE_STRING ) varspace_varstring( proc->privars, proc->pridata->current ) ;
+                    if ( type == TYPE_STRING ) {
+                        varspace_varstring( proc->privars, proc->pridata->current ) ;
+                    }
 
                     proc->privars->vars[proc->privars->count].type   = ctype;
                     proc->privars->vars[proc->privars->count].offset = proc->pridata->current ;
                     proc->privars->vars[proc->privars->count].code   = token.code ;
-                    if ( external_proc ) proc->privars->vars[proc->privars->count].type.varspace = external_proc->pubvars;
+                    if ( external_proc ) {
+                        proc->privars->vars[proc->privars->count].type.varspace = external_proc->pubvars;
+                    }
 
                     proc->privars->count++ ;
 
                     segment_add_dword( proc->pridata, 0 ) ;
                 }
             }
-        }
-        else
-        {
-            if ( proc->paramtype[params] != type || proc->paramname[params] != token.code ) compile_error( MSG_PROTO_ERROR );
+        } else {
+            if ( proc->paramtype[params] != type || proc->paramname[params] != token.code ) {
+                compile_error( MSG_PROTO_ERROR );
+            }
         }
 
-        if ( proc->params != -1 )
-        {
-            /* El proceso fue usado previamente */
+        if ( proc->params != -1 ) {
+            /* The process has already been used */
 
             if ( proc->paramtype[params] == TYPE_UNDEFINED ) {
                 proc->paramtype[params] = type ;
@@ -1136,19 +1140,28 @@ void compile_process()
 
         params++ ;
 
-        if ( params == MAX_PARAMS ) compile_error( MSG_TOO_MANY_PARAMS ) ;
+        if ( params == MAX_PARAMS ) {
+            compile_error( MSG_TOO_MANY_PARAMS ) ;
+        }
 
         token_next() ;
-        if ( token.type == IDENTIFIER && token.code == identifier_comma ) token_next() ;
+        if ( token.type == IDENTIFIER && token.code == identifier_comma ) {
+            token_next() ;
+        }
 
     } /* END while (token.type != IDENTIFIER || token.code != identifier_rightp) */
 
-    if ( proc->params == -1 ) proc->params = params ;
-    else if ( proc->params != params ) compile_error( MSG_INCORRECT_PARAMC, identifier_name( code ), proc->params ) ;
+    if ( proc->params == -1 ) {
+        proc->params = params ;
+    } else if ( proc->params != params ) {
+        compile_error( MSG_INCORRECT_PARAMC, identifier_name( code ), proc->params ) ;
+    }
 
     token_next() ;
 
-    if ( token.type == IDENTIFIER && token.code == identifier_semicolon ) token_next() ;
+    if ( token.type == IDENTIFIER && token.code == identifier_semicolon ) {
+        token_next() ;
+    }
 
     /* Compile LOCAL/PRIVATE/PUBLIC sections on process/function.
        NOTE: LOCAL section here considere as PUBLIC section */
@@ -1156,18 +1169,14 @@ void compile_process()
     while ( token.type == IDENTIFIER && (
             token.code == identifier_local  ||
             token.code == identifier_public ||
-            token.code == identifier_private ) )
-    {
-        if (( !proc->declared ) && ( token.code == identifier_local || token.code == identifier_public ) )
-        {
+            token.code == identifier_private ) ) {
+        if (( !proc->declared ) && ( token.code == identifier_local || token.code == identifier_public ) ) {
             /* (2006/11/19 19:34 GMT-03:00, Splinter - jj_arg@yahoo.com) */
             /* Ahora las declaraciones locales, son solo locales al proceso, pero visibles desde todo proceso */
             /* Se permite declarar local/publica una variable que haya sido declarada global, es una variable propia, no es la global */
             VARSPACE * v[] = {&local, proc->privars, NULL};
             compile_varspace( proc->pubvars, proc->pubdata, 1, 1, 0, v, DEFAULT_ALIGNMENT, 0 ) ;
-        }
-        else if ( token.code == identifier_private )
-        {
+        } else if ( token.code == identifier_private ) {
             /* (2006/11/19 19:34 GMT-03:00, Splinter - jj_arg@yahoo.com) */
             /* Se permite declarar privada una variable que haya sido declarada global, es una variable propia, no es la global */
             VARSPACE * v[] = {&local, proc->pubvars, NULL};
@@ -1179,18 +1188,25 @@ void compile_process()
 
     /* Gestiona procesos cuyos parámetros son variables locales */
 
-    if ( !is_declare )
-    {
-        if ( token.type != IDENTIFIER || token.code != identifier_begin ) compile_error( MSG_NO_BEGIN ) ;
+    if ( !is_declare ) {
+        if ( token.type != IDENTIFIER || token.code != identifier_begin ) {
+            compile_error( MSG_NO_BEGIN ) ;
+        }
 
         compile_block( proc ) ;
 
-        if ( token.type == IDENTIFIER && token.code == identifier_else ) compile_error( MSG_ELSE_WOUT_IF ) ;
+        if ( token.type == IDENTIFIER && token.code == identifier_else ) {
+            compile_error( MSG_ELSE_WOUT_IF ) ;
+        }
     }
 
-    if ( token.type != IDENTIFIER || token.code != identifier_end ) compile_error( MSG_NO_END ) ;
+    if ( token.type != IDENTIFIER || token.code != identifier_end ) {
+        compile_error( MSG_NO_END ) ;
+    }
 
-    if ( !is_declare ) codeblock_add( &proc->code, MN_END, 0 ) ;
+    if ( !is_declare ) {
+        codeblock_add( &proc->code, MN_END, 0 ) ;
+    }
 
     proc->declared = 1 ;
 
@@ -1203,46 +1219,45 @@ void compile_program()
     /* Ahora lo del program es opcional :-P */
 
     token_next() ;
-    if ( token.type == IDENTIFIER && token.code == identifier_program )
-    {
+    if ( token.type == IDENTIFIER && token.code == identifier_program ) {
         token_next() ;
-        if ( token.type != IDENTIFIER || token.code < reserved_words ) compile_error( MSG_PROGRAM_NAME_EXP ) ;
+        if ( token.type != IDENTIFIER || token.code < reserved_words ) {
+            compile_error( MSG_PROGRAM_NAME_EXP ) ;
+        }
 
         token_next() ;
-        if ( token.type != IDENTIFIER || token.code != identifier_semicolon ) compile_error( MSG_EXPECTED, ";" ) ;
+        if ( token.type != IDENTIFIER || token.code != identifier_semicolon ) {
+            compile_error( MSG_EXPECTED, ";" ) ;
+        }
+    } else {
+        token_back() ;
     }
-    else token_back() ;
 
-    for ( ;; )
-    {
+    for ( ;; ) {
         token_next() ;
 
-        while ( token.type == IDENTIFIER && token.code == identifier_semicolon ) token_next() ;
+        while ( token.type == IDENTIFIER && token.code == identifier_semicolon ) {
+            token_next() ;
+        }
 
-        if ( token.type == IDENTIFIER && token.code == identifier_import ) compile_import() ;
-        else if ( token.type == IDENTIFIER && token.code == identifier_const ) compile_constants() ;
-        else if ( token.type == IDENTIFIER && token.code == identifier_local )
-        {
+        if ( token.type == IDENTIFIER && token.code == identifier_import ) {
+            compile_import() ;
+        } else if ( token.type == IDENTIFIER && token.code == identifier_const ) {
+            compile_constants() ;
+        } else if ( token.type == IDENTIFIER && token.code == identifier_local ) {
             /* (2006/11/19 19:34 GMT-03:00, Splinter - jj_arg@yahoo.com) */
             VARSPACE * v[] = { &global, NULL };
             compile_varspace( &local, localdata, 1, 1, 0, v, DEFAULT_ALIGNMENT, 0 ) ;
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_global )
-        {
+        } else if ( token.type == IDENTIFIER && token.code == identifier_global ) {
             /* (2006/11/19 19:34 GMT-03:00, Splinter - jj_arg@yahoo.com) */
             VARSPACE * v[] = { &local, NULL };
             compile_varspace( &global, globaldata, 1, 1, 0, v, DEFAULT_ALIGNMENT, 0 ) ;
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_private )
-        {
+        } else if ( token.type == IDENTIFIER && token.code == identifier_private ) {
             /* (2006/11/19 19:34 GMT-03:00, Splinter - jj_arg@yahoo.com) */
             VARSPACE * v[] = { &local, &global, NULL };
             compile_varspace( mainproc->privars, mainproc->pridata, 1, 1, 0, v, DEFAULT_ALIGNMENT, 0 ) ;
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_begin )
-        {
-            if ( mainproc->defined )
-            {
+        } else if ( token.type == IDENTIFIER && token.code == identifier_begin ) {
+            if ( mainproc->defined ) {
                 /* Hack para poder redefinir el proceso principal */
                 mainproc->code.current -= 1 ;
             }
@@ -1251,47 +1266,58 @@ void compile_program()
 
             compile_block( mainproc ) ;
 
-            if ( token.type == IDENTIFIER && token.code == identifier_else ) compile_error( MSG_ELSE_WOUT_IF ) ;
+            if ( token.type == IDENTIFIER && token.code == identifier_else ) {
+                compile_error( MSG_ELSE_WOUT_IF ) ;
+            }
 
-            if ( token.type != IDENTIFIER || token.code != identifier_end ) compile_error( MSG_NO_END ) ;
+            if ( token.type != IDENTIFIER || token.code != identifier_end ) {
+                compile_error( MSG_NO_END ) ;
+            }
 
             codeblock_add( &mainproc->code, MN_END, 0 ) ;
-        }
-        else if ( token.type == IDENTIFIER && token.code == identifier_type ) compile_type(); /* Tipo de dato definido por el usuario */
-        else if ( token.type == IDENTIFIER &&
+        } else if ( token.type == IDENTIFIER && token.code == identifier_type ) {
+            compile_type(); /* Tipo de dato definido por el usuario */
+        } else if ( token.type == IDENTIFIER &&
                   (
                     token.code == identifier_process  ||
                     token.code == identifier_function ||
                     token.code == identifier_declare  ||
                     identifier_is_basic_type( token.type )
-                  ) ) compile_process() ; /* Definición de proceso */
-        else if ( segment_by_name( token.code ) ) compile_process() ;
-        else break ;
+                  ) ) {
+            compile_process() ; /* Definición de proceso */
+        } else if ( segment_by_name( token.code ) ) {
+            compile_process() ;
+        } else {
+            break ;
+        }
     }
 
-    if ( global.count && debug )
-    {
+    if ( global.count && debug ) {
         printf( "\n---- Global variables\n\n" ) ;
         varspace_dump( &global, 0 ) ;
     }
 
-    if ( local.count && debug )
-    {
+    if ( local.count && debug ) {
         printf( "\n---- Local variables\n\n" ) ;
         varspace_dump( &local, 0 ) ;
         /* segment_dump (localdata) ; */
     }
 
-    if ( token.type != NOTOKEN ) compile_error( MSG_UNEXPECTED_TOKEN ) ;
+    if ( token.type != NOTOKEN ) {
+        compile_error( MSG_UNEXPECTED_TOKEN ) ;
+    }
 
     program_postprocess() ;
 
-    if ( debug ) program_dumpprocesses() ;
+    if ( debug ) {
+        program_dumpprocesses() ;
+    }
 
-    if ( !libmode && !mainproc->defined ) compile_error( MSG_NO_MAIN ) ;
+    if ( !libmode && !mainproc->defined ) {
+        compile_error( MSG_NO_MAIN ) ;
+    }
 
-    if ( debug )
-    {
+    if ( debug ) {
         identifier_dump() ;
         string_dump( NULL ) ;
     }
