@@ -77,8 +77,6 @@ static void SDLCALL audio_callback(void *userdata, Uint8 *stream, int len)
         return;
     }
 
-    return;
-
     Sint16 *dst = (Sint16 *) stream;
 
     float remaining = len, parsed_len = 0.0f;
@@ -339,7 +337,7 @@ static int video_play(INSTANCE *my, int * params)
     THEORAPLAY_freeVideo(video.frame);
     video.frame = NULL;
 
-    //Mix_HookMusic(audio_callback, NULL);
+//    Mix_HookMusic(audio_callback, NULL);
 
     playing_video = 1;
 

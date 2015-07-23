@@ -15,6 +15,8 @@
 #include <string.h>
 #include <assert.h>
 
+#include <files.h>
+
 #ifdef _WIN32
 #include <windows.h>
 #define THEORAPLAY_THREAD_T    HANDLE
@@ -569,9 +571,9 @@ static void *WorkerThreadEntry(void *_this)
 
 static long IoFopenRead(THEORAPLAY_Io *io, void *buf, long buflen)
 {
-    FILE *f = (FILE *) io->userdata;
-    const size_t br = fread(buf, 1, buflen, f);
-    if ((br == 0) && ferror(f))
+    file *f = (file *) io->userdata;
+    const size_t br = file_read(f, buf, buflen);
+    if ((br == 0) && file_eof(f))
         return -1;
     return (long) br;
 } // IoFopenRead
@@ -579,8 +581,8 @@ static long IoFopenRead(THEORAPLAY_Io *io, void *buf, long buflen)
 
 static void IoFopenClose(THEORAPLAY_Io *io)
 {
-    FILE *f = (FILE *) io->userdata;
-    fclose(f);
+    file *f = (file *) io->userdata;
+    file_close(f);
     free(io);
 } // IoFopenClose
 
@@ -593,9 +595,8 @@ THEORAPLAY_Decoder *THEORAPLAY_startDecodeFile(const char *fname,
     if (io == NULL)
         return NULL;
 
-    FILE *f = fopen(fname, "rb");
-    if (f == NULL)
-    {
+    file *f = file_open(fname, "rb");
+    if (f == NULL) {
         free(io);
         return NULL;
     } // if
