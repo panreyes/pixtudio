@@ -131,3 +131,7 @@
 ../../modules/mod_gamecontroller
 ../android/jni/src
 ../../3rdparty/theoraplay
+../../core/pxtp/include
+../../core/bgdrtm/src
+../../core/common
+../../core/pxtp/src
