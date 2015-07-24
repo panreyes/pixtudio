@@ -1719,8 +1719,6 @@ void  __bgdexport( mod_sound, module_initialize )()
     if ( !SDL_WasInit( SDL_INIT_AUDIO ) ) {
         SDL_InitSubSystem( SDL_INIT_AUDIO );
     }
-
-    sound_init();
 }
 
 /* --------------------------------------------------------------------------- */
