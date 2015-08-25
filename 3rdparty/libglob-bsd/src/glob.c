@@ -388,7 +388,6 @@ globtilde(const Char *pattern, Char *patbuf, size_t patbuf_len, glob_t *pglob)
 		 * we're not running setuid or setgid) and then trying
 		 * the password file
 		 */
-#ifndef TARGET_WII
 		if (issetugid() != 0 ||
 		    (h = getenv("HOME")) == NULL) {
 			if (((h = getlogin()) != NULL &&
@@ -398,22 +397,14 @@ globtilde(const Char *pattern, Char *patbuf, size_t patbuf_len, glob_t *pglob)
 			else
 				return pattern;
 		}
-#else
-		return pattern;
-#endif
-	}
-	else {
+        } else {
 		/*
 		 * Expand a ~user
 		 */
-#ifndef TARGET_WII
 		if ((pwd = getpwnam((char*) patbuf)) == NULL)
 			return pattern;
 		else
 			h = pwd->pw_dir;
-#else
-		return pattern;
-#endif
 	}
 
 	/* Copy the home directory */
@@ -835,7 +826,6 @@ g_opendir(Char *str, glob_t *pglob)
 static int
 g_lstat(Char *fn, struct stat *sb, glob_t *pglob)
 {
-#ifndef TARGET_WII
 	char buf[MAXPATHLEN];
 
 	if (g_Ctoc(fn, buf, sizeof(buf))) {
@@ -845,9 +835,6 @@ g_lstat(Char *fn, struct stat *sb, glob_t *pglob)
 	if (pglob->gl_flags & GLOB_ALTDIRFUNC)
 		return((*pglob->gl_lstat)(buf, sb));
 	return(lstat(buf, sb));
-#else
-	return g_stat(fn, sb, pglob);
-#endif
 }
 
 static int
