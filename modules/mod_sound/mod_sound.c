@@ -330,7 +330,7 @@ static int32_t load_song( const char * filename ) {
         sb_push(loaded_songs, music);
         id = sb_count(loaded_songs);
     } else {
-        loaded_songs[id] = music;
+        loaded_songs[id-1] = music;
     }
 
     return ( id );
@@ -623,7 +623,7 @@ static int32_t load_wav( const char * filename ) {
         sb_push(loaded_sounds, sound);
         id = sb_count(loaded_sounds);
     } else {
-        loaded_sounds[id] = sound;
+        loaded_sounds[id-1] = sound;
     }
 
     return ( id );
