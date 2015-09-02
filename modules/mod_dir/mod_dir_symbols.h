@@ -58,6 +58,8 @@ DLSYSFUNCS __bgdexport( mod_dir, functions_exports)[] =
         { "DIROPEN" , "S" , TYPE_INT    , 0 },
         { "DIRCLOSE", "I" , TYPE_INT    , 0 },
         { "DIRREAD" , "I" , TYPE_STRING , 0 },
+        { "GET_BASE_PATH", ""   , TYPE_STRING , 0 },
+        { "GET_PREF_PATH", "SS" , TYPE_STRING , 0 },
         { 0         , 0   , 0           , 0 }
     };
 #else

@@ -273,6 +273,28 @@ static int moddir_read( INSTANCE * my, int * params )
     return ( __moddir_read((__DIR_ST *) params[ 0 ] ) ) ;
 }
 
+/*  string
+ *
+ */
+static int bgd_get_basepath( INSTANCE * my, int * params )
+{
+    int code;
+    code = string_new(SDL_GetBasePath());
+
+    return code ;
+}
+
+static int bgd_get_prefpath( INSTANCE * my, int * params )
+{
+    int code;
+    code = string_new(SDL_GetPrefPath(string_get(params[0]), string_get(params[1])));
+
+    string_discard(params[0]);
+    string_discard(params[1]);
+
+    return code ;
+}
+
 /* ---------------------------------------------------------------------- */
 
 DLSYSFUNCS __bgdexport( mod_dir, functions_exports)[] =
@@ -290,6 +312,9 @@ DLSYSFUNCS __bgdexport( mod_dir, functions_exports)[] =
         { "DIROPEN" , "S" , TYPE_INT    , moddir_open   },
         { "DIRCLOSE", "I" , TYPE_INT    , moddir_close  },
         { "DIRREAD" , "I" , TYPE_STRING , moddir_read   },
+
+        { "GET_BASE_PATH", ""   , TYPE_STRING , bgd_get_basepath },
+        { "GET_PREF_PATH", "SS" , TYPE_STRING , bgd_get_prefpath },
 
         { 0         , 0   , 0           , 0             }
     };
