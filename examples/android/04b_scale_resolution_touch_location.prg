@@ -26,7 +26,7 @@ Private
 
 Begin
     if(file_exists("Icon.png"))
-        graph = load_png("Icon.png");
+        graph = png_load("Icon.png");
     else
         return 1;
     end
@@ -58,10 +58,10 @@ Begin
     // Set scale_resolution to width/2xheight/2
     scale_resolution = width*10000+height;
     set_mode(width, height, 32);
-    
+
     write(0, 0,  0, 0, "Width: "+width+" Height:"+height);
     write(0, 0, 10, 0, "scale_resolution: 0"+scale_resolution);
-    
+
     graph = map_new(width, height, 32);
     x = width/2; y = height/2;
 
@@ -75,7 +75,7 @@ Begin
     while(num_fingers < 4 && focus_status == 1)
         // Store the total amount of fingers touching the screen
         num_fingers = multi_numpointers();
-        
+
         for(i=0; i<10; i++)
             if(multi_info(i, "ACTIVE") > 0)
                 draw_fcircle(multi_info(i, "X"),
@@ -90,7 +90,7 @@ Begin
         frame;
     End;
 
-    unload_map(0, graph);
+    map_unload(0, graph);
 
     quit = 1;
     say("Quitting");

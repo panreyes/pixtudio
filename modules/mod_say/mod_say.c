@@ -35,15 +35,28 @@
 #include "xstrings.h"
 
 #include <SDL_log.h>
+#if defined(__ANDROID__) || defined(TARGET_IOS)
+#include <SDL_stdinc.h>
+#endif
 
 /* ---------------------------------------------------------------------- */
 
 static int modsay_say( INSTANCE * my, int * params )
 {
+#if defined(__ANDROID__) || defined(TARGET_IOS)
+    char *converted;
+    const char *msg = string_get( params[0] );
+
+    converted = SDL_iconv_string("UTF-8", "ISO-8859-1", msg, SDL_strlen(msg)+1);
     /* Show debugging info also in stdout */
-    SDL_Log( "%s\n", string_get( params[0] ) );
-    fflush( stdout );
+    SDL_Log( "%s\n", converted );
     string_discard( params[0] ) ;
+    SDL_free(converted);
+#else
+    printf("%s\n", string_get(params[0]));
+    fflush(stdout);
+    string_discard(params[0]);
+#endif
     return 1 ;
 }
 
@@ -51,9 +64,19 @@ static int modsay_say( INSTANCE * my, int * params )
 
 static int modsay_say_fast( INSTANCE * my, int * params )
 {
+#if defined(__ANDROID__) || defined(TARGET_IOS)
+    char *converted;
+    const char *msg = string_get( params[0] );
+
+    converted = SDL_iconv_string("UTF-8", "ISO-8859-1", msg, SDL_strlen(msg)+1);
     /* Show debugging info also in stdout */
-    SDL_Log( "%s\n", string_get( params[0] ) );
+    SDL_Log( "%s\n", converted );
     string_discard( params[0] ) ;
+    SDL_free(converted);
+#else
+    printf("%s\n", string_get(params[0]));
+    string_discard(params[0]);
+#endif
     return 1 ;
 }
 

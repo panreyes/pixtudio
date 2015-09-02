@@ -41,7 +41,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "bgdi.h"
+#include "pxtp.h"
 #include "bgdrtm.h"
 #include "xstrings.h"
 #include "dirs.h"
@@ -54,7 +54,7 @@
 
 static char * dcb_exts[] = { ".dcb", ".dat", ".bin", NULL };
 
-static int standalone  = 0;  /* 1 only if this is an standalone interpreter (exe name: bgdi)  */
+static int standalone  = 0;  /* 1 only if this is an standalone interpreter (exe name: pxtp)  */
 static int embedded    = 0;  /* 1 only if this is a stub with an embedded DCB */
 
 /* ---------------------------------------------------------------------- */
@@ -110,7 +110,7 @@ int main( int argc, char *argv[] ) {
     appname = strdup( appexename );
 #endif
 
-    standalone = ( bgdrtm_strncmpi( appexename, "bgdi", 4 ) == 0 ) ;
+    standalone = ( bgdrtm_strncmpi( appexename, "pxtp", 4 ) == 0 ) ;
 
     /* add binary path */
     file_addp( appexepath );
@@ -130,7 +130,7 @@ int main( int argc, char *argv[] ) {
 
         filename = appname;
     } else {
-        /* Calling BGDI.EXE so we must get all command line params */
+        /* Calling PXTP.EXE so we must get all command line params */
         for ( i = 1 ; i < argc ; i++ ) {
             if ( argv[i][0] == '-' ) {
                 j = 1 ;
@@ -165,7 +165,7 @@ int main( int argc, char *argv[] ) {
         }
 
         if ( !filename ) {
-            printf( BGDI_VERSION "\n"
+            printf( PXTP_VERSION "\n"
                     "Copyright (C) 2015 Joseba García Echebarria\n"
                     "Pixtudio comes with ABSOLUTELY NO WARRANTY;\n"
                     "see COPYING for details\n\n"

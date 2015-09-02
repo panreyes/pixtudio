@@ -30,11 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#ifdef TARGET_BEOS
-#include <posix/assert.h>
-#else
 #include <assert.h>
-#endif
 
 #include "pxtb.h"
 
@@ -51,18 +47,15 @@ int procdef_maxid = -1 ;
 PROCDEF ** procs = 0 ;
 int procs_allocated = 0 ;
 
-int procdef_getid()
-{
+int procdef_getid() {
     return ++procdef_maxid ;
 }
 
-PROCDEF * procdef_new (int typeid, int id)
-{
+PROCDEF * procdef_new (int typeid, int id) {
     PROCDEF * proc = (PROCDEF *) calloc (1, sizeof(PROCDEF)) ;
     int n ;
 
-    if (!proc)
-    {
+    if (!proc) {
         fprintf (stdout, "procdef_new: out of memory\n") ;
         exit (1) ;
     }
@@ -85,13 +78,11 @@ PROCDEF * procdef_new (int typeid, int id)
     proc->sentence_count = 0 ;
     proc->sentences      = 0 ;
 
-    if (typeid >= procs_allocated)
-    {
+    if (typeid >= procs_allocated) {
         procs_allocated = typeid + 15 ;
         procs = (PROCDEF **) realloc (procs, sizeof(PROCDEF **) * procs_allocated) ;
-        if (!procs)
-        {
-            fprintf (stdout, "procdef_new: out of memory\n") ;
+        if (!procs) {
+            fprintf (stderr, "procdef_new: out of memory\n") ;
             exit (1) ;
         }
     }
@@ -99,8 +90,9 @@ PROCDEF * procdef_new (int typeid, int id)
     proc->identifier = id ;
     procs[typeid]    = proc ;
 
-    for (n = 0 ; n < MAX_PARAMS ; n++)
+    for (n = 0 ; n < MAX_PARAMS ; n++) {
         proc->paramtype[n] = TYPE_UNDEFINED ;
+    }
 
     proc->exitcode  = 0 ;
     proc->errorcode = 0 ;

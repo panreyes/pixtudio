@@ -56,18 +56,18 @@ endef
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
 #---------------------------------------------------------------------------------
-TARGET		:=	bgdi
+TARGET		:=	pxtp
 BUILD       :=	build
-SOURCES		:=	../../core/bgdi/src
+SOURCES		:=	../../core/pxtp/src
 INCLUDES	:=	../../core/include \
 	../../core/bgdrtm/include \
-	../../core/bgdi/include
+	../../core/pxtp/include
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS		=	-m32 -g -Wall -D__BGDI__ -D__MONOLITHIC__ -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE)
+CFLAGS		=	-m32 -g -Wall -D__PXTP__ -D__MONOLITHIC__ -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE)
 CXXFLAGS	=	-save-temps -Xassembler -aln=$@.lst $(CFLAGS)
 LDFLAGS		=	-m32 -g $(MACHDEP)
 
@@ -100,7 +100,7 @@ export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 #---------------------------------------------------------------------------------
 # automatically build a list of object files for our project
 #---------------------------------------------------------------------------------
-CFILES		:=	../../../core/bgdi/src/main.c
+CFILES		:=	../../../core/pxtp/src/main.c
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 sFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
@@ -138,7 +138,7 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@rm -fr $(OUTPUT)
-	make -C $(BUILD) -f $(CURDIR)/Makefile.bgdi
+	make -C $(BUILD) -f $(CURDIR)/Makefile.pxtp
 
 #---------------------------------------------------------------------------------
 clean:

@@ -72,8 +72,9 @@ INCLUDES	:=	../../core/pxtb/include \
 				../../modules/mod_sound/ \
 				../../modules/libsdlhandler/ \
 				../../modules/mod_gamecontroller/ \
-				../../modules/mod_theora/ \
+				../../modules/mod_joy/ \
 				../../modules/libjoy/ \
+				../../modules/mod_theora/ \
 				../../modules/libkey/ \
 				../../modules/mod_key/ \
 				../../modules/mod_proc/ \

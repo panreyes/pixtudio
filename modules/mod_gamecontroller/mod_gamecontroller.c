@@ -122,7 +122,7 @@ static int find_free_controllerID(SDL_GameController **where) {
  *      an integer with the 1 for still valid, 0 for invalid
  *
  */
-int check_controller_id(id) {
+int check_controller_id(int id) {
     if(id < 0 || id > (sb_count(open_controllers) - 1)) {
         return 0;
     }
@@ -135,12 +135,11 @@ int check_controller_id(id) {
 }
 
 /* --------------------------------------------------------------------------- */
-void controller_close(index) {
+void controller_close(int index) {
     if(check_controller_id(index)) {
         SDL_GameControllerClose(open_controllers[index]);
+        open_controllers[index] = NULL;
     }
-
-    open_controllers[index] = NULL;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -219,11 +218,10 @@ static int modgamecontroller_open( INSTANCE * my, int * params ) {
     }
 }
 
-/* --------------------------------------------------------------------------- */
-/* Funciones de inicializacion del modulo/plugin                               */
+/* ------------------------------------------------------------ */
+/* Module initialisation routines                               */
 
-void  __bgdexport( mod_gamecontroller, module_initialize )()
-{
+void  __bgdexport( mod_gamecontroller, module_initialize )() {
     if ( !SDL_WasInit( SDL_INIT_GAMECONTROLLER ) ) {
         SDL_InitSubSystem( SDL_INIT_GAMECONTROLLER );
     }
@@ -231,10 +229,9 @@ void  __bgdexport( mod_gamecontroller, module_initialize )()
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport( mod_gamecontroller, module_finalize )()
-{
+void __bgdexport( mod_gamecontroller, module_finalize )() {
     int32_t i=0, n=0;
-    // Unload songs, if any
+    // Unload controllers, if any
     n = sb_count(open_controllers);
     for(i=0; i<n; i++) {
         controller_close(i);

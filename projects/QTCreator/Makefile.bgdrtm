@@ -75,6 +75,8 @@ INCLUDES	:=	../../core/include \
 	../../modules/mod_sound/ \
 	../../modules/libsdlhandler/ \
 	../../modules/mod_gamecontroller/ \
+	../../modules/libjoy/ \
+	../../modules/mod_joy/ \
 	../../modules/mod_theora/ \
 	../../modules/libkey/ \
 	../../modules/mod_key/ \
@@ -172,6 +174,8 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 	../../../modules/mod_sound/mod_sound.c \
 	../../../modules/libsdlhandler/libsdlhandler.c \
 	../../../modules/mod_gamecontroller/mod_gamecontroller.c \
+	../../../modules/mod_joy/mod_joy.c \
+	../../../modules/libjoy/libjoy.c \
 	../../../modules/mod_theora/mod_theora.c \
 	../../../3rdparty/theoraplay/theoraplay.c \
 	../../../modules/libkey/libkey.c \

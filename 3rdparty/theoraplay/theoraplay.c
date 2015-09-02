@@ -15,6 +15,8 @@
 #include <string.h>
 #include <assert.h>
 
+#include <files.h>
+
 #ifdef _WIN32
 #include <windows.h>
 #define THEORAPLAY_THREAD_T    HANDLE
@@ -79,66 +81,6 @@ static unsigned char *ConvertVideoFrame420ToIYUV(const th_info *tinfo,
 {
     return ConvertVideoFrame420ToYUVPlanar(tinfo, ycbcr, 0, 1, 2);
 } // ConvertVideoFrame420ToIYUV
-
-static unsigned char *ConvertVideoFrame420ToRGB565(const th_info *tinfo,
-                                                const th_ycbcr_buffer ycbcr)
-{
-    const int w = tinfo->pic_width;
-    const int h = tinfo->pic_height;
-    unsigned char *pixels = (unsigned char *) malloc(w * h * 2);
-    if (pixels)
-    {
-        unsigned short *dst = pixels;
-        const int ystride = ycbcr[0].stride;
-        const int cbstride = ycbcr[1].stride;
-        const int crstride = ycbcr[2].stride;
-        const int yoff = (tinfo->pic_x & ~1) + ystride * (tinfo->pic_y & ~1);
-        const int cboff = (tinfo->pic_x / 2) + (cbstride) * (tinfo->pic_y / 2);
-        const unsigned char *py = ycbcr[0].data + yoff;
-        const unsigned char *pcb = ycbcr[1].data + cboff;
-        const unsigned char *pcr = ycbcr[2].data + cboff;
-        int posx, posy;
-        
-        for (posy = 0; posy < h; posy++)
-        {
-            for (posx = 0; posx < w; posx++)
-            {
-                // http://www.theora.org/doc/Theora.pdf, 1.1 spec,
-                //  chapter 4.2 (Y'CbCr -> Y'PbPr -> R'G'B')
-                // These constants apparently work for NTSC _and_ PAL/SECAM.
-                const float yoffset = 16.0f;
-                const float yexcursion = 219.0f;
-                const float cboffset = 128.0f;
-                const float cbexcursion = 224.0f;
-                const float croffset = 128.0f;
-                const float crexcursion = 224.0f;
-                const float kr = 0.299f;
-                const float kb = 0.114f;
-                
-                const float y = (((float) py[posx]) - yoffset) / yexcursion;
-                const float pb = (((float) pcb[posx / 2]) - cboffset) / cbexcursion;
-                const float pr = (((float) pcr[posx / 2]) - croffset) / crexcursion;
-                const float r = (y + (2.0f * (1.0f - kr) * pr)) * 31.0f;
-                const float g = (y - ((2.0f * (((1.0f - kb) * kb) / ((1.0f - kb) - kr))) * pb) - ((2.0f * (((1.0f - kr) * kr) / ((1.0f - kb) - kr))) * pr)) * 63.0f;
-                const float b = (y + (2.0f * (1.0f - kb) * pb)) * 31.0f;
-                
-                unsigned char _r = (unsigned char) ((r < 0.0f) ? 0.0f : (r > 31.0f) ? 31.0f : r);
-                unsigned char _g = (unsigned char) ((g < 0.0f) ? 0.0f : (g > 63.0f) ? 63.0f : g);
-                unsigned char _b = (unsigned char) ((b < 0.0f) ? 0.0f : (b > 31.0f) ? 31.0f : b);
-                
-                *(dst++) = _r << 11 | _g << 5 | _b;
-            } // for
-            
-            // adjust to the start of the next line.
-            py += ystride;
-            pcb += cbstride * (posy % 2);
-            pcr += crstride * (posy % 2);
-        } // for
-    } // if
-    
-    return pixels;
-} // ConvertVideoFrame420ToRGB565
-
 
 // RGB
 #define THEORAPLAY_CVT_FNNAME_420 ConvertVideoFrame420ToRGB
@@ -629,9 +571,9 @@ static void *WorkerThreadEntry(void *_this)
 
 static long IoFopenRead(THEORAPLAY_Io *io, void *buf, long buflen)
 {
-    FILE *f = (FILE *) io->userdata;
-    const size_t br = fread(buf, 1, buflen, f);
-    if ((br == 0) && ferror(f))
+    file *f = (file *) io->userdata;
+    const size_t br = file_read(f, buf, buflen);
+    if ((br == 0) && file_eof(f))
         return -1;
     return (long) br;
 } // IoFopenRead
@@ -639,8 +581,8 @@ static long IoFopenRead(THEORAPLAY_Io *io, void *buf, long buflen)
 
 static void IoFopenClose(THEORAPLAY_Io *io)
 {
-    FILE *f = (FILE *) io->userdata;
-    fclose(f);
+    file *f = (file *) io->userdata;
+    file_close(f);
     free(io);
 } // IoFopenClose
 
@@ -653,9 +595,8 @@ THEORAPLAY_Decoder *THEORAPLAY_startDecodeFile(const char *fname,
     if (io == NULL)
         return NULL;
 
-    FILE *f = fopen(fname, "rb");
-    if (f == NULL)
-    {
+    file *f = file_open(fname, "rb");
+    if (f == NULL) {
         free(io);
         return NULL;
     } // if

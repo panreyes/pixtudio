@@ -58,6 +58,8 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_multi/ \
 	$(MODULES_PATH)/mod_curl/ \
 	$(MODULES_PATH)/mod_gamecontroller/ \
+	$(MODULES_PATH)/mod_joy/ \
+	$(MODULES_PATH)/libjoy/ \
 	$(MODULES_PATH)/mod_theora/
 
 LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
@@ -151,6 +153,8 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_multi/mod_multi.c \
 	../../../../modules/mod_curl/mod_curl.c \
 	../../../../modules/mod_gamecontroller/mod_gamecontroller.c \
+	../../../../modules/libjoy/libjoy.c \
+	../../../../modules/mod_joy/mod_joy.c \
 	../../../../modules/mod_theora/mod_theora.c \
 	../../../../3rdparty/theoraplay/theoraplay.c
 

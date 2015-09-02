@@ -216,7 +216,7 @@ void refresh_video() {
             if(SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
                 SDL_Log("Error updating texture: %s", SDL_GetError());
             } else {
-                memcpy(pixels, video.frame->pixels, pitch);
+                memcpy(pixels, video.frame->pixels, video.graph->height * pitch*1.5);
                 SDL_UnlockTexture(video.graph->texture);
 
                 // Mark the video GRAPH as dirty so that BennuGD redraws it
@@ -244,6 +244,8 @@ static int video_play(INSTANCE *my, int * params)
 {
     int bpp, graphid;
     const int MAX_FRAMES = 30;
+    void *pixels;
+    int pitch;
 
     bpp = screen->format->BitsPerPixel;
 
@@ -255,22 +257,9 @@ static int video_play(INSTANCE *my, int * params)
 
     playing_video = 1;
 
-    /* Start the decoding, 8bpp not supported */
-    switch (bpp) {
-        case 16:
-            video.decoder = THEORAPLAY_startDecodeFile(string_get(params[0]), MAX_FRAMES, THEORAPLAY_VIDFMT_RGB565);
-            string_discard(params[0]);
-            break;
-        /* Just in case this ever gets supported in BennuGD */
-        case 24:
-            video.decoder = THEORAPLAY_startDecodeFile(string_get(params[0]), MAX_FRAMES, THEORAPLAY_VIDFMT_RGB);
-            string_discard(params[0]);
-            break;
-        case 32:
-            video.decoder = THEORAPLAY_startDecodeFile(string_get(params[0]), MAX_FRAMES, THEORAPLAY_VIDFMT_RGBA);
-            string_discard(params[0]);
-            break;
-    }
+    /* Start the decoding, we want to use a YUV format to reduce CPU usage */
+    video.decoder = THEORAPLAY_startDecodeFile(string_get(params[0]), MAX_FRAMES, THEORAPLAY_VIDFMT_IYUV);
+    string_discard(params[0]);
 
     if (!video.decoder) {
         SDL_Log("Failed to start decoding '%s'!\n", string_get(params[0]));
@@ -307,6 +296,9 @@ static int video_play(INSTANCE *my, int * params)
 
     video.convertaudio = 0;
 
+    SDL_Log("Source: %d, %d", video.audio->channels, video.audio->freq);
+    SDL_Log("Destination: %d, %d", mixer_channels, mixer_freq);
+
     if ( video.audio && (video.audio->freq != mixer_freq || video.audio->channels != mixer_channels) ) {
         if (SDL_BuildAudioCVT(&video.cvt,
                               AUDIO_S16, video.audio->channels, video.audio->freq,
@@ -330,13 +322,22 @@ static int video_play(INSTANCE *my, int * params)
     if(! video.graph) {
         THEORAPLAY_stopDecode(video.decoder);
         video.decoder = NULL;
+        return -1;
+    }
+
+    // Blank the GRAPH texture before showing it, otherwise junk will be shown
+    if(SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
+        SDL_Log("Error updating texture: %s", SDL_GetError());
+    } else {
+        memcpy(pixels, video.frame->pixels, video.graph->height * pitch*1.5);
+        SDL_UnlockTexture(video.graph->texture);
     }
 
     grlib_add_map( 0, video.graph ) ;
     THEORAPLAY_freeVideo(video.frame);
     video.frame = NULL;
 
-    Mix_HookMusic(audio_callback, NULL);
+//    Mix_HookMusic(audio_callback, NULL);
 
     playing_video = 1;
 

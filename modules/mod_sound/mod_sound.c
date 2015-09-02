@@ -163,7 +163,7 @@ static int find_free_musicID(Mix_Music **where) {
     len = sb_count(where);
     for(i=0; i<len; i++) {
         if(where[i] == NULL) {
-            return i;
+            return i+1;
         }
     }
 
@@ -194,7 +194,7 @@ static int find_free_chunkID(Mix_Chunk **where) {
     len = sb_count(where);
     for(i=0; i<len; i++) {
         if(where[i] == NULL) {
-            return i;
+            return i+1;
         }
     }
 
@@ -328,7 +328,7 @@ static int32_t load_song( const char * filename ) {
     id = find_free_musicID(loaded_songs);
     if (id == -1 ) {
         sb_push(loaded_songs, music);
-        id = sb_count(loaded_songs) - 1;
+        id = sb_count(loaded_songs);
     } else {
         loaded_songs[id] = music;
     }
@@ -353,6 +353,8 @@ static int32_t load_song( const char * filename ) {
  */
 
 static int play_song( int32_t id, int loops ) {
+    id--;
+
     if ( audio_initialized ) {
         if ( id >= 0 && id < sb_count(loaded_songs) && loaded_songs[id] ) {
             int result = Mix_PlayMusic(loaded_songs[id], loops );
@@ -385,6 +387,8 @@ static int play_song( int32_t id, int loops ) {
  */
 
 static int fade_music_in( int32_t id, int loops, int ms ) {
+    id--;
+
     if ( audio_initialized ) {
         if ( id >= 0 && id < sb_count(loaded_songs) && loaded_songs[id] ) {
             return( Mix_FadeInMusic(loaded_songs[id], loops, ms ) );
@@ -435,13 +439,16 @@ static int fade_music_out( int ms ) {
  */
 
 static int unload_song( int32_t id ) {
-    if ( audio_initialized && id>=0 && loaded_songs[id] ) {
+    id--;
+
+    if ( audio_initialized && loaded_songs[id] ) {
         if ( id >= 0 && id < sb_count(loaded_songs) && loaded_songs[id] ) {
             if ( Mix_PlayingMusic() ) {
                 Mix_HaltMusic();
             }
 
             Mix_FreeMusic(loaded_songs[id] );
+            loaded_songs[id] = NULL;
         }
     }
     return ( 0 ) ;
@@ -614,7 +621,7 @@ static int32_t load_wav( const char * filename ) {
     id = find_free_chunkID(loaded_sounds);
     if ( id == -1 ) {
         sb_push(loaded_sounds, sound);
-        id = sb_count(loaded_sounds) - 1;
+        id = sb_count(loaded_sounds);
     } else {
         loaded_sounds[id] = sound;
     }
@@ -641,6 +648,8 @@ static int32_t load_wav( const char * filename ) {
  */
 
 static int play_wav( int32_t id, int loops, int channel ) {
+    id--;
+
     if ( audio_initialized ) {
         if ( id >= 0 && id < sb_count(loaded_sounds) && loaded_sounds[id] ) {
             return ( Mix_PlayChannel( channel, loaded_sounds[id], loops ) );
@@ -667,9 +676,12 @@ static int play_wav( int32_t id, int loops, int channel ) {
  */
 
 static int unload_wav( int32_t id ) {
+    id--;
+
     if ( audio_initialized ) {
         if ( id >= 0 && id < sb_count(loaded_sounds) && loaded_sounds[id] ) {
             Mix_FreeChunk(loaded_sounds[id]);
+            loaded_sounds[id] = NULL;
         }
     }
 
@@ -692,8 +704,7 @@ static int unload_wav( int32_t id ) {
  *
  */
 
-static int stop_wav( int channel )
-{
+static int stop_wav( int channel ) {
     if ( audio_initialized && Mix_Playing( channel ) ) {
         return( Mix_HaltChannel( channel ) );
     }
@@ -797,6 +808,8 @@ static int set_wav_volume( int32_t id, int volume ) {
     if ( !audio_initialized ) {
         return ( -1 );
     }
+
+    id--;
 
     volume < 0 ? volume = 0 : 0 ;
     volume > 128 ? volume = 128 : 0 ;
@@ -1064,7 +1077,7 @@ static int modsound_play_song( INSTANCE * my, int * params ) {
  */
 
 static int modsound_unload_song( INSTANCE * my, int * params ) {
-    if ( params[0] == -1 ) {
+    if ( params[0] <= 0 ) {
         return ( -1 );
     }
 
@@ -1089,7 +1102,7 @@ static int modsound_unload_song( INSTANCE * my, int * params ) {
 
 static int modsound_unload_song2( INSTANCE * my, int * params ) {
     int *s = (int *)(params[0]), r;
-    if ( !s || *s == -1 ) {
+    if ( !s || *s <= 0 ) {
         return ( -1 );
     }
 
@@ -1712,6 +1725,10 @@ void  __bgdexport( mod_sound, module_initialize )()
 
 void __bgdexport( mod_sound, module_finalize )()
 {
+    if(audio_initialized) {
+        sound_close();
+    }
+
     int32_t i=0, n=0;
     // Unload songs, if any
     n = sb_count(loaded_songs);

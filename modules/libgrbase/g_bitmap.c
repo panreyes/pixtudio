@@ -353,10 +353,7 @@ GRAPH * bitmap_new_streaming( int code, int w, int h, int depth )
 
     // Create associated textures only for graphs with bpp >= 16
     if( depth == 16 || depth == 32 ) {
-        format = SDL_PIXELFORMAT_ARGB8888 ;
-        if ( depth == 16 ) {
-            format = SDL_PIXELFORMAT_RGB565 ;
-        }
+        format = SDL_PIXELFORMAT_IYUV ;
         gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STREAMING, w, h);
         if (! gr->texture) {
             free( gr ) ;
@@ -447,10 +444,6 @@ void bitmap_update_texture( GRAPH * map )
 
     if(!map->texture) {
         return;
-    }
-
-    if(map->code == 1000) {
-        printf("Asked to gr_update_bitmap 1000!!\n");
     }
 
     if(SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch) < 0) {
