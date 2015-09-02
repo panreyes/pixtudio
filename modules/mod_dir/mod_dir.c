@@ -280,7 +280,8 @@ static int bgd_get_basepath( INSTANCE * my, int * params )
 {
     int code;
     code = string_new(SDL_GetBasePath());
-
+	string_use(code);
+	
     return code ;
 }
 
@@ -288,7 +289,8 @@ static int bgd_get_prefpath( INSTANCE * my, int * params )
 {
     int code;
     code = string_new(SDL_GetPrefPath(string_get(params[0]), string_get(params[1])));
-
+	string_use(code);
+	
     string_discard(params[0]);
     string_discard(params[1]);
 
