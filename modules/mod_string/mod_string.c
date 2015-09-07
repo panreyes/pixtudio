@@ -312,6 +312,22 @@ static int modstring_formatFI( INSTANCE * my, int * params )
     return r;
 }
 
+static int modstring_string_replace( INSTANCE * my, int * params )
+{
+    int r;
+
+    r = string_replace( params[0], params[1], params[2] ) ;
+    
+    string_use( r ) ;
+    
+    string_discard( params[0] );
+    string_discard( params[1] );
+    string_discard( params[2] );
+
+    return r;
+}
+
+
 /* ----------------------------------------------------------------- */
 /* Declaracion de funciones                                          */
 
@@ -339,5 +355,6 @@ DLSYSFUNCS  __bgdexport( mod_string, functions_exports )[] =
     { "FORMAT"     , "I"   , TYPE_STRING, modstring_formatI    },
     { "FORMAT"     , "F"   , TYPE_STRING, modstring_formatF    },
     { "FORMAT"     , "FI"  , TYPE_STRING, modstring_formatFI   },
+    { "STRING_REPLACE", "SSS"  , TYPE_STRING, modstring_string_replace   },
     { 0            , 0     , 0          , 0                    }
 };

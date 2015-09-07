@@ -56,6 +56,7 @@ DLSYSFUNCS  __bgdexport( mod_string, functions_exports )[] =
     { "FORMAT"     , "I"   , TYPE_STRING, 0 },
     { "FORMAT"     , "F"   , TYPE_STRING, 0 },
     { "FORMAT"     , "FI"  , TYPE_STRING, 0 },
+	{ "STRING_REPLACE", "SSS"  , TYPE_STRING, 0 },
     { 0            , 0     , 0          , 0 }
 };
 #else
