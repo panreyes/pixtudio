@@ -85,8 +85,7 @@ int get_sdlfinger_index(SDL_FingerID finger) {
 void parse_input_events() {
     int n=0;
     float x=0.0, y=0.0;
-    double width=0, height=0;
-    double w_width=0, w_height=0;
+    double width=0.0, height=0.0;
     SDL_DisplayMode mode;
     SDL_Event e;
 
@@ -99,18 +98,6 @@ void parse_input_events() {
         // This'll avoid division-by-zero below
         SDL_Log("Unexpected condition getting resolution, refusing to parse events");
         return;
-    }
-
-    // Get the size of the SDL window to handle the case when the
-    // bennugd window doesn't use all the available screen space
-    if (SDL_GetWindowDisplayMode(window, &mode)) {
-        // Nasty error
-        SDL_Log("Couldn't get current window size, using defaults");
-        w_width = width;
-        w_height = height;
-    } else {
-        w_width = mode.w;
-        w_height = mode.h;
     }
 
     // Parse the SDL event
