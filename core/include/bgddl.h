@@ -31,7 +31,7 @@
 /* --------------------------------------------------------------------------- */
 
 #ifndef __PXTB__
-  #if defined(WIN32) && !defined( __STATIC__ )
+  #if defined(_MSC_VER) && !defined( __STATIC__ )
     #define DLLEXPORT   __declspec(dllexport)
     #define DLLIMPORT   __declspec(dllimport)
   #else
