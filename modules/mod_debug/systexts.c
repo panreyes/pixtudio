@@ -1076,8 +1076,7 @@ static int text_colors[] =
 
 void systext_puts( GRAPH * map, int x, int y, char * str, int len )
 {
-    while ( *str && len )
-    {
+    while ( *str && len ) {
         if ( *str == '\254' )
         {
             uint8_t color = 0 ;
@@ -1112,17 +1111,9 @@ void systext_puts( GRAPH * map, int x, int y, char * str, int len )
 void systext_color( int cfg, int cbg )
 {
     if ( !cbg ) bg = 0;
-    if ( sys_pixel_format->depth == 8 )
-    {
-        if ( !trans_table_updated ) gr_make_trans_table() ;
-
-        fg = gr_find_nearest_color((( cfg & 0xFF0000 ) >> 16 ), (( cfg & 0x00FF00 ) >>  8 ), ( cfg & 0x0000FF ) ) ;
-        if ( cbg > 0 ) bg = gr_find_nearest_color((( cbg & 0xFF0000 ) >> 16 ), (( cbg & 0x00FF00 ) >>  8 ), ( cbg & 0x0000FF ) ) ;
-    }
-    else
-    {
-        fg = gr_rgb((( cfg & 0xFF0000 ) >> 16 ), (( cfg & 0x00FF00 ) >>  8 ), ( cfg & 0x0000FF ) ) ;
-        if ( cbg > 0 ) bg = gr_rgb((( cbg & 0xFF0000 ) >> 16 ), (( cbg & 0x00FF00 ) >>  8 ), ( cbg & 0x0000FF ) ) ;
+    fg = gr_rgb((( cfg & 0xFF0000 ) >> 16 ), (( cfg & 0x00FF00 ) >>  8 ), ( cfg & 0x0000FF ) ) ;
+    if ( cbg > 0 ) {
+        bg = gr_rgb((( cbg & 0xFF0000 ) >> 16 ), (( cbg & 0x00FF00 ) >>  8 ), ( cbg & 0x0000FF ) ) ;
     }
 }
 

@@ -2075,7 +2075,7 @@ static void console_do( const char * command )
         }
         else
         {
-            int nn;
+            int nn = 0;
             for ( n = 0; n < MAX_EXPRESSIONS; n++ )
             {
                 if ( show_expression[n] )
@@ -2382,6 +2382,7 @@ static int console_keyboard_handler_cb( SDL_Keysym k )
                 debug_mode = 1;
                 force_debug = 1;
                 console_showing = 1 ;
+                printf("Showing console!\n");
             }
             else
             {
@@ -2390,6 +2391,7 @@ static int console_keyboard_handler_cb( SDL_Keysym k )
                 force_debug = 0;
                 console_showing = 0 ;
                 break_on_next_proc = 0;
+                printf("Hiding console!!!\n");
             }
             return 1;
         }
@@ -2841,10 +2843,9 @@ void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r )
 
 void __bgdexport( mod_debug, module_initialize )()
 {
-    if ( dcb.data.NSourceFiles )
-    {
+    if ( dcb.data.NSourceFiles ) {
         hotkey_add( KMOD_LALT, SDLK_x, force_exit_cb );
-        hotkey_add( 0,      0, console_keyboard_handler_cb );
+        hotkey_add( 0, 0, console_keyboard_handler_cb );
 
         gr_new_object( -2147483647L - 1, console_info, console_draw, 0 );
     }
