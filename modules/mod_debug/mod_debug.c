@@ -554,7 +554,7 @@ static char * describe_type( DCB_TYPEDEF type, int from ) {
 /* --------------------------------------------------------------------------- */
 
 static char * show_value( DCB_TYPEDEF type, void * data ) {
-    static char buffer[256] ;
+    static char buffer[512] ;
     char * newbuffer ;
     int subsize;
     unsigned int n ;
@@ -569,7 +569,7 @@ static char * show_value( DCB_TYPEDEF type, void * data ) {
             if ( type.BaseType[0] == TYPE_STRUCT ) {
                 return "" ;
             }
-            newbuffer = ( char * ) malloc( 256 ) ;
+            newbuffer = ( char * ) malloc( 512 ) ;
             strcpy( newbuffer, "= (" ) ;
             for ( n = 0 ; n < count ; n++ ) {
                 if ( n ) {
@@ -593,6 +593,7 @@ static char * show_value( DCB_TYPEDEF type, void * data ) {
 
         case TYPE_STRING:
             _snprintf( buffer, 512, "= \"%s\"", string_get( *( uint32_t * )data ) ) ;
+            string_discard(*( uint32_t * )data);
             return buffer ;
 
         case TYPE_BYTE:
