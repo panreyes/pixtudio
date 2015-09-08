@@ -2373,24 +2373,18 @@ static int force_exit_cb( SDL_Keysym k )
 /* Hotkeys for activate/deactivate console                                     */
 /* --------------------------------------------------------------------------- */
 
-static int console_keyboard_handler_cb( SDL_Keysym k )
-{
+static int console_keyboard_handler_cb( SDL_Keysym k ) {
     char cmd[256];
 
-    if ( dcb.data.NSourceFiles )
-    {
-        if (( k.mod & KMOD_LALT ) && k.sym == SDLK_c )
-        {
-            if ( !debug_mode )
-            {
+    if ( dcb.data.NSourceFiles ) {
+        if (( k.mod & KMOD_LALT ) && k.sym == SDLK_c ) {
+            if ( !debug_mode ) {
                 //SDL_EnableKeyRepeat( 250, 50 );
                 debug_mode = 1;
                 force_debug = 1;
                 console_showing = 1 ;
                 printf("Showing console!\n");
-            }
-            else
-            {
+            } else {
                 //SDL_EnableKeyRepeat( 0, 0 );
                 debug_mode = 0;
                 force_debug = 0;
@@ -2401,77 +2395,62 @@ static int console_keyboard_handler_cb( SDL_Keysym k )
             return 1;
         }
 
-        if ( debug_mode )
-        {
-            if ( k.sym == SDLK_F1 )
-            {
+        if ( debug_mode ) {
+            if ( k.sym == SDLK_F1 ) {
                 console_do( "HELP" );
                 return 1;
             }
 
-            if ( k.mod & KMOD_LALT )
-            {
-                if ( k.sym == SDLK_LEFT )
-                {
+            if ( k.mod & KMOD_LALT ) {
+                if ( k.sym == SDLK_LEFT ) {
                     if ( console_columns > HOTKEYHELP_SIZE ) console_columns-- ;
                     return 1;
                 }
 
-                if ( k.sym == SDLK_RIGHT )
-                {
+                if ( k.sym == SDLK_RIGHT ) {
                     if ( console_columns < scrbitmap->width / CHARWIDTH ) console_columns++ ;
                     return 1;
                 }
 
-                if ( k.sym == SDLK_UP )
-                {
+                if ( k.sym == SDLK_UP ) {
                     if ( console_lines > 10 ) console_lines-- ;
                     return 1;
                 }
 
-                if ( k.sym == SDLK_DOWN )
-                {
+                if ( k.sym == SDLK_DOWN ) {
                     if ( console_lines < scrbitmap->height / CHARHEIGHT ) console_lines++ ;
                     return 1;
                 }
             }
 
-            if ( k.mod & ( KMOD_LSHIFT | KMOD_RSHIFT ) )
-            {
-                if ( k.sym == SDLK_LEFT )
-                {
+            if ( k.mod & ( KMOD_LSHIFT | KMOD_RSHIFT ) ) {
+                if ( k.sym == SDLK_LEFT ) {
                     if ( console_list_x_pos[console_list_current] > 0 ) console_list_x_pos[console_list_current]-- ;
                     return 1;
                 }
 
-                if ( k.sym == SDLK_RIGHT )
-                {
+                if ( k.sym == SDLK_RIGHT ) {
                     console_list_x_pos[console_list_current]++ ;
                     return 1;
                 }
 
-                if ( k.sym == SDLK_UP )
-                {
+                if ( k.sym == SDLK_UP ) {
                     if ( console_list_y_pos[console_list_current] > 0 ) console_list_y_pos[console_list_current]-- ;
                     return 1;
                 }
 
-                if ( k.sym == SDLK_DOWN )
-                {
+                if ( k.sym == SDLK_DOWN ) {
                     if ( console_list_y_pos[console_list_current] < console_list_y_max[console_list_current] - 1 ) console_list_y_pos[console_list_current]++ ;
                     return 1;
                 }
 
-                if ( k.sym == SDLK_F2 )
-                {
+                if ( k.sym == SDLK_F2 ) {
                     console_instance_dump_all_brief();
                     return 1;
                 }
 
-                if ( console_list_current_instance && console_list_current == 1 )
-                {
-                    if ( k.sym == SDLK_F3 )
-                    {
+                if ( console_list_current_instance && console_list_current == 1 ) {
+                    if ( k.sym == SDLK_F3 ) {
                         int id = LOCDWORD( mod_debug, console_list_current_instance, PROCESS_ID ) ;
                         console_printf( "\25404%s (%d) LOCALS\25407\n\n",
                                 ( dcb.data.NSourceFiles && dcb.proc[console_list_current_instance->proc->type].data.ID ) ? getid_name( dcb.proc[console_list_current_instance->proc->type].data.ID ) : (( console_list_current_instance->proc->type == 0 ) ? "Main" : "proc" ),
@@ -2482,8 +2461,7 @@ static int console_keyboard_handler_cb( SDL_Keysym k )
                         return 1;
                     }
 
-                    if ( k.sym == SDLK_F4 )
-                    {
+                    if ( k.sym == SDLK_F4 ) {
                         int id = LOCDWORD( mod_debug, console_list_current_instance, PROCESS_ID ) ;
                         console_printf( "\25404%s (%d) PRIVATES\25407\n\n",
                                 ( dcb.data.NSourceFiles && dcb.proc[console_list_current_instance->proc->type].data.ID ) ? getid_name( dcb.proc[console_list_current_instance->proc->type].data.ID ) : (( console_list_current_instance->proc->type == 0 ) ? "Main" : "proc" ),
@@ -2494,8 +2472,7 @@ static int console_keyboard_handler_cb( SDL_Keysym k )
                         return 1;
                     }
 
-                    if ( k.sym == SDLK_F5 )
-                    {
+                    if ( k.sym == SDLK_F5 ) {
                         int id = LOCDWORD( mod_debug, console_list_current_instance, PROCESS_ID ) ;
                         console_printf( "\25404%s (%d) PUBLICS\25407\n\n",
                                 ( dcb.data.NSourceFiles && dcb.proc[console_list_current_instance->proc->type].data.ID ) ? getid_name( dcb.proc[console_list_current_instance->proc->type].data.ID ) : (( console_list_current_instance->proc->type == 0 ) ? "Main" : "proc" ),
@@ -2507,16 +2484,13 @@ static int console_keyboard_handler_cb( SDL_Keysym k )
                     }
                 }
 
-                if ( k.sym == SDLK_F6 )
-                {
+                if ( k.sym == SDLK_F6 ) {
                     console_list_current ^= 1;
                     return 1;
                 }
 
-                if ( k.sym == SDLK_F9 )
-                {
-                    switch ( console_list_current )
-                    {
+                if ( k.sym == SDLK_F9 ) {
+                    switch ( console_list_current ) {
                         case    0:
                             procs[console_list_y_pos[console_list_current]].breakpoint = !procs[console_list_y_pos[console_list_current]].breakpoint;
                             break;
@@ -2529,73 +2503,60 @@ static int console_keyboard_handler_cb( SDL_Keysym k )
                 }
             }
 
-            if ( k.sym == SDLK_F2 )
-            {
+            if ( k.sym == SDLK_F2 ) {
                 console_instance_dump_all() ;
                 return 1;
             }
 
-            if ( !( k.mod & ( KMOD_LSHIFT | KMOD_RSHIFT ) ) )
-            {
-                if ( k.sym == SDLK_F5 )
-                {
+            if ( !( k.mod & ( KMOD_LSHIFT | KMOD_RSHIFT ) ) ) {
+                if ( k.sym == SDLK_F5 ) {
                     console_do( "GO" );
                     return 1;
                 }
 
-                if ( k.sym == SDLK_F8 )
-                {
+                if ( k.sym == SDLK_F8 ) {
                     console_do( "TRACE" );
                     return 1;
                 }
 
-                if ( k.sym == SDLK_F10 )
-                {
+                if ( k.sym == SDLK_F10 ) {
                     console_do( "NEXTFRAME" );
                     return 1;
                 }
 
-                if ( k.sym == SDLK_F11 )
-                {
+                if ( k.sym == SDLK_F11 ) {
                     console_do( "NEXTPROC" );
                     return 1;
                 }
             }
 
-            if ( k.sym == SDLK_PAGEUP )
-            {
+            if ( k.sym == SDLK_PAGEUP ) {
                 console_scroll( console_lines ) ;
                 return 1;
             }
 
-            if ( k.sym == SDLK_PAGEDOWN )
-            {
+            if ( k.sym == SDLK_PAGEDOWN ) {
                 console_scroll( -console_lines ) ;
                 return 1;
             }
 
-            if ( k.mod & ( KMOD_RCTRL | KMOD_LCTRL ) )
-            {
-                if ( k.sym == SDLK_LEFT )
-                {
+            if ( k.mod & ( KMOD_RCTRL | KMOD_LCTRL ) ) {
+                if ( k.sym == SDLK_LEFT ) {
                     console_lateral_scroll( 1 ) ;
                     return 1;
                 }
 
-                if ( k.sym == SDLK_RIGHT )
-                {
+                if ( k.sym == SDLK_RIGHT ) {
                     console_lateral_scroll( -1 ) ;
                     return 1;
                 }
 
-                if ( k.sym == SDLK_UP )
-                {
+                if ( k.sym == SDLK_UP ) {
                     console_scroll( 1 ) ;
                     return 1;
                 }
 
-                if ( k.sym == SDLK_DOWN )
-                {
+                if ( k.sym == SDLK_DOWN ) {
                     console_scroll( -1 ) ;
                     return 1;
                 }
