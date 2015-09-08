@@ -1064,7 +1064,7 @@ int string_replace( int id_rep, int id_with, int id_orig) {
     len_with = strlen(with);
 
     ins = orig;
-    for (count = 0; (tmp = strstr(ins, rep)); ++count) {
+    for (count = 0; (tmp = strnstr(ins, rep, strlen(ins))); ++count) {
         ins = tmp + len_rep;
     }
 

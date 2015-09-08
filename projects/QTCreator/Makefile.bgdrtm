@@ -66,6 +66,7 @@ INCLUDES	:=	../../core/include \
 	../../3rdparty/stb/ \
 	../../3rdparty/theoraplay/ \
 	../../modules/libbgload/ \
+	../../modules/mod_debug/ \
 	../../modules/mod_say/ \
 	../../modules/mod_string/ \
 	../../modules/mod_math/ \
@@ -165,6 +166,8 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 	../../../core/common/files.c \
 	../../../core/common/xctype.c \
 	../../../modules/libbgload/bgload.c \
+	../../../modules/mod_debug/mod_debug.c \
+	../../../modules/mod_debug/systexts.c \
 	../../../modules/mod_say/mod_say.c \
 	../../../modules/mod_string/mod_string.c \
 	../../../modules/mod_math/mod_math.c \

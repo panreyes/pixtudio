@@ -1078,7 +1078,7 @@ void systext_puts( GRAPH * map, int x, int y, char * str, int len )
 {
     while ( *str && len )
     {
-        if ( *str == '¬' )
+        if ( *str == '\254' )
         {
             uint8_t color = 0 ;
             str++ ;

@@ -73,6 +73,7 @@ LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
     -DNO_MODSENSOR \
 	-DNO_MODREGEX \
     -DNO_MODCHIPMUNK \
+    -DNO_MODDEBUG \
 	-DWITH_SDLRWOPS \
 	-ffast-math \
 	-O3

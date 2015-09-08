@@ -63,6 +63,7 @@ INCLUDES	:=	../../core/pxtb/include \
 				../../core/include \
 				../../3rdparty/SDL/include/ \
 				../../modules/libbgload/ \
+                ../../modules/mod_debug/ \
 				../../modules/mod_say/ \
 				../../modules/mod_string/ \
 				../../modules/mod_math/ \

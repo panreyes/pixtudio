@@ -70,7 +70,9 @@
 #ifndef NO_MODMEM
 #  include <mod_mem_symbols.h>
 #endif
-//#include <mod_debug_symbols.h>
+#ifndef NO_MODDEBUG
+#   include <mod_debug_symbols.h>
+#endif
 /* Unofficial modules */
 #ifndef NO_MODICONV
 #   include <iconv_symbols.h>
@@ -175,7 +177,9 @@ basic_symbols symbol_list[] =
 #ifndef NO_MODMEM
     { "mod_mem.fakelib"      , NULL, NULL, NULL, NULL, NULL, mod_mem_functions_exports },
 #endif
-    //  { "mod_debug.fakelib"    , mod_debug_modules_dependency, NULL, NULL, NULL, NULL, NULL },
+#ifndef NO_MODDEBUG
+    { "mod_debug.fakelib"    , mod_debug_modules_dependency, NULL, NULL, NULL, NULL, NULL },
+#endif
     /* Unofficial modules */
 #ifndef NO_MODICONV
     { "mod_iconv.fakelib"    , NULL, NULL, NULL, NULL, NULL, mod_iconv_functions_exports },
@@ -260,7 +264,9 @@ extra_symbols symbol_list_runtime[] =
 #ifndef NO_MODMEM
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_mem
 #endif
-    //  { mod_debug_globals_fixup, mod_debug_locals_fixup, mod_debug_module_initialize, mod_debug_module_finalize, NULL, NULL, mod_debug_process_exec_hook, NULL }, //mod_debug
+#ifndef NO_MODDEBUG
+    { mod_debug_globals_fixup, mod_debug_locals_fixup, mod_debug_module_initialize, mod_debug_module_finalize, NULL, NULL, mod_debug_process_exec_hook, NULL }, //mod_debug
+#endif
     /* Unofficial modules */
 #ifndef NO_MODICONV
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_iconv
