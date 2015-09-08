@@ -332,6 +332,10 @@ static void console_printf( const char *fmt, ... ) {
     va_end( ap );
     text[sizeof( text )-1] = 0;
 
+    // Print the line to the command line while we make the console
+    // work again
+    printf("%s\n", text);
+
     // 91 == '['
     if ( *text == 91 ) {
         memmove( text + 3, text, strlen( text ) + 1 ) ;
