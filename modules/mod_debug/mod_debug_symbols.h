@@ -31,21 +31,20 @@
 
 #include <bgddl.h>
 
-#ifndef __PXTB__
-extern DLVARFIXUP __bgdexport( mod_debug, locals_fixup )[];
-extern DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[];
-extern void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r );
-extern void __bgdexport( mod_debug, module_initialize )();
-extern void __bgdexport( mod_debug, module_finalize )();
-#endif
-
-/* --------------------------------------------------------------------------- */
-
+#ifdef __PXTB__
 char * __bgdexport( mod_debug, modules_dependency )[] =
 {
     "libkey",
     "librender",
     NULL
 };
+#else
+extern DLVARFIXUP __bgdexport( mod_debug, locals_fixup )[];
+extern DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[];
+extern void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r );
+extern void __bgdexport( mod_debug, module_initialize )();
+extern char * __bgdexport( mod_debug, modules_dependency )[];
+#endif
+
 
 #endif

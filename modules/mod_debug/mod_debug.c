@@ -83,8 +83,7 @@ enum {
 
 /* --------------------------------------------------------------------------- */
 
-DLVARFIXUP __bgdexport( mod_debug, locals_fixup )[] =
-{
+DLVARFIXUP __bgdexport( mod_debug, locals_fixup )[] = {
     { "id"                  , NULL, -1, -1 },
     { "father"              , NULL, -1, -1 },
     { "bigbro"              , NULL, -1, -1 },
@@ -96,8 +95,7 @@ DLVARFIXUP __bgdexport( mod_debug, locals_fixup )[] =
 
 /* --------------------------------------------------------------------------- */
 
-DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[] =
-{
+DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[] = {
     { "shift_status"        , NULL, -1, -1 },
 
     { NULL                  , NULL, -1, -1 }
@@ -200,8 +198,7 @@ DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[] =
 
 /* --------------------------------------------------------------------------- */
 
-static struct
-{
+static struct {
     int type ;
     DCB_VAR var ;
     double value ;
@@ -209,8 +206,7 @@ static struct
     char name[256] ;
 } result, lvalue ;
 
-static struct
-{
+static struct {
     enum { T_ERROR, T_VARIABLE, T_NUMBER, T_CONSTANT, T_STRING } type ;
     char name[128] ;
     double  code ;
@@ -248,14 +244,12 @@ static int break_on_next_proc = 0;
 
 /* --------------------------------------------------------------------------- */
 
-static struct
-{
+static struct {
     char * name ;
     void * value ;
     int    type ;
 }
-console_vars[] =
-{
+console_vars[] = {
     { "SHOW_COLOR",         &console_showcolor,     CON_DWORD_HEX   },
     { "FILES",              &opened_files,          CON_DWORD       },
     { "DEBUG_LEVEL",        &debug,                 CON_DWORD       },
@@ -289,45 +283,47 @@ static void console_do( const char * command );
 
 /* --------------------------------------------------------------------------- */
 
-static void console_scroll( int direction )
-{
+static void console_scroll( int direction ) {
     console_scroll_pos += direction ;
-    if ( direction < 0 )
-    {
-        if ( console_scroll_pos < 0 ) console_scroll_pos = 0 ;
-    }
-    else
-    {
-        if ( console_scroll_pos > CONSOLE_HISTORY ) console_scroll_pos = CONSOLE_HISTORY ;
+    if ( direction < 0 ) {
+        if ( console_scroll_pos < 0 ) {
+            console_scroll_pos = 0 ;
+        }
+    } else {
+        if ( console_scroll_pos > CONSOLE_HISTORY ) {
+            console_scroll_pos = CONSOLE_HISTORY ;
+        }
     }
 }
 
 /* --------------------------------------------------------------------------- */
 
-static void console_putline( char * text )
-{
-    if ( !console_initialized )
-    {
+static void console_putline( char * text ) {
+    if ( !console_initialized ) {
         memset( console, 0, sizeof( console ) ) ;
         console_initialized = 1 ;
     }
 
-    if ( console[console_tail] ) free( console[console_tail] ) ;
+    if ( console[console_tail] ) {
+        free( console[console_tail] ) ;
+    }
     console[console_tail] = strdup( text ) ;
 
     console_tail++ ;
-    if ( console_tail == CONSOLE_HISTORY ) console_tail = 0 ;
-    if ( console_tail == console_head )
-    {
+    if ( console_tail == CONSOLE_HISTORY ) {
+        console_tail = 0 ;
+    }
+    if ( console_tail == console_head ) {
         console_head++ ;
-        if ( console_head == CONSOLE_HISTORY ) console_head = 0 ;
+        if ( console_head == CONSOLE_HISTORY ) {
+            console_head = 0 ;
+        }
     }
 }
 
 /* --------------------------------------------------------------------------- */
 
-static void console_printf( const char *fmt, ... )
-{
+static void console_printf( const char *fmt, ... ) {
     char text[MAXTEXT], * ptr, * iptr ;
 
     va_list ap;
@@ -337,14 +333,12 @@ static void console_printf( const char *fmt, ... )
     text[sizeof( text )-1] = 0;
 
     // 91 == '['
-    if ( *text == 91 )
-    {
+    if ( *text == 91 ) {
         memmove( text + 3, text, strlen( text ) + 1 ) ;
         // "¬08"
         memmove( text, "\25408", 3 ) ;
         ptr = strchr( text, 91 ) ;
-        if ( ptr )
-        {
+        if ( ptr ) {
             ptr++ ;
             memmove( ptr + 3, ptr, strlen( ptr ) + 1 ) ;
             // "¬07"
@@ -355,16 +349,13 @@ static void console_printf( const char *fmt, ... )
     iptr = text ;
     ptr  = text ;
 
-    while ( *ptr )
-    {
-        if ( *ptr == '\n' )
-        {
+    while ( *ptr ) {
+        if ( *ptr == '\n' ) {
             *ptr = 0 ;
             console_putline( iptr ) ;
             iptr = ptr + 1 ;
         }
-        if ( *ptr == '\254' )
-        {
+        if ( *ptr == '\254' ) {
             ptr++ ;
             if ( isdigit( *ptr ) ) ptr++ ;
             if ( isdigit( *ptr ) ) ptr++ ;
@@ -373,69 +364,72 @@ static void console_printf( const char *fmt, ... )
         ptr++ ;
     }
 
-    if ( ptr > iptr ) console_putline( iptr ) ;
+    if ( ptr > iptr ) {
+        console_putline( iptr ) ;
+    }
 }
 
 /* --------------------------------------------------------------------------- */
 
-static void console_putcommand( const char * commandline )
-{
-    if ( !command_initialized )
-    {
+static void console_putcommand( const char * commandline ) {
+    if ( !command_initialized ) {
         memset( command, 0, sizeof( command ) );
         command_initialized = 1;
     }
 
-    if ( command[command_tail] ) free( command[command_tail] );
-    command[command_tail++] = strdup( commandline );
-    if ( command_tail == COMMAND_HISTORY ) command_tail = 0;
-    if ( command_tail == command_head )
-    {
-        if ( ++command_head == COMMAND_HISTORY ) command_head = 0;
+    if ( command[command_tail] ) {
+        free( command[command_tail] );
     }
-    else
+    command[command_tail++] = strdup( commandline );
+    if ( command_tail == COMMAND_HISTORY ) {
+        command_tail = 0;
+    }
+    if ( command_tail == command_head ) {
+        if ( ++command_head == COMMAND_HISTORY ) {
+            command_head = 0;
+        }
+    } else {
         command_count++;
+    }
 }
 
 /* --------------------------------------------------------------------------- */
 
-static const char * console_getcommand( int offset )
-{
-    if ( offset >= 0 || offset < -command_count ) return NULL;
+static const char * console_getcommand( int offset ) {
+    if ( offset >= 0 || offset < -command_count ) {
+        return NULL;
+    }
 
     offset = command_tail + offset;
-    while ( offset < 0 ) offset = COMMAND_HISTORY + offset;
+    while ( offset < 0 ) {
+        offset = COMMAND_HISTORY + offset;
+    }
+
     return command[offset];
 }
 
 /* --------------------------------------------------------------------------- */
 
-static void console_getkey( int key, int sym )
-{
+static void console_getkey( int key, int sym ) {
     static int history_offset = 0;
     char buffer[2] ;
     const char * command;
 
-    if ( !key )
-    {
-        if ( sym == SDLK_UP )
-        {
+    if ( !key ) {
+        if ( sym == SDLK_UP ) {
             command = console_getcommand( --history_offset );
-            if ( command == NULL )
+            if ( command == NULL ) {
                 history_offset++;
-            else
+            } else {
                 strncpy( console_input, command, 127 );
+            }
         }
 
-        if ( sym == SDLK_DOWN )
-        {
-            if ( history_offset == -1 )
-            {
+        if ( sym == SDLK_DOWN ) {
+            if ( history_offset == -1 ) {
                 *console_input = 0;
                 history_offset++;
-            }
-            else
-            {
+            } else {
                 command = console_getcommand( ++history_offset );
                 if ( command == NULL )
                     history_offset--;
@@ -445,15 +439,17 @@ static void console_getkey( int key, int sym )
         }
     }
 
-    if ( key == SDLK_BACKSPACE && *console_input ) console_input[strlen( console_input )-1] = 0 ;
-    if ( key == SDLK_ESCAPE ) *console_input = 0 ;
-    if ( key == SDLK_RETURN )
-    {
+    if ( key == SDLK_BACKSPACE && *console_input ) {
+        console_input[strlen( console_input )-1] = 0 ;
+    }
+    if ( key == SDLK_ESCAPE ) {
+        *console_input = 0 ;
+    }
+    if ( key == SDLK_RETURN ) {
 
         console_scroll_pos = 0 ;
         console_printf( "\25407> %s", console_input ) ;
-        if ( * console_input )
-        {
+        if ( * console_input ) {
             console_putcommand( console_input );
             console_do( console_input ) ;
             *console_input = 0 ;
@@ -461,8 +457,7 @@ static void console_getkey( int key, int sym )
         }
     }
 
-    if ( key >= SDLK_SPACE && key <= SDLK_z )
-    {
+    if ( key >= SDLK_SPACE && key <= SDLK_z ) {
         buffer[0] = key ;
         buffer[1] = 0 ;
         strcat( console_input, buffer ) ;
@@ -471,31 +466,31 @@ static void console_getkey( int key, int sym )
 
 /* --------------------------------------------------------------------------- */
 
-static void console_lateral_scroll( int direction )
-{
-    if ( direction > 0 )
-    {
+static void console_lateral_scroll( int direction ) {
+    if ( direction > 0 ) {
         console_scroll_lateral_pos-- ;
-        if ( console_scroll_lateral_pos < 0 ) console_scroll_lateral_pos = 0 ;
-    }
-    else
-    {
+        if ( console_scroll_lateral_pos < 0 ) {
+            console_scroll_lateral_pos = 0 ;
+        }
+    } else  {
         console_scroll_lateral_pos++ ;
-        if ( console_scroll_lateral_pos > MAXTEXT ) console_scroll_lateral_pos = MAXTEXT ;
+        if ( console_scroll_lateral_pos > MAXTEXT ) {
+            console_scroll_lateral_pos = MAXTEXT ;
+        }
     }
 }
 
 /* --------------------------------------------------------------------------- */
 
-static char * describe_type( DCB_TYPEDEF type, int from )
-{
+static char * describe_type( DCB_TYPEDEF type, int from ) {
     static char buffer[512] ;
     int i ;
 
-    if ( !from ) buffer[0] = 0 ;
+    if ( !from ) {
+        buffer[0] = 0 ;
+    }
 
-    switch ( type.BaseType[from] )
-    {
+    switch ( type.BaseType[from] ) {
         case TYPE_ARRAY:
             for ( i = from ; type.BaseType[i] == TYPE_ARRAY; i++ ) ;
             describe_type( type, i ) ;
@@ -554,30 +549,30 @@ static char * describe_type( DCB_TYPEDEF type, int from )
 
 /* --------------------------------------------------------------------------- */
 
-static char * show_value( DCB_TYPEDEF type, void * data )
-{
+static char * show_value( DCB_TYPEDEF type, void * data ) {
     static char buffer[256] ;
     char * newbuffer ;
     int subsize;
     unsigned int n ;
     unsigned int count ;
 
-    switch ( type.BaseType[0] )
-    {
+    switch ( type.BaseType[0] ) {
         case TYPE_ARRAY:
             count = type.Count[0];
 
             type = reduce_type( type ) ;
             subsize = type_size( type ) ;
-            if ( type.BaseType[0] == TYPE_STRUCT ) return "" ;
+            if ( type.BaseType[0] == TYPE_STRUCT ) {
+                return "" ;
+            }
             newbuffer = ( char * ) malloc( 256 ) ;
             strcpy( newbuffer, "= (" ) ;
-            for ( n = 0 ; n < count ; n++ )
-            {
-                if ( n ) strcat( newbuffer, ", " ) ;
+            for ( n = 0 ; n < count ; n++ ) {
+                if ( n ) {
+                    strcat( newbuffer, ", " ) ;
+                }
                 show_value( type, data ) ;
-                if ( strlen( newbuffer ) + strlen( buffer ) > 30 )
-                {
+                if ( strlen( newbuffer ) + strlen( buffer ) > 30 ) {
                     strcat( newbuffer, "..." ) ;
                     break ;
                 }
@@ -642,51 +637,46 @@ static char * show_value( DCB_TYPEDEF type, void * data )
 
 /* --------------------------------------------------------------------------- */
 
-static void show_struct( int num, char * title, int indent, void * data )
-{
+static void show_struct( int num, char * title, int indent, void * data ) {
     int n, count ;
     DCB_VAR * vars ;
 
     vars = dcb.varspace_vars[num] ;
     count = dcb.varspace[num].NVars ;
 
-    for ( n = 0 ; n < count ; n++ )
-    {
+    for ( n = 0 ; n < count ; n++ ) {
         show_var( vars[n], 0, data ? ( uint8_t * )data + vars[n].Offset : 0, title, indent ) ;
     }
 }
 
 /* --------------------------------------------------------------------------- */
 
-static void show_var( DCB_VAR var, char * name, void * data, char * title, int indent )
-{
+static void show_var( DCB_VAR var, char * name, void * data, char * title, int indent ) {
     char spaces[indent+1] ;
 
     memset( spaces, ' ', indent ) ;
     spaces[indent] = 0 ;
 
-    if ( !name )
-    {
+    if ( !name ) {
         unsigned int code ;
 
         name = "?" ;
-        for ( code = 0 ; code < dcb.data.NID ; code++ )
-        {
-            if ( dcb.id[code].Code == var.ID )
-            {
+        for ( code = 0 ; code < dcb.data.NID ; code++ ) {
+            if ( dcb.id[code].Code == var.ID ) {
                 name = ( char * ) dcb.id[code].Name ;
                 break ;
             }
         }
     }
 
-    if ( data )
-        console_printf( "%s%s %s %s %s\n", title, spaces, describe_type( var.Type, 0 ), name, show_value( var.Type, data ) ) ;
-    else
-        console_printf( "%s%s %s %s\n", title, spaces, describe_type( var.Type, 0 ), name ) ;
+    if ( data ) {
+        console_printf("%s%s %s %s %s\n", title, spaces, describe_type( var.Type, 0 ), name,
+                       show_value( var.Type, data ) ) ;
+    } else {
+        console_printf("%s%s %s %s\n", title, spaces, describe_type( var.Type, 0 ), name ) ;
+    }
 
-    if ( var.Type.BaseType[0] == TYPE_STRUCT )
-    {
+    if ( var.Type.BaseType[0] == TYPE_STRUCT ) {
         show_struct( var.Type.Members, title, indent + 3, data ) ;
         console_printf( "%s%s END", title, spaces ) ;
     }
@@ -696,62 +686,72 @@ static void show_var( DCB_VAR var, char * name, void * data, char * title, int i
 
 /* Very simple tokenizer */
 
-static void get_token()
-{
+static void get_token() {
     char * ptr ;
     unsigned int n ;
 
-    while ( isspace( *token_ptr ) ) token_ptr++ ;
+    while ( isspace( *token_ptr ) ) {
+        token_ptr++ ;
+    }
 
-    if ( !*token_ptr )
-    {
+    if ( !*token_ptr ) {
         token.type = NOTOKEN ;
         return ;
     }
 
     /* Numbers */
 
-    if ( ISNUM( *token_ptr ) )
-    {
+    if ( ISNUM( *token_ptr ) ) {
         const char * ptr;
         double num = 0, dec;
         int base = 10;
 
         /* Hex/Bin/Octal numbers with the h/b/o sufix */
         ptr = token_ptr;
-        while ( ISNUM( *ptr ) || ( *ptr >= 'a' && *ptr <= 'f' ) || ( *ptr >= 'A' && *ptr <= 'F' ) ) ptr++;
+        while ( ISNUM( *ptr ) || ( *ptr >= 'a' && *ptr <= 'f' ) || ( *ptr >= 'A' && *ptr <= 'F' ) ) {
+            ptr++;
+        }
 
-        if ( *ptr != 'h' && *ptr != 'H' && *ptr != 'o' && *ptr != 'O' && ( ptr[-1] == 'b' || ptr[-1] == 'B' ) ) ptr--;
+        if ( *ptr != 'h' && *ptr != 'H' && *ptr != 'o' && *ptr != 'O' && ( ptr[-1] == 'b' || ptr[-1] == 'B' ) ) {
+            ptr--;
+        }
 
-        if ( *ptr == 'b' || *ptr == 'B' ) base = 2;
-        if ( *ptr == 'h' || *ptr == 'H' ) base = 16;
-        if ( *ptr == 'o' || *ptr == 'O' ) base = 8;
+        if ( *ptr == 'b' || *ptr == 'B' ) {
+            base = 2;
+        }
+        if ( *ptr == 'h' || *ptr == 'H' ) {
+            base = 16;
+        }
+        if ( *ptr == 'o' || *ptr == 'O' ) {
+            base = 8;
+        }
 
         token.code = 0 ; /* for ints values */
 
         /* Calculate the number value */
 
-        while ( ISNUM( *token_ptr ) || ( base > 10 && ISALNUM( *token_ptr ) ) )
-        {
-            if ( base == 2 && *token_ptr != '0' && *token_ptr != '1' ) break;
-            if ( base == 8 && ( *token_ptr < '0' || *token_ptr > '7' ) ) break;
-            if ( base == 10 && !ISNUM( *token_ptr ) ) break;
-            if ( base == 16 && !ISNUM( *token_ptr ) && ( TOUPPER( *token_ptr ) < 'A' || TOUPPER( *token_ptr ) > 'F' ) ) break;
+        while ( ISNUM( *token_ptr ) || ( base > 10 && ISALNUM( *token_ptr ) ) ) {
+            if ( base == 2 && *token_ptr != '0' && *token_ptr != '1' ) {
+                break;
+            } else if ( base == 8 && ( *token_ptr < '0' || *token_ptr > '7' ) ) {
+                break;
+            } else if ( base == 10 && !ISNUM( *token_ptr ) ) {
+                break;
+            } if ( base == 16 && !ISNUM( *token_ptr ) && ( TOUPPER( *token_ptr ) < 'A' || TOUPPER( *token_ptr ) > 'F' ) ) {
+                break;
+            }
 
-            if ( ISNUM( *token_ptr ) )
-            {
+            if ( ISNUM( *token_ptr ) ) {
                 num = num * base + ( *token_ptr - '0' );
                 token.code = token.code * base + ( *token_ptr - '0' );
                 token_ptr++;
             }
-            if ( *token_ptr >= 'a' && *token_ptr <= 'f' && base > 10 )
-            {
+            if ( *token_ptr >= 'a' && *token_ptr <= 'f' && base > 10 ) {
                 num = num * base + ( *token_ptr - 'a' + 10 );
                 token.code = token.code * base + ( *token_ptr - 'a' + 10 );
                 token_ptr++;
             }
-            if ( *token_ptr >= 'A' && *token_ptr <= 'F' && base > 10 )
-            {
+            if ( *token_ptr >= 'A' && *token_ptr <= 'F' && base > 10 ) {
                 num = num * base + ( *token_ptr - 'A' + 10 );
                 token.code = token.code * base + ( *token_ptr - 'A' + 10 );
                 token_ptr++;
@@ -762,19 +762,20 @@ static void get_token()
 
         /* We have the integer part now - convert to int/float */
 
-        if ( *token_ptr == '.' && base == 10 )
-        {
+        if ( *token_ptr == '.' && base == 10 ) {
             token_ptr++;
-            if ( !ISNUM( *token_ptr ) )
+            if ( !ISNUM( *token_ptr ) ) {
                 token_ptr--;
-            else
-            {
+            } else {
                 dec = 1.0 / ( double )base;
-                while ( ISNUM( *token_ptr ) || ( base > 100 && ISALNUM( *token_ptr ) ) )
-                {
+                while ( ISNUM( *token_ptr ) || ( base > 100 && ISALNUM( *token_ptr ) ) ) {
                     if ( ISNUM( *token_ptr ) ) num = num + dec * ( *token_ptr++ - '0' );
-                    if ( *token_ptr >= 'a' && *token_ptr <= 'f' && base > 10 ) num = num + dec * ( *token_ptr++ - 'a' + 10 );
-                    if ( *token_ptr >= 'A' && *token_ptr <= 'F' && base > 10 ) num = num + dec * ( *token_ptr++ - 'A' + 10 );
+                    if ( *token_ptr >= 'a' && *token_ptr <= 'f' && base > 10 ) {
+                        num = num + dec * ( *token_ptr++ - 'a' + 10 );
+                    }
+                    if ( *token_ptr >= 'A' && *token_ptr <= 'F' && base > 10 ) {
+                        num = num + dec * ( *token_ptr++ - 'A' + 10 );
+                    }
                     dec /= ( double )base;
                 }
                 token.type  = NUMBER;
@@ -784,38 +785,45 @@ static void get_token()
 
         /* Skip the base sufix */
 
-        if ( base == 16 && ( *token_ptr == 'h' || *token_ptr == 'H' ) ) token_ptr++;
-        if ( base == 8  && ( *token_ptr == 'o' || *token_ptr == 'O' ) ) token_ptr++;
-        if ( base == 2  && ( *token_ptr == 'b' || *token_ptr == 'B' ) ) token_ptr++;
+        if ( base == 16 && ( *token_ptr == 'h' || *token_ptr == 'H' ) ) {
+            token_ptr++;
+        }
+        if ( base == 8  && ( *token_ptr == 'o' || *token_ptr == 'O' ) ) {
+            token_ptr++;
+        }
+        if ( base == 2  && ( *token_ptr == 'b' || *token_ptr == 'B' ) ) {
+            token_ptr++;
+        }
 
         _snprintf( token.name, sizeof( token.name ), "%g", token.code ) ;
         return ;
     }
 
-    if ( *token_ptr == '"' || *token_ptr == '\'' ) /* Cadena */
-    {
+    if ( *token_ptr == '"' || *token_ptr == '\'' ) { /* String */
         char c = *token_ptr++ ;
         token.type = STRING ;
         ptr = token.name;
-        while ( *token_ptr && *token_ptr != c ) *ptr++ = *token_ptr++ ;
-        if ( *token_ptr == c ) token_ptr++ ;
+        while ( *token_ptr && *token_ptr != c ) {
+            *ptr++ = *token_ptr++ ;
+        }
+        if ( *token_ptr == c ) {
+            token_ptr++ ;
+        }
         *ptr = 0 ;
         return ;
     }
 
     ptr = token.name ;
     *ptr++ = TOUPPER( *token_ptr ) ;
-    if ( ISWORDCHAR( *token_ptr++ ) )
-    {
-        while ( ISWORDCHAR( *token_ptr ) )
+    if ( ISWORDCHAR( *token_ptr++ ) ) {
+        while ( ISWORDCHAR( *token_ptr ) ) {
             *ptr++ = TOUPPER( *token_ptr++ ) ;
+        }
     }
     *ptr = 0 ;
 
-    for ( n = 0 ; n < dcb.data.NID ; n++ )
-    {
-        if ( strcmp( ( char * )dcb.id[n].Name, token.name ) == 0 )
-        {
+    for ( n = 0 ; n < dcb.data.NID ; n++ ) {
+        if ( strcmp( ( char * )dcb.id[n].Name, token.name ) == 0 ) {
             token.type = IDENTIFIER ;
             token.code = dcb.id[n].Code ;
 /*            strcpy( token.name, (char *)dcb.id[n].Name ) ; */
@@ -828,11 +836,9 @@ static void get_token()
 
 /* --------------------------------------------------------------------------- */
 
-static DCB_TYPEDEF reduce_type( DCB_TYPEDEF orig )
-{
+static DCB_TYPEDEF reduce_type( DCB_TYPEDEF orig ) {
     int n ;
-    for ( n = 0 ; n < MAX_TYPECHUNKS - 1 ; n++ )
-    {
+    for ( n = 0 ; n < MAX_TYPECHUNKS - 1 ; n++ ) {
         orig.BaseType[n] = orig.BaseType[n+1] ;
         orig.Count[n] = orig.Count[n+1] ;
     }
@@ -841,60 +847,53 @@ static DCB_TYPEDEF reduce_type( DCB_TYPEDEF orig )
 
 /* --------------------------------------------------------------------------- */
 
-static void var2const()
-{
-    while ( result.type == T_VARIABLE && result.var.Type.BaseType[0] == TYPE_ARRAY )
+static void var2const() {
+    while ( result.type == T_VARIABLE && result.var.Type.BaseType[0] == TYPE_ARRAY ) {
         result.var.Type = reduce_type( result.var.Type ) ;
+    }
 
-    if ( result.type == T_VARIABLE && result.var.Type.BaseType[0] == TYPE_STRING )
-    {
+    if ( result.type == T_VARIABLE && result.var.Type.BaseType[0] == TYPE_STRING ) {
         result.type = T_STRING ;
         strncpy( result.name, string_get( *( int * )( result.data ) ), 127 ) ;
         result.name[127] = 0 ;
     }
 
-    if ( result.type == T_VARIABLE && result.var.Type.BaseType[0] == TYPE_FLOAT )
-    {
+    if ( result.type == T_VARIABLE && result.var.Type.BaseType[0] == TYPE_FLOAT ) {
         result.type = T_CONSTANT ;
         result.value = *( float * )( result.data ) ;
     }
 
-    if ( result.type == T_VARIABLE && ( result.var.Type.BaseType[0] == TYPE_DWORD || result.var.Type.BaseType[0] == TYPE_INT ) )
-    {
+    if ( result.type == T_VARIABLE && ( result.var.Type.BaseType[0] == TYPE_DWORD || result.var.Type.BaseType[0] == TYPE_INT ) ) {
         result.type = T_CONSTANT ;
         result.value = *( int * )( result.data ) ;
     }
 
-    if ( result.type == T_VARIABLE && ( result.var.Type.BaseType[0] == TYPE_WORD || result.var.Type.BaseType[0] == TYPE_SHORT ) )
-    {
+    if ( result.type == T_VARIABLE && ( result.var.Type.BaseType[0] == TYPE_WORD || result.var.Type.BaseType[0] == TYPE_SHORT ) ) {
         result.type = T_CONSTANT ;
         result.value = *( int16_t * )( result.data ) ;
     }
 
-    if ( result.type == T_VARIABLE && ( result.var.Type.BaseType[0] == TYPE_BYTE || result.var.Type.BaseType[0] == TYPE_SBYTE ) )
-    {
+    if ( result.type == T_VARIABLE && ( result.var.Type.BaseType[0] == TYPE_BYTE || result.var.Type.BaseType[0] == TYPE_SBYTE ) ) {
         result.type = T_CONSTANT ;
         result.value = *( int8_t * )( result.data ) ;
     }
 
-    if ( result.type == T_VARIABLE && result.var.Type.BaseType[0] == TYPE_CHAR )
-    {
+    if ( result.type == T_VARIABLE && result.var.Type.BaseType[0] == TYPE_CHAR ) {
         result.type = T_STRING ;
-        if ( *( uint8_t * )result.data >= 32 )
+        if ( *( uint8_t * )result.data >= 32 ) {
             _snprintf( result.name, sizeof( result.name ), "%c", *( uint8_t * )result.data ) ;
-        else
+        } else {
             _snprintf( result.name, sizeof( result.name ), "\\x%02X", *( uint8_t * )result.data ) ;
+        }
     }
 }
 
 /* --------------------------------------------------------------------------- */
 
-static int type_size( DCB_TYPEDEF orig )
-{
+static int type_size( DCB_TYPEDEF orig ) {
     unsigned int n, total ;
 
-    switch ( orig.BaseType[0] )
-    {
+    switch ( orig.BaseType[0] ) {
         case TYPE_ARRAY:
             return orig.Count[0] * type_size( reduce_type( orig ) ) ;
 
@@ -916,8 +915,9 @@ static int type_size( DCB_TYPEDEF orig )
 
         case TYPE_STRUCT:
             total = 0 ;
-            for ( n = 0 ; n < dcb.varspace[orig.Members].NVars ; n++ )
+            for ( n = 0 ; n < dcb.varspace[orig.Members].NVars ; n++ ) {
                 total += type_size( dcb.varspace_vars[orig.Members][n].Type ) ;
+            }
             return total ;
 
         default:
@@ -927,14 +927,11 @@ static int type_size( DCB_TYPEDEF orig )
 
 /* --------------------------------------------------------------------------- */
 
-static void eval_local( DCB_PROC * proc, INSTANCE * i )
-{
+static void eval_local( DCB_PROC * proc, INSTANCE * i ) {
     unsigned int n ;
 
-    for ( n = 0 ; n < dcb.data.NLocVars ; n++ )
-    {
-        if ( dcb.locvar[n].ID == token.code )
-        {
+    for ( n = 0 ; n < dcb.data.NLocVars ; n++ ) {
+        if ( dcb.locvar[n].ID == token.code ) {
             strcpy( result.name, token.name ) ;
             result.type = T_VARIABLE ;
             result.var  = dcb.locvar[n] ;
@@ -944,10 +941,8 @@ static void eval_local( DCB_PROC * proc, INSTANCE * i )
         }
     }
 
-    for ( n = 0 ; n < proc->data.NPriVars ; n++ )
-    {
-        if ( proc->privar[n].ID == token.code )
-        {
+    for ( n = 0 ; n < proc->data.NPriVars ; n++ ) {
+        if ( proc->privar[n].ID == token.code ) {
             strcpy( result.name, token.name ) ;
             result.type = T_VARIABLE ;
             result.var  = proc->privar[n] ;
@@ -957,10 +952,8 @@ static void eval_local( DCB_PROC * proc, INSTANCE * i )
         }
     }
 
-    for ( n = 0 ; n < proc->data.NPubVars ; n++ )
-    {
-        if ( proc->pubvar[n].ID == token.code )
-        {
+    for ( n = 0 ; n < proc->data.NPubVars ; n++ ) {
+        if ( proc->pubvar[n].ID == token.code ) {
             strcpy( result.name, token.name ) ;
             result.type = T_VARIABLE ;
             result.var  = proc->pubvar[n] ;
@@ -1767,7 +1760,7 @@ static void console_do( const char * command )
 
     if ( strcmp( action, "GO" ) == 0 )
     {
-        SDL_EnableKeyRepeat( 0, 0 );
+        //SDL_EnableKeyRepeat( 0, 0 );
         debug_mode = 0;
         debug_on_frame = 0;
         force_debug = 0;
@@ -1779,7 +1772,7 @@ static void console_do( const char * command )
 
     if ( strcmp( action, "NEXTFRAME" ) == 0 )
     {
-        SDL_EnableKeyRepeat( 0, 0 );
+        //SDL_EnableKeyRepeat( 0, 0 );
         break_on_next_proc = 0;
         debug_mode = 0;
         debug_on_frame = 1;
@@ -1791,7 +1784,7 @@ static void console_do( const char * command )
 
     if ( strcmp( action, "NEXTPROC" ) == 0 )
     {
-        SDL_EnableKeyRepeat( 0, 0 );
+        //SDL_EnableKeyRepeat( 0, 0 );
         debug_mode = 0;
         debug_on_frame = 0;
         force_debug = 0;
@@ -1802,7 +1795,7 @@ static void console_do( const char * command )
 
     if ( strcmp( action, "TRACE" ) == 0 )
     {
-        SDL_EnableKeyRepeat( 0, 0 );
+        //SDL_EnableKeyRepeat( 0, 0 );
         debug_mode = 0;
         debug_on_frame = 0;
         force_debug = 0;
@@ -2385,14 +2378,14 @@ static int console_keyboard_handler_cb( SDL_Keysym k )
         {
             if ( !debug_mode )
             {
-                SDL_EnableKeyRepeat( 250, 50 );
+                //SDL_EnableKeyRepeat( 250, 50 );
                 debug_mode = 1;
                 force_debug = 1;
                 console_showing = 1 ;
             }
             else
             {
-                SDL_EnableKeyRepeat( 0, 0 );
+                //SDL_EnableKeyRepeat( 0, 0 );
                 debug_mode = 0;
                 force_debug = 0;
                 console_showing = 0 ;
@@ -2622,7 +2615,7 @@ static void console_draw( INSTANCE * i, REGION * clip )
 
     if ( debug_on_frame || force_debug )
     {
-        SDL_EnableKeyRepeat( 250, 50 );
+        //SDL_EnableKeyRepeat( 250, 50 );
         debug_on_frame = 0;
         force_debug = 0;
         debug_mode = 1;
@@ -2738,29 +2731,13 @@ static void console_draw( INSTANCE * i, REGION * clip )
         if ( line == CONSOLE_HISTORY ) line = 0 ;
     }
 
-    if ( console_showing && trace_sentence != -1 )
-    {
-        if ( dcb.data.Version < 0x0710 )
-        {
-            if ( trace_instance && instance_exists( trace_instance ) && dcb.sourcecount[trace_sentence >> 24] )
-            {
-                console_printf( "\25407[%s(%d):%d]\n\25414%s\25407\n\n",
-                        trace_instance->proc->name,
-                        LOCDWORD( mod_debug, trace_instance, PROCESS_ID ),
-                        trace_sentence & 0xFFFFFF,
-                        dcb.sourcelines [trace_sentence >> 24] [( trace_sentence & 0xFFFFFF )-1] ) ;
-            }
-        }
-        else
-        {
-            if ( trace_instance && instance_exists( trace_instance ) && dcb.sourcecount[trace_sentence >> 20] )
-            {
-                console_printf( "\25407[%s(%d):%d]\n\25414%s\25407\n\n",
-                        trace_instance->proc->name,
-                        LOCDWORD( mod_debug, trace_instance, PROCESS_ID ),
-                        trace_sentence & 0xFFFFF,
-                        dcb.sourcelines [trace_sentence >> 20] [( trace_sentence & 0xFFFFF )-1] ) ;
-            }
+    if ( console_showing && trace_sentence != -1 ) {
+        if ( trace_instance && instance_exists( trace_instance ) && dcb.sourcecount[trace_sentence >> 20] ) {
+            console_printf( "\25407[%s(%d):%d]\n\25414%s\25407\n\n",
+                    trace_instance->proc->name,
+                    LOCDWORD( mod_debug, trace_instance, PROCESS_ID ),
+                    trace_sentence & 0xFFFFF,
+                    dcb.sourcelines [trace_sentence >> 20] [( trace_sentence & 0xFFFFF )-1] ) ;
         }
         debug_on_frame = 0;
         force_debug = 0;
@@ -2774,8 +2751,7 @@ static void console_draw( INSTANCE * i, REGION * clip )
     systext_puts( scrbitmap, x + CHARWIDTH*2, y, console_input, console_columns - 2 ) ;
     console_input[strlen( console_input )-1] = 0 ;
 
-    if ( shiftstatus & 3 )
-    {
+    if ( shiftstatus & 3 ) {
         show_list_window();
         systext_color( 0x404040, 0x00C0C0 ) ;
         if ( console_list_current )
@@ -2872,12 +2848,6 @@ void __bgdexport( mod_debug, module_initialize )()
 
         gr_new_object( -2147483647L - 1, console_info, console_draw, 0 );
     }
-}
-
-/* --------------------------------------------------------------------------- */
-/*
-void __bgdexport( mod_debug, module_finalize )()
-{
 }
 
 /* --------------------------------------------------------------------------- */

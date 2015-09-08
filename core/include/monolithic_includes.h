@@ -28,9 +28,7 @@
 #include <mod_math_symbols.h>
 #include <mod_time_symbols.h>
 #include <mod_file_symbols.h>
-#ifndef NO_MODSOUND
-#  include <mod_sound_symbols.h>
-#endif
+#include <mod_sound_symbols.h>
 #include <mod_proc_symbols.h>
 #include <mod_sort_symbols.h>
 #include <mod_timers_symbols.h>
@@ -148,9 +146,7 @@ basic_symbols symbol_list[] =
     { "mod_math.fakelib"     , NULL, mod_math_constants_def, NULL, NULL, NULL, mod_math_functions_exports },
     { "mod_time.fakelib"     , NULL, NULL, NULL, NULL, NULL, mod_time_functions_exports },
     { "mod_file.fakelib"     , NULL, mod_file_constants_def, NULL, NULL, NULL, mod_file_functions_exports },
-#ifndef NO_MODSOUND
     { "mod_sound.fakelib"    , NULL, mod_sound_constants_def, NULL, mod_sound_globals_def, NULL, mod_sound_functions_exports },
-#endif
     { "mod_proc.fakelib"     , NULL, mod_proc_constants_def, NULL, NULL, mod_proc_locals_def, mod_proc_functions_exports },
     { "mod_sort.fakelib"     , NULL, NULL, NULL, NULL, NULL, mod_sort_functions_exports },
     { "mod_timers.fakelib"   , NULL, NULL, NULL, mod_timers_globals_def, NULL, NULL },
@@ -235,9 +231,7 @@ extra_symbols symbol_list_runtime[] =
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_math
     { NULL, NULL, mod_time_module_initialize, mod_time_module_finalize, NULL, NULL, NULL, NULL }, //mod_time
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_file
-#ifndef NO_MODSOUND
     { mod_sound_globals_fixup, NULL, mod_sound_module_initialize, mod_sound_module_finalize, NULL, NULL, NULL, NULL}, //mod_sound
-#endif
     { NULL, mod_proc_locals_fixup, NULL, NULL, NULL, NULL, mod_proc_process_exec_hook, NULL}, //mod_proc
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_sort
     { mod_timers_globals_fixup, NULL, NULL, NULL, NULL, NULL, NULL, mod_timers_handler_hooks }, //mod_timers
@@ -265,7 +259,7 @@ extra_symbols symbol_list_runtime[] =
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_mem
 #endif
 #ifndef NO_MODDEBUG
-    { mod_debug_globals_fixup, mod_debug_locals_fixup, mod_debug_module_initialize, mod_debug_module_finalize, NULL, NULL, mod_debug_process_exec_hook, NULL }, //mod_debug
+    { mod_debug_globals_fixup, mod_debug_locals_fixup, mod_debug_module_initialize, NULL, NULL, NULL, mod_debug_process_exec_hook, NULL }, //mod_debug
 #endif
     /* Unofficial modules */
 #ifndef NO_MODICONV

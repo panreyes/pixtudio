@@ -65,6 +65,7 @@ extern int          string_ucase( int code1 ) ;
 extern int          string_lcase( int code1 ) ;
 extern int          string_strip( int code ) ;
 extern int          string_pad( int code, int length, int align ) ;
+extern int          string_replace( int id_rep, int id_with, int id_orig) ;
 extern int          string_format( double number, int dec, char point, char thousands ) ;
 extern int          string_concat( int code1, char * str2 ) ;
 
