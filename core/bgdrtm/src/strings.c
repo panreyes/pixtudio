@@ -1046,9 +1046,9 @@ int string_pad( int code, int total, int align )
  */
 
 int string_replace( int id_rep, int id_with, int id_orig) {
-    char *orig = string_get( id_orig ) ;
-    char *rep = string_get( id_rep ) ;
-    char *with = string_get( id_with ) ;
+    char *orig = (char *)string_get( id_orig ) ;
+    char *rep = (char *)string_get( id_rep ) ;
+    char *with = (char *)string_get( id_with ) ;
 
     int id;
     
@@ -1064,7 +1064,7 @@ int string_replace( int id_rep, int id_with, int id_orig) {
     len_with = strlen(with);
 
     ins = orig;
-    for (count = 0; tmp = strstr(ins, rep); ++count) {
+    for (count = 0; (tmp = strstr(ins, rep)); ++count) {
         ins = tmp + len_rep;
     }
 
