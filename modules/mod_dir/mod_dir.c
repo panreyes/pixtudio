@@ -46,6 +46,9 @@
 #include <glob.h>
 #endif
 
+// I need this for prefpath and basepath
+#include <SDL_filesystem.h>
+
 #include "bgddl.h"
 #include "dlvaracc.h"
 #include "files.h"
