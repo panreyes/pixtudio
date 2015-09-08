@@ -995,7 +995,7 @@ void systext_puts( GRAPH * map, int x, int y, char * str, int len );
 
 /* --------------------------------------------------------------------------- */
 
-static uint8_t * letters = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.:;=%abcdefghijklmnopqrstuvwxyz[](){}-><_,\\/+*!¡?¿\"'\x01\x02\x03ÁÉÍÓÚÑáéíóúñ" ;
+static uint8_t letters[] = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.:;=%abcdefghijklmnopqrstuvwxyz[](){}-><_,\\/+*!¡?¿\"'\x01\x02\x03\193\201\205\211\218\209\225\233\237\243\250\361" ;
 
 static int fg = 0, bg = 0;
 
@@ -1007,26 +1007,23 @@ void systext_putchar( GRAPH * map, int ox, int oy, uint8_t c )
     static int corr[256] ;
     static int corr_init = 0 ;
 
-    if ( !corr_init )
-    {
+    if ( !corr_init ) {
         uint8_t * ptr ;
 
-        for ( ptr = letters; *ptr; ptr++ )
+        for ( ptr = letters; *ptr; ptr++ ) {
             corr[*ptr] = corr_init++ ;
+        }
     }
 
 #define PUTSYS(TYPE)                                            \
-    for (y = oy ; y < oy+8 ; y++)                               \
-    {                                                           \
+    for (y = oy ; y < oy+8 ; y++)  {                            \
         TYPE * ptr; uint8_t * cptr ;                            \
         if (y < 0 || y >= (int)map->height) continue ;          \
         ptr = (TYPE *)((uint8_t*)map->data + map->pitch*y) ;    \
         ptr += ox;                                              \
         cptr = (uint8_t*)sysfont[c][y-oy];                      \
-        for (x = ox ; x < ox+6 ; x++, cptr++)                   \
-        {                                                       \
-            if (x < 0 || x >= (int)map->width)                  \
-            {                                                   \
+        for (x = ox ; x < ox+6 ; x++, cptr++)  {                \
+            if (x < 0 || x >= (int)map->width) {                \
                 ptr++ ;                                         \
                 continue ;                                      \
             }                                                   \
