@@ -345,7 +345,6 @@ static void console_printf( const char *fmt, ... ) {
         if ( ptr ) {
             ptr++ ;
             memmove( ptr + 3, ptr, strlen( ptr ) + 1 ) ;
-            // "¬07"
             memmove( ptr, "\033[0m", 3 ) ;
         }
     }
@@ -675,10 +674,10 @@ static void show_var( DCB_VAR var, char * name, void * data, char * title, int i
     }
 
     if ( data ) {
-        console_printf("%s%s %s %s %s\n", title, spaces, describe_type( var.Type, 0 ), name,
+        console_printf("%s%s %s %s %s", title, spaces, describe_type( var.Type, 0 ), name,
                        show_value( var.Type, data ) ) ;
     } else {
-        console_printf("%s%s %s %s\n", title, spaces, describe_type( var.Type, 0 ), name ) ;
+        console_printf("%s%s %s %s", title, spaces, describe_type( var.Type, 0 ), name ) ;
     }
 
     if ( var.Type.BaseType[0] == TYPE_STRUCT ) {
@@ -1406,27 +1405,36 @@ static void console_instance_dump( INSTANCE * father, int indent )
     int n, nid, bigbro, son ;
 
     i = father ;
-    if ( !father ) i = first_instance ;
+    if ( !father ) {
+        i = first_instance ;
+    }
 
     proc = i->proc ;
     dcbproc = &dcb.proc[proc->type] ;
 
     nid = LOCDWORD( mod_debug, i, PROCESS_ID ) ;
-    if ( dcb.data.NSourceFiles && dcbproc->data.ID )
+    if ( dcb.data.NSourceFiles && dcbproc->data.ID ) {
         sprintf( buffer, "%s", getid_name( dcbproc->data.ID ) ) ;
-    else
+    } else {
         sprintf( buffer, "%s", ( proc->type == 0 ) ? "MAIN" : "PROC" ) ;
+    }
 
     line[0] = 0 ;
-    for ( n = 0 ; n < indent - 1; n++ ) strcat( line, " \x03 " );
+    for ( n = 0 ; n < indent - 1; n++ ) {
+        strcat( line, " \x03 " );
+    }
 
-    sprintf( line + strlen( line ), " \x01\x02 %-12s ", buffer ) ;
+    sprintf( line + strlen( line ), " %-12s ", buffer ) ;
 
     n = strlen( line ) % 4 ;
-    while ( n && ( n++ < 4 ) ) strcat( line, " " ) ;
+    while ( n && ( n++ < 4 ) ) {
+        strcat( line, " " ) ;
+    }
     sprintf( line + strlen( line ), "%7d", nid ) ;
 
-    if ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) strcat( line, "[W]" );
+    if ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) {
+        strcat( line, "[W]" );
+    }
     switch ( LOCDWORD( mod_debug, i, STATUS ) & ~STATUS_WAITING_MASK )
     {
         case STATUS_DEAD        :   strcat( line, "[D]" ) ; break ;
@@ -1438,46 +1446,48 @@ static void console_instance_dump( INSTANCE * father, int indent )
 
     console_printf( "\033[0m%s", line ) ;
 
-    if ( !( son = LOCDWORD( mod_debug, i, SON ) ) ) return ;
+    if ( !( son = LOCDWORD( mod_debug, i, SON ) ) ) {
+        return ;
+    }
 
     next = instance_get( son ) ;
-    if ( !next ) console_printf( "\033[38;2;192;0;0m\12**PANIC**\7 SON %d does not exist\033[0m", son ) ;
+    if ( !next ) {
+        console_printf( "\033[38;2;192;0;0m\12**PANIC**\7 SON %d does not exist\033[0m", son ) ;
+    }
 
     i = next ;
 
-    while ( i )
-    {
+    while ( i ) {
         proc = i->proc ;
         dcbproc = &dcb.proc[proc->type] ;
 
-        if ( LOCDWORD( mod_debug, i, SON ) )
-        {
+        if ( LOCDWORD( mod_debug, i, SON ) ) {
             console_instance_dump( i, indent + 1 ) ;
-        }
-        else
-        {
+        } else {
             nid = LOCDWORD( mod_debug, i, PROCESS_ID ) ;
-            if ( dcb.data.NSourceFiles && dcbproc->data.ID )
-            {
+            if ( dcb.data.NSourceFiles && dcbproc->data.ID ) {
                 sprintf( buffer, "%s", getid_name( dcbproc->data.ID ) ) ;
-            }
-            else
-            {
+            } else {
                 sprintf( buffer, "%s", ( proc->type == 0 ) ? "MAIN" : "PROC" ) ;
             }
 
             line[0] = 0 ;
-            for ( n = 0 ; n < indent; n++ ) strcat( line, " \x03 " );
+            for ( n = 0 ; n < indent; n++ ) {
+                strcat( line, " \x03 " );
+            }
 
             sprintf( line + strlen( line ), " \x01\x02 %-12s ", buffer ) ;
 
             n = strlen( line ) % 4 ;
-            while ( n && ( n++ < 4 ) ) strcat( line, " " ) ;
+            while ( n && ( n++ < 4 ) ) {
+                strcat( line, " " ) ;
+            }
             sprintf( line + strlen( line ), "%7d", nid ) ;
 
-            if ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) strcat( line, "[W]" );
-            switch ( LOCDWORD( mod_debug, i, STATUS ) & ~STATUS_WAITING_MASK )
-            {
+            if ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) {
+                strcat( line, "[W]" );
+            }
+            switch ( LOCDWORD( mod_debug, i, STATUS ) & ~STATUS_WAITING_MASK ) {
                 case STATUS_DEAD        :   strcat( line, "[D]" ) ; break ;
                 case STATUS_KILLED      :   strcat( line, "[K]" ) ; break ;
                 case STATUS_RUNNING     :   strcat( line, "   " ) ; break ;
@@ -1487,14 +1497,16 @@ static void console_instance_dump( INSTANCE * father, int indent )
             console_printf( "\033[0m%s", line ) ;
         }
 
-        if ( ( bigbro = LOCDWORD( mod_debug, i, BIGBRO ) ) )
-        {
+        if ( ( bigbro = LOCDWORD( mod_debug, i, BIGBRO ) ) ) {
             next = instance_get( bigbro ) ;
-            if ( !next ) console_printf( "\033[38;2;192;0;0m\12**PANIC**\7 BIGBRO %d does not exist\033[0m", bigbro ) ;
+            if ( !next ) {
+                console_printf( "\033[38;2;192;0;0m\12**PANIC**\7 BIGBRO %d does not exist\033[0m", bigbro ) ;
+            }
             i = next ;
         }
-        else
+        else {
             break ;
+        }
     }
 }
 
