@@ -333,10 +333,11 @@ int gr_set_mode( int width, int height, int depth )
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
 
+    // make the scaled rendering look smoother.
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+
     // Enable SDL scaling, if needed
     if(renderer_width != width || renderer_height != height) {
-        // I should add support for this from BennuGD
-        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // make the scaled rendering look smoother.
         SDL_RenderSetLogicalSize(renderer, width, height);
         SDL_Log("Set logical size to: %dx%d", width, height);
     }
