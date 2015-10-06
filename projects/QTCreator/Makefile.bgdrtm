@@ -116,7 +116,7 @@ INCLUDES	:=	../../core/include \
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS		=	-m32 -g -Wall -D__BGDRTM__ -D__MONOLITHIC__ -DNO_ZLIB -DNO_MODIMAGE \
+CFLAGS		=	-m32 -g -Wall -D__BGDRTM__ -D__MONOLITHIC__ -DNO_MODIMAGE \
 	-DNO_MODICONV -DNO_MODCHIPMUNK -DNO_MODCURL \
 	-DNO_MODSENSOR -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE) \
 	-fno-strict-aliasing
