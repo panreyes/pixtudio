@@ -32,8 +32,9 @@
 #include <assert.h>
 
 #include <theoraplay.h>
+#include <AL/AL.h>
+#include <AL/alc.h>
 #include <SDL.h>
-#include <SDL_mixer.h>
 
 /* BennuGD stuff */
 #include <bgddl.h>
@@ -51,7 +52,6 @@ struct ctx
     THEORAPLAY_Decoder *decoder;
     Uint32 baseticks;
     Uint32 framems;
-    int convertaudio;
 };
 
 typedef struct AudioQueue
@@ -63,6 +63,8 @@ typedef struct AudioQueue
 
 static volatile AudioQueue *audio_queue = NULL;
 static volatile AudioQueue *audio_queue_tail = NULL;
+ALCdevice *audio_device;
+ALCcontext *audio_context;
 
 int mixer_freq, mixer_channels;
 Uint16 mixer_format;
@@ -71,8 +73,7 @@ struct ctx video;
 
 int playing_video=0;
 
-static void SDLCALL audio_callback(void *userdata, Uint8 *stream, int len)
-{
+static void SDLCALL audio_callback(void *userdata, Uint8 *stream, int len) {
     if(! playing_video) {
         return;
     }
@@ -81,8 +82,7 @@ static void SDLCALL audio_callback(void *userdata, Uint8 *stream, int len)
 
     float remaining = len, parsed_len = 0.0f;
 
-    while (audio_queue && (remaining > 0.0f))
-    {
+    while (audio_queue && (remaining > 0.0f)) {
         const Uint32 now = SDL_GetTicks() - video.baseticks;
         volatile AudioQueue *item = audio_queue;
         AudioQueue *next = item->next;
@@ -99,8 +99,7 @@ static void SDLCALL audio_callback(void *userdata, Uint8 *stream, int len)
         if ( next->audio->playms > now ) {
             int i;
 
-            for (i = 0; i < cpy; i++)
-            {
+            for (i = 0; i < cpy; i++) {
                 const float val = *(src++);
                 if (val < -1.0f)
                     *(dst++) = -32768;
@@ -111,29 +110,12 @@ static void SDLCALL audio_callback(void *userdata, Uint8 *stream, int len)
             }
 
             parsed_len = cpy * sizeof (Sint16);
-
-            if (video.convertaudio) {
-                dst -= cpy;
-                video.cvt.buf = malloc(cpy * sizeof (Sint16) * video.cvt.len_mult);
-                video.cvt.len = cpy * sizeof (Sint16) ;
-                memcpy(video.cvt.buf, dst, cpy * sizeof (Sint16));
-                SDL_ConvertAudio(&video.cvt);
-                if(video.cvt.len_cvt) {
-                    memcpy(dst, video.cvt.buf, video.cvt.len_cvt);
-                    dst += (video.cvt.len_cvt) / sizeof (Sint16);
-                }
-                free(video.cvt.buf);
-
-                parsed_len = video.cvt.len_cvt;
-            }
-
             remaining -= parsed_len;
         }
 
         item->offset += (cpy / channels);
 
-        if (item->offset >= item->audio->frames)
-        {
+        if (item->offset >= item->audio->frames) {
             THEORAPLAY_freeAudio(item->audio);
             free((void *) item);
             audio_queue = next;
@@ -151,8 +133,7 @@ static void SDLCALL audio_callback(void *userdata, Uint8 *stream, int len)
 static void queue_audio(const THEORAPLAY_AudioPacket *audio)
 {
     AudioQueue *item = (AudioQueue *) malloc(sizeof (AudioQueue));
-    if (!item)
-    {
+    if (!item) {
         THEORAPLAY_freeAudio(audio);
         return;  // oh well.
     } // if
@@ -253,7 +234,9 @@ static int video_play(INSTANCE *my, int * params)
         return -1;
     }
 
-	if(! scr_initialized) return (-1);
+    if(! scr_initialized) {
+        return (-1);
+    }
 
     playing_video = 1;
 
@@ -284,6 +267,24 @@ static int video_play(INSTANCE *my, int * params)
         return -1;
     }
 
+    // Initialize Open AL
+    alGetErrror();  // clear error stack
+    ALCdevice* audio_device = alcOpenDevice(NULL); // open default device
+    if (audio_device == NULL) {
+        fprintf(stderr, "Audio initialization failed!\n");
+        THEORAPLAY_stopDecode(video.decoder);
+        return -1;
+    }
+
+    audio_context = alcCreateContext(audio_device, NULL); // create context
+    if (audio_context == NULL) {
+        fprintf(stderr, "Audio context creation failed\n");
+        alcCloseDevice(audio_device);
+        THEORAPLAY_stopDecode(video.decoder);
+        return -1;
+    }
+    alcMakeContextCurrent(audio_context); // set active context
+
     while (!video.frame || !video.audio) {
         if (!video.frame) video.frame = THEORAPLAY_getVideo(video.decoder);
         if (!video.audio) video.audio = THEORAPLAY_getAudio(video.decoder);
@@ -292,22 +293,20 @@ static int video_play(INSTANCE *my, int * params)
 
     video.framems = (video.frame->fps == 0.0) ? 0 : ((Uint32) (1000.0 / video.frame->fps));
 
-    Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels);
-
-    video.convertaudio = 0;
+//    Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels);
 
     SDL_Log("Source: %d, %d", video.audio->channels, video.audio->freq);
     SDL_Log("Destination: %d, %d", mixer_channels, mixer_freq);
 
-    if ( video.audio && (video.audio->freq != mixer_freq || video.audio->channels != mixer_channels) ) {
-        if (SDL_BuildAudioCVT(&video.cvt,
-                              AUDIO_S16, video.audio->channels, video.audio->freq,
-                              mixer_format, mixer_channels, mixer_freq) == -1) {
-            SDL_Log("Couldn't create required audio conversion SDL_AudioCVT:\n%s", SDL_GetError());
-        } else {
-            video.convertaudio = 1;
-        }
-    }
+//    if ( video.audio && (video.audio->freq != mixer_freq || video.audio->channels != mixer_channels) ) {
+//        if (SDL_BuildAudioCVT(&video.cvt,
+//                              AUDIO_S16, video.audio->channels, video.audio->freq,
+//                              mixer_format, mixer_channels, mixer_freq) == -1) {
+//            SDL_Log("Couldn't create required audio conversion SDL_AudioCVT:\n%s", SDL_GetError());
+//        } else {
+//            video.convertaudio = 1;
+//        }
+//    }
 
     while (video.audio) {
         queue_audio(video.audio);
@@ -336,8 +335,6 @@ static int video_play(INSTANCE *my, int * params)
     grlib_add_map( 0, video.graph ) ;
     THEORAPLAY_freeVideo(video.frame);
     video.frame = NULL;
-
-//    Mix_HookMusic(audio_callback, NULL);
 
     playing_video = 1;
 
@@ -373,10 +370,12 @@ static int video_stop(INSTANCE *my, int * params)
         audio_queue = next;
     } // while
 
-    if (!audio_queue)
+    if (!audio_queue) {
         audio_queue_tail = NULL;
+    }
 
-    Mix_HookMusic(NULL, NULL);
+    alcDestroyContext(audio_context);
+    alcCloseDevice(audio_device);
 
     return 0;
 }
