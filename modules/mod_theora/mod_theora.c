@@ -36,7 +36,7 @@
 #include <AL/alc.h>
 #include <SDL.h>
 
-/* BennuGD stuff */
+/* PixTudio stuff */
 #include <bgddl.h>
 #include <xstrings.h>
 #include <libgrbase.h>
@@ -52,101 +52,21 @@ struct ctx
     THEORAPLAY_Decoder *decoder;
     Uint32 baseticks;
     Uint32 framems;
+    ALuint audio_buffer;
+    ALuint audio_source;
 };
 
-typedef struct AudioQueue
-{
-    const THEORAPLAY_AudioPacket *audio;
-    int offset;
-    struct AudioQueue *next;
-} AudioQueue;
-
-static volatile AudioQueue *audio_queue = NULL;
-static volatile AudioQueue *audio_queue_tail = NULL;
 ALCdevice *audio_device;
 ALCcontext *audio_context;
-
-int mixer_freq, mixer_channels;
-Uint16 mixer_format;
 
 struct ctx video;
 
 int playing_video=0;
 
-static void SDLCALL audio_callback(void *userdata, Uint8 *stream, int len) {
-    if(! playing_video) {
-        return;
-    }
 
-    Sint16 *dst = (Sint16 *) stream;
-
-    float remaining = len, parsed_len = 0.0f;
-
-    while (audio_queue && (remaining > 0.0f)) {
-        const Uint32 now = SDL_GetTicks() - video.baseticks;
-        volatile AudioQueue *item = audio_queue;
-        AudioQueue *next = item->next;
-
-        const int channels = item->audio->channels;
-
-        const float *src = item->audio->samples + (item->offset * channels);
-        int cpy = (item->audio->frames - item->offset) * channels;
-
-        if (cpy > (len / sizeof (Sint16)))
-            cpy = len / sizeof (Sint16);
-
-        // Drop audio packets if we're out of sync
-        if ( next->audio->playms > now ) {
-            int i;
-
-            for (i = 0; i < cpy; i++) {
-                const float val = *(src++);
-                if (val < -1.0f)
-                    *(dst++) = -32768;
-                else if (val > 1.0f)
-                    *(dst++) = 32767;
-                else
-                    *(dst++) = (Sint16) (val * 32767.0f);
-            }
-
-            parsed_len = cpy * sizeof (Sint16);
-            remaining -= parsed_len;
-        }
-
-        item->offset += (cpy / channels);
-
-        if (item->offset >= item->audio->frames) {
-            THEORAPLAY_freeAudio(item->audio);
-            free((void *) item);
-            audio_queue = next;
-        } // if
-    } // while
-
-    if (!audio_queue)
-        audio_queue_tail = NULL;
-
-    if (remaining > 0)
-        memset(dst, '\0', (int)remaining);
-} // audio_callback
-
-
-static void queue_audio(const THEORAPLAY_AudioPacket *audio)
-{
-    AudioQueue *item = (AudioQueue *) malloc(sizeof (AudioQueue));
-    if (!item) {
-        THEORAPLAY_freeAudio(audio);
-        return;  // oh well.
-    } // if
-
-    item->audio = audio;
-    item->offset = 0;
-    item->next = NULL;
-
-    if (audio_queue_tail)
-        audio_queue_tail->next = item;
-    else
-        audio_queue = item;
-    audio_queue_tail = item;
+static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
+    ALsizei size = (ALsizei)(audio->frames * audio->channels * sizeof(float));
+    alBufferData(video.audio_buffer, alGetEnumValue("AL_FORMAT_STEREO_FLOAT32"), audio->samples, size, audio->freq);
 } // queue_audio
 
 // Paint the current video frame onscreen, skipping those that we already missed
@@ -267,11 +187,22 @@ static int video_play(INSTANCE *my, int * params)
         return -1;
     }
 
-    // Initialize Open AL
+    // Initialize OpenAL
     alGetErrror();  // clear error stack
     ALCdevice* audio_device = alcOpenDevice(NULL); // open default device
     if (audio_device == NULL) {
         fprintf(stderr, "Audio initialization failed!\n");
+        THEORAPLAY_stopDecode(video.decoder);
+        return -1;
+    }
+
+    // Load float32 extension, if present
+    // The conversion from float32 to int16 (which is what OpenAL without
+    // extensions seems to prefer) is rather simple, but I'd rather not
+    // do it
+    if(! alIsExtensionPresent("AL_EXT_float32")) {
+        fprintf("OpenAL Extension AL_EXT_float32 not present, refusing to play");
+        alcCloseDevice(audio_device);
         THEORAPLAY_stopDecode(video.decoder);
         return -1;
     }
@@ -293,20 +224,34 @@ static int video_play(INSTANCE *my, int * params)
 
     video.framems = (video.frame->fps == 0.0) ? 0 : ((Uint32) (1000.0 / video.frame->fps));
 
-//    Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels);
+    SDL_Log("Audio Channels, Freq: %d, %d", video.audio->channels, video.audio->freq);
 
-    SDL_Log("Source: %d, %d", video.audio->channels, video.audio->freq);
-    SDL_Log("Destination: %d, %d", mixer_channels, mixer_freq);
+    // Generate the audio source
+    alGenSources((ALuint)1, &video.audio_source);
+    if(alGetError() != AL_NO_ERROR) {
+        fprintf(stderr, "Audio source creation failed\n");
+        alcCloseDevice(audio_device);
+        THEORAPLAY_stopDecode(video.decoder);
+        return -1;
+    }
+    // Set the source properties (probably not strictly required)
+    alSourcef(source, AL_PITCH, 1);
+    alSourcef(source, AL_GAIN, 1);
+    alSource3f(source, AL_POSITION, 0, 0, 0);
+    alSource3f(source, AL_VELOCITY, 0, 0, 0);
+    alSourcei(source, AL_LOOPING, AL_FALSE);
 
-//    if ( video.audio && (video.audio->freq != mixer_freq || video.audio->channels != mixer_channels) ) {
-//        if (SDL_BuildAudioCVT(&video.cvt,
-//                              AUDIO_S16, video.audio->channels, video.audio->freq,
-//                              mixer_format, mixer_channels, mixer_freq) == -1) {
-//            SDL_Log("Couldn't create required audio conversion SDL_AudioCVT:\n%s", SDL_GetError());
-//        } else {
-//            video.convertaudio = 1;
-//        }
-//    }
+    // Generate the audio buffer that we'll fill with audio
+    alGenBuffers((ALuint)1, &video.audio_buffer);
+    if(alGetError() != AL_NO_ERROR) {
+        fprintf(stderr, "Audio buffer creation failed\n");
+        alDeleteSources(1, &video.audio_source);
+        alcCloseDevice(audio_device);
+        THEORAPLAY_stopDecode(video.decoder);
+        return -1;
+    }
+    // Bind the source to the buffer
+    alSourceQueueBuffers(video.audio_source, 1, video.audio_buffer);
 
     while (video.audio) {
         queue_audio(video.audio);
@@ -321,6 +266,10 @@ static int video_play(INSTANCE *my, int * params)
     if(! video.graph) {
         THEORAPLAY_stopDecode(video.decoder);
         video.decoder = NULL;
+        alDeleteBuffers(1, &video.audio_buffer);
+        alDeleteSources(1, &video.audio_source);
+        alcCloseDevice(audio_device);
+        THEORAPLAY_stopDecode(video.decoder);
         return -1;
     }
 
@@ -361,19 +310,9 @@ static int video_stop(INSTANCE *my, int * params)
         video.decoder = NULL;
     }
 
-    /* Empty the audio queue */
-    while (audio_queue) {
-        volatile AudioQueue *item = audio_queue;
-        AudioQueue *next = item->next;
-        THEORAPLAY_freeAudio(item->audio);
-        free((void *) item);
-        audio_queue = next;
-    } // while
-
-    if (!audio_queue) {
-        audio_queue_tail = NULL;
-    }
-
+    alDeleteBuffers(1, &video.audio_buffer);
+    alDeleteSources(1, &video.audio_source);
+    alcMakeContextCurrent(NULL);
     alcDestroyContext(audio_context);
     alcCloseDevice(audio_device);
 
