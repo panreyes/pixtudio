@@ -53,6 +53,7 @@ struct ctx
     Uint32 baseticks;
     Uint32 framems;
     ALuint audio_source;
+    ALuint audio_buffers[10];
 };
 
 ALCdevice *audio_device;
@@ -62,6 +63,11 @@ struct ctx video;
 
 char playing_video = 0;
 
+
+// TODO: Get the first available audiobuffer
+// We need this so that we can reuse the audio buffers
+int get_free_audiobuffer() {
+}
 
 static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
     ALuint buffer;
@@ -76,7 +82,7 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
         THEORAPLAY_stopDecode(video.decoder);
     }
 
-    size = (ALsizei)(audio->frames * audio->channels * 4);
+    size = (ALsizei)(audio->frames * audio->channels * 4); // 4 == sizeof(float32)
     alBufferData(buffer, alGetEnumValue("AL_FORMAT_STEREO_FLOAT32"), audio->samples, size, audio->freq);
     if((error = alGetError()) != AL_NO_ERROR) {
         fprintf(stderr, "Audio buffer data copying failed: %s\n", alGetString(error));
@@ -86,7 +92,7 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
     }
 
     // Free the audio packet
-    //THEORAPLAY_freeAudio(audio);
+    THEORAPLAY_freeAudio(audio);
 } // queue_audio
 
 // Paint the current video frame onscreen, skipping those that we already missed
@@ -211,8 +217,6 @@ static int video_play(INSTANCE *my, int * params) {
     }
 
     video.framems = (video.frame->fps == 0.0) ? 0 : ((Uint32) (1000.0 / video.frame->fps));
-
-    SDL_Log("Audio Channel: %d, Freq: %d", video.audio->channels, video.audio->freq);
 
     // Generate the audio source
     alGenSources((ALuint)1, &video.audio_source);
@@ -342,10 +346,7 @@ void __bgdexport( mod_theora, module_initialize )() {
     /*printf("\tAL Extensions: %s\n", alGetString(AL_EXTENSIONS));
     printf("\tALC Extensions: %s\n", alcGetString(audio_device, ALC_EXTENSIONS));*/
 
-    // Load float32 extension, if present
-    // The conversion from float32 to int16 (which is what OpenAL without
-    // extensions seems to prefer) is rather simple, but I'd rather not
-    // do it
+    // Since audio in the Theora videos is float32, load that extension
     if(! alIsExtensionPresent("AL_EXT_FLOAT32")) {
         fprintf(stderr, "OpenAL Extension AL_EXT_FLOAT32 not present, refusing to initialise\n");
         alcMakeContextCurrent(NULL);
