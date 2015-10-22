@@ -32,8 +32,8 @@
 #include <assert.h>
 
 #include <theoraplay.h>
-#include <AL/AL.h>
-#include <AL/alc.h>
+/*#include <AL/al.h>
+#include <AL/alc.h>*/
 #include <SDL.h>
 
 /* PixTudio stuff */
@@ -52,21 +52,36 @@ struct ctx
     THEORAPLAY_Decoder *decoder;
     Uint32 baseticks;
     Uint32 framems;
-    ALuint audio_buffer;
-    ALuint audio_source;
+    //ALuint audio_source;
 };
 
-ALCdevice *audio_device;
-ALCcontext *audio_context;
+/*ALCdevice *audio_device;
+ALCcontext *audio_context;*/
 
 struct ctx video;
 
-int playing_video=0;
+char playing_video = 0;
+char audio_available = 0;
 
 
 static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
+/*    ALuint buffer;
+
+    // Generate the audio buffer that we'll fill with audio
+    alGenBuffers((ALuint)1, &buffer);
+    if(alGetError() != AL_NO_ERROR) {
+        fprintf(stderr, "Audio buffer creation failed\n");
+        alDeleteSources(1, &video.audio_source);
+        alcCloseDevice(audio_device);
+        THEORAPLAY_stopDecode(video.decoder);
+        return -1;
+    }
+
     ALsizei size = (ALsizei)(audio->frames * audio->channels * sizeof(float));
-    alBufferData(video.audio_buffer, alGetEnumValue("AL_FORMAT_STEREO_FLOAT32"), audio->samples, size, audio->freq);
+    alBufferData(buffer, alGetEnumValue("AL_FORMAT_STEREO_FLOAT32"), audio->samples, size, audio->freq);
+
+    // Bind the source to the buffer
+    alSourceQueueBuffers(video.audio_source, 1, buffer);*/
 } // queue_audio
 
 // Paint the current video frame onscreen, skipping those that we already missed
@@ -141,8 +156,7 @@ static int video_is_playing() {
     return playing_video;
 }
 
-static int video_play(INSTANCE *my, int * params)
-{
+static int video_play(INSTANCE *my, int * params) {
     int bpp, graphid;
     const int MAX_FRAMES = 30;
     void *pixels;
@@ -157,8 +171,6 @@ static int video_play(INSTANCE *my, int * params)
     if(! scr_initialized) {
         return (-1);
     }
-
-    playing_video = 1;
 
     /* Start the decoding, we want to use a YUV format to reduce CPU usage */
     video.decoder = THEORAPLAY_startDecodeFile(string_get(params[0]), MAX_FRAMES, THEORAPLAY_VIDFMT_IYUV);
@@ -187,35 +199,6 @@ static int video_play(INSTANCE *my, int * params)
         return -1;
     }
 
-    // Initialize OpenAL
-    alGetErrror();  // clear error stack
-    ALCdevice* audio_device = alcOpenDevice(NULL); // open default device
-    if (audio_device == NULL) {
-        fprintf(stderr, "Audio initialization failed!\n");
-        THEORAPLAY_stopDecode(video.decoder);
-        return -1;
-    }
-
-    // Load float32 extension, if present
-    // The conversion from float32 to int16 (which is what OpenAL without
-    // extensions seems to prefer) is rather simple, but I'd rather not
-    // do it
-    if(! alIsExtensionPresent("AL_EXT_float32")) {
-        fprintf("OpenAL Extension AL_EXT_float32 not present, refusing to play");
-        alcCloseDevice(audio_device);
-        THEORAPLAY_stopDecode(video.decoder);
-        return -1;
-    }
-
-    audio_context = alcCreateContext(audio_device, NULL); // create context
-    if (audio_context == NULL) {
-        fprintf(stderr, "Audio context creation failed\n");
-        alcCloseDevice(audio_device);
-        THEORAPLAY_stopDecode(video.decoder);
-        return -1;
-    }
-    alcMakeContextCurrent(audio_context); // set active context
-
     while (!video.frame || !video.audio) {
         if (!video.frame) video.frame = THEORAPLAY_getVideo(video.decoder);
         if (!video.audio) video.audio = THEORAPLAY_getAudio(video.decoder);
@@ -227,7 +210,7 @@ static int video_play(INSTANCE *my, int * params)
     SDL_Log("Audio Channels, Freq: %d, %d", video.audio->channels, video.audio->freq);
 
     // Generate the audio source
-    alGenSources((ALuint)1, &video.audio_source);
+    /*alGenSources((ALuint)1, &video.audio_source);
     if(alGetError() != AL_NO_ERROR) {
         fprintf(stderr, "Audio source creation failed\n");
         alcCloseDevice(audio_device);
@@ -235,23 +218,11 @@ static int video_play(INSTANCE *my, int * params)
         return -1;
     }
     // Set the source properties (probably not strictly required)
-    alSourcef(source, AL_PITCH, 1);
-    alSourcef(source, AL_GAIN, 1);
-    alSource3f(source, AL_POSITION, 0, 0, 0);
-    alSource3f(source, AL_VELOCITY, 0, 0, 0);
-    alSourcei(source, AL_LOOPING, AL_FALSE);
-
-    // Generate the audio buffer that we'll fill with audio
-    alGenBuffers((ALuint)1, &video.audio_buffer);
-    if(alGetError() != AL_NO_ERROR) {
-        fprintf(stderr, "Audio buffer creation failed\n");
-        alDeleteSources(1, &video.audio_source);
-        alcCloseDevice(audio_device);
-        THEORAPLAY_stopDecode(video.decoder);
-        return -1;
-    }
-    // Bind the source to the buffer
-    alSourceQueueBuffers(video.audio_source, 1, video.audio_buffer);
+    alSourcef(video.audio_source, AL_PITCH, 1);
+    alSourcef(video.audio_source, AL_GAIN, 1);
+    alSource3f(video.audio_source, AL_POSITION, 0, 0, 0);
+    alSource3f(video.audio_source, AL_VELOCITY, 0, 0, 0);
+    alSourcei(video.audio_source, AL_LOOPING, AL_FALSE);*/
 
     while (video.audio) {
         queue_audio(video.audio);
@@ -266,9 +237,7 @@ static int video_play(INSTANCE *my, int * params)
     if(! video.graph) {
         THEORAPLAY_stopDecode(video.decoder);
         video.decoder = NULL;
-        alDeleteBuffers(1, &video.audio_buffer);
-        alDeleteSources(1, &video.audio_source);
-        alcCloseDevice(audio_device);
+        //alDeleteSources(1, &video.audio_source);
         THEORAPLAY_stopDecode(video.decoder);
         return -1;
     }
@@ -291,8 +260,7 @@ static int video_play(INSTANCE *my, int * params)
 }
 
 /* Stop the currently being played video and release theoraplay stuff */
-static int video_stop(INSTANCE *my, int * params)
-{
+static int video_stop(INSTANCE *my, int * params) {
     if(! playing_video) {
         return 0;
     }
@@ -310,11 +278,7 @@ static int video_stop(INSTANCE *my, int * params)
         video.decoder = NULL;
     }
 
-    alDeleteBuffers(1, &video.audio_buffer);
-    alDeleteSources(1, &video.audio_source);
-    alcMakeContextCurrent(NULL);
-    alcDestroyContext(audio_context);
-    alcCloseDevice(audio_device);
+    //alDeleteSources(1, &video.audio_source);
 
     return 0;
 }
@@ -324,8 +288,7 @@ static int video_pause() {
     return 0;
 }
 
-DLSYSFUNCS __bgdexport( mod_theora, functions_exports )[] =
-{
+DLSYSFUNCS __bgdexport( mod_theora, functions_exports )[] = {
 	{"VIDEO_PLAY"                  , "S"    , TYPE_DWORD , video_play       },
 	{"VIDEO_STOP"                  , ""     , TYPE_DWORD , video_stop       },
     {"VIDEO_PAUSE"                 , ""     , TYPE_DWORD , video_pause      },
@@ -333,28 +296,54 @@ DLSYSFUNCS __bgdexport( mod_theora, functions_exports )[] =
 	{ NULL        , NULL , 0         , NULL              }
 };
 
-char * __bgdexport( mod_theora, modules_dependency )[] =
-{
+char * __bgdexport( mod_theora, modules_dependency )[] = {
 	"libgrbase",
 	"libvideo",
     "mod_sound",
 	NULL
 };
 
-void __bgdexport( mod_theora, module_initialize )()
-{
-    if ( !SDL_WasInit( SDL_INIT_AUDIO ) ) {
-        SDL_InitSubSystem( SDL_INIT_AUDIO );
+void __bgdexport( mod_theora, module_initialize )() {
+    // Initialize OpenAL
+    /*alGetError();  // clear error stack
+    ALCdevice* audio_device = alcOpenDevice(NULL); // open default device
+    if (audio_device == NULL) {
+        fprintf(stderr, "Audio initialization failed!\n");
     }
 
-    /*if ( !audio_initialized ) {
-        sound_init();
-    }*/
+    audio_context = alcCreateContext(audio_device, NULL); // create context
+    if (audio_context == NULL) {
+        fprintf(stderr, "Audio context creation failed\n");
+        alcCloseDevice(audio_device);
+    }
+    alcMakeContextCurrent(audio_context); // set active context
+
+    printf("OpenAL info:\n");
+    printf("============\n");
+    printf("\tVersion: %s\n", alGetString(AL_VERSION));
+    printf("\tVendor: %s\n", alGetString(AL_VENDOR));
+    printf("\tRenderer: %s\n", alGetString(AL_RENDERER));
+    printf("\tAL Extensions: %s\n", alGetString(AL_EXTENSIONS));
+    printf("\tALC Extensions: %s\n", alcGetString(audio_device, ALC_EXTENSIONS));
+
+    // Load float32 extension, if present
+    // The conversion from float32 to int16 (which is what OpenAL without
+    // extensions seems to prefer) is rather simple, but I'd rather not
+    // do it
+    if(! alIsExtensionPresent("AL_EXT_FLOAT32")) {
+        fprintf(stderr, "OpenAL Extension AL_EXT_FLOAT32 not present, refusing to play\n");
+        alcCloseDevice(audio_device);
+    }
+
+    audio_available = 1;*/
 }
 
-void __bgdexport( mod_theora, module_finalize )()
-{
+void __bgdexport( mod_theora, module_finalize )() {
     video_stop(NULL, NULL);
+
+    /*alcMakeContextCurrent(NULL);
+    alcDestroyContext(audio_context);
+    alcCloseDevice(audio_device);*/
 }
 
 /* ----------------------------------------------------------------- */
@@ -362,8 +351,7 @@ void __bgdexport( mod_theora, module_finalize )()
 /* Bigest priority first execute
  Lowest priority last execute */
 
-HOOK __bgdexport( mod_theora, handler_hooks )[] =
-{
+HOOK __bgdexport( mod_theora, handler_hooks )[] = {
     { 3000, refresh_video                     },
     {    0, NULL                              }
 } ;

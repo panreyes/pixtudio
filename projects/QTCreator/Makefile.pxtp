@@ -79,7 +79,7 @@ ifeq ($(OS),Windows_NT)
 else
 	EXTRA_LIBS = -lc
 endif
-LIBS := ../bgdrtm.a -lpng -lSDL2_mixer -lSDL2 -logg -ltheora -lvorbis -ltheoradec -lpthread -lz -lm $(EXTRA_LIBS)
+LIBS := ../bgdrtm.a -lpng -lSDL2_mixer -lSDL2 -logg -ltheora -lvorbis -ltheoradec -lopenal -lpthread -lz -lm $(EXTRA_LIBS)
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
