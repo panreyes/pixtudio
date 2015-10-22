@@ -32,8 +32,8 @@
 #include <assert.h>
 
 #include <theoraplay.h>
-/*#include <AL/al.h>
-#include <AL/alc.h>*/
+#include <AL/al.h>
+#include <AL/alc.h>
 #include <SDL.h>
 
 /* PixTudio stuff */
@@ -52,36 +52,41 @@ struct ctx
     THEORAPLAY_Decoder *decoder;
     Uint32 baseticks;
     Uint32 framems;
-    //ALuint audio_source;
+    ALuint audio_source;
 };
 
-/*ALCdevice *audio_device;
-ALCcontext *audio_context;*/
+ALCdevice *audio_device;
+ALCcontext *audio_context;
 
 struct ctx video;
 
 char playing_video = 0;
-char audio_available = 0;
 
 
 static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
-/*    ALuint buffer;
+    ALuint buffer;
+    ALuint error;
+    ALsizei size;
 
     // Generate the audio buffer that we'll fill with audio
     alGenBuffers((ALuint)1, &buffer);
-    if(alGetError() != AL_NO_ERROR) {
-        fprintf(stderr, "Audio buffer creation failed\n");
+    if((error = alGetError()) != AL_NO_ERROR) {
+        fprintf(stderr, "Audio buffer creation failed: %s\n", alGetString(error));
         alDeleteSources(1, &video.audio_source);
-        alcCloseDevice(audio_device);
         THEORAPLAY_stopDecode(video.decoder);
-        return -1;
     }
 
-    ALsizei size = (ALsizei)(audio->frames * audio->channels * sizeof(float));
+    size = (ALsizei)(audio->frames * audio->channels * 4);
     alBufferData(buffer, alGetEnumValue("AL_FORMAT_STEREO_FLOAT32"), audio->samples, size, audio->freq);
+    if((error = alGetError()) != AL_NO_ERROR) {
+        fprintf(stderr, "Audio buffer data copying failed: %s\n", alGetString(error));
+    } else {
+        // Queue the audio buffer for playback
+        alSourceQueueBuffers(video.audio_source, 1, &buffer);
+    }
 
-    // Bind the source to the buffer
-    alSourceQueueBuffers(video.audio_source, 1, buffer);*/
+    // Free the audio packet
+    //THEORAPLAY_freeAudio(audio);
 } // queue_audio
 
 // Paint the current video frame onscreen, skipping those that we already missed
@@ -207,10 +212,10 @@ static int video_play(INSTANCE *my, int * params) {
 
     video.framems = (video.frame->fps == 0.0) ? 0 : ((Uint32) (1000.0 / video.frame->fps));
 
-    SDL_Log("Audio Channels, Freq: %d, %d", video.audio->channels, video.audio->freq);
+    SDL_Log("Audio Channel: %d, Freq: %d", video.audio->channels, video.audio->freq);
 
     // Generate the audio source
-    /*alGenSources((ALuint)1, &video.audio_source);
+    alGenSources((ALuint)1, &video.audio_source);
     if(alGetError() != AL_NO_ERROR) {
         fprintf(stderr, "Audio source creation failed\n");
         alcCloseDevice(audio_device);
@@ -222,7 +227,7 @@ static int video_play(INSTANCE *my, int * params) {
     alSourcef(video.audio_source, AL_GAIN, 1);
     alSource3f(video.audio_source, AL_POSITION, 0, 0, 0);
     alSource3f(video.audio_source, AL_VELOCITY, 0, 0, 0);
-    alSourcei(video.audio_source, AL_LOOPING, AL_FALSE);*/
+    alSourcei(video.audio_source, AL_LOOPING, AL_FALSE);
 
     while (video.audio) {
         queue_audio(video.audio);
@@ -254,6 +259,8 @@ static int video_play(INSTANCE *my, int * params) {
     THEORAPLAY_freeVideo(video.frame);
     video.frame = NULL;
 
+    alSourcePlay(video.audio_source);
+
     playing_video = 1;
 
     return video.graph->code;
@@ -261,9 +268,14 @@ static int video_play(INSTANCE *my, int * params) {
 
 /* Stop the currently being played video and release theoraplay stuff */
 static int video_stop(INSTANCE *my, int * params) {
+    ALuint error;
+
     if(! playing_video) {
         return 0;
     }
+
+    // Immediately stop audio playback
+    alSourceStop(video.audio_source);
 
     /* Release the video playback lock */
     playing_video = 0;
@@ -278,7 +290,10 @@ static int video_stop(INSTANCE *my, int * params) {
         video.decoder = NULL;
     }
 
-    //alDeleteSources(1, &video.audio_source);
+    alDeleteSources(1, &video.audio_source);
+    if((error = alGetError()) != AL_NO_ERROR) {
+        fprintf(stderr, "OpenAL error deleting source: %x, %s\n", error, alGetString(error));
+    }
 
     return 0;
 }
@@ -305,8 +320,8 @@ char * __bgdexport( mod_theora, modules_dependency )[] = {
 
 void __bgdexport( mod_theora, module_initialize )() {
     // Initialize OpenAL
-    /*alGetError();  // clear error stack
-    ALCdevice* audio_device = alcOpenDevice(NULL); // open default device
+    alGetError();  // clear error stack
+    audio_device = alcOpenDevice(NULL); // open default device
     if (audio_device == NULL) {
         fprintf(stderr, "Audio initialization failed!\n");
     }
@@ -323,27 +338,44 @@ void __bgdexport( mod_theora, module_initialize )() {
     printf("\tVersion: %s\n", alGetString(AL_VERSION));
     printf("\tVendor: %s\n", alGetString(AL_VENDOR));
     printf("\tRenderer: %s\n", alGetString(AL_RENDERER));
-    printf("\tAL Extensions: %s\n", alGetString(AL_EXTENSIONS));
-    printf("\tALC Extensions: %s\n", alcGetString(audio_device, ALC_EXTENSIONS));
+    printf("WARNING!!! mod_theora will leak like hell right now!\n");
+    /*printf("\tAL Extensions: %s\n", alGetString(AL_EXTENSIONS));
+    printf("\tALC Extensions: %s\n", alcGetString(audio_device, ALC_EXTENSIONS));*/
 
     // Load float32 extension, if present
     // The conversion from float32 to int16 (which is what OpenAL without
     // extensions seems to prefer) is rather simple, but I'd rather not
     // do it
     if(! alIsExtensionPresent("AL_EXT_FLOAT32")) {
-        fprintf(stderr, "OpenAL Extension AL_EXT_FLOAT32 not present, refusing to play\n");
+        fprintf(stderr, "OpenAL Extension AL_EXT_FLOAT32 not present, refusing to initialise\n");
+        alcMakeContextCurrent(NULL);
+        alcDestroyContext(audio_context);
         alcCloseDevice(audio_device);
     }
-
-    audio_available = 1;*/
 }
 
 void __bgdexport( mod_theora, module_finalize )() {
+    ALuint error;
+
     video_stop(NULL, NULL);
 
-    /*alcMakeContextCurrent(NULL);
-    alcDestroyContext(audio_context);
-    alcCloseDevice(audio_device);*/
+    if(audio_context) {
+        alcMakeContextCurrent(NULL);
+        if((error=alGetError()) != AL_NO_ERROR) {
+            fprintf(stderr, "OpenAL error resetting default context: 0x%x, %s\n", error, alGetString(error));
+        }
+        alcDestroyContext(audio_context);
+        if((error=alGetError()) != AL_NO_ERROR) {
+            fprintf(stderr, "OpenAL error deleting context: 0x%x, %s\n", error, alGetString(error));
+        }
+    }
+
+    if(audio_device) {
+        alcCloseDevice(audio_device);
+        if((error=alGetError()) != AL_NO_ERROR) {
+            fprintf(stderr, "OpenAL error closing audio device: 0x%x\n", error);
+        }
+    }
 }
 
 /* ----------------------------------------------------------------- */
