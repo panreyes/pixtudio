@@ -56,7 +56,6 @@ struct ctx
     Uint32 baseticks;
     Uint32 framems;
     ALuint audio_source;
-    ALuint audio_buffers[10];
 };
 
 ALCdevice *audio_device;
@@ -67,35 +66,38 @@ struct ctx video;
 char playing_video = 0;
 
 
-// TODO: Get the first available audiobuffer
-// We need this so that we can reuse the audio buffers
-int get_free_audiobuffer() {
-    return 0;
-}
-
 static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
-    ALuint buffer;
+    ALuint audio_buffer;
     ALuint error;
     ALsizei size;
+    static int nbuffers = 0;
 
-    // Generate the audio buffer that we'll fill with audio
-    alGenBuffers((ALuint)1, &buffer);
-    if((error = alGetError()) != AL_NO_ERROR) {
-        fprintf(stderr, "Audio buffer creation failed: %s\n", alGetString(error));
-        alDeleteSources(1, &video.audio_source);
-        THEORAPLAY_stopDecode(video.decoder);
+    if(audio_context != NULL) {
+        // Generate an audio buffer (if needed) or reuse an already-processed one
+        if(nbuffers < 10) {
+            alGenBuffers(1, &audio_buffer);
+            nbuffers++;
+        } else {
+            alSourceUnqueueBuffers(video.audio_source, 1, &audio_buffer);
+            if((error = alGetError()) != AL_NO_ERROR) {
+                alGenBuffers(1, &audio_buffer);
+            }
+        }
+
+        // If we could get a valid audio_buffer, process the audio data and queue it
+        if((error = alGetError()) == AL_NO_ERROR) {
+            size = (ALsizei)(audio->frames * audio->channels * 4); // 4 == sizeof(float32)
+            alBufferData(audio_buffer, alGetEnumValue("AL_FORMAT_STEREO_FLOAT32"), audio->samples, size, audio->freq);
+            if((error = alGetError()) != AL_NO_ERROR) {
+                fprintf(stderr, "Audio buffer data copying failed: %s\n", alGetString(error));
+            } else {
+                // Queue the audio buffer for playback
+                alSourceQueueBuffers(video.audio_source, 1, &audio_buffer);
+            }
+        }
     }
 
-    size = (ALsizei)(audio->frames * audio->channels * 4); // 4 == sizeof(float32)
-    alBufferData(buffer, alGetEnumValue("AL_FORMAT_STEREO_FLOAT32"), audio->samples, size, audio->freq);
-    if((error = alGetError()) != AL_NO_ERROR) {
-        fprintf(stderr, "Audio buffer data copying failed: %s\n", alGetString(error));
-    } else {
-        // Queue the audio buffer for playback
-        alSourceQueueBuffers(video.audio_source, 1, &buffer);
-    }
-
-    // Free the audio packet
+    // Free the Vorbis audio packet
     THEORAPLAY_freeAudio(audio);
 } // queue_audio
 
@@ -132,8 +134,9 @@ void refresh_video() {
                     break;
             } // while
 
-            if (!video.frame)
+            if (!video.frame) {
                 video.frame = last;
+            }
         } // if
 
         // do nothing; we're far behind and out of options.
@@ -159,8 +162,11 @@ void refresh_video() {
         video.frame = NULL;
     }
 
-    while ((video.audio = THEORAPLAY_getAudio(video.decoder)) != NULL) {
-        queue_audio(video.audio);
+    // TODO: We're doing nothing to determine if we skipped some frames and need to catch up!
+    if(audio_context != NULL) {
+        while ((video.audio = THEORAPLAY_getAudio(video.decoder)) != NULL) {
+            queue_audio(video.audio);
+        }
     }
 
     return;
@@ -233,8 +239,8 @@ static int video_play(INSTANCE *my, int * params) {
     // Set the source properties (probably not strictly required)
     alSourcef(video.audio_source, AL_PITCH, 1);
     alSourcef(video.audio_source, AL_GAIN, 1);
-    alSource3f(video.audio_source, AL_POSITION, 0, 0, 0);
-    alSource3f(video.audio_source, AL_VELOCITY, 0, 0, 0);
+    alSource3f(video.audio_source, AL_POSITION, 0., 0., 0.);
+    alSource3f(video.audio_source, AL_VELOCITY, 0., 0., 0.);
     alSourcei(video.audio_source, AL_LOOPING, AL_FALSE);
 
     while (video.audio) {
@@ -250,7 +256,6 @@ static int video_play(INSTANCE *my, int * params) {
     if(! video.graph) {
         THEORAPLAY_stopDecode(video.decoder);
         video.decoder = NULL;
-        //alDeleteSources(1, &video.audio_source);
         THEORAPLAY_stopDecode(video.decoder);
         return -1;
     }
@@ -277,6 +282,7 @@ static int video_play(INSTANCE *my, int * params) {
 /* Stop the currently being played video and release theoraplay stuff */
 static int video_stop(INSTANCE *my, int * params) {
     ALuint error;
+    ALuint audio_buffer;
 
     if(! playing_video) {
         return 0;
@@ -285,7 +291,7 @@ static int video_stop(INSTANCE *my, int * params) {
     // Immediately stop audio playback
     alSourceStop(video.audio_source);
 
-    /* Release the video playback lock */
+    // Release the video playback lock
     playing_video = 0;
 
     if(video.graph) {
@@ -298,6 +304,14 @@ static int video_stop(INSTANCE *my, int * params) {
         video.decoder = NULL;
     }
 
+    // Unqueue & delete all the buffers associated with a source
+    alSourceUnqueueBuffers(video.audio_source, 1, &audio_buffer);
+    while((error = alGetError()) == AL_NO_ERROR) {
+        alDeleteBuffers(1, &audio_buffer);
+        alSourceUnqueueBuffers(video.audio_source, 1, &audio_buffer);
+    }
+
+    // Once the source has no more queued buffers, it can be deleted
     alDeleteSources(1, &video.audio_source);
     if((error = alGetError()) != AL_NO_ERROR) {
         fprintf(stderr, "OpenAL error deleting source: %x, %s\n", error, alGetString(error));
@@ -363,16 +377,16 @@ void __bgdexport( mod_theora, module_initialize )() {
     printf("\tVersion: %s\n", alGetString(AL_VERSION));
     printf("\tVendor: %s\n", alGetString(AL_VENDOR));
     printf("\tRenderer: %s\n", alGetString(AL_RENDERER));
-    printf("WARNING!!! mod_theora will leak like hell right now!\n");
     /*printf("\tAL Extensions: %s\n", alGetString(AL_EXTENSIONS));
     printf("\tALC Extensions: %s\n", alcGetString(audio_device, ALC_EXTENSIONS));*/
 
     // Since audio in the Theora videos is float32, load that extension
+    // TODO: This'll fail, since we're doing nothing to prevent
     if(! alIsExtensionPresent("AL_EXT_FLOAT32")) {
         fprintf(stderr, "OpenAL Extension AL_EXT_FLOAT32 not present, refusing to initialise\n");
         alcMakeContextCurrent(NULL);
         alcDestroyContext(audio_context);
-        alcCloseDevice(audio_device);
+        audio_context = NULL;
     }
 }
 
@@ -398,6 +412,8 @@ void __bgdexport( mod_theora, module_finalize )() {
             fprintf(stderr, "OpenAL error closing audio device: 0x%x\n", error);
         }
     }
+
+    printf("\n");
 }
 
 /* ----------------------------------------------------------------- */
