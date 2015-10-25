@@ -938,3 +938,4 @@
 ../../core/pxtb/src/varspace.c
 ../../core/pxtp/include/pxtp.h
 ../../core/pxtp/src/main.c
+../../modules/mod_theora/mod_theora_symbols.h
