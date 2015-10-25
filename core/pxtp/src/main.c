@@ -46,7 +46,7 @@
 #include "xstrings.h"
 #include "dirs.h"
 
-#if defined(TARGET_IOS)
+#if (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
 #include <SDL.h>
 #endif
 

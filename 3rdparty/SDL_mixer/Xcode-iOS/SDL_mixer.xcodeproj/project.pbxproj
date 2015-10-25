@@ -549,9 +549,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		BE1FA90707AF96B2004B6283 /* Static Library */ = {
+		BE1FA90707AF96B2004B6283 /* SDL_mixer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00B7E48F097EC6B300826121 /* Build configuration list for PBXNativeTarget "Static Library" */;
+			buildConfigurationList = 00B7E48F097EC6B300826121 /* Build configuration list for PBXNativeTarget "SDL_mixer" */;
 			buildPhases = (
 				BE1FA90807AF96B2004B6283 /* Headers */,
 				BE1FA92107AF96B2004B6283 /* Sources */,
@@ -562,7 +562,7 @@
 			);
 			dependencies = (
 			);
-			name = "Static Library";
+			name = SDL_mixer;
 			productInstallPath = /usr/local/lib;
 			productName = "Static Library";
 			productReference = BE1FA95407AF96B2004B6283 /* libSDL2_mixer.a */;
@@ -574,7 +574,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0710;
 			};
 			buildConfigurationList = 00B7E497097EC6B300826121 /* Build configuration list for PBXProject "SDL_mixer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -591,7 +591,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BE1FA90707AF96B2004B6283 /* Static Library */,
+				BE1FA90707AF96B2004B6283 /* SDL_mixer */,
 			);
 		};
 /* End PBXProject section */
@@ -752,6 +752,7 @@
 		00B7E499097EC6B300826121 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					WAV_MUSIC,
@@ -780,7 +781,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00B7E48F097EC6B300826121 /* Build configuration list for PBXNativeTarget "Static Library" */ = {
+		00B7E48F097EC6B300826121 /* Build configuration list for PBXNativeTarget "SDL_mixer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00B7E490097EC6B300826121 /* Release */,
