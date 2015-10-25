@@ -31,27 +31,25 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include <SDL.h>
 #include <theoraplay.h>
 #ifdef __APPLE__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
+#   include <OpenAL/al.h>
+#   include <OpenAL/alc.h>
 #else
-#include <AL/al.h>
-#include <AL/alc.h>
+#   include <AL/al.h>
+#   include <AL/alc.h>
 #endif
-#include <SDL.h>
 
 /* PixTudio stuff */
 #include <bgddl.h>
 #include <xstrings.h>
 #include <libgrbase.h>
 #include <g_video.h>
-#include <mod_sound.h>
 
 struct ctx
 {
     GRAPH *graph;
-    SDL_AudioCVT cvt;
     const THEORAPLAY_VideoFrame *frame;
     const THEORAPLAY_AudioPacket *audio;
     THEORAPLAY_Decoder *decoder;
@@ -72,6 +70,7 @@ char playing_video = 0;
 // TODO: Get the first available audiobuffer
 // We need this so that we can reuse the audio buffers
 int get_free_audiobuffer() {
+    return 0;
 }
 
 static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
@@ -312,18 +311,35 @@ static int video_pause() {
     return 0;
 }
 
+/* Set the volume of the video.
+   Input must be an integer 0-255.
+   Returns 0 on success and -1 on error
+*/
+static int video_set_volume(INSTANCE *my, int * params) {
+    ALuint error;
+
+    float new_volume = (float)params[0] / 255.0;
+    alSourcef(video.audio_source, AL_GAIN, new_volume);
+    if((error = alGetError()) != AL_NO_ERROR) {
+        fprintf(stderr, "OpenAL error setting volume: %x, %s\n", error, alGetString(error));
+        return -1;
+    }
+
+    return 0;
+}
+
 DLSYSFUNCS __bgdexport( mod_theora, functions_exports )[] = {
 	{"VIDEO_PLAY"                  , "S"    , TYPE_DWORD , video_play       },
 	{"VIDEO_STOP"                  , ""     , TYPE_DWORD , video_stop       },
     {"VIDEO_PAUSE"                 , ""     , TYPE_DWORD , video_pause      },
 	{"VIDEO_IS_PLAYING"            , ""     , TYPE_DWORD , video_is_playing },
+    {"VIDEO_SET_VOLUME"            , "I"    , TYPE_DWORD , video_set_volume },
 	{ NULL        , NULL , 0         , NULL              }
 };
 
 char * __bgdexport( mod_theora, modules_dependency )[] = {
 	"libgrbase",
 	"libvideo",
-    "mod_sound",
 	NULL
 };
 

@@ -34,6 +34,7 @@ DLSYSFUNCS __bgdexport( mod_theora, functions_exports )[] =
     {"VIDEO_STOP"                  , ""     , TYPE_DWORD , NULL  },
     {"VIDEO_PAUSE"                 , ""     , TYPE_DWORD , NULL  },
     {"VIDEO_IS_PLAYING"            , ""     , TYPE_DWORD , NULL  },
+    {"VIDEO_SET_VOLUME"            , "I"    , TYPE_DWORD , NULL  },
     { NULL                         , NULL   , 0          , NULL  }
 };
 #else

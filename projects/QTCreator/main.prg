@@ -10,14 +10,16 @@ import "mod_mouse"
 import "mod_draw"
 import "mod_theora"
 import "mod_sound"
+import "mod_math"
 
 PROCESS int main();
 Private
     int font;
     int time;
+    int vol=255;
 
 BEGIN
-    set_mode(1600, 1200, 16);
+    set_mode(1024, 768, 16);
     set_fps(60, 0);
 
     font = fnt_load("font.fnt");
@@ -26,8 +28,9 @@ BEGIN
         exit();
     end;
     write(font, 0, 0, 0, "No flags");
-    x = 800; y = 600;
+    x = 1024/2; y = 768/2;
     time = timer[0];
+    vol = 255;
     LOOP
         if(key(_right))
             angle -= 500;
@@ -54,6 +57,22 @@ BEGIN
                 write(font, 0, 0, 0, "No flags");
             end
             time = timer[0];
+        end
+
+        // Volume setting
+        if(key(_p))
+            vol += 2;
+            if(vol > 255)
+                vol = 255;
+            end
+            video_set_volume(vol);
+        end
+        if(key(_m))
+            vol -= 2;
+            if(vol < 0)
+                vol = 0;
+            end
+            video_set_volume(vol);
         end
         if(key(_esc))
             break;
