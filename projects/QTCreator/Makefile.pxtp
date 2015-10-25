@@ -76,10 +76,17 @@ LDFLAGS		=	-m32 -g $(MACHDEP)
 #---------------------------------------------------------------------------------
 ifeq ($(OS),Windows_NT)
 	EXTRA_LIBS = -lmingw32 -mwindows -lwsock32 -Wl,-subsystem,console
+	OPENAL = -lopenal
 else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Darwin)
+		OPENAL = -framework OpenAL
+	else
+		OPENAL = -lopenal
+	endif
 	EXTRA_LIBS = -lc
 endif
-LIBS := ../bgdrtm.a -lpng -lSDL2_mixer -lSDL2 -logg -ltheora -lvorbis -ltheoradec -lopenal -lpthread -lz -lm $(EXTRA_LIBS)
+LIBS := ../bgdrtm.a -lpng -lSDL2_mixer -lSDL2 -logg -ltheora -lvorbis -ltheoradec $(OPENAL) -lpthread -lz -lm $(EXTRA_LIBS)
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
