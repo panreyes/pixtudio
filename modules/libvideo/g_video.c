@@ -274,7 +274,7 @@ int gr_set_mode( int width, int height, int depth )
     }
 
     // Use the new & fancy SDL 2 routines
-#if !defined(__ANDROID__) && !defined(TARGET_IOS)
+#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
     if(renderer) {
         SDL_DestroyRenderer(renderer);
         renderer = NULL;
@@ -429,7 +429,7 @@ int gr_set_mode( int width, int height, int depth )
 
 int gr_init( int width, int height )
 {
-#if defined(__ANDROID__) || defined(TARGET_IOS)
+#if defined(__ANDROID__) || (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
     return gr_set_mode( 0, 0, 0 );
 #else
     return gr_set_mode( width, height, 0 );
@@ -451,10 +451,6 @@ void __bgdexport( libvideo, module_initialize )()
 
     if ( ( e = getenv( "VIDEO_WIDTH"  ) ) ) scr_width = atoi(e);
     if ( ( e = getenv( "VIDEO_HEIGHT" ) ) ) scr_height = atoi(e);
-    if ( ( e = getenv( "VIDEO_DEPTH"  ) ) )
-        GLODWORD( libvideo, GRAPH_MODE ) = atoi(e);
-    else
-        GLODWORD( libvideo, GRAPH_MODE ) = MODE_16BITS;
     if ( ( e = getenv( "VIDEO_FULLSCREEN" ) ) ) GLODWORD( libvideo, GRAPH_MODE ) |= atoi(e) ? MODE_FULLSCREEN : 0;
 
     gr_init( scr_width, scr_height ) ;

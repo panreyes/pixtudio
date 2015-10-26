@@ -156,10 +156,6 @@ HOOK __bgdexport( libwm, handler_hooks )[] =
 
 char * __bgdexport( libwm, modules_dependency )[] =
 {
-#if defined(TARGET_IOS)
-    "libvideo",
-    "librender",
-#endif
     "libsdlhandler",
     NULL
 };

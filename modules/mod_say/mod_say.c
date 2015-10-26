@@ -35,7 +35,7 @@
 #include "xstrings.h"
 
 #include <SDL_log.h>
-#if defined(__ANDROID__) || defined(TARGET_IOS)
+#if defined(__ANDROID__) || (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
 #include <SDL_stdinc.h>
 #endif
 
@@ -43,7 +43,7 @@
 
 static int modsay_say( INSTANCE * my, int * params )
 {
-#if defined(__ANDROID__) || defined(TARGET_IOS)
+#if defined(__ANDROID__) || (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
     char *converted;
     const char *msg = string_get( params[0] );
 
@@ -64,7 +64,7 @@ static int modsay_say( INSTANCE * my, int * params )
 
 static int modsay_say_fast( INSTANCE * my, int * params )
 {
-#if defined(__ANDROID__) || defined(TARGET_IOS)
+#if defined(__ANDROID__) || (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
     char *converted;
     const char *msg = string_get( params[0] );
 

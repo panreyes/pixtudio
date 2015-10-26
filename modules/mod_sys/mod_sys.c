@@ -41,7 +41,7 @@
 #include <process.h>
 #endif
 
-#if defined(TARGET_IOS)
+#if (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
 #import <UIKit/UIKit.h>
 #elif defined(__ANDROID__)
 #include <jni.h>
@@ -77,7 +77,7 @@ DLCONSTANT __bgdexport( mod_sys, constants_def )[] =
 
 static int modsys_exec( INSTANCE * my, int * params )
 {
-#if defined(TARGET_IOS)
+#if (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
     NSString *urlString = [NSString stringWithFormat:@"%s" , string_get(params[1])];
     string_discard(params[1]);
 

@@ -127,7 +127,7 @@ int debug = 0;  /* 1 if running in debug mode      */
 #define _OS_ID          OS_PSP
 #endif
 
-#ifdef TARGET_IOS
+#if (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
 #ifdef _OS_ID
 #undef _OS_ID
 #endif
