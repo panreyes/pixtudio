@@ -44,7 +44,6 @@ DLCONSTANT __bgdexport( libblit, constants_def )[] =
     /* Flags para gr_blit */
     { "B_HMIRROR"           , TYPE_DWORD, B_HMIRROR     },
     { "B_VMIRROR"           , TYPE_DWORD, B_VMIRROR     },
-    { "B_TRANSLUCENT"       , TYPE_DWORD, B_TRANSLUCENT },
     { "B_ALPHA"             , TYPE_DWORD, B_ALPHA       },
     { "B_ABLEND"            , TYPE_DWORD, B_ABLEND      },
     { "B_SBLEND"            , TYPE_DWORD, B_SBLEND      },

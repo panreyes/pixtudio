@@ -36,7 +36,6 @@
 #ifdef __PXTB__
 #define B_HMIRROR       0x0001
 #define B_VMIRROR       0x0002
-#define B_TRANSLUCENT   0x0004
 #define B_ALPHA         0x0008
 #define B_ABLEND        0x0010
 #define B_SBLEND        0x0020
@@ -47,7 +46,6 @@ DLCONSTANT __bgdexport( libblit, constants_def )[] =
     /* Flags para gr_blit */
     { "B_HMIRROR"           , TYPE_DWORD, B_HMIRROR     },
     { "B_VMIRROR"           , TYPE_DWORD, B_VMIRROR     },
-    { "B_TRANSLUCENT"       , TYPE_DWORD, B_TRANSLUCENT },
     { "B_ALPHA"             , TYPE_DWORD, B_ALPHA       },
     { "B_ABLEND"            , TYPE_DWORD, B_ABLEND      },
     { "B_SBLEND"            , TYPE_DWORD, B_SBLEND      },

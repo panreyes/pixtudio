@@ -2039,11 +2039,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         // Default to opaque, use given value otherwise
         alpha = 255;
         if ( flags & B_ALPHA ) {
-            if ( flags & B_TRANSLUCENT ) {
-                alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) ) >> 1;
-            } else {
-                alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
-            }
+            alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
         }
         SDL_SetTextureAlphaMod(gr->texture, alpha);
 
@@ -2070,59 +2066,25 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
             if ( dest->format->depth == 32 ) return ;
             ghost1 = ( uint16_t * ) gr->blend_table ;
             ghost2 = ( uint16_t * )( gr->blend_table + 65536 ) ;
-            flags |= B_TRANSLUCENT ;
         }
         else if ( flags & B_ALPHA )
         {
             if ( dest->format->depth == 32 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    _factor = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) ) >> 1;
-                }
-                else
-                {
-                    _factor = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) ) ;
-                }
+                _factor = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) ) ;
 
                 _factor2 = 255 - _factor ;
             }
             else if ( dest->format->depth == 16 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    ghost1 = gr_alpha16((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) >> 1 );
-                    ghost2 = gr_alpha16( 255 - ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) >> 1 ) );
-                }
-                else
-                {
-                    ghost1 = gr_alpha16(( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT );
-                    ghost2 = gr_alpha16( 255 - (( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
-                }
+                ghost1 = gr_alpha16(( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT );
+                ghost2 = gr_alpha16( 255 - (( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
             }
             else if ( dest->format->depth == 8 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    ghost8 = gr_alpha8((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) >> 1 );
-                }
-                else
-                {
-                    ghost8 = gr_alpha8(( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT );
-                }
+                ghost8 = gr_alpha8(( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT );
             }
-
-            flags |= B_TRANSLUCENT ;
         }
-        else if ( flags & B_TRANSLUCENT )
-        {
-            _factor = 128 ;
-            _factor2 = 128 ;
-            ghost1 = ghost2 = colorghost ;
-            ghost8 = ( uint8_t * ) trans_table ;
-        }
-
-        if ((flags & B_TRANSLUCENT) && !trans_table_updated) gr_make_trans_table() ;
 
         blend_func = ( BLEND_FUNC * ) NULL;
 
@@ -2132,24 +2094,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
         {
             if ( gr->format->depth == 8 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend8;
-                        draw_span = ( DRAW_SPAN * )draw_span_8to8_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend8;
-                        draw_span = ( DRAW_SPAN * )draw_span_8to8_tablend;
-                    }
-                    else
-                    {
-                        draw_span = ( DRAW_SPAN * )draw_span_8to8_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend8;
                     draw_span = ( DRAW_SPAN * )draw_span_8to8_ablend;
@@ -2181,24 +2126,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
             {
                 pcolorequiv = gr->format->palette ? gr->format->palette->colorequiv : sys_pixel_format->palette ? sys_pixel_format->palette->colorequiv : default_colorequiv ;
 
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend16;
-                        draw_span = ( DRAW_SPAN * )draw_span_8to16_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend16;
-                        draw_span = ( DRAW_SPAN * )draw_span_8to16_tablend;
-                    }
-                    else
-                    {
-                        draw_span = ( DRAW_SPAN * )draw_span_8to16_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend16;
                     draw_span = ( DRAW_SPAN * )draw_span_8to16_ablend;
@@ -2219,24 +2147,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
             }
             else if ( gr->format->depth == 16 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend16;
-                        draw_span = ( DRAW_SPAN * )draw_span_16to16_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend16;
-                        draw_span = ( DRAW_SPAN * )draw_span_16to16_tablend;
-                    }
-                    else
-                    {
-                        draw_span = ( DRAW_SPAN * )draw_span_16to16_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend16;
                     draw_span = ( DRAW_SPAN * )draw_span_16to16_ablend;
@@ -2270,24 +2181,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
             {
                 pcolorequiv = gr->format->palette ? gr->format->palette->colorequiv : sys_pixel_format->palette ? sys_pixel_format->palette->colorequiv : default_colorequiv ;
 
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend32;
-                        draw_span = ( DRAW_SPAN * )draw_span_8to32_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend32;
-                        draw_span = ( DRAW_SPAN * )draw_span_8to32_tablend;
-                    }
-                    else
-                    {
-                        draw_span = ( DRAW_SPAN * )draw_span_8to32_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend32;
                     draw_span = ( DRAW_SPAN * )draw_span_8to32_ablend;
@@ -2308,24 +2202,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
             }
             else if ( gr->format->depth == 16 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend32;
-                        draw_span = ( DRAW_SPAN * )draw_span_16to32_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend32;
-                        draw_span = ( DRAW_SPAN * )draw_span_16to32_tablend;
-                    }
-                    else
-                    {
-                        draw_span = ( DRAW_SPAN * )draw_span_16to32_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend32;
                     draw_span = ( DRAW_SPAN * )draw_span_16to32_ablend;
@@ -2346,24 +2223,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
             }
             else if ( gr->format->depth == 32 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend32;
-                        draw_span = ( DRAW_SPAN * )draw_span_32to32_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend32;
-                        draw_span = ( DRAW_SPAN * )draw_span_32to32_tablend;
-                    }
-                    else
-                    {
-                        draw_span = ( DRAW_SPAN * )draw_span_32to32_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend32;
                     draw_span = ( DRAW_SPAN * )draw_span_32to32_ablend;
@@ -2697,11 +2557,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         // Default to opaque, use given value otherwise
         alpha = 255;
         if ( flags & B_ALPHA ) {
-            if ( flags & B_TRANSLUCENT ) {
-                alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) ) >> 1;
-            } else {
-                alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
-            }
+            alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
         }
         SDL_SetTextureAlphaMod(gr->texture, alpha);
 
@@ -2755,59 +2611,25 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             if ( dest->format->depth == 32 ) return ;
             ghost1 = ( uint16_t * ) gr->blend_table ;
             ghost2 = ( uint16_t * )( gr->blend_table + 65536 );
-            flags |= B_TRANSLUCENT ;
         }
         else if ( flags & B_ALPHA )
         {
             if ( dest->format->depth == 32 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    _factor = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) ) >> 1;
-                }
-                else
-                {
-                    _factor = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) ) ;
-                }
+                _factor = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) ) ;
 
                 _factor2 = 255 - _factor ;
             }
             else if ( dest->format->depth == 16 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    ghost1 = gr_alpha16((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) >> 1 );
-                    ghost2 = gr_alpha16( 255 - ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) >> 1 ) );
-                }
-                else
-                {
-                    ghost1 = gr_alpha16(( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT );
-                    ghost2 = gr_alpha16( 255 - (( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
-                }
+                ghost1 = gr_alpha16(( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT );
+                ghost2 = gr_alpha16( 255 - (( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
             }
             else if ( dest->format->depth == 8 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    ghost8 = gr_alpha8((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) >> 1 );
-                }
-                else
-                {
-                    ghost8 = gr_alpha8(( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT );
-                }
+                ghost8 = gr_alpha8(( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT );
             }
-
-            flags |= B_TRANSLUCENT ;
         }
-        else if ( flags & B_TRANSLUCENT )
-        {
-            _factor = 128 ;
-            _factor2 = 128 ;
-            ghost1 = ghost2 = colorghost ;
-            ghost8 = ( uint8_t * ) trans_table ;
-        }
-
-        if ((flags & B_TRANSLUCENT) && !trans_table_updated) gr_make_trans_table() ;
 
         blend_func = ( BLEND_FUNC * ) NULL;
 
@@ -2817,24 +2639,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
         {
             if ( gr->format->depth == 8 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend8;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to8_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend8;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to8_tablend;
-                    }
-                    else
-                    {
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to8_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend8;
                     draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to8_ablend;
@@ -2866,24 +2671,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             {
                 pcolorequiv = gr->format->palette ? gr->format->palette->colorequiv : sys_pixel_format->palette ? sys_pixel_format->palette->colorequiv : default_colorequiv ;
 
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend16;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to16_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend16;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to16_tablend;
-                    }
-                    else
-                    {
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to16_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend16;
                     draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to16_ablend;
@@ -2904,24 +2692,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             }
             else if ( gr->format->depth == 16 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend16;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_16to16_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend16;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_16to16_tablend;
-                    }
-                    else
-                    {
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_16to16_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend16;
                     draw_hspan = ( DRAW_HSPAN * )draw_hspan_16to16_ablend;
@@ -2955,24 +2726,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             {
                 pcolorequiv = gr->format->palette ? gr->format->palette->colorequiv : sys_pixel_format->palette ? sys_pixel_format->palette->colorequiv : default_colorequiv ;
 
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend32;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to32_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend32;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to32_tablend;
-                    }
-                    else
-                    {
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to32_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend32;
                     draw_hspan = ( DRAW_HSPAN * )draw_hspan_8to32_ablend;
@@ -2993,24 +2747,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             }
             else if ( gr->format->depth == 16 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend32;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_16to32_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend32;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_16to32_tablend;
-                    }
-                    else
-                    {
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_16to32_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend32;
                     draw_hspan = ( DRAW_HSPAN * )draw_hspan_16to32_ablend;
@@ -3031,24 +2768,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             }
             else if ( gr->format->depth == 32 )
             {
-                if ( flags & B_TRANSLUCENT )
-                {
-                    if ( flags & B_ABLEND )
-                    {
-                        blend_func = additive_blend32;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_32to32_tablend;
-                    }
-                    else if ( flags & B_SBLEND )
-                    {
-                        blend_func = substractive_blend32;
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_32to32_tablend;
-                    }
-                    else
-                    {
-                        draw_hspan = ( DRAW_HSPAN * )draw_hspan_32to32_translucent;
-                    }
-                }
-                else if ( flags & B_ABLEND )
+                if ( flags & B_ABLEND )
                 {
                     blend_func = additive_blend32;
                     draw_hspan = ( DRAW_HSPAN * )draw_hspan_32to32_ablend;
