@@ -105,7 +105,6 @@ INCLUDES	:=	../../core/include \
 	../../modules/mod_draw/ \
 	../../modules/mod_screen/ \
 	../../modules/mod_path/ \
-	../../modules/mod_blendop/ \
 	../../modules/libwm/ \
 	../../modules/mod_wm/ \
 	../../modules/mod_sys/ \
@@ -117,7 +116,7 @@ INCLUDES	:=	../../core/include \
 #---------------------------------------------------------------------------------
 
 CFLAGS		=	-m32 -g -Wall -D__BGDRTM__ -D__MONOLITHIC__ -DNO_MODIMAGE \
-	-DNO_MODICONV -DNO_MODCHIPMUNK -DNO_MODCURL \
+	-DNO_MODICONV -DNO_MODCHIPMUNK -DNO_MODCURL -DNO_MODBLENDOP \
 	-DNO_MODSENSOR -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE) \
 	-fno-strict-aliasing
 CXXFLAGS	=	-m32 -save-temps -Xassembler -aln=$@.lst $(CFLAGS)

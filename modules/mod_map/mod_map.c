@@ -139,6 +139,28 @@ static int modmap_graphic_info( INSTANCE * my, int * params )
     return 1 ;
 }
 
+static int modmap_colormod_set( INSTANCE * my, int * params ) {
+    // Modify how graphs are shown as:
+    // srcC = srcC * (color / 255)
+    GRAPH * map ;
+
+    map = bitmap_get( params[0], params[1] ) ;
+    if ( !map || !map->texture ) {
+        return 0 ;
+    }
+
+    // Color modulation components
+    Uint8 r = (Uint8)params[2];
+    Uint8 g = (Uint8)params[3];
+    Uint8 b = (Uint8)params[4];
+
+    if(SDL_SetTextureColorMod(map->texture, r, g, b) == -1) {
+        return 0;
+    }
+
+    return 1;
+}
+
 static int modmap_set_point( INSTANCE * my, int * params )
 {
     GRAPH * bmp = bitmap_get( params[0], params[1] ) ;
@@ -857,15 +879,17 @@ DLSYSFUNCS  __bgdexport( mod_map, functions_exports )[] =
     { "FADE_IN"             , ""            , TYPE_INT      , modmap_fade_in            },
     { "FADE_OUT"            , ""            , TYPE_INT      , modmap_fade_out           },
 
-    /* Informacion de graficos */
+    /* Graphic information */
     { "MAP_INFO_SET"        , "IIII"        , TYPE_INT      , modmap_graphic_set        },
     { "MAP_INFO_GET"        , "III"         , TYPE_INT      , modmap_graphic_info       },
     { "MAP_INFO"            , "III"         , TYPE_INT      , modmap_graphic_info       },
-
     { "GRAPHIC_SET"         , "IIII"        , TYPE_INT      , modmap_graphic_set        },
     { "GRAPHIC_INFO"        , "III"         , TYPE_INT      , modmap_graphic_info       },
 
-    /* Puntos de control */
+    /* Color modulation */
+    { "MAP_COLORMOD_SET"    , "IIIII"       , TYPE_INT      , modmap_colormod_set       },
+
+    /* Control points */
     { "POINT_GET"           , "IIIPP"       , TYPE_INT      , modmap_get_point          },
     { "POINT_SET"           , "IIIII"       , TYPE_INT      , modmap_set_point          },
 

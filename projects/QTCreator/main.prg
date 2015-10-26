@@ -27,6 +27,8 @@ BEGIN
         say("Sorry, I couldn't play your video :(");
         exit();
     end;
+
+    map_colormod_set(0, graph, 255, 0, 255);
     write(font, 0, 0, 0, "No flags");
     x = 1024/2; y = 768/2;
     time = timer[0];

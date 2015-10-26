@@ -108,6 +108,7 @@ DLSYSFUNCS  __bgdexport( mod_map, functions_exports )[] =
     { "MAP_INFO"            , "III"         , TYPE_INT      , 0 },
     { "GRAPHIC_SET"         , "IIII"        , TYPE_INT      , 0 },
     { "GRAPHIC_INFO"        , "III"         , TYPE_INT      , 0 },
+    { "MAP_COLORMOD_SET"    , "IIIII"       , TYPE_INT      , 0 },
     { "POINT_GET"           , "IIIPP"       , TYPE_INT      , 0 },
     { "POINT_SET"           , "IIIII"       , TYPE_INT      , 0 },
     { "CENTER_SET"          , "IIII"        , TYPE_INT      , 0 },

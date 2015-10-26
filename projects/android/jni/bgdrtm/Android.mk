@@ -51,7 +51,6 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_draw/ \
 	$(MODULES_PATH)/mod_screen/ \
 	$(MODULES_PATH)/mod_path/ \
-	$(MODULES_PATH)/mod_blendop/ \
 	$(MODULES_PATH)/libwm/ \
 	$(MODULES_PATH)/mod_wm/ \
 	$(MODULES_PATH)/mod_sys/ \
@@ -74,6 +73,7 @@ LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-DNO_MODREGEX \
     -DNO_MODCHIPMUNK \
     -DNO_MODDEBUG \
+    -DNO_MODBLENDOP \
 	-DWITH_SDLRWOPS \
 	-ffast-math \
 	-O3
@@ -147,7 +147,6 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_draw/mod_draw.c \
 	../../../../modules/mod_screen/mod_screen.c \
 	../../../../modules/mod_path/mod_path.c \
-	../../../../modules/mod_blendop/mod_blendop.c \
 	../../../../modules/libwm/libwm.c \
 	../../../../modules/mod_wm/mod_wm.c \
 	../../../../modules/mod_sys/mod_sys.c \

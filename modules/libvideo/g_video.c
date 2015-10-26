@@ -218,8 +218,7 @@ int gr_set_icon( GRAPH * map )
 
 /* --------------------------------------------------------------------------- */
 
-int gr_set_mode( int width, int height, int depth )
-{
+int gr_set_mode( int width, int height, int depth ) {
     int n ;
     int sdl_flags = 0;
     int surface_width = width;
@@ -267,14 +266,13 @@ int gr_set_mode( int width, int height, int depth )
 
     /* Inicializa el modo gráfico */
 
-    if ( scrbitmap )
-    {
+    if ( scrbitmap ) {
         bitmap_destroy( scrbitmap ) ;
         scrbitmap = NULL ;
     }
 
     // Use the new & fancy SDL 2 routines
-#if !defined(__ANDROID__) && !(defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
+#if !defined(__ANDROID__) && !((defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR)) && !defined(TARGET_OS_MAC))
     if(renderer) {
         SDL_DestroyRenderer(renderer);
         renderer = NULL;
@@ -394,10 +392,9 @@ int gr_set_mode( int width, int height, int depth )
     /* Bitmaps de fondo */
 
     /* Only allow background with same properties that video mode */
-    if (
-        !background ||
-        scr_width != screen->w || scr_height != screen->h ||
-        sys_pixel_format->depth != background->format->depth ) {
+    if ( !background ||
+         scr_width != screen->w || scr_height != screen->h ||
+         sys_pixel_format->depth != background->format->depth ) {
         if ( background ) {
             bitmap_destroy( background );
         }
@@ -429,7 +426,7 @@ int gr_set_mode( int width, int height, int depth )
 
 int gr_init( int width, int height )
 {
-#if defined(__ANDROID__) || (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
+#if defined(__ANDROID__) || ((defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR)) && !defined(TARGET_OS_MAC))
     return gr_set_mode( 0, 0, 0 );
 #else
     return gr_set_mode( width, height, 0 );
