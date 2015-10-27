@@ -19,7 +19,7 @@ Private
     int vol=255;
 
 BEGIN
-    set_mode(1024, 768, 16);
+    set_mode(1920, 1088, 32);
     set_fps(60, 0);
 
     font = fnt_load("font.fnt");
@@ -28,9 +28,9 @@ BEGIN
         exit();
     end;
 
-    map_colormod_set(0, graph, 255, 0, 255);
+    //map_colormod_set(0, graph, 255, 0, 255);
     write(font, 0, 0, 0, "No flags");
-    x = 1024/2; y = 768/2;
+    x = 1920/2; y = 1088/2;
     time = timer[0];
     vol = 255;
     LOOP
