@@ -37,7 +37,6 @@ DLSYSFUNCS  __bgdexport( mod_video, functions_exports )[] =
     { "SET_MODE"        , "I"     , TYPE_INT        , 0 },
     { "SET_MODE"        , "II"    , TYPE_INT        , 0 },
     { "SET_MODE"        , "III"   , TYPE_INT        , 0 },
-    { "SET_MODE"        , "IIII"  , TYPE_INT        , 0 },
     { "SET_FPS"         , "II"    , TYPE_INT        , 0 },
     { "GET_MODES"       , "II"    , TYPE_POINTER    , 0 },
     { "MODE_IS_OK"      , "IIII"  , TYPE_INT        , 0 },

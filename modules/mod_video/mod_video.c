@@ -63,30 +63,22 @@ DLVARFIXUP __bgdexport( mod_video, globals_fixup )[] =
 
 static int modvideo_set_mode( INSTANCE * my, int * params )
 {
-    return gr_set_mode( params[0] / 10000, params[0] % 10000, 0 ) ;
+    return gr_set_mode( params[0] / 10000, params[0] % 10000 ) ;
 }
 
 /* --------------------------------------------------------------------------- */
 
 static int modvideo_set_mode_2( INSTANCE * my, int * params )
 {
-    return gr_set_mode( params[0], params[1], 0 ) ;
+    return gr_set_mode( params[0], params[1] ) ;
 }
 
 /* --------------------------------------------------------------------------- */
 
 static int modvideo_set_mode_3( INSTANCE * my, int * params )
 {
-    GLODWORD( mod_video, GRAPH_MODE ) = (( GLODWORD( mod_video, GRAPH_MODE ) & 0xFF00 ) | params[2] );
-    return gr_set_mode( params[0], params[1], 0 ) ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int modvideo_set_mode_4( INSTANCE * my, int * params )
-{
-    GLODWORD( mod_video, GRAPH_MODE ) = ( params[2] | params[3] );
-    return gr_set_mode( params[0], params[1], 0 ) ;
+    GLODWORD( mod_video, GRAPH_MODE ) = ( 32 | params[2] );
+    return gr_set_mode( params[0], params[1] ) ;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -139,7 +131,6 @@ DLSYSFUNCS  __bgdexport( mod_video, functions_exports )[] =
     { "SET_MODE"        , "I"     , TYPE_INT        , modvideo_set_mode         },
     { "SET_MODE"        , "II"    , TYPE_INT        , modvideo_set_mode_2       },
     { "SET_MODE"        , "III"   , TYPE_INT        , modvideo_set_mode_3       },
-    { "SET_MODE"        , "IIII"  , TYPE_INT        , modvideo_set_mode_4       },
     { "SET_FPS"         , "II"    , TYPE_INT        , modvideo_set_fps          },
 
     { "GET_MODES"       , "II"    , TYPE_POINTER    , modvideo_list_modes       },
