@@ -96,10 +96,8 @@ static void wm_events()
     GLODWORD( libwm, EXIT_STATUS ) = 0 ;
 
     /* Handle the plethora of events different systems can produce here */
-    while ( SDL_PeepEvents( &e, 1, SDL_GETEVENT, SDL_QUIT, SDL_WINDOWEVENT ) > 0 )
-    {
-        switch ( e.type )
-        {
+    while ( SDL_PeepEvents( &e, 1, SDL_GETEVENT, SDL_QUIT, SDL_WINDOWEVENT ) > 0 ) {
+        switch ( e.type ) {
             case SDL_QUIT:
                 /* UPDATE  exit status... initilized each frame */
                 GLODWORD( libwm, EXIT_STATUS ) = 1 ;
@@ -110,9 +108,8 @@ static void wm_events()
                         GLODWORD(libwm, WINDOW_STATUS) = 0;
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
-#ifndef WIN32
-                        gr_set_mode(screen->w, screen->h, screen->format->BitsPerPixel);
-#endif
+                        // TODO: Is this necessary anymore?
+                        gr_set_mode(screen->w, screen->h);
                         GLODWORD(libwm, WINDOW_STATUS) = 1;
                         break;
                     case SDL_WINDOWEVENT_ENTER:
