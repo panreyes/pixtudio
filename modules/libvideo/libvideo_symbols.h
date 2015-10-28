@@ -73,14 +73,9 @@ DLCONSTANT  __bgdexport( libvideo, constants_def )[] =
     { "MODE_WINDOW",        TYPE_DWORD, MODE_WINDOW         },
     { "MODE_2XSCALE",       TYPE_DWORD, MODE_2XSCALE        },
     { "MODE_FULLSCREEN",    TYPE_DWORD, MODE_FULLSCREEN     },
-    { "MODE_DOUBLEBUFFER",  TYPE_DWORD, MODE_DOUBLEBUFFER   },
-    { "MODE_HARDWARE",      TYPE_DWORD, MODE_HARDWARE       },
 
     { "MODE_WAITVSYNC",     TYPE_DWORD, MODE_WAITVSYNC      },
     { "WAITVSYNC",          TYPE_DWORD, MODE_WAITVSYNC      },
-
-    { "DOUBLE_BUFFER",      TYPE_DWORD, MODE_DOUBLEBUFFER   },  /* Obsolete */
-    { "HW_SURFACE",         TYPE_DWORD, MODE_HARDWARE       },  /* Obsolete */
 
     { "MODE_8BITS",         TYPE_DWORD, 8                   },
     { "MODE_16BITS",        TYPE_DWORD, 16                  },

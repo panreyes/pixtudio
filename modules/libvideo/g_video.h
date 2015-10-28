@@ -37,12 +37,8 @@
 /* --------------------------------------------------------------------------- */
 /* Graph Mode */
 #define MODE_WINDOW         0x0000
-#define MODE_16BITS         0x0010
-#define MODE_32BITS         0x0020
 #define MODE_2XSCALE        0x0100
 #define MODE_FULLSCREEN     0x0200
-#define MODE_DOUBLEBUFFER   0x0400
-#define MODE_HARDWARE       0x0800
 #define MODE_MODAL          0x1000
 #define MODE_FRAMELESS      0x2000
 #define MODE_WAITVSYNC      0x4000
@@ -80,7 +76,6 @@ extern int renderer_height;
 
 extern int scr_initialized ;
 
-extern int enable_16bits ;
 extern int full_screen ;
 extern int double_buffer ;
 extern int hardware_scr ;
@@ -99,7 +94,7 @@ extern int scale_resolution_orientation;
 extern int gr_init( int width, int height );
 extern void gr_set_caption( char * title );
 extern int gr_set_icon( GRAPH * map );
-extern int gr_set_mode( int width, int height, int depth );
+extern int gr_set_mode( int width, int height );
 extern void gr_wait_vsync();
 
 /* --------------------------------------------------------------------------- */

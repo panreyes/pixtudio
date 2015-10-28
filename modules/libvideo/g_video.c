@@ -57,8 +57,6 @@ int renderer_height = 240 ;
 
 int scr_initialized = 0 ;
 
-int enable_16bits = 0 ;
-int enable_32bits = 0 ;
 int full_screen = 0 ;
 int double_buffer = 0 ;
 int hardware_scr = 0 ;
@@ -90,14 +88,9 @@ DLCONSTANT  __bgdexport( libvideo, constants_def )[] =
     { "MODE_WINDOW"         , TYPE_DWORD    , MODE_WINDOW           },
     { "MODE_2XSCALE"        , TYPE_DWORD    , MODE_2XSCALE          },
     { "MODE_FULLSCREEN"     , TYPE_DWORD    , MODE_FULLSCREEN       },
-    { "MODE_DOUBLEBUFFER"   , TYPE_DWORD    , MODE_DOUBLEBUFFER     },
-    { "MODE_HARDWARE"       , TYPE_DWORD    , MODE_HARDWARE         },
 
     { "MODE_WAITVSYNC"      , TYPE_DWORD    , MODE_WAITVSYNC        },
     { "WAITVSYNC"           , TYPE_DWORD    , MODE_WAITVSYNC        },
-
-    { "DOUBLE_BUFFER"       , TYPE_DWORD    , MODE_DOUBLEBUFFER     },  /* Obsolete */
-    { "HW_SURFACE"          , TYPE_DWORD    , MODE_HARDWARE         },  /* Obsolete */
 
     { "MODE_8BITS"          , TYPE_DWORD    , 8                     },
     { "MODE_16BITS"         , TYPE_DWORD    , 16                    },
@@ -107,7 +100,7 @@ DLCONSTANT  __bgdexport( libvideo, constants_def )[] =
     { "MODE_16BPP"          , TYPE_DWORD    , 16                    },
     { "MODE_32BPP"          , TYPE_DWORD    , 32                    },
 
-    { "MODE_MODAL"          , TYPE_DWORD    , MODE_MODAL            },  /* GRAB INPU */
+    { "MODE_MODAL"          , TYPE_DWORD    , MODE_MODAL            },  /* GRAB INPUT */
     { "MODE_FRAMELESS"      , TYPE_DWORD    , MODE_FRAMELESS        },  /* FRAMELESS window */
 
     { "SCALE_NONE"          , TYPE_DWORD    , SCALE_NONE            },
@@ -206,7 +199,9 @@ int gr_set_icon( GRAPH * map )
         }
         else
         {
-            ico = SDL_CreateRGBSurfaceFrom( icon->data, 32, 32, icon->format->depth, icon->pitch, icon->format->Rmask, icon->format->Gmask, icon->format->Bmask, icon->format->Amask ) ;
+            ico = SDL_CreateRGBSurfaceFrom( icon->data, 32, 32, icon->format->depth,
+                                            icon->pitch, icon->format->Rmask, icon->format->Gmask,
+                                            icon->format->Bmask, icon->format->Amask ) ;
         }
 
         SDL_SetWindowIcon(window, ico);
@@ -218,12 +213,11 @@ int gr_set_icon( GRAPH * map )
 
 /* --------------------------------------------------------------------------- */
 
-int gr_set_mode( int width, int height, int depth ) {
-    int n ;
-    int sdl_flags = 0;
+int gr_set_mode( int width, int height ) {
     int surface_width = width;
     int surface_height = height;
     int texture_depth = 0;
+    Uint32 sdl_flags = 0;
     Uint32 format = 0;
     Uint32 Rmask = 0;
     Uint32 Gmask = 0;
@@ -232,8 +226,6 @@ int gr_set_mode( int width, int height, int depth ) {
     char * e;
 
     full_screen = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_FULLSCREEN ) ? 1 : 0 ;
-    double_buffer = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_DOUBLEBUFFER ) ? 1 : 0 ;
-    hardware_scr = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_HARDWARE ) ? 1 : 0 ;
     grab_input = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_MODAL ) ? 1 : 0 ;
     frameless = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_FRAMELESS ) ? 1 : 0 ;
     waitvsync = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_WAITVSYNC ) ? 1 : 0 ;
@@ -258,10 +250,6 @@ int gr_set_mode( int width, int height, int depth ) {
 
     if ( scale_resolution_orientation < 0 || scale_resolution_orientation > 4 ) scale_resolution_orientation = 0;
 
-    // Only 32bpp will be supported here
-    depth = 32;
-    enable_16bits = 0;
-    enable_32bits = 1;
     format = SDL_PIXELFORMAT_ARGB8888;
 
     /* Inicializa el modo gráfico */
@@ -272,19 +260,7 @@ int gr_set_mode( int width, int height, int depth ) {
     }
 
     // Use the new & fancy SDL 2 routines
-#if !defined(__ANDROID__) && !((defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR)) && !defined(TARGET_OS_MAC))
-    if(renderer) {
-        SDL_DestroyRenderer(renderer);
-        renderer = NULL;
-    }
-
-    if(window) {
-        SDL_DestroyWindow(window);
-        window = NULL;
-    }
-#endif
-
-    if(!window && !renderer) {
+    if(!window) {
         sdl_flags = SDL_WINDOW_SHOWN;
         if (frameless) {
             sdl_flags |= SDL_WINDOW_BORDERLESS;
@@ -302,11 +278,40 @@ int gr_set_mode( int width, int height, int depth ) {
             SDL_Log("Error creating window (%s)", SDL_GetError());
             return -1;
         }
+    } else {
+        // Window resizing is not allowed in android
+#if !defined(__ANDROID__) && !((defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR)) && !defined(TARGET_OS_MAC))
+        int w, h;
 
-        sdl_flags = 0;
-        if (waitvsync) {
-            sdl_flags = SDL_RENDERER_PRESENTVSYNC;
+        SDL_GetWindowSize(window, &w, &h);
+        if(w != surface_width || h != surface_height) {
+            SDL_SetWindowSize(window, surface_width, surface_height);
         }
+
+        sdl_flags = SDL_GetWindowFlags(window);
+        if((sdl_flags & SDL_WINDOW_BORDERLESS) && !frameless) {
+            SDL_SetWindowBordered(window, SDL_TRUE);
+        } else if(!(sdl_flags & SDL_WINDOW_BORDERLESS) && frameless) {
+            SDL_SetWindowBordered(window, SDL_FALSE);
+        }
+#endif
+    }
+
+    // Handle window grab
+    if(grab_input) {
+        SDL_SetWindowGrab(window, SDL_TRUE);
+    } else {
+        SDL_SetWindowGrab(window, SDL_FALSE);
+    }
+
+    if(! renderer) {
+        sdl_flags = SDL_RENDERER_ACCELERATED;
+        if (waitvsync) {
+            sdl_flags |= SDL_RENDERER_PRESENTVSYNC;
+        }
+        // If we didn't set the hint, SDL would use DirectX on Windows
+        // and the behaviour of the DirectX renderer is not exactly like
+        // that of the OpenGL one
         SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
         renderer = SDL_CreateRenderer(window, -1, sdl_flags);
         if (!renderer) {
@@ -352,32 +357,19 @@ int gr_set_mode( int width, int height, int depth ) {
     // is handled by SDL_Render
     SDL_PixelFormatEnumToMasks(format, &texture_depth, &Rmask, &Gmask, &Bmask, &Amask);
     screen = SDL_CreateRGBSurface(0, width, height, texture_depth, Rmask, Gmask, Bmask, Amask);
-    if (depth != texture_depth) {
-        SDL_Log("You asked for %dbpp but got %d, bad luck :(", depth, texture_depth);
-    }
 
     if ( !sys_pixel_format ) {
-        sys_pixel_format = bitmap_create_format( depth );
+        sys_pixel_format = bitmap_create_format( 32 );
     } else {
         PALETTE * p = sys_pixel_format->palette;
 
         free( sys_pixel_format );
-        sys_pixel_format = bitmap_create_format( depth );
+        sys_pixel_format = bitmap_create_format( 32 );
 
         if ( p ) {
             sys_pixel_format->palette = p;
             pal_refresh( sys_pixel_format->palette ) ;
         }
-    }
-
-    if ( sys_pixel_format->depth == 16 ) {
-        for ( n = 0 ; n < 65536 ; n++ ) {
-            colorghost[ n ] =
-                ((( n & screen->format->Rmask ) >> 1 ) & screen->format->Rmask ) +
-                ((( n & screen->format->Gmask ) >> 1 ) & screen->format->Gmask ) +
-                ((( n & screen->format->Bmask ) >> 1 ) & screen->format->Bmask ) ;
-        }
-//        bitmap_16bits_conversion();
     }
 
     scr_initialized = 1 ;
@@ -427,9 +419,9 @@ int gr_set_mode( int width, int height, int depth ) {
 int gr_init( int width, int height )
 {
 #if defined(__ANDROID__) || ((defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR)) && !defined(TARGET_OS_MAC))
-    return gr_set_mode( 0, 0, 0 );
+    return gr_set_mode( 0, 0 );
 #else
-    return gr_set_mode( width, height, 0 );
+    return gr_set_mode( width, height );
 #endif
 }
 

@@ -86,7 +86,6 @@ void parse_input_events() {
     int n=0;
     float x=0.0, y=0.0;
     double width=0.0, height=0.0;
-    SDL_DisplayMode mode;
     SDL_Event e;
 
     // SDL will give us the touch position relative to the whole window
