@@ -198,24 +198,37 @@ int gr_new_object( int z, OBJ_INFO * info, OBJ_DRAW * draw, void * what )
  *      None
  */
 
-void gr_destroy_object( int id )
-{
+void gr_destroy_object( int id ) {
     CONTAINER * ctr ;
+    // TODO: Cast from int -> OBJECT, which might hurt in 64 bits
     OBJECT * object = ( OBJECT * ) id ;
 
-    if ( !object ) return ;
+    if ( !object ) {
+        return ;
+    }
 
     ctr = search_container( object->z );
-    if ( !ctr ) return;
+    if ( !ctr ) {
+        return;
+    }
 
-    if ( object->next ) object->next->prev = object->prev;
-    if ( object->prev ) object->prev->next = object->next;
-    if ( object == ctr->first_in_key ) ctr->first_in_key = object->next;
-    if ( !ctr->first_in_key ) destroy_container( ctr );
+    if ( object->next ) {
+        object->next->prev = object->prev;
+    }
+    if ( object->prev ) {
+        object->prev->next = object->next;
+    }
+    if ( object == ctr->first_in_key ) {
+        ctr->first_in_key = object->next;
+    }
+    if ( !ctr->first_in_key ) {
+        destroy_container( ctr );
+    }
 
     /* Rects */
-    if ( object->bbox.x >= 0 || object->bbox.y >= 0 || object->bbox.x2 >= 0 || object->bbox.y2 >= 0 )
+    if ( object->bbox.x >= 0 || object->bbox.y >= 0 || object->bbox.x2 >= 0 || object->bbox.y2 >= 0 ) {
         gr_mark_rect( object->bbox.x, object->bbox.y, object->bbox.x2 - object->bbox.x + 1, object->bbox.y2 - object->bbox.y + 1 );
+    }
 
     free( object );
 }
