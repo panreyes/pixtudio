@@ -166,13 +166,13 @@ void scroll_region( int n, REGION * r )
 
 /* --------------------------------------------------------------------------- */
 
-void scroll_start( int n, int fileid, int graphid, int backid, int region, int flags, int destfile, int destid )
-{
+void scroll_start( int n, int fileid, int graphid, int backid, int region, int flags, int destfile, int destid ) {
     SCROLL_EXTRA_DATA * data;
 
-    if ( n >= 0 && n <= 9 )
-    {
-        if ( region < 0 || region > 31 ) region = 0 ;
+    if ( n >= 0 && n <= 9 ) {
+        if ( region < 0 || region > 31 ) {
+            region = 0 ;
+        }
 
         scrolls[n].active   = 1 ;
         scrolls[n].fileid   = fileid ;
@@ -197,12 +197,9 @@ void scroll_start( int n, int fileid, int graphid, int backid, int region, int f
 
 /* --------------------------------------------------------------------------- */
 
-void scroll_stop( int n )
-{
-    if ( n >= 0 && n <= 9 )
-    {
-        if ( scrolls_objects[n] )
-        {
+void scroll_stop( int n ) {
+    if ( n >= 0 && n <= 9 ) {
+        if ( scrolls_objects[n] ) {
             gr_destroy_object( scrolls_objects[n] );
             scrolls_objects[n] = 0;
             scrolls[n].active = 0 ;
@@ -212,8 +209,7 @@ void scroll_stop( int n )
 
 /* --------------------------------------------------------------------------- */
 
-void scroll_update( int n )
-{
+void scroll_update( int n ) {
     int x0, y0, x1, y1, cx, cy, w, h, speed ;
 
     REGION bbox;
@@ -223,7 +219,9 @@ void scroll_update( int n )
 
     if ( n < 0 || n > 9 ) return ;
 
-    if ( !scrolls[n].active || !scrolls[n].region || !scrolls[n].graphid ) return ;
+    if ( !scrolls[n].active || !scrolls[n].region || !scrolls[n].graphid ) {
+        return ;
+    }
 
     graph = scrolls[n].graphid ? bitmap_get( scrolls[n].fileid, scrolls[n].graphid ) : 0 ;
     back  = scrolls[n].backid  ? bitmap_get( scrolls[n].fileid, scrolls[n].backid )  : 0 ;
@@ -258,31 +256,26 @@ void scroll_update( int n )
 
     /* Actualiza las variables globales (perseguir la camara, etc) */
 
-    if ( scrolls[n].follows )
-    {
-        if ( scrolls[n].ratio )
-        {
+    if ( scrolls[n].follows ) {
+        if ( scrolls[n].ratio ) {
             data->x0 = scrolls[n].follows->x0 * 100 / scrolls[n].ratio ;
             data->y0 = scrolls[n].follows->y0 * 100 / scrolls[n].ratio ;
-        }
-        else
-        {
+        } else {
             data->x0 = scrolls[n].follows->x0 ;
             data->y0 = scrolls[n].follows->y0 ;
         }
     }
 
-    if ( scrolls[n].camera )
-    {
+    if ( scrolls[n].camera ) {
         /* Mira a ver si entra dentro de la region 1 o 2 */
 
         speed = scrolls[n].speed ;
-        if ( scrolls[n].speed == 0 ) speed = 9999999 ;
+        if ( scrolls[n].speed == 0 ) {
+            speed = 9999999 ;
+        }
 
         /* Update speed */
-
-        if (( gr = instance_graph( scrolls[n].camera ) ) )
-        {
+        if (( gr = instance_graph( scrolls[n].camera ) ) ) {
             instance_get_bbox( scrolls[n].camera, gr, &bbox );
 
             x0 = bbox.x - data->x0 ;
@@ -295,13 +288,10 @@ void scroll_update( int n )
                         x0 < scrolls[n].region1->x2 && y0 < scrolls[n].region1->y2 &&
                         x1 > scrolls[n].region1->x  && y1 > scrolls[n].region1->y
                     )
-               )
-            {
+               ) {
                 speed = 0 ;
-            }
-            else
-                if ( scrolls[n].region2 )
-                {
+            } else
+                if ( scrolls[n].region2 ) {
                     if ( x0 > scrolls[n].region2->x2 ) speed = ( x0 - scrolls[n].region2->x2 );
                     if ( y0 > scrolls[n].region2->y2 ) speed = ( y0 - scrolls[n].region2->y2 );
                     if ( x1 < scrolls[n].region2->x  ) speed = ( scrolls[n].region2->x - x1  );
@@ -327,20 +317,17 @@ void scroll_update( int n )
 
     /* Scrolls no cíclicos y posición del background */
 
-    if ( graph )
-    {
+    if ( graph ) {
         if ( !( scrolls[n].flags & GRAPH_HWRAP ) ) data->x0 = MAX( 0, MIN( data->x0, ( int )graph->width  - w ) ) ;
         if ( !( scrolls[n].flags & GRAPH_VWRAP ) ) data->y0 = MAX( 0, MIN( data->y0, ( int )graph->height - h ) ) ;
     }
 
-    if ( scrolls[n].ratio )
-    {
+    if ( scrolls[n].ratio ) {
         data->x1 = data->x0 * 100 / scrolls[n].ratio ;
         data->y1 = data->y0 * 100 / scrolls[n].ratio ;
     }
 
-    if ( back )
-    {
+    if ( back ) {
         if ( !( scrolls[n].flags & BACK_HWRAP ) ) data->x1 = MAX( 0, MIN( data->x1, ( int )back->width  - w ) ) ;
         if ( !( scrolls[n].flags & BACK_VWRAP ) ) data->y1 = MAX( 0, MIN( data->y1, ( int )back->height - h ) ) ;
     }
@@ -355,8 +342,7 @@ void scroll_update( int n )
     if ( scrolls[n].x0 < 0 ) scrolls[n].x0 += graph->width ;
     if ( scrolls[n].y0 < 0 ) scrolls[n].y0 += graph->height ;
 
-    if ( back )
-    {
+    if ( back ) {
         scrolls[n].x1 = data->x1 % ( int32_t ) back->width ;
         scrolls[n].y1 = data->y1 % ( int32_t ) back->height ;
         if ( scrolls[n].x1 < 0 ) scrolls[n].x1 += back->width ;
@@ -366,8 +352,7 @@ void scroll_update( int n )
 
 /* --------------------------------------------------------------------------- */
 
-static int compare_instances( const void * ptr1, const void * ptr2 )
-{
+static int compare_instances( const void * ptr1, const void * ptr2 ) {
     const INSTANCE * i1 = *( const INSTANCE ** )ptr1 ;
     const INSTANCE * i2 = *( const INSTANCE ** )ptr2 ;
 
@@ -378,8 +363,7 @@ static int compare_instances( const void * ptr1, const void * ptr2 )
 
 /* --------------------------------------------------------------------------- */
 
-void scroll_draw( int n, REGION * clipping )
-{
+void scroll_draw( int n, REGION * clipping ) {
     int nproc, x, y, cx, cy ;
 
     static INSTANCE ** proclist = 0;
@@ -412,26 +396,20 @@ void scroll_draw( int n, REGION * clipping )
     r = *scrolls[n].region;
     if ( !dest && clipping ) region_union( &r, clipping );
 
-    if ( back )
-    {
-        if ( back->ncpoints > 0 && back->cpoints[0].x >= 0 )
-        {
+    if ( back ) {
+        if ( back->ncpoints > 0 && back->cpoints[0].x >= 0 ) {
             cx = back->cpoints[0].x ;
             cy = back->cpoints[0].y ;
-        }
-        else
-        {
+        } else {
             cx = back->width / 2 ;
             cy = back->height / 2 ;
         }
 
         y = scrolls[n].region->y - scrolls[n].y1 ;
 
-        while ( y < scrolls[n].region->y2 )
-        {
+        while ( y < scrolls[n].region->y2 ) {
             x = scrolls[n].region->x - scrolls[n].x1 ;
-            while ( x < scrolls[n].region->x2 )
-            {
+            while ( x < scrolls[n].region->x2 ) {
                 gr_blit( dest, &r, x + cx, y + cy, data->flags2, back, 1 ) ;
                 x += back->width ;
             }
@@ -441,23 +419,18 @@ void scroll_draw( int n, REGION * clipping )
 
     /* Dibuja el primer plano */
 
-    if ( graph->ncpoints > 0 && graph->cpoints[0].x >= 0 )
-    {
+    if ( graph->ncpoints > 0 && graph->cpoints[0].x >= 0 ) {
         cx = graph->cpoints[0].x ;
         cy = graph->cpoints[0].y ;
-    }
-    else
-    {
+    }  else {
         cx = graph->width / 2 ;
         cy = graph->height / 2 ;
     }
 
     y = scrolls[n].region->y - scrolls[n].y0 ;
-    while ( y < scrolls[n].region->y2 )
-    {
+    while ( y < scrolls[n].region->y2 ) {
         x = scrolls[n].region->x - scrolls[n].x0 ;
-        while ( x < scrolls[n].region->x2 )
-        {
+        while ( x < scrolls[n].region->x2 ) {
             gr_blit( dest, &r, x + cx, y + cy, data->flags1, graph, 1 ) ;
             x += graph->width ;
         }
@@ -468,23 +441,19 @@ void scroll_draw( int n, REGION * clipping )
 
     i = first_instance ;
     proclist_count = 0 ;
-    while ( i )
-    {
+    while ( i ) {
         if ( LOCDWORD( libscroll, i, CTYPE ) == C_SCROLL &&
                 (
                     (( status = LOCDWORD( libscroll, i, STATUS ) ) & ~STATUS_WAITING_MASK ) == STATUS_RUNNING ||
                     ( status & ~STATUS_WAITING_MASK ) == STATUS_FROZEN
                 )
-           )
-        {
-            if ( LOCDWORD( libscroll, i, CNUMBER ) && !( LOCDWORD( libscroll, i, CNUMBER ) & ( 1 << n ) ) )
-            {
+           ) {
+            if ( LOCDWORD( libscroll, i, CNUMBER ) && !( LOCDWORD( libscroll, i, CNUMBER ) & ( 1 << n ) ) ) {
                 i = i->next ;
                 continue ;
             }
 
-            if ( proclist_count == proclist_reserved )
-            {
+            if ( proclist_count == proclist_reserved ) {
                 proclist_reserved += 16 ;
                 proclist = ( INSTANCE ** ) realloc( proclist, sizeof( INSTANCE * ) * proclist_reserved ) ;
             }
@@ -494,16 +463,14 @@ void scroll_draw( int n, REGION * clipping )
         i = i->next ;
     }
 
-    if ( proclist_count )
-    {
+    if ( proclist_count ) {
         /* Ordena la listilla */
 
         qsort( proclist, proclist_count, sizeof( INSTANCE * ), compare_instances ) ;
 
         /* Visualiza los procesos */
 
-        for ( nproc = 0 ; nproc < proclist_count ; nproc++ )
-        {
+        for ( nproc = 0 ; nproc < proclist_count ; nproc++ ) {
             x = LOCDWORD( libscroll, proclist[nproc], COORDX ) ;
             y = LOCDWORD( libscroll, proclist[nproc], COORDY ) ;
 
@@ -516,23 +483,23 @@ void scroll_draw( int n, REGION * clipping )
 
 /* --------------------------------------------------------------------------- */
 
-static int info_scroll( int n, REGION * clip, int * z, int * drawme )
-{
+static int info_scroll( int n, REGION * clip, int * z, int * drawme ) {
     * z = scrolls[n].z;
     * drawme = 1;
     * clip = * scrolls[n].region;
     scroll_update( n );
 
     // Force clean map (need optimization)
-    if ( scrolls[n].destid ) gr_clear_region( bitmap_get( scrolls[n].destfile, scrolls[n].destid ), scrolls[n].region );
+    if ( scrolls[n].destid ) {
+        gr_clear_region( bitmap_get( scrolls[n].destfile, scrolls[n].destid ), scrolls[n].region );
+    }
 
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( libscroll, modules_dependency )[] =
-{
+char * __bgdexport( libscroll, modules_dependency )[] = {
     "libgrbase",
     "libblit",
     "librender",
