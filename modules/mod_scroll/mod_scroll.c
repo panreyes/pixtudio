@@ -68,11 +68,6 @@ DLSYSFUNCS __bgdexport( mod_scroll, functions_exports )[] =
     { "SCROLL_STOP"     , "I"       , TYPE_INT   , mod_scroll_stop    },
     { "SCROLL_MOVE"     , "I"       , TYPE_INT   , mod_scroll_move    },
 
-    { "START_SCROLL"    , "IIIIIIII", TYPE_INT   , mod_scroll_start2  },
-    { "START_SCROLL"    , "IIIIII"  , TYPE_INT   , mod_scroll_start   },
-    { "STOP_SCROLL"     , "I"       , TYPE_INT   , mod_scroll_stop    },
-    { "MOVE_SCROLL"     , "I"       , TYPE_INT   , mod_scroll_move    },
-
     { 0                 , 0         , 0          , 0                  }
 };
 
