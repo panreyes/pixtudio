@@ -43,6 +43,8 @@ DLSYSFUNCS __bgdexport( mod_wm, functions_exports )[] =
     { "GET_WINDOW_POS"      , "PP"  , TYPE_INT , 0 },
     { "GET_WINDOW_SIZE"     , "PPPP", TYPE_INT , 0 },
     { "GET_DESKTOP_SIZE"    , "PP"  , TYPE_INT , 0 },
+    { "DISABLE_SCREENSAVER" , ""    , TYPE_INT , 0 },
+    { "ENABLE_SCREENSAVER"  , ""    , TYPE_INT , 0 },
     { 0                     , 0     , 0        , 0 }
 };
 
