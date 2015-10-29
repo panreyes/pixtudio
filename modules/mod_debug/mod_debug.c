@@ -449,7 +449,7 @@ static void console_getkey( int key, int sym ) {
         *console_input = 0 ;
     }
     if ( key == SDLK_RETURN ) {
-
+        // TODO: Convert to network code
         console_scroll_pos = 0 ;
         console_printf( "\033[0m> %s", console_input ) ;
         if ( * console_input ) {
@@ -1746,8 +1746,7 @@ static INSTANCE * findproc( INSTANCE * last, char * action, char * ptr )
 
 /* --------------------------------------------------------------------------- */
 
-static void console_do( const char * command )
-{
+static void console_do( const char * command ) {
     char * ptr, * aptr ;
     char action[256] ;
     unsigned int var ;
@@ -1761,8 +1760,7 @@ static void console_do( const char * command )
     action[ptr - command] = 0 ;
     while ( *ptr == ' ' ) ptr++ ;
     aptr = action ;
-    while ( *aptr )
-    {
+    while ( *aptr ) {
         *aptr = TOUPPER( *aptr );
         aptr++;
     }
