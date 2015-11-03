@@ -78,7 +78,7 @@ int bgload( int ( *fn )(), int * params )
     bgdata *t = prep( params );
     t->fn = fn;
 
-    SDL_CreateThread( bgDoLoad, "BennuGD BG loading thread", (void *)t );
+    SDL_CreateThread( bgDoLoad, "PixTudio BG loading thread", (void *)t );
     return 0 ;
 }
 
