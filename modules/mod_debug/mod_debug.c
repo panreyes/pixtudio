@@ -52,6 +52,11 @@
 #include "libgrbase.h"
 #include "librender.h"
 
+// Networking stuff
+#include <fcntl.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+
 /* --------------------------------------------------------------------------- */
 
 extern void systext_color( int cfg, int cbg );
@@ -264,6 +269,10 @@ static char console_input[128] ;
 
 /* --------------------------------------------------------------------------- */
 
+static int console_sock;
+
+/* --------------------------------------------------------------------------- */
+
 static void eval_immediate();
 static void eval_value();
 static void eval_factor();
@@ -323,8 +332,10 @@ static void console_putline( char * text ) {
 
 /* --------------------------------------------------------------------------- */
 
-static void console_printf( const char *fmt, ... ) {
+static int console_printf( const char *fmt, ... ) {
     char text[MAXTEXT], * ptr, * iptr ;
+    char server_reply[2000];
+    int retval = 1;
 
     va_list ap;
     va_start( ap, fmt );
@@ -332,44 +343,27 @@ static void console_printf( const char *fmt, ... ) {
     va_end( ap );
     text[sizeof( text )-1] = 0;
 
+    SetSocketBlockingEnabled(console_sock, 1);
     // Print the line to the command line while we make the console
     // work again
-    printf("%s\n", text);
-
-    // 91 == '['
-    if ( *text == 91 ) {
-        memmove( text + 3, text, strlen( text ) + 1 ) ;
-        // "¬08"
-        memmove( text, "\033[38;2;128;128;128m", 3 ) ;
-        ptr = strchr( text, 91 ) ;
-        if ( ptr ) {
-            ptr++ ;
-            memmove( ptr + 3, ptr, strlen( ptr ) + 1 ) ;
-            memmove( ptr, "\033[0m", 3 ) ;
+    if( send(console_sock , text , strlen(text) , 0) < 0) {
+        fprintf(stderr, "Send failed for %s\n", text);
+        retval = 0;
+    } else {
+        // Receive a reply from the server
+        if( recv(console_sock , server_reply , 2000 , 0) < 0) {
+            fprintf(stderr, "recv failed\n");
+            retval = 0;
+        } else {
+            if(strncmp(server_reply, "ACK", strlen("ACK")) != 0) {
+                fprintf(stderr, "Server msg incorrect\n");
+                retval = 0;
+            }
         }
     }
+    SetSocketBlockingEnabled(console_sock, 0);
 
-    iptr = text ;
-    ptr  = text ;
-
-    while ( *ptr ) {
-        if ( *ptr == '\n' ) {
-            *ptr = 0 ;
-            console_putline( iptr ) ;
-            iptr = ptr + 1 ;
-        }
-        if ( *ptr == '\254' ) {
-            ptr++ ;
-            if ( isdigit( *ptr ) ) ptr++ ;
-            if ( isdigit( *ptr ) ) ptr++ ;
-            continue ;
-        }
-        ptr++ ;
-    }
-
-    if ( ptr > iptr ) {
-        console_putline( iptr ) ;
-    }
+    return retval;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -409,62 +403,6 @@ static const char * console_getcommand( int offset ) {
     }
 
     return command[offset];
-}
-
-/* --------------------------------------------------------------------------- */
-
-static void console_getkey( int key, int sym ) {
-    static int history_offset = 0;
-    char buffer[2] ;
-    const char * command;
-
-    if ( !key ) {
-        if ( sym == SDLK_UP ) {
-            command = console_getcommand( --history_offset );
-            if ( command == NULL ) {
-                history_offset++;
-            } else {
-                strncpy( console_input, command, 127 );
-            }
-        }
-
-        if ( sym == SDLK_DOWN ) {
-            if ( history_offset == -1 ) {
-                *console_input = 0;
-                history_offset++;
-            } else {
-                command = console_getcommand( ++history_offset );
-                if ( command == NULL )
-                    history_offset--;
-                else
-                    strncpy( console_input, command, 127 );
-            }
-        }
-    }
-
-    if ( key == SDLK_BACKSPACE && *console_input ) {
-        console_input[strlen( console_input )-1] = 0 ;
-    }
-    if ( key == SDLK_ESCAPE ) {
-        *console_input = 0 ;
-    }
-    if ( key == SDLK_RETURN ) {
-        // TODO: Convert to network code
-        console_scroll_pos = 0 ;
-        console_printf( "\033[0m> %s", console_input ) ;
-        if ( * console_input ) {
-            console_putcommand( console_input );
-            console_do( console_input ) ;
-            *console_input = 0 ;
-            history_offset = 0;
-        }
-    }
-
-    if ( key >= SDLK_SPACE && key <= SDLK_z ) {
-        buffer[0] = key ;
-        buffer[1] = 0 ;
-        strcat( console_input, buffer ) ;
-    }
 }
 
 /* --------------------------------------------------------------------------- */
@@ -1579,117 +1517,13 @@ static void console_instance_dump_all_brief()
 /* --------------------------------------------------------------------------- */
 
 static int console_list_current = 0;
-static int console_list_y_pos[2] = { 0 };
-static int console_list_x_pos[2] = { 0 };
-static int console_list_y_max[2] = { 0 };
 static INSTANCE * console_list_current_instance = NULL;
 
 #define WINDOW_LIST_COLS    40
 
-static void show_list_window()
-{
-    int n;
-    int pos = console_list_y_pos[console_list_current] > console_y / CHARHEIGHT - 2 ? console_list_y_pos[console_list_current] - ( console_y / CHARHEIGHT - 2 ) : 0 ;
-    int x = ( scrbitmap->width - console_columns * CHARWIDTH ) / 2 + ( console_columns - WINDOW_LIST_COLS ) * CHARWIDTH ;
-    int y = 0;
-
-    systext_color( 0x000000, 0xC0C0C0 ) ;
-    switch ( console_list_current )
-    {
-        case    0:
-            console_list_y_max[0] = procdef_count ;
-            systext_puts( scrbitmap, x, y, "\033[38;2;0;0;0m\033[48;2;0;192;192mPROCESS TYPES", WINDOW_LIST_COLS );
-            for ( n = 0 ; pos + n < procdef_count && y < console_y - CHARHEIGHT ; n++ )
-            {
-                y += CHARHEIGHT;
-                if ( console_list_y_pos[console_list_current] == pos + n )
-                {
-                    if ( procs[pos + n].breakpoint )
-                        systext_puts( scrbitmap, x, y, "\033[38;2;255;255;255m\033[48;2;192;0;192m", 1 );
-                    else
-                        systext_puts( scrbitmap, x, y, "\033[38;2;255;255;255m\033[48;2;0;0;192m", 1 );
-                }
-                else
-                {
-                    if ( procs[pos + n].breakpoint )
-                        systext_puts( scrbitmap, x, y, "\033[38;2;255;255;255m\033[48;2;192;0;0m", 1 );
-                    else
-                        systext_puts( scrbitmap, x, y, "\033[38;2;0;0;0m\033[0m", 1 );
-                }
-                if ( console_list_x_pos[console_list_current] < strlen( procs[pos + n].name ) )
-                    systext_puts( scrbitmap, x, y, &procs[pos + n].name[console_list_x_pos[console_list_current]], WINDOW_LIST_COLS );
-                else
-                    systext_puts( scrbitmap, x, y, "", WINDOW_LIST_COLS );
-            }
-            break;
-
-        case    1:
-        {
-            INSTANCE * i ;
-            int c ;
-            char line[128];
-            char status[10];
-
-            console_list_y_max[1] = 0 ;
-
-            systext_puts( scrbitmap, x, y, "\033[38;2;0;0;0m\033[48;2;0;192;192mINSTANCES", WINDOW_LIST_COLS );
-
-            for ( c = 0, n = 0, i = first_instance ; i ; i = i->next, c++ )
-            {
-                console_list_y_max[1]++ ;
-
-                if ( c < pos || y >= console_y - CHARHEIGHT ) continue ;
-                y += CHARHEIGHT;
-
-                if ( console_list_y_pos[console_list_current] == pos + n )
-                {
-                    console_list_current_instance = i;
-
-                    if ( i->breakpoint )
-                        systext_puts( scrbitmap, x, y, "\033[38;2;255;255;255m\033[48;2;192;0;192m", 1 );
-                    else
-                        systext_puts( scrbitmap, x, y, "\033[38;2;255;255;255m\033[48;2;0;0;192m", 1 );
-                }
-                else
-                {
-                    if ( i->breakpoint )
-                        systext_puts( scrbitmap, x, y, "\033[38;2;255;255;255m\033[48;2;192;0;0m", 1 );
-                    else
-                        systext_puts( scrbitmap, x, y, "\033[38;2;0;0;0m\033[0m", 1 );
-                }
-
-                status[0] = '\0';
-                if ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) strcat( status, "[W]" );
-                switch ( LOCDWORD( mod_debug, i, STATUS ) & ~STATUS_WAITING_MASK )
-                {
-                    case STATUS_DEAD        :   strcat( status, "[D]" ) ; break ;
-                    case STATUS_KILLED      :   strcat( status, "[K]" ) ; break ;
-                    case STATUS_SLEEPING    :   strcat( status, "[S]" ) ; break ;
-                    case STATUS_FROZEN      :   strcat( status, "[F]" ) ; break ;
-                    case STATUS_RUNNING     :   strcat( status, "[R]" ) ; break ;
-                }
-
-                sprintf( line, "%d %-6.6s %s",
-                        LOCDWORD( mod_debug, i, PROCESS_ID ),
-                        status,
-                        ( dcb.data.NSourceFiles && dcb.proc[i->proc->type].data.ID ) ? getid_name( dcb.proc[i->proc->type].data.ID ) : (( i->proc->type == 0 ) ? "Main" : "proc" )
-                       );
-                if ( console_list_x_pos[console_list_current] < strlen( line ) )
-                    systext_puts( scrbitmap, x, y, &line[console_list_x_pos[console_list_current]], WINDOW_LIST_COLS );
-                else
-                    systext_puts( scrbitmap, x, y, "", WINDOW_LIST_COLS );
-
-                n++ ;
-            }
-        }
-        break;
-    }
-}
-
 /* --------------------------------------------------------------------------- */
 
-static INSTANCE * findproc( INSTANCE * last, char * action, char * ptr )
-{
+static INSTANCE * findproc( INSTANCE * last, char * action, char * ptr ) {
     INSTANCE * i = NULL;
     char * aptr;
     int procno = 0;
@@ -2411,49 +2245,7 @@ static int console_keyboard_handler_cb( SDL_Keysym k ) {
                 return 1;
             }
 
-            if ( k.mod & KMOD_LALT ) {
-                if ( k.sym == SDLK_LEFT ) {
-                    if ( console_columns > HOTKEYHELP_SIZE ) console_columns-- ;
-                    return 1;
-                }
-
-                if ( k.sym == SDLK_RIGHT ) {
-                    if ( console_columns < scrbitmap->width / CHARWIDTH ) console_columns++ ;
-                    return 1;
-                }
-
-                if ( k.sym == SDLK_UP ) {
-                    if ( console_lines > 10 ) console_lines-- ;
-                    return 1;
-                }
-
-                if ( k.sym == SDLK_DOWN ) {
-                    if ( console_lines < scrbitmap->height / CHARHEIGHT ) console_lines++ ;
-                    return 1;
-                }
-            }
-
             if ( k.mod & ( KMOD_LSHIFT | KMOD_RSHIFT ) ) {
-                if ( k.sym == SDLK_LEFT ) {
-                    if ( console_list_x_pos[console_list_current] > 0 ) console_list_x_pos[console_list_current]-- ;
-                    return 1;
-                }
-
-                if ( k.sym == SDLK_RIGHT ) {
-                    console_list_x_pos[console_list_current]++ ;
-                    return 1;
-                }
-
-                if ( k.sym == SDLK_UP ) {
-                    if ( console_list_y_pos[console_list_current] > 0 ) console_list_y_pos[console_list_current]-- ;
-                    return 1;
-                }
-
-                if ( k.sym == SDLK_DOWN ) {
-                    if ( console_list_y_pos[console_list_current] < console_list_y_max[console_list_current] - 1 ) console_list_y_pos[console_list_current]++ ;
-                    return 1;
-                }
-
                 if ( k.sym == SDLK_F2 ) {
                     console_instance_dump_all_brief();
                     return 1;
@@ -2496,19 +2288,6 @@ static int console_keyboard_handler_cb( SDL_Keysym k ) {
 
                 if ( k.sym == SDLK_F6 ) {
                     console_list_current ^= 1;
-                    return 1;
-                }
-
-                if ( k.sym == SDLK_F9 ) {
-                    switch ( console_list_current ) {
-                        case    0:
-                            procs[console_list_y_pos[console_list_current]].breakpoint = !procs[console_list_y_pos[console_list_current]].breakpoint;
-                            break;
-
-                        case    1:
-                            if ( console_list_current_instance ) console_list_current_instance->breakpoint = !console_list_current_instance->breakpoint;
-                            break;
-                    }
                     return 1;
                 }
             }
@@ -2571,11 +2350,6 @@ static int console_keyboard_handler_cb( SDL_Keysym k ) {
                     return 1;
                 }
             }
-
-            if ( !( k.mod & KMOD_LALT ) ) {
-                // TODO: I made this up
-                console_getkey( k.sym, k.sym ) ;
-            }
             return 1;
         }
     }
@@ -2585,169 +2359,7 @@ static int console_keyboard_handler_cb( SDL_Keysym k ) {
 
 /* --------------------------------------------------------------------------- */
 
-static void console_draw( INSTANCE * i, REGION * clip )
-{
-    int x, y, line, count ;
-
-    if ( break_on_next_proc ) return ;
-
-    if ( debug_on_frame || force_debug )
-    {
-        //SDL_EnableKeyRepeat( 250, 50 );
-        debug_on_frame = 0;
-        force_debug = 0;
-        debug_mode = 1;
-        console_showing = 1 ;
-    }
-
-    if ( console_columns > scrbitmap->width / CHARWIDTH )
-        console_columns = scrbitmap->width / CHARWIDTH ;
-
-    if ( console_lines > ( scrbitmap->height - CHARHEIGHT * 3 ) / CHARHEIGHT )
-        console_lines = ( scrbitmap->height - CHARHEIGHT * 3 ) / CHARHEIGHT ;
-
-    if ( console_showing )
-    {
-        if ( console_y < console_lines * CHARHEIGHT ) console_y += CHARHEIGHT ;
-        if ( console_y > console_lines * CHARHEIGHT ) console_y = console_lines * CHARHEIGHT ;
-    }
-    else
-    {
-        if ( console_y > 0 ) console_y -= CHARHEIGHT ;
-        if ( console_y < 0 ) console_y = 0 ;
-    }
-
-    x = ( scrbitmap->width - console_columns * CHARWIDTH ) / 2 ;
-    y = -console_lines * CHARHEIGHT + console_y ;
-
-    int current_show = 0;
-
-    for ( count = 0; count < MAX_EXPRESSIONS; count++ )
-    {
-        if ( show_expression[count] )
-        {
-            char * res = eval_expression( show_expression[count], 0 );
-
-            if ( !res || result.type == T_ERROR )
-            {
-                free( show_expression[count] );
-                show_expression[count] = NULL;
-                show_expression_count--;
-            }
-            else
-            {
-                int ln = strlen( res );
-                int rl = ln * CHARWIDTH;
-                int xo = ( scrbitmap->width - rl ) / 2;
-                int yo = ( ( console_y < 1 ) ? 2 : console_y + CHARHEIGHT * 2 + 1 ) + CHARHEIGHT * current_show;
-
-                systext_color( 0, 0 ) ;
-                systext_puts( scrbitmap, xo - 1, yo - 1, res, ln );
-                systext_puts( scrbitmap, xo - 1, yo    , res, ln );
-                systext_puts( scrbitmap, xo - 1, yo + 1, res, ln );
-                systext_puts( scrbitmap, xo    , yo + 1, res, ln );
-                systext_puts( scrbitmap, xo + 1, yo + 1, res, ln );
-                systext_puts( scrbitmap, xo + 1, yo    , res, ln );
-                systext_puts( scrbitmap, xo + 1, yo - 1, res, ln );
-                systext_puts( scrbitmap, xo    , yo - 1, res, ln );
-
-                systext_color( console_showcolor, 0 ) ;
-                systext_puts( scrbitmap, xo, yo, res, ln );
-
-                gr_mark_rect( xo, yo, rl, CHARHEIGHT);
-                current_show++;
-            }
-        }
-    }
-
-    if ( console_y <= 0 ) return ;
-
-    int shiftstatus = GLODWORD( mod_debug, SHIFTSTATUS ) ;
-
-    line = console_tail ;
-
-    for ( count = 0 ; count < console_lines + console_scroll_pos ; count++ )
-    {
-        if ( line == console_head ) break ;
-        line-- ;
-        if ( line < 0 ) line = CONSOLE_HISTORY - 1 ;
-    }
-    console_scroll_pos = count - console_lines ;
-    if ( console_scroll_pos < 0 ) console_scroll_pos = 0 ;
-
-    for ( count = 0; count < console_lines; count++ )
-    {
-        systext_color( 0xC0C0C0, 0x000020 ) ;
-        if ( !console[line] || console_scroll_lateral_pos >= strlen( console[line] ) )
-        {
-            systext_puts( scrbitmap, x, y, "", console_columns ) ;
-        }
-        else
-        {
-            int pos = 0 ;
-            int off = 0;
-
-            do
-            {
-                if ( console[line][pos] == '\254' )
-                {
-                    off += 3;
-                    systext_puts( scrbitmap, x, y, console[line] + pos, 3 ) ;
-                }
-                pos++;
-            }
-            while ( pos - off < console_scroll_lateral_pos ) ;
-
-            if ( console_scroll_lateral_pos + off < strlen( console[line] ) )
-                systext_puts( scrbitmap, x, y, console[line] + console_scroll_lateral_pos + off, console_columns ) ;
-            else
-                systext_puts( scrbitmap, x, y, "", console_columns ) ;
-        }
-
-        y += CHARHEIGHT ;
-        line++ ;
-        if ( line == CONSOLE_HISTORY ) line = 0 ;
-    }
-
-    if ( console_showing && trace_sentence != -1 ) {
-        if ( trace_instance && instance_exists( trace_instance ) && dcb.sourcecount[trace_sentence >> 20] ) {
-            console_printf( "\033[0m[%s(%d):%d]\n\033[38;2;255;255;0m%s\033[0m\n\n",
-                    trace_instance->proc->name,
-                    LOCDWORD( mod_debug, trace_instance, PROCESS_ID ),
-                    trace_sentence & 0xFFFFF,
-                    dcb.sourcelines [trace_sentence >> 20] [( trace_sentence & 0xFFFFF )-1] ) ;
-        }
-        debug_on_frame = 0;
-        force_debug = 0;
-        debug_next = 0;
-        trace_sentence = -1;
-    }
-
-    systext_color( 0xFFFFFF, 0x404040 ) ;
-    systext_puts( scrbitmap, x, y, ">", 2 ) ;
-    strcat( console_input, "_" ) ;
-    systext_puts( scrbitmap, x + CHARWIDTH*2, y, console_input, console_columns - 2 ) ;
-    console_input[strlen( console_input )-1] = 0 ;
-
-    if ( shiftstatus & 3 ) {
-        show_list_window();
-        systext_color( 0x404040, 0x00C0C0 ) ;
-        if ( console_list_current )
-            systext_puts( scrbitmap, x, y + CHARHEIGHT, HOTKEYHELP3, console_columns ) ;
-        else
-            systext_puts( scrbitmap, x, y + CHARHEIGHT, HOTKEYHELP2, console_columns ) ;
-    }
-    else
-    {
-        systext_color( 0x404040, 0x00C0C0 ) ;
-        systext_puts( scrbitmap, x, y + CHARHEIGHT, HOTKEYHELP1, console_columns ) ;
-    }
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int console_info( INSTANCE * i, REGION * clip, int * z, int * drawme )
-{
+static int console_info( INSTANCE * i, REGION * clip, int * z, int * drawme ) {
     * drawme = debug_mode || show_expression_count || ( console_y > 0 );
 
     if ( debug_mode || ( console_y > 0 ) )
@@ -2797,18 +2409,36 @@ static int console_info( INSTANCE * i, REGION * clip, int * z, int * drawme )
 
 /* --------------------------------------------------------------------------- */
 
-static int moddebug_trace( INSTANCE * my, int * params )
-{
+static int moddebug_trace( INSTANCE * my, int * params ) {
     debug = params[0];
     return 0 ;
 }
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r )
-{
-    if ( break_on_next_proc )
-    {
+/** Returns true on success, or false if there was an error */
+int SetSocketBlockingEnabled(int fd, int blocking) {
+    if (fd < 0) {
+        return -1;
+    }
+
+#ifdef WIN32
+    unsigned long mode = blocking ? 0 : 1;
+    return (ioctlsocket(fd, FIONBIO, &mode) == 0) ? 0 : -1;
+#else
+    int flags = fcntl(fd, F_GETFL, 0);
+    if (flags < 0) {
+        return -1;
+    }
+    flags = blocking ? (flags&~O_NONBLOCK) : (flags|O_NONBLOCK);
+    return (fcntl(fd, F_SETFL, flags) == 0) ? 0 : -1;
+#endif
+}
+
+/* --------------------------------------------------------------------------- */
+
+void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r ) {
+    if ( break_on_next_proc ) {
         debug_next = 1;
         break_on_next_proc = 0;
     }
@@ -2817,13 +2447,42 @@ void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r )
 /* --------------------------------------------------------------------------- */
 /* Funciones de inicializacion del modulo/plugin                               */
 
-void __bgdexport( mod_debug, module_initialize )()
-{
+void __bgdexport( mod_debug, module_initialize )() {
     if ( dcb.data.NSourceFiles ) {
         hotkey_add( KMOD_LALT, SDLK_x, force_exit_cb );
         hotkey_add( 0, 0, console_keyboard_handler_cb );
 
-        gr_new_object( -2147483647L - 1, console_info, console_draw, 0 );
+        //Create socket
+        console_sock = socket(AF_INET , SOCK_STREAM , 0);
+        if (console_sock == -1) {
+            fprintf(stderr, "Could not create socket\n");
+        }
+        printf("Socket created\n");
+
+        struct sockaddr_in server;
+
+        server.sin_addr.s_addr = inet_addr("127.0.0.1");
+        server.sin_family = AF_INET;
+        server.sin_port = htons( 8888 );
+
+        // Connect to remote server
+        if (connect(console_sock , (struct sockaddr *)&server , sizeof(server)) < 0) {
+            fprintf(stderr, "connect failed. Error\n");
+            return;
+        }
+
+        printf("Connected\n");
+        sleep(1);
+
+        // Make the socket nonblocking so that we can read all the info
+        // the server wants to send us
+        SetSocketBlockingEnabled(console_sock, 0);
+
+        int retval;
+        char server_reply[2000];
+        while((retval = recv(console_sock , server_reply , 2000 , 0)) >= 0) {
+            printf("%s", server_reply);
+        }
     }
 }
 
