@@ -194,7 +194,7 @@ static int tcpsock_accept( INSTANCE * my, int * params )
     struct timeval timeout;
     fd_set readfds;
     struct sockaddr_in addr;
-    int addrlen;
+    unsigned int addrlen;
 
     FD_ZERO( &readfds );
     FD_SET( params[0], &readfds );
@@ -308,7 +308,7 @@ static int udpsock_recv( INSTANCE * my, int * params )
 
     struct sockaddr_in info_conexion;
     int bytesRecibidos;
-    int tamanoInfoConexion;
+    unsigned int tamanoInfoConexion;
 
     bytesRecibidos = recvfrom( params[0], ( void* )params[1], params[2], 0, ( SOCKADDR* ) & info_conexion, &tamanoInfoConexion );
 
