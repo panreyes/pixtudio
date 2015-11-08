@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf8 -*-
 '''
     Simple socket server using threads
 '''
@@ -10,6 +11,7 @@ import time
 
 HOST = ''   # Symbolic name meaning all available interfaces
 PORT = 8888 # Arbitrary non-privileged port
+quit = False
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print('Socket created')
@@ -27,20 +29,19 @@ print('Socket bind complete')
 s.listen(10)
 print('Socket now listening')
 
-#Function for handling connections. This will be used to create threads
-def clientthread(conn):
+def incomingMsg(conn):
     #Sending message to connected client
     conn.send(b'Welcome to the server. Type something and hit enter\n') #send only takes string
 
     #infinite loop so that function do not terminate and thread do not end.
-    while True:
+    while not quit:
         #Receiving from client
         data = conn.recv(1024)
-        reply = b'OK...' + data + b'\0'
+        reply = b'ACK\0'
         if not data or data.decode('UTF8').strip() in ('exit', 'quit'):
             break
         else:
-            print("Got {}, sent {}".format(data, reply))
+            print(data)
 
         conn.sendall(reply)
 
@@ -48,20 +49,28 @@ def clientthread(conn):
     #came out of loop
     conn.close()
 
+def outgoingMsg(conn):
+    while not quit:
+        command = sys.stdin.readline().strip()
+        conn.sendall(command)
+
+
 #wait to accept a connection - blocking call
 conn, addr = s.accept()
 print('Connected with ' + addr[0] + ':' + str(addr[1]))
 
 # Start a new thread to process commands
-t = threading.Thread(target=clientthread, args=(conn,))
-t.start()
-
-# Wait for the thread to end
-while threading.active_count() > 1:
+t1 = threading.Thread(target=incomingMsg, args=(conn,))
+t1.daemon=True
+t1.start()
+t2 = threading.Thread(target=outgoingMsg, args=(conn,))
+t2.daemon=True
+t2.start()
+while t1.is_alive() and t2.is_alive():
     time.sleep(1)
 
 # Close the socket
 s.close()
 
-# Quit
+# Quit
 sys.exit(0)

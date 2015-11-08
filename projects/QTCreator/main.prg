@@ -11,6 +11,7 @@ import "mod_draw"
 import "mod_theora"
 import "mod_sound"
 import "mod_math"
+import "mod_debug"
 
 PROCESS int main();
 Private
@@ -34,6 +35,7 @@ BEGIN
     time = timer[0];
     vol = 255;
     LOOP
+        angle += 20;
         if(key(_right))
             angle -= 500;
         end

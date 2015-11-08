@@ -59,11 +59,6 @@
 
 /* --------------------------------------------------------------------------- */
 
-extern void systext_color( int cfg, int cbg );
-extern void systext_puts( GRAPH * map, int x, int y, char * str, int len );
-
-/* --------------------------------------------------------------------------- */
-
 #ifndef _vsnprintf
 #define _vsnprintf vsnprintf
 #endif
@@ -169,9 +164,7 @@ DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[] = {
     "\033[38;2;0;192;192mESC             \033[0m  Cancel command\n"                                   \
     "\033[38;2;0;192;192mUP/DOWN         \033[0m  Command history navigation\n"                       \
     "\033[38;2;0;192;192mPGUP/PGDN       \033[0m  Page Up/Page Down\n"                                \
-    "\033[38;2;0;192;192mCTRL+CURSORS    \033[0m  Console scroll\n"                                   \
     "\033[38;2;0;192;192mALT+CURSORS     \033[0m  Console window size\n"                              \
-    "\033[38;2;0;192;192mSHIFT+CURSORS   \033[0m  List window scroll\n"                               \
     "\n"                                                                         \
     "You can evaluate free expressions in the console, and you can see/change\n" \
     "local, public and private vars using the '.' operator\n"                    \
@@ -263,8 +256,6 @@ console_vars[] = {
 /* --------------------------------------------------------------------------- */
 
 static int console_showing = 0 ;
-static int console_scroll_pos = 0 ;
-static int console_scroll_lateral_pos = 0 ;
 static char console_input[128] ;
 
 /* --------------------------------------------------------------------------- */
@@ -289,21 +280,6 @@ static DCB_TYPEDEF reduce_type( DCB_TYPEDEF orig );
 static void var2const();
 
 static void console_do( const char * command );
-
-/* --------------------------------------------------------------------------- */
-
-static void console_scroll( int direction ) {
-    console_scroll_pos += direction ;
-    if ( direction < 0 ) {
-        if ( console_scroll_pos < 0 ) {
-            console_scroll_pos = 0 ;
-        }
-    } else {
-        if ( console_scroll_pos > CONSOLE_HISTORY ) {
-            console_scroll_pos = CONSOLE_HISTORY ;
-        }
-    }
-}
 
 /* --------------------------------------------------------------------------- */
 
@@ -335,7 +311,7 @@ static void console_putline( char * text ) {
 static int console_printf( const char *fmt, ... ) {
     char text[MAXTEXT], * ptr, * iptr ;
     char server_reply[2000];
-    int retval = 1;
+    int retval = 0;
 
     va_list ap;
     va_start( ap, fmt );
@@ -343,25 +319,26 @@ static int console_printf( const char *fmt, ... ) {
     va_end( ap );
     text[sizeof( text )-1] = 0;
 
-    SetSocketBlockingEnabled(console_sock, 1);
-    // Print the line to the command line while we make the console
-    // work again
-    if( send(console_sock , text , strlen(text) , 0) < 0) {
-        fprintf(stderr, "Send failed for %s\n", text);
-        retval = 0;
-    } else {
-        // Receive a reply from the server
-        if( recv(console_sock , server_reply , 2000 , 0) < 0) {
-            fprintf(stderr, "recv failed\n");
-            retval = 0;
+    printf("%s\n", text);
+
+    if(console_sock > -1) {
+        SetSocketBlockingEnabled(console_sock, 1);
+        // Print the line to the command line while we make the console
+        // work again
+        if( send(console_sock , text , strlen(text) , 0) < 0) {
+            fprintf(stderr, "Send failed for %s\n", text);
         } else {
-            if(strncmp(server_reply, "ACK", strlen("ACK")) != 0) {
-                fprintf(stderr, "Server msg incorrect\n");
-                retval = 0;
+            // Receive a reply from the server
+            if( recv(console_sock , server_reply , 2000 , 0) < 0) {
+                fprintf(stderr, "recv failed\n");
+            } else {
+                if(strncmp(server_reply, "ACK", strlen("ACK")) == 0) {
+                    retval = 1;
+                }
             }
         }
+        SetSocketBlockingEnabled(console_sock, 0);
     }
-    SetSocketBlockingEnabled(console_sock, 0);
 
     return retval;
 }
@@ -407,17 +384,55 @@ static const char * console_getcommand( int offset ) {
 
 /* --------------------------------------------------------------------------- */
 
-static void console_lateral_scroll( int direction ) {
-    if ( direction > 0 ) {
-        console_scroll_lateral_pos-- ;
-        if ( console_scroll_lateral_pos < 0 ) {
-            console_scroll_lateral_pos = 0 ;
+static void console_getkey( int key, int sym ) {
+    static int history_offset = 0;
+    char buffer[2] ;
+    const char * command;
+
+    if ( !key ) {
+        if ( sym == SDLK_UP ) {
+            command = console_getcommand( --history_offset );
+            if ( command == NULL ) {
+                history_offset++;
+            } else {
+                strncpy( console_input, command, 127 );
+            }
         }
-    } else  {
-        console_scroll_lateral_pos++ ;
-        if ( console_scroll_lateral_pos > MAXTEXT ) {
-            console_scroll_lateral_pos = MAXTEXT ;
+
+        if ( sym == SDLK_DOWN ) {
+            if ( history_offset == -1 ) {
+                *console_input = 0;
+                history_offset++;
+            } else {
+                command = console_getcommand( ++history_offset );
+                if ( command == NULL )
+                    history_offset--;
+                else
+                    strncpy( console_input, command, 127 );
+            }
         }
+    }
+
+    if ( key == SDLK_BACKSPACE && *console_input ) {
+        console_input[strlen( console_input )-1] = 0 ;
+    }
+    if ( key == SDLK_ESCAPE ) {
+        *console_input = 0 ;
+    }
+    if ( key == SDLK_RETURN ) {
+        console_printf( "\033[0m> %s", console_input ) ;
+        if ( * console_input ) {
+            console_putcommand( console_input );
+            console_do( console_input ) ;
+            *console_input = 0 ;
+            history_offset = 0;
+        }
+    }
+
+    if ( key >= SDLK_SPACE && key <= SDLK_z ) {
+        buffer[0] = key ;
+        buffer[1] = 0 ;
+        strcat( console_input, buffer ) ;
     }
 }
 
@@ -2319,36 +2334,8 @@ static int console_keyboard_handler_cb( SDL_Keysym k ) {
                 }
             }
 
-            if ( k.sym == SDLK_PAGEUP ) {
-                console_scroll( console_lines ) ;
-                return 1;
-            }
-
-            if ( k.sym == SDLK_PAGEDOWN ) {
-                console_scroll( -console_lines ) ;
-                return 1;
-            }
-
-            if ( k.mod & ( KMOD_RCTRL | KMOD_LCTRL ) ) {
-                if ( k.sym == SDLK_LEFT ) {
-                    console_lateral_scroll( 1 ) ;
-                    return 1;
-                }
-
-                if ( k.sym == SDLK_RIGHT ) {
-                    console_lateral_scroll( -1 ) ;
-                    return 1;
-                }
-
-                if ( k.sym == SDLK_UP ) {
-                    console_scroll( 1 ) ;
-                    return 1;
-                }
-
-                if ( k.sym == SDLK_DOWN ) {
-                    console_scroll( -1 ) ;
-                    return 1;
-                }
+            if ( !( k.mod & KMOD_LALT ) ) {
+                console_getkey( k.sym, k.sym ) ;
             }
             return 1;
         }
@@ -2445,7 +2432,6 @@ void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r ) {
 }
 
 /* --------------------------------------------------------------------------- */
-/* Funciones de inicializacion del modulo/plugin                               */
 
 void __bgdexport( mod_debug, module_initialize )() {
     if ( dcb.data.NSourceFiles ) {
@@ -2483,6 +2469,14 @@ void __bgdexport( mod_debug, module_initialize )() {
         while((retval = recv(console_sock , server_reply , 2000 , 0)) >= 0) {
             printf("%s", server_reply);
         }
+    }
+}
+
+/* --------------------------------------------------------------------------- */
+
+void __bgdexport( mod_debug, module_finalize )() {
+    if(console_sock > -1) {
+        close(console_sock);
     }
 }
 

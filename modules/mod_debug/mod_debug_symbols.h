@@ -43,6 +43,7 @@ extern DLVARFIXUP __bgdexport( mod_debug, locals_fixup )[];
 extern DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[];
 extern void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r );
 extern void __bgdexport( mod_debug, module_initialize )();
+extern void __bgdexport( mod_debug, module_finalize )();
 extern char * __bgdexport( mod_debug, modules_dependency )[];
 #endif
 

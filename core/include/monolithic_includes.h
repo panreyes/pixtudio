@@ -265,7 +265,7 @@ extra_symbols symbol_list_runtime[] =
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_mem
 #endif
 #ifndef NO_MODDEBUG
-    { mod_debug_globals_fixup, mod_debug_locals_fixup, mod_debug_module_initialize, NULL, NULL, NULL, mod_debug_process_exec_hook, NULL }, //mod_debug
+    { mod_debug_globals_fixup, mod_debug_locals_fixup, mod_debug_module_initialize, mod_debug_module_finalize, NULL, NULL, mod_debug_process_exec_hook, NULL }, //mod_debug
 #endif
     /* Unofficial modules */
 #ifndef NO_MODICONV
