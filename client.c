@@ -55,7 +55,7 @@ int main(int argc , char *argv[]) {
     // Read all the info the server wants to send us
     int retval;
     while((retval = recv(sock , server_reply , 2000 , 0)) >= 0) {
-        printf("%s", server_reply);
+        printf("%s\n", server_reply);
     }
     SetSocketBlockingEnabled(sock, 1);
 

@@ -31,7 +31,7 @@ print('Socket now listening')
 
 def incomingMsg(conn):
     #Sending message to connected client
-    conn.send(b'Welcome to the server. Type something and hit enter\n') #send only takes string
+    conn.send(b'Welcome to the PixTudio debug server.\0')
 
     #infinite loop so that function do not terminate and thread do not end.
     while not quit:
@@ -52,7 +52,8 @@ def incomingMsg(conn):
 def outgoingMsg(conn):
     while not quit:
         command = sys.stdin.readline().strip()
-        conn.sendall(command)
+        conn.sendall(command.encode('UTF8')+b'\0')
+        sys.stdout.write('> ')
 
 
 #wait to accept a connection - blocking call

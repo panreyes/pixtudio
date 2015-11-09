@@ -109,8 +109,6 @@ DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[] = {
 #define CHARHEIGHT 8
 
 #define CONSOLE_HISTORY 512
-#define CONSOLE_LINES   25
-#define CONSOLE_COLUMNS 80
 #define COMMAND_HISTORY 128
 
 #define MAX_EXPRESSIONS 128
@@ -215,14 +213,6 @@ static const char * token_ptr ;
 /* --------------------------------------------------------------------------- */
 
 /* Console contents */
-static int console_lines = CONSOLE_LINES ;
-static int console_columns = CONSOLE_COLUMNS ;
-
-static char * console[CONSOLE_HISTORY] ;
-static int console_initialized = 0 ;
-static int console_head = 0 ;
-static int console_tail = 0 ;
-
 static char * command[COMMAND_HISTORY] ;
 static int command_initialized = 0 ;
 static int command_head = 0 ;
@@ -232,8 +222,6 @@ static int command_count = 0 ;
 static char * show_expression[MAX_EXPRESSIONS] = { NULL };
 static int show_expression_count = 0;
 static int  console_showcolor = 0xffffff;
-
-static int console_y = 0 ;
 
 /* --------------------------------------------------------------------------- */
 
@@ -255,7 +243,6 @@ console_vars[] = {
 
 /* --------------------------------------------------------------------------- */
 
-static int console_showing = 0 ;
 static char console_input[128] ;
 
 /* --------------------------------------------------------------------------- */
@@ -280,36 +267,12 @@ static DCB_TYPEDEF reduce_type( DCB_TYPEDEF orig );
 static void var2const();
 
 static void console_do( const char * command );
-
-/* --------------------------------------------------------------------------- */
-
-static void console_putline( char * text ) {
-    if ( !console_initialized ) {
-        memset( console, 0, sizeof( console ) ) ;
-        console_initialized = 1 ;
-    }
-
-    if ( console[console_tail] ) {
-        free( console[console_tail] ) ;
-    }
-    console[console_tail] = strdup( text ) ;
-
-    console_tail++ ;
-    if ( console_tail == CONSOLE_HISTORY ) {
-        console_tail = 0 ;
-    }
-    if ( console_tail == console_head ) {
-        console_head++ ;
-        if ( console_head == CONSOLE_HISTORY ) {
-            console_head = 0 ;
-        }
-    }
-}
+int SetSocketBlockingEnabled(int fd, int blocking);
 
 /* --------------------------------------------------------------------------- */
 
 static int console_printf( const char *fmt, ... ) {
-    char text[MAXTEXT], * ptr, * iptr ;
+    char text[MAXTEXT];
     char server_reply[2000];
     int retval = 0;
 
@@ -319,25 +282,21 @@ static int console_printf( const char *fmt, ... ) {
     va_end( ap );
     text[sizeof( text )-1] = 0;
 
-    printf("%s\n", text);
-
     if(console_sock > -1) {
-        SetSocketBlockingEnabled(console_sock, 1);
         // Print the line to the command line while we make the console
         // work again
-        if( send(console_sock , text , strlen(text) , 0) < 0) {
+        if( send(console_sock, text , strlen(text), 0) < 0) {
             fprintf(stderr, "Send failed for %s\n", text);
         } else {
             // Receive a reply from the server
-            if( recv(console_sock , server_reply , 2000 , 0) < 0) {
+            if( recv(console_sock, server_reply, 2000, 0) < 0) {
                 fprintf(stderr, "recv failed\n");
             } else {
-                if(strncmp(server_reply, "ACK", strlen("ACK")) == 0) {
+                if(strncmp(server_reply, "ACK", 3) == 0) {
                     retval = 1;
                 }
             }
         }
-        SetSocketBlockingEnabled(console_sock, 0);
     }
 
     return retval;
@@ -380,60 +339,6 @@ static const char * console_getcommand( int offset ) {
     }
 
     return command[offset];
-}
-
-/* --------------------------------------------------------------------------- */
-
-static void console_getkey( int key, int sym ) {
-    static int history_offset = 0;
-    char buffer[2] ;
-    const char * command;
-
-    if ( !key ) {
-        if ( sym == SDLK_UP ) {
-            command = console_getcommand( --history_offset );
-            if ( command == NULL ) {
-                history_offset++;
-            } else {
-                strncpy( console_input, command, 127 );
-            }
-        }
-
-        if ( sym == SDLK_DOWN ) {
-            if ( history_offset == -1 ) {
-                *console_input = 0;
-                history_offset++;
-            } else {
-                command = console_getcommand( ++history_offset );
-                if ( command == NULL )
-                    history_offset--;
-                else
-                    strncpy( console_input, command, 127 );
-            }
-        }
-    }
-
-    if ( key == SDLK_BACKSPACE && *console_input ) {
-        console_input[strlen( console_input )-1] = 0 ;
-    }
-    if ( key == SDLK_ESCAPE ) {
-        *console_input = 0 ;
-    }
-    if ( key == SDLK_RETURN ) {
-        console_printf( "\033[0m> %s", console_input ) ;
-        if ( * console_input ) {
-            console_putcommand( console_input );
-            console_do( console_input ) ;
-            *console_input = 0 ;
-            history_offset = 0;
-        }
-    }
-
-    if ( key >= SDLK_SPACE && key <= SDLK_z ) {
-        buffer[0] = key ;
-        buffer[1] = 0 ;
-        strcat( console_input, buffer ) ;
-    }
 }
 
 /* --------------------------------------------------------------------------- */
@@ -1038,26 +943,21 @@ static void eval_immediate()
 
 /* --------------------------------------------------------------------------- */
 
-static void eval_value()
-{
+static void eval_value() {
     eval_immediate() ;
     if ( result.type == T_ERROR ) return ;
 
-    for ( ;; )
-    {
-        if ( token.name[0] == '.' )
-        {
+    for ( ;; ) {
+        if ( token.name[0] == '.' ) {
             DCB_VARSPACE * v ;
             DCB_VAR * var ;
             unsigned int n ;
 
             var2const() ;
-            if ( result.type == T_CONSTANT )
-            {
+            if ( result.type == T_CONSTANT ) {
                 INSTANCE * i ;
                 i = instance_get(( int )result.value ) ;
-                if ( !i )
-                {
+                if ( !i ) {
                     result.type = T_ERROR ;
                     console_printf( "\033[38;2;192;0;0mInstance %d does not exist\033[0m", ( int )result.value ) ;
                     return ;
@@ -1068,15 +968,13 @@ static void eval_value()
             }
 
             if ( result.type != T_VARIABLE
-                    || result.var.Type.BaseType[0] != TYPE_STRUCT )
-            {
+                    || result.var.Type.BaseType[0] != TYPE_STRUCT ) {
                 console_printf( "\033[38;2;192;0;0m%s is not an struct\033[0m", result.name );
                 result.type = T_ERROR ;
                 return ;
             }
             get_token() ;
-            if ( token.type != IDENTIFIER )
-            {
+            if ( token.type != IDENTIFIER ) {
                 console_printf( "\033[38;2;192;0;0m%s is not a member\033[0m", token.name ) ;
                 result.type = T_ERROR ;
                 return ;
@@ -1084,13 +982,11 @@ static void eval_value()
 
             v = &dcb.varspace[result.var.Type.Members] ;
             var = dcb.varspace_vars[result.var.Type.Members] ;
-            for ( n = 0 ; n < v->NVars ; n++ )
-            {
+            for ( n = 0 ; n < v->NVars ; n++ ) {
                 if ( var[n].ID == token.code )
                     break ;
             }
-            if ( n == v->NVars )
-            {
+            if ( n == v->NVars ) {
                 console_printf( "\033[38;2;192;0;0m%s is not a member\033[0m", token.name ) ;
                 result.type = T_ERROR ;
                 return ;
@@ -1105,14 +1001,12 @@ static void eval_value()
             continue ;
         }
 
-        if ( token.name[0] == '[' )
-        {
+        if ( token.name[0] == '[' ) {
             DCB_VAR i = result.var ;
             void * i_data = result.data ;
             char name[256] ;
 
-            if ( result.type != T_VARIABLE || result.var.Type.BaseType[0] != TYPE_ARRAY )
-            {
+            if ( result.type != T_VARIABLE || result.var.Type.BaseType[0] != TYPE_ARRAY ) {
                 console_printf( "\033[38;2;192;0;0m%s is not an array\033[0m", result.name ) ;
                 result.type = T_ERROR ;
                 return ;
@@ -1121,24 +1015,25 @@ static void eval_value()
             strcpy( name, result.name ) ;
             get_token() ;
             eval_subexpression() ;
-            if ( result.type == T_ERROR ) return ;
-            if ( token.name[0] == ']' ) get_token() ;
+            if ( result.type == T_ERROR ) {
+                return ;
+            }
+            if ( token.name[0] == ']' ) {
+                get_token() ;
+            }
             var2const() ;
 
-            if ( result.type != T_CONSTANT )
-            {
+            if ( result.type != T_CONSTANT ) {
                 console_printf( "\033[38;2;192;0;0m%s is not an integer\033[0m", result.name ) ;
                 result.type = T_ERROR ;
                 return ;
             }
-            if ( result.value < 0 )
-            {
+            if ( result.value < 0 ) {
                 console_printf( "\033[38;2;192;0;0mIndex (%d) less than zero\033[0m", result.value ) ;
                 result.type = T_ERROR ;
                 return ;
             }
-            if ( result.value >= i.Type.Count[0] )
-            {
+            if ( result.value >= i.Type.Count[0] ) {
                 console_printf( "\033[38;2;192;0;0mIndex (%d) out of bounds\033[0m", result.value ) ;
                 result.type = T_ERROR ;
                 return ;
@@ -1158,35 +1053,42 @@ static void eval_value()
 
 /* --------------------------------------------------------------------------- */
 
-static void eval_factor()
-{
+static void eval_factor() {
     double base = 1 ;
     int op = 0 ;
 
-    for ( ;; )
-    {
+    for ( ;; ) {
         eval_value() ;
-        if ( result.type == T_ERROR ) return ;
-        if ( !strchr( "*/%", token.name[0] ) && !op ) return ;
+        if ( result.type == T_ERROR ) {
+            return ;
+        }
+        if ( !strchr( "*/%", token.name[0] ) && !op ) {
+            return ;
+        }
         var2const() ;
-        if ( result.type != T_CONSTANT )
-        {
+        if ( result.type != T_CONSTANT ) {
             result.type = T_ERROR ;
             console_printf( "\033[38;2;192;0;0mOperand is not a number\033[0m" ) ;
             return ;
         }
-        if ( !op ) op = 1 ;
-        if ( op > 1 && !result.value )
-        {
+        if ( !op ) {
+            op = 1 ;
+        }
+        if ( op > 1 && !result.value ) {
             result.type = T_ERROR ;
             console_printf( "\033[38;2;192;0;0mDivide by zero\033[0m" ) ;
             return ;
         }
-        if ( op == 1 ) base *= result.value ;
-        if ( op == 2 ) base /= result.value ;
-        if ( op == 3 ) base = ( int )base % ( int )result.value ;
-        if ( !strchr( "*/%", token.name[0] ) )
-        {
+        if ( op == 1 ) {
+            base *= result.value ;
+        }
+        if ( op == 2 ) {
+            base /= result.value ;
+        }
+        if ( op == 3 ) {
+            base = ( int )base % ( int )result.value ;
+        }
+        if ( !strchr( "*/%", token.name[0] ) ) {
             result.type = T_CONSTANT ;
             result.value = base ;
             _snprintf( result.name, sizeof( result.name ), "%g", base ) ;
@@ -1199,27 +1101,29 @@ static void eval_factor()
 
 /* --------------------------------------------------------------------------- */
 
-static void eval_subexpression()
-{
+static void eval_subexpression() {
     double base = 0 ;
     int op = 0 ;
 
-    for ( ;; )
-    {
+    for ( ;; ) {
         eval_factor() ;
-        if ( result.type == T_ERROR ) return ;
-        if ( token.name[0] != '+' && token.name[0] != '-' && !op ) return ;
+        if ( result.type == T_ERROR ) {
+            return ;
+        }
+        if ( token.name[0] != '+' && token.name[0] != '-' && !op ) {
+            return ;
+        }
         var2const() ;
-        if ( result.type != T_CONSTANT )
-        {
+        if ( result.type != T_CONSTANT ) {
             result.type = T_ERROR ;
             console_printf( "\033[38;2;192;0;0mOperand is not a number\033[0m" ) ;
             return ;
         }
-        if ( !op ) op = 1 ;
+        if ( !op ) {
+            op = 1 ;
+        }
         base += op * result.value ;
-        if ( token.name[0] != '+' && token.name[0] != '-' )
-        {
+        if ( token.name[0] != '+' && token.name[0] != '-' ) {
             result.type = T_CONSTANT ;
             result.value = base ;
             _snprintf( result.name, sizeof( result.name ), "%g", base ) ;
@@ -1232,21 +1136,20 @@ static void eval_subexpression()
 
 /* --------------------------------------------------------------------------- */
 
-static char * eval_expression( const char * here, int interactive )
-{
+static char * eval_expression( const char * here, int interactive ) {
     static char buffer[1024];
     static char part[1024];
 
-    while ( *here == ' ' ) here++;
+    while ( *here == ' ' ) {
+        here++;
+    }
 
     token_ptr = here ;
     get_token() ;
     eval_subexpression() ;
 
-    if ( token.type != NOTOKEN && token.name[0] != ',' && token.name[0] != '=' )
-    {
-        if ( result.type != T_ERROR )
-        {
+    if ( token.type != NOTOKEN && token.name[0] != ',' && token.name[0] != '=' ) {
+        if ( result.type != T_ERROR ) {
             console_printf( "\033[38;2;192;0;0mInvalid expression\033[0m" );
             result.type = T_ERROR;
         }
@@ -1256,30 +1159,31 @@ static char * eval_expression( const char * here, int interactive )
     memset( part, 0, sizeof( buffer ) );
     strncpy( part, here, token_ptr - here - (( token.type != NOTOKEN ) ? 1 : 0 ) );
 
-    if ( result.type == T_CONSTANT )
-    {
+    if ( result.type == T_CONSTANT ) {
         _snprintf( buffer, 1024, "%s = %g", part, result.value );
-        if ( interactive ) console_printf( "\033[0m%s", buffer ) ;
-    }
-    else if ( result.type == T_STRING )
-    {
-        if ( interactive ) console_printf( "\033[0m%s = \"%s\"", part, result.name ) ;
-    }
-    else if ( result.type == T_VARIABLE )
-    {
+        if ( interactive ) {
+            console_printf( "\033[0m%s", buffer ) ;
+        }
+    } else if ( result.type == T_STRING ) {
+        if ( interactive ) {
+            console_printf( "\033[0m%s = \"%s\"", part, result.name ) ;
+        }
+    } else if ( result.type == T_VARIABLE ) {
         lvalue = result ;
 
-        if ( token.name[0] == '=' )
-        {
-            if ( lvalue.type != T_VARIABLE )
-            {
+        if ( token.name[0] == '=' ) {
+            if ( lvalue.type != T_VARIABLE ) {
                 strcpy( buffer, "Not an lvalue" ) ;
-                if ( interactive ) console_printf( "\033[38;2;192;0;0m%s\033[0m", buffer ) ;
+                if ( interactive ) {
+                    console_printf( "\033[38;2;192;0;0m%s\033[0m", buffer ) ;
+                }
                 return buffer ;
             }
             get_token() ;
             eval_subexpression() ;
-            if ( result.type == T_ERROR ) return "" ;
+            if ( result.type == T_ERROR ) {
+                return "" ;
+            }
             var2const() ;
 
             if (( lvalue.var.Type.BaseType[0] == TYPE_DWORD || lvalue.var.Type.BaseType[0] == TYPE_INT ) && result.type == T_CONSTANT )
@@ -1302,39 +1206,33 @@ static char * eval_expression( const char * here, int interactive )
                 string_discard( *( uint32_t * ) lvalue.data ) ;
                 *( uint32_t * )( lvalue.data ) = string_new( result.name ) ;
                 string_use( *( uint32_t * ) lvalue.data ) ;
-            }
-            else
-            {
+            } else {
                 strcpy( buffer, "Invalid assignation" ) ;
-                if ( interactive ) console_printf( "\033[38;2;192;0;0m%s\033[0m", buffer ) ;
+                if ( interactive ) {
+                    console_printf( "\033[38;2;192;0;0m%s\033[0m", buffer ) ;
+                }
                 return buffer ;
             }
         }
 
-        if ( interactive )
-        {
+        if ( interactive ) {
             show_var( lvalue.var, lvalue.name, lvalue.data, "", 0 ) ;
-        }
-        else
-        {
+        } else {
             strcpy( buffer, part ) ;
             strcat( buffer, " " ) ;
             strcat( buffer, show_value( lvalue.var.Type, lvalue.data ) );
         }
     }
 
-    if ( token.name[0] == ',' )
-    {
+    if ( token.name[0] == ',' ) {
         char * temporary = strdup( buffer );
         int    size = strlen( temporary );
 
-        if ( eval_expression( token_ptr, interactive ) == 0 )
-        {
+        if ( eval_expression( token_ptr, interactive ) == 0 ) {
             free( temporary );
             return 0;
         }
-        if ( strlen( buffer ) + size < 1020 && !interactive )
-        {
+        if ( strlen( buffer ) + size < 1020 && !interactive ) {
             memmove( buffer + size + 2, buffer, strlen( buffer ) + 1 );
             memcpy( buffer, temporary, size );
             memcpy( buffer + size, ", ", 2 );
@@ -1348,8 +1246,7 @@ static char * eval_expression( const char * here, int interactive )
 
 /* --------------------------------------------------------------------------- */
 
-static void console_instance_dump( INSTANCE * father, int indent )
-{
+static void console_instance_dump( INSTANCE * father, int indent ) {
     INSTANCE * i, * next ;
     PROCDEF * proc ;
     DCB_PROC * dcbproc ;
@@ -1616,27 +1513,21 @@ static void console_do( const char * command ) {
 
     /* Comandos */
 
-    if ( strcmp( action, "HELP" ) == 0 )
-    {
+    if ( strcmp( action, "HELP" ) == 0 ) {
         console_printf( HELPTXT );
         return;
     }
 
-    if ( strcmp( action, "GO" ) == 0 )
-    {
-        //SDL_EnableKeyRepeat( 0, 0 );
+    if ( strcmp( action, "GO" ) == 0 ) {
         debug_mode = 0;
         debug_on_frame = 0;
         force_debug = 0;
         debug_next = 0;
         break_on_next_proc = 0;
-        console_showing = 0 ;
         return ;
     }
 
-    if ( strcmp( action, "NEXTFRAME" ) == 0 )
-    {
-        //SDL_EnableKeyRepeat( 0, 0 );
+    if ( strcmp( action, "NEXTFRAME" ) == 0 ) {
         break_on_next_proc = 0;
         debug_mode = 0;
         debug_on_frame = 1;
@@ -1646,9 +1537,7 @@ static void console_do( const char * command ) {
         return ;
     }
 
-    if ( strcmp( action, "NEXTPROC" ) == 0 )
-    {
-        //SDL_EnableKeyRepeat( 0, 0 );
+    if ( strcmp( action, "NEXTPROC" ) == 0 ) {
         debug_mode = 0;
         debug_on_frame = 0;
         force_debug = 0;
@@ -1657,9 +1546,7 @@ static void console_do( const char * command ) {
         return ;
     }
 
-    if ( strcmp( action, "TRACE" ) == 0 )
-    {
-        //SDL_EnableKeyRepeat( 0, 0 );
+    if ( strcmp( action, "TRACE" ) == 0 ) {
         debug_mode = 0;
         debug_on_frame = 0;
         force_debug = 0;
@@ -1668,150 +1555,128 @@ static void console_do( const char * command ) {
         return ;
     }
 
-    if ( strcmp( action, "BREAK" ) == 0 )
-    {
-        if ( *ptr )
-        {
-            if ( *ptr >= '0' && *ptr <= '9' )
-            {
+    if ( strcmp( action, "BREAK" ) == 0 ) {
+        if ( *ptr ) {
+            if ( *ptr >= '0' && *ptr <= '9' ) {
                 procno = atoi( ptr );
-                for ( i = first_instance ; i ; i = i->next )
-                    if ( LOCDWORD( mod_debug, i, PROCESS_ID ) == procno )
+                for ( i = first_instance ; i ; i = i->next ) {
+                    if ( LOCDWORD( mod_debug, i, PROCESS_ID ) == procno ) {
                         break;
-                if ( !i )
-                {
-                    console_printf( "\033[38;2;192;0;0mInstance %d does not exist\033[0m", procno );
+                    }
                 }
-                else
-                {
+                if ( !i ) {
+                    console_printf( "\033[38;2;192;0;0mInstance %d does not exist\033[0m", procno );
+                } else {
                     i->breakpoint = 1;
                     console_printf( "\033[0mOK" );
                 }
-            }
-            else
-            {
+            } else {
                 aptr = action;
-                while ( ISWORDCHAR( *ptr ) )
-                {
+                while ( ISWORDCHAR( *ptr ) ) {
                     *aptr++ = TOUPPER( *ptr ); ptr++;
                 }
                 *aptr = 0;
 
-                if ( *action )
-                {
+                if ( *action ) {
                     p = procdef_get_by_name( action );
-                    if ( !p )
-                    {
+                    if ( !p ) {
                         console_printf( "\033[38;2;192;0;0mProcess type %d does not exist\033[0m", action );
-                    }
-                    else
-                    {
+                    } else {
                         p->breakpoint = 1;
                         console_printf( "\033[0mOK" );
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             int f = 0;
-            for ( n = 0 ; n < procdef_count; n++ )
-            {
-                if ( procs[n].breakpoint )
-                {
-                    if ( !f )
-                    {
+            for ( n = 0 ; n < procdef_count; n++ ) {
+                if ( procs[n].breakpoint ) {
+                    if ( !f ) {
                         console_printf( "\033[38;2;0;192;0mPROCESS TYPE BREAKPOINTS\033[0m\n\n" );
                         f = 1;
                     }
                     console_printf( "\033[0m%s\n", procs[n].name );
                 }
             }
-            if ( f )
+            if ( f ) {
                 console_printf( "\n" );
+            }
 
             f = 0;
-            for ( i = first_instance ; i ; i = i->next )
-            {
-                if ( i->breakpoint )
-                {
-                    if ( !f )
-                    {
+            for ( i = first_instance ; i ; i = i->next ) {
+                if ( i->breakpoint ) {
+                    if ( !f ) {
                         console_printf( "\033[38;2;0;192;0mPROCESS BREAKPOINTS\033[0m\n\n" );
                         f = 1;
                     }
                     console_printf( "\033[0m%d", LOCDWORD( mod_debug, i, PROCESS_ID ) );
                 }
             }
-            if ( f ) console_printf( "\n" );
+            if ( f ) {
+                console_printf( "\n" );
+            }
         }
         return ;
     }
 
-    if ( strcmp( action, "BREAKALL" ) == 0 )
-    {
-        for ( i = first_instance ; i ; i = i->next ) i->breakpoint = 1;
+    if ( strcmp( action, "BREAKALL" ) == 0 ) {
+        for ( i = first_instance ; i ; i = i->next ) {
+            i->breakpoint = 1;
+        }
         console_printf( "\033[0mOK" );
         return ;
     }
 
-    if ( strcmp( action, "BREAKALLTYPES" ) == 0 )
-    {
-        for ( n = 0 ; n < procdef_count; n++ ) procs[n].breakpoint = 1;
+    if ( strcmp( action, "BREAKALLTYPES" ) == 0 ) {
+        for ( n = 0 ; n < procdef_count; n++ ) {
+            procs[n].breakpoint = 1;
+        }
         console_printf( "\033[0mOK" );
         return ;
     }
 
-    if ( strcmp( action, "DELETEALL" ) == 0 )
-    {
-        for ( i = first_instance ; i ; i = i->next ) i->breakpoint = 0;
+    if ( strcmp( action, "DELETEALL" ) == 0 ) {
+        for ( i = first_instance ; i ; i = i->next ) {
+            i->breakpoint = 0;
+        }
         console_printf( "\033[0mOK" );
         return ;
     }
 
-    if ( strcmp( action, "DELETEALLTYPES" ) == 0 )
-    {
-        for ( n = 0 ; n < procdef_count; n++ ) procs[n].breakpoint = 0;
+    if ( strcmp( action, "DELETEALLTYPES" ) == 0 ) {
+        for ( n = 0 ; n < procdef_count; n++ ) {
+            procs[n].breakpoint = 0;
+        }
         console_printf( "\033[0mOK" );
         return ;
     }
 
-    if ( strcmp( action, "DELETE" ) == 0 )
-    {
-        if ( *ptr )
-        {
-            if ( *ptr >= '0' && *ptr <= '9' )
-            {
+    if ( strcmp( action, "DELETE" ) == 0 ) {
+        if ( *ptr ) {
+            if ( *ptr >= '0' && *ptr <= '9' ) {
                 procno = atoi( ptr );
-                for ( i = first_instance ; i ; i = i->next )
-                    if ( LOCDWORD( mod_debug, i, PROCESS_ID ) == procno )
+                for ( i = first_instance ; i ; i = i->next ) {
+                    if ( LOCDWORD( mod_debug, i, PROCESS_ID ) == procno ) {
                         break;
-                if ( !i )
-                {
-                    console_printf( "\033[38;2;192;0;0mInstance %d does not exist\033[0m", procno );
+                    }
                 }
-                else
-                {
+                if ( !i ) {
+                    console_printf( "\033[38;2;192;0;0mInstance %d does not exist\033[0m", procno );
+                } else {
                     i->breakpoint = 0;
                     console_printf( "\033[0mOK" );
                 }
-            }
-            else
-            {
+            } else {
                 aptr = action;
-                while ( ISWORDCHAR( *ptr ) )
-                {
+                while ( ISWORDCHAR( *ptr ) ) {
                     *aptr++ = TOUPPER( *ptr ); ptr++;
                 }
                 *aptr = 0;
 
                 p = procdef_get_by_name( action );
-                if ( !p )
-                {
+                if ( !p ) {
                     console_printf( "\033[38;2;192;0;0mProcess type %d does not exist\033[0m", procno );
-                }
-                else
-                {
+                } else {
                     p->breakpoint = 0;
                     console_printf( "\033[0mOK" );
                 }
@@ -1820,22 +1685,18 @@ static void console_do( const char * command ) {
         return ;
     }
 
-    if ( strcmp( action, "STRINGS" ) == 0 )
-    {
+    if ( strcmp( action, "STRINGS" ) == 0 ) {
         string_dump(console_printf) ;
         return ;
     }
 
-    if ( strcmp( action, "INSTANCES" ) == 0 )
-    {
+    if ( strcmp( action, "INSTANCES" ) == 0 ) {
         console_instance_dump_all() ;
         return ;
     }
 
-    if ( strcmp( action, "GLOBALS" ) == 0 )
-    {
-        for ( var = 0 ; var < dcb.data.NGloVars ; var++ )
-        {
+    if ( strcmp( action, "GLOBALS" ) == 0 ) {
+        for ( var = 0 ; var < dcb.data.NGloVars ; var++ ) {
             DCB_VAR * v = &dcb.glovar[var] ;
             show_var( *v, 0, ( uint8_t * )globaldata + v->Offset, "[GLO]", 0 ) ;
         }
@@ -1843,58 +1704,43 @@ static void console_do( const char * command ) {
         return ;
     }
 
-    if (
-        strcmp( action, "LOCALS" ) == 0 ||
+    if (strcmp( action, "LOCALS" ) == 0 ||
         strcmp( action, "PRIVATES" ) == 0 ||
-        strcmp( action, "PUBLICS" ) == 0 )
-    {
+        strcmp( action, "PUBLICS" ) == 0 ) {
         int show_locals = action[0] == 'L';
         int show_public = action[0] == 'P' && action[1] == 'U' ;
 
         i = findproc( NULL, action, ptr );
 
-        if ( show_locals )
-        {
-            for ( var = 0 ; var < dcb.data.NLocVars ; var++ )
-            {
+        if ( show_locals ) {
+            for ( var = 0 ; var < dcb.data.NLocVars ; var++ ) {
                 DCB_VAR * v = &dcb.locvar[var] ;
                 show_var( *v, 0, i ? ( char* )i->locdata + v->Offset : 0, "[LOC]", 0 ) ;
             }
-        }
-        else if ( show_public )
-        {
-            if ( !i )
-            {
+        } else if ( show_public ) {
+            if ( !i ) {
                 console_printf( "\033[0mUse: PUBLICS process" );
                 return;
-            }
-            for ( var = 0 ; var < dcb.proc[i->proc->type].data.NPubVars ; var++ )
-            {
+            } for ( var = 0 ; var < dcb.proc[i->proc->type].data.NPubVars ; var++ ) {
                 DCB_VAR * v = &dcb.proc[i->proc->type].pubvar[var] ;
 
                 /* Unnamed private vars are temporary params and loop
                    counters, and are ignored by this command */
-                if (( int )v->ID >= 0 )
-                {
+                if (( int )v->ID >= 0 ) {
                     show_var( *v, 0, ( char* )i->pubdata + v->Offset, "[PUB]", 0 ) ;
                 }
             }
-        }
-        else
-        {
-            if ( !i )
-            {
+        } else {
+            if ( !i ) {
                 console_printf( "\033[0mUse: PRIVATES process" );
                 return;
             }
-            for ( var = 0 ; var < dcb.proc[i->proc->type].data.NPriVars ; var++ )
-            {
+            for ( var = 0 ; var < dcb.proc[i->proc->type].data.NPriVars ; var++ ) {
                 DCB_VAR * v = &dcb.proc[i->proc->type].privar[var] ;
 
                 /* Unnamed private vars are temporary params and loop
                    counters, and are ignored by this command */
-                if (( int )v->ID >= 0 )
-                {
+                if (( int )v->ID >= 0 ) {
                     show_var( *v, 0, ( char* )i->pridata + v->Offset, "[PRI]", 0 ) ;
                 }
             }
@@ -1903,31 +1749,24 @@ static void console_do( const char * command ) {
         return ;
     }
 
-    if ( strcmp( action, "SHOW" ) == 0 )
-    {
-        if ( *ptr )
-        {
+    if ( strcmp( action, "SHOW" ) == 0 ) {
+        if ( *ptr ) {
             char * res = eval_expression( ptr, 0 );
 
-            if ( !res || result.type == T_STRING )
-            {
+            if ( !res || result.type == T_STRING ) {
                 console_printf( "\033[38;2;192;0;0mInvalid argument\033[0m" );
                 return ;
             }
 
-            for ( n = 0; n < MAX_EXPRESSIONS; n++ )
-            {
-                if ( show_expression[n] && !strcmp( show_expression[n], ptr ) )
-                {
+            for ( n = 0; n < MAX_EXPRESSIONS; n++ ) {
+                if ( show_expression[n] && !strcmp( show_expression[n], ptr ) ) {
                     console_printf( "\033[38;2;192;0;0mAlready exists\033[0m" );
                     return ;
                 }
             }
 
-            for ( n = 0; n < MAX_EXPRESSIONS; n++ )
-            {
-                if ( !show_expression[n] )
-                {
+            for ( n = 0; n < MAX_EXPRESSIONS; n++ ) {
+                if ( !show_expression[n] ) {
                     show_expression[n] = strdup( ptr );
                     show_expression_count++;
                     console_printf( "\033[0mOK" );
@@ -1936,39 +1775,35 @@ static void console_do( const char * command ) {
             }
 
             console_printf( "\033[38;2;192;0;0mNo more expressions are possibles\033[0m" );
-        }
-        else
-        {
+        } else {
             int nn = 0;
-            for ( n = 0; n < MAX_EXPRESSIONS; n++ )
-            {
-                if ( show_expression[n] )
-                {
+            for ( n = 0; n < MAX_EXPRESSIONS; n++ ) {
+                if ( show_expression[n] ) {
                     console_printf( "%d: %s", n + 1, show_expression[n] );
                     nn++;
                 }
             }
 
-            if ( !nn ) console_printf( "\033[38;2;192;0;0mNo expressions availables\033[0m" );
+            if ( !nn ) {
+                console_printf( "\033[38;2;192;0;0mNo expressions availables\033[0m" );
+            }
         }
 
         return;
     }
 
 
-    if ( strcmp( action, "SHOWDEL" ) == 0 )
-    {
-        if ( *ptr )
-        {
+    if ( strcmp( action, "SHOWDEL" ) == 0 ) {
+        if ( *ptr ) {
             char * p = ptr;
 
-            while( ISNUM( *p ) ) p++;
+            while( ISNUM( *p ) ) {
+                p++;
+            }
 
-            if ( ISNUM( *ptr ) )
-            {
+            if ( ISNUM( *ptr ) ) {
                 int pos = atol( ptr ) - 1;
-                if ( pos >= 0 && pos < MAX_EXPRESSIONS && show_expression[pos] )
-                {
+                if ( pos >= 0 && pos < MAX_EXPRESSIONS && show_expression[pos] ) {
                     free( show_expression[pos] );
                     show_expression[pos] = NULL;
                     show_expression_count--;
@@ -1983,12 +1818,9 @@ static void console_do( const char * command ) {
         return;
     }
 
-    if ( strcmp( action, "SHOWDELALL" ) == 0 )
-    {
-        for ( n = 0; n < MAX_EXPRESSIONS; n++ )
-        {
-            if ( show_expression[n] )
-            {
+    if ( strcmp( action, "SHOWDELALL" ) == 0 ) {
+        for ( n = 0; n < MAX_EXPRESSIONS; n++ ) {
+            if ( show_expression[n] ) {
                 free( show_expression[n] );
                 show_expression[n] = NULL;
                 show_expression_count--;
@@ -1998,12 +1830,9 @@ static void console_do( const char * command ) {
         return;
     }
 
-    if ( strcmp( action, "VARS" ) == 0 )
-    {
-        for ( var = 0 ; var < N_CONSOLE_VARS ; var++ )
-        {
-            switch ( console_vars[var].type )
-            {
+    if ( strcmp( action, "VARS" ) == 0 ) {
+        for ( var = 0 ; var < N_CONSOLE_VARS ; var++ ) {
+            switch ( console_vars[var].type ) {
                 case CON_DWORD:
                     console_printf( "\033[0m%s = %d\n", console_vars[var].name, *( int * )console_vars[var].value ) ;
                     break;
@@ -2017,42 +1846,35 @@ static void console_do( const char * command ) {
         return ;
     }
 
-    if ( strcmp( action, "RUN" ) == 0 )
-    {
-        if ( *ptr )
-        {
+    if ( strcmp( action, "RUN" ) == 0 ) {
+        if ( *ptr ) {
             aptr = action;
-            while ( ISWORDCHAR( *ptr ) )
-            {
+            while ( ISWORDCHAR( *ptr ) ) {
                 *aptr++ = TOUPPER( *ptr ); ptr++;
             }
             *aptr = 0;
 
-            if ( *action )
-            {
+            if ( *action ) {
                 int i;
                 INSTANCE * inst ;
                 p = procdef_get_by_name( action );
-                if ( p )
-                {
+                if ( p ) {
                     token_ptr = ptr ;
                     console_printf( "\033[0m%s", ptr );
                     inst = instance_new( p, NULL );
 
-                    for ( i = 0; i < p->params; i++ )
-                    {
+                    for ( i = 0; i < p->params; i++ ) {
                         int type = dcb.proc[p->type].privar[i].Type.BaseType[0];
                         get_token() ;
                         eval_subexpression() ;
 
-                        if ( result.type == T_VARIABLE )
+                        if ( result.type == T_VARIABLE ) {
                             var2const();
+                        }
 
-                        switch ( result.type )
-                        {
+                        switch ( result.type ) {
                             case T_CONSTANT:
-                                switch ( type )
-                                {
+                                switch ( type ) {
                                     case    TYPE_FLOAT:
                                         PRIDWORD( inst, 4*i ) = *( int * ) & result.value ;
                                         break;
@@ -2089,9 +1911,7 @@ static void console_do( const char * command ) {
                         }
                     }
                     console_printf( "\033[0mProcess %s is executed", p->name );
-                }
-                else
-                {
+                } else {
                     console_printf( "\033[38;2;192;0;0mProcess %s not found\033[0m", action );
                 }
                 return;
@@ -2099,23 +1919,19 @@ static void console_do( const char * command ) {
         }
     }
 
-    if (
-        strcmp( action, "KILLALL" ) == 0 ||
+    if (strcmp( action, "KILLALL" ) == 0 ||
         strcmp( action, "SLEEPALL" ) == 0 ||
         strcmp( action, "WAKEUPALL" ) == 0 ||
-        strcmp( action, "FREEZEALL" ) == 0 )
-    {
+        strcmp( action, "FREEZEALL" ) == 0 ) {
         char    act = *action;
         int     found = 0;
         char    * oaction = strdup( action );
         char    * optr = ptr;
 
         i = NULL;
-        while (( i = findproc( i, action, ptr ) ) )
-        {
+        while (( i = findproc( i, action, ptr ) ) ) {
             found = 1;
-            switch ( act )
-            {
+            switch ( act ) {
                 case 'K':
                     LOCDWORD( mod_debug, i, STATUS ) = ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) | STATUS_KILLED ;
                     break;
@@ -2136,23 +1952,26 @@ static void console_do( const char * command ) {
             ptr = optr;
         }
 
-        if ( oaction ) free( oaction );
-        if ( found ) console_printf( "\033[0mOK" );
+        if ( oaction ) {
+            free( oaction );
+        }
+        if ( found ) {
+            console_printf( "\033[0mOK" );
+        }
         return ;
     }
 
-    if (
-        strcmp( action, "KILL" ) == 0 ||
+    if (strcmp( action, "KILL" ) == 0 ||
         strcmp( action, "SLEEP" ) == 0 ||
         strcmp( action, "WAKEUP" ) == 0 ||
-        strcmp( action, "FREEZE" ) == 0 )
-    {
+        strcmp( action, "FREEZE" ) == 0 ) {
         char act = *action;
         i = findproc( NULL, action, ptr );
-        if ( !i ) return;
+        if ( !i ) {
+            return;
+        }
 
-        switch ( act )
-        {
+        switch ( act ) {
             case 'K':
                 LOCDWORD( mod_debug, i, STATUS ) = ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) | STATUS_KILLED ;
                 break;
@@ -2173,38 +1992,38 @@ static void console_do( const char * command ) {
         return ;
     }
 
-    if ( strcmp( action, "QUIT" ) == 0 )
-    {
+    if ( strcmp( action, "QUIT" ) == 0 ) {
         bgdrtm_exit( 1 ) ;
         return ;
     }
 
     /* Variables del ENGINE */
 
-    for ( var = 0 ; var < N_CONSOLE_VARS ; var++ )
-    {
-        if ( strcmp( console_vars[var].name, action ) == 0 )
-        {
-            switch ( console_vars[var].type )
-            {
+    for ( var = 0 ; var < N_CONSOLE_VARS ; var++ ) {
+        if ( strcmp( console_vars[var].name, action ) == 0 ) {
+            switch ( console_vars[var].type ) {
                 case CON_DWORD:
-                    if ( *ptr )
-                    {
-                        while ( *ptr == '=' || *ptr == ' ' ) ptr++;
+                    if ( *ptr ) {
+                        while ( *ptr == '=' || *ptr == ' ' ) {
+                            ptr++;
+                        }
                         eval_expression( ptr, 0 );
-                        if ( result.type != T_ERROR )
+                        if ( result.type != T_ERROR ) {
                             *( int * )console_vars[var].value = ( int ) result.value ;
+                        }
                     }
                     console_printf( "\033[0m%s = %d", console_vars[var].name, *( int * )console_vars[var].value ) ;
                     return ;
 
                 case CON_DWORD_HEX:
-                    if ( *ptr )
-                    {
-                        while ( *ptr == '=' || *ptr == ' ' ) ptr++;
+                    if ( *ptr ) {
+                        while ( *ptr == '=' || *ptr == ' ' ) {
+                            ptr++;
+                        }
                         eval_expression( ptr, 0 );
-                        if ( result.type != T_ERROR )
+                        if ( result.type != T_ERROR ) {
                             *( int * )console_vars[var].value = ( int ) result.value ;
+                        }
                     }
                     console_printf( "\033[0m%s = %08Xh\n", console_vars[var].name, *( int * )console_vars[var].value ) ;
                     return ;
@@ -2217,181 +2036,168 @@ static void console_do( const char * command ) {
     eval_expression( command, 1 ) ;
 }
 
-/* --------------------------------------------------------------------------- */
-/* Hotkey for exit (ALT+X)                                                     */
-/* --------------------------------------------------------------------------- */
+/* ----------------------- */
+/* Hotkey for exit (ALT+X) */
+/* ----------------------- */
 
-static int force_exit_cb( SDL_Keysym k )
-{
+static int force_exit_cb( SDL_Keysym k ) {
     exit_value = 0;
     must_exit = 1 ;
     return 1;
 }
 
-/* --------------------------------------------------------------------------- */
-/* Hotkeys for activate/deactivate console                                     */
-/* --------------------------------------------------------------------------- */
+/* ----------------------- */
+/* Handle network commands */
+/* ----------------------- */
 
-static int console_keyboard_handler_cb( SDL_Keysym k ) {
-    char cmd[256];
+static int handle_network_commands() {
+    // Inform the debug server that
+    // we can now accept commands
+    if (send(console_sock, "DBGON", 5, 0) < 0) {
+        debug_mode = 0;
+        force_debug = 0;
+        break_on_next_proc = 0;
+        fprintf(stderr, "Debug mode cannot activate since "
+                        "debugger is not connected\n");
+        return -1;
+    } else {
+        int retval;
+        char server_msg[2000];
+
+        retval = recv(console_sock, server_msg, 2000, 0);
+        while(retval > 0) {
+            printf("server_msg: '%s'\n", server_msg);
+            console_do(server_msg);
+            // TODO: Handle all the rest processes
+            if ( strcmp( server_msg, "GO" ) == 0 ) {
+                break;
+            }
+            retval = recv(console_sock, server_msg, 2000, 0);
+        }
+
+        if(retval == 0) {
+            printf("Debug server disconnected\n");
+        }
+    }
+
+    return 1;
+}
+
+/* --------------------------------------- */
+/* Hotkeys for activate/deactivate console */
+/* --------------------------------------- */
+
+static int debug_mode_handler_cb( SDL_Keysym k ) {
+    int retval;
 
     if ( dcb.data.NSourceFiles ) {
-        if (( k.mod & KMOD_LALT ) && k.sym == SDLK_c ) {
-            if ( !debug_mode ) {
-                //SDL_EnableKeyRepeat( 250, 50 );
-                debug_mode = 1;
-                force_debug = 1;
-                console_showing = 1 ;
-                printf("Showing console!\n");
-            } else {
-                //SDL_EnableKeyRepeat( 0, 0 );
-                debug_mode = 0;
-                force_debug = 0;
-                console_showing = 0 ;
-                break_on_next_proc = 0;
-                printf("Hiding console!!!\n");
-            }
-            return 1;
+        if ( console_sock > -1 ) {
+            debug_mode = 1;
+            force_debug = 1;
+            SetSocketBlockingEnabled(console_sock, 1);
+            retval = handle_network_commands();
+            SetSocketBlockingEnabled(console_sock, 0);
+            debug_mode = 0;
+            force_debug = 0;
+            break_on_next_proc = 0;
         }
 
-        if ( debug_mode ) {
-            if ( k.sym == SDLK_F1 ) {
-                console_do( "HELP" );
-                return 1;
-            }
+        return retval;
 
-            if ( k.mod & ( KMOD_LSHIFT | KMOD_RSHIFT ) ) {
-                if ( k.sym == SDLK_F2 ) {
-                    console_instance_dump_all_brief();
-                    return 1;
-                }
+//        if ( debug_mode ) {
+//            // Get command from network
+//            SetSocketBlockingEnabled(console_sock, 1);
+//            if(recv(console_sock, network_cmd, 2000, 0) > 0) {
+//                printf("Got command: '%s'\n", network_cmd);
+//            }
+//            SetSocketBlockingEnabled(console_sock, 0);
+//            if ( k.sym == SDLK_F1 ) {
+//                console_do( "HELP" );
+//                return 1;
+//            }
 
-                if ( console_list_current_instance && console_list_current == 1 ) {
-                    if ( k.sym == SDLK_F3 ) {
-                        int id = LOCDWORD( mod_debug, console_list_current_instance, PROCESS_ID ) ;
-                        console_printf( "\033[38;2;0;192;0m%s (%d) LOCALS\033[0m\n\n",
-                                ( dcb.data.NSourceFiles && dcb.proc[console_list_current_instance->proc->type].data.ID ) ? getid_name( dcb.proc[console_list_current_instance->proc->type].data.ID ) : (( console_list_current_instance->proc->type == 0 ) ? "Main" : "proc" ),
-                                id
-                                      );
-                        sprintf( cmd, "LOCALS %d", id ) ;
-                        console_do( cmd );
-                        return 1;
-                    }
+//            if ( k.mod & ( KMOD_LSHIFT | KMOD_RSHIFT ) ) {
+//                if ( k.sym == SDLK_F2 ) {
+//                    console_instance_dump_all_brief();
+//                    return 1;
+//                }
 
-                    if ( k.sym == SDLK_F4 ) {
-                        int id = LOCDWORD( mod_debug, console_list_current_instance, PROCESS_ID ) ;
-                        console_printf( "\033[38;2;0;192;0m%s (%d) PRIVATES\033[0m\n\n",
-                                ( dcb.data.NSourceFiles && dcb.proc[console_list_current_instance->proc->type].data.ID ) ? getid_name( dcb.proc[console_list_current_instance->proc->type].data.ID ) : (( console_list_current_instance->proc->type == 0 ) ? "Main" : "proc" ),
-                                id
-                                      );
-                        sprintf( cmd, "PRIVATES %d", id ) ;
-                        console_do( cmd );
-                        return 1;
-                    }
+//                if ( console_list_current_instance && console_list_current == 1 ) {
+//                    if ( k.sym == SDLK_F3 ) {
+//                        int id = LOCDWORD( mod_debug, console_list_current_instance, PROCESS_ID ) ;
+//                        console_printf( "\033[38;2;0;192;0m%s (%d) LOCALS\033[0m\n\n",
+//                                ( dcb.data.NSourceFiles && dcb.proc[console_list_current_instance->proc->type].data.ID ) ? getid_name( dcb.proc[console_list_current_instance->proc->type].data.ID ) : (( console_list_current_instance->proc->type == 0 ) ? "Main" : "proc" ),
+//                                id
+//                                      );
+//                        sprintf( cmd, "LOCALS %d", id ) ;
+//                        console_do( cmd );
+//                        return 1;
+//                    }
 
-                    if ( k.sym == SDLK_F5 ) {
-                        int id = LOCDWORD( mod_debug, console_list_current_instance, PROCESS_ID ) ;
-                        console_printf( "\033[38;2;0;192;0m%s (%d) PUBLICS\033[0m\n\n",
-                                ( dcb.data.NSourceFiles && dcb.proc[console_list_current_instance->proc->type].data.ID ) ? getid_name( dcb.proc[console_list_current_instance->proc->type].data.ID ) : (( console_list_current_instance->proc->type == 0 ) ? "Main" : "proc" ),
-                                id
-                                      );
-                        sprintf( cmd, "PUBLICS %d", id ) ;
-                        console_do( cmd );
-                        return 1;
-                    }
-                }
+//                    if ( k.sym == SDLK_F4 ) {
+//                        int id = LOCDWORD( mod_debug, console_list_current_instance, PROCESS_ID ) ;
+//                        console_printf( "\033[38;2;0;192;0m%s (%d) PRIVATES\033[0m\n\n",
+//                                ( dcb.data.NSourceFiles && dcb.proc[console_list_current_instance->proc->type].data.ID ) ? getid_name( dcb.proc[console_list_current_instance->proc->type].data.ID ) : (( console_list_current_instance->proc->type == 0 ) ? "Main" : "proc" ),
+//                                id
+//                                      );
+//                        sprintf( cmd, "PRIVATES %d", id ) ;
+//                        console_do( cmd );
+//                        return 1;
+//                    }
 
-                if ( k.sym == SDLK_F6 ) {
-                    console_list_current ^= 1;
-                    return 1;
-                }
-            }
+//                    if ( k.sym == SDLK_F5 ) {
+//                        int id = LOCDWORD( mod_debug, console_list_current_instance, PROCESS_ID ) ;
+//                        console_printf( "\033[38;2;0;192;0m%s (%d) PUBLICS\033[0m\n\n",
+//                                ( dcb.data.NSourceFiles && dcb.proc[console_list_current_instance->proc->type].data.ID ) ? getid_name( dcb.proc[console_list_current_instance->proc->type].data.ID ) : (( console_list_current_instance->proc->type == 0 ) ? "Main" : "proc" ),
+//                                id
+//                                      );
+//                        sprintf( cmd, "PUBLICS %d", id ) ;
+//                        console_do( cmd );
+//                        return 1;
+//                    }
+//                }
 
-            if ( k.sym == SDLK_F2 ) {
-                console_instance_dump_all() ;
-                return 1;
-            }
+//                if ( k.sym == SDLK_F6 ) {
+//                    console_list_current ^= 1;
+//                    return 1;
+//                }
+//            }
 
-            if ( !( k.mod & ( KMOD_LSHIFT | KMOD_RSHIFT ) ) ) {
-                if ( k.sym == SDLK_F5 ) {
-                    console_do( "GO" );
-                    return 1;
-                }
+//            if ( k.sym == SDLK_F2 ) {
+//                console_instance_dump_all() ;
+//                return 1;
+//            }
 
-                if ( k.sym == SDLK_F8 ) {
-                    console_do( "TRACE" );
-                    return 1;
-                }
+//            if ( !( k.mod & ( KMOD_LSHIFT | KMOD_RSHIFT ) ) ) {
+//                if ( k.sym == SDLK_F5 ) {
+//                    console_do( "GO" );
+//                    return 1;
+//                }
 
-                if ( k.sym == SDLK_F10 ) {
-                    console_do( "NEXTFRAME" );
-                    return 1;
-                }
+//                if ( k.sym == SDLK_F8 ) {
+//                    console_do( "TRACE" );
+//                    return 1;
+//                }
 
-                if ( k.sym == SDLK_F11 ) {
-                    console_do( "NEXTPROC" );
-                    return 1;
-                }
-            }
+//                if ( k.sym == SDLK_F10 ) {
+//                    console_do( "NEXTFRAME" );
+//                    return 1;
+//                }
 
-            if ( !( k.mod & KMOD_LALT ) ) {
-                console_getkey( k.sym, k.sym ) ;
-            }
-            return 1;
-        }
+//                if ( k.sym == SDLK_F11 ) {
+//                    console_do( "NEXTPROC" );
+//                    return 1;
+//                }
+//            }
+
+//            if ( !( k.mod & KMOD_LALT ) ) {
+//                console_getkey( k.sym, k.sym ) ;
+//            }
+//            return 1;
+//        }
     }
 
     return 0;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static int console_info( INSTANCE * i, REGION * clip, int * z, int * drawme ) {
-    * drawme = debug_mode || show_expression_count || ( console_y > 0 );
-
-    if ( debug_mode || ( console_y > 0 ) )
-    {
-        clip->x  = 0;
-        clip->y  = 0;
-        clip->x2 = scrbitmap->width ;
-        clip->y2 = scrbitmap->height ;
-    }
-    else if ( show_expression_count )
-    {
-        int count, rl = 0, l;
-
-        for ( count = 0; count < MAX_EXPRESSIONS; count++ )
-        {
-            if ( show_expression[count] )
-            {
-                char * res = eval_expression( show_expression[count], 0 );
-
-                if ( !res )
-                {
-                    free( show_expression[count] );
-                    show_expression[count] = NULL;
-                    show_expression_count--;
-                }
-                else
-                {
-                    if ( ( l = strlen( res ) * CHARWIDTH ) > rl ) rl = l ;
-                }
-            }
-        }
-
-        if ( !show_expression_count )
-        {
-            *drawme = 0;
-            return 0;
-        }
-
-        clip->x = ( scrbitmap->width - rl ) / 2 ;
-        clip->y = ( console_y <= 0 ) ? 0 : ( console_y + CHARHEIGHT ) ;
-        clip->x2 = clip->x + rl ;
-        clip->y2 = CHARHEIGHT * show_expression_count;
-    }
-
-    return * drawme ;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -2436,7 +2242,7 @@ void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r ) {
 void __bgdexport( mod_debug, module_initialize )() {
     if ( dcb.data.NSourceFiles ) {
         hotkey_add( KMOD_LALT, SDLK_x, force_exit_cb );
-        hotkey_add( 0, 0, console_keyboard_handler_cb );
+        hotkey_add( KMOD_LALT, SDLK_c, debug_mode_handler_cb );
 
         //Create socket
         console_sock = socket(AF_INET , SOCK_STREAM , 0);
@@ -2466,9 +2272,11 @@ void __bgdexport( mod_debug, module_initialize )() {
 
         int retval;
         char server_reply[2000];
-        while((retval = recv(console_sock , server_reply , 2000 , 0)) >= 0) {
-            printf("%s", server_reply);
+        while((retval = recv(console_sock , server_reply , 2000 , 0)) > 0) {
+            printf("%s\n", server_reply);
         }
+
+        SetSocketBlockingEnabled(console_sock, 1);
     }
 }
 
