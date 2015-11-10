@@ -43,6 +43,7 @@
 #define B_ALPHA         0x0008
 #define B_ABLEND        0x0010
 #define B_SBLEND        0x0020
+#define B_MBLEND        0x0040
 #define B_NOCOLORKEY    0x0080
 
 #define B_ALPHA_MASK    0xFF00

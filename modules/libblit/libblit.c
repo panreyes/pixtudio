@@ -47,6 +47,7 @@ DLCONSTANT __bgdexport( libblit, constants_def )[] =
     { "B_ALPHA"             , TYPE_DWORD, B_ALPHA       },
     { "B_ABLEND"            , TYPE_DWORD, B_ABLEND      },
     { "B_SBLEND"            , TYPE_DWORD, B_SBLEND      },
+    { "B_MBLEND"            , TYPE_DWORD, B_MBLEND      },
     { "B_NOCOLORKEY"        , TYPE_DWORD, B_NOCOLORKEY  },
 
     { NULL                  , 0         ,  0            }
