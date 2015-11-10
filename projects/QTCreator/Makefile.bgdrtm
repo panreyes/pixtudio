@@ -109,7 +109,8 @@ INCLUDES	:=	../../core/include \
 	../../modules/mod_wm/ \
 	../../modules/mod_sys/ \
 	../../modules/mod_regex/ \
-    ../../modules/mod_fsock/
+    ../../modules/mod_fsock/ \
+    ../../modules/mod_effects/
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -231,7 +232,8 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 	../../../modules/mod_sys/mod_sys.c \
 	../../../modules/mod_regex/mod_regex.c \
 	../../../modules/mod_regex/regex.c \
-    ../../../modules/mod_fsock/fsock.c
+    ../../../modules/mod_fsock/fsock.c \
+    ../../../modules/mod_effects/mod_effects.c
 
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C

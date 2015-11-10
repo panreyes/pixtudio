@@ -776,8 +776,6 @@
 ../../modules/mod_effects/mod_effects_symbols.h
 ../../modules/mod_file/mod_file.c
 ../../modules/mod_file/mod_file_symbols.h
-../../modules/mod_fmodex/mod_fmodex.c
-../../modules/mod_fmodex/mod_fmodex_symbols.h
 ../../modules/mod_fsock/fsock.c
 ../../modules/mod_fsock/fsock_symbols.h
 ../../modules/mod_grproc/mod_grproc.c
@@ -850,6 +848,8 @@
 ../../modules/mod_video/mod_video_symbols.h
 ../../modules/mod_wm/mod_wm.c
 ../../modules/mod_wm/mod_wm_symbols.h
+../../modules/mod_effects/mod_effects.c
+../../modules/mod_effects/mod_effects_symbols.h
 ../../3rdparty/stb/stretchy_buffer.h
 ../../modules/mod_gamecontroller/mod_gamecontroller.c
 ../../modules/mod_gamecontroller/mod_gamecontroller_symbols.h

@@ -126,7 +126,7 @@
 ../../modules/mod_timers
 ../../modules/mod_video
 ../../modules/mod_wm
-../../modules/mod_wpad
+../../modules/mod_effects
 ../../3rdparty/stb
 ../../modules/mod_gamecontroller
 ../android/jni/src

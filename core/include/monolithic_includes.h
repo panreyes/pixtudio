@@ -73,6 +73,7 @@
 #ifndef NO_MODDEBUG
 #   include <mod_debug_symbols.h>
 #endif
+#include <mod_effects_symbols.h>
 /* Unofficial modules */
 #ifndef NO_MODICONV
 #   include <iconv_symbols.h>
@@ -180,6 +181,7 @@ basic_symbols symbol_list[] =
 #ifndef NO_MODDEBUG
     { "mod_debug.fakelib"    , mod_debug_modules_dependency, NULL, NULL, NULL, NULL, NULL },
 #endif
+    { "mod_effects.fakelib"  , mod_effects_modules_dependency, mod_effects_constants_def, NULL, NULL, NULL, mod_effects_functions_exports },
     /* Unofficial modules */
 #ifndef NO_MODICONV
     { "mod_iconv.fakelib"    , NULL, NULL, NULL, NULL, NULL, mod_iconv_functions_exports },
@@ -267,6 +269,7 @@ extra_symbols symbol_list_runtime[] =
 #ifndef NO_MODDEBUG
     { mod_debug_globals_fixup, mod_debug_locals_fixup, mod_debug_module_initialize, mod_debug_module_finalize, NULL, NULL, mod_debug_process_exec_hook, NULL }, //mod_debug
 #endif
+    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //modeffects
     /* Unofficial modules */
 #ifndef NO_MODICONV
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_iconv

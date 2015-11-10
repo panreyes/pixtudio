@@ -69,12 +69,10 @@
  *
  */
 
-static int _get_pixel( GRAPH * dest, int x, int y )
-{
+static int _get_pixel( GRAPH * dest, int x, int y ) {
     if ( x < 0 || y < 0 || x >= ( int )dest->width || y >= ( int )dest->height ) return -1 ;
 
-    switch ( dest->format->depth )
-    {
+    switch ( dest->format->depth ) {
         case 8:
             return *((( uint8_t * )dest->data ) + x + dest->pitch * y) ;
 
@@ -106,14 +104,12 @@ static int _get_pixel( GRAPH * dest, int x, int y )
  *
  */
 
-static void _put_pixel( GRAPH * dest, int x, int y, int color )
-{
+static void _put_pixel( GRAPH * dest, int x, int y, int color ) {
     if ( x < 0 || y < 0 || x >= ( int )dest->width || y >= ( int )dest->height ) return ;
 
     dest->modified = 2 ;
 
-    switch ( dest->format->depth )
-    {
+    switch ( dest->format->depth ) {
         case 8:
             *((( uint8_t * )dest->data ) + x + dest->pitch * y) = color ;
             break;
@@ -137,8 +133,7 @@ static void _put_pixel( GRAPH * dest, int x, int y, int color )
 
 /* ----------------------------------------------------------------- */
 
-static int modeffects_filter( INSTANCE *my, int *params )
-{ //fpg,map,tabla10
+static int modeffects_filter( INSTANCE *my, int *params ) { //fpg,map,tabla10
     GRAPH * map = bitmap_get( params[0], params[1] ), * map2;
     int *tabla = ( int* )params[2];
     int x, y, i, j;
@@ -155,25 +150,20 @@ static int modeffects_filter( INSTANCE *my, int *params )
     g1 = 0;
     b1 = 0;
     c = 0;
-    for ( i = 0;i < map->width;i++ )
-    {
-        for ( j = 0;j < map->height;j++ )
-        {
+    for ( i = 0;i < map->width;i++ ) {
+        for ( j = 0;j < map->height;j++ ) {
             color = _get_pixel( map, i, j );
             if ( !color ) continue;
 
             gr_get_rgba_depth( map->format->depth, color, &r, &g, &b, &a ); // only need alpha
 
-            for ( y = j - 1;y < j + 2;y++ )
-            {
+            for ( y = j - 1;y < j + 2;y++ ) {
                 r2 = 0;
                 g2 = 0;
                 b2 = 0;
-                for ( x = i - 1;x < i + 2;x++, c++ )
-                {
+                for ( x = i - 1;x < i + 2;x++, c++ ) {
                     color = _get_pixel( map, ( x < 0 ) ? 0 : ( x > map->width - 1 ) ? map->width - 1 : x, ( y < 0 ) ? 0 : ( y > map->height - 1 ) ? map->height - 1 : y );
-                    if ( !color )
-                    {
+                    if ( !color ) {
                         /* Si es transparente, repetimos el ultimo color */
                         r1 += ( float )( r2 * tabla[c] );
                         g1 += ( float )( g2 * tabla[c] );
@@ -201,10 +191,11 @@ static int modeffects_filter( INSTANCE *my, int *params )
             if ( g < 0 )g = 0;
             if ( b < 0 )b = 0;
 
-            if ( !r && !g && !b )
+            if ( !r && !g && !b ) {
                 c = 0;
-            else
+            } else {
                 c = gr_rgba_depth( map->format->depth, r, g, b, a );
+            }
 
             _put_pixel( map2, i, j, c );
 
@@ -217,11 +208,13 @@ static int modeffects_filter( INSTANCE *my, int *params )
     memcpy( map->data, map2->data, map->height*map->pitch );
     bitmap_destroy( map2 );
 
+    // Update the GRAPH texture
+    bitmap_update_texture(map);
+
     return 1 ;
 }
 
-static int modeffects_blur( INSTANCE *my, int *params )
-{ // fpg,map,tipo
+static int modeffects_blur( INSTANCE *my, int *params ) { // fpg,map,tipo
     GRAPH * map = bitmap_get( params[0], params[1] ), *map2;
 
     int x, y, i, j, c;
@@ -231,33 +224,25 @@ static int modeffects_blur( INSTANCE *my, int *params )
     if ( !map ) return 0;
     if ( map->format->depth < 16 ) return 0;
 
-    switch ( params[2] )
-    {
+    switch ( params[2] ) {
         case BLUR_NORMAL:
             //METODO 1 "RAPIDO" izq y arriba
-            for ( i = 0; i < map->width; i++ )
-                for ( j = 0; j < map->height; j++ )
-                {
+            for ( i = 0; i < map->width; i++ ) {
+                for ( j = 0; j < map->height; j++ ) {
                     color = _get_pixel( map, i, j ) ;
                     if ( !color ) continue;
                     gr_get_rgba_depth( map->format->depth, color, &r, &g, &b, &a );
-                    if ( i > 0 )
-                    {
+                    if ( i > 0 ) {
                         gr_get_rgba_depth( map->format->depth, _get_pixel( map, i - 1, j ), &r2, &g2, &b2, &a2 );
-                    }
-                    else
-                    {
+                    } else {
                         gr_get_rgba_depth( map->format->depth, _get_pixel( map, i + 1, j ), &r2, &g2, &b2, &a2 );
                     }
                     r += r2;
                     g += g2;
                     b += b2;
-                    if ( j > 0 )
-                    {
+                    if ( j > 0 ) {
                         gr_get_rgba_depth( map->format->depth, _get_pixel( map, i, j - 1 ), &r2, &g2, &b2, &a2 );
-                    }
-                    else
-                    {
+                    } else {
                         gr_get_rgba_depth( map->format->depth, _get_pixel( map, i, j + 1 ), &r2, &g2, &b2, &a2 );
                     }
                     r += r2;
@@ -268,6 +253,7 @@ static int modeffects_blur( INSTANCE *my, int *params )
                     b /= 3;
                     _put_pixel( map, i, j, gr_rgba_depth( map->format->depth, r, g, b, a ) );
                 }
+            }
             break;
 
         case BLUR_3x3:
@@ -276,17 +262,14 @@ static int modeffects_blur( INSTANCE *my, int *params )
             g = 0;
             b = 0;
             c = 0;
-            for ( i = 0;i < map->width;i++ )
-                for ( j = 0;j < map->height;j++ )
-                {
+            for ( i = 0;i < map->width;i++ ) {
+                for ( j = 0;j < map->height;j++ ) {
                     color = _get_pixel( map, i, j ) ;
                     if ( !color ) continue;
                     gr_get_rgba_depth( map->format->depth, color, &r, &g, &b, &a );
                     c++;
-                    for ( x = i - 1;x < i + 2;x++ )
-                    {
-                        for ( y = j - 1;y < j + 2;y++ )
-                        {
+                    for ( x = i - 1;x < i + 2;x++ ) {
+                        for ( y = j - 1;y < j + 2;y++ ) {
                             if ( x < 0 || x > map->width - 1 || y < 0 || y > map->height - 1 ) continue;
                             gr_get_rgba_depth( map->format->depth, _get_pixel( map, x, y ), &r2, &g2, &b2, &a2 );
                             r += r2;
@@ -305,6 +288,7 @@ static int modeffects_blur( INSTANCE *my, int *params )
                     b = 0;
                     c = 0;
                 }
+            }
             break;
 
         case BLUR_5x5:
@@ -313,18 +297,14 @@ static int modeffects_blur( INSTANCE *my, int *params )
             g = 0;
             b = 0;
             c = 0;
-            for ( i = 0;i < map->width;i++ )
-            {
-                for ( j = 0;j < map->height;j++ )
-                {
+            for ( i = 0;i < map->width;i++ ) {
+                for ( j = 0;j < map->height;j++ ) {
                     color = _get_pixel( map, i, j ) ;
                     if ( !color ) continue;
                     gr_get_rgba_depth( map->format->depth, color, &r, &g, &b, &a );
                     c++;
-                    for ( x = i - 2;x < i + 3;x++ )
-                    {
-                        for ( y = j - 2;y < j + 3;y++ )
-                        {
+                    for ( x = i - 2;x < i + 3;x++ ) {
+                        for ( y = j - 2;y < j + 3;y++ ) {
                             if ( x < 0 || x > map->width - 1 || y < 0 || y > map->height - 1 ) continue;
                             gr_get_rgba_depth( map->format->depth, _get_pixel( map, x, y ), &r2, &g2, &b2, &a2 );
                             r += r2;
@@ -353,18 +333,14 @@ static int modeffects_blur( INSTANCE *my, int *params )
             g = 0;
             b = 0;
             c = 0;
-            for ( i = 0;i < map->width;i++ )
-            {
-                for ( j = 0;j < map->height;j++ )
-                {
+            for ( i = 0;i < map->width;i++ ) {
+                for ( j = 0;j < map->height;j++ ) {
                     color = _get_pixel( map, i, j ) ;
                     if ( !color ) continue;
                     gr_get_rgba_depth( map->format->depth, color, &r, &g, &b, &a );
                     c++;
-                    for ( x = i - 2;x < i + 3;x++ )
-                    {
-                        for ( y = j - 2;y < j + 3;y++ )
-                        {
+                    for ( x = i - 2;x < i + 3;x++ ) {
+                        for ( y = j - 2;y < j + 3;y++ ) {
                             if ( x < 0 || x > map->width - 1 || y < 0 || y > map->height - 1 ) continue;
                             gr_get_rgba_depth( map->format->depth, _get_pixel( map, x, y ), &r2, &g2, &b2, &a2 );
                             r += r2;
@@ -391,26 +367,31 @@ static int modeffects_blur( INSTANCE *my, int *params )
             break;
 
     }
+
+    // Update the GRAPH texture
+    bitmap_update_texture(map);
+
     return 1 ;
 }
 
-static int modeffects_grayscale( INSTANCE *my, int *params )
-{ //fpg,map,tipo
+static int modeffects_grayscale( INSTANCE *my, int *params ) { //fpg,map,tipo
     GRAPH * map = bitmap_get( params[0], params[1] ) ;
     uint32_t i, j, c;
     int r, g, b, a;
 
-    if ( !map ) return 0;
-    if ( map->format->depth < 16 ) return 0;
+    if ( !map ) {
+        return 0;
+    }
+    if ( map->format->depth < 16 ) {
+        return 0;
+    }
 
-    for ( i = 0;i < map->height;i++ )
-        for ( j = 0;j < map->width;j++ )
-        {
+    for ( i = 0;i < map->height;i++ ) {
+        for ( j = 0;j < map->width;j++ ) {
             gr_get_rgba_depth( map->format->depth, _get_pixel( map, j, i ), &r, &g, &b, &a );
             if ( !r && !g && !b )continue;
             c = ( int )( 0.3 * r + 0.59 * g + 0.11 * b );
-            switch ( params[2] )
-            {
+            switch ( params[2] ) {
                 case GSCALE_RGB: // RGB
                     c = gr_rgba_depth( map->format->depth, c, c, c, a );
                     break;
@@ -446,24 +427,33 @@ static int modeffects_grayscale( INSTANCE *my, int *params )
             }
             _put_pixel( map, j, i, c );
         }
+    }
+
+    // Update the GRAPH texture
+    bitmap_update_texture(map);
 
     return 1 ;
 }
 
-static int modeffects_rgbscale( INSTANCE *my, int *params )
-{ //fpg, map, r, g, b
+static int modeffects_rgbscale( INSTANCE *my, int *params ) { //fpg, map, r, g, b
     GRAPH * map = bitmap_get( params[0], params[1] ) ;
     uint32_t i, j, c;
     int r, g, b, a;
 
-    if ( !map ) return 0;
-    if ( map->format->depth < 16 ) return 0;
+    if ( !map ) {
+        return -1;
+    }
 
-    for ( i = 0;i < map->height;i++ )
-        for ( j = 0;j < map->width;j++ )
-        {
+    if ( map->format->depth < 16 ) {
+        return -1;
+    }
+
+    for ( i = 0;i < map->height;i++ ) {
+        for ( j = 0;j < map->width;j++ ) {
             gr_get_rgba_depth( map->format->depth, _get_pixel( map, j, i ), &r, &g, &b, &a );
-            if ( !r && !g && !b )continue;
+            if ( !r && !g && !b ) {
+                continue;
+            }
             c = ( int )( 0.3 * r + 0.59 * g + 0.11 * b );
             c = gr_rgba_depth( map->format->depth,
                                ( int )( c * *( float * )( &params[2] ) ),
@@ -472,19 +462,21 @@ static int modeffects_rgbscale( INSTANCE *my, int *params )
                                a );
             _put_pixel( map, j, i, c );
         }
+    }
+
+    // Update the GRAPH texture
+    bitmap_update_texture(map);
 
     return 1 ;
 }
 
 /* --------------------------------------------------------------------------- */
 
-DLCONSTANT __bgdexport( mod_effects, constants_def )[] =
-{
+DLCONSTANT __bgdexport( mod_effects, constants_def )[] =  {
     { "BLUR_NORMAL" , TYPE_INT, BLUR_NORMAL     },
     { "BLUR_3x3"    , TYPE_INT, BLUR_3x3        },
     { "BLUR_5x5"    , TYPE_INT, BLUR_5x5        },
     { "BLUR_5x5_MAP", TYPE_INT, BLUR_5x5_MAP    },
-
     { "GSCALE_RGB"  , TYPE_INT, GSCALE_RGB      },
     { "GSCALE_R"    , TYPE_INT, GSCALE_R        },
     { "GSCALE_G"    , TYPE_INT, GSCALE_G        },
@@ -500,8 +492,7 @@ DLCONSTANT __bgdexport( mod_effects, constants_def )[] =
 /* ----------------------------------------------------------------- */
 /* Declaracion de funciones                                          */
 
-DLSYSFUNCS  __bgdexport( mod_effects, functions_exports )[] =
-{
+DLSYSFUNCS  __bgdexport( mod_effects, functions_exports )[] = {
     { "GRAYSCALE"   , "IIB"   , TYPE_INT    , modeffects_grayscale },
     { "RGBSCALE"    , "IIFFF" , TYPE_INT    , modeffects_rgbscale  },
     { "BLUR"        , "IIB"   , TYPE_INT    , modeffects_blur      },
@@ -511,8 +502,7 @@ DLSYSFUNCS  __bgdexport( mod_effects, functions_exports )[] =
 
 /* ----------------------------------------------------------------- */
 
-char * __bgdexport( mod_effects, modules_dependency )[] =
-{
+char * __bgdexport( mod_effects, modules_dependency )[] = {
     "libgrbase",
     NULL
 };

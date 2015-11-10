@@ -107,7 +107,8 @@ INCLUDES	:=	../../core/pxtb/include \
 				../../modules/mod_wm/ \
 				../../modules/mod_sys/ \
 				../../modules/mod_regex/ \
-    			../../modules/mod_fsock/
+				../../modules/mod_fsock/ \
+				../../modules/mod_effects/
 
 #---------------------------------------------------------------------------------
 # options for code generation
