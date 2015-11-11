@@ -69,12 +69,14 @@ char playing_video = 0;
 static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
     ALuint audio_buffer;
     ALuint error;
+    ALint status;
+    ALenum format;
     ALsizei size;
     static int nbuffers = 0;
 
     if(audio_context != NULL) {
         // Generate an audio buffer (if needed) or reuse an already-processed one
-        if(nbuffers < 10) {
+        if(nbuffers <= 10) {
             alGenBuffers(1, &audio_buffer);
             nbuffers++;
         } else {
@@ -87,11 +89,35 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
         // If we could get a valid audio_buffer, process the audio data and queue it
         if((error = alGetError()) == AL_NO_ERROR) {
             size = (ALsizei)(audio->frames * audio->channels * 4); // 4 == sizeof(float32)
-            alBufferData(audio_buffer, alGetEnumValue("AL_FORMAT_STEREO_FLOAT32"),
+            if(audio->channels == 1) {
+                format = alGetEnumValue("AL_FORMAT_MONO_FLOAT32");
+            } else if(audio->channels == 2) {
+                format = alGetEnumValue("AL_FORMAT_STEREO_FLOAT32");
+            } else {
+                fprintf(stderr, "Cannot play audio with %d channels, expect weirdness\n",
+                        audio->channels);
+            }
+            alBufferData(audio_buffer, format,
                          audio->samples, size, (ALsizei)audio->freq);
             if((error = alGetError()) != AL_NO_ERROR) {
                 fprintf(stderr, "Audio buffer data copying failed: %s\n", alGetString(error));
             } else {
+                // If the source runs out of buffers to play, it stops
+                // so we remove processed buffers from the queue and
+                // restart playback
+                alGetSourcei(video.audio_source, AL_SOURCE_STATE, &status);
+                if(status == AL_STOPPED) {
+                    // We could probably do this all at once
+                    ALuint processed_buffer;
+                    alSourceUnqueueBuffers(video.audio_source, 1, &processed_buffer);
+                    while((error = alGetError()) == AL_NO_ERROR) {
+                        alDeleteBuffers(1, &processed_buffer);
+                        alSourceUnqueueBuffers(video.audio_source, 1, &processed_buffer);
+                    }
+
+                    // Remove any queued buffers left in the queue
+                    alSourcePlay(video.audio_source);
+                }
                 // Queue the audio buffer for playback
                 alSourceQueueBuffers(video.audio_source, 1, &audio_buffer);
             }
