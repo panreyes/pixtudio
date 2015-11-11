@@ -87,7 +87,8 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
         // If we could get a valid audio_buffer, process the audio data and queue it
         if((error = alGetError()) == AL_NO_ERROR) {
             size = (ALsizei)(audio->frames * audio->channels * 4); // 4 == sizeof(float32)
-            alBufferData(audio_buffer, alGetEnumValue("AL_FORMAT_STEREO_FLOAT32"), audio->samples, size, audio->freq);
+            alBufferData(audio_buffer, alGetEnumValue("AL_FORMAT_STEREO_FLOAT32"),
+                         audio->samples, size, (ALsizei)audio->freq);
             if((error = alGetError()) != AL_NO_ERROR) {
                 fprintf(stderr, "Audio buffer data copying failed: %s\n", alGetString(error));
             } else {
@@ -287,12 +288,11 @@ static int video_stop(INSTANCE *my, int * params) {
     if(! playing_video) {
         return 0;
     }
+    // Stop the video playback lock
+    playing_video = 0;
 
     // Immediately stop audio playback
     alSourceStop(video.audio_source);
-
-    // Release the video playback lock
-    playing_video = 0;
 
     if(video.graph) {
         grlib_unload_map(0, video.graph->code);
@@ -316,6 +316,8 @@ static int video_stop(INSTANCE *my, int * params) {
     if((error = alGetError()) != AL_NO_ERROR) {
         fprintf(stderr, "OpenAL error deleting source: %x, %s\n", error, alGetString(error));
     }
+
+    video.audio_source = NULL;
 
     return 0;
 }
@@ -396,24 +398,20 @@ void __bgdexport( mod_theora, module_finalize )() {
     video_stop(NULL, NULL);
 
     if(audio_context) {
-        alcMakeContextCurrent(NULL);
-        if((error=alGetError()) != AL_NO_ERROR) {
-            fprintf(stderr, "OpenAL error resetting default context: 0x%x, %s\n", error, alGetString(error));
+        if(alcMakeContextCurrent(NULL) == ALC_FALSE) {
+            fprintf(stderr, "OpenAL error resetting default context\n");
         }
         alcDestroyContext(audio_context);
-        if((error=alGetError()) != AL_NO_ERROR) {
-            fprintf(stderr, "OpenAL error deleting context: 0x%x, %s\n", error, alGetString(error));
-        }
     }
+    audio_context = NULL;
 
     if(audio_device) {
-        alcCloseDevice(audio_device);
-        if((error=alGetError()) != AL_NO_ERROR) {
-            fprintf(stderr, "OpenAL error closing audio device: 0x%x\n", error);
+        if(alcCloseDevice(audio_device) == ALC_FALSE) {
+            fprintf(stderr, "OpenAL error closing audio device\n");
         }
     }
+    audio_device = NULL;
 
-    printf("\n");
 }
 
 /* ----------------------------------------------------------------- */
