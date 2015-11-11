@@ -317,8 +317,6 @@ static int video_stop(INSTANCE *my, int * params) {
         fprintf(stderr, "OpenAL error deleting source: %x, %s\n", error, alGetString(error));
     }
 
-    video.audio_source = NULL;
-
     return 0;
 }
 
@@ -393,8 +391,6 @@ void __bgdexport( mod_theora, module_initialize )() {
 }
 
 void __bgdexport( mod_theora, module_finalize )() {
-    ALuint error;
-
     video_stop(NULL, NULL);
 
     if(audio_context) {
