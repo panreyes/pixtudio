@@ -61,9 +61,6 @@
 #include <mod_draw_symbols.h>
 #include <mod_screen_symbols.h>
 #include <mod_path_symbols.h>
-#ifndef NO_MODBLENDOP
-#   include <mod_blendop_symbols.h>
-#endif
 #include <libwm_symbols.h>
 #include <mod_wm_symbols.h>
 #include <mod_sys_symbols.h>
@@ -170,9 +167,6 @@ basic_symbols symbol_list[] =
     { "mod_draw.fakelib"     , mod_draw_modules_dependency, NULL, NULL, NULL, NULL, mod_draw_functions_exports },
     { "mod_screen.fakelib"   , mod_screen_modules_dependency, NULL, NULL, NULL, NULL, mod_screen_functions_exports },
     { "mod_path.fakelib"     , mod_path_modules_dependency, mod_path_constants_def, NULL, NULL, NULL, mod_path_functions_exports },
-#ifndef NO_MODBLENDOP
-    { "mod_blendop.fakelib"  , mod_blendop_modules_dependency, NULL, NULL, NULL, NULL, mod_blendop_functions_exports },
-#endif
     { "mod_wm.fakelib"       , mod_wm_modules_dependency, NULL, NULL, NULL, NULL, mod_wm_functions_exports },
     { "mod_sys.fakelib"      , NULL, mod_sys_constants_def, NULL, NULL, NULL, mod_sys_functions_exports },
 #ifndef NO_MODMEM
@@ -258,9 +252,6 @@ extra_symbols symbol_list_runtime[] =
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_draw
     { mod_screen_globals_fixup, mod_screen_locals_fixup, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_screen
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_path
-#ifndef NO_MODBLENDOP
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_blendop
-#endif
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_wm
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_sys
 #ifndef NO_MODMEM

@@ -729,8 +729,6 @@
 ../../modules/libvideo/libvideo_symbols.h
 ../../modules/libwm/libwm.c
 ../../modules/libwm/libwm_symbols.h
-../../modules/mod_blendop/mod_blendop.c
-../../modules/mod_blendop/mod_blendop_symbols.h
 ../../modules/mod_chipmunk/agua.c
 ../../modules/mod_chipmunk/agua.h
 ../../modules/mod_chipmunk/arbitros.c

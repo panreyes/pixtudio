@@ -63,7 +63,7 @@ INCLUDES	:=	../../core/pxtb/include \
 				../../core/include \
 				../../3rdparty/SDL/include/ \
 				../../modules/libbgload/ \
-                ../../modules/mod_debug/ \
+                                ../../modules/mod_debug/ \
 				../../modules/mod_say/ \
 				../../modules/mod_string/ \
 				../../modules/mod_math/ \
@@ -88,7 +88,7 @@ INCLUDES	:=	../../core/pxtb/include \
 				../../modules/mod_video/ \
 				../../modules/libmouse/ \
 				../../modules/mod_mouse/ \
-                ../../modules/mod_multi/ \
+                                ../../modules/mod_multi/ \
 				../../modules/mod_map/ \
 				../../modules/libfont/ \
 				../../modules/mod_dir/ \
@@ -102,7 +102,6 @@ INCLUDES	:=	../../core/pxtb/include \
 				../../modules/mod_draw/ \
 				../../modules/mod_screen/ \
 				../../modules/mod_path/ \
-				../../modules/mod_blendop/ \
 				../../modules/libwm/ \
 				../../modules/mod_wm/ \
 				../../modules/mod_sys/ \
