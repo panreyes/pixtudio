@@ -368,41 +368,40 @@ static int modregex_split (INSTANCE * my, int * params)
 
 static int modregex_join (INSTANCE * my, int * params)
 {
-    return 0;
-//    const char * sep = string_get(params[0]);
-//    int * string_array = (int *)params[1];
-//    int count = params[2] ;
-//    int total_length = 0;
-//    int sep_len = strlen(sep);
-//    int n;
-//    char * buffer;
-//    char * ptr;
-//    int result;
-//
-//    for (n = 0 ; n < count ; n++)
-//    {
-//        total_length += strlen(string_get(string_array[n]));
-//        if (n < count-1) total_length += sep_len;
-//    }
-//
-//    buffer = malloc(total_length+1);
-//    ptr = buffer;
-//
-//    for (n = 0 ; n < count ; n++)
-//    {
-//        memcpy (ptr, string_get(string_array[n]), strlen(string_get(string_array[n])));
-//        ptr += strlen(string_get(string_array[n]));
-//        if (n < count-1)
-//        {
-//            memcpy (ptr, sep, sep_len);
-//            ptr += sep_len;
-//        }
-//    }
-//    *ptr = 0;
-//    result = string_new(buffer);
-//    free(buffer);
-//    string_use(result);
-//    return result;
+    const char * sep = string_get(params[0]);
+    int * string_array = (int *)params[1];
+    int count = params[2] ;
+    int total_length = 0;
+    int sep_len = strlen(sep);
+    int n;
+    char * buffer;
+    char * ptr;
+    int result;
+
+    for (n = 0 ; n < count ; n++)
+    {
+        total_length += strlen(string_get(string_array[n]));
+        if (n < count-1) total_length += sep_len;
+    }
+
+    buffer = malloc(total_length+1);
+    ptr = buffer;
+
+    for (n = 0 ; n < count ; n++)
+    {
+        memcpy (ptr, string_get(string_array[n]), strlen(string_get(string_array[n])));
+        ptr += strlen(string_get(string_array[n]));
+        if (n < count-1)
+        {
+            memcpy (ptr, sep, sep_len);
+            ptr += sep_len;
+        }
+    }
+    *ptr = 0;
+    result = string_new(buffer);
+    free(buffer);
+    string_use(result);
+    return result;
 }
 
 /* ---------------------------------------------------------------------- */
