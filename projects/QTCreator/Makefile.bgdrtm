@@ -119,7 +119,7 @@ INCLUDES	:=	../../core/include \
 CFLAGS		=	-m32 -g -Wall -D__BGDRTM__ -D__MONOLITHIC__ -DNO_MODIMAGE \
         -DNO_MODICONV -DNO_MODCHIPMUNK -DNO_MODCURL \
 	-DNO_MODSENSOR -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE) \
-	-fno-strict-aliasing
+	-fno-strict-aliasing $(pkg-config --cflags tre)
 CXXFLAGS	=	-m32 -save-temps -Xassembler -aln=$@.lst $(CFLAGS)
 LDFLAGS		=	-m32 -g $(MACHDEP)
 
@@ -230,9 +230,8 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 	../../../modules/mod_wm/mod_wm.c \
 	../../../modules/mod_sys/mod_sys.c \
 	../../../modules/mod_regex/mod_regex.c \
-	../../../modules/mod_regex/regex.c \
-    ../../../modules/mod_fsock/fsock.c \
-    ../../../modules/mod_effects/mod_effects.c
+	../../../modules/mod_fsock/fsock.c \
+	../../../modules/mod_effects/mod_effects.c
 
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C

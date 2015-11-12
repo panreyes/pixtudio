@@ -86,7 +86,7 @@ else
 	endif
 	EXTRA_LIBS = -lc
 endif
-LIBS := ../bgdrtm.a -lpng -lSDL2_mixer -lSDL2 -logg -ltheora -lvorbis -ltheoradec $(OPENAL) -lpthread -lz -lm $(EXTRA_LIBS)
+LIBS := ../bgdrtm.a -lpng -lSDL2_mixer -lSDL2 -logg -ltheora -lvorbis -ltheoradec $(OPENAL) -lpthread -lz -lm $(shell pkg-config --libs tre) $(EXTRA_LIBS)
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
