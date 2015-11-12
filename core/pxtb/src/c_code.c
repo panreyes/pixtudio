@@ -3459,7 +3459,7 @@ void compile_block( PROCDEF * p )
                 continue ;
             }
 
-            if ( token.code == identifier_frame || token.code == identifier_yield ) /* "FRAME or YIELD " */
+            if ( token.code == identifier_frame ) /* "FRAME " */
             {
                 if ( proc->type != TYPE_INT && proc->type != TYPE_DWORD )
                     if ( !( proc->flags & PROC_FUNCTION ) ) compile_error( MSG_FRAME_REQUIRES_INT );

@@ -94,8 +94,6 @@ int identifier_while ;
 int identifier_frame ;
 int identifier_clone ;
 
-int identifier_yield ;
-
 int identifier_onexit ;
 int identifier_onerror ;
 
@@ -232,8 +230,6 @@ void compile_init()
     identifier_elseif       = identifier_add( "ELSEIF" ) ;
     identifier_frame        = identifier_add( "FRAME" ) ;
     identifier_clone        = identifier_add( "CLONE" ) ;
-
-    identifier_yield        = identifier_add( "YIELD" ) ;
 
     identifier_onexit       = identifier_add( "ONEXIT" ) ;
     identifier_onerror      = identifier_add( "ONERROR" ) ;

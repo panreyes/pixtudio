@@ -96,7 +96,7 @@ extern int
     identifier_for,         identifier_from,        identifier_step,
     identifier_to,          identifier_if,          identifier_else,
     identifier_break,       identifier_continue,    identifier_return,
-    identifier_frame,       identifier_clone,       identifier_yield,
+    identifier_frame,       identifier_clone,
     identifier_onexit,      identifier_onerror,
     identifier_jmp,         identifier_call,
     identifier_on,          identifier_exit,        identifier_error,       identifier_resume,      identifier_stm_next,
