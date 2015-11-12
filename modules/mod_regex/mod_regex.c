@@ -299,66 +299,49 @@ static int modregex_regex_replace (INSTANCE * my, int * params)
 
 static int modregex_split (INSTANCE * my, int * params)
 {
-    return 0;
-//    const char * reg = string_get(params[0]);
-//    const char * str = string_get(params[1]);
-//    int * result_array = (int *)params[2];
-//    int result_array_size = params[3];
-//    int count = 0;
-//    int pos, lastpos = 0;
-//
-//    struct re_pattern_buffer pb;
-//    struct re_registers re;
-//    int start[16];
-//    int end[16];
-//
-//    /* Alloc the pattern resources */
-//
-//    memset (&pb, 0, sizeof(pb));
-//    memset (&re, 0, sizeof(re));
-//    pb.buffer = malloc(4096);
-//    pb.allocated = 4096;
-//    pb.fastmap = malloc(256);
-//    pb.regs_allocated = 16;
-//    re.num_regs = 16;
-//    re.start = start;
-//    re.end = end;
-//
-//    re_syntax_options = RE_SYNTAX_POSIX_MINIMAL_EXTENDED;
-//
-//    /* Match the regex */
-//
-//    if (re_compile_pattern (reg, strlen(reg), &pb) == 0)
-//    {
-//        for (;;)
-//        {
-//            pos = re_search (&pb, str, strlen(str), lastpos, strlen(str), &re);
-//            if (pos == -1) break;
-//            *result_array = string_newa (str + lastpos, pos-lastpos);
-//            string_use(*result_array);
-//            result_array++;
-//            count++;
-//            result_array_size--;
-//            if (result_array_size == 0) break;
-//            lastpos = pos + re_match (&pb, str, strlen(str), pos, 0);
-//            if (lastpos < pos) break;
-//            if (lastpos == pos) lastpos++;
-//        }
-//        if (result_array_size > 0)
-//        {
-//            *result_array = string_new (str + lastpos);
-//            string_use (*result_array);
-//            count++;
-//        }
-//    }
-//
-//    /* Free the resources */
-//    free (pb.buffer);
-//    free (pb.fastmap);
-//    string_discard(params[0]);
-//    string_discard(params[1]);
-//
-//    return count;
+    const char * reg = string_get(params[0]);
+    const char * str = string_get(params[1]);
+    int * result_array = (int *)params[2];
+    int result_array_size = params[3];
+    int count = 0;
+    int pos, lastpos = 0;
+
+    regex_t pb;
+    regmatch_t pmatch[16];
+
+    /* Match the regex */
+
+    if (tre_regcomp(&pb, reg, REG_EXTENDED) == REG_OK) {
+        for (;;) {
+            result = tre_regexec(&pb, str, 16, pmatch, 0);
+            if (result == REG_NOMATCH) {
+                break;
+            }
+            pos = pmatch[0].rm_so;
+            *result_array = string_newa (str + lastpos, pos-lastpos);
+            string_use(*result_array);
+            result_array++;
+            count++;
+            result_array_size--;
+            if (result_array_size == 0) break;
+            lastpos = pos + re_match (&pb, str, strlen(str), pos, 0);
+            if (lastpos < pos) break;
+            if (lastpos == pos) lastpos++;
+        }
+        if (result_array_size > 0) {
+            *result_array = string_new (str + lastpos);
+            string_use (*result_array);
+            count++;
+        }
+    }
+
+    /* Free the resources */
+    free (pb.buffer);
+    free (pb.fastmap);
+    string_discard(params[0]);
+    string_discard(params[1]);
+
+    return count;
 }
 
 /** JOIN (STRING separator, STRING POINTER array, INT array_size)
