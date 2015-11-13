@@ -297,47 +297,41 @@ static int modregex_regex_replace (INSTANCE * my, int * params)
  *
  */
 
-static int modregex_split (INSTANCE * my, int * params)
-{
+static int modregex_split (INSTANCE * my, int * params) {
     const char * reg = string_get(params[0]);
     const char * str = string_get(params[1]);
     int * result_array = (int *)params[2];
     int result_array_size = params[3];
     int count = 0;
-    int pos, lastpos = 0;
 
     regex_t pb;
-    regmatch_t pmatch[16];
+    regmatch_t pmatch[1];
 
     /* Match the regex */
-
     if (tre_regcomp(&pb, reg, REG_EXTENDED) == REG_OK) {
-        for (;;) {
-            result = tre_regexec(&pb, str, 16, pmatch, 0);
-            if (result == REG_NOMATCH) {
-                break;
-            }
-            pos = pmatch[0].rm_so;
-            *result_array = string_newa (str + lastpos, pos-lastpos);
+        while(tre_regexec(&pb, str, 1, pmatch, 0) != REG_NOMATCH) {
+            *result_array = string_newa(str, pmatch[0].rm_so);
+            str += pmatch[0].rm_eo;
             string_use(*result_array);
             result_array++;
             count++;
             result_array_size--;
-            if (result_array_size == 0) break;
-            lastpos = pos + re_match (&pb, str, strlen(str), pos, 0);
-            if (lastpos < pos) break;
-            if (lastpos == pos) lastpos++;
+            if (result_array_size == 0) {
+                break;
+            }
         }
-        if (result_array_size > 0) {
-            *result_array = string_new (str + lastpos);
+
+        // We're missing the last chunk of text
+        if(result_array_size > 0) {
+            *result_array = string_new(str);
+            result_array++;
             string_use (*result_array);
+            result_array_size--;
             count++;
         }
     }
 
     /* Free the resources */
-    free (pb.buffer);
-    free (pb.fastmap);
     string_discard(params[0]);
     string_discard(params[1]);
 
@@ -361,8 +355,7 @@ static int modregex_join (INSTANCE * my, int * params)
     char * ptr;
     int result;
 
-    for (n = 0 ; n < count ; n++)
-    {
+    for (n = 0 ; n < count ; n++) {
         total_length += strlen(string_get(string_array[n]));
         if (n < count-1) total_length += sep_len;
     }
@@ -370,8 +363,7 @@ static int modregex_join (INSTANCE * my, int * params)
     buffer = malloc(total_length+1);
     ptr = buffer;
 
-    for (n = 0 ; n < count ; n++)
-    {
+    for (n = 0 ; n < count ; n++) {
         memcpy (ptr, string_get(string_array[n]), strlen(string_get(string_array[n])));
         ptr += strlen(string_get(string_array[n]));
         if (n < count-1)
