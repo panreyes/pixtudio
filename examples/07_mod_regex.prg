@@ -30,20 +30,28 @@ END
 
 PROCESS split_test()
 PRIVATE
-   string str = "A,B,C,D,E";
-   string a[3];
+   string str = "A,B,C,D,EFG";
+   string a[9];
    int n;
    int i;
 BEGIN
    say("Splitting '"+ str + "' with ','");
    // Split
-   n = split(",",str,&a,10);
+   n = split(",", str, &a, 10);
 
    // Display result
    say("Number of pieces: " + n);
-   for(i=0; i<3; i++)
+   for(i=0; i<10; i++)
       say("[" + i + "] = " + a[i]);
    end
+END
+
+
+PROCESS regex_replace_test()
+PRIVATE
+    string str = "A,B,C-D,E";
+BEGIN
+    say(regex_replace("(B)|(-)", str, "^"));
 END
 
 
@@ -55,4 +63,7 @@ BEGIN
    say("SPLIT() test:");
    say("=============");
    split_test();
+   say("REGEX_REPLACE() test:");
+   say("=====================");
+   regex_replace_test();
 END
