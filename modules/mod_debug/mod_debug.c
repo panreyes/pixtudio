@@ -2092,7 +2092,7 @@ static int handle_network_commands() {
 /* --------------------------------------- */
 
 static int debug_mode_handler_cb( SDL_Keysym k ) {
-    int retval;
+    int retval = -1;
 
     if ( dcb.data.NSourceFiles ) {
         if ( console_sock > -1 ) {
