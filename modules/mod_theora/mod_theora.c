@@ -71,7 +71,7 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
     ALuint error;
     ALint status;
     ALenum format;
-    ALsizei size;
+    ALsizei size, freq;
     static int nbuffers = 0;
 
     if(audio_context != NULL) {
@@ -91,14 +91,18 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
             size = (ALsizei)(audio->frames * audio->channels * 4); // 4 == sizeof(float32)
             if(audio->channels == 1) {
                 format = alGetEnumValue("AL_FORMAT_MONO_FLOAT32");
+                freq = (ALsizei)audio->freq;
             } else if(audio->channels == 2) {
                 format = alGetEnumValue("AL_FORMAT_STEREO_FLOAT32");
+                freq = (ALsizei)audio->freq;
             } else {
+                // HACK, HACK, HACK!!
+                format = alGetEnumValue("AL_FORMAT_MONO_FLOAT32");
+                freq = (ALsizei)audio->freq * audio->channels;
                 fprintf(stderr, "Cannot play audio with %d channels, expect weirdness\n",
                         audio->channels);
             }
-            alBufferData(audio_buffer, format,
-                         audio->samples, size, (ALsizei)audio->freq);
+            alBufferData(audio_buffer, format, audio->samples, size, fre);
             if((error = alGetError()) != AL_NO_ERROR) {
                 fprintf(stderr, "Audio buffer data copying failed: %s\n", alGetString(error));
             } else {
