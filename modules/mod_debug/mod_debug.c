@@ -54,8 +54,12 @@
 
 // Networking stuff
 #include <fcntl.h>
+#ifdef WIN32
+#include <winsock.h>
+#else
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#endif
 
 /* --------------------------------------------------------------------------- */
 
@@ -2284,7 +2288,11 @@ void __bgdexport( mod_debug, module_initialize )() {
 
 void __bgdexport( mod_debug, module_finalize )() {
     if(console_sock > -1) {
+#ifdef WIN32
+        closesocket(console_sock);
+#else
         close(console_sock);
+#endif
     }
 }
 
