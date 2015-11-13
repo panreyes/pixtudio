@@ -302,20 +302,6 @@ static void draw_span_8to8_nocolorkey( GRAPH * dest, GRAPH * orig, int x, int y,
     }
 }
 
-static void draw_span_8to8_translucent( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint8_t *ptr = ( uint8_t * ) dest->data + dest->pitch * y + x;
-    int cs = s, ct = t;
-
-    while ( pixels-- )
-    {
-        uint8_t * tex = ( uint8_t * ) orig->data + orig->pitch * ( ct >> 16 ) + ( cs >> 16 );
-        if ( *tex ) *ptr = ghost8[( *tex << 8 ) + *ptr];
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
 static void draw_span_8to8( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
 {
     uint8_t *ptr = ( uint8_t * ) dest->data + dest->pitch * y + x;
@@ -340,20 +326,6 @@ static void draw_span_8to8_ablend( GRAPH * dest, GRAPH * orig, int x, int y, int
         uint8_t * tex = ( uint8_t * ) orig->data + orig->pitch * ( ct >> 16 ) + ( cs >> 16 );
 
         if ( *tex ) *ptr = ( uint8_t ) blend_func( *tex, *ptr );
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
-static void draw_span_8to8_tablend( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint8_t *ptr = ( uint8_t * ) dest->data + dest->pitch * y + x;
-    int cs = s, ct = t;
-
-    while ( pixels-- )
-    {
-        uint8_t * tex = ( uint8_t * ) orig->data + orig->pitch * ( ct >> 16 ) + ( cs >> 16 );
-        if ( *tex ) *ptr = ( uint8_t ) ghost8[(blend_func( *tex, *ptr ) << 8 )+ *ptr ];
         ptr++;
         cs += incs, ct += inct;
     }
@@ -410,34 +382,6 @@ static void draw_span_8to16_ablend( GRAPH * dest, GRAPH * orig, int x, int y, in
     }
 }
 
-static void draw_span_8to16_tablend( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint16_t *ptr = ( uint16_t * ) dest->data + ( dest->pitch * y >> 1 ) + x;
-    int cs = s, ct = t;
-
-    while ( pixels-- )
-    {
-        uint8_t * tex = ( uint8_t * ) orig->data + orig->pitch * ( ct >> 16 ) + ( cs >> 16 );
-        if ( *tex ) *ptr = ( uint16_t )( ghost1[blend_func( pcolorequiv[*tex], *ptr )] + ghost2[*ptr] );
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
-static void draw_span_8to16_translucent( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint16_t *ptr = ( uint16_t * ) dest->data + ( dest->pitch * y >> 1 ) + x;
-    int cs = s, ct = t;
-
-    while ( pixels-- )
-    {
-        uint8_t * tex = ( uint8_t * ) orig->data + orig->pitch * ( ct >> 16 ) + ( cs >> 16 );
-        if ( *tex ) *ptr = ghost1[pcolorequiv[*tex]] + ghost2[*ptr];
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
 static void draw_span_8to16_nocolorkey( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
 {
     uint16_t *ptr = ( uint16_t * ) dest->data + ( dest->pitch * y >> 1 ) + x;
@@ -478,64 +422,6 @@ static void draw_span_8to32_ablend( GRAPH * dest, GRAPH * orig, int x, int y, in
     {
         uint8_t * tex = ( uint8_t * ) orig->data + orig->pitch * ( ct >> 16 ) + ( cs >> 16 );
         if ( *tex ) *ptr = ( *ptr & 0xff000000 ) | blend_func( pcolorequiv[*tex], *ptr );
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
-static void draw_span_8to32_tablend( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint32_t *ptr = ( uint32_t * ) dest->data + ( dest->pitch * y >> 2 ) + x;
-    int cs = s, ct = t;
-    uint32_t r, g, b, c;
-
-    while ( pixels-- )
-    {
-        uint8_t * tex = ( uint8_t * ) orig->data + orig->pitch * ( ct >> 16 ) + ( cs >> 16 );
-        if ( *tex )
-        {
-            c = blend_func( pcolorequiv[*tex], *ptr ) ;
-
-            r = ((( c & 0x00ff0000 ) * _factor ) + (( *ptr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-            g = ((( c & 0x0000ff00 ) * _factor ) + (( *ptr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-            b = ((( c & 0x000000ff ) * _factor ) + (( *ptr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-
-            if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-            if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-            if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-            *ptr = ( *ptr & 0xff000000 ) | r | g | b ;
-        }
-
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
-static void draw_span_8to32_translucent( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint32_t *ptr = ( uint32_t * ) dest->data + ( dest->pitch * y >> 2 ) + x;
-    int cs = s, ct = t;
-    uint32_t r, g, b, c;
-
-    while ( pixels-- )
-    {
-        uint8_t * tex = ( uint8_t * ) orig->data + orig->pitch * ( ct >> 16 ) + ( cs >> 16 );
-        if ( *tex )
-        {
-            c = pcolorequiv[*tex];
-
-            r = ((( c & 0x00ff0000 ) * _factor ) + (( *ptr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-            g = ((( c & 0x0000ff00 ) * _factor ) + (( *ptr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-            b = ((( c & 0x000000ff ) * _factor ) + (( *ptr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-
-            if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-            if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-            if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-            *ptr = ( *ptr & 0xff000000 ) | r | g | b ;
-        }
-
         ptr++;
         cs += incs, ct += inct;
     }
@@ -589,36 +475,6 @@ static void draw_span_16to16_ablend( GRAPH * dest, GRAPH * orig, int x, int y, i
     }
 }
 
-static void draw_span_16to16_tablend( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint16_t *ptr = ( uint16_t * ) dest->data + ( dest->pitch * y >> 1 ) + x;
-    int cs = s, ct = t;
-    uint16_t * tex ;
-
-    while ( pixels-- )
-    {
-        tex = ( uint16_t * ) orig->data + ( orig->pitch * ( ct >> 16 ) >> 1 ) + ( cs >> 16 );
-        if ( *tex ) *ptr = ( uint16_t )( ghost1[blend_func( *tex,*ptr )] + ghost2[*ptr] );
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
-static void draw_span_16to16_translucent( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint16_t *ptr = ( uint16_t * ) dest->data + ( dest->pitch * y >> 1 ) + x;
-    int cs = s, ct = t;
-    uint16_t * tex ;
-
-    while ( pixels-- )
-    {
-        tex = ( uint16_t * ) orig->data + ( orig->pitch * ( ct >> 16 ) >> 1 ) + ( cs >> 16 );
-        if ( *tex ) *ptr = ghost1[*tex] + ghost2[*ptr];
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
 static void draw_span_16to16_nocolorkey( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
 {
     uint16_t *ptr = ( uint16_t * ) dest->data + ( dest->pitch * y >> 1 ) + x;
@@ -662,66 +518,6 @@ static void draw_span_16to32_ablend( GRAPH * dest, GRAPH * orig, int x, int y, i
     {
         tex = ( uint16_t * ) orig->data + ( orig->pitch * ( ct >> 16 ) >> 1 ) + ( cs >> 16 );
         if ( *tex ) *ptr = ( *ptr & 0xff000000 ) | blend_func((( * tex & 0xf800 ) << 8 ) | (( * tex & 0x07e0 ) << 5 ) | (( * tex & 0x001f ) << 3 ), *ptr );
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
-static void draw_span_16to32_tablend( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint32_t *ptr = ( uint32_t * ) dest->data + ( dest->pitch * y >> 2 ) + x;
-    int cs = s, ct = t;
-    uint16_t * tex ;
-    uint32_t r, g, b, c;
-
-    while ( pixels-- )
-    {
-        tex = ( uint16_t * ) orig->data + ( orig->pitch * ( ct >> 16 ) >> 1 ) + ( cs >> 16 );
-        if ( *tex )
-        {
-            c = blend_func((( * tex & 0xf800 ) << 8 ) | (( * tex & 0x07e0 ) << 5 ) | (( * tex & 0x001f ) << 3 ), *ptr ) ;
-
-            r = ((( c & 0x00ff0000 ) * _factor ) + (( *ptr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-            g = ((( c & 0x0000ff00 ) * _factor ) + (( *ptr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-            b = ((( c & 0x000000ff ) * _factor ) + (( *ptr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-
-            if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-            if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-            if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-            *ptr = ( *ptr & 0xff000000 ) | r | g | b ;
-        }
-
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
-static void draw_span_16to32_translucent( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint32_t *ptr = ( uint32_t * ) dest->data + ( dest->pitch * y >> 2 ) + x;
-    int cs = s, ct = t;
-    uint16_t * tex ;
-    int r, g, b, c;
-
-    while ( pixels-- )
-    {
-        tex = ( uint16_t * ) orig->data + ( orig->pitch * ( ct >> 16 ) >> 1 ) + ( cs >> 16 );
-        if ( *tex )
-        {
-            c = (( * tex & 0xf800 ) << 8 ) | (( * tex & 0x07e0 ) << 5 ) | (( * tex & 0x001f ) << 3 );
-
-            r = ((( c & 0x00ff0000 ) * _factor ) + (( *ptr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-            g = ((( c & 0x0000ff00 ) * _factor ) + (( *ptr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-            b = ((( c & 0x000000ff ) * _factor ) + (( *ptr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-
-            if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-            if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-            if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-            *ptr = ( *ptr & 0xff000000 ) | r | g | b ;
-        }
-
         ptr++;
         cs += incs, ct += inct;
     }
@@ -837,92 +633,6 @@ static void draw_span_32to32_ablend( GRAPH * dest, GRAPH * orig, int x, int y, i
     }
 }
 
-static void draw_span_32to32_tablend( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint32_t *ptr = ( uint32_t * ) dest->data + ( dest->pitch * y >> 2 ) + x;
-    int cs = s, ct = t;
-    uint32_t * tex ;
-    uint32_t r, g, b;
-    unsigned int c, _f, _f2;
-
-    while ( pixels-- )
-    {
-        tex = ( uint32_t * ) orig->data + ( orig->pitch * ( ct >> 16 ) >> 2 ) + ( cs >> 16 );
-
-        if ( *tex )
-        {
-            c = blend_func( *tex, *ptr ) ;
-            _f = (( unsigned int ) * tex ) & 0xff000000;
-            if ( _f != 0xff000000 )
-            {
-                _f = ( _f >> 24 ) * _factor / 255 ;
-                _f2 = 255 - _f ;
-
-                r = ((( c & 0x00ff0000 ) * _f ) + (( *ptr & 0x00ff0000 ) * _f2 ) ) >> 8 ;
-                g = ((( c & 0x0000ff00 ) * _f ) + (( *ptr & 0x0000ff00 ) * _f2 ) ) >> 8 ;
-                b = ((( c & 0x000000ff ) * _f ) + (( *ptr & 0x000000ff ) * _f2 ) ) >> 8 ;
-            }
-            else
-            {
-                r = ((( c & 0x00ff0000 ) * _factor ) + (( *ptr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-                g = ((( c & 0x0000ff00 ) * _factor ) + (( *ptr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-                b = ((( c & 0x000000ff ) * _factor ) + (( *ptr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-            }
-
-            if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-            if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-            if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-            *ptr = ( MAX( c & 0xff000000, *ptr & 0xff000000 ) ) | r | g | b ;
-        }
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
-static void draw_span_32to32_translucent( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
-{
-    uint32_t *ptr = ( uint32_t * ) dest->data + ( dest->pitch * y >> 2 ) + x;
-    int cs = s, ct = t;
-    uint32_t * tex ;
-    int r, g, b;
-    unsigned int c, _f, _f2;
-
-    while ( pixels-- )
-    {
-        tex = ( uint32_t * ) orig->data + ( orig->pitch * ( ct >> 16 ) >> 2 ) + ( cs >> 16 );
-
-        if ( *tex )
-        {
-            c = *tex ;
-            _f = c & 0xff000000;
-            if ( _f != 0xff000000 )
-            {
-                _f = ( _f >> 24 ) * _factor / 255 ;
-                _f2 = 255 - _f ;
-
-                r = ((( c & 0x00ff0000 ) * _f ) + (( *ptr & 0x00ff0000 ) * _f2 ) ) >> 8 ;
-                g = ((( c & 0x0000ff00 ) * _f ) + (( *ptr & 0x0000ff00 ) * _f2 ) ) >> 8 ;
-                b = ((( c & 0x000000ff ) * _f ) + (( *ptr & 0x000000ff ) * _f2 ) ) >> 8 ;
-            }
-            else
-            {
-                r = ((( c & 0x00ff0000 ) * _factor ) + (( *ptr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-                g = ((( c & 0x0000ff00 ) * _factor ) + (( *ptr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-                b = ((( c & 0x000000ff ) * _factor ) + (( *ptr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-            }
-
-            if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-            if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-            if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-            *ptr = ( MAX( c & 0xff000000, *ptr & 0xff000000 ) ) | r | g | b ;
-        }
-        ptr++;
-        cs += incs, ct += inct;
-    }
-}
-
 static void draw_span_32to32_nocolorkey( GRAPH * dest, GRAPH * orig, int x, int y, int pixels, int s, int t, int incs, int inct )
 {
     uint32_t *ptr = ( uint32_t * ) dest->data + ( dest->pitch * y >> 2 ) + x;
@@ -1011,40 +721,6 @@ static void draw_hspan_8to8_nocolorkey( uint8_t *scr, uint8_t * tex, int pixels,
         for ( i = pixels; i--; )
         {
             *scr++ = *tex;
-            tex += incs;
-        }
-        scr = _scr += scr_inc; tex = _tex += tex_inc;
-    }
-}
-
-static void draw_hspan_8to8_translucent( uint8_t *scr, uint8_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex ) *scr = ghost8[( *tex << 8 ) + *scr];
-            scr++;
-            tex += incs;
-        }
-        scr = _scr += scr_inc; tex = _tex += tex_inc;
-    }
-}
-
-static void draw_hspan_8to8_tablend( uint8_t *scr, uint8_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex ) *scr = ( uint8_t ) ghost8[(blend_func( *tex,*scr ) << 8 )+ *scr ];
-            scr++;
             tex += incs;
         }
         scr = _scr += scr_inc; tex = _tex += tex_inc;
@@ -1155,40 +831,6 @@ static void draw_hspan_8to16_ablend( uint16_t *scr, uint8_t * tex, int pixels, i
     }
 }
 
-static void draw_hspan_8to16_tablend( uint16_t *scr, uint8_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex ) *scr = ( uint16_t )( ghost1[blend_func( pcolorequiv[*tex], *scr )] + ghost2[*scr] );
-            scr++;
-            tex += incs;
-        }
-        scr = ( uint16_t * )( _scr += scr_inc ); tex = _tex += tex_inc;
-    }
-}
-
-static void draw_hspan_8to16_translucent( uint16_t *scr, uint8_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex ) *scr = ghost1[pcolorequiv[*tex]] + ghost2[*scr];
-            scr++;
-            tex += incs;
-        }
-        scr = ( uint16_t * )( _scr += scr_inc ); tex = _tex += tex_inc;
-    }
-}
-
 static void draw_hspan_8to16_nocolorkey( uint16_t *scr, uint8_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
 {
     int i;
@@ -1237,40 +879,6 @@ static void draw_hspan_16to16_ablend( uint16_t *scr, uint16_t * tex, int pixels,
         {
             if ( *tex ) *scr = blend_func( *tex, *scr );
             scr++ ;
-            tex += incs;
-        }
-        scr = ( uint16_t * )( _scr += scr_inc ); tex = ( uint16_t * )( _tex += tex_inc );
-    }
-}
-
-static void draw_hspan_16to16_tablend( uint16_t *scr, uint16_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex ) *scr = ( uint16_t )( ghost1[blend_func( *tex,*scr )] + ghost2[*scr] );
-            scr++;
-            tex += incs;
-        }
-        scr = ( uint16_t * )( _scr += scr_inc ); tex = ( uint16_t * )( _tex += tex_inc );
-    }
-}
-
-static void draw_hspan_16to16_translucent( uint16_t *scr, uint16_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex ) *scr = ghost1[*tex] + ghost2[*scr];
-            scr++;
             tex += incs;
         }
         scr = ( uint16_t * )( _scr += scr_inc ); tex = ( uint16_t * )( _tex += tex_inc );
@@ -1363,68 +971,6 @@ static void draw_hspan_8to32_ablend( uint32_t *scr, uint8_t * tex, int pixels, i
     }
 }
 
-static void draw_hspan_8to32_tablend( uint32_t *scr, uint8_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-    uint32_t r, g, b, c;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex )
-            {
-                c = blend_func( pcolorequiv[*tex], *scr ) ;
-
-                r = ((( c & 0x00ff0000 ) * _factor ) + (( *scr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-                g = ((( c & 0x0000ff00 ) * _factor ) + (( *scr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-                b = ((( c & 0x000000ff ) * _factor ) + (( *scr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-
-                if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-                if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-                if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-                *scr = ( *scr & 0xff000000 ) | r | g | b ;
-            }
-            scr++;
-            tex += incs;
-        }
-        scr = ( uint32_t * )( _scr += scr_inc ); tex = _tex += tex_inc;
-    }
-}
-
-static void draw_hspan_8to32_translucent( uint32_t *scr, uint8_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-    uint32_t r, g, b, c;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex )
-            {
-                c = ( pcolorequiv[*tex] );
-
-                r = ((( c & 0x00ff0000 ) * _factor ) + (( *scr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-                g = ((( c & 0x0000ff00 ) * _factor ) + (( *scr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-                b = ((( c & 0x000000ff ) * _factor ) + (( *scr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-
-                if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-                if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-                if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-                *scr = ( *scr & 0xff000000 ) | r | g | b ;
-            }
-            scr++;
-            tex += incs;
-        }
-        scr = ( uint32_t * )( _scr += scr_inc ); tex = _tex += tex_inc;
-    }
-}
-
 static void draw_hspan_8to32_nocolorkey( uint32_t *scr, uint8_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
 {
     int i;
@@ -1474,68 +1020,6 @@ static void draw_hspan_16to32_ablend( uint32_t *scr, uint16_t * tex, int pixels,
         {
             if ( *tex ) *scr = ( *scr & 0xff000000 ) | blend_func((( * tex & 0xf800 ) << 8 ) | (( * tex & 0x07e0 ) << 5 ) | (( * tex & 0x001f ) << 3 ), *scr );
             scr++ ;
-            tex += incs;
-        }
-        scr = ( uint32_t * )( _scr += scr_inc ); tex = ( uint16_t * )( _tex += tex_inc );
-    }
-}
-
-static void draw_hspan_16to32_tablend( uint32_t *scr, uint16_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-    uint32_t r, g, b, c;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex )
-            {
-                c = blend_func((( * tex & 0xf800 ) << 8 ) | (( * tex & 0x07e0 ) << 5 ) | (( * tex & 0x001f ) << 3 ), *scr ) ;
-
-                r = ((( c & 0x00ff0000 ) * _factor ) + (( *scr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-                g = ((( c & 0x0000ff00 ) * _factor ) + (( *scr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-                b = ((( c & 0x000000ff ) * _factor ) + (( *scr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-
-                if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-                if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-                if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-                *scr = ( *scr & 0xff000000 ) | r | g | b ;
-            }
-            scr++;
-            tex += incs;
-        }
-        scr = ( uint32_t * )( _scr += scr_inc ); tex = ( uint16_t * )( _tex += tex_inc );
-    }
-}
-
-static void draw_hspan_16to32_translucent( uint32_t *scr, uint16_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-    uint32_t r, g, b, c;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex )
-            {
-                c = (( * tex & 0xf800 ) << 8 ) | (( * tex & 0x07e0 ) << 5 ) | (( * tex & 0x001f ) << 3 );
-
-                r = ((( c & 0x00ff0000 ) * _factor ) + (( *scr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-                g = ((( c & 0x0000ff00 ) * _factor ) + (( *scr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-                b = ((( c & 0x000000ff ) * _factor ) + (( *scr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-
-                if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-                if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-                if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-                *scr = ( *scr & 0xff000000 ) | r | g | b ;
-            }
-            scr++;
             tex += incs;
         }
         scr = ( uint32_t * )( _scr += scr_inc ); tex = ( uint16_t * )( _tex += tex_inc );
@@ -1633,93 +1117,6 @@ static void draw_hspan_32to32_ablend( uint32_t *scr, uint32_t * tex, int pixels,
                     *scr = ( MAX( *tex & 0xff000000, *scr & 0xff000000 ) ) | blend_func( *tex, *scr );
             }
             scr++ ;
-            tex += incs;
-        }
-        scr = ( uint32_t * )( _scr += scr_inc ); tex = ( uint32_t * )( _tex += tex_inc );
-    }
-}
-
-static void draw_hspan_32to32_tablend( uint32_t *scr, uint32_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-    uint32_t r, g, b;
-    unsigned int c, _f, _f2;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex )
-            {
-                c = blend_func( *tex, *scr ) ;
-                _f = (( unsigned int ) * tex ) & 0xff000000;
-                if ( _f != 0xff000000 )
-                {
-                    _f = ( _f >> 24 ) * _factor / 255 ;
-                    _f2 = 255 - _f ;
-
-                    r = ((( c & 0x00ff0000 ) * _f ) + (( *scr & 0x00ff0000 ) * _f2 ) ) >> 8 ;
-                    g = ((( c & 0x0000ff00 ) * _f ) + (( *scr & 0x0000ff00 ) * _f2 ) ) >> 8 ;
-                    b = ((( c & 0x000000ff ) * _f ) + (( *scr & 0x000000ff ) * _f2 ) ) >> 8 ;
-                }
-                else
-                {
-                    r = ((( c & 0x00ff0000 ) * _factor ) + (( *scr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-                    g = ((( c & 0x0000ff00 ) * _factor ) + (( *scr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-                    b = ((( c & 0x000000ff ) * _factor ) + (( *scr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-                }
-                if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-                if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-                if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-                *scr = ( MAX( c & 0xff000000, *scr & 0xff000000 ) ) | r | g | b ;
-            }
-            scr++;
-            tex += incs;
-        }
-        scr = ( uint32_t * )( _scr += scr_inc ); tex = ( uint32_t * )( _tex += tex_inc );
-    }
-}
-
-static void draw_hspan_32to32_translucent( uint32_t *scr, uint32_t * tex, int pixels, int incs, int l, int scr_inc, int tex_inc )
-{
-    int i;
-    uint8_t * _scr = ( uint8_t * ) scr, * _tex = ( uint8_t * ) tex;
-    int r, g, b;
-    unsigned int c, _f, _f2;
-
-    while ( l-- )
-    {
-        for ( i = pixels; i--; )
-        {
-            if ( *tex )
-            {
-                c = *tex ;
-                _f = c & 0xff000000;
-                if ( _f != 0xff000000 )
-                {
-                    _f = ( _f >> 24 ) * _factor / 255 ;
-                    _f2 = 255 - _f ;
-
-                    r = ((( c & 0x00ff0000 ) * _f ) + (( *scr & 0x00ff0000 ) * _f2 ) ) >> 8 ;
-                    g = ((( c & 0x0000ff00 ) * _f ) + (( *scr & 0x0000ff00 ) * _f2 ) ) >> 8 ;
-                    b = ((( c & 0x000000ff ) * _f ) + (( *scr & 0x000000ff ) * _f2 ) ) >> 8 ;
-                }
-                else
-                {
-                    r = ((( c & 0x00ff0000 ) * _factor ) + (( *scr & 0x00ff0000 ) * _factor2 ) ) >> 8 ;
-                    g = ((( c & 0x0000ff00 ) * _factor ) + (( *scr & 0x0000ff00 ) * _factor2 ) ) >> 8 ;
-                    b = ((( c & 0x000000ff ) * _factor ) + (( *scr & 0x000000ff ) * _factor2 ) ) >> 8 ;
-                }
-
-                if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-                if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-                if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-                *scr = ( MAX( c & 0xff000000, *scr & 0xff000000 ) ) | r | g | b ;
-            }
-            scr++;
             tex += incs;
         }
         scr = ( uint32_t * )( _scr += scr_inc ); tex = ( uint32_t * )( _tex += tex_inc );
