@@ -102,7 +102,7 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
                 fprintf(stderr, "Cannot play audio with %d channels, expect weirdness\n",
                         audio->channels);
             }
-            alBufferData(audio_buffer, format, audio->samples, size, fre);
+            alBufferData(audio_buffer, format, audio->samples, size, freq);
             if((error = alGetError()) != AL_NO_ERROR) {
                 fprintf(stderr, "Audio buffer data copying failed: %s\n", alGetString(error));
             } else {
