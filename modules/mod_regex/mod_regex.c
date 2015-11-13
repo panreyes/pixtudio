@@ -71,45 +71,49 @@ DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [] =   {
  *  of the match or -1 if none found.
  */
 
-static int modregex_regex (INSTANCE * my, int * params)
-{
+static int modregex_regex (INSTANCE * my, int * params) {
     const char * reg = string_get(params[0]);
     const char * str = string_get(params[1]);
-    int result = -1;
+    int pos=-1;
     unsigned n;
     
     regex_t pb;
-    regmatch_t pmatch[16];
+    regmatch_t pmatch[1];
 
     int * regex_reg;
     
     // Compile the regular expression, then match it
     if (tre_regcomp(&pb, reg, REG_EXTENDED | REG_ICASE) == REG_OK) {
-        result = tre_regexec(&pb, str, 16, pmatch, 0);
-        tre_regfree(&pb);
-        if (result == 0) {
-            // Fill the regex_reg global variables
-            regex_reg = (int *) &GLODWORD( mod_regex, REGEX_REG);
+        // Fill the regex_reg global variables
+        regex_reg = (int *) &GLODWORD( mod_regex, REGEX_REG);
+        n = 0;
+        while (tre_regexec(&pb, str, 1, pmatch, 0) != REG_NOMATCH && n<16) {
+            // Store the position
+            if(pos == -1) {
+                pos = pmatch[0].rm_so;
+            }
             // Store the strings for PixTudio use
-            for(n=0; n<16 && pmatch[n].rm_so != -1; n++) {
-                string_discard (regex_reg[n]);
-                regex_reg[n] = string_newa (str + pmatch[n].rm_so, pmatch[n].rm_eo - pmatch[n].rm_so);
-                string_use (regex_reg[n]);
+            string_discard (regex_reg[n]);
+            regex_reg[n] = string_newa (str+pmatch[0].rm_so,
+                                        pmatch[0].rm_eo-pmatch[0].rm_so);
+            string_use (regex_reg[n]);
+            n++;
+
+            // Move the pointer to the end of the previous match
+            str += pmatch[0].rm_eo;
+            if(strlen(str) <= 0) {
+                break;
             }
         }
-    }
-    
-    if(result == 0) {
-        return pmatch[0].rm_so;
-    } else {
-        return -1;
+
+        tre_regfree(&pb);
     }
 
     /* Free the resources */
     string_discard(params[0]);
     string_discard(params[1]);
 
-    return result;
+    return pos;
 }
 
 /** REGEX_REPLACE (STRING pattern, STRING string, STRING replacement)

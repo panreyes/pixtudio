@@ -6,22 +6,24 @@ IMPORT "mod_regex";
 
 PROCESS regex_test()
 PRIVATE
-   string sourcetext="It's raining cat's and dogs";
-   string searchtext="cat"; // the search pattern
+   string sourcetext="It's raining cats, cots and dogs";
+   string reg="(c[a-z]t)|(dog)"; // the search pattern
 
    int status;
+   int i=0;
 BEGIN
    // print the joined string
-   // looking for the position of the word "cat"
-   status=regex(searchtext,sourcetext);
-
-   say("match found at: "+status);
-   say("");
-
    // the last character of a line.
    status=regex("$","99 bottles of beer on the wall.");
+   say(status+" is the last character position in '99 bottles of beer on the wall'.");
+   // looking for the position of the word "cat"
+   status=regex(reg, sourcetext);
+   say("match for '"+reg+"' in '"+sourcetext+"' found at: "+status);
 
-   say(status+" is the last character position in 99 bottles of beer on the wall.");
+   say("");
+   for(i=0; i<16;i++)
+      say("regex_reg["+i+"]="+regex_reg[i]);
+   end
    say("");
 END
 
