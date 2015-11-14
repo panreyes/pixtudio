@@ -125,7 +125,7 @@ static int modregex_regex (INSTANCE * my, int * params) {
  */
 static int modregex_regex_replace (INSTANCE * my, int * params) {
     /* Replacing is, basically,
-       splitting followed by joining*/
+       splitting followed by joining */
     int result_string = 0;
     unsigned n=0, count = 0, total_length=0;
     char *pieces[16];
