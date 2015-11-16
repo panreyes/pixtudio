@@ -174,19 +174,14 @@ void gr_set_caption( char * title )
 
 /* --------------------------------------------------------------------------- */
 
-int gr_set_icon( GRAPH * map )
-{
-    if (( icon = map ))
-    {
+int gr_set_icon( GRAPH * map ) {
+    if (( icon = map )) {
         SDL_Surface *ico = NULL;
-        if ( icon->format->depth == 8 )
-        {
+        if ( icon->format->depth == 8 ) {
             SDL_Color palette[256];
-            if ( sys_pixel_format && sys_pixel_format->palette )
-            {
+            if ( sys_pixel_format && sys_pixel_format->palette ) {
                 int n ;
-                for ( n = 0 ; n < 256 ; n++ )
-                {
+                for ( n = 0 ; n < 256 ; n++ ) {
                     palette[ n ].r = sys_pixel_format->palette->rgb[ n ].r;
                     palette[ n ].g = sys_pixel_format->palette->rgb[ n ].g;
                     palette[ n ].b = sys_pixel_format->palette->rgb[ n ].b;
@@ -196,9 +191,7 @@ int gr_set_icon( GRAPH * map )
             ico = SDL_CreateRGBSurfaceFrom( icon->data, 32, 32, 8, 32, 0x00, 0x00, 0x00, 0x00 ) ;
 
             SDL_SetPaletteColors(ico->format->palette, palette, 0, 256);
-        }
-        else
-        {
+        } else {
             ico = SDL_CreateRGBSurfaceFrom( icon->data, 32, 32, icon->format->depth,
                                             icon->pitch, icon->format->Rmask, icon->format->Gmask,
                                             icon->format->Bmask, icon->format->Amask ) ;
@@ -266,7 +259,7 @@ int gr_set_mode( int width, int height ) {
             sdl_flags |= SDL_WINDOW_BORDERLESS;
         }
         if (full_screen) {
-            sdl_flags |= SDL_WINDOW_FULLSCREEN;
+            sdl_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         }
         if (grab_input) {
             sdl_flags |= SDL_WINDOW_INPUT_GRABBED;
@@ -293,6 +286,12 @@ int gr_set_mode( int width, int height ) {
             SDL_SetWindowBordered(window, SDL_TRUE);
         } else if(!(sdl_flags & SDL_WINDOW_BORDERLESS) && frameless) {
             SDL_SetWindowBordered(window, SDL_FALSE);
+        }
+
+        if((sdl_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) && !full_screen) {
+            SDL_SetWindowFullscreen(window, 0);
+        } else if(!(sdl_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) && full_screen) {
+            SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
         }
 #endif
     }
@@ -326,10 +325,11 @@ int gr_set_mode( int width, int height ) {
     // Store the renderer resolution
     SDL_GetRendererOutputSize(renderer, &renderer_width, &renderer_height);
 
-    //SDL_Log("Renderer info:");
-    //SDL_Log("Accelerated rendering: %d", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
-    //SDL_Log("Render to texture:     %d", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
-    //SDL_Log("Rendering driver:      %s", SDL_GetHint(SDL_HINT_RENDER_DRIVER));
+    // SDL_Log("Renderer info:");
+    // SDL_Log("Accelerated rendering: %d", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
+    // SDL_Log("Render to texture:     %d", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
+    // SDL_Log("Rendering driver:      %s", SDL_GetHint(SDL_HINT_RENDER_DRIVER));
+    // SDL_Log("Renderer size:         %dx%d", renderer_width, renderer_height);
 
     // Clear the screen
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -356,6 +356,9 @@ int gr_set_mode( int width, int height ) {
     // Create a SDL_Surface for the pixel data until the complete rendering pipeline
     // is handled by SDL_Render
     SDL_PixelFormatEnumToMasks(format, &texture_depth, &Rmask, &Gmask, &Bmask, &Amask);
+    if(screen) {
+        SDL_FreeSurface(screen);
+    }
     screen = SDL_CreateRGBSurface(0, width, height, texture_depth, Rmask, Gmask, Bmask, Amask);
 
     if ( !sys_pixel_format ) {
