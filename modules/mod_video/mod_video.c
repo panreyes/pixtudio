@@ -77,7 +77,7 @@ static int modvideo_set_mode_2( INSTANCE * my, int * params )
 
 static int modvideo_set_mode_3( INSTANCE * my, int * params )
 {
-    GLODWORD( mod_video, GRAPH_MODE ) = ( 32 | params[2] );
+    GLODWORD( mod_video, GRAPH_MODE ) = params[2] ;
     return gr_set_mode( params[0], params[1] ) ;
 }
 
