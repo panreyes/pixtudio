@@ -72,6 +72,7 @@ public class SDLActivity extends Activity {
             "SDL2",
             "SDL2_mixer",
             "theora",
+            "openal",
             "bgdrtm",
             "main"
         };

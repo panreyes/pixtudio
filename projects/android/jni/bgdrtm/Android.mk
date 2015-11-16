@@ -59,7 +59,8 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_gamecontroller/ \
 	$(MODULES_PATH)/mod_joy/ \
 	$(MODULES_PATH)/libjoy/ \
-	$(MODULES_PATH)/mod_theora/
+	$(MODULES_PATH)/mod_theora/ \
+	$(MODULES_PATH)/mod_effects/
 
 LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-D__BGDRTM__ \
@@ -155,11 +156,12 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_gamecontroller/mod_gamecontroller.c \
 	../../../../modules/libjoy/libjoy.c \
 	../../../../modules/mod_joy/mod_joy.c \
+	../../../../modules/mod_effects/mod_effects.c \
 	../../../../modules/mod_theora/mod_theora.c \
 	../../../../3rdparty/theoraplay/theoraplay.c
 
 LOCAL_LDLIBS := -llog -ldl -lz
-LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png theora
+LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png theora openal
 LOCAL_STATIC_LIBRARIES += curl
 
 include $(BUILD_SHARED_LIBRARY)
