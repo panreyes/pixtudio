@@ -15,6 +15,7 @@
 #include <string.h>
 #include <assert.h>
 
+// PixTudio file-reading wrappers
 #include <files.h>
 
 #ifdef _WIN32
