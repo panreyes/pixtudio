@@ -31,21 +31,27 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-char __bgdexport( mod_regex, globals_def )[] = "STRING regex_reg[15];\n";
-DLSYSFUNCS __bgdexport( mod_regex, functions_exports) [] = {
-    /* Regex */
-    { "REGEX"                , "SS"    , TYPE_INT    , 0 },
-    { "STRING_REPLACE"       , "SSS"   , TYPE_STRING , 0 },
-    { "REGEX_REPLACE"        , "SSS"   , TYPE_STRING , 0 },
-    { "SPLIT"                , "SSPI"  , TYPE_INT    , 0 },
-    { "JOIN"                 , "SPI"   , TYPE_STRING , 0 },
-    { 0                      , 0       , 0           , 0 }
-};
-#else
+#ifndef __PXTB__
 extern char __bgdexport( mod_regex, globals_def )[];
 extern DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [];
 extern DLSYSFUNCS __bgdexport( mod_regex, functions_exports) [];
+extern int modregex_regex (INSTANCE * my, int * params);
+extern int modregex_string_replace (INSTANCE * my, int * params);
+extern int modregex_regex_replace (INSTANCE * my, int * params);
+extern int modregex_split (INSTANCE * my, int * params);
+extern int modregex_join (INSTANCE * my, int * params);
 #endif
+
+
+char __bgdexport( mod_regex, globals_def )[] = "STRING regex_reg[15];\n";
+DLSYSFUNCS __bgdexport( mod_regex, functions_exports) [] = {
+    /* Regex */
+    FUNC( "REGEX"                , "SS"    , TYPE_INT    , modregex_regex           ),
+    FUNC( "STRING_REPLACE"       , "SSS"   , TYPE_STRING , modregex_string_replace  ),
+    FUNC( "REGEX_REPLACE"        , "SSS"   , TYPE_STRING , modregex_regex_replace   ),
+    FUNC( "SPLIT"                , "SSPI"  , TYPE_INT    , modregex_split           ),
+    FUNC( "JOIN"                 , "SPI"   , TYPE_STRING , modregex_join            ),
+    FUNC( 0                      , 0       , 0           , 0                        )
+};
 
 #endif

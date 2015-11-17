@@ -48,20 +48,15 @@ enum {
 };
 
 /* ----------------------------------------------------------------- */
-/* Global var declarations (used compile-time) */
-
-char * __bgdexport( mod_regex, globals_def ) = "STRING regex_reg[15];\n";
-
-/* ----------------------------------------------------------------- */
 /* Son las variables que se desea acceder.                           */
 /* El interprete completa esta estructura, si la variable existe.    */
 /* (usada en tiempo de ejecucion)                                    */
 
-DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [] =   {
+DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
-                                { "regex_reg", NULL, -1, -1 },
-                                { NULL, NULL, -1, -1 }
-                                };
+    { "regex_reg", NULL, -1, -1 },
+    { NULL, NULL, -1, -1 }
+};
 
 /* ----------------------------------------------------------------- */
 // Generic replace function based on TRE
@@ -140,7 +135,7 @@ static int replace (const char * reg, const char * str, const char * rep, int cf
  *  of the match or -1 if none found.
  */
 
-static int modregex_regex (INSTANCE * my, int * params) {
+int modregex_regex (INSTANCE * my, int * params) {
     const char * reg = string_get(params[0]);
     const char * str = string_get(params[1]);
     int pos=-1;
@@ -186,13 +181,12 @@ static int modregex_regex (INSTANCE * my, int * params) {
 }
 
 /** STR_REPLACE (STRING search, STRING string, STRING replacement)
- *  Match a regular expresion to the given string. For each
- *  match, substitute it with the given replacement. \0 - \9
- *  escape sequences are accepted in the replacement.
+ *  Replaces the given "search" occurences in "string" for
+ * "replacement".
  *  Returns the resulting string. REGEX_REG variables are
  *  filled with information about the first match.
  */
-static int modregex_string_replace (INSTANCE * my, int * params) {
+int modregex_string_replace (INSTANCE * my, int * params) {
     /* Replacing is, basically,
        splitting followed by joining */
     const char * reg = string_get(params[0]);
@@ -215,7 +209,7 @@ static int modregex_string_replace (INSTANCE * my, int * params) {
  *  Returns the resulting string. REGEX_REG variables are
  *  filled with information about the first match.
  */
-static int modregex_regex_replace (INSTANCE * my, int * params) {
+int modregex_regex_replace (INSTANCE * my, int * params) {
     /* Replacing is, basically,
        splitting followed by joining */
     const char * reg = string_get(params[0]);
@@ -239,7 +233,7 @@ static int modregex_regex_replace (INSTANCE * my, int * params) {
  *
  */
 
-static int modregex_split (INSTANCE * my, int * params) {
+int modregex_split (INSTANCE * my, int * params) {
     const char * reg = string_get(params[0]);
     const char * str = string_get(params[1]);
     int * result_array = (int *)params[2];
@@ -286,8 +280,7 @@ static int modregex_split (INSTANCE * my, int * params) {
  *  resulting string.
  */
 
-static int modregex_join (INSTANCE * my, int * params)
-{
+int modregex_join (INSTANCE * my, int * params) {
     const char * sep = string_get(params[0]);
     int * string_array = (int *)params[1];
     int count = params[2] ;
@@ -322,14 +315,3 @@ static int modregex_join (INSTANCE * my, int * params)
     return result;
 }
 
-/* ---------------------------------------------------------------------- */
-
-DLSYSFUNCS __bgdexport( mod_regex, functions_exports) [] = {
-    /* Regex */
-    { "REGEX"                , "SS"    , TYPE_INT    , modregex_regex           },
-    { "STRING_REPLACE"       , "SSS"   , TYPE_STRING , modregex_string_replace  },
-    { "REGEX_REPLACE"        , "SSS"   , TYPE_STRING , modregex_regex_replace   },
-    { "SPLIT"                , "SSPI"  , TYPE_INT    , modregex_split           },
-    { "JOIN"                 , "SPI"   , TYPE_STRING , modregex_join            },
-    { 0                      , 0       , 0           , 0                        }
-};
