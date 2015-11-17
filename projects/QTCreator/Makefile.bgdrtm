@@ -250,6 +250,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 					-I/opt/local/include \
 					-I/opt/local/include/SDL2 \
 					-I/usr/include \
+					-I/usr/include/tre \
 					-I/usr/include/SDL2
 
 #---------------------------------------------------------------------------------

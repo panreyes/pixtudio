@@ -39,7 +39,7 @@
 #include "xstrings.h"
 
 #include "dlvaracc.h"
-#include <tre/tre.h>
+#include <tre.h>
 
 /* ----------------------------------------------------------------- */
 
@@ -140,12 +140,12 @@ int modregex_regex (INSTANCE * my, int * params) {
     const char * str = string_get(params[1]);
     int pos=-1;
     unsigned n;
-    
+
     regex_t pb;
     regmatch_t pmatch[1];
 
     int * regex_reg;
-    
+
     // Compile the regular expression, then match it
     if (tre_regcomp(&pb, reg, REG_EXTENDED | REG_ICASE) == REG_OK) {
         // Fill the regex_reg global variables
