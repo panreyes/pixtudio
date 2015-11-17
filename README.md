@@ -6,6 +6,7 @@ The project originated from the (unsuccessful) Kickstarter for [Explosive Dinosa
 
 ## CREDITS ##
 PixTudio relies on code from the following projects:
+
 * [BennuGD](http://www.bennugd.org) - The main code base for PixTudio
 * [SDL2](https://libsdl.org/)
 * [Chipmunk](https://chipmunk-physics.net/)
@@ -14,6 +15,7 @@ PixTudio relies on code from the following projects:
 * [theoraplay](https://www.icculus.org/theoraplay/)
 * [libtheora](https://www.theora.org/doc/libtheora-1.0/)
 * [TRE regex library](http://laurikari.net/tre/)
+
 And probably many others.
 
 I'll also like to thank all the people who test the code, including Pablo Navarro, for finding bugs and encouraging development.
