@@ -54,6 +54,7 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/libwm/ \
 	$(MODULES_PATH)/mod_wm/ \
 	$(MODULES_PATH)/mod_sys/ \
+	$(MODULES_PATH)/mod_regex/ \
 	$(MODULES_PATH)/mod_multi/ \
 	$(MODULES_PATH)/mod_curl/ \
 	$(MODULES_PATH)/mod_gamecontroller/ \
@@ -71,7 +72,6 @@ LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-DNO_MODFMODEX \
 	-DNO_FSOCK \
     -DNO_MODSENSOR \
-	-DNO_MODREGEX \
     -DNO_MODCHIPMUNK \
     -DNO_MODDEBUG \
     -DNO_MODBLENDOP \
@@ -151,6 +151,7 @@ LOCAL_SRC_FILES := \
 	../../../../modules/libwm/libwm.c \
 	../../../../modules/mod_wm/mod_wm.c \
 	../../../../modules/mod_sys/mod_sys.c \
+	../../../../modules/mod_regex/mod_regex.c \
 	../../../../modules/mod_multi/mod_multi.c \
 	../../../../modules/mod_curl/mod_curl.c \
 	../../../../modules/mod_gamecontroller/mod_gamecontroller.c \
@@ -162,6 +163,6 @@ LOCAL_SRC_FILES := \
 
 LOCAL_LDLIBS := -llog -ldl -lz
 LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png theora openal
-LOCAL_STATIC_LIBRARIES += curl
+LOCAL_STATIC_LIBRARIES += curl tre
 
 include $(BUILD_SHARED_LIBRARY)
