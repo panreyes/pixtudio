@@ -36,6 +36,7 @@ char __bgdexport( mod_regex, globals_def )[] = "STRING regex_reg[15];\n";
 DLSYSFUNCS __bgdexport( mod_regex, functions_exports) [] = {
     /* Regex */
     { "REGEX"                , "SS"    , TYPE_INT    , 0 },
+    { "STRING_REPLACE"       , "SSS"   , TYPE_STRING , 0 },
     { "REGEX_REPLACE"        , "SSS"   , TYPE_STRING , 0 },
     { "SPLIT"                , "SSPI"  , TYPE_INT    , 0 },
     { "JOIN"                 , "SPI"   , TYPE_STRING , 0 },
