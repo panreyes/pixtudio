@@ -39,7 +39,7 @@
 #include "xstrings.h"
 
 #include "dlvaracc.h"
-#include <tre.h>
+#include <tre/tre.h>
 
 /* ----------------------------------------------------------------- */
 
