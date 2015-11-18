@@ -73,10 +73,10 @@ LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-DNO_MODICONV \
 	-DNO_MODFMODEX \
 	-DNO_FSOCK \
-    -DNO_MODSENSOR \
-    -DNO_MODCHIPMUNK \
-    -DNO_MODDEBUG \
-    -DNO_MODBLENDOP \
+	-DNO_MODSENSOR \
+	-DNO_MODCHIPMUNK \
+	-DNO_MODDEBUG \
+	-DNO_MODBLENDOP \
 	-DWITH_SDLRWOPS \
 	-ffast-math \
 	-O3
@@ -100,7 +100,7 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_say/mod_say.c \
 	../../../../modules/mod_string/mod_string.c \
 	../../../../modules/mod_math/mod_math.c \
-    ../../../../modules/mod_mem/mod_mem.c \
+	../../../../modules/mod_mem/mod_mem.c \
 	../../../../modules/mod_time/mod_time.c \
 	../../../../modules/mod_file/mod_file.c \
 	../../../../modules/mod_sound/mod_sound.c \
