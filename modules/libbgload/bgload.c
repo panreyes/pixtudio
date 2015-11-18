@@ -46,8 +46,7 @@
  * Helper function preparing params
  **/
 
-static bgdata *prep( int *params )
-{
+static bgdata *prep( int *params ) {
     bgdata *t = ( bgdata* )malloc( sizeof( bgdata ) );
     t->file = strdup(( char * )string_get( params[0] ));
     t->id = ( int* )params[1];
@@ -62,8 +61,7 @@ static bgdata *prep( int *params )
  * Helper function executed in the new thread
  **/
 
-int bgDoLoad( void *d )
-{
+int bgDoLoad( void *d ) {
     bgdata *t = ( bgdata* )d;
     *( t->id ) = ( *t->fn )( t->file );
     free( t->file );
@@ -73,8 +71,7 @@ int bgDoLoad( void *d )
 
 /* --------------------------------------------------------------------------- */
 
-int bgload( int ( *fn )(), int * params )
-{
+int bgload( int ( *fn )(), int * params ) {
     bgdata *t = prep( params );
     t->fn = fn;
 
