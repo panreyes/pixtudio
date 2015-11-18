@@ -23,11 +23,13 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <bgddl.h>
 #include <xstrings.h>
 #include <bgdrtm.h>
 #include <curl/curl.h>
-#include <SDL.h>
+#include <SDL_thread.h>
 
 #ifndef MAX_DOWNLOADS
 #define MAX_DOWNLOADS 16
@@ -142,7 +144,8 @@ DLCONSTANT  __bgdexport( mod_curl, constants_def )[] = {
     { "CURL_HTTP_VERSION_1_1"         , TYPE_DWORD, CURL_HTTP_VERSION_1_1          },
     { "CURLOPT_IGNORE_CONTENT_LENGTH" , TYPE_DWORD, CURLOPT_IGNORE_CONTENT_LENGTH  },
     { "CURLOPT_HTTP_CONTENT_DECODING" , TYPE_DWORD, CURLOPT_HTTP_CONTENT_DECODING  },
-    { "CURLOPT_HTTP_TRANSFER_DECODING", TYPE_DWORD, CURLOPT_HTTP_TRANSFER_DECODING }
+    { "CURLOPT_HTTP_TRANSFER_DECODING", TYPE_DWORD, CURLOPT_HTTP_TRANSFER_DECODING },
+    { NULL          , 0       , 0  }
 };
 /* --------------------------------------------------------------------------- */
 
@@ -185,7 +188,6 @@ WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
     return realsize;
 }
 
-
 /* --------------------------------------------------------------------------- */
 
 /**
@@ -218,6 +220,8 @@ static int bgDoLoad( void *d )
     return 0;
 }
 
+
+/* --------------------------------------------------------------------------- */
 // Maps curl_formadd
 static int bgd_curl_formadd(INSTANCE * my, int * params) {
     int retval = 0;
@@ -369,8 +373,9 @@ static int bgd_curl_easy_setopt3(INSTANCE * my, int * params) {
 
 // Actual perform function
 int curl_perform(int id) {
-    if(download_info[id].curl == NULL)
+    if(download_info[id].curl == NULL) {
         return -1;
+    }
 
     int retval = 0;
 
@@ -398,7 +403,7 @@ static int bgd_curl_easy_perform(INSTANCE * my, int * params) {
     bgdata *t = prep( params );
     t->fn = curl_perform;
 
-    SDL_CreateThread( bgDoLoad, "CURL perform thread", (void *)t );
+    SDL_CreateThread( bgDoLoad, "PixTudio mod_curl thread", (void *)t );
 
     return 0;
 }

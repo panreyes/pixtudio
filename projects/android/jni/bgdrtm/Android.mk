@@ -17,6 +17,8 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(LOCAL_PATH)/../../../../3rdparty/theoraplay/ \
 	$(LOCAL_PATH)/../../../../3rdparty/libtheora/include/ \
 	$(LOCAL_PATH)/../../../../3rdparty/SDL_mixer/external/libvorbis-1.3.3/include \
+	$(LOCAL_PATH)/../../../../3rdparty/tre/lib \
+	$(LOCAL_PATH)/../../../../3rdparty/openal-soft/include/ \
 	$(MODULES_PATH)/libbgload/ \
 	$(MODULES_PATH)/mod_say/ \
 	$(MODULES_PATH)/mod_string/ \
