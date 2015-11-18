@@ -5,7 +5,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := tre
 
 common_C_INCLUDES := $(LOCAL_PATH) \
-					 $(LOCAL_PATH)/lib
+					 $(LOCAL_PATH)/lib \
+					 $(LOCAL_PATH)/lib/tre
 
 common_SRC_FILES := lib/tre-ast.c \
 					lib/tre-compile.c \
