@@ -108,7 +108,7 @@ int modChipmunkPintaAgua(INSTANCE * my, int * params){
         }
     }
 
-    bitmap_update_texture(map);
+    map->needs_texture_update = 1;
 }
 
 

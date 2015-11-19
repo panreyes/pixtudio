@@ -51,7 +51,7 @@
 
 /* --------------------------------------------------------------------------- */
 
-extern void gr_blit( GRAPH * dest, REGION * clip, int x, int y, int flags, GRAPH * gr, int update_texture ) ;
+extern void gr_blit( GRAPH * dest, REGION * clip, int x, int y, int flags, GRAPH * gr ) ;
 extern void gr_get_bbox( REGION * dest, REGION * clip, int x, int y, int flags, int angle, int scalex, int scaley, GRAPH * gr ) ;
 extern void gr_rotated_blit( GRAPH * dest, REGION * clip, int x, int y, int flags, int angle, int scalex, int scaley, GRAPH * gr ) ;
 

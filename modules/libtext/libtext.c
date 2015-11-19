@@ -718,7 +718,7 @@ int gr_text_put( GRAPH * dest, REGION * clip, int fontid, int x, int y, const un
         ch = f->glyph[current_char].bitmap ;
         if ( ch )
         {
-            gr_blit( dest, clip, x + f->glyph[current_char].xoffset, y + f->glyph[current_char].yoffset, flags, ch, 1 ) ;
+            gr_blit( dest, clip, x + f->glyph[current_char].xoffset, y + f->glyph[current_char].yoffset, flags, ch ) ;
         }
         x += f->glyph[current_char].xadvance ;
         text++ ;

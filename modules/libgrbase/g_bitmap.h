@@ -103,6 +103,8 @@ typedef struct _bitmap
                                2 - bitmap is modified and needs analysis
                              */
     int info_flags;         /* Analysis result (see bitmap_analyze) */
+    int needs_texture_update; /* 0 - Texture needs not be updated
+                                 1 - Texture needs to be updated*/
 
     void * data;            /* Pointer to the bitmap data at current frame */
     SDL_Texture *texture;   /* Pointer to the SDL Texture for this graph */

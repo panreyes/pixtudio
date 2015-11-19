@@ -58,8 +58,7 @@ uint16_t * pixel_alpha16 = NULL ;
  *
  */
 
-int gr_get_pixel( GRAPH * dest, int x, int y )
-{
+int gr_get_pixel( GRAPH * dest, int x, int y ) {
     if ( x < 0 || y < 0 || x >= ( int ) dest->width || y >= ( int ) dest->height ) return -1 ;
 
     switch ( dest->format->depth )
@@ -96,7 +95,7 @@ int gr_get_pixel( GRAPH * dest, int x, int y )
  *
  */
 
-void gr_put_pixel( GRAPH * dest, int x, int y, int color, int update_texture )
+void gr_put_pixel( GRAPH * dest, int x, int y, int color )
 {
     if ( x < 0 || y < 0 || x >= ( int ) dest->width || y >= ( int ) dest->height ) return ;
 
@@ -173,9 +172,7 @@ void gr_put_pixel( GRAPH * dest, int x, int y, int color, int update_texture )
         dest->info_flags &= ~GI_NOCOLORKEY;
     }
 
-    if(update_texture) {
-        bitmap_update_texture(dest);
-    }
+    dest->needs_texture_update = 1;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -194,10 +191,10 @@ void gr_put_pixel( GRAPH * dest, int x, int y, int color, int update_texture )
  *
  */
 
-void gr_put_pixelc( GRAPH * dest, REGION * clip, int x, int y, int color, int update_texture )
+void gr_put_pixelc( GRAPH * dest, REGION * clip, int x, int y, int color )
 {
     if ( clip && x >= clip->x && x <= clip->x2 && y >= clip->y && y <= clip->y2 )
-        gr_put_pixel( dest, x, y, color, update_texture );
+        gr_put_pixel( dest, x, y, color );
 }
 
 /* --------------------------------------------------------------------------- */

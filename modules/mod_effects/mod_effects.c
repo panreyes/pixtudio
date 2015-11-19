@@ -209,7 +209,7 @@ static int modeffects_filter( INSTANCE *my, int *params ) { //fpg,map,tabla10
     bitmap_destroy( map2 );
 
     // Update the GRAPH texture
-    bitmap_update_texture(map);
+    map->needs_texture_update = 1;
 
     return 1 ;
 }
@@ -369,7 +369,7 @@ static int modeffects_blur( INSTANCE *my, int *params ) { // fpg,map,tipo
     }
 
     // Update the GRAPH texture
-    bitmap_update_texture(map);
+    map->needs_texture_update = 1;
 
     return 1 ;
 }
@@ -430,7 +430,7 @@ static int modeffects_grayscale( INSTANCE *my, int *params ) { //fpg,map,tipo
     }
 
     // Update the GRAPH texture
-    bitmap_update_texture(map);
+    map->needs_texture_update = 1;
 
     return 1 ;
 }
@@ -465,7 +465,7 @@ static int modeffects_rgbscale( INSTANCE *my, int *params ) { //fpg, map, r, g, 
     }
 
     // Update the GRAPH texture
-    bitmap_update_texture(map);
+    map->needs_texture_update = 1;
 
     return 1 ;
 }

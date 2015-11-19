@@ -315,6 +315,7 @@ GRAPH * bitmap_new( int code, int w, int h, int depth )
 
     gr->blend_table = NULL ;
 
+    gr->needs_texture_update = 0;
     gr->modified = 0;
     gr->info_flags = 0;
 
@@ -380,6 +381,7 @@ GRAPH * bitmap_new_streaming( int code, int w, int h, int depth )
 
     gr->blend_table = NULL ;
 
+    gr->needs_texture_update = 0;
     gr->modified = 0;
     gr->info_flags = 0 ;
 
@@ -388,8 +390,7 @@ GRAPH * bitmap_new_streaming( int code, int w, int h, int depth )
 
 /* --------------------------------------------------------------------------- */
 
-GRAPH * bitmap_clone( GRAPH * map )
-{
+GRAPH * bitmap_clone( GRAPH * map ) {
     GRAPH * gr ;
     uint32_t y ;
     Uint32 format;
@@ -425,7 +426,7 @@ GRAPH * bitmap_clone( GRAPH * map )
     gr->format->palette = map->format->palette ;
     pal_use( map->format->palette );
 
-    bitmap_update_texture(gr);
+    gr->needs_texture_update = 1;
 
     return gr ;
 }

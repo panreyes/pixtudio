@@ -337,7 +337,7 @@ GRAPH * gr_read_png( const char * filename ) {
     if ( !setjmp( png_jmpbuf( png_ptr ) ) )
         png_read_end( png_ptr, 0 ) ;
 
-    bitmap_update_texture(bitmap);
+    bitmap->needs_texture_update = 1;
     bitmap->modified = 1 ;
 
     png_destroy_read_struct( &png_ptr, &info_ptr, &end_info ) ;

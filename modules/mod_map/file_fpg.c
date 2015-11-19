@@ -174,7 +174,7 @@ static int gr_read_lib( file * fp )
 
         code = grlib_add_map( libid, gr ) ;
         if(bpp >= 16) {
-            bitmap_update_texture(gr);
+            gr->needs_texture_update = 1;
         }
         if ( bpp == 8 ) pal_map_assign( libid, code, pal ) ;
     }

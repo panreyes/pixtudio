@@ -238,7 +238,7 @@ static int gr_font_loadfrom( file * fp )
             }
         }
 
-        bitmap_update_texture(gr);
+        gr->needs_texture_update = 1;
 
         f->glyph[i].yoffset = chardata[i].yoffset ;
     }
