@@ -750,7 +750,7 @@ void draw_box( GRAPH * dest, REGION * clip, int x, int y, int w, int h ) {
             int old_stipple = drawing_stipple;
             drawing_stipple = 0xFFFFFFFF;
 
-            while ( h-- >= 0 ) draw_hline( dest, clip, x, y + h, w, 0 );
+            while ( h-- >= 0 ) draw_hline( dest, clip, x, y + h, w );
 
             drawing_stipple = old_stipple;
         }
@@ -823,10 +823,10 @@ void draw_rectangle( GRAPH * dest, REGION * clip, int x, int y, int w, int h ) {
     iw = SGN( w );
     ih = SGN( h );
 
-    draw_hline( dest, clip, x, y, w - iw, 0 );
-    if ( h ) draw_vline( dest, clip, x + w, y, h - ih, 0 );
-    if ( w && h ) draw_hline( dest, clip, x + w, y + h, -( w - iw ), 0 );
-    if ( h && w ) draw_vline( dest, clip, x, y + h, -( h - ih ), 0 );
+    draw_hline( dest, clip, x, y, w - iw );
+    if ( h ) draw_vline( dest, clip, x + w, y, h - ih );
+    if ( w && h ) draw_hline( dest, clip, x + w, y + h, -( w - iw ) );
+    if ( h && w ) draw_vline( dest, clip, x, y + h, -( h - ih ) );
 
     drawing_stipple = stipple ;
 
@@ -890,24 +890,24 @@ void draw_circle( GRAPH * dest, REGION * clip, int x, int y, int r )
 
     do {
         if ( drawing_stipple & 1 ) {
-            gr_put_pixelc( dest, clip, x - cx, y - cy, color, 0 ) ;
+            gr_put_pixelc( dest, clip, x - cx, y - cy, color ) ;
             if ( cx ) {
-                gr_put_pixelc( dest, clip, x + cx, y - cy, color, 0 ) ;
+                gr_put_pixelc( dest, clip, x + cx, y - cy, color ) ;
             }
 
             if ( cy ) {
-                gr_put_pixelc( dest, clip, x - cx, y + cy, color, 0 ) ;
-                if ( cx ) gr_put_pixelc( dest, clip, x + cx, y + cy, color, 0 ) ;
+                gr_put_pixelc( dest, clip, x - cx, y + cy, color ) ;
+                if ( cx ) gr_put_pixelc( dest, clip, x + cx, y + cy, color ) ;
             }
 
             if ( cx != cy ) {
-                gr_put_pixelc( dest, clip, x - cy, y - cx, color, 0 ) ;
-                if ( cy ) gr_put_pixelc( dest, clip, x + cy, y - cx, color, 0 ) ;
+                gr_put_pixelc( dest, clip, x - cy, y - cx, color ) ;
+                if ( cy ) gr_put_pixelc( dest, clip, x + cy, y - cx, color ) ;
             }
 
             if ( cx && cy != cx ) {
-                gr_put_pixelc( dest, clip, x - cy, y + cx, color, 0 ) ;
-                if ( cy ) gr_put_pixelc( dest, clip, x + cy, y + cx, color, 0 ) ;
+                gr_put_pixelc( dest, clip, x - cy, y + cx, color ) ;
+                if ( cy ) gr_put_pixelc( dest, clip, x + cy, y + cx, color ) ;
             }
         }
         drawing_stipple = (( drawing_stipple << 1 ) | (( drawing_stipple & 0x80000000 ) ? 1 : 0 ) );
@@ -948,15 +948,15 @@ void draw_fcircle( GRAPH * dest, REGION * clip, int x, int y, int r ) {
 
     do {
         if ( cx != cy ) {
-            draw_hline( dest, clip, x - cy, y - cx, cy << 1 /*+1*/, 0 ) ;
-            if ( cx ) draw_hline( dest, clip, x - cy, y + cx, cy << 1 /*+1*/, 0 ) ;
+            draw_hline( dest, clip, x - cy, y - cx, cy << 1 /*+1*/ ) ;
+            if ( cx ) draw_hline( dest, clip, x - cy, y + cx, cy << 1 /*+1*/ ) ;
         }
         if ( df < 0 ) {
             df += de, de += 2, dse += 2 ;
         } else {
             df += dse, de += 2, dse += 4;
-            draw_hline( dest, clip, x - cx, y - cy, cx << 1 /*+1*/, 0 ) ;
-            if ( cy ) draw_hline( dest, clip, x - cx, y + cy, cx << 1 /*+1*/, 0 ) ;
+            draw_hline( dest, clip, x - cx, y - cy, cx << 1 /*+1*/ ) ;
+            if ( cy ) draw_hline( dest, clip, x - cx, y + cy, cx << 1 /*+1*/ ) ;
             cy-- ;
         }
         cx++ ;
@@ -994,12 +994,12 @@ void draw_line( GRAPH * dest, REGION * clip, int x, int y, int w, int h )
     int w1, h1;
 
     if ( !w ) {
-        draw_vline( dest, clip, x, y, h, update_texture ) ;
+        draw_vline( dest, clip, x, y, h ) ;
         return ;
     }
 
     if ( !h ) {
-        draw_hline( dest, clip, x, y, w, update_texture ) ;
+        draw_hline( dest, clip, x, y, w ) ;
         return ;
     }
 
@@ -1603,7 +1603,7 @@ void draw_bezier( GRAPH * dest, REGION * clip, int x1, int y1, int x2, int y2, i
         d2y += d3y;
         if (( int16_t )( xp ) != ( int16_t )( x ) || ( int16_t )( yp ) != ( int16_t )( y ) )
         {
-            draw_line( dest, clip, ( int16_t ) xp, ( int16_t ) yp, ( int16_t ) x - ( int16_t ) xp, ( int16_t ) y - ( int16_t ) yp, 0 );
+            draw_line( dest, clip, ( int16_t ) xp, ( int16_t ) yp, ( int16_t ) x - ( int16_t ) xp, ( int16_t ) y - ( int16_t ) yp );
         }
         xp = x;
         yp = y;

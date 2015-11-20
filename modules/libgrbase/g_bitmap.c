@@ -485,7 +485,7 @@ void bitmap_update_texture( GRAPH * map )
                     centery = map->height / 2 ;
                 }
                 gr_blit(aux, &clip, centerx-i*renderer_info.max_texture_width,
-                        centery-j*renderer_info.max_texture_height, B_NOCOLORKEY, map, 0);
+                        centery-j*renderer_info.max_texture_height, B_NOCOLORKEY, map);
                 if(SDL_UpdateTexture(piece->texture, NULL, aux->data, aux->pitch) < 0) {
                     SDL_Log("Error updating texture: %s", SDL_GetError());
                 }

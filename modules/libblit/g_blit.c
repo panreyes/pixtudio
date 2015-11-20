@@ -1380,7 +1380,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
 
         // Bitmap data needs to be updated on GPU VRAM
         if(gr->needs_texture_update) {
-            e_texturee_texture(gr);
+            bitmap_update_texture(gr);
             gr->needs_texture_update = 0;
         }
 
