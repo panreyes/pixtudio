@@ -107,20 +107,21 @@ DLCONSTANT  __bgdexport( mod_curl, constants_def )[] = {
     { "CURL_HTTP_VERSION_1_1"         , TYPE_DWORD, CURL_HTTP_VERSION_1_1          },
     { "CURLOPT_IGNORE_CONTENT_LENGTH" , TYPE_DWORD, CURLOPT_IGNORE_CONTENT_LENGTH  },
     { "CURLOPT_HTTP_CONTENT_DECODING" , TYPE_DWORD, CURLOPT_HTTP_CONTENT_DECODING  },
-    { "CURLOPT_HTTP_TRANSFER_DECODING", TYPE_DWORD, CURLOPT_HTTP_TRANSFER_DECODING }
+    { "CURLOPT_HTTP_TRANSFER_DECODING", TYPE_DWORD, CURLOPT_HTTP_TRANSFER_DECODING },
+    { NULL          , 0       , 0  }
 };
 
 DLSYSFUNCS __bgdexport( mod_curl, functions_exports )[] =
 {
-    { "CURL_INIT"           , ""      , TYPE_INT    , bgd_curl_easy_init      },
-    { "CURL_CLEANUP"        , "I"     , TYPE_INT    , bgd_curl_easy_cleanup   },
-    { "CURL_FORMADD"        , "IISIS" , TYPE_INT    , bgd_curl_formadd        },
-    { "CURL_FORMFREE"       , "I"     , TYPE_INT    , bgd_curl_formfree       },
-    { "CURL_SETOPT"         , "III"   , TYPE_INT    , bgd_curl_easy_setopt    },
-    { "CURL_SETOPT"         , "IIS"   , TYPE_INT    , bgd_curl_easy_setopt2   },
-    { "CURL_PERFORM"        , "IP"    , TYPE_INT    , bgd_curl_easy_perform   },
-    { "CURL_FETCH"          , "I"     , TYPE_STRING , bgd_curl_fetch          },
-    { 0                     , 0       , 0           , 0                       }
+    { "CURL_INIT"           , ""      , TYPE_INT    , 0 },
+    { "CURL_CLEANUP"        , "I"     , TYPE_INT    , 0 },
+    { "CURL_FORMADD"        , "IISIS" , TYPE_INT    , 0 },
+    { "CURL_FORMFREE"       , "I"     , TYPE_INT    , 0 },
+    { "CURL_SETOPT"         , "III"   , TYPE_INT    , 0 },
+    { "CURL_SETOPT"         , "IIS"   , TYPE_INT    , 0 },
+    { "CURL_SETOPT"         , "IIP"   , TYPE_INT    , 0 },
+    { "CURL_PERFORM"        , "IP"    , TYPE_INT    , 0 },
+    { 0                     , 0       , 0           , 0 }
 };
 #else
 extern DLCONSTANT  __bgdexport( mod_curl, constants_def )[];

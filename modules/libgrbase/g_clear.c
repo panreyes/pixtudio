@@ -49,10 +49,9 @@
  *
  */
 
-void gr_clear( GRAPH * dest )
-{
+void gr_clear( GRAPH * dest ) {
     memset( dest->data, 0, dest->pitch * dest->height ) ;
-    bitmap_update_texture(dest);
+    dest->needs_texture_update = 1;
 
     dest->modified = 1 ; /* Doesn't need analysis */
 
@@ -75,18 +74,15 @@ void gr_clear( GRAPH * dest )
  *
  */
 
-void gr_clear_as( GRAPH * dest, int color )
-{
+void gr_clear_as( GRAPH * dest, int color ) {
     uint32_t y;
 
-    if ( !color )
-    {
+    if ( !color ) {
         gr_clear( dest );
         return;
     }
 
-    switch ( dest->format->depth )
-    {
+    switch ( dest->format->depth ) {
         case 8:
         {
             memset( dest->data, color, dest->pitch * dest->height ) ;
@@ -133,7 +129,7 @@ void gr_clear_as( GRAPH * dest, int color )
         }
     }
 
-    bitmap_update_texture(dest);
+    dest->needs_texture_update = 1;
 
     dest->modified = 1 ; /* Doesn't need analysis */
     if ( dest->format->depth != 32 || ( color & 0xff000000 ) == 0xff000000 )

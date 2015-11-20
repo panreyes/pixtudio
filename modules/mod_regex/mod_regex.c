@@ -48,20 +48,84 @@ enum {
 };
 
 /* ----------------------------------------------------------------- */
-/* Definicion de variables globales (usada en tiempo de compilacion) */
-
-char * __bgdexport( mod_regex, globals_def ) = "STRING regex_reg[15];\n";
-
-/* ----------------------------------------------------------------- */
 /* Son las variables que se desea acceder.                           */
 /* El interprete completa esta estructura, si la variable existe.    */
 /* (usada en tiempo de ejecucion)                                    */
 
-DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [] =   {
+DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
-                                { "regex_reg", NULL, -1, -1 },
-                                { NULL, NULL, -1, -1 }
-                                };
+    { "regex_reg", NULL, -1, -1 },
+    { NULL, NULL, -1, -1 }
+};
+
+/* ----------------------------------------------------------------- */
+// Generic replace function based on TRE
+static int replace (const char * reg, const char * str, const char * rep, int cflags) {
+    /* Replacing is, basically,
+       splitting followed by joining */
+    int result_string = 0;
+    unsigned n=0, count = 0, total_length=0;
+    char *pieces[16];
+    char *result, *ptr;
+    regex_t pb;
+    regmatch_t pmatch[1];
+
+    if (tre_regcomp(&pb, reg, cflags) == REG_OK) {
+        // Match repeatedly, until we can't match anymore
+        while(tre_regexec(&pb, str, 1, pmatch, 0) != REG_NOMATCH) {
+            pieces[count] = malloc(pmatch[0].rm_so+1);
+            strncpy(pieces[count], str, pmatch[0].rm_so);
+            pieces[count][pmatch[0].rm_so] = '\0';
+            str += pmatch[0].rm_eo;
+            count++;
+            if (count == 16) {
+                break;
+            }
+        }
+
+        /* We're missing the last chunk of text, so
+           we add it here */
+        if(count < 15) {
+            pieces[count] = malloc(strlen(str)+1);
+            strncpy(pieces[count], str, strlen(str));
+            pieces[count][strlen(str)] = '\0';
+            count++;
+        }
+    } else {
+        // Return an empty string
+        result_string = string_new("");
+        string_use(result_string);
+        return result_string;
+    }
+
+    // Compute the total length of the resulting string
+    for(n=0; n<count; n++) {
+        total_length += strlen(pieces[n]);
+    }
+    total_length += (count-1)*strlen(rep);
+    result = malloc(total_length+1);
+    ptr = result;
+
+    // Copy the strings to result, and free the pieces
+    for(n=0; n<count; n++) {
+        memcpy(ptr, pieces[n], strlen(pieces[n]));
+        ptr += strlen(pieces[n]);
+        if(n < count-1) {
+            memcpy(ptr, rep, strlen(rep));
+            ptr += strlen(rep);
+        }
+        free(pieces[n]);
+    }
+    *ptr = 0;
+
+    // Return the new string
+    result_string = string_new(result);
+    string_use(result_string);
+
+    free(result);
+
+    return result_string;
+}
 
 /* ----------------------------------------------------------------- */
 
@@ -71,17 +135,17 @@ DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [] =   {
  *  of the match or -1 if none found.
  */
 
-static int modregex_regex (INSTANCE * my, int * params) {
+int modregex_regex (INSTANCE * my, int * params) {
     const char * reg = string_get(params[0]);
     const char * str = string_get(params[1]);
     int pos=-1;
     unsigned n;
-    
+
     regex_t pb;
     regmatch_t pmatch[1];
 
     int * regex_reg;
-    
+
     // Compile the regular expression, then match it
     if (tre_regcomp(&pb, reg, REG_EXTENDED | REG_ICASE) == REG_OK) {
         // Fill the regex_reg global variables
@@ -116,88 +180,48 @@ static int modregex_regex (INSTANCE * my, int * params) {
     return pos;
 }
 
-/** REGEX_REPLACE (STRING pattern, STRING string, STRING replacement)
- *  Match a regular expresion to the given string. For each
- *  match, substitute it with the given replacement. \0 - \9
- *  escape sequences are accepted in the replacement.
+/** STR_REPLACE (STRING search, STRING string, STRING replacement)
+ *  Replaces the given "search" occurences in "string" for
+ * "replacement".
  *  Returns the resulting string. REGEX_REG variables are
  *  filled with information about the first match.
  */
-static int modregex_regex_replace (INSTANCE * my, int * params) {
+int modregex_string_replace (INSTANCE * my, int * params) {
     /* Replacing is, basically,
        splitting followed by joining */
-    int result_string = 0;
-    unsigned n=0, count = 0, total_length=0;
-    char *pieces[16];
-    char *result, *ptr;
-    regex_t pb;
-    regmatch_t pmatch[1];
     const char * reg = string_get(params[0]);
     const char * str = string_get(params[1]);
     const char * rep = string_get(params[2]);
 
-    if (tre_regcomp(&pb, reg, REG_EXTENDED) == REG_OK) {
-        // Match repeatedly, until we can't match anymore
-        while(tre_regexec(&pb, str, 1, pmatch, 0) != REG_NOMATCH) {
-            pieces[count] = malloc(pmatch[0].rm_so+1);
-            strncpy(pieces[count], str, pmatch[0].rm_so);
-            pieces[count][pmatch[0].rm_so] = '\0';
-            str += pmatch[0].rm_eo;
-            count++;
-            if (count == 16) {
-                break;
-            }
-        }
-
-        /* We're missing the last chunk of text, so
-           we add it here */
-        if(count < 15) {
-            pieces[count] = malloc(strlen(str)+1);
-            strncpy(pieces[count], str, strlen(str));
-            pieces[count][strlen(str)] = '\0';
-            count++;
-        }
-    } else {
-        // Free resource
-        string_discard(params[0]);
-        string_discard(params[1]);
-        string_discard(params[2]);
-
-        // Return an empty string
-        result_string = string_new("");
-        string_use(result_string);
-        return result_string;
-    }
-
-    // Compute the total length of the resulting string
-    for(n=0; n<count; n++) {
-        total_length += strlen(pieces[n]);
-    }
-    total_length += (count-1)*strlen(rep);
-    result = malloc(total_length+1);
-    ptr = result;
-
-    // Copy the strings to result, and free the pieces
-    for(n=0; n<count; n++) {
-        memcpy(ptr, pieces[n], strlen(pieces[n]));
-        ptr += strlen(pieces[n]);
-        if(n < count-1) {
-            memcpy(ptr, rep, strlen(rep));
-            ptr += strlen(rep);
-        }
-        free(pieces[n]);
-    }
-    *ptr = 0;
-
-    // Return the new string
-    result_string = string_new(result);
-    string_use(result_string);
+    int result_string = replace(reg, str, rep, REG_LITERAL);
 
     // Free resource
     string_discard(params[0]);
     string_discard(params[1]);
     string_discard(params[2]);
-    free(result);
+
+    return result_string;
+}
+
+/** REGEX_REPLACE (STRING pattern, STRING string, STRING replacement)
+ *  Match a regular expresion to the given string. For each
+ *  match, substitute it with the given replacement.
+ *  Returns the resulting string. REGEX_REG variables are
+ *  filled with information about the first match.
+ */
+int modregex_regex_replace (INSTANCE * my, int * params) {
+    /* Replacing is, basically,
+       splitting followed by joining */
+    const char * reg = string_get(params[0]);
+    const char * str = string_get(params[1]);
+    const char * rep = string_get(params[2]);
+
+    int result_string = replace(reg, str, rep, REG_EXTENDED);
+
+    // Free resource
+    string_discard(params[0]);
+    string_discard(params[1]);
+    string_discard(params[2]);
 
     return result_string;
 }
@@ -209,7 +233,7 @@ static int modregex_regex_replace (INSTANCE * my, int * params) {
  *
  */
 
-static int modregex_split (INSTANCE * my, int * params) {
+int modregex_split (INSTANCE * my, int * params) {
     const char * reg = string_get(params[0]);
     const char * str = string_get(params[1]);
     int * result_array = (int *)params[2];
@@ -256,8 +280,7 @@ static int modregex_split (INSTANCE * my, int * params) {
  *  resulting string.
  */
 
-static int modregex_join (INSTANCE * my, int * params)
-{
+int modregex_join (INSTANCE * my, int * params) {
     const char * sep = string_get(params[0]);
     int * string_array = (int *)params[1];
     int count = params[2] ;
@@ -292,13 +315,3 @@ static int modregex_join (INSTANCE * my, int * params)
     return result;
 }
 
-/* ---------------------------------------------------------------------- */
-
-DLSYSFUNCS __bgdexport( mod_regex, functions_exports) [] = {
-    /* Regex */
-    { "REGEX"                , "SS"    , TYPE_INT    , modregex_regex           },
-    { "REGEX_REPLACE"        , "SSS"   , TYPE_STRING , modregex_regex_replace   },
-    { "SPLIT"                , "SSPI"  , TYPE_INT    , modregex_split           },
-    { "JOIN"                 , "SPI"   , TYPE_STRING , modregex_join            },
-    { 0                      , 0       , 0           , 0                        }
-};

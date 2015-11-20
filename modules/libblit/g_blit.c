@@ -1333,8 +1333,7 @@ void gr_get_bbox( REGION * dest, REGION * clip, int x, int y, int flags, int ang
  *
  */
 
-void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, int angle, int scalex, int scaley, GRAPH * gr )
-{
+void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, int angle, int scalex, int scaley, GRAPH * gr ) {
     _POINTF corners[4];
     _POINT  min, max;
     VERTEX  vertex[4];
@@ -1377,6 +1376,12 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
     if( scrbitmap && dest == scrbitmap ) {
         if(! gr->texture) {
             return;
+        }
+
+        // Bitmap data needs to be updated on GPU VRAM
+        if(gr->needs_texture_update) {
+            e_texturee_texture(gr);
+            gr->needs_texture_update = 0;
         }
 
         // Consider control points when drawing
@@ -1852,8 +1857,8 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
                 }
             }
         }
-        // Update the texture
-        bitmap_update_texture(dest);
+        // Mark the graph as needing texture update
+        dest->needs_texture_update = 1;
     }
 
     dest->info_flags &= ~GI_CLEAN;
@@ -1877,8 +1882,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
  *
  */
 
-void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH * gr, int update_texture )
-{
+void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH * gr ) {
     _POINT  min, max;
     _POINT  center;
     SDL_Rect dstRect;
@@ -1903,6 +1907,12 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
     if( scrbitmap && dest == scrbitmap ) {
         if(! gr->texture) {
             return;
+        }
+
+        // Bitmap data needs to be updated on GPU VRAM
+        if(gr->needs_texture_update) {
+            bitmap_update_texture(gr);
+            gr->needs_texture_update = 0;
         }
 
         // Consider control points when drawing
@@ -2271,10 +2281,8 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
 
         if ( p > 0 ) draw_hspan( scr, tex, p, direction, l, scr_inc, tex_inc );
 
-        // Update the texture
-        if(update_texture) {
-            bitmap_update_texture(dest);
-        }
+        // Mark the graph for texture update on next blit
+        dest->needs_texture_update = 1;
     }
 
     dest->info_flags &= ~GI_CLEAN;

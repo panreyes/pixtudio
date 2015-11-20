@@ -136,7 +136,7 @@ static GRAPH * gr_read_map( file * fp )
     gr->format->palette = pal;
 /*    pal_use( pal ); */
 
-    bitmap_update_texture(gr);
+    gr->needs_texture_update = 1;
 
     gr->modified = 0 ;
     bitmap_analyze( gr );

@@ -55,6 +55,14 @@ BEGIN
 END
 
 
+PROCESS string_replace_test()
+PRIVATE
+    string str = "A,[A-z],E";
+BEGIN
+    say(string_replace("[A-z]", str, "Gotcha!"));
+END
+
+
 PROCESS main()
 BEGIN
    say("REGEX() test:");
@@ -66,4 +74,7 @@ BEGIN
    say("REGEX_REPLACE() test:");
    say("=====================");
    regex_replace_test();
+   say("STRING_REPLACE() test:");
+   say("======================");
+   string_replace_test();
 END

@@ -341,8 +341,7 @@ static void mouse_draw( INSTANCE * i, REGION * clip )
             GLOINT32( libmouse, MOUSEX ),
             GLOINT32( libmouse, MOUSEY ),
             GLODWORD( libmouse, MOUSEFLAGS ),
-            mouse_map,
-            1 ) ;
+            mouse_map ) ;
 
     mouse_map->modified = 0;
 }

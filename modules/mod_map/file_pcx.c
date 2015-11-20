@@ -168,7 +168,7 @@ GRAPH * gr_read_pcx( const char * filename )
         return NULL;
     }
 
-    bitmap_update_texture(bitmap);
+    bitmap->needs_texture_update = 1;
 
     bitmap->modified = 0 ;
     bitmap_analyze( bitmap );

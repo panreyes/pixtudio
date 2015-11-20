@@ -17,6 +17,8 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(LOCAL_PATH)/../../../../3rdparty/theoraplay/ \
 	$(LOCAL_PATH)/../../../../3rdparty/libtheora/include/ \
 	$(LOCAL_PATH)/../../../../3rdparty/SDL_mixer/external/libvorbis-1.3.3/include \
+	$(LOCAL_PATH)/../../../../3rdparty/tre/lib \
+	$(LOCAL_PATH)/../../../../3rdparty/openal-soft/include/ \
 	$(MODULES_PATH)/libbgload/ \
 	$(MODULES_PATH)/mod_say/ \
 	$(MODULES_PATH)/mod_string/ \
@@ -54,6 +56,7 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/libwm/ \
 	$(MODULES_PATH)/mod_wm/ \
 	$(MODULES_PATH)/mod_sys/ \
+	$(MODULES_PATH)/mod_regex/ \
 	$(MODULES_PATH)/mod_multi/ \
 	$(MODULES_PATH)/mod_curl/ \
 	$(MODULES_PATH)/mod_gamecontroller/ \
@@ -70,11 +73,10 @@ LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-DNO_MODICONV \
 	-DNO_MODFMODEX \
 	-DNO_FSOCK \
-    -DNO_MODSENSOR \
-	-DNO_MODREGEX \
-    -DNO_MODCHIPMUNK \
-    -DNO_MODDEBUG \
-    -DNO_MODBLENDOP \
+	-DNO_MODSENSOR \
+	-DNO_MODCHIPMUNK \
+	-DNO_MODDEBUG \
+	-DNO_MODBLENDOP \
 	-DWITH_SDLRWOPS \
 	-ffast-math \
 	-O3
@@ -98,7 +100,7 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_say/mod_say.c \
 	../../../../modules/mod_string/mod_string.c \
 	../../../../modules/mod_math/mod_math.c \
-    ../../../../modules/mod_mem/mod_mem.c \
+	../../../../modules/mod_mem/mod_mem.c \
 	../../../../modules/mod_time/mod_time.c \
 	../../../../modules/mod_file/mod_file.c \
 	../../../../modules/mod_sound/mod_sound.c \
@@ -151,6 +153,7 @@ LOCAL_SRC_FILES := \
 	../../../../modules/libwm/libwm.c \
 	../../../../modules/mod_wm/mod_wm.c \
 	../../../../modules/mod_sys/mod_sys.c \
+	../../../../modules/mod_regex/mod_regex.c \
 	../../../../modules/mod_multi/mod_multi.c \
 	../../../../modules/mod_curl/mod_curl.c \
 	../../../../modules/mod_gamecontroller/mod_gamecontroller.c \
@@ -162,6 +165,6 @@ LOCAL_SRC_FILES := \
 
 LOCAL_LDLIBS := -llog -ldl -lz
 LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png theora openal
-LOCAL_STATIC_LIBRARIES += curl
+LOCAL_STATIC_LIBRARIES += curl tre
 
 include $(BUILD_SHARED_LIBRARY)

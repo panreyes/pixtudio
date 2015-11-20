@@ -63,7 +63,7 @@ INCLUDES	:=	../../core/pxtb/include \
 				../../core/include \
 				../../3rdparty/SDL/include/ \
 				../../modules/libbgload/ \
-                                ../../modules/mod_debug/ \
+				../../modules/mod_debug/ \
 				../../modules/mod_say/ \
 				../../modules/mod_string/ \
 				../../modules/mod_math/ \
@@ -88,7 +88,7 @@ INCLUDES	:=	../../core/pxtb/include \
 				../../modules/mod_video/ \
 				../../modules/libmouse/ \
 				../../modules/mod_mouse/ \
-                                ../../modules/mod_multi/ \
+				../../modules/mod_multi/ \
 				../../modules/mod_map/ \
 				../../modules/libfont/ \
 				../../modules/mod_dir/ \
@@ -107,14 +107,15 @@ INCLUDES	:=	../../core/pxtb/include \
 				../../modules/mod_sys/ \
 				../../modules/mod_regex/ \
 				../../modules/mod_fsock/ \
-				../../modules/mod_effects/
+				../../modules/mod_effects/ \
+				../../modules/mod_curl/
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
 CFLAGS		=	-g -O2 -Wall -D__PXTB__ -D__MONOLITHIC__ -DNO_MODIMAGE -DNO_MODMATHI \
-	-DNO_MODIMAGE -DNO_MODICONV -DNO_MODFMODEX -DNO_MODCHIPMUNK -DNO_MODCURL \
+	-DNO_MODIMAGE -DNO_MODICONV -DNO_MODFMODEX -DNO_MODCHIPMUNK \
 	-DNO_MODSENSOR -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE)
 CXXFLAGS	=	-save-temps -Xassembler -aln=$@.lst $(CFLAGS)
 LDFLAGS		=	-g $(MACHDEP)
@@ -174,8 +175,6 @@ export OFILES	:=	$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) \
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					-I$(CURDIR)/$(BUILD) \
-					-I$(CURDIR)/../../3rdparty/SDL-1.3/linux/include/ \
-					-I$(CURDIR)/../../3rdparty/SDL-1.3/linux/include/SDL/ \
 					-I/usr/include
 
 #---------------------------------------------------------------------------------

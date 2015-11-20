@@ -59,8 +59,8 @@ extern uint16_t * pixel_alpha16 ;
 /* --------------------------------------------------------------------------- */
 
 extern int gr_get_pixel( GRAPH * dest, int x, int y );
-extern void gr_put_pixel(GRAPH * dest, int x, int y, int color , int update_texture);
-extern void gr_put_pixelc(GRAPH * dest, REGION * clip, int x, int y, int color , int update_texture);
+extern void gr_put_pixel(GRAPH * dest, int x, int y, int color);
+extern void gr_put_pixelc(GRAPH * dest, REGION * clip, int x, int y, int color);
 extern void gr_setalpha( int value );
 extern void gr_setcolor( int c );
 

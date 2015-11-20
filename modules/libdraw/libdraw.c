@@ -282,7 +282,7 @@ _inline void _HLine32_stipple( uint32_t * ptr, uint32_t length )
  *
  */
 
-void draw_vline(GRAPH * dest, REGION * clip, int x, int y, int h , int update_texture)
+void draw_vline(GRAPH * dest, REGION * clip, int x, int y, int h)
 {
     REGION base_clip ;
     int old_stipple = drawing_stipple;
@@ -547,9 +547,7 @@ void draw_vline(GRAPH * dest, REGION * clip, int x, int y, int h , int update_te
 
     drawing_stipple = old_stipple;
 
-    if(update_texture) {
-        bitmap_update_texture(dest);
-    }
+    dest->needs_texture_update = 1;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -569,7 +567,7 @@ void draw_vline(GRAPH * dest, REGION * clip, int x, int y, int h , int update_te
  *
  */
 
-void draw_hline( GRAPH * dest, REGION * clip, int x, int y, int w, int update_texture )
+void draw_hline( GRAPH * dest, REGION * clip, int x, int y, int w )
 {
     REGION base_clip ;
     int old_stipple = drawing_stipple;
@@ -687,9 +685,7 @@ void draw_hline( GRAPH * dest, REGION * clip, int x, int y, int w, int update_te
 
     drawing_stipple = old_stipple;
 
-    if(update_texture) {
-        bitmap_update_texture(dest);
-    }
+    dest->needs_texture_update = 1;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -710,8 +706,7 @@ void draw_hline( GRAPH * dest, REGION * clip, int x, int y, int w, int update_te
  *
  */
 
-void draw_box( GRAPH * dest, REGION * clip, int x, int y, int w, int h )
-{
+void draw_box( GRAPH * dest, REGION * clip, int x, int y, int w, int h ) {
     REGION base_clip ;
 
     if ( !dest ) dest = scrbitmap ;
@@ -800,7 +795,7 @@ void draw_box( GRAPH * dest, REGION * clip, int x, int y, int w, int h )
         break;
     }
 
-    bitmap_update_texture(dest);
+    dest->needs_texture_update = 1;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -821,8 +816,7 @@ void draw_box( GRAPH * dest, REGION * clip, int x, int y, int w, int h )
  *
  */
 
-void draw_rectangle( GRAPH * dest, REGION * clip, int x, int y, int w, int h )
-{
+void draw_rectangle( GRAPH * dest, REGION * clip, int x, int y, int w, int h ) {
     int stipple = drawing_stipple ;
     int iw, ih;
 
@@ -836,7 +830,7 @@ void draw_rectangle( GRAPH * dest, REGION * clip, int x, int y, int w, int h )
 
     drawing_stipple = stipple ;
 
-    bitmap_update_texture(dest);
+    dest->needs_texture_update = 1;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -926,7 +920,7 @@ void draw_circle( GRAPH * dest, REGION * clip, int x, int y, int r )
 
     drawing_stipple = old_stipple;
 
-    bitmap_update_texture(dest);
+    dest->needs_texture_update = 1;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -971,7 +965,7 @@ void draw_fcircle( GRAPH * dest, REGION * clip, int x, int y, int r ) {
 
     drawing_stipple = old_stipple;
 
-    bitmap_update_texture(dest);
+    dest->needs_texture_update = 1;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -991,7 +985,7 @@ void draw_fcircle( GRAPH * dest, REGION * clip, int x, int y, int r ) {
  *
  */
 
-void draw_line( GRAPH * dest, REGION * clip, int x, int y, int w, int h, int update_texture )
+void draw_line( GRAPH * dest, REGION * clip, int x, int y, int w, int h )
 {
     int n, m, hinc, vinc ;
     REGION base_clip ;
@@ -999,29 +993,24 @@ void draw_line( GRAPH * dest, REGION * clip, int x, int y, int w, int h, int upd
     int i1, i2, dd ;
     int w1, h1;
 
-    if ( !w )
-    {
+    if ( !w ) {
         draw_vline( dest, clip, x, y, h, update_texture ) ;
         return ;
     }
 
-    if ( !h )
-    {
+    if ( !h ) {
         draw_hline( dest, clip, x, y, w, update_texture ) ;
         return ;
     }
 
     if ( !dest ) dest = scrbitmap ;
-    if ( !clip )
-    {
+    if ( !clip ) {
         clip = &base_clip ;
         clip->x = 0 ;
         clip->y = 0 ;
         clip->x2 = dest->width - 1 ;
         clip->y2 = dest->height - 1 ;
-    }
-    else
-    {
+    } else {
         base_clip = *clip ;
         clip = &base_clip ;
         clip->x = MAX( MIN( clip->x, clip->x2 ), 0 ) ;
@@ -1040,54 +1029,46 @@ void draw_line( GRAPH * dest, REGION * clip, int x, int y, int w, int h, int upd
 
     /* TODO: Line clipping must be fixed */
 
-    if ( x < clip->x )
-    { /* izquierda */
+    if ( x < clip->x ) { /* izquierda */
         if (( x + w ) < clip->x ) return ;
         n = clip->x - x;
         m = w ? ( n * h ) / ABS( w ) : 0;
         x += n, w -= n, y += m, h -= m ;    // if (w == 0) return ;
     }
-    if (( x + w ) < clip->x )
-    { /* w < 0 */
+    if (( x + w ) < clip->x ) { /* w < 0 */
         n = clip->x - ( x + w );
         m = w ? ( n * h ) / ABS( w ) : 0;
         w += n, h -= m ; // if (w == 0) return ;
     }
-    if ( y < clip->y )
-    { /* arriba */
+    if ( y < clip->y ) { /* arriba */
         if (( y + h ) < clip->y ) return ;
         m = clip->y - y;
         n = h ? ( m * w ) / ABS( h ) : 0;
         x += n, w -= n, y += m, h -= m ; // if (h == 0) return ;
     }
-    if (( y + h ) < clip->y )
-    { /* h < 0 */
+    if (( y + h ) < clip->y ) { /* h < 0 */
         m = clip->y - ( y + h );
         n = h ? ( m * w ) / ABS( h ) : 0;
         w -= n, h += m ; // if (h == 0) return ;
     }
-    if ( x > clip->x2 )
-    { /* derecha */
+    if ( x > clip->x2 ) { /* derecha */
         if (( x + w ) > clip->x2 ) return ;
         n = x - clip->x2;
         m = w ? ( n * h ) / ABS( w ) : 0;
         x -= n, w += n, y += m, h -= m ; // if (w == 0) return ;
     }
-    if (( x + w ) > clip->x2 )
-    { /* w > 0 */
+    if (( x + w ) > clip->x2 ) { /* w > 0 */
         n = ( x + w ) - clip->x2;
         m = w ? ( n * h ) / ABS( w ) : 0;
         w -= n, h -= m ; // if (w == 0) return ;
     }
-    if ( y > clip->y2 )
-    { /* abajo */
+    if ( y > clip->y2 ) { /* abajo */
         if (( y + h ) > clip->y2 ) return ;
         m = y - clip->y2;
         n = h ? ( m * w ) / ABS( h ) : 0;
         x += n, w -= n, y -= m, h += m ; // if (h == 0) return ;
     }
-    if (( y + h ) > clip->y2 )
-    { /* h > 0 */
+    if (( y + h ) > clip->y2 ) { /* h > 0 */
         m = ( y + h ) - clip->y2;
         n = h ? ( m * w ) / ABS( h ) : 0;
         w -= n, h -= m ; // if (h == 0) return ;
@@ -1103,23 +1084,19 @@ void draw_line( GRAPH * dest, REGION * clip, int x, int y, int w, int h, int upd
     w = ABS( w );
     h = ABS( h );
 
-    if ( w > h )
-    {
+    if ( w > h ) {
         i1 = 2 * h1;
         dd = i1 - w1;
         i2 = dd - w1;
         dd -= w1 - w;
-    }
-    else
-    {
+    } else {
         i1 = 2 * w1;
         dd = i1 - h1;
         i2 = dd - h1;
         dd -= h1 - h;
     }
 
-    switch ( dest->format->depth )
-    {
+    switch ( dest->format->depth ) {
         case 1:
         {
             uint8_t * ptr = dest->data + dest->pitch * y + ( x >> 3 ) ;
@@ -1552,9 +1529,7 @@ void draw_line( GRAPH * dest, REGION * clip, int x, int y, int w, int h, int upd
 
     drawing_stipple = old_stipple;
 
-    if(update_texture) {
-        bitmap_update_texture(dest);
-    }
+    dest->needs_texture_update = 1;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -1579,8 +1554,7 @@ void draw_line( GRAPH * dest, REGION * clip, int x, int y, int w, int h, int upd
  *
  */
 
-void draw_bezier( GRAPH * dest, REGION * clip, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int level )
-{
+void draw_bezier( GRAPH * dest, REGION * clip, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int level ) {
     float x = ( float ) x1, y = ( float ) y1;
     float xp = x, yp = y;
     float delta;
@@ -1620,8 +1594,7 @@ void draw_bezier( GRAPH * dest, REGION * clip, int x1, int y1, int x2, int y2, i
     d2y = d3y + 2 * b * delta * delta;
     dy = a * delta * delta * delta + b * delta * delta + c * delta;
 
-    for ( i = 0; i < n; i++ )
-    {
+    for ( i = 0; i < n; i++ ) {
         x += dx;
         dx += d2x;
         d2x += d3x;
@@ -1636,7 +1609,7 @@ void draw_bezier( GRAPH * dest, REGION * clip, int x1, int y1, int x2, int y2, i
         yp = y;
     }
 
-    bitmap_update_texture(dest);
+    dest->needs_texture_update = 1;
 }
 
 /* --------------------------------------------------------------------------- */
