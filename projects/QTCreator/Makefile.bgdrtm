@@ -221,9 +221,13 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 				../../../modules/mod_effects/mod_effects.c \
 				../../../modules/mod_curl/mod_curl.c
 
-UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S),Darwin)
-MFILES		:=	../../../modules/mod_wm/locale/darwin.m
+ifeq ($(OS),Windows_NT)
+	CFILES += ../../../modules/mod_wm/locale/win32.c
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Darwin)
+		MFILES		:=	../../../modules/mod_wm/locale/darwin.m
+	endif
 endif
 
 #---------------------------------------------------------------------------------

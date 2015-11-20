@@ -2,6 +2,7 @@
 IMPORT "mod_say";
 IMPORT "mod_debug";
 IMPORT "mod_regex";
+IMPORT "mod_wm"
 
 
 PROCESS regex_test()
@@ -66,4 +67,6 @@ BEGIN
    say("REGEX_REPLACE() test:");
    say("=====================");
    regex_replace_test();
+
+   say(get_locale());
 END
