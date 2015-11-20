@@ -35,17 +35,18 @@
 DLSYSFUNCS __bgdexport( mod_wm, functions_exports )[] =
 {
     /* Funciones de ventana */
-    { "SET_TITLE"           , "S"   , TYPE_INT , 0 },
-    { "SET_ICON"            , "II"  , TYPE_INT , 0 },
-    { "MINIMIZE"            , ""    , TYPE_INT , 0 },
-    { "MOVE_WINDOW"         , "II"  , TYPE_INT , 0 },
-    { "SET_WINDOW_POS"      , "II"  , TYPE_INT , 0 },
-    { "GET_WINDOW_POS"      , "PP"  , TYPE_INT , 0 },
-    { "GET_WINDOW_SIZE"     , "PPPP", TYPE_INT , 0 },
-    { "GET_DESKTOP_SIZE"    , "PP"  , TYPE_INT , 0 },
-    { "DISABLE_SCREENSAVER" , ""    , TYPE_INT , 0 },
-    { "ENABLE_SCREENSAVER"  , ""    , TYPE_INT , 0 },
-    { 0                     , 0     , 0        , 0 }
+    { "SET_TITLE"           , "S"   , TYPE_INT    , 0 },
+    { "SET_ICON"            , "II"  , TYPE_INT    , 0 },
+    { "MINIMIZE"            , ""    , TYPE_INT    , 0 },
+    { "MOVE_WINDOW"         , "II"  , TYPE_INT    , 0 },
+    { "SET_WINDOW_POS"      , "II"  , TYPE_INT    , 0 },
+    { "GET_WINDOW_POS"      , "PP"  , TYPE_INT    , 0 },
+    { "GET_WINDOW_SIZE"     , "PPPP", TYPE_INT    , 0 },
+    { "GET_DESKTOP_SIZE"    , "PP"  , TYPE_INT    , 0 },
+    { "DISABLE_SCREENSAVER" , ""    , TYPE_INT    , 0 },
+    { "ENABLE_SCREENSAVER"  , ""    , TYPE_INT    , 0 },
+    { "GET_LOCALE"          , ""    , TYPE_STRING , 0 },
+    { 0                     , 0     , 0           , 0 }
 };
 
 char * __bgdexport( mod_wm, modules_dependency )[] =

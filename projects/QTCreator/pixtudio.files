@@ -937,3 +937,5 @@
 ../../core/pxtp/include/pxtp.h
 ../../core/pxtp/src/main.c
 ../../modules/mod_theora/mod_theora_symbols.h
+../../modules/mod_wm/locale/darwin.m
+../../modules/mod_wm/locale/get_locale.h
