@@ -226,7 +226,9 @@ ifeq ($(OS),Windows_NT)
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Darwin)
-		MFILES		:=	../../../modules/mod_wm/locale/darwin.m
+		MFILES := ../../../modules/mod_wm/locale/darwin.m
+	else
+		CFILES += ../../../modules/mod_wm/locale/env.c
 	endif
 endif
 

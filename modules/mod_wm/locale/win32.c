@@ -24,11 +24,11 @@
  *
  */
 
-#include <stdio.h>
 #include <Windows.h>
 
 char locale[6];
 
+// get_locale implementation using the win32 API
 const char *get_locale() {
     GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SISO639LANGNAME,
                   locale, 3);

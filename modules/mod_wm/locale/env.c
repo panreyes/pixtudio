@@ -24,9 +24,31 @@
  *
  */
 
-#import <Foundation/Foundation.h>
+#include <stdlib.h>
+#include <string.h>
 
-// get_locale implementation using the darwin (OS X/iOS) API
+char locale[6];
+
+int copy_locale_var(const char *varname, char *dest) {
+    char *full_locale = getenv("LANG");
+    if(full_locale != NULL) {
+        memcpy(locale, full_locale, 5);
+        locale[5] = '\0';
+
+        return 1;
+    }
+
+    return -1;
+}
+
+// get_locale implementation reading the LANG environment variable
+// returns en_US on failure
 const char *get_locale() {
-    return [[[NSLocale currentLocale] localeIdentifier] UTF8String];
+    if(copy_locale_var("LANG", locale) > 0) {
+        return (const char *)locale;
+    } else if(copy_locale_var("LC_ALL", locale) > 0) {
+        return (const char *)locale;
+    }
+
+    return "en_US";
 }
