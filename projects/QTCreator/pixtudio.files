@@ -941,3 +941,4 @@
 ../../modules/mod_wm/locale/get_locale.h
 ../../modules/mod_wm/locale/env.c
 ../../modules/mod_wm/locale/win32.c
+../../modules/mod_wm/locale/android.c
