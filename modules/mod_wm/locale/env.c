@@ -31,9 +31,15 @@ char locale[6];
 
 int copy_locale_var(const char *varname, char *dest) {
     char *full_locale = getenv("LANG");
+
     if(full_locale != NULL) {
-        memcpy(locale, full_locale, 5);
-        locale[5] = '\0';
+        uint8_t n = strlen(full_locale);
+        if(n > 5) {
+            n = 5;
+        }
+
+        memcpy(locale, full_locale, n);
+        locale[n] = '\0';
 
         return 1;
     }
