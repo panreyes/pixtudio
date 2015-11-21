@@ -56,5 +56,5 @@ const char *get_locale() {
         return (const char *)locale;
     }
 
-    return "en_US";
+    return "(-_-)";
 }
