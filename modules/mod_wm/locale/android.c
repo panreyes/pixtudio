@@ -25,7 +25,6 @@
  */
 
 #include <SDL.h>
-//#include <android/configuration.h>
 #include <jni.h>
 
 char locale[6];
