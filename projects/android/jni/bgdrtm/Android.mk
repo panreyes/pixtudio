@@ -152,6 +152,7 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_path/mod_path.c \
 	../../../../modules/libwm/libwm.c \
 	../../../../modules/mod_wm/mod_wm.c \
+	../../../../modules/mod_wm/locale/android.c \
 	../../../../modules/mod_sys/mod_sys.c \
 	../../../../modules/mod_regex/mod_regex.c \
 	../../../../modules/mod_multi/mod_multi.c \
