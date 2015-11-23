@@ -33,18 +33,9 @@
 /* --------------------------------------------------------------------------- */
 
 #include "libgrbase.h"
+#include "g_blitflags.h"
 
 /* --------------------------------------------------------------------------- */
-/* Flags para gr_blit                                                          */
-
-#define B_HMIRROR       0x0001
-#define B_VMIRROR       0x0002
-#define B_TRANSLUCENT   0x0004      // Deprecated
-#define B_ALPHA         0x0008
-#define B_ABLEND        0x0010
-#define B_SBLEND        0x0020
-#define B_MBLEND        0x0040
-#define B_NOCOLORKEY    0x0080
 
 #define B_ALPHA_MASK    0xFF00
 #define B_ALPHA_SHIFT   8

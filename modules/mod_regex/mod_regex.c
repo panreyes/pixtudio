@@ -41,6 +41,10 @@
 #include "dlvaracc.h"
 #include <tre/tre.h>
 
+#ifndef __MONOLITHIC__
+#include "mod_regex_symbols.h"
+#endif
+
 /* ----------------------------------------------------------------- */
 
 enum {

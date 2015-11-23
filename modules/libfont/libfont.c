@@ -40,6 +40,10 @@
 #include "libfont.h"
 #include "systemfont.h"
 
+#ifndef __MONOLITHIC__
+#include "libfont_symbols.h"
+#endif
+
 /* --------------------------------------------------------------------------- */
 
 FONT * fonts[MAX_FONTS] = { 0 } ;
@@ -465,13 +469,5 @@ void __bgdexport( libfont, module_initialize )()
 {
     gr_font_systemfont( ( char * ) default_font );
 }
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( libfont, modules_dependency )[] =
-{
-    "libgrbase",
-    NULL
-};
 
 /* --------------------------------------------------------------------------- */

@@ -1,8 +1,5 @@
 /*
  *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
- *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright (C) 2002-2006 Fenix Team (Fenix)
- *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -27,30 +24,6 @@
  *
  */
 
-/* --------------------------------------------------------------------------- */
-
-#include <stdlib.h>
-
-/* --------------------------------------------------------------------------- */
-
-#include "bgddl.h"
-
-#include "libblit.h"
-
-/* --------------------------------------------------------------------------- */
-
-DLCONSTANT __bgdexport( libblit, constants_def )[] =
-{
-    /* Flags para gr_blit */
-    { "B_HMIRROR"           , TYPE_DWORD, B_HMIRROR     },
-    { "B_VMIRROR"           , TYPE_DWORD, B_VMIRROR     },
-    { "B_ALPHA"             , TYPE_DWORD, B_ALPHA       },
-    { "B_ABLEND"            , TYPE_DWORD, B_ABLEND      },
-    { "B_SBLEND"            , TYPE_DWORD, B_SBLEND      },
-    { "B_MBLEND"            , TYPE_DWORD, B_MBLEND      },
-    { "B_NOCOLORKEY"        , TYPE_DWORD, B_NOCOLORKEY  },
-
-    { NULL                  , 0         ,  0            }
-} ;
-
-/* --------------------------------------------------------------------------- */
+#ifndef __MONOLITHIC__
+#include "libblit_symbols.h"
+#endif

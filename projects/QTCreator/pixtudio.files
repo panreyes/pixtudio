@@ -661,7 +661,6 @@
 ../../modules/libblit/g_blit.h
 ../../modules/libblit/g_pixel.c
 ../../modules/libblit/g_pixel.h
-../../modules/libblit/libblit.c
 ../../modules/libblit/libblit.h
 ../../modules/libblit/libblit_symbols.h
 ../../modules/libdraw/libdraw.c
@@ -942,3 +941,5 @@
 ../../modules/mod_wm/locale/env.c
 ../../modules/mod_wm/locale/win32.c
 ../../modules/mod_wm/locale/android.c
+../../modules/libblit/g_blitflags.h
+../../modules/libblit/libblit.c

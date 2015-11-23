@@ -32,7 +32,10 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
+#ifndef __PXTB__
+extern void __bgdexport( libfont, module_initialize )();
+#endif
+
 /* --------------------------------------------------------------------------- */
 
 char * __bgdexport( libfont, modules_dependency )[] =
@@ -40,8 +43,4 @@ char * __bgdexport( libfont, modules_dependency )[] =
     "libgrbase",
     NULL
 };
-#else
-extern void __bgdexport( libfont, module_initialize )();
-extern char __bgdexport( libfont, modules_dependency )[];
-#endif
 #endif

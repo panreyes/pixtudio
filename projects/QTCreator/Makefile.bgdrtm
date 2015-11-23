@@ -181,7 +181,6 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 				../../../modules/libgrbase/libgrbase.c \
 				../../../modules/libblit/g_blit.c \
 				../../../modules/libblit/g_pixel.c \
-				../../../modules/libblit/libblit.c \
 				../../../modules/libvideo/g_regions.c \
 				../../../modules/libvideo/g_video.c \
 				../../../modules/librender/g_fade.c \

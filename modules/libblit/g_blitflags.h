@@ -1,7 +1,5 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright Â© 2002-2006 Fenix Team (Fenix)
- *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
  *
  *  This file is part of PixTudio
  *
@@ -26,19 +24,16 @@
  *
  */
 
-#ifndef __GRBASE_SYMBOLS_H
-#define __GRBASE_SYMBOLS_H
+#ifndef G_BLITFLAGS_H
+#define G_BLITFLAGS_H
 
-#include <bgddl.h>
+#define B_HMIRROR       0x0001
+#define B_VMIRROR       0x0002
+#define B_ALPHA         0x0008
+#define B_ABLEND        0x0010
+#define B_SBLEND        0x0020
+#define B_MBLEND        0x0040
+#define B_NOCOLORKEY    0x0080
 
-#ifndef __PXTB__
-extern DLVARFIXUP __bgdexport( libgrbase, globals_fixup )[];
-extern void __bgdexport( libgrbase, module_initialize )();
-#endif
+#endif // G_BLITFLAGS_H
 
-/* Global vars */
-
-char __bgdexport( libgrbase, globals_def )[] =
-    "alpha_steps = 16;\n"
-    ;
-#endif
