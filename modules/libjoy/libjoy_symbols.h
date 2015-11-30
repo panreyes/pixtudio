@@ -32,7 +32,10 @@
 #include <bgddl.h>
 #include <SDL_joystick.h>
 
-#ifdef __PXTB__
+#ifndef __PXTB__
+extern void __bgdexport( libjoy, module_initialize )();
+extern void __bgdexport( libjoy, module_finalize )();
+#endif
 /* --------------------------------------------------------------------------- */
 /* Funciones de inicializacion del modulo/plugin                               */
 
@@ -57,11 +60,5 @@ char *__bgdexport( libjoy, modules_dependency )[] =
     "libsdlhandler",
     NULL
 };
-#else
-extern DLCONSTANT __bgdexport( libjoy, constants_def )[];
-extern void __bgdexport( libjoy, module_initialize )();
-extern void __bgdexport( libjoy, module_finalize )();
-extern char __bgdexport( libjoy, modules_dependency )[];
-#endif
 
 #endif

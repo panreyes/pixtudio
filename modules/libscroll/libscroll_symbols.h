@@ -32,7 +32,10 @@
 #include <bgddl.h>
 #include "libscroll.h"
 
-#ifdef __PXTB__
+#ifndef __PXTB__
+extern DLVARFIXUP __bgdexport( libscroll, locals_fixup )[];
+extern DLVARFIXUP __bgdexport( libscroll, globals_fixup )[];
+#endif
 /* --------------------------------------------------------------------------- */
 
 DLCONSTANT __bgdexport( libscroll, constants_def )[] =
@@ -87,13 +90,5 @@ char * __bgdexport( libscroll, modules_dependency )[] =
     "libvideo",
     NULL
 };
-#else
-extern DLCONSTANT __bgdexport( libscroll, constants_def )[];
-extern char __bgdexport( libscroll, locals_def )[];
-extern char __bgdexport( libscroll, globals_def )[];
-extern DLVARFIXUP __bgdexport( libscroll, locals_fixup )[];
-extern DLVARFIXUP __bgdexport( libscroll, globals_fixup )[];
-extern char __bgdexport( libscroll, modules_dependency )[];
-#endif
 
 #endif

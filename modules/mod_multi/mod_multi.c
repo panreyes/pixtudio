@@ -26,7 +26,6 @@
 #include <strings.h>
 #include <libvideo.h>
 #include <g_video.h>
-#include <libmouse_symbols.h>
 #include <SDL.h>
 #include "bgddl.h"
 #include "dlvaracc.h"

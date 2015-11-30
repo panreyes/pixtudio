@@ -32,56 +32,47 @@
 #include <bgddl.h>
 #include "librender.h"
 
-#ifdef __PXTB__
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( librender, modules_dependency )[] =
-{
-    "libgrbase",
-    "libvideo",
-    "libblit",
-    NULL
-};
-
+#ifndef __PXTB__
+extern DLVARFIXUP __bgdexport( librender, globals_fixup )[];
+extern DLVARFIXUP __bgdexport( librender, locals_fixup )[];
+extern HOOK __bgdexport( librender, handler_hooks )[];
+extern void __bgdexport( librender, module_initialize )();
+extern void __bgdexport( librender, module_finalize )();
+extern void __bgdexport( librender, instance_create_hook )( INSTANCE * r );
+extern void __bgdexport( librender, instance_destroy_hook )( INSTANCE * r );
+#endif
 /* --------------------------------------------------------------------------- */
 
 DLCONSTANT __bgdexport( librender, constants_def )[] =
 {
     { "C_SCREEN",           TYPE_DWORD, C_SCREEN },
-
     { "PARTIAL_DUMP",       TYPE_DWORD, 0 },
     { "COMPLETE_DUMP",      TYPE_DWORD, 1 },
     { "NO_RESTORE",         TYPE_DWORD, -1 },
     { "PARTIAL_RESTORE",    TYPE_DWORD, 0 },
     { "COMPLETE_RESTORE",   TYPE_DWORD, 1 },
-
     { "BACKGROUND",         TYPE_DWORD, 0 },
     { "SCREEN",             TYPE_DWORD, -1 },
-
-    { NULL          , 0         ,  0  }
+    { NULL ,                0         ,  0 }
 } ;
 
 /* --------------------------------------------------------------------------- */
-/* Definicion de variables globales (usada en tiempo de compilacion) */
+/* Global variables (compile-time) */
 
 char __bgdexport( librender, globals_def )[] =
-
     /* Frame */
-
     "fps;\n"
     "speed_gauge = 0;\n"
     "FLOAT frame_time = 0;\n"
 
     /* Screen */
-
     "restore_type;\n"
     "dump_type;\n"
 
     /* Fade */
-
     "fading;\n"
     "alpha_steps = 16;\n"
-    ;
+;
 
 /* --------------------------------------------------------------------------- */
 
@@ -131,18 +122,13 @@ char __bgdexport( librender, locals_def )[] =
     "END\n"
     "END\n"
     ;
-#else
-extern char __bgdexport( librender, modules_dependency )[];
-extern DLCONSTANT __bgdexport( librender, constants_def )[];
-extern DLVARFIXUP __bgdexport( librender, globals_fixup )[];
-extern DLVARFIXUP __bgdexport( librender, locals_fixup )[];
-extern char __bgdexport( librender, globals_def )[];
-extern char __bgdexport( librender, locals_def )[];
-extern HOOK __bgdexport( librender, handler_hooks )[];
-extern void __bgdexport( librender, module_initialize )();
-extern void __bgdexport( librender, module_finalize )();
-extern void __bgdexport( librender, instance_create_hook )( INSTANCE * r );
-extern void __bgdexport( librender, instance_destroy_hook )( INSTANCE * r );
-#endif
+
+char * __bgdexport( librender, modules_dependency )[] =
+{
+    "libgrbase",
+    "libvideo",
+    "libblit",
+    NULL
+};
 
 #endif

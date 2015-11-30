@@ -39,94 +39,9 @@
 #define __LIB_RENDER
 #include "librender.h"
 
-/* --------------------------------------------------------------------------- */
-
-DLCONSTANT __bgdexport( librender, constants_def )[] =
-{
-    { "C_SCREEN",           TYPE_DWORD, C_SCREEN },
-
-    { "PARTIAL_DUMP",       TYPE_DWORD, 0 },
-    { "COMPLETE_DUMP",      TYPE_DWORD, 1 },
-    { "NO_RESTORE",         TYPE_DWORD, -1 },
-    { "PARTIAL_RESTORE",    TYPE_DWORD, 0 },
-    { "COMPLETE_RESTORE",   TYPE_DWORD, 1 },
-
-    { "BACKGROUND",         TYPE_DWORD, 0 },
-    { "SCREEN",             TYPE_DWORD, -1 },
-
-    { NULL          , 0         ,  0  }
-} ;
-
-/* --------------------------------------------------------------------------- */
-/* Definicion de variables globales (usada en tiempo de compilacion) */
-
-char * __bgdexport( librender, globals_def ) =
-
-    /* Frame */
-
-    "fps;\n"
-    "speed_gauge = 0;\n"
-    "FLOAT frame_time = 0;\n"
-
-    /* Screen */
-
-    "restore_type;\n"
-    "dump_type;\n"
-
-    /* Fade */
-
-    "fading;\n"
-    "alpha_steps = 16;\n"
-    ;
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( librender, locals_def ) =
-
-    /* Render */
-
-    "ctype;\n"
-    "cnumber;\n"
-
-    "x;\n"
-    "y;\n"
-    "z;\n"
-    "file;\n"
-    "graph;\n"
-    "size=100;\n"
-    "angle;\n"
-    "flags;\n"
-    "alpha=255;\n"
-    "palette=0;\n"
-    "region;\n"
-    "resolution;\n"
-    "size_x=100;\n"
-    "size_y=100;\n"
-    "blendop=0;\n"
-    "collision_graph;\n"
-
-    "STRUCT _render_reserved_\n"
-    "object_id=0;\n"
-    "graph_ptr=0;\n"
-    "STRUCT _saved_\n"
-    "x;\n"
-    "y;\n"
-    "z;\n"
-    "file;\n"
-    "graph;\n"
-    "size;\n"
-    "angle;\n"
-    "flags;\n"
-    "alpha;\n"
-    "palette;\n"
-    "size_x;\n"
-    "size_y;\n"
-    "blendop;\n"
-    "centerx;\n"
-    "centery;\n"
-    "END\n"
-    "END\n"
-    ;
+#ifndef __MONOLITHIC__
+#include "librender_symbols.h"
+#endif
 
 /* --------------------------------------------------------------------------- */
 /* Son las variables que se desea acceder.                           */
@@ -207,15 +122,5 @@ HOOK __bgdexport( librender, handler_hooks )[] =
     { 9000, gr_draw_frame },
     {    0, NULL          }
 } ;
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( librender, modules_dependency )[] =
-{
-    "libgrbase",
-    "libvideo",
-    "libblit",
-    NULL
-};
 
 /* --------------------------------------------------------------------------- */

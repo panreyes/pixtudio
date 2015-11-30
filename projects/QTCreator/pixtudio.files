@@ -943,3 +943,4 @@
 ../../modules/mod_wm/locale/android.c
 ../../modules/libblit/g_blitflags.h
 ../../modules/libblit/libblit.c
+../../modules/libkey/key_stats.h

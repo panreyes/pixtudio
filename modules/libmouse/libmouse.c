@@ -41,6 +41,10 @@
 
 #include "sysprocs_st.h"
 
+#ifndef __MONOLITHIC__
+#include "libmouse_symbols.h"
+#endif
+
 /* --------------------------------------------------------------------------- */
 
 static int last_mousex = 0;
@@ -56,22 +60,6 @@ static int last_mousecenterx = -1;
 static int last_mousecentery = -1;
 
 static GRAPH * mouse_map = NULL;
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( libmouse, globals_def ) =
-    "STRUCT mouse\n"
-    "x = 99999, y = 99999;\n"
-    "z = -512;\n"
-    "file;\n"
-    "graph;\n"
-    "angle;\n"
-    "size = 100;\n"
-    "flags;\n"
-    "region;\n"
-    "left, middle, right;\n"
-    "wheelup, wheeldown;\n"
-    "END\n";
 
 /* --------------------------------------------------------------------------- */
 
@@ -356,18 +344,6 @@ HOOK __bgdexport( libmouse, handler_hooks )[] =
     { 4800, do_mouse_events },
     { 0, NULL }
 } ;
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( libmouse, modules_dependency )[] =
-{
-    "libsdlhandler",
-    "libgrbase",
-    "libvideo",
-    "libblit",
-    "librender", // Add by Sandman
-    NULL
-};
 
 /* --------------------------------------------------------------------------- */
 

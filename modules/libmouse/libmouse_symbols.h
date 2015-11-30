@@ -31,7 +31,12 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
+#ifndef __PXTB__
+extern DLVARFIXUP __bgdexport( libmouse, globals_fixup )[];
+extern HOOK __bgdexport( libmouse, handler_hooks )[];
+extern void __bgdexport( libmouse, module_initialize )();
+#endif
+
 /* --------------------------------------------------------------------------- */
 
 char __bgdexport( libmouse, globals_def )[] =
@@ -59,12 +64,5 @@ char * __bgdexport( libmouse, modules_dependency )[] =
     "librender", // Add by Sandman
     NULL
 };
-#else
-extern DLVARFIXUP __bgdexport( libmouse, globals_fixup )[];
-extern HOOK __bgdexport( libmouse, handler_hooks )[];
-extern void __bgdexport( libmouse, module_initialize )();
-extern char __bgdexport( libmouse, globals_def )[];
-extern char __bgdexport( libmouse, modules_dependency )[];
-#endif
 
 #endif

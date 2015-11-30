@@ -1,7 +1,8 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright Â© 2002-2006 Fenix Team (Fenix)
- *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -30,19 +31,15 @@
 #define __KEY_SYMBOLS_H
 
 #include <bgddl.h>
+#include "key_stats.h"
 
-#ifdef __PXTB__
-#define STAT_RSHIFT             0x0000001
-#define STAT_LSHIFT             0x0000002
-#define STAT_CTRL               0x0000004
-#define STAT_ALT                0x0000008
-#define STAT_RCTRL              0x0000010
-#define STAT_LCTRL              0x0000020
-#define STAT_RALT               0x0000040
-#define STAT_LALT               0x0000080
-#define STAT_NUM                0x0000100
-#define STAT_CAPS               0x0000200
-#define STAT_SHIFT              0x0000400
+#ifndef __PXTB__
+extern DLVARFIXUP  __bgdexport( libkey, globals_fixup )[];
+extern HOOK __bgdexport( libkey, handler_hooks )[];
+extern void __bgdexport( libkey, module_initialize )();
+extern void __bgdexport( libkey, module_finalize )();
+#endif
+
 /* ----------------------------------------------------------------- */
 
 DLCONSTANT  __bgdexport( libkey, constants_def )[] =
@@ -173,7 +170,7 @@ DLCONSTANT  __bgdexport( libkey, constants_def )[] =
 } ;
 
 /* ----------------------------------------------------------------- */
-/* Definicion de variables globales (usada en tiempo de compilacion) */
+/* Global var definition (compile-time) */
 
 char __bgdexport( libkey, globals_def )[] =
     "shift_status;\n"
@@ -187,14 +184,5 @@ char * __bgdexport( libkey, modules_dependency )[] =
     "libsdlhandler",
     NULL
 };
-#else
-extern DLCONSTANT  __bgdexport( libkey, constants_def )[];
-extern char __bgdexport( libkey, globals_def )[];
-extern DLVARFIXUP  __bgdexport( libkey, globals_fixup )[];
-extern char * __bgdexport( libkey, modules_dependency )[];
-extern HOOK __bgdexport( libkey, handler_hooks )[];
-extern void __bgdexport( libkey, module_initialize )();
-extern void __bgdexport( libkey, module_finalize )();
-#endif
 
 #endif

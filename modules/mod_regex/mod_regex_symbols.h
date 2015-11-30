@@ -32,9 +32,7 @@
 #include <bgddl.h>
 
 #ifndef __PXTB__
-extern char __bgdexport( mod_regex, globals_def )[];
 extern DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [];
-extern DLSYSFUNCS __bgdexport( mod_regex, functions_exports) [];
 extern int modregex_regex (INSTANCE * my, int * params);
 extern int modregex_string_replace (INSTANCE * my, int * params);
 extern int modregex_regex_replace (INSTANCE * my, int * params);
