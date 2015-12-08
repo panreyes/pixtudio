@@ -144,42 +144,45 @@ void draw_instance_at( INSTANCE * i, REGION * region, int x, int y, GRAPH * dest
     PALETTE * palette = NULL;
     int paletteid;
 
+    uint8_t modr, modg, modb ;
+
     map = instance_graph( i ) ;
     if ( !map ) return ;
 
     flags = LOCDWORD( librender, i, FLAGS );
 
-    if (( alpha = LOCDWORD( librender, i, ALPHA ) ) != 255 )
-    {
+    if (( alpha = LOCDWORD( librender, i, ALPHA ) ) != 255 ) {
         if ( alpha <= 0 ) return ;
         else if ( alpha < 255 )
             flags |= B_ALPHA | ( alpha << B_ALPHA_SHIFT );
     }
 
+    // Colour modulation
+    modr = LOCUINT8( librender, i, MODR );
+    modg = LOCUINT8( librender, i, MODG );
+    modb = LOCUINT8( librender, i, MODB );
+
     scalex = LOCINT32( librender, i, GRAPHSIZEX );
     scaley = LOCINT32( librender, i, GRAPHSIZEY );
-    if ( scalex == 100 && scaley == 100 ) scalex = scaley = LOCINT32( librender, i, GRAPHSIZE );
+    if ( scalex == 100 && scaley == 100 ) {
+        scalex = scaley = LOCINT32( librender, i, GRAPHSIZE );
+    }
 
-    if (( blendop = LOCDWORD( librender, i, BLENDOP ) ) )
-    {
+    if (( blendop = LOCDWORD( librender, i, BLENDOP ) ) ) {
         blend_table = map->blend_table;
         map->blend_table = ( int16_t * ) blendop;
     }
 
-    if (( paletteid = LOCDWORD( librender, i, PALETTEID ) ) )
-    {
+    if (( paletteid = LOCDWORD( librender, i, PALETTEID ) ) ) {
         palette = map->format->palette ;
         map->format->palette = ( PALETTE * ) paletteid;
     }
 
     /* WARNING: don't remove "scalex != 100 || scaley != 100 ||" from begin the next condition */
-    if ( scalex != 100 || scaley != 100 || LOCINT32( librender, i, ANGLE ) )
-    {
-        gr_rotated_blit( dest, region, x, y, flags, LOCINT32( librender, i, ANGLE ), scalex, scaley, map ) ;
-    }
-    else
-    {
-        gr_blit( dest, region, x, y, flags, map ) ;
+    if ( scalex != 100 || scaley != 100 || LOCINT32( librender, i, ANGLE ) ) {
+        gr_rotated_blit( dest, region, x, y, flags, LOCINT32( librender, i, ANGLE ), scalex, scaley, LOCUINT8( librender, i, MODR ), LOCUINT8( librender, i, MODG ), LOCUINT8( librender, i, MODB ), map ) ;
+    } else {
+        gr_blit( dest, region, x, y, flags, LOCUINT8( librender, i, MODR ), LOCUINT8( librender, i, MODG ), LOCUINT8( librender, i, MODB ), map ) ;
     }
 
     if ( paletteid ) map->format->palette = palette;
@@ -253,9 +256,9 @@ void draw_instance( INSTANCE * i, REGION * clip )
 
     /* WARNING: don't remove "scalex != 100 || scaley != 100 ||" from begin the next condition */
     if ( scalex != 100 || scaley != 100 || LOCINT32( librender, i, ANGLE ) )
-        gr_rotated_blit( 0, &region, x, y, flags, LOCINT32( librender, i, ANGLE ), scalex, scaley, map ) ;
+        gr_rotated_blit( 0, &region, x, y, flags, LOCINT32( librender, i, ANGLE ), scalex, scaley, LOCUINT8( librender, i, MODR ), LOCUINT8( librender, i, MODG ), LOCUINT8( librender, i, MODB ), map ) ;
     else
-        gr_blit( 0, &region, x, y, flags, map ) ;
+        gr_blit( 0, &region, x, y, flags, LOCUINT8( librender, i, MODR ), LOCUINT8( librender, i, MODG ), LOCUINT8( librender, i, MODB ), map ) ;
 
     if ( paletteid ) map->format->palette = palette;
     if ( blendop ) map->blend_table = blend_table;

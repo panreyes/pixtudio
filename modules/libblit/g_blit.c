@@ -1333,7 +1333,7 @@ void gr_get_bbox( REGION * dest, REGION * clip, int x, int y, int flags, int ang
  *
  */
 
-void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, int angle, int scalex, int scaley, GRAPH * gr ) {
+void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, int angle, int scalex, int scaley, uint8_t modr, uint8_t modg, uint8_t modb, GRAPH * gr ) {
     _POINTF corners[4];
     _POINT  min, max;
     VERTEX  vertex[4];
@@ -1444,6 +1444,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
             alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
         }
         SDL_SetTextureAlphaMod(gr->texture, alpha);
+        SDL_SetTextureColorMod(gr->texture, modr, modg, modb);
 
         SDL_SetTextureBlendMode(gr->texture, mode);
         SDL_RenderSetClipRect(renderer, &clipRect);
@@ -1882,7 +1883,7 @@ void gr_rotated_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags
  *
  */
 
-void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH * gr ) {
+void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, uint8_t modr, uint8_t modg, uint8_t modb, GRAPH * gr ) {
     _POINT  min, max;
     _POINT  center;
     SDL_Rect dstRect;
@@ -1967,6 +1968,7 @@ void gr_blit( GRAPH * dest, REGION * clip, int scrx, int scry, int flags, GRAPH 
             alpha = ((( flags & B_ALPHA_MASK ) >> B_ALPHA_SHIFT ) );
         }
         SDL_SetTextureAlphaMod(gr->texture, alpha);
+        SDL_SetTextureColorMod(gr->texture, modr, modg, modb);
 
         SDL_SetTextureBlendMode(gr->texture, mode);
         SDL_RenderSetClipRect(renderer, &clipRect);

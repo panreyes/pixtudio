@@ -108,6 +108,10 @@ DLVARFIXUP __bgdexport( librender, locals_fixup )[] =
 
     { "reserved.status" , NULL, -1, -1 },                                   // 35           STATUS              35
 
+    { "modr", NULL, -1, -1 },                                               // 36           MODR                36
+    { "modg", NULL, -1, -1 },                                               // 37           MODG                37
+    { "modb", NULL, -1, -1 },                                               // 38           MODB                38
+
     { NULL , NULL, -1, -1 }
 };
 

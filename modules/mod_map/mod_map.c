@@ -292,7 +292,7 @@ static int modmap_map_put( INSTANCE * my, int * params )
 
     if ( !dest || !orig ) return 0 ;
 
-    gr_blit( dest, NULL, params[3], params[4], 0, orig ) ;
+    gr_blit( dest, NULL, params[3], params[4], 0, 255, 255, 255, orig ) ;
     return 1 ;
 }
 
@@ -311,9 +311,9 @@ static int modmap_map_xput( INSTANCE * my, int * params )
     }
 
     if ( params[5] == 0 && params[6] == 100 )
-        gr_blit( dest, 0, params[3], params[4], params[7], orig ) ;
+        gr_blit( dest, 0, params[3], params[4], params[7], 255, 255, 255, orig ) ;
     else
-        gr_rotated_blit( dest, 0, params[3], params[4], params[7], params[5], params[6], params[6], orig ) ;
+        gr_rotated_blit( dest, 0, params[3], params[4], params[7], params[5], params[6], params[6], 255, 255, 255, orig ) ;
     return 1 ;
 }
 
@@ -332,9 +332,9 @@ static int modmap_map_xputnp( INSTANCE * my, int * params )
     }
 
     if ( params[6] == 0 && params[7] == 100 && params[8] == 100 ) {
-        gr_blit( dest, 0, params[4], params[5], params[9], orig ) ;
+        gr_blit( dest, 0, params[4], params[5], params[9], 255, 255, 255, orig ) ;
     } else {
-        gr_rotated_blit( dest, 0, params[4], params[5], params[9], params[6], params[7], params[8], orig ) ;
+        gr_rotated_blit( dest, 0, params[4], params[5], params[9], params[6], params[7], params[8], 255, 255, 255, orig ) ;
     }
     return 1 ;
 }
@@ -448,7 +448,7 @@ static int modmap_map_block_copy( INSTANCE * my, int * params ) {
     clip.y = dy ;
     clip.x2 = dx + w - 1 ;
     clip.y2 = dy + h - 1 ;
-    gr_blit( dest, &clip, dx - x + centerx, dy - y + centery, flag, orig ) ;
+    gr_blit( dest, &clip, dx - x + centerx, dy - y + centery, flag, 255, 255, 255, orig ) ;
 
     return 1 ;
 }

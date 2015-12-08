@@ -115,7 +115,11 @@ enum {
     SAVED_CENTERX,
     SAVED_CENTERY,
 
-    STATUS
+    STATUS,
+
+    MODR,
+    MODG,
+    MODB
 };
 
 /* --------------------------------------------------------------------------- */

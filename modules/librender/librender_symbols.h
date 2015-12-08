@@ -121,6 +121,10 @@ char __bgdexport( librender, locals_def )[] =
     "centery;\n"
     "END\n"
     "END\n"
+
+    "BYTE modr=255;\n"
+    "BYTE modg=255;\n"
+    "BYTE modb=255;\n"
     ;
 
 char * __bgdexport( librender, modules_dependency )[] =

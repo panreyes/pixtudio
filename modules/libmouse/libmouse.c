@@ -321,6 +321,7 @@ static void mouse_draw( INSTANCE * i, REGION * clip )
             GLOINT32( libmouse, MOUSEANGLE ),
             GLOINT32( libmouse, MOUSESIZE ),
             GLOINT32( libmouse, MOUSESIZE ),
+            255, 255, 255,
             mouse_map ) ;
     else
         gr_blit(
@@ -329,6 +330,7 @@ static void mouse_draw( INSTANCE * i, REGION * clip )
             GLOINT32( libmouse, MOUSEX ),
             GLOINT32( libmouse, MOUSEY ),
             GLODWORD( libmouse, MOUSEFLAGS ),
+            255, 255, 255,
             mouse_map ) ;
 
     mouse_map->modified = 0;
