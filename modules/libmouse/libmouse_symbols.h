@@ -51,6 +51,8 @@ char __bgdexport( libmouse, globals_def )[] =
     "region;\n"
     "left, middle, right;\n"
     "wheelup, wheeldown;\n"
+    "wheelup, wheeldown;\n"
+    "BYTE modr=255, modg=255, modb=255;\n"
     "END\n";
 
 /* --------------------------------------------------------------------------- */

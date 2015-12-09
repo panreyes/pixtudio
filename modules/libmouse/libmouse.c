@@ -77,7 +77,10 @@ enum {
     MOUSEMIDDLE,
     MOUSERIGHT,
     MOUSEWHEELUP,
-    MOUSEWHEELDOWN
+    MOUSEWHEELDOWN,
+    MOUSEMODR,
+    MOUSEMODG,
+    MOUSEMODB
 };
 
 /* --------------------------------------------------------------------------- */
@@ -100,6 +103,9 @@ DLVARFIXUP __bgdexport( libmouse, globals_fixup )[] =
     { "mouse.right"     , NULL, -1, -1 },
     { "mouse.wheelup"   , NULL, -1, -1 },
     { "mouse.wheeldown" , NULL, -1, -1 },
+    { "mouse.modr"      , NULL, -1, -1 },
+    { "mouse.modg"      , NULL, -1, -1 },
+    { "mouse.modb"      , NULL, -1, -1 },
 
     { NULL              , NULL, -1, -1 }
 };
@@ -321,7 +327,9 @@ static void mouse_draw( INSTANCE * i, REGION * clip )
             GLOINT32( libmouse, MOUSEANGLE ),
             GLOINT32( libmouse, MOUSESIZE ),
             GLOINT32( libmouse, MOUSESIZE ),
-            255, 255, 255,
+            GLOUINT8( libmouse, MOUSEMODR ),
+            GLOUINT8( libmouse, MOUSEMODG ),
+            GLOUINT8( libmouse, MOUSEMODB ),
             mouse_map ) ;
     else
         gr_blit(
@@ -330,7 +338,9 @@ static void mouse_draw( INSTANCE * i, REGION * clip )
             GLOINT32( libmouse, MOUSEX ),
             GLOINT32( libmouse, MOUSEY ),
             GLODWORD( libmouse, MOUSEFLAGS ),
-            255, 255, 255,
+            GLOUINT8( libmouse, MOUSEMODR ),
+            GLOUINT8( libmouse, MOUSEMODG ),
+            GLOUINT8( libmouse, MOUSEMODB ),
             mouse_map ) ;
 
     mouse_map->modified = 0;
