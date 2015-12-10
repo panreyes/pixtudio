@@ -106,6 +106,9 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
             if((error = alGetError()) != AL_NO_ERROR) {
                 fprintf(stderr, "Audio buffer data copying failed: %s\n", alGetString(error));
             } else {
+                // Queue the audio buffer for playback
+                alSourceQueueBuffers(video.audio_source, 1, &audio_buffer);
+
                 // If the source runs out of buffers to play, it stops
                 // so we remove processed buffers from the queue and
                 // restart playback
@@ -119,11 +122,9 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
                         alSourceUnqueueBuffers(video.audio_source, 1, &processed_buffer);
                     }
 
-                    // Remove any queued buffers left in the queue
+                    // Tell OpenAL to resume playback
                     alSourcePlay(video.audio_source);
                 }
-                // Queue the audio buffer for playback
-                alSourceQueueBuffers(video.audio_source, 1, &audio_buffer);
             }
         }
     }
