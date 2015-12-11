@@ -63,6 +63,7 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_joy/ \
 	$(MODULES_PATH)/libjoy/ \
 	$(MODULES_PATH)/mod_theora/ \
+	$(MODULES_PATH)/mod_fsock/ \
 	$(MODULES_PATH)/mod_effects/
 
 LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
@@ -72,7 +73,6 @@ LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-DNO_MODIMAGE \
 	-DNO_MODICONV \
 	-DNO_MODFMODEX \
-	-DNO_FSOCK \
 	-DNO_MODSENSOR \
 	-DNO_MODCHIPMUNK \
 	-DNO_MODDEBUG \
@@ -162,6 +162,7 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_joy/mod_joy.c \
 	../../../../modules/mod_effects/mod_effects.c \
 	../../../../modules/mod_theora/mod_theora.c \
+	../../../../modules/mod_fsock/fsock.c \
 	../../../../3rdparty/theoraplay/theoraplay.c
 
 LOCAL_LDLIBS := -llog -ldl -lz
