@@ -71,7 +71,7 @@ DLCONSTANT  __bgdexport( mod_sound, constants_def )[] =
 /* Definicion de variables globales (usada en tiempo de compilacion)           */
 
 char * __bgdexport( mod_sound, globals_def ) =
-    "   sound_freq = 22050 ;\n"
+    "   sound_freq = 44100 ;\n"
     "   sound_mode = MODE_STEREO ;\n"
     "   sound_channels = 8 ;\n";
 
