@@ -31,8 +31,36 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-char  __bgdexport( mod_dir, globals_def )[] =
+#ifndef __PXTB__
+extern int moddir_cd( INSTANCE * my, int * params );
+extern int moddir_chdir( INSTANCE * my, int * params );
+extern int moddir_mkdir( INSTANCE * my, int * params );
+extern int moddir_rmdir( INSTANCE * my, int * params );
+extern int moddir_glob( INSTANCE * my, int * params );
+extern int moddir_rm( INSTANCE * my, int * params );
+extern int moddir_open( INSTANCE * my, int * params );
+extern int moddir_close( INSTANCE * my, int * params );
+extern int moddir_read( INSTANCE * my, int * params );
+extern int moddir_get_basepath( INSTANCE * my, int * params );
+extern int moddir_get_prefpath( INSTANCE * my, int * params );
+
+DLVARFIXUP __bgdexport( mod_dir, globals_fixup)[] = {
+    /* varname, pointer (NULL), size, # elements */
+    { "fileinfo.path" , NULL, -1, -1 },
+    { "fileinfo.name" , NULL, -1, -1 },
+    { "fileinfo.directory" , NULL, -1, -1 },
+    { "fileinfo.hidden" , NULL, -1, -1 },
+    { "fileinfo.readonly" , NULL, -1, -1 },
+    { "fileinfo.size" , NULL, -1, -1 },
+    { "fileinfo.created" , NULL, -1, -1 },
+    { "fileinfo.modified" , NULL, -1, -1 },
+    { "fileinfo.accessed" , NULL, -1, -1 },
+    { "fileinfo.statechg" , NULL, -1, -1 },
+    { NULL, NULL, -1, -1 }
+};
+#endif
+
+char __bgdexport( mod_dir, globals_def )[] =
     "STRUCT fileinfo\n"
     "    STRING path;\n"
     "    STRING name;\n"
@@ -42,30 +70,28 @@ char  __bgdexport( mod_dir, globals_def )[] =
     "    size;\n"
     "    STRING created;\n"
     "    STRING modified;\n"
+    "    STRING accessed;\n"
+    "    STRING statechg;\n"
     "END\n";
 
-DLSYSFUNCS __bgdexport( mod_dir, functions_exports)[] =
-    {
-        /* Archivos y directorios */
-        { "CD"      , ""  , TYPE_STRING , 0 },
-        { "CD"      , "S" , TYPE_STRING , 0 },
-        { "CHDIR"   , "S" , TYPE_INT    , 0 },
-        { "MKDIR"   , "S" , TYPE_INT    , 0 },
-        { "RMDIR"   , "S" , TYPE_INT    , 0 },
-        { "GLOB"    , "S" , TYPE_STRING , 0 },
-        { "CD"      , "S" , TYPE_STRING , 0 },
-        { "RM"      , "S" , TYPE_INT    , 0 },
-        { "DIROPEN" , "S" , TYPE_INT    , 0 },
-        { "DIRCLOSE", "I" , TYPE_INT    , 0 },
-        { "DIRREAD" , "I" , TYPE_STRING , 0 },
-        { "GET_BASE_PATH", ""   , TYPE_STRING , 0 },
-        { "GET_PREF_PATH", "SS" , TYPE_STRING , 0 },
-        { 0         , 0   , 0           , 0 }
-    };
-#else
-extern char  __bgdexport( mod_dir, globals_def )[];
-extern DLVARFIXUP __bgdexport( mod_dir, globals_fixup)[];
-extern DLSYSFUNCS __bgdexport( mod_dir, functions_exports)[];
-#endif
+DLSYSFUNCS __bgdexport( mod_dir, functions_exports)[] = {
+    FUNC( "CD"      , ""  , TYPE_STRING , moddir_cd     ),
+    FUNC( "CD"      , "S" , TYPE_STRING , moddir_chdir  ),
+    FUNC( "CHDIR"   , "S" , TYPE_INT    , moddir_chdir  ),
+    FUNC( "MKDIR"   , "S" , TYPE_INT    , moddir_mkdir  ),
+    FUNC( "RMDIR"   , "S" , TYPE_INT    , moddir_rmdir  ),
+    FUNC( "GLOB"    , "S" , TYPE_STRING , moddir_glob   ),
+    FUNC( "CD"      , "S" , TYPE_STRING , moddir_chdir  ),
+    FUNC( "RM"      , "S" , TYPE_INT    , moddir_rm     ),
+
+    FUNC( "DIROPEN" , "S" , TYPE_INT    , moddir_open   ),
+    FUNC( "DIRCLOSE", "I" , TYPE_INT    , moddir_close  ),
+    FUNC( "DIRREAD" , "I" , TYPE_STRING , moddir_read   ),
+
+    FUNC( "GET_BASE_PATH", ""   , TYPE_STRING , moddir_get_basepath ),
+    FUNC( "GET_PREF_PATH", "SS" , TYPE_STRING , moddir_get_prefpath ),
+
+    FUNC( 0         , 0   , 0           , 0 )
+};
 
 #endif
