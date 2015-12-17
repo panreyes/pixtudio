@@ -31,7 +31,18 @@
 #include <bgddl.h>
 #include "mod_gamecontroller.h"
 
-#ifdef __PXTB__
+#ifndef __PXTB__
+extern void  __bgdexport( mod_gamecontroller, module_initialize )();
+extern void __bgdexport( mod_gamecontroller, module_finalize )();
+
+extern int modgamecontroller_num( INSTANCE * my, int * params );
+extern int modgamecontroller_open( INSTANCE * my, int * params );
+extern int modgamecontroller_close( INSTANCE * my, int * params );
+extern int modgamecontroller_getbutton( INSTANCE * my, int * params );
+extern int modgamecontroller_getaxis( INSTANCE * my, int * params );
+extern int modgamecontroller_getname( INSTANCE * my, int * params );
+#endif
+
 DLCONSTANT  __bgdexport( mod_gamecontroller, constants_def )[] = {
     { "CONTROLLER_INVALID"               , TYPE_DWORD, CONTROLLER_INVALID                  },
     { "CONTROLLER_BUTTON_INVALID"        , TYPE_DWORD, SDL_CONTROLLER_BUTTON_INVALID       },
@@ -63,19 +74,13 @@ DLCONSTANT  __bgdexport( mod_gamecontroller, constants_def )[] = {
 };
 
 DLSYSFUNCS  __bgdexport( mod_gamecontroller, functions_exports )[] = {
-    FUNC( "CONTROLLER_NUM"       , ""      , TYPE_INT    , 0 ),
-    FUNC( "CONTROLLER_OPEN"      , "I"     , TYPE_INT    , 0 ),
-    FUNC( "CONTROLLER_CLOSE"     , "I"     , TYPE_INT    , 0 ),
-    FUNC( "CONTROLLER_GETBUTTON" , "II"    , TYPE_INT    , 0 ),
-    FUNC( "CONTROLLER_GETAXIS"   , "II"    , TYPE_INT    , 0 ),
-    FUNC( "CONTROLLER_GETNAME"   , "I"     , TYPE_STRING , 0 ),
+    FUNC( "CONTROLLER_NUM"       , ""      , TYPE_INT    , modgamecontroller_num       ),
+    FUNC( "CONTROLLER_OPEN"      , "I"     , TYPE_INT    , modgamecontroller_open      ),
+    FUNC( "CONTROLLER_CLOSE"     , "I"     , TYPE_INT    , modgamecontroller_close     ),
+    FUNC( "CONTROLLER_GETBUTTON" , "II"    , TYPE_INT    , modgamecontroller_getbutton ),
+    FUNC( "CONTROLLER_GETAXIS"   , "II"    , TYPE_INT    , modgamecontroller_getaxis   ),
+    FUNC( "CONTROLLER_GETNAME"   , "I"     , TYPE_STRING , modgamecontroller_getname   ),
     { 0                     , 0       , 0           , 0 }
 };
-#else
-extern DLCONSTANT  __bgdexport( mod_gamecontroller, constants_def )[];
-extern DLSYSFUNCS __bgdexport( mod_gamecontroller, functions_exports )[];
-extern void __bgdexport( mod_gamecontroller, module_initialize )();
-extern void __bgdexport( mod_gamecontroller, module_finalize )();
-#endif
 
 #endif

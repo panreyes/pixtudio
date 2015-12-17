@@ -38,43 +38,14 @@
 #include <xstrings.h>
 
 #include "mod_gamecontroller.h"
+
+#ifndef __MONOLITHIC__
 #include "mod_gamecontroller_symbols.h"
+#endif
 
 /* --------------------------------------------------------------------------- */
 
 static SDL_GameController **open_controllers = NULL;
-
-/* --------------------------------------------------------------------------- */
-
-DLCONSTANT  __bgdexport( mod_gamecontroller, constants_def )[] = {
-    { "CONTROLLER_INVALID"               , TYPE_DWORD, CONTROLLER_INVALID                  },
-    { "CONTROLLER_BUTTON_INVALID"        , TYPE_DWORD, SDL_CONTROLLER_BUTTON_INVALID       },
-    { "CONTROLLER_BUTTON_A"              , TYPE_DWORD, SDL_CONTROLLER_BUTTON_A             },
-    { "CONTROLLER_BUTTON_B"              , TYPE_DWORD, SDL_CONTROLLER_BUTTON_B             },
-    { "CONTROLLER_BUTTON_X"              , TYPE_DWORD, SDL_CONTROLLER_BUTTON_X             },
-    { "CONTROLLER_BUTTON_Y"              , TYPE_DWORD, SDL_CONTROLLER_BUTTON_Y             },
-    { "CONTROLLER_BUTTON_BACK"           , TYPE_DWORD, SDL_CONTROLLER_BUTTON_BACK          },
-    { "CONTROLLER_BUTTON_GUIDE"          , TYPE_DWORD, SDL_CONTROLLER_BUTTON_GUIDE         },
-    { "CONTROLLER_BUTTON_START"          , TYPE_DWORD, SDL_CONTROLLER_BUTTON_START         },
-    { "CONTROLLER_BUTTON_LEFTSTICK"      , TYPE_DWORD, SDL_CONTROLLER_BUTTON_LEFTSTICK     },
-    { "CONTROLLER_BUTTON_RIGHTSTICK"     , TYPE_DWORD, SDL_CONTROLLER_BUTTON_RIGHTSTICK    },
-    { "CONTROLLER_BUTTON_LEFTSHOULDER"   , TYPE_DWORD, SDL_CONTROLLER_BUTTON_LEFTSHOULDER  },
-    { "CONTROLLER_BUTTON_RIGHTSHOULDER"  , TYPE_DWORD, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER },
-    { "CONTROLLER_BUTTON_DPAD_UP"        , TYPE_DWORD, SDL_CONTROLLER_BUTTON_DPAD_UP       },
-    { "CONTROLLER_BUTTON_DPAD_DOWN"      , TYPE_DWORD, SDL_CONTROLLER_BUTTON_DPAD_DOWN     },
-    { "CONTROLLER_BUTTON_DPAD_LEFT"      , TYPE_DWORD, SDL_CONTROLLER_BUTTON_DPAD_LEFT     },
-    { "CONTROLLER_BUTTON_DPAD_RIGHT"     , TYPE_DWORD, SDL_CONTROLLER_BUTTON_DPAD_RIGHT    },
-    { "CONTROLLER_BUTTON_MAX"            , TYPE_DWORD, SDL_CONTROLLER_BUTTON_MAX           },
-    { "CONTROLLER_AXIS_INVALID"          , TYPE_DWORD, SDL_CONTROLLER_AXIS_INVALID         },
-    { "CONTROLLER_AXIS_LEFTX"            , TYPE_DWORD, SDL_CONTROLLER_AXIS_LEFTX           },
-    { "CONTROLLER_AXIS_LEFTY"            , TYPE_DWORD, SDL_CONTROLLER_AXIS_LEFTY           },
-    { "CONTROLLER_AXIS_RIGHTX"           , TYPE_DWORD, SDL_CONTROLLER_AXIS_RIGHTX          },
-    { "CONTROLLER_AXIS_RIGHTY"           , TYPE_DWORD, SDL_CONTROLLER_AXIS_RIGHTY          },
-    { "CONTROLLER_AXIS_TRIGGERLEFT"      , TYPE_DWORD, SDL_CONTROLLER_AXIS_TRIGGERLEFT     },
-    { "CONTROLLER_AXIS_TRIGGERRIGHT"     , TYPE_DWORD, SDL_CONTROLLER_AXIS_TRIGGERRIGHT    },
-    { "CONTROLLER_AXIS_MAX"              , TYPE_DWORD, SDL_CONTROLLER_AXIS_MAX             },
-    { NULL          , 0       , 0  }
-};
 
 /* --------------------------------------------------------------------------- */
 
@@ -144,7 +115,7 @@ void controller_close(int index) {
 
 /* --------------------------------------------------------------------------- */
 
-static int modgamecontroller_getaxis( INSTANCE * my, int * params ) {
+int modgamecontroller_getaxis( INSTANCE * my, int * params ) {
     int id = params[0];
     int axis = params[1];
 
@@ -155,7 +126,7 @@ static int modgamecontroller_getaxis( INSTANCE * my, int * params ) {
     return SDL_GameControllerGetAxis(open_controllers[id], axis);
 }
 
-static int modgamecontroller_getbutton( INSTANCE * my, int * params ) {
+int modgamecontroller_getbutton( INSTANCE * my, int * params ) {
     int id = params[0];
     int button = params[1];
 
@@ -166,7 +137,7 @@ static int modgamecontroller_getbutton( INSTANCE * my, int * params ) {
     return SDL_GameControllerGetButton(open_controllers[id], button);
 }
 
-static int modgamecontroller_getname( INSTANCE * my, int * params ) {
+int modgamecontroller_getname( INSTANCE * my, int * params ) {
     int str = 0;
     int id = params[0];
 
@@ -182,11 +153,11 @@ static int modgamecontroller_getname( INSTANCE * my, int * params ) {
     return str;
 }
 
-static int modgamecontroller_num( INSTANCE * my, int * params ) {
+int modgamecontroller_num( INSTANCE * my, int * params ) {
     return ( SDL_NumJoysticks() );
 }
 
-static int modgamecontroller_close( INSTANCE * my, int * params ) {
+int modgamecontroller_close( INSTANCE * my, int * params ) {
     int id = params[0];
 
     if(! check_controller_id(id)) {
@@ -198,7 +169,7 @@ static int modgamecontroller_close( INSTANCE * my, int * params ) {
     return 0;
 }
 
-static int modgamecontroller_open( INSTANCE * my, int * params ) {
+int modgamecontroller_open( INSTANCE * my, int * params ) {
     SDL_GameController *controller;
     int n, index = params[0];
 
@@ -243,14 +214,3 @@ void __bgdexport( mod_gamecontroller, module_finalize )() {
     }
 }
 
-/* --------------------------------------------------------------------------- */
-
-DLSYSFUNCS  __bgdexport( mod_gamecontroller, functions_exports )[] = {
-    FUNC( "CONTROLLER_NUM"       , ""      , TYPE_INT    , modgamecontroller_num       ),
-    FUNC( "CONTROLLER_OPEN"      , "I"     , TYPE_INT    , modgamecontroller_open      ),
-    FUNC( "CONTROLLER_CLOSE"     , "I"     , TYPE_INT    , modgamecontroller_close     ),
-    FUNC( "CONTROLLER_GETBUTTON" , "II"    , TYPE_INT    , modgamecontroller_getbutton ),
-    FUNC( "CONTROLLER_GETAXIS"   , "II"    , TYPE_INT    , modgamecontroller_getaxis   ),
-    FUNC( "CONTROLLER_GETNAME"   , "I"     , TYPE_STRING , modgamecontroller_getname   ),
-    { 0                     , 0       , 0           , 0 }
-};

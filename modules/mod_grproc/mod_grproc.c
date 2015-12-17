@@ -45,6 +45,13 @@
 
 #include "libscroll.h"
 
+#ifndef __MONOLITHIC__
+#include "mod_grproc_symbols.h"
+#else
+extern DLVARFIXUP __bgdexport( mod_grproc, locals_fixup )[];
+extern DLVARFIXUP __bgdexport( mod_grproc, globals_fixup )[];
+#endif
+
 /* --------------------------------------------------------------------------- */
 
 enum {
@@ -86,66 +93,11 @@ enum {
     SCROLLS
 };
 
-/* ----------------------------------------------------------------- */
-
-char * __bgdexport( mod_grproc, locals_def ) =
-    "STRUCT _mod_grproc_reserved\n"
-    "int type_scan;\n"
-    "int id_scan;\n"
-    "int context;\n"
-    "END\n";
-
-/* ----------------------------------------------------------------- */
-
-DLVARFIXUP __bgdexport( mod_grproc, locals_fixup )[]  =
-{
-    /* Nombre de variable local, offset al dato, tamaño del elemento, cantidad de elementos */
-    { "_mod_grproc_reserved.type_scan"  , NULL, -1, -1 },
-    { "_mod_grproc_reserved.id_scan"    , NULL, -1, -1 },
-    { "_mod_grproc_reserved.context"    , NULL, -1, -1 },
-
-    { "id"                              , NULL, -1, -1 },
-    { "reserved.process_type"           , NULL, -1, -1 },
-    { "reserved.status"                 , NULL, -1, -1 },
-
-    { "ctype"                           , NULL, -1, -1 },
-    { "cnumber"                         , NULL, -1, -1 },
-
-    { "x"                               , NULL, -1, -1 },
-    { "y"                               , NULL, -1, -1 },
-
-    { "angle"                           , NULL, -1, -1 },
-    { "size"                            , NULL, -1, -1 },
-    { "size_x"                          , NULL, -1, -1 },
-    { "size_y"                          , NULL, -1, -1 },
-    { "flags"                           , NULL, -1, -1 },
-
-    { "region"                          , NULL, -1, -1 },
-    { "resolution"                      , NULL, -1, -1 },
-    { "xgraph"                          , NULL, -1, -1 },
-
-    { NULL                              , NULL, -1, -1 }
-};
-
-/* --------------------------------------------------------------------------- */
-
-DLVARFIXUP __bgdexport( mod_grproc, globals_fixup )[] =
-{
-    /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
-
-    { "mouse.x"                         , NULL, -1, -1 },
-    { "mouse.y"                         , NULL, -1, -1 },
-    { "scroll"                          , NULL, -1, -1 },
-
-    { NULL                              , NULL, -1, -1 }
-};
-
 /* --------------------------------------------------------------------------- */
 /* Funciones del sistema                                                       */
 /* --------------------------------------------------------------------------- */
 
-static int grproc_advance( INSTANCE * my, int * params )
-{
+int grproc_advance( INSTANCE * my, int * params ) {
     int angle = LOCINT32( mod_grproc, my, ANGLE ) ;
     LOCINT32( mod_grproc, my, COORDX ) += fixtoi( fmul( fcos( angle ), itofix( params[0] ) ) ) ;
     LOCINT32( mod_grproc, my, COORDY ) -= fixtoi( fmul( fsin( angle ), itofix( params[0] ) ) ) ;
@@ -154,8 +106,7 @@ static int grproc_advance( INSTANCE * my, int * params )
 
 /* --------------------------------------------------------------------------- */
 
-static int grproc_xadvance( INSTANCE * my, int * params )
-{
+int grproc_xadvance( INSTANCE * my, int * params ) {
     int angle = params[0] ;
     LOCINT32( mod_grproc, my, COORDX ) += fixtoi( fmul( fcos( angle ), itofix( params[1] ) ) ) ;
     LOCINT32( mod_grproc, my, COORDY ) -= fixtoi( fmul( fsin( angle ), itofix( params[1] ) ) ) ;
@@ -164,8 +115,7 @@ static int grproc_xadvance( INSTANCE * my, int * params )
 
 /* --------------------------------------------------------------------------- */
 
-static int grproc_get_angle( INSTANCE * my, int * params )
-{
+int grproc_get_angle( INSTANCE * my, int * params ) {
     INSTANCE * b = instance_get( params[0] ) ;
 
     if ( my && b )
@@ -259,15 +209,13 @@ static int get_distance_proc( INSTANCE * a, INSTANCE * b )
 
 /* --------------------------------------------------------------------------- */
 
-static int grproc_get_dist( INSTANCE * a, int * params )
-{
+int grproc_get_dist( INSTANCE * a, int * params ) {
     return ( get_distance_proc( a, instance_get( params[0] ) ) );
 }
 
 /* --------------------------------------------------------------------------- */
 
-static int grproc_get_real_point( INSTANCE * my, int * params )
-{
+int grproc_get_real_point( INSTANCE * my, int * params ) {
     GRAPH * b ;
     int x, y, r, centerx, centery, px = 0, py = 0, rx = 0, ry = 0 ;
     int _angle = 0, angle = 0;
@@ -947,62 +895,28 @@ static int __collision( INSTANCE * my, int id, int colltype )
 
 /* --------------------------------------------------------------------------- */
 
-static int grproc_collision( INSTANCE * my, int * params )
-{
+int grproc_collision( INSTANCE * my, int * params ) {
     return __collision( my, params[ 0 ], COLLISION_NORMAL );
 }
 
 /* --------------------------------------------------------------------------- */
 
-static int grproc_collision_box( INSTANCE * my, int * params )
-{
+int grproc_collision_box( INSTANCE * my, int * params ) {
     return __collision( my, params[ 0 ], COLLISION_BOX );
 }
 
 /* ----------------------------------------------------------------- */
 
-static int grproc_collision_circle( INSTANCE * my, int * params )
-{
+int grproc_collision_circle( INSTANCE * my, int * params ) {
     return __collision( my, params[ 0 ], COLLISION_CIRCLE );
 }
 
 /* ----------------------------------------------------------------- */
 
-void __bgdexport( mod_grproc, process_exec_hook )( INSTANCE * r )
-{
+void __bgdexport( mod_grproc, process_exec_hook )( INSTANCE * r ) {
     LOCDWORD( mod_grproc, r, GRPROC_ID_SCAN ) = 0;
     LOCDWORD( mod_grproc, r, GRPROC_TYPE_SCAN ) = 0;
     LOCDWORD( mod_grproc, r, GRPROC_CONTEXT ) = 0;
 }
-
-/* ---------------------------------------------------------------------- */
-
-DLSYSFUNCS  __bgdexport( mod_grproc, functions_exports )[] =
-{
-    { "ADVANCE"             , "I"   , TYPE_INT  , grproc_advance            },
-    { "XADVANCE"            , "II"  , TYPE_INT  , grproc_xadvance           },
-
-    { "GET_ANGLE"           , "I"   , TYPE_INT  , grproc_get_angle          },
-    { "GET_DIST"            , "I"   , TYPE_INT  , grproc_get_dist           },
-    { "COLLISION"           , "I"   , TYPE_INT  , grproc_collision          },
-    { "COLLISION_BOX"       , "I"   , TYPE_INT  , grproc_collision_box      },
-    { "COLLISION_CIRCLE"    , "I"   , TYPE_INT  , grproc_collision_circle   },
-
-    { "GET_REAL_POINT"      , "IPP" , TYPE_INT  , grproc_get_real_point     },
-
-    { 0                     , 0     , 0         , 0                         }
-};
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( mod_grproc, modules_dependency )[] =
-{
-    "libmouse",
-    "libgrbase",
-    "libvideo",
-    "librender",
-    "libblit",
-    NULL
-};
 
 /* --------------------------------------------------------------------------- */
