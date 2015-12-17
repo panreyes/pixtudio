@@ -27,9 +27,30 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLCONSTANT  __bgdexport( mod_file, constants_def)[] =
-{
+#ifndef __PXTB__
+extern int modfile_save( INSTANCE * my, int * params );
+extern int modfile_load( INSTANCE * my, int * params );
+extern int modfile_fopen( INSTANCE * my, int * params );
+extern int modfile_fclose( INSTANCE * my, int * params );
+extern int modfile_fread( INSTANCE * my, int * params );
+extern int modfile_freadC( INSTANCE * my, int * params );
+extern int modfile_fwrite( INSTANCE * my, int * params );
+extern int modfile_fwriteC( INSTANCE * my, int * params );
+extern int modfile_fseek( INSTANCE * my, int * params );
+extern int modfile_frewind( INSTANCE * my, int * params );
+extern int modfile_ftell( INSTANCE * my, int * params );
+extern int modfile_fflush( INSTANCE * my, int * params );
+extern int modfile_filelength( INSTANCE * my, int * params );
+extern int modfile_fputs( INSTANCE * my, int * params );
+extern int modfile_fgets( INSTANCE * my, int * params );
+extern int modfile_feof( INSTANCE * my, int * params );
+extern int modfile_file( INSTANCE * my, int * params );
+extern int modfile_exists( INSTANCE * my, int * params );
+extern int modfile_remove( INSTANCE * my, int * params );
+extern int modfile_move( INSTANCE * my, int * params );
+#endif
+
+DLCONSTANT  __bgdexport( mod_file, constants_def)[] = {
     { "O_READ"      , TYPE_INT, 0  },
     { "O_READWRITE" , TYPE_INT, 1  },
     { "O_RDWR"      , TYPE_INT, 1  },
@@ -44,34 +65,30 @@ DLCONSTANT  __bgdexport( mod_file, constants_def)[] =
     { NULL          , 0       , 0  }
 } ;
 
-DLSYSFUNCS  __bgdexport( mod_file, functions_exports)[] =
-{
-    /* Ficheros */
-    { "SAVE"        , "SV++" , TYPE_INT         , 0 },
-    { "LOAD"        , "SV++" , TYPE_INT         , 0 },
-    { "FOPEN"       , "SI"   , TYPE_INT         , 0 },
-    { "FCLOSE"      , "I"    , TYPE_INT         , 0 },
-    { "FREAD"       , "IV++" , TYPE_INT         , 0 },
-    { "FREAD"       , "PII"  , TYPE_INT         , 0 },
-    { "FWRITE"      , "IV++" , TYPE_INT         , 0 },
-    { "FWRITE"      , "PII"  , TYPE_INT         , 0 },
-    { "FSEEK"       , "III"  , TYPE_INT         , 0 },
-    { "FREWIND"     , "I"    , TYPE_UNDEFINED   , 0 },
-    { "FTELL"       , "I"    , TYPE_INT         , 0 },
-    { "FLENGTH"     , "I"    , TYPE_INT         , 0 },
-    { "FPUTS"       , "IS"   , TYPE_INT         , 0 },
-    { "FGETS"       , "I"    , TYPE_STRING      , 0 },
-    { "FEOF"        , "I"    , TYPE_INT         , 0 },
-    { "FILE"        , "S"    , TYPE_STRING      , 0 },
-    { "FEXISTS"     , "S"    , TYPE_INT         , 0 } ,
-    { "FILE_EXISTS" , "S"    , TYPE_INT         , 0 } ,
-    { "FREMOVE"     , "S"    , TYPE_INT         , 0 } ,
-    { "FMOVE"       , "SS"   , TYPE_INT         , 0 } ,
-    { 0             , 0      , 0                , 0 }
+DLSYSFUNCS  __bgdexport( mod_file, functions_exports)[] = {
+    FUNC( "SAVE"        , "SV++" , TYPE_INT         , modfile_save        ),
+    FUNC( "LOAD"        , "SV++" , TYPE_INT         , modfile_load        ),
+    FUNC( "FOPEN"       , "SI"   , TYPE_INT         , modfile_fopen       ),
+    FUNC( "FCLOSE"      , "I"    , TYPE_INT         , modfile_fclose      ),
+    FUNC( "FREAD"       , "IV++" , TYPE_INT         , modfile_fread       ),
+    FUNC( "FREAD"       , "PII"  , TYPE_INT         , modfile_freadC      ),
+    FUNC( "FWRITE"      , "IV++" , TYPE_INT         , modfile_fwrite      ),
+    FUNC( "FWRITE"      , "PII"  , TYPE_INT         , modfile_fwriteC     ),
+    FUNC( "FSEEK"       , "III"  , TYPE_INT         , modfile_fseek       ),
+    FUNC( "FREWIND"     , "I"    , TYPE_UNDEFINED   , modfile_frewind     ),
+    FUNC( "FTELL"       , "I"    , TYPE_INT         , modfile_ftell       ),
+    FUNC( "FFLUSH"      , "I"    , TYPE_INT         , modfile_fflush      ),
+    FUNC( "FLUSH"       , "I"    , TYPE_INT         , modfile_fflush      ),
+    FUNC( "FLENGTH"     , "I"    , TYPE_INT         , modfile_filelength  ),
+    FUNC( "FPUTS"       , "IS"   , TYPE_INT         , modfile_fputs       ),
+    FUNC( "FGETS"       , "I"    , TYPE_STRING      , modfile_fgets       ),
+    FUNC( "FEOF"        , "I"    , TYPE_INT         , modfile_feof        ),
+    FUNC( "FILE"        , "S"    , TYPE_STRING      , modfile_file        ),
+    FUNC( "FEXISTS"     , "S"    , TYPE_INT         , modfile_exists      ),
+    FUNC( "FILE_EXISTS" , "S"    , TYPE_INT         , modfile_exists      ),
+    FUNC( "FREMOVE"     , "S"    , TYPE_INT         , modfile_remove      ),
+    FUNC( "FMOVE"       , "SS"   , TYPE_INT         , modfile_move        ),
+    FUNC( 0             , 0      , 0                , 0                   )
 };
-#else
-extern DLCONSTANT  __bgdexport( mod_file, constants_def)[];
-extern DLSYSFUNCS  __bgdexport( mod_file, functions_exports)[];
-#endif
 
 #endif

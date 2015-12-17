@@ -61,6 +61,12 @@
 #include <arpa/inet.h>
 #endif
 
+#ifndef __MONOLITHIC__
+#include "mod_debug_symbols.h"
+#else
+extern DLVARFIXUP __bgdexport( mod_debug, locals_fixup )[];
+#endif
+
 /* --------------------------------------------------------------------------- */
 
 #ifndef _vsnprintf
@@ -87,23 +93,7 @@ enum {
 
 /* --------------------------------------------------------------------------- */
 
-DLVARFIXUP __bgdexport( mod_debug, locals_fixup )[] = {
-    { "id"                  , NULL, -1, -1 },
-    { "father"              , NULL, -1, -1 },
-    { "bigbro"              , NULL, -1, -1 },
-    { "son"                 , NULL, -1, -1 },
-    { "reserved.status"     , NULL, -1, -1 },
 
-    { NULL                  , NULL, -1, -1 }
-};
-
-/* --------------------------------------------------------------------------- */
-
-DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[] = {
-    { "shift_status"        , NULL, -1, -1 },
-
-    { NULL                  , NULL, -1, -1 }
-};
 
 /* --------------------------------------------------------------------------- */
 
@@ -2295,14 +2285,5 @@ void __bgdexport( mod_debug, module_finalize )() {
 #endif
     }
 }
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( mod_debug, modules_dependency )[] =
-{
-    "libkey",
-    "librender",
-    NULL
-};
 
 /* --------------------------------------------------------------------------- */

@@ -37,22 +37,11 @@
 #include "bgddl.h"
 
 #include "libgrbase.h"
+#include "mod_effects.h"
 
-/* --------------------------------------------------------------------------- */
-
-#define BLUR_NORMAL     0
-#define BLUR_3x3        1
-#define BLUR_5x5        2
-#define BLUR_5x5_MAP    3
-
-#define GSCALE_RGB      0
-#define GSCALE_R        1
-#define GSCALE_G        2
-#define GSCALE_B        3
-#define GSCALE_RG       4
-#define GSCALE_RB       5
-#define GSCALE_GB       6
-#define GSCALE_OFF     -1
+#ifndef __MONOLITHIC__
+#include "mod_effects_symbols.h"
+#endif
 
 /* --------------------------------------------------------------------------- */
 /*
@@ -133,7 +122,7 @@ static void _put_pixel( GRAPH * dest, int x, int y, int color ) {
 
 /* ----------------------------------------------------------------- */
 
-static int modeffects_filter( INSTANCE *my, int *params ) { //fpg,map,tabla10
+int modeffects_filter( INSTANCE *my, int *params ) {
     GRAPH * map = bitmap_get( params[0], params[1] ), * map2;
     int *tabla = ( int* )params[2];
     int x, y, i, j;
@@ -214,7 +203,7 @@ static int modeffects_filter( INSTANCE *my, int *params ) { //fpg,map,tabla10
     return 1 ;
 }
 
-static int modeffects_blur( INSTANCE *my, int *params ) { // fpg,map,tipo
+int modeffects_blur( INSTANCE *my, int *params ) {
     GRAPH * map = bitmap_get( params[0], params[1] ), *map2;
 
     int x, y, i, j, c;
@@ -374,7 +363,7 @@ static int modeffects_blur( INSTANCE *my, int *params ) { // fpg,map,tipo
     return 1 ;
 }
 
-static int modeffects_grayscale( INSTANCE *my, int *params ) { //fpg,map,tipo
+int modeffects_grayscale( INSTANCE *my, int *params ) { //fpg,map,tipo
     GRAPH * map = bitmap_get( params[0], params[1] ) ;
     uint32_t i, j, c;
     int r, g, b, a;
@@ -435,7 +424,7 @@ static int modeffects_grayscale( INSTANCE *my, int *params ) { //fpg,map,tipo
     return 1 ;
 }
 
-static int modeffects_rgbscale( INSTANCE *my, int *params ) { //fpg, map, r, g, b
+int modeffects_rgbscale( INSTANCE *my, int *params ) {
     GRAPH * map = bitmap_get( params[0], params[1] ) ;
     uint32_t i, j, c;
     int r, g, b, a;
@@ -469,42 +458,5 @@ static int modeffects_rgbscale( INSTANCE *my, int *params ) { //fpg, map, r, g, 
 
     return 1 ;
 }
-
-/* --------------------------------------------------------------------------- */
-
-DLCONSTANT __bgdexport( mod_effects, constants_def )[] =  {
-    { "BLUR_NORMAL" , TYPE_INT, BLUR_NORMAL     },
-    { "BLUR_3x3"    , TYPE_INT, BLUR_3x3        },
-    { "BLUR_5x5"    , TYPE_INT, BLUR_5x5        },
-    { "BLUR_5x5_MAP", TYPE_INT, BLUR_5x5_MAP    },
-    { "GSCALE_RGB"  , TYPE_INT, GSCALE_RGB      },
-    { "GSCALE_R"    , TYPE_INT, GSCALE_R        },
-    { "GSCALE_G"    , TYPE_INT, GSCALE_G        },
-    { "GSCALE_B"    , TYPE_INT, GSCALE_B        },
-    { "GSCALE_RG"   , TYPE_INT, GSCALE_RG       },
-    { "GSCALE_RB"   , TYPE_INT, GSCALE_RB       },
-    { "GSCALE_GB"   , TYPE_INT, GSCALE_GB       },
-    { "GSCALE_OFF"  , TYPE_INT, GSCALE_OFF      },
-
-    { NULL          , 0       , 0               }
-} ;
-
-/* ----------------------------------------------------------------- */
-/* Declaracion de funciones                                          */
-
-DLSYSFUNCS  __bgdexport( mod_effects, functions_exports )[] = {
-    { "GRAYSCALE"   , "IIB"   , TYPE_INT    , modeffects_grayscale },
-    { "RGBSCALE"    , "IIFFF" , TYPE_INT    , modeffects_rgbscale  },
-    { "BLUR"        , "IIB"   , TYPE_INT    , modeffects_blur      },
-    { "FILTER"      , "IIP"   , TYPE_INT    , modeffects_filter    },
-    { NULL          , NULL    , 0           , NULL                 }
-};
-
-/* ----------------------------------------------------------------- */
-
-char * __bgdexport( mod_effects, modules_dependency )[] = {
-    "libgrbase",
-    NULL
-};
 
 /* --------------------------------------------------------------------------- */

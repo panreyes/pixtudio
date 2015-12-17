@@ -28,7 +28,20 @@
 #include <curl/curl.h>
 #include <bgddl.h>
 
-#ifdef __PXTB__
+#ifndef __PXTB__
+extern int bgd_curl_easy_init(INSTANCE * my, int * params);
+extern int bgd_curl_easy_cleanup(INSTANCE * my, int * params);
+extern int bgd_curl_formadd(INSTANCE * my, int * params);
+extern int bgd_curl_formfree(INSTANCE * my, int * params);
+extern int bgd_curl_easy_setopt(INSTANCE * my, int * params);
+extern int bgd_curl_easy_setopt2(INSTANCE * my, int * params);
+extern int bgd_curl_easy_setopt3(INSTANCE * my, int * params);
+extern int bgd_curl_easy_perform(INSTANCE * my, int * params);
+
+extern void __bgdexport( mod_curl, module_initialize )();
+extern void __bgdexport( mod_curl, module_finalize )();
+#endif
+
 DLCONSTANT  __bgdexport( mod_curl, constants_def )[] = {
     { "CURLOPT_VERBOSE"               , TYPE_DWORD, CURLOPT_VERBOSE                },
     { "CURLOPT_HEADER"                , TYPE_DWORD, CURLOPT_HEADER                 },
@@ -111,23 +124,16 @@ DLCONSTANT  __bgdexport( mod_curl, constants_def )[] = {
     { NULL          , 0       , 0  }
 };
 
-DLSYSFUNCS __bgdexport( mod_curl, functions_exports )[] =
-{
-    { "CURL_INIT"           , ""      , TYPE_INT    , 0 },
-    { "CURL_CLEANUP"        , "I"     , TYPE_INT    , 0 },
-    { "CURL_FORMADD"        , "IISIS" , TYPE_INT    , 0 },
-    { "CURL_FORMFREE"       , "I"     , TYPE_INT    , 0 },
-    { "CURL_SETOPT"         , "III"   , TYPE_INT    , 0 },
-    { "CURL_SETOPT"         , "IIS"   , TYPE_INT    , 0 },
-    { "CURL_SETOPT"         , "IIP"   , TYPE_INT    , 0 },
-    { "CURL_PERFORM"        , "IP"    , TYPE_INT    , 0 },
-    { 0                     , 0       , 0           , 0 }
+DLSYSFUNCS __bgdexport( mod_curl, functions_exports )[] = {
+    FUNC( "CURL_INIT"           , ""      , TYPE_INT    , bgd_curl_easy_init      ),
+    FUNC( "CURL_CLEANUP"        , "I"     , TYPE_INT    , bgd_curl_easy_cleanup   ),
+    FUNC( "CURL_FORMADD"        , "IISIS" , TYPE_INT    , bgd_curl_formadd        ),
+    FUNC( "CURL_FORMFREE"       , "I"     , TYPE_INT    , bgd_curl_formfree       ),
+    FUNC( "CURL_SETOPT"         , "III"   , TYPE_INT    , bgd_curl_easy_setopt    ),
+    FUNC( "CURL_SETOPT"         , "IIS"   , TYPE_INT    , bgd_curl_easy_setopt2   ),
+    FUNC( "CURL_SETOPT"         , "IIP"   , TYPE_INT    , bgd_curl_easy_setopt3   ),
+    FUNC( "CURL_PERFORM"        , "IP"    , TYPE_INT    , bgd_curl_easy_perform   ),
+    FUNC( 0                     , 0       , 0           , 0                       )
 };
-#else
-extern DLCONSTANT  __bgdexport( mod_curl, constants_def )[];
-extern DLSYSFUNCS __bgdexport( mod_curl, functions_exports )[];
-extern void __bgdexport( mod_curl, module_initialize )();
-extern void __bgdexport( mod_curl, module_finalize )();
-#endif
 
 #endif

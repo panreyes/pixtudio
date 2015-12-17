@@ -31,21 +31,32 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
+#ifndef __PXTB__
+DLVARFIXUP __bgdexport( mod_debug, locals_fixup )[] = {
+    { "id"                  , NULL, -1, -1 },
+    { "father"              , NULL, -1, -1 },
+    { "bigbro"              , NULL, -1, -1 },
+    { "son"                 , NULL, -1, -1 },
+    { "reserved.status"     , NULL, -1, -1 },
+
+    { NULL                  , NULL, -1, -1 }
+};
+
+DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[] = {
+    { "shift_status"        , NULL, -1, -1 },
+    { NULL                  , NULL, -1, -1 }
+};
+
+extern void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r );
+extern void __bgdexport( mod_debug, module_initialize )();
+extern void __bgdexport( mod_debug, module_finalize )();
+#endif
+
 char * __bgdexport( mod_debug, modules_dependency )[] =
 {
     "libkey",
     "librender",
     NULL
 };
-#else
-extern DLVARFIXUP __bgdexport( mod_debug, locals_fixup )[];
-extern DLVARFIXUP __bgdexport( mod_debug, globals_fixup )[];
-extern void __bgdexport( mod_debug, process_exec_hook )( INSTANCE * r );
-extern void __bgdexport( mod_debug, module_initialize )();
-extern void __bgdexport( mod_debug, module_finalize )();
-extern char * __bgdexport( mod_debug, modules_dependency )[];
-#endif
-
 
 #endif

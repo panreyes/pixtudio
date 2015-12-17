@@ -31,40 +31,51 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS __bgdexport( mod_draw, functions_exports )[] =
-{
-    /* Funciones de primitivas */
-    { "DRAWING_MAP"     , "II"          , TYPE_INT  , 0 },
-    { "DRAWING_COLOR"   , "I"           , TYPE_INT  , 0 },
-    { "DRAW_LINE"       , "IIII"        , TYPE_INT  , 0 },
-    { "DRAW_RECT"       , "IIII"        , TYPE_INT  , 0 },
-    { "DRAW_BOX"        , "IIII"        , TYPE_INT  , 0 },
-    { "DRAW_CIRCLE"     , "III"         , TYPE_INT  , 0 },
-    { "DRAW_FCIRCLE"    , "III"         , TYPE_INT  , 0 },
-    { "DRAW_CURVE"      , "IIIIIIIII"   , TYPE_INT  , 0 },
-    { "DRAWING_Z"       , "I"           , TYPE_INT  , 0 },
-    { "DELETE_DRAW"     , "I"           , TYPE_INT  , 0 },
-    { "MOVE_DRAW"       , "III"         , TYPE_INT  , 0 },
-    { "DRAWING_ALPHA"   , "I"           , TYPE_INT  , 0 },
-    { "DRAWING_STIPPLE" , "I"           , TYPE_INT  , 0 },
-    { "PUT_PIXEL"       , "III"         , TYPE_INT  , 0 },
-    { "GET_PIXEL"       , "II"          , TYPE_INT  , 0 },
-    { "MAP_GET_PIXEL"   , "IIII"        , TYPE_INT  , 0 },
-    { "MAP_PUT_PIXEL"   , "IIIII"       , TYPE_INT  , 0 },
-    { NULL              , NULL          , 0         , NULL }
+#ifndef __PXTB__
+extern int moddraw_drawing_map( INSTANCE * my, int * params );
+extern int moddraw_drawing_color( INSTANCE * my, int * params );
+extern int moddraw_line( INSTANCE * my, int * params );
+extern int moddraw_rect( INSTANCE * my, int * params );
+extern int moddraw_box( INSTANCE * my, int * params );
+extern int moddraw_circle( INSTANCE * my, int * params );
+extern int moddraw_fcircle( INSTANCE * my, int * params );
+extern int moddraw_bezier( INSTANCE * my, int * params );
+extern int moddraw_drawing_at( INSTANCE * my, int * params );
+extern int moddraw_delete_drawing( INSTANCE * my, int * params );
+extern int moddraw_move_drawing( INSTANCE * my, int * params );
+extern int moddraw_drawing_alpha( INSTANCE * my, int * params );
+extern int moddraw_drawing_stipple( INSTANCE * my, int * params );
+extern int moddraw_put_pixel( INSTANCE * my, int * params );
+extern int moddraw_get_pixel( INSTANCE * my, int * params );
+extern int moddraw_map_get_pixel( INSTANCE * my, int * params );
+extern int moddraw_map_put_pixel( INSTANCE * my, int * params );
+#endif
+DLSYSFUNCS __bgdexport( mod_draw, functions_exports )[] = {
+    FUNC( "DRAWING_MAP"     , "II"          , TYPE_INT  , moddraw_drawing_map       ),
+    FUNC( "DRAWING_COLOR"   , "I"           , TYPE_INT  , moddraw_drawing_color     ),
+    FUNC( "DRAW_LINE"       , "IIII"        , TYPE_INT  , moddraw_line              ),
+    FUNC( "DRAW_RECT"       , "IIII"        , TYPE_INT  , moddraw_rect              ),
+    FUNC( "DRAW_BOX"        , "IIII"        , TYPE_INT  , moddraw_box               ),
+    FUNC( "DRAW_CIRCLE"     , "III"         , TYPE_INT  , moddraw_circle            ),
+    FUNC( "DRAW_FCIRCLE"    , "III"         , TYPE_INT  , moddraw_fcircle           ),
+    FUNC( "DRAW_CURVE"      , "IIIIIIIII"   , TYPE_INT  , moddraw_bezier            ),
+    FUNC( "DRAWING_Z"       , "I"           , TYPE_INT  , moddraw_drawing_at        ),
+    FUNC( "DELETE_DRAW"     , "I"           , TYPE_INT  , moddraw_delete_drawing    ),
+    FUNC( "MOVE_DRAW"       , "III"         , TYPE_INT  , moddraw_move_drawing      ),
+    FUNC( "DRAWING_ALPHA"   , "I"           , TYPE_INT  , moddraw_drawing_alpha     ),
+    FUNC( "DRAWING_STIPPLE" , "I"           , TYPE_INT  , moddraw_drawing_stipple   ),
+    FUNC( "PUT_PIXEL"       , "III"         , TYPE_INT  , moddraw_put_pixel         ),
+    FUNC( "GET_PIXEL"       , "II"          , TYPE_INT  , moddraw_get_pixel         ),
+    FUNC( "MAP_GET_PIXEL"   , "IIII"        , TYPE_INT  , moddraw_map_get_pixel     ),
+    FUNC( "MAP_PUT_PIXEL"   , "IIIII"       , TYPE_INT  , moddraw_map_put_pixel     ),
+    FUNC( NULL              , NULL          , 0         , NULL                      )
 };
 
-char * __bgdexport( mod_draw, modules_dependency )[] =
-{
+char * __bgdexport( mod_draw, modules_dependency )[] = {
     "libgrbase",
     "librender",
     "libdraw",
     NULL
 };
-#else
-extern DLSYSFUNCS __bgdexport( mod_draw, functions_exports )[];
-extern char * __bgdexport( mod_draw, modules_dependency )[];
-#endif
 
 #endif
