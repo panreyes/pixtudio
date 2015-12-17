@@ -29,12 +29,30 @@
 #ifndef __SDLHANDLER_H
 #define __SDLHANDLER_H
 
-#ifdef __PXTB__
-#else
 #include <bgddl.h>
-extern void __bgdexport( libsdlhandler, module_initialize )();
-extern void __bgdexport( libsdlhandler, module_finalize )();
-extern HOOK __bgdexport( libsdlhandler, handler_hooks )[];
+
+#ifndef __PXTB__
+extern void dump_new_events();
+
+/* ----------------------------------------------------------------- */
+/* Module initialization/finalization routines                       */
+void __bgdexport( libsdlhandler, module_initialize )() {
+}
+
+/* ----------------------------------------------------------------- */
+void __bgdexport( libsdlhandler, module_finalize )() {
+}
+
+/* ----------------------------------------------------------------- */
+
+/* Bigest priority first execute
+   Lowest priority last execute */
+
+HOOK __bgdexport( libsdlhandler, handler_hooks )[] =
+{
+    { 5000, dump_new_events                   },
+    {    0, NULL                              }
+} ;
 #endif
 
 #endif

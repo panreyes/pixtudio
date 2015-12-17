@@ -31,28 +31,38 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
 /* --------------------------------------------------------------------------- */
-/* Definicion de variables globales (usada en tiempo de compilacion) */
-
 char __bgdexport( libwm, globals_def )[] =
-"exit_status = 0;\n"                /* SDL_QUIT status */
-"window_status = 1;\n"              /* MINIMIZED:0 VISIBLE:1 */
-"focus_status = 1;\n"               /* FOCUS status */
-"mouse_status = 1;\n";              /* MOUSE status (INSIDE WINDOW:1) */
+    "exit_status = 0;\n"                /* SDL_QUIT status */
+    "window_status = 1;\n"              /* MINIMIZED:0 VISIBLE:1 */
+    "focus_status = 1;\n"               /* FOCUS status */
+    "mouse_status = 1;\n";              /* MOUSE status (INSIDE WINDOW:1) */
 
 /* --------------------------------------------------------------------------- */
-
-char * __bgdexport( libwm, modules_dependency )[] =
-{
+char * __bgdexport( libwm, modules_dependency )[] = {
     "libsdlhandler",
     NULL
 };
-#else
-extern char __bgdexport( libwm, globals_def )[];
-extern char __bgdexport( libwm, modules_dependency )[];
-extern DLVARFIXUP  __bgdexport( libwm, globals_fixup )[];
-extern HOOK __bgdexport( libwm, handler_hooks )[];
-#endif
 
+
+#ifndef __PXTB__
+extern void wm_events();
+
+DLVARFIXUP  __bgdexport( libwm, globals_fixup )[] = {
+    { "exit_status"     , NULL, -1, -1 },
+    { "window_status"   , NULL, -1, -1 },
+    { "focus_status"    , NULL, -1, -1 },
+    { "mouse_status"    , NULL, -1, -1 },
+    { NULL              , NULL, -1, -1 }
+};
+
+/* Bigest priority first execute
+   Lowest priority last execute */
+
+HOOK __bgdexport( libwm, handler_hooks )[] = {
+    { 4700, wm_events   },
+    {    0, NULL        }
+} ;
+
+#endif
 #endif

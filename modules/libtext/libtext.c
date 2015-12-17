@@ -44,6 +44,12 @@
 
 #include "libtext.h"
 
+#ifndef __MONOLITHIC__
+#include "libtext_symbols.h"
+#else
+extern DLVARFIXUP __bgdexport( libtext, globals_fixup )[];
+#endif
+
 /* --------------------------------------------------------------------------- */
 
 int fntcolor8 = -1 ;
@@ -97,25 +103,9 @@ enum {
 };
 
 /* --------------------------------------------------------------------------- */
-/* Definicion de variables globales (usada en tiempo de compilacion) */
-
-char * __bgdexport( libtext, globals_def ) =
-    "text_z = -256;\n"
-    "text_flags;\n"
-    ;
-
-/* --------------------------------------------------------------------------- */
 /* Son las variables que se desea acceder.                           */
 /* El interprete completa esta estructura, si la variable existe.    */
 /* (usada en tiempo de ejecucion)                                    */
-
-DLVARFIXUP __bgdexport( libtext, globals_fixup )[] =
-{
-    /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
-    { "text_z"      , NULL, -1, -1 },
-    { "text_flags"  , NULL, -1, -1 },
-    { NULL          , NULL, -1, -1 }
-};
 
 /* --------------------------------------------------------------------------- */
 /*
@@ -934,16 +924,5 @@ int gr_text_getcolor2( int textid )
 
     return 0;
 }
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( libtext, modules_dependency )[] =
-{
-    "libgrbase",
-    "libblit",
-    "librender",
-    "libfont",
-    NULL
-};
 
 /* --------------------------------------------------------------------------- */

@@ -71,8 +71,8 @@ extern char * apptitle ;
 
 extern int scr_width ;
 extern int scr_height ;
-extern int renderer_width;
-extern int renderer_height;
+extern int renderer_width ;
+extern int renderer_height ;
 
 extern int scr_initialized ;
 

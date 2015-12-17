@@ -31,29 +31,24 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-/* --------------------------------------------------------------------------- */
-/* Definicion de variables globales (usada en tiempo de compilacion) */
+#ifndef __PXTB__
+DLVARFIXUP __bgdexport( libtext, globals_fixup )[] = {
+    { "text_z"      , NULL, -1, -1 },
+    { "text_flags"  , NULL, -1, -1 },
+    { NULL          , NULL, -1, -1 }
+};
+#endif
 
 char __bgdexport( libtext, globals_def )[] =
     "text_z = -256;\n"
-    "text_flags;\n"
-    ;
+    "text_flags;\n" ;
 
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( libtext, modules_dependency )[] =
-{
+char * __bgdexport( libtext, modules_dependency )[] = {
     "libgrbase",
     "libblit",
     "librender",
     "libfont",
     NULL
 };
-#else
-extern char __bgdexport( libtext, globals_def )[];
-extern char __bgdexport( libtext, modules_dependency )[];
-extern DLVARFIXUP __bgdexport( libtext, globals_fixup )[];
-#endif
 
 #endif

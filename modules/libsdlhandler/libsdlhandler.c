@@ -28,11 +28,14 @@
 
 #include <SDL.h>
 
+#ifndef __MONOLITHIC__
+#include "libsdlhandler_symbols.h"
+#endif
+
 /* ----------------------------------------------------------------- */
 /* Public functions                                                  */
 
-static void  dump_new_events()
-{
+void dump_new_events() {
     /* Remove all pendings events */
 
     /* We can't return -1, just return 0 (no event) on error */
@@ -46,29 +49,5 @@ static void  dump_new_events()
     /* Get new events */
     SDL_PumpEvents();
 }
-
-/* ----------------------------------------------------------------- */
-/* Funciones de inicializacion del modulo/plugin                     */
-
-void __bgdexport( libsdlhandler, module_initialize )()
-{
-}
-
-/* ----------------------------------------------------------------- */
-
-void __bgdexport( libsdlhandler, module_finalize )()
-{
-}
-
-/* ----------------------------------------------------------------- */
-
-/* Bigest priority first execute
-   Lowest priority last execute */
-
-HOOK __bgdexport( libsdlhandler, handler_hooks )[] =
-{
-    { 5000, dump_new_events                   },
-    {    0, NULL                              }
-} ;
 
 /* ----------------------------------------------------------------- */
