@@ -22,14 +22,14 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
+#ifndef __PXTB__
+extern int bgd_iconv(INSTANCE * my, int * params);
+#endif
+
 DLSYSFUNCS __bgdexport( mod_iconv, functions_exports )[] =
 {
-	{ "ICONV"            , "SSS"  , TYPE_STRING, 0 },
-	{ 0                  , 0      , 0          , 0 }
+    FUNC( "ICONV"            , "SSS"  , TYPE_STRING, bgd_iconv ),
+    FUNC( 0                  , 0      , 0          , 0 )
 };
-#else
-extern DLSYSFUNCS __bgdexport( mod_iconv, functions_exports )[];
-#endif
 
 #endif

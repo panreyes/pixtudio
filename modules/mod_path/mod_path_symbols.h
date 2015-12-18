@@ -34,21 +34,23 @@
 #define PF_NODIAG       1
 #define PF_REVERSE      2
 
-#ifdef __PXTB__
-DLCONSTANT __bgdexport( mod_path, constants_def )[] =
-{
+#ifndef __PXTB__
+extern int modpathfind_path_find( INSTANCE * my, int * params );
+extern int modpathfind_path_getxy( INSTANCE * my, int * params );
+extern int modpathfind_path_wall( INSTANCE * my, int * params );
+#endif
+
+DLCONSTANT __bgdexport( mod_path, constants_def )[] = {
     { "PF_NODIAG"   , TYPE_INT, PF_NODIAG   },
     { "PF_REVERSE"  , TYPE_INT, PF_REVERSE  },
     { NULL          , 0       , 0           }
 } ;
 
-DLSYSFUNCS __bgdexport( mod_path, functions_exports )[] =
-{
-    /* Path finding */
-    { "PATH_FIND"   , "IIIIIII", TYPE_INT   , 0 },
-    { "PATH_GETXY"  , "PP"     , TYPE_INT   , 0 },
-    { "PATH_WALL"   , "I"      , TYPE_INT   , 0 },
-    { 0             , 0        , 0          , 0 }
+DLSYSFUNCS __bgdexport( mod_path, functions_exports )[] = {
+    FUNC( "PATH_FIND"   , "IIIIIII", TYPE_INT   , modpathfind_path_find  ),
+    FUNC( "PATH_GETXY"  , "PP"     , TYPE_INT   , modpathfind_path_getxy ),
+    FUNC( "PATH_WALL"   , "I"      , TYPE_INT   , modpathfind_path_wall  ),
+    FUNC( 0             , 0        , 0          , 0                      )
 };
 
 char * __bgdexport( mod_path, modules_dependency )[] =
@@ -56,10 +58,5 @@ char * __bgdexport( mod_path, modules_dependency )[] =
     "libgrbase",
     NULL
 };
-#else
-extern DLCONSTANT __bgdexport( mod_path, constants_def )[];
-extern DLSYSFUNCS __bgdexport( mod_path, functions_exports )[];
-extern char * __bgdexport( mod_path, modules_dependency )[];
-#endif
 
 #endif

@@ -31,13 +31,13 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-/* ----------------------------------------------------------------- */
+#ifndef __PXTB__
+extern int modkey_key( INSTANCE * my, int * params );
+#endif
 
-DLSYSFUNCS  __bgdexport( mod_key, functions_exports )[] =
-{
-    { "KEY" , "I"   , TYPE_INT  , 0 },
-    { 0     , 0     , 0         , 0 }
+DLSYSFUNCS  __bgdexport( mod_key, functions_exports )[] = {
+    FUNC( "KEY" , "I"   , TYPE_INT  , modkey_key   ),
+    FUNC( 0     , 0     , 0         , 0            )
 };
 
 /* ----------------------------------------------------------------- */
@@ -47,9 +47,5 @@ char * __bgdexport( mod_key, modules_dependency )[] =
     "libkey",
     NULL
 };
-#else
-extern DLSYSFUNCS  __bgdexport( mod_key, functions_exports )[];
-extern char * __bgdexport( mod_key, modules_dependency )[];
-#endif
 
 #endif

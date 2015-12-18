@@ -27,23 +27,28 @@
 
 #include "bgddl.h"
 
-#ifdef __PXTB__
-char * __bgdexport( mod_multi, modules_dependency )[] =
-{
+#ifndef __PXTB__
+// Fucntion declarations
+extern int modmulti_numpointers(INSTANCE * my, int * params);
+extern int modmulti_info(INSTANCE * my, int * params);
+extern void parse_input_events();
+
+// Symbol tables
+HOOK __bgdexport( mod_multi, handler_hooks )[] = {
+    { 5500, parse_input_events                },
+    {    0, NULL                              }
+} ;
+extern void __bgdexport( mod_multi, module_initialize )();
+#endif
+
+char * __bgdexport( mod_multi, modules_dependency )[] = {
     "libsdlhandler",
     NULL
 };
 
-DLSYSFUNCS __bgdexport( mod_multi, functions_exports )[] =
-{
-    { "MULTI_NUMPOINTERS" , ""      , TYPE_INT    , 0 },
-    { "MULTI_INFO"        , "IS"    , TYPE_INT    , 0 },
-    { 0                   , 0       , 0           , 0 }
+DLSYSFUNCS __bgdexport( mod_multi, functions_exports )[] = {
+    FUNC( "MULTI_NUMPOINTERS" , ""      , TYPE_INT    , modmulti_numpointers ),
+    FUNC( "MULTI_INFO"        , "IS"    , TYPE_INT    , modmulti_info ),
+    FUNC( 0                   , 0       , 0           , 0 )
 };
-#else
-extern DLSYSFUNCS __bgdexport( mod_multi, functions_exports )[];
-extern HOOK __bgdexport( mod_multi, handler_hooks )[];
-extern char * __bgdexport( mod_multi, modules_dependency )[];
-extern void __bgdexport( mod_multi, module_initialize )();
-#endif
 #endif

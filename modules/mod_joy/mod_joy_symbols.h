@@ -31,37 +31,68 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS  __bgdexport( mod_joy, functions_exports )[] =
-{
-    { "JOY_AXES"            , ""      , TYPE_INT    , 0 },
-    { "JOY_AXES"            , "I"     , TYPE_INT    , 0 },
-    { "JOY_NUM_AXES"         , ""      , TYPE_INT    , 0 },
-    { "JOY_NUM_AXES"         , "I"     , TYPE_INT    , 0 },
-    { "JOY_GET_AXIS"         , "I"     , TYPE_INT    , 0 },
-    { "JOY_GET_AXIS"         , "II"    , TYPE_INT    , 0 },
-    { "JOY_BUTTONS"         , ""      , TYPE_INT    , 0 },
-    { "JOY_BUTTONS"         , "I"     , TYPE_INT    , 0 },
-    { "JOY_NAME"            , "I"     , TYPE_STRING , 0 },
-    { "JOY_NUM_BUTTONS"      , ""      , TYPE_INT    , 0 },
-    { "JOY_NUM_BUTTONS"      , "I"     , TYPE_INT    , 0 },
-    { "JOY_NUMBER"          , ""      , TYPE_INT    , 0 },
-    { "JOY_SELECT"          , "I"     , TYPE_INT    , 0 },
-    { "JOY_GET_BUTTON"       , "I"     , TYPE_INT    , 0 },
-    { "JOY_GET_BUTTON"       , "II"    , TYPE_INT    , 0 },
-    { "JOY_GET_POSITION"     , "I"     , TYPE_INT    , 0 },
-    { "JOY_GET_POSITION"     , "II"    , TYPE_INT    , 0 },
-    { "JOY_NUM_HATS"         , ""      , TYPE_INT    , 0 },
-    { "JOY_NUM_HATS"         , "I"     , TYPE_INT    , 0 },   /* Added by Sandman */
-    { "JOY_NUM_BALLS"        , ""      , TYPE_INT    , 0 },
-    { "JOY_NUM_BALLS"        , "I"     , TYPE_INT    , 0 },   /* Added by Sandman */
-    { "JOY_GET_HAT"          , "I"     , TYPE_INT    , 0 },
-    { "JOY_GET_HAT"          , "II"    , TYPE_INT    , 0 },   /* Added by Sandman */
-    { "JOY_GET_BALL"         , "IPP"   , TYPE_INT    , 0 },
-    { "JOY_GET_BALL"         , "IIPP"  , TYPE_INT    , 0 },   /* Added by Sandman */
-    { "JOY_GET_ACCEL"        , "PPP"   , TYPE_INT    , 0 },
-    { "JOY_GET_ACCEL"        , "IPPP"  , TYPE_INT    , 0 },
-    { 0                     , 0       , 0           , 0 }
+#ifndef __PXTB__
+extern int modjoy_axes( INSTANCE * my, int * params );
+extern int modjoy_axes_specific( INSTANCE * my, int * params );
+extern int modjoy_get_position( INSTANCE * my, int * params );
+extern int modjoy_get_position_specific( INSTANCE * my, int * params );
+extern int modjoy_buttons( INSTANCE * my, int * params );
+extern int modjoy_buttons_specific( INSTANCE * my, int * params );
+extern int modjoy_name( INSTANCE * my, int * params );
+extern int modjoy_num( INSTANCE * my, int * params );
+extern int modjoy_select( INSTANCE * my, int * params );
+extern int modjoy_get_button( INSTANCE * my, int * params );
+extern int modjoy_get_button_specific( INSTANCE * my, int * params );
+extern int modjoy_hats( INSTANCE * my, int * params );
+extern int modjoy_hats_specific( INSTANCE * my, int * params );
+extern int modjoy_balls( INSTANCE * my, int * params );
+extern int modjoy_balls_specific( INSTANCE * my, int * params );
+extern int modjoy_get_hat( INSTANCE * my, int * params );
+extern int modjoy_get_hat_specific( INSTANCE * my, int * params );
+extern int modjoy_get_ball( INSTANCE * my, int * params );
+extern int modjoy_get_ball_specific( INSTANCE * my, int * params );
+extern int modjoy_get_accel( INSTANCE * my, int * params );
+extern int modjoy_get_accel_specific( INSTANCE * my, int * params );
+#endif
+
+DLSYSFUNCS  __bgdexport( mod_joy, functions_exports )[] = {
+    FUNC( "JOY_AXES"         , ""     , TYPE_INT    , modjoy_axes                  ),
+    FUNC( "JOY_AXES"         , "I"    , TYPE_INT    , modjoy_axes_specific         ),
+    FUNC( "JOY_NUM_AXES"     , ""     , TYPE_INT    , modjoy_axes                  ),
+    FUNC( "JOY_NUM_AXES"     , "I"    , TYPE_INT    , modjoy_axes_specific         ),
+    FUNC( "JOY_GET_AXIS"     , "I"    , TYPE_INT    , modjoy_get_position          ),
+    FUNC( "JOY_GET_AXIS"     , "II"   , TYPE_INT    , modjoy_get_position_specific ),
+
+    FUNC( "JOY_BUTTONS"      , ""     , TYPE_INT    , modjoy_buttons               ),
+    FUNC( "JOY_BUTTONS"      , "I"    , TYPE_INT    , modjoy_buttons_specific      ),
+
+    FUNC( "JOY_NAME"         , "I"    , TYPE_STRING , modjoy_name                  ),
+
+    FUNC( "JOY_NUM_BUTTONS"  , ""     , TYPE_INT    , modjoy_buttons               ),
+    FUNC( "JOY_NUM_BUTTONS"  , "I"    , TYPE_INT    , modjoy_buttons_specific      ),
+
+    FUNC( "JOY_NUMBER"       , ""     , TYPE_INT    , modjoy_num                   ),
+
+    FUNC( "JOY_SELECT"       , "I"    , TYPE_INT    , modjoy_select                ),
+
+    FUNC( "JOY_GET_BUTTON"   , "I"    , TYPE_INT    , modjoy_get_button            ),
+    FUNC( "JOY_GET_BUTTON"   , "II"   , TYPE_INT    , modjoy_get_button_specific   ),
+    FUNC( "JOY_GET_POSITION" , "I"    , TYPE_INT    , modjoy_get_position          ),
+    FUNC( "JOY_GET_POSITION" , "II"   , TYPE_INT    , modjoy_get_position_specific ),
+
+    FUNC( "JOY_NUM_HATS"     , ""     , TYPE_INT    , modjoy_hats                  ),
+    FUNC( "JOY_NUM_HATS"     , "I"    , TYPE_INT    , modjoy_hats_specific         ),   /* Added by Sandman */
+    FUNC( "JOY_NUM_BALLS"    , ""     , TYPE_INT    , modjoy_balls                 ),
+    FUNC( "JOY_NUM_BALLS"    , "I"    , TYPE_INT    , modjoy_balls_specific        ),   /* Added by Sandman */
+    FUNC( "JOY_GET_HAT"      , "I"    , TYPE_INT    , modjoy_get_hat               ),
+    FUNC( "JOY_GET_HAT"      , "II"   , TYPE_INT    , modjoy_get_hat_specific      ),   /* Added by Sandman */
+    FUNC( "JOY_GET_BALL"     , "IPP"  , TYPE_INT    , modjoy_get_ball              ),
+    FUNC( "JOY_GET_BALL"     , "IIPP" , TYPE_INT    , modjoy_get_ball_specific     ),   /* Added by Sandman */
+
+    FUNC( "JOY_GET_ACCEL"    , "PPP"  , TYPE_INT    , modjoy_get_accel             ),
+    FUNC( "JOY_GET_ACCEL"    , "IPPP" , TYPE_INT    , modjoy_get_accel_specific    ),
+
+    FUNC( 0                  , 0      , 0           , 0                            )
 };
 
 char * __bgdexport( mod_joy, modules_dependency )[] =
@@ -69,9 +100,5 @@ char * __bgdexport( mod_joy, modules_dependency )[] =
     "libjoy",
     NULL
 };
-#else
-extern DLSYSFUNCS  __bgdexport( mod_joy, functions_exports )[];
-extern char * __bgdexport( mod_joy, modules_dependency )[];
-#endif
 
 #endif

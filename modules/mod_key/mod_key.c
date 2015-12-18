@@ -39,6 +39,10 @@
 
 #include "libkey.h"
 
+#ifndef __MONOLITHIC__
+#include "mod_key_symbols.h"
+#endif
+
 /* --------------------------------------------------------------------------- */
 
 #ifdef __GNUC__
@@ -58,8 +62,7 @@
  *      A non-zero positive value if the key is pressed, 0 otherwise
  */
 
-static _inline int _get_key( int code )
-{
+static _inline int _get_key( int code ) {
     key_equiv * curr ;
     int found = 0 ;
 
@@ -78,25 +81,8 @@ static _inline int _get_key( int code )
 
 /* --------------------------------------------------------------------------- */
 
-static int modkey_key( INSTANCE * my, int * params )
-{
+int modkey_key( INSTANCE * my, int * params ) {
     return ( _get_key( params[0] ) );
 }
-
-/* --------------------------------------------------------------------------- */
-
-DLSYSFUNCS  __bgdexport( mod_key, functions_exports )[] =
-{
-    { "KEY" , "I"   , TYPE_INT  , modkey_key   },
-    { 0     , 0     , 0         , 0            }
-};
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( mod_key, modules_dependency )[] =
-{
-    "libkey",
-    NULL
-};
 
 /* --------------------------------------------------------------------------- */

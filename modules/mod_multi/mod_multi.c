@@ -29,10 +29,14 @@
 #include <SDL.h>
 #include "bgddl.h"
 #include "dlvaracc.h"
- #include "xstrings.h"
+#include "xstrings.h"
+
+#ifndef __MONOLITHIC__
+#include "mod_multi_symbols.h"
+#endif
 
 #ifndef MAX_POINTERS
-#   define MAX_POINTERS 10
+#define MAX_POINTERS 10
 #endif
 
 /* --------------------------------------------------------------------------- */
@@ -188,12 +192,12 @@ void parse_input_events() {
 }
 
 // Return the total number of active pointers
-static int modmulti_numpointers(INSTANCE * my, int * params) {
+int modmulti_numpointers(INSTANCE * my, int * params) {
     return numpointers;
 }
 
 // Get some info about the given pointer
-static int modmulti_info(INSTANCE * my, int * params) {
+int modmulti_info(INSTANCE * my, int * params) {
     const char *info = (char *) string_get(params[1]);
     int n=params[0];
 
@@ -224,27 +228,7 @@ static int modmulti_info(INSTANCE * my, int * params) {
 
 /* ----------------------------------------------------------------- */
 
-DLSYSFUNCS __bgdexport( mod_multi, functions_exports )[] =
-{
-    { "MULTI_NUMPOINTERS" , ""      , TYPE_INT    , modmulti_numpointers },
-    { "MULTI_INFO"        , "IS"    , TYPE_INT    , modmulti_info        },
-    {0, 0, 0, 0}
-};
-
-HOOK __bgdexport( mod_multi, handler_hooks )[] =
-{
-    { 5500, parse_input_events                },
-    {    0, NULL                              }
-} ;
-
-char * __bgdexport( mod_multi, modules_dependency )[] =
-{
-    "libsdlhandler",
-    NULL
-};
-
-void __bgdexport( mod_multi, module_initialize )()
-{
+void __bgdexport( mod_multi, module_initialize )() {
     SDL_SetHint("SDL_ANDROID_SEPARATE_MOUSE_AND_TOUCH", "1");
 }
 

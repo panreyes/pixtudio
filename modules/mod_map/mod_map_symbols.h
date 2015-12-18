@@ -31,7 +31,84 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
+#ifndef __PXTB__
+extern int modmap_map_block_copy( INSTANCE * my, int * params );
+extern int modmap_map_put( INSTANCE * my, int * params );
+extern int modmap_map_xput( INSTANCE * my, int * params );
+extern int modmap_map_xputnp( INSTANCE * my, int * params );
+extern int modmap_new_map( INSTANCE * my, int * params );
+extern int modmap_new_map_extend( INSTANCE * my, int * params );
+extern int modmap_new_map_extend( INSTANCE * my, int * params );
+extern int modmap_map_clear( INSTANCE * my, int * params );
+extern int modmap_map_clone( INSTANCE * my, int * params );
+extern int modmap_map_name( INSTANCE * my, int * params );
+extern int modmap_map_set_name( INSTANCE * my, int * params );
+extern int modmap_map_exists( INSTANCE * my, int * params );
+extern int modmap_map_xputnp( INSTANCE * my, int * params );
+extern int modmap_unload_map( INSTANCE * my, int * params );
+extern int modmap_unload_map( INSTANCE * my, int * params );
+extern int modmap_load_map( INSTANCE * my, int * params );
+extern int modmap_bgload_map( INSTANCE * my, int * params );
+extern int modmap_save_map( INSTANCE * my, int * params );
+extern int modmap_map_buffer( INSTANCE * my, int * params );
+extern int modmap_fpg_add( INSTANCE * my, int * params );
+extern int modmap_fpg_new( INSTANCE * my, int * params );
+extern int modmap_fpg_exists( INSTANCE * my, int * params );
+extern int modmap_load_fpg( INSTANCE * my, int * params );
+extern int modmap_bgload_fpg( INSTANCE * my, int * params );
+extern int modmap_save_fpg( INSTANCE * my, int * params );
+extern int modmap_unload_fpg( INSTANCE * my, int * params );
+extern int modmap_unload_fpg( INSTANCE * my, int * params );
+extern int modmap_rgb_depth( INSTANCE * my, int * params );
+extern int modmap_rgba_depth( INSTANCE * my, int * params );
+extern int modmap_get_rgb_depth( INSTANCE * my, int * params );
+extern int modmap_get_rgba_depth( INSTANCE * my, int * params );
+extern int modmap_rgb( INSTANCE * my, int * params );
+extern int modmap_rgba( INSTANCE * my, int * params );
+extern int modmap_rgb_depth( INSTANCE * my, int * params );
+extern int modmap_rgba_depth( INSTANCE * my, int * params );
+extern int modmap_rgba( INSTANCE * my, int * params );
+extern int modmap_rgba_depth( INSTANCE * my, int * params );
+extern int modmap_get_rgb( INSTANCE * my, int * params );
+extern int modmap_get_rgba( INSTANCE * my, int * params );
+extern int modmap_get_rgb_depth( INSTANCE * my, int * params );
+extern int modmap_get_rgba_depth( INSTANCE * my, int * params );
+extern int modmap_get_rgba( INSTANCE * my, int * params );
+extern int modmap_get_rgba_depth( INSTANCE * my, int * params );
+extern int modmap_fade( INSTANCE * my, int * params );
+extern int modmap_fade_in( INSTANCE * my, int * params );
+extern int modmap_fade_out( INSTANCE * my, int * params );
+extern int modmap_fade_in( INSTANCE * my, int * params );
+extern int modmap_fade_out( INSTANCE * my, int * params );
+extern int modmap_graphic_set( INSTANCE * my, int * params );
+extern int modmap_graphic_info( INSTANCE * my, int * params );
+extern int modmap_graphic_info( INSTANCE * my, int * params );
+extern int modmap_graphic_set( INSTANCE * my, int * params );
+extern int modmap_graphic_info( INSTANCE * my, int * params );
+extern int modmap_colormod_set( INSTANCE * my, int * params );
+extern int modmap_get_point( INSTANCE * my, int * params );
+extern int modmap_set_point( INSTANCE * my, int * params );
+extern int modmap_set_center( INSTANCE * my, int * params );
+extern int modmap_load_fnt( INSTANCE * my, int * params );
+extern int modmap_bgload_fnt( INSTANCE * my, int * params );
+extern int modmap_unload_fnt( INSTANCE * my, int * params );
+extern int modmap_save_fnt( INSTANCE * my, int * params );
+extern int modmap_fnt_new( INSTANCE * my, int * params );
+extern int modmap_fnt_new_charset( INSTANCE * my, int * params );
+extern int modmap_fnt_new_from_bitmap( INSTANCE * my, int * params );
+extern int modmap_fnt_new_charset( INSTANCE * my, int * params );
+extern int modmap_fnt_new_from_bitmap( INSTANCE * my, int * params );
+extern int modmap_load_bdf( INSTANCE * my, int * params );
+extern int modmap_bgload_bdf( INSTANCE * my, int * params );
+extern int modmap_get_glyph( INSTANCE * my, int * params );
+extern int modmap_set_glyph( INSTANCE * my, int * params );
+extern int modmap_load_png( INSTANCE * my, int * params );
+extern int modmap_bgload_png( INSTANCE * my, int * params );
+extern int modmap_load_pcx( INSTANCE * my, int * params );
+extern int modmap_bgload_pcx( INSTANCE * my, int * params );
+extern int modmap_save_png( INSTANCE * my, int * params );
+#endif
+
 #define G_WIDTH         0
 #define G_HEIGHT        1
 #define G_CENTER_X      2
@@ -45,106 +122,122 @@
 #define CHARSET_CP850   1
 #define NFB_FIXEDWIDTH  1
 
-DLCONSTANT __bgdexport( mod_map, constants_def )[] =
-{
-    { "G_WIDTH"         , TYPE_INT, G_WIDTH             },
-    { "G_HEIGHT"        , TYPE_INT, G_HEIGHT            },
-    { "G_CENTER_X"      , TYPE_INT, G_CENTER_X          },
-    { "G_X_CENTER"      , TYPE_INT, G_X_CENTER          },
-    { "G_CENTER_Y"      , TYPE_INT, G_CENTER_Y          },
-    { "G_Y_CENTER"      , TYPE_INT, G_Y_CENTER          },
-    { "G_PITCH"         , TYPE_INT, G_PITCH             },
-    { "G_DEPTH"         , TYPE_INT, G_DEPTH             },
-    { "B_CLEAR"         , TYPE_INT, B_CLEAR             },
-    { "CHARSET_ISO8859" , TYPE_INT, CHARSET_ISO8859     },
-    { "CHARSET_CP850"   , TYPE_INT, CHARSET_CP850       },
-    { "NFB_VARIABLEWIDTH", TYPE_INT, 0                  },
-    { "NFB_FIXEDWIDTH"  , TYPE_INT, NFB_FIXEDWIDTH      },
+DLCONSTANT __bgdexport( mod_map, constants_def )[] = {
+    { "G_WIDTH"          , TYPE_INT, G_WIDTH             },
+    { "G_HEIGHT"         , TYPE_INT, G_HEIGHT            },
+    { "G_CENTER_X"       , TYPE_INT, G_CENTER_X          },
+    { "G_X_CENTER"       , TYPE_INT, G_X_CENTER          },
+    { "G_CENTER_Y"       , TYPE_INT, G_CENTER_Y          },
+    { "G_Y_CENTER"       , TYPE_INT, G_Y_CENTER          },
+    { "G_PITCH"          , TYPE_INT, G_PITCH             },
+    { "G_DEPTH"          , TYPE_INT, G_DEPTH             },
 
-    { NULL              , 0       , 0                   }
+    { "B_CLEAR"          , TYPE_INT, B_CLEAR             },
+
+    { "CHARSET_ISO8859"  , TYPE_INT, CHARSET_ISO8859     },
+    { "CHARSET_CP850"    , TYPE_INT, CHARSET_CP850       },
+
+    { "NFB_VARIABLEWIDTH", TYPE_INT, 0                  },
+    { "NFB_FIXEDWIDTH"   , TYPE_INT, NFB_FIXEDWIDTH      },
+
+    { NULL               , 0       , 0                   }
 } ;
 
-DLSYSFUNCS  __bgdexport( mod_map, functions_exports )[] =
-{
+DLSYSFUNCS  __bgdexport( mod_map, functions_exports )[] = {
     /* Bitmaps */
-    { "MAP_BLOCK_COPY"      , "IIIIIIIIII"  , TYPE_INT      , 0 },
-    { "MAP_PUT"             , "IIIII"       , TYPE_INT      , 0 },
-    { "MAP_XPUT"            , "IIIIIIII"    , TYPE_INT      , 0 },
-    { "MAP_NEW"             , "III"         , TYPE_INT      , 0 },
-    { "MAP_NEW"             , "IIII"        , TYPE_INT      , 0 },
-    { "MAP_CLEAR"           , "III"         , TYPE_INT      , 0 },
-    { "MAP_CLONE"           , "II"          , TYPE_INT      , 0 },
-    { "MAP_NAME"            , "II"          , TYPE_STRING   , 0 },
-    { "MAP_SET_NAME"        , "IIS"         , TYPE_INT      , 0 },
-    { "MAP_EXISTS"          , "II"          , TYPE_INT      , 0 },
-    { "MAP_XPUTNP"          , "IIIIIIIIII"  , TYPE_INT      , 0 },
-    { "MAP_DEL"             , "II"          , TYPE_INT      , 0 },
-    { "MAP_UNLOAD"          , "II"          , TYPE_INT      , 0 },
-    { "MAP_LOAD"            , "S"           , TYPE_INT      , 0 },
-    { "MAP_LOAD"            , "SP"          , TYPE_INT      , 0 },
-    { "MAP_SAVE"            , "IIS"         , TYPE_INT      , 0 },
-    { "MAP_BUFFER"          , "II"          , TYPE_POINTER  , 0 },
-    { "FPG_ADD"             , "IIII"        , TYPE_INT      , 0 },
-    { "FPG_NEW"             , ""            , TYPE_INT      , 0 },
-    { "FPG_EXISTS"          , "I"           , TYPE_INT      , 0 },
-    { "FPG_LOAD"            , "S"           , TYPE_INT      , 0 },
-    { "FPG_LOAD"            , "SP"          , TYPE_INT      , 0 },
-    { "FPG_SAVE"            , "IS"          , TYPE_INT      , 0 },
-    { "FPG_DEL"             , "I"           , TYPE_INT      , 0 },
-    { "FPG_UNLOAD"          , "I"           , TYPE_INT      , 0 },
-    { "RGB"                 , "BBBI"        , TYPE_INT      , 0 },
-    { "RGBA"                , "BBBBI"       , TYPE_INT      , 0 },
-    { "RGB_GET"             , "IPPPI"       , TYPE_INT      , 0 },
-    { "RGBA_GET"            , "IPPPPI"      , TYPE_INT      , 0 },
-    { "RGB"                 , "BBB"         , TYPE_INT      , 0 },
-    { "RGBA"                , "BBBB"        , TYPE_INT      , 0 },
-    { "RGB_GET"             , "IPPP"        , TYPE_INT      , 0 },
-    { "RGBA_GET"            , "IPPPP"       , TYPE_INT      , 0 },
-    { "FADE"                , "IIII"        , TYPE_INT      , 0 },
-    { "FADE_IN"             , ""            , TYPE_INT      , 0 },
-    { "FADE_OUT"            , ""            , TYPE_INT      , 0 },
-    { "MAP_INFO_SET"        , "IIII"        , TYPE_INT      , 0 },
-    { "MAP_INFO_GET"        , "III"         , TYPE_INT      , 0 },
-    { "MAP_INFO"            , "III"         , TYPE_INT      , 0 },
-    { "GRAPHIC_SET"         , "IIII"        , TYPE_INT      , 0 },
-    { "GRAPHIC_INFO"        , "III"         , TYPE_INT      , 0 },
-    { "MAP_COLORMOD_SET"    , "IIIII"       , TYPE_INT      , 0 },
-    { "POINT_GET"           , "IIIPP"       , TYPE_INT      , 0 },
-    { "POINT_SET"           , "IIIII"       , TYPE_INT      , 0 },
-    { "CENTER_SET"          , "IIII"        , TYPE_INT      , 0 },
-    { "FNT_LOAD"            , "S"           , TYPE_INT      , 0 },
-    { "FNT_LOAD"            , "SP"          , TYPE_INT      , 0 },
-    { "FNT_UNLOAD"          , "I"           , TYPE_INT      , 0 },
-    { "FNT_SAVE"            , "IS"          , TYPE_INT      , 0 },
-    { "FNT_NEW"             , "I"           , TYPE_INT      , 0 },
-    { "FNT_NEW"             , "II"          , TYPE_INT      , 0 },
-    { "FNT_NEW"             , "IIIIIIII"    , TYPE_INT      , 0 },
-    { "BDF_LOAD"            , "S"           , TYPE_INT      , 0 },
-    { "BDF_LOAD"            , "SP"          , TYPE_INT      , 0 },
-    { "GLYPH_GET"           , "II"          , TYPE_INT      , 0 },
-    { "GLYPH_SET"           , "IIII"        , TYPE_INT      , 0 },
-    { "PNG_LOAD"            , "S"           , TYPE_INT      , 0 },
-    { "PNG_LOAD"            , "SP"          , TYPE_INT      , 0 },
-    { "PCX_LOAD"            , "S"           , TYPE_INT      , 0 },
-    { "PCX_LOAD"            , "SP"          , TYPE_INT      , 0 },
-    { "PNG_SAVE"            , "IIS"         , TYPE_INT      , 0 },
-    { 0                     , 0             , 0             , 0 }
+    FUNC( "MAP_BLOCK_COPY"      , "IIIIIIIIII"  , TYPE_INT      , modmap_map_block_copy     ),
+    FUNC( "MAP_PUT"             , "IIIII"       , TYPE_INT      , modmap_map_put            ),
+    FUNC( "MAP_XPUT"            , "IIIIIIII"    , TYPE_INT      , modmap_map_xput           ),
+    FUNC( "MAP_NEW"             , "III"         , TYPE_INT      , modmap_new_map            ),
+    FUNC( "MAP_NEW"             , "IIII"        , TYPE_INT      , modmap_new_map_extend     ),
+    FUNC( "MAP_CLEAR"           , "III"         , TYPE_INT      , modmap_map_clear          ),
+    FUNC( "MAP_CLONE"           , "II"          , TYPE_INT      , modmap_map_clone          ),
+    FUNC( "MAP_NAME"            , "II"          , TYPE_STRING   , modmap_map_name           ),
+    FUNC( "MAP_SET_NAME"        , "IIS"         , TYPE_INT      , modmap_map_set_name       ),
+    FUNC( "MAP_EXISTS"          , "II"          , TYPE_INT      , modmap_map_exists         ),
+    FUNC( "MAP_XPUTNP"          , "IIIIIIIIII"  , TYPE_INT      , modmap_map_xputnp         ),
+    FUNC( "MAP_DEL"             , "II"          , TYPE_INT      , modmap_unload_map         ),
+    FUNC( "MAP_UNLOAD"          , "II"          , TYPE_INT      , modmap_unload_map         ),
+    FUNC( "MAP_LOAD"            , "S"           , TYPE_INT      , modmap_load_map           ),
+    FUNC( "MAP_LOAD"            , "SP"          , TYPE_INT      , modmap_bgload_map         ),
+    FUNC( "MAP_SAVE"            , "IIS"         , TYPE_INT      , modmap_save_map           ),
+    FUNC( "MAP_BUFFER"          , "II"          , TYPE_POINTER  , modmap_map_buffer         ),
+
+    /* FPGs */
+    FUNC( "FPG_ADD"             , "IIII"        , TYPE_INT      , modmap_fpg_add            ),
+    FUNC( "FPG_NEW"             , ""            , TYPE_INT      , modmap_fpg_new            ),
+    FUNC( "FPG_EXISTS"          , "I"           , TYPE_INT      , modmap_fpg_exists         ),
+    FUNC( "FPG_LOAD"            , "S"           , TYPE_INT      , modmap_load_fpg           ),
+    FUNC( "FPG_LOAD"            , "SP"          , TYPE_INT      , modmap_bgload_fpg         ),
+    FUNC( "FPG_SAVE"            , "IS"          , TYPE_INT      , modmap_save_fpg           ),
+    FUNC( "FPG_DEL"             , "I"           , TYPE_INT      , modmap_unload_fpg         ),
+    FUNC( "FPG_UNLOAD"          , "I"           , TYPE_INT      , modmap_unload_fpg         ),
+
+    FUNC( "RGB"                 , "BBBI"        , TYPE_INT      , modmap_rgb_depth          ),
+    FUNC( "RGBA"                , "BBBBI"       , TYPE_INT      , modmap_rgba_depth         ),
+    FUNC( "RGB_GET"             , "IPPPI"       , TYPE_INT      , modmap_get_rgb_depth      ),
+    FUNC( "RGBA_GET"            , "IPPPPI"      , TYPE_INT      , modmap_get_rgba_depth     ),
+
+    FUNC( "RGB"                 , "BBB"         , TYPE_INT      , modmap_rgb                ),
+    FUNC( "RGBA"                , "BBBB"        , TYPE_INT      , modmap_rgba               ),
+    FUNC( "RGB_GET"             , "IPPP"        , TYPE_INT      , modmap_get_rgb            ),
+    FUNC( "RGBA_GET"            , "IPPPP"       , TYPE_INT      , modmap_get_rgba           ),
+
+    FUNC( "FADE"                , "IIII"        , TYPE_INT      , modmap_fade               ),
+    FUNC( "FADE_IN"             , ""            , TYPE_INT      , modmap_fade_in            ),
+    FUNC( "FADE_OUT"            , ""            , TYPE_INT      , modmap_fade_out           ),
+
+    /* Graphic information */
+    FUNC( "MAP_INFO_SET"        , "IIII"        , TYPE_INT      , modmap_graphic_set        ),
+    FUNC( "MAP_INFO_GET"        , "III"         , TYPE_INT      , modmap_graphic_info       ),
+    FUNC( "MAP_INFO"            , "III"         , TYPE_INT      , modmap_graphic_info       ),
+    FUNC( "GRAPHIC_SET"         , "IIII"        , TYPE_INT      , modmap_graphic_set        ),
+    FUNC( "GRAPHIC_INFO"        , "III"         , TYPE_INT      , modmap_graphic_info       ),
+
+    /* Color modulation */
+    FUNC( "MAP_COLORMOD_SET"    , "IIIII"       , TYPE_INT      , modmap_colormod_set       ),
+
+    /* Control points */
+    FUNC( "POINT_GET"           , "IIIPP"       , TYPE_INT      , modmap_get_point          ),
+    FUNC( "POINT_SET"           , "IIIII"       , TYPE_INT      , modmap_set_point          ),
+
+    FUNC( "CENTER_SET"          , "IIII"        , TYPE_INT      , modmap_set_center         ),
+
+    /* Fonts */
+    FUNC( "FNT_LOAD"            , "S"           , TYPE_INT      , modmap_load_fnt           ),
+    FUNC( "FNT_LOAD"            , "SP"          , TYPE_INT      , modmap_bgload_fnt         ),
+    FUNC( "FNT_UNLOAD"          , "I"           , TYPE_INT      , modmap_unload_fnt         ),
+    FUNC( "FNT_SAVE"            , "IS"          , TYPE_INT      , modmap_save_fnt           ),
+    FUNC( "FNT_NEW"             , "I"           , TYPE_INT      , modmap_fnt_new            ),
+    FUNC( "FNT_NEW"             , "II"          , TYPE_INT      , modmap_fnt_new_charset    ),
+    FUNC( "FNT_NEW"             , "IIIIIIII"    , TYPE_INT      , modmap_fnt_new_from_bitmap),
+
+    FUNC( "BDF_LOAD"            , "S"           , TYPE_INT      , modmap_load_bdf           ),
+    FUNC( "BDF_LOAD"            , "SP"          , TYPE_INT      , modmap_bgload_bdf         ),
+
+    FUNC( "GLYPH_GET"           , "II"          , TYPE_INT      , modmap_get_glyph          ),
+    FUNC( "GLYPH_SET"           , "IIII"        , TYPE_INT      , modmap_set_glyph          ),
+
+    /* Image loading */
+    FUNC( "PNG_LOAD"            , "S"           , TYPE_INT      , modmap_load_png           ),
+    FUNC( "PNG_LOAD"            , "SP"          , TYPE_INT      , modmap_bgload_png         ),
+    FUNC( "PCX_LOAD"            , "S"           , TYPE_INT      , modmap_load_pcx           ),
+    FUNC( "PCX_LOAD"            , "SP"          , TYPE_INT      , modmap_bgload_pcx         ),
+
+    /* Image saving */
+    FUNC( "PNG_SAVE"            , "IIS"         , TYPE_INT      , modmap_save_png           ),
+
+    FUNC( 0                     , 0             , 0             , 0 )
 };
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( mod_map, modules_dependency )[] =
-{
+char * __bgdexport( mod_map, modules_dependency )[] = {
     "libgrbase",
     "libvideo",
     "libblit",
     "libfont",
     NULL
 };
-#else
-extern DLCONSTANT __bgdexport( mod_map, constants_def )[];
-extern DLSYSFUNCS  __bgdexport( mod_map, functions_exports )[];
-extern char * __bgdexport( mod_map, modules_dependency )[];
-#endif
 
 #endif

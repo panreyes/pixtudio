@@ -73,16 +73,6 @@ static int block_if = 1 ;
 
 /* --------------------------------------------------------------------------- */
 
-DLCONSTANT __bgdexport( mod_path, constants_def )[] =
-{
-    { "PF_NODIAG"   , TYPE_INT, PF_NODIAG   }, /* Prohibit the pathfinding from using diagonal paths. */
-    { "PF_REVERSE"  , TYPE_INT, PF_REVERSE  }, /* Return the path found in reverse order.             */
-
-    { NULL          , 0       , 0           }
-} ;
-
-/* --------------------------------------------------------------------------- */
-
 static double heuristic( int x, int y ) {
     int dx, dy ;
     uint8_t block = (( uint8_t* )map->data )[map->pitch*y+x] ;
@@ -342,7 +332,7 @@ static int path_set_wall( int n ) {
 /* --------------------------------------------------------------------------- */
 /* Funciones de búsqueda de caminos */
 
-static int modpathfind_path_find( INSTANCE * my, int * params ) {
+int modpathfind_path_find( INSTANCE * my, int * params ) {
     GRAPH * gpath = bitmap_get( params[0], params[1] ) ;
     if ( !gpath || !gpath->format || gpath->format->depth != 8 ) {
         return 0;
@@ -352,34 +342,14 @@ static int modpathfind_path_find( INSTANCE * my, int * params ) {
 
 /* --------------------------------------------------------------------------- */
 
-static int modpathfind_path_getxy( INSTANCE * my, int * params ) {
+int modpathfind_path_getxy( INSTANCE * my, int * params ) {
     return path_get(( int * )params[0], ( int * )params[1] ) ;
 }
 
 /* --------------------------------------------------------------------------- */
 
-static int modpathfind_path_wall( INSTANCE * my, int * params ) {
+int modpathfind_path_wall( INSTANCE * my, int * params ) {
     return path_set_wall( params[0] ) ;
 }
-
-/* --------------------------------------------------------------------------- */
-
-DLSYSFUNCS __bgdexport( mod_path, functions_exports )[] =
-{
-    /* Búsqueda de caminos*/
-    { "PATH_FIND"   , "IIIIIII", TYPE_INT   , modpathfind_path_find     },
-    { "PATH_GETXY"  , "PP"     , TYPE_INT   , modpathfind_path_getxy    },
-    { "PATH_WALL"   , "I"      , TYPE_INT   , modpathfind_path_wall     },
-
-    { 0             , 0        , 0          , 0                         }
-};
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( mod_path, modules_dependency )[] =
-{
-    "libgrbase",
-    NULL
-};
 
 /* --------------------------------------------------------------------------- */

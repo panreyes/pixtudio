@@ -31,38 +31,57 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLCONSTANT __bgdexport( mod_math, constants_def )[] =
-{
+#ifndef __PXTB__
+extern int math_abs( INSTANCE * my, int * params );
+extern int math_pow( INSTANCE * my, int * params );
+extern int math_sqrt( INSTANCE * my, int * params );
+extern int math_cos( INSTANCE * my, int * params );
+extern int math_sin( INSTANCE * my, int * params );
+extern int math_tan( INSTANCE * my, int * params );
+extern int math_acos( INSTANCE * my, int * params );
+extern int math_asin( INSTANCE * my, int * params );
+extern int math_atan( INSTANCE * my, int * params );
+extern int math_atan2( INSTANCE * my, int * params );
+extern int math_atan2( INSTANCE * my, int * params );
+extern int math_isinf( INSTANCE * my, int * params );
+extern int math_isnan( INSTANCE * my, int * params );
+extern int math_finite( INSTANCE * my, int * params );
+extern int math_fget_angle( INSTANCE * my, int * params );
+extern int math_fget_dist( INSTANCE * my, int * params );
+extern int math_near_angle( INSTANCE * my, int * params );
+extern int math_get_distx( INSTANCE * my, int * params );
+extern int math_get_disty( INSTANCE * my, int * params );
+#endif
+
+DLCONSTANT __bgdexport( mod_math, constants_def )[] = {
     { "PI"  , TYPE_INT  , 180000    },
     { NULL  , 0         , 0         }
 } ;
 
-DLSYSFUNCS __bgdexport( mod_math, functions_exports )[] =
-{
-    { "ABS"         , "F"       , TYPE_FLOAT    , 0 },
-    { "POW"         , "FF"      , TYPE_FLOAT    , 0 },
-    { "SQRT"        , "F"       , TYPE_FLOAT    , 0 },
-    { "COS"         , "F"       , TYPE_FLOAT    , 0 },
-    { "SIN"         , "F"       , TYPE_FLOAT    , 0 },
-    { "TAN"         , "F"       , TYPE_FLOAT    , 0 },
-    { "ACOS"        , "F"       , TYPE_FLOAT    , 0 },
-    { "ASIN"        , "F"       , TYPE_FLOAT    , 0 },
-    { "ATAN"        , "F"       , TYPE_FLOAT    , 0 },
-    { "ATAN2"       , "FF"      , TYPE_FLOAT    , 0 },
-    { "ISINF"       , "F"       , TYPE_INT      , 0 },
-    { "ISNAN"       , "F"       , TYPE_INT      , 0 },
-    { "FINITE"      , "F"       , TYPE_INT      , 0 },
-    { "FGET_ANGLE"  , "IIII"    , TYPE_INT      , 0 },
-    { "FGET_DIST"   , "IIII"    , TYPE_INT      , 0 },
-    { "NEAR_ANGLE"  , "III"     , TYPE_INT      , 0 },
-    { "GET_DISTX"   , "II"      , TYPE_INT      , 0 },
-    { "GET_DISTY"   , "II"      , TYPE_INT      , 0 },
-    { 0             , 0         , 0             , 0 }
+DLSYSFUNCS __bgdexport( mod_math, functions_exports )[] = {
+    FUNC( "ABS"         , "F"       , TYPE_FLOAT    , math_abs          ),
+    FUNC( "POW"         , "FF"      , TYPE_FLOAT    , math_pow          ),
+    FUNC( "SQRT"        , "F"       , TYPE_FLOAT    , math_sqrt         ),
+
+    FUNC( "COS"         , "F"       , TYPE_FLOAT    , math_cos          ),
+    FUNC( "SIN"         , "F"       , TYPE_FLOAT    , math_sin          ),
+    FUNC( "TAN"         , "F"       , TYPE_FLOAT    , math_tan          ),
+    FUNC( "ACOS"        , "F"       , TYPE_FLOAT    , math_acos         ),
+    FUNC( "ASIN"        , "F"       , TYPE_FLOAT    , math_asin         ),
+    FUNC( "ATAN"        , "F"       , TYPE_FLOAT    , math_atan         ),
+    FUNC( "ATAN2"       , "FF"      , TYPE_FLOAT    , math_atan2        ),
+
+    FUNC( "ISINF"       , "F"       , TYPE_INT      , math_isinf        ),
+    FUNC( "ISNAN"       , "F"       , TYPE_INT      , math_isnan        ),
+    FUNC( "FINITE"      , "F"       , TYPE_INT      , math_finite       ),
+
+    FUNC( "FGET_ANGLE"  , "IIII"    , TYPE_INT      , math_fget_angle   ),
+    FUNC( "FGET_DIST"   , "IIII"    , TYPE_INT      , math_fget_dist    ),
+    FUNC( "NEAR_ANGLE"  , "III"     , TYPE_INT      , math_near_angle   ),
+    FUNC( "GET_DISTX"   , "II"      , TYPE_INT      , math_get_distx    ),
+    FUNC( "GET_DISTY"   , "II"      , TYPE_INT      , math_get_disty    ),
+
+    FUNC( 0             , 0         , 0             , 0                 )
 };
-#else
-extern DLCONSTANT __bgdexport( mod_math, constants_def )[];
-extern DLSYSFUNCS __bgdexport( mod_math, functions_exports )[];
-#endif
 
 #endif

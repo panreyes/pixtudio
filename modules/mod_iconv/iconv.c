@@ -1,5 +1,5 @@
 /*
- *  Copyright Â© 2011 Joseba GarcÃ­a Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) Joseba Garcí­a Etxebarria <joseba.gar@gmail.com>
  *
  *  mod_iconv is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,13 +20,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <SDL/SDL_stdinc.h>
-/* Bennu specifics */
+#include <SDL_stdinc.h>
+
 #include <xstrings.h>
 #include <bgddl.h>
 #include <errno.h>
 #include <sysprocs_st.h>
+
+#ifndef __MONOLITHIC__
 #include "iconv_symbols.h"
+#endif
 
 //Convert the charset of the string.
 //Acceptable params are:
@@ -66,7 +69,8 @@ int bgd_iconv(INSTANCE * my, int * params) {
   //Couldn't malloc, we better quit
   if (!outchar) {
     SDL_iconv_close(cd);
-    fprintf(stdout, "FATAL: Couldn't allocate memory for string conversion\n");
+    fprintf(stderr, "FATAL: Couldn't allocate memory for string conversion\n");
+    return SDL_ICONV_ERROR;
   }
 
   incharptr = (char*)inchar;
@@ -77,7 +81,7 @@ int bgd_iconv(INSTANCE * my, int * params) {
     
     //Handle an error, in case we got one
     /* perror is your friend... (but see also strerror) */
-    if(retval == (size_t)-1) {
+    if(retval == SDL_ICONV_ERROR) {
       perror("iconv");
       break;
     }
@@ -101,8 +105,3 @@ int bgd_iconv(INSTANCE * my, int * params) {
   return strid;
 }
 
-DLSYSFUNCS __bgdexport( mod_iconv, functions_exports )[] =
-{
-	{ "ICONV"            , "SSS"  , TYPE_STRING, bgd_iconv       },
-	{ 0                  , 0      , 0          , 0               }
-};
