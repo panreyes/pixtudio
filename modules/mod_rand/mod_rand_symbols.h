@@ -31,15 +31,15 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS  __bgdexport( mod_rand, functions_exports )[] =
-{
-    { "RAND_SEED"   , "I"   , TYPE_INT  , 0 },
-    { "RAND"        , "II"  , TYPE_INT  , 0 },
-    { 0             , 0     , 0         , 0 }
-};
-#else
-extern DLSYSFUNCS  __bgdexport( mod_rand, functions_exports )[];
+#ifndef __PXTB__
+extern int rand_seed( INSTANCE * my, int * params );
+extern int rand_std( INSTANCE * my, int * params );
 #endif
+
+DLSYSFUNCS  __bgdexport( mod_rand, functions_exports )[] = {
+    FUNC( "RAND_SEED"   , "I"   , TYPE_INT  , rand_seed ),
+    FUNC( "RAND"        , "II"  , TYPE_INT  , rand_std  ),
+    FUNC( 0             , 0     , 0         , 0         )
+};
 
 #endif

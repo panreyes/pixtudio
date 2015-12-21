@@ -1,5 +1,5 @@
 /*
- *  Copyright Â© 2013 Joseba GarcÃ­a Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) Joseba García Etxebarria <joseba.gar@gmail.com>
  *
  *  This file is part of PixTudio
  *
@@ -29,7 +29,19 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
+#ifndef __PXTB__
+extern int modsensor_number( INSTANCE * my, int * params );
+extern int modsensor_open( INSTANCE * my, int * params );
+extern void modsensor_close( INSTANCE * my, int * params );
+extern int modsensor_name ( INSTANCE * my, int * params );
+extern int modsensor_numaxes( INSTANCE * my, int * params );
+extern float modsensor_getaxis( INSTANCE * my, int * params );
+extern int modsensor_type( INSTANCE * my, int * params );
+extern void modsensor_log( INSTANCE * my, int * params );
+
+extern void  __bgdexport( mod_sensor, module_initialize )();
+extern void  __bgdexport( mod_sensor, module_finalize )();
+#endif
 
 DLCONSTANT  __bgdexport( mod_sensor, constants_def )[] = {
     { "SENSOR_UNKNOWN"              , TYPE_DWORD    , 0               },
@@ -47,23 +59,16 @@ DLCONSTANT  __bgdexport( mod_sensor, constants_def )[] = {
     { "SENSOR_RHUMIDITY"            , TYPE_DWORD    , 12              },
 };
 
-DLSYSFUNCS  __bgdexport( mod_sensor, functions_exports )[] =
-{
-    { "SENSOR_NUMBER",  "",    TYPE_INT,       0 },
-    { "SENSOR_OPEN",    "I",   TYPE_INT,       0 },
-    { "SENSOR_CLOSE",   "I",   TYPE_UNDEFINED, 0 },
-    { "SENSOR_NAME",    "I",   TYPE_STRING,    0 },
-    { "SENSOR_NUMAXES", "I",   TYPE_INT,       0 },
-    { "SENSOR_GETAXIS", "II",  TYPE_FLOAT,     0 },
-    { "SENSOR_TYPE",    "I",   TYPE_INT,       0 },
-    { "SENSOR_LOG",     "",    TYPE_UNDEFINED, 0 },
-    { 0           ,     0,     0             , 0 }
+DLSYSFUNCS  __bgdexport( mod_sensor, functions_exports )[] = {
+    FUNC( "SENSOR_NUMBER",  "",    TYPE_INT,       modsensor_number     ),
+    FUNC( "SENSOR_OPEN",    "I",   TYPE_INT,       modsensor_open       ),
+    FUNC( "SENSOR_CLOSE",   "I",   TYPE_UNDEFINED, modsensor_close      ),
+    FUNC( "SENSOR_NAME",    "I",   TYPE_STRING,    modsensor_name       ),
+    FUNC( "SENSOR_NUMAXES", "I",   TYPE_INT,       modsensor_numaxes    ),
+    FUNC( "SENSOR_GETAXIS", "II",  TYPE_FLOAT,     modsensor_getaxis    ),
+    FUNC( "SENSOR_TYPE",    "I",   TYPE_INT,       modsensor_type       ),
+    FUNC( "SENSOR_LOG",     "",    TYPE_UNDEFINED, modsensor_log        ),
+    FUNC( 0         , 0  , 0             , 0                            )
 };
-#else
-extern DLCONSTANT  __bgdexport( mod_sensor, constants_def )[];
-extern DLSYSFUNCS __bgdexport( mod_sensor, functions_exports )[];
-extern void __bgdexport( mod_sensor, module_initialize )();
-extern void __bgdexport( mod_sensor, module_finalize )();
-#endif
 
 #endif

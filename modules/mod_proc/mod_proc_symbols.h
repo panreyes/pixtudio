@@ -1,7 +1,8 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright Â© 2002-2006 Fenix Team (Fenix)
- *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -30,42 +31,53 @@
 #define __MODPROC_SYMBOLS_H
 
 #include <bgddl.h>
+#include "mod_proc.h"
 
-#ifdef __PXTB__
-#define ALL_PROCESS         0
-#define S_KILL              0
-#define S_WAKEUP            1
-#define S_SLEEP             2
-#define S_FREEZE            3
-#define S_FORCE             50
-#define S_TREE              100
-#define S_KILL_TREE         (S_TREE + S_KILL  )
-#define S_WAKEUP_TREE       (S_TREE + S_WAKEUP)
-#define S_SLEEP_TREE        (S_TREE + S_SLEEP )
-#define S_FREEZE_TREE       (S_TREE + S_FREEZE)
-#define S_KILL_FORCE        (S_FORCE + S_KILL  )
-#define S_WAKEUP_FORCE      (S_FORCE + S_WAKEUP)
-#define S_SLEEP_FORCE       (S_FORCE + S_SLEEP )
-#define S_FREEZE_FORCE      (S_FORCE + S_FREEZE)
-#define S_KILL_TREE_FORCE   (S_FORCE + S_KILL_TREE  )
-#define S_WAKEUP_TREE_FORCE (S_FORCE + S_WAKEUP_TREE)
-#define S_SLEEP_TREE_FORCE  (S_FORCE + S_SLEEP_TREE )
-#define S_FREEZE_TREE_FORCE (S_FORCE + S_FREEZE_TREE)
-#define S_DFL               0
-#define S_IGN               1
+#ifndef __PXTB__
+extern int modproc_get_id( INSTANCE * my, int * params );
+extern int modproc_get_status( INSTANCE * my, int * params );
+extern int modproc_signal( INSTANCE * my, int * params );
+extern int modproc_signal_action( INSTANCE * my, int * params );
+extern int modproc_signal_action3( INSTANCE * my, int * params );
+extern int modproc_signal_action( INSTANCE * my, int * params );
+extern int modproc_signal_action3( INSTANCE * my, int * params );
+extern int modproc_signal_action3( INSTANCE * my, int * params );
+extern int modproc_let_me_alone( INSTANCE * my, int * params );
+extern int modproc_exit_0( INSTANCE * my, int * params );
+extern int modproc_exit_1( INSTANCE * my, int * params );
+extern int modproc_exit( INSTANCE * my, int * params );
+extern int modproc_exit_1( INSTANCE * my, int * params );
+extern int modproc_exit_0( INSTANCE * my, int * params );
+extern int modproc_running( INSTANCE * my, int * params );
 
-DLCONSTANT __bgdexport( mod_proc, constants_def )[] =
-{
+DLVARFIXUP __bgdexport( mod_proc, locals_fixup )[] = {
+    { "id", NULL, -1, -1 },
+    { "reserved.process_type", NULL, -1, -1 },
+    { "reserved.status", NULL, -1, -1 },
+    { "mod_proc_reserved.id_scan", NULL, -1, -1 },
+    { "mod_proc_reserved.type_scan", NULL, -1, -1 },
+    { "mod_proc_reserved.context", NULL, -1, -1 },
+    { "mod_proc_reserved.signal_action", NULL, -1, -1 },
+    { NULL, NULL, -1, -1 }
+};
+
+extern void __bgdexport( mod_proc, process_exec_hook )( INSTANCE * r );
+#endif
+
+DLCONSTANT __bgdexport( mod_proc, constants_def )[] = {
     { "S_KILL"              , TYPE_INT, S_KILL              },
     { "S_WAKEUP"            , TYPE_INT, S_WAKEUP            },
     { "S_SLEEP"             , TYPE_INT, S_SLEEP             },
     { "S_FREEZE"            , TYPE_INT, S_FREEZE            },
+
     { "S_FORCE"             , TYPE_INT, S_FORCE             },
     { "S_TREE"              , TYPE_INT, S_TREE              },
+
     { "S_KILL_TREE"         , TYPE_INT, S_KILL_TREE         },
     { "S_WAKEUP_TREE"       , TYPE_INT, S_WAKEUP_TREE       },
     { "S_SLEEP_TREE"        , TYPE_INT, S_SLEEP_TREE        },
     { "S_FREEZE_TREE"       , TYPE_INT, S_FREEZE_TREE       },
+
     { "S_KILL_FORCE"        , TYPE_INT, S_KILL_FORCE        },
     { "S_WAKEUP_FORCE"      , TYPE_INT, S_WAKEUP_FORCE      },
     { "S_SLEEP_FORCE"       , TYPE_INT, S_SLEEP_FORCE       },
@@ -74,9 +86,12 @@ DLCONSTANT __bgdexport( mod_proc, constants_def )[] =
     { "S_WAKEUP_TREE_FORCE" , TYPE_INT, S_WAKEUP_TREE_FORCE },
     { "S_SLEEP_TREE_FORCE"  , TYPE_INT, S_SLEEP_TREE_FORCE  },
     { "S_FREEZE_TREE_FORCE" , TYPE_INT, S_FREEZE_TREE_FORCE },
+
     { "S_DFL"               , TYPE_INT, S_DFL               },
     { "S_IGN"               , TYPE_INT, S_IGN               },
+
     { "ALL_PROCESS"         , TYPE_INT, ALL_PROCESS         },
+
     { NULL                  , 0       , 0                   }
 } ;
 
@@ -88,27 +103,22 @@ char __bgdexport( mod_proc, locals_def )[] =
     "   dword signal_action;\n"
     "END\n";
 
-DLSYSFUNCS __bgdexport( mod_proc, functions_exports )[] =
-{
-    /* InteracciÃ³n entre procesos */
-    { "GET_ID"          , "I"   , TYPE_INT , 0 },
-    { "GET_STATUS"      , "I"   , TYPE_INT , 0 },
-    { "SIGNAL"          , "II"  , TYPE_INT , 0 },
-    { "SIGNAL_ACTION"   , "II"  , TYPE_INT , 0 },
-    { "SIGNAL_ACTION"   , "III" , TYPE_INT , 0 },
-    { "LET_ME_ALONE"    , ""    , TYPE_INT , 0 },
-    { "EXIT"            , "SI"  , TYPE_INT , 0 },
-    { "EXIT"            , "S"   , TYPE_INT , 0 },
-    { "EXIT"            , ""    , TYPE_INT , 0 },
-    { "EXISTS"          , "I"   , TYPE_INT , 0 },
-    { 0                 , 0     , 0        , 0 }
+DLSYSFUNCS __bgdexport( mod_proc, functions_exports )[] = {
+    FUNC( "GET_ID"          , "I"   , TYPE_INT , modproc_get_id          ),
+    FUNC( "GET_STATUS"      , "I"   , TYPE_INT , modproc_get_status      ),
+    FUNC( "SIGNAL"          , "II"  , TYPE_INT , modproc_signal          ),
+    FUNC( "SIGNAL_ACTION"   , "II"  , TYPE_INT , modproc_signal_action   ),
+    FUNC( "SIGNAL_ACTION"   , "III" , TYPE_INT , modproc_signal_action3  ),
+    FUNC( "LET_ME_ALONE"    , ""    , TYPE_INT , modproc_let_me_alone    ),
+    FUNC( "EXIT"            , "SI"  , TYPE_INT , modproc_exit            ),
+    FUNC( "EXIT"            , "S"   , TYPE_INT , modproc_exit_1          ),
+    FUNC( "EXIT"            , ""    , TYPE_INT , modproc_exit_0          ),
+    FUNC( "EXISTS"          , "I"   , TYPE_INT , modproc_running         ),
+    FUNC( 0                 , 0     , 0        , 0                       )
 };
-#else
+
 extern DLCONSTANT __bgdexport( mod_proc, constants_def )[];
 extern char __bgdexport( mod_proc, locals_def )[];
 extern DLVARFIXUP __bgdexport( mod_proc, locals_fixup )[];
-extern void __bgdexport( mod_proc, process_exec_hook )( INSTANCE * r );
-extern DLSYSFUNCS __bgdexport( mod_proc, functions_exports )[];
-#endif
 
 #endif

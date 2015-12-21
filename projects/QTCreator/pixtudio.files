@@ -820,8 +820,6 @@
 ../../modules/mod_screen/mod_screen_symbols.h
 ../../modules/mod_scroll/mod_scroll.c
 ../../modules/mod_scroll/mod_scroll_symbols.h
-../../modules/mod_sensor/mod_sensor.c
-../../modules/mod_sensor/mod_sensor_symbols.h
 ../../modules/mod_sort/mod_sort.c
 ../../modules/mod_sort/mod_sort_symbols.h
 ../../modules/mod_sound/mod_sound.c
@@ -945,3 +943,4 @@
 ../../modules/libblit/libblit.c
 ../../modules/libkey/key_stats.h
 ../../modules/mod_effects/mod_effects.h
+../../modules/mod_proc/mod_proc.h

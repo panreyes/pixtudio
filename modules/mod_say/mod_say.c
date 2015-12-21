@@ -39,10 +39,13 @@
 #include <SDL_stdinc.h>
 #endif
 
+#ifndef __MONOLITHIC__
+#include "mod_say_symbols.h"
+#endif
+
 /* ---------------------------------------------------------------------- */
 
-static int modsay_say( INSTANCE * my, int * params )
-{
+int modsay_say( INSTANCE * my, int * params ) {
 #if defined(__ANDROID__) || (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
     char *converted;
     const char *msg = string_get( params[0] );
@@ -62,8 +65,7 @@ static int modsay_say( INSTANCE * my, int * params )
 
 /* ---------------------------------------------------------------------- */
 
-static int modsay_say_fast( INSTANCE * my, int * params )
-{
+int modsay_say_fast( INSTANCE * my, int * params ) {
 #if defined(__ANDROID__) || (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
     char *converted;
     const char *msg = string_get( params[0] );
@@ -79,15 +81,5 @@ static int modsay_say_fast( INSTANCE * my, int * params )
 #endif
     return 1 ;
 }
-
-/* ----------------------------------------------------------------- */
-/* Declaracion de funciones                                          */
-
-DLSYSFUNCS  __bgdexport( mod_say, functions_exports )[] =
-{
-    { "SAY"     , "S", TYPE_UNDEFINED, modsay_say     },
-    { "SAY_FAST", "S", TYPE_UNDEFINED, modsay_say_fast},
-    { 0         , 0  , 0             , 0              }
-};
 
 /* ----------------------------------------------------------------- */

@@ -1,7 +1,8 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright Â© 2002-2006 Fenix Team (Fenix)
- *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -31,32 +32,50 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS  __bgdexport( mod_screen, functions_exports )[] =
-{
-    { "REGION_DEFINE"        , "IIIII"      , TYPE_INT      , 0 },
-    { "REGION_OUT"           , "II"         , TYPE_INT      , 0 },
-    { "PUT"                  , "IIII"       , TYPE_INT      , 0 },
-    { "XPUT"                 , "IIIIIIII"   , TYPE_INT      , 0 },
-    { "SCREEN_PUT"           , "II"         , TYPE_INT      , 0 },
-    { "SCREEN_CLEAR"         , ""           , TYPE_INT      , 0 },
-    { "SCREEN_GET"           , ""           , TYPE_INT      , 0 },
-    { 0                     , 0             , 0             , 0 }
+#ifndef __PXTB__
+extern int modscreen_define_region( INSTANCE * my, int * params );
+extern int modscreen_out_region( INSTANCE * my, int * params );
+extern int modscreen_put( INSTANCE * my, int * params );
+extern int modscreen_xput( INSTANCE * my, int * params );
+extern int modscreen_put_screen( INSTANCE * my, int * params );
+extern int modscreen_clear_screen( INSTANCE * my, int * params );
+extern int modscreen_get_screen( INSTANCE * my, int * params );
+
+DLVARFIXUP __bgdexport( mod_screen, locals_fixup )[] = {
+    { "ctype"       , NULL, -1, -1 },
+    { "cnumber"     , NULL, -1, -1 },
+
+    { NULL          , NULL, -1, -1 }
 };
 
-char * __bgdexport( mod_screen, modules_dependency )[] =
-{
+DLVARFIXUP __bgdexport( mod_screen, globals_fixup )[] = {
+    { "scroll"      , NULL, -1, -1 },
+
+    { NULL          , NULL, -1, -1 }
+};
+#endif
+
+DLSYSFUNCS  __bgdexport( mod_screen, functions_exports )[] = {
+    FUNC( "REGION_DEFINE" , "IIIII"    , TYPE_INT , modscreen_define_region ),
+    FUNC( "REGION_OUT"    , "II"       , TYPE_INT , modscreen_out_region    ),
+
+    FUNC( "PUT"           , "IIII"     , TYPE_INT , modscreen_put           ),
+    FUNC( "XPUT"          , "IIIIIIII" , TYPE_INT , modscreen_xput          ),
+    FUNC( "SCREEN_PUT"    , "II"       , TYPE_INT , modscreen_put_screen    ),
+    FUNC( "SCREEN_CLEAR"  , ""         , TYPE_INT , modscreen_clear_screen  ),
+
+    FUNC( "SCREEN_GET"    , ""         , TYPE_INT , modscreen_get_screen    ),
+
+    FUNC( 0               , 0          , 0        , 0                       )
+
+};
+
+char * __bgdexport( mod_screen, modules_dependency )[] = {
     "libgrbase",
     "libvideo",
     "libblit",
     "librender",
     NULL
 };
-#else
-extern DLVARFIXUP __bgdexport( mod_screen, locals_fixup )[];
-extern DLVARFIXUP __bgdexport( mod_screen, globals_fixup )[];
-extern DLSYSFUNCS  __bgdexport( mod_screen, functions_exports )[];
-extern char * __bgdexport( mod_screen, modules_dependency )[];
-#endif
 
 #endif

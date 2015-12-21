@@ -31,19 +31,21 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS  __bgdexport( mod_sort, functions_exports )[] =
-{
-    /* Funciones sort */
-    { "QUICKSORT"   , "PIIIBB", TYPE_INT    , 0 },
-    { "KSORT"       , "V++V++", TYPE_INT    , 0 },
-    { "KSORT"       , "V++V++I", TYPE_INT   , 0 },
-    { "SORT"        , "V++I"  , TYPE_INT    , 0 },
-    { "SORT"        , "V++"   , TYPE_INT    , 0 },
-    { 0             , 0       , 0           , 0 }
-};
-#else
-extern DLSYSFUNCS  __bgdexport( mod_sort, functions_exports )[];
+#ifndef __PXTB__
+extern int modsort_quicksort( INSTANCE *my, int *params );
+extern int modsort_ksort( INSTANCE * my, int * params );
+extern int modsort_ksort_n( INSTANCE * my, int * params );
+extern int modsort_sort_n( INSTANCE * my, int * params );
+extern int modsort_sort( INSTANCE * my, int * params );
 #endif
+
+DLSYSFUNCS  __bgdexport( mod_sort, functions_exports )[] = {
+    FUNC( "QUICKSORT"   , "PIIIBB" , TYPE_INT    , modsort_quicksort ),
+    FUNC( "KSORT"       , "V++V++" , TYPE_INT    , modsort_ksort     ),
+    FUNC( "KSORT"       , "V++V++I", TYPE_INT    , modsort_ksort_n   ),
+    FUNC( "SORT"        , "V++I"   , TYPE_INT    , modsort_sort_n    ),
+    FUNC( "SORT"        , "V++"    , TYPE_INT    , modsort_sort      ),
+    FUNC( 0             , 0        , 0           , 0                 )
+};
 
 #endif

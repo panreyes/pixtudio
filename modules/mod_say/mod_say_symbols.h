@@ -31,15 +31,15 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS  __bgdexport( mod_say, functions_exports )[] =
-{
-    { "SAY"     , "S", TYPE_UNDEFINED, 0              },
-    { "SAY_FAST", "S", TYPE_UNDEFINED, 0              },
-    { 0         , 0  , 0             , 0              }
-};
-#else
-extern DLSYSFUNCS __bgdexport( mod_say, functions_exports )[];
+#ifndef __PXTB__
+extern int modsay_say( INSTANCE * my, int * params );
+extern int modsay_say_fast( INSTANCE * my, int * params );
 #endif
+
+DLSYSFUNCS  __bgdexport( mod_say, functions_exports )[] = {
+    FUNC( "SAY"     , "S", TYPE_UNDEFINED, modsay_say      ),
+    FUNC( "SAY_FAST", "S", TYPE_UNDEFINED, modsay_say_fast ),
+    FUNC( 0         , 0  , 0             , 0               )
+};
 
 #endif

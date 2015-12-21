@@ -43,6 +43,13 @@
 
 #include "libscroll.h"
 
+#ifndef __MONOLITHIC__
+#include "mod_screen_symbols.h"
+#else
+extern DLVARFIXUP __bgdexport( mod_screen, locals_fixup )[];
+extern DLVARFIXUP __bgdexport( mod_screen, globals_fixup )[];
+#endif
+
 /* --------------------------------------------------------------------------- */
 
 enum {
@@ -54,29 +61,10 @@ enum {
     SCROLLS = 0
 };
 
-/* --------------------------------------------------------------------------- */
-
-DLVARFIXUP __bgdexport( mod_screen, locals_fixup )[] =
-{
-    { "ctype"       , NULL, -1, -1 },
-    { "cnumber"     , NULL, -1, -1 },
-
-    { NULL          , NULL, -1, -1 }
-};
 
 /* --------------------------------------------------------------------------- */
 
-DLVARFIXUP __bgdexport( mod_screen, globals_fixup )[] =
-{
-    { "scroll"      , NULL, -1, -1 },
-
-    { NULL          , NULL, -1, -1 }
-};
-
-/* --------------------------------------------------------------------------- */
-
-static int modscreen_define_region( INSTANCE * my, int * params )
-{
+int modscreen_define_region( INSTANCE * my, int * params ) {
     REGION * orig = region_get( params[0] );
 
     gr_mark_rect( MIN( orig->x, params[1] ), MIN( orig->y, params[2] ), MAX( orig->x2, params[1] + params[3] ), MAX( orig->y2, params[2] + params[4] ) );
@@ -87,8 +75,7 @@ static int modscreen_define_region( INSTANCE * my, int * params )
 
 /* --------------------------------------------------------------------------- */
 
-static int modscreen_out_region( INSTANCE * my, int * params )
-{
+int modscreen_out_region( INSTANCE * my, int * params ) {
     INSTANCE * proc = instance_get( params[0] ) ;
     int region = params[1] ;
     REGION bbox ;
@@ -135,8 +122,7 @@ static int modscreen_out_region( INSTANCE * my, int * params )
 /* --------------------------------------------------------------------------- */
 /* Funciones gráficas */
 
-static int modscreen_put( INSTANCE * my, int * params )
-{
+int modscreen_put( INSTANCE * my, int * params ) {
     GRAPH * map = bitmap_get( params[0], params[1] ) ;
 
     if ( !map ) return 0 ;
@@ -148,8 +134,7 @@ static int modscreen_put( INSTANCE * my, int * params )
 
 /* --------------------------------------------------------------------------- */
 
-static int modscreen_xput( INSTANCE * my, int * params )
-{
+int modscreen_xput( INSTANCE * my, int * params ) {
     int r ;
     GRAPH * map = bitmap_get( params[0], params[1] ) ;
     if ( !map ) return 0 ;
@@ -167,8 +152,7 @@ static int modscreen_xput( INSTANCE * my, int * params )
 
 /* --------------------------------------------------------------------------- */
 
-static int modscreen_put_screen( INSTANCE * my, int * params )
-{
+int modscreen_put_screen( INSTANCE * my, int * params ) {
     int     x, y ;
     GRAPH * map = bitmap_get( params[0], params[1] ) ;
 
@@ -191,16 +175,14 @@ static int modscreen_put_screen( INSTANCE * my, int * params )
 
 /* --------------------------------------------------------------------------- */
 
-static int modscreen_clear_screen( INSTANCE * my, int * params )
-{
+int modscreen_clear_screen( INSTANCE * my, int * params ) {
     gr_clear( background ) ;
     return 1 ;
 }
 
 /* --------------------------------------------------------------------------- */
 
-static int modscreen_get_screen( INSTANCE * my, int * params )
-{
+int modscreen_get_screen( INSTANCE * my, int * params ) {
     GRAPH * map = bitmap_clone( bitmap_get( 0, -1 ) );
 
     map->info_flags = GI_NOCOLORKEY ;
@@ -212,36 +194,5 @@ static int modscreen_get_screen( INSTANCE * my, int * params )
 
     return map->code ;
 }
-
-/* --------------------------------------------------------------------------- */
-
-DLSYSFUNCS  __bgdexport( mod_screen, functions_exports )[] =
-{
-    /* Regiones */
-    { "REGION_DEFINE"        , "IIIII"      , TYPE_INT      , modscreen_define_region   },
-    { "REGION_OUT"           , "II"         , TYPE_INT      , modscreen_out_region      },
-
-    /* Fondo de pantalla */
-    { "PUT"                  , "IIII"       , TYPE_INT      , modscreen_put             },
-    { "XPUT"                 , "IIIIIIII"   , TYPE_INT      , modscreen_xput            },
-    { "SCREEN_PUT"           , "II"         , TYPE_INT      , modscreen_put_screen      },
-    { "SCREEN_CLEAR"         , ""           , TYPE_INT      , modscreen_clear_screen    },
-
-    /* Video */
-    { "SCREEN_GET"           , ""           , TYPE_INT      , modscreen_get_screen      },
-
-    { 0                     , 0             , 0             , 0                         }
-};
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( mod_screen, modules_dependency )[] =
-{
-    "libgrbase",
-    "libvideo",
-    "libblit",
-    "librender",
-    NULL
-};
 
 /* --------------------------------------------------------------------------- */

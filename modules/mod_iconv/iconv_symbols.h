@@ -29,7 +29,7 @@ extern int bgd_iconv(INSTANCE * my, int * params);
 DLSYSFUNCS __bgdexport( mod_iconv, functions_exports )[] =
 {
     FUNC( "ICONV"            , "SSS"  , TYPE_STRING, bgd_iconv ),
-    FUNC( 0                  , 0      , 0          , 0 )
+    FUNC( 0                  , 0      , 0          , 0         )
 };
 
 #endif

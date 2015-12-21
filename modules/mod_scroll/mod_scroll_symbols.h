@@ -1,7 +1,8 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright Â© 2002-2006 Fenix Team (Fenix)
- *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -31,26 +32,26 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS __bgdexport( mod_scroll, functions_exports )[] =
-{
-    { "SCROLL_START"    , "IIIIIIII", TYPE_INT   , 0 },
-    { "SCROLL_START"    , "IIIIII"  , TYPE_INT   , 0 },
-    { "SCROLL_STOP"     , "I"       , TYPE_INT   , 0 },
-    { "SCROLL_MOVE"     , "I"       , TYPE_INT   , 0 },
+#ifndef __PXTB__
+extern int mod_scroll_start( INSTANCE * my, int * params );
+extern int mod_scroll_start2( INSTANCE * my, int * params );
+extern int mod_scroll_stop( INSTANCE * my, int * params );
+extern int mod_scroll_move( INSTANCE * my, int * params );
+#endif
 
-    { 0                 , 0         , 0          , 0 }
+DLSYSFUNCS __bgdexport( mod_scroll, functions_exports )[] = {
+    FUNC( "SCROLL_START"    , "IIIIIIII", TYPE_INT   , mod_scroll_start2  ),
+    FUNC( "SCROLL_START"    , "IIIIII"  , TYPE_INT   , mod_scroll_start   ),
+    FUNC( "SCROLL_STOP"     , "I"       , TYPE_INT   , mod_scroll_stop    ),
+    FUNC( "SCROLL_MOVE"     , "I"       , TYPE_INT   , mod_scroll_move    ),
+
+    FUNC( 0                 , 0         , 0          , 0 )
     
 };
 
-char * __bgdexport( mod_scroll, modules_dependency )[] =
-{
+char * __bgdexport( mod_scroll, modules_dependency )[] = {
     "libscroll",
-    0
+    NULL
 };
-#else
-extern DLSYSFUNCS __bgdexport( mod_scroll, functions_exports )[];
-extern char * __bgdexport( mod_scroll, modules_dependency )[];
-#endif
 
 #endif

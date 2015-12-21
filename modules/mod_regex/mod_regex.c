@@ -43,23 +43,14 @@
 
 #ifndef __MONOLITHIC__
 #include "mod_regex_symbols.h"
+#else
+extern DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [];
 #endif
 
 /* ----------------------------------------------------------------- */
 
 enum {
     REGEX_REG = 0
-};
-
-/* ----------------------------------------------------------------- */
-/* Son las variables que se desea acceder.                           */
-/* El interprete completa esta estructura, si la variable existe.    */
-/* (usada en tiempo de ejecucion)                                    */
-
-DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [] = {
-    /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
-    { "regex_reg", NULL, -1, -1 },
-    { NULL, NULL, -1, -1 }
 };
 
 /* ----------------------------------------------------------------- */

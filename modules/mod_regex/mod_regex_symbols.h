@@ -32,12 +32,16 @@
 #include <bgddl.h>
 
 #ifndef __PXTB__
-extern DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [];
 extern int modregex_regex (INSTANCE * my, int * params);
 extern int modregex_string_replace (INSTANCE * my, int * params);
 extern int modregex_regex_replace (INSTANCE * my, int * params);
 extern int modregex_split (INSTANCE * my, int * params);
 extern int modregex_join (INSTANCE * my, int * params);
+
+DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [] = {
+    { "regex_reg", NULL, -1, -1 },
+    { NULL, NULL, -1, -1 }
+};
 #endif
 
 
