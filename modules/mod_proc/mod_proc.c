@@ -42,7 +42,7 @@
 #ifndef __MONOLITHIC__
 #include "mod_proc_symbols.h"
 #else
-extern char __bgdexport( mod_proc, locals_def )[];
+extern DLVARFIXUP __bgdexport( mod_proc, locals_fixup )[];
 #endif
 
 /* ----------------------------------------------------------------- */

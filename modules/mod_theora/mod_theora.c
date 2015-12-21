@@ -47,6 +47,10 @@
 #include <libgrbase.h>
 #include <g_video.h>
 
+#ifndef __MONOLITHIC__
+#include "mod_theora_symbols.h"
+#endif
+
 struct ctx
 {
     GRAPH *graph;
@@ -205,11 +209,11 @@ void refresh_video() {
 }
 
 /* Checks wether the current video is being played */
-static int video_is_playing() {
+int video_is_playing() {
     return playing_video;
 }
 
-static int video_play(INSTANCE *my, int * params) {
+int video_play(INSTANCE *my, int * params) {
     int bpp, graphid;
     const int MAX_FRAMES = 30;
     void *pixels;
@@ -312,7 +316,7 @@ static int video_play(INSTANCE *my, int * params) {
 }
 
 /* Stop the currently being played video and release theoraplay stuff */
-static int video_stop(INSTANCE *my, int * params) {
+int video_stop(INSTANCE *my, int * params) {
     ALuint error;
     ALuint audio_buffer;
 
@@ -352,7 +356,7 @@ static int video_stop(INSTANCE *my, int * params) {
 }
 
 /* TODO: Pause the currently playing video */
-static int video_pause() {
+int video_pause() {
     return 0;
 }
 
@@ -360,7 +364,7 @@ static int video_pause() {
    Input must be an integer 0-255.
    Returns 0 on success and -1 on error
 */
-static int video_set_volume(INSTANCE *my, int * params) {
+int video_set_volume(INSTANCE *my, int * params) {
     ALuint error;
 
     float new_volume = (float)params[0] / 255.0;
@@ -372,21 +376,6 @@ static int video_set_volume(INSTANCE *my, int * params) {
 
     return 0;
 }
-
-DLSYSFUNCS __bgdexport( mod_theora, functions_exports )[] = {
-	{"VIDEO_PLAY"                  , "S"    , TYPE_DWORD , video_play       },
-	{"VIDEO_STOP"                  , ""     , TYPE_DWORD , video_stop       },
-    {"VIDEO_PAUSE"                 , ""     , TYPE_DWORD , video_pause      },
-	{"VIDEO_IS_PLAYING"            , ""     , TYPE_DWORD , video_is_playing },
-    {"VIDEO_SET_VOLUME"            , "I"    , TYPE_DWORD , video_set_volume },
-	{ NULL        , NULL , 0         , NULL              }
-};
-
-char * __bgdexport( mod_theora, modules_dependency )[] = {
-	"libgrbase",
-	"libvideo",
-	NULL
-};
 
 void __bgdexport( mod_theora, module_initialize )() {
     // Initialize OpenAL
@@ -441,12 +430,3 @@ void __bgdexport( mod_theora, module_finalize )() {
 
 }
 
-/* ----------------------------------------------------------------- */
-
-/* Bigest priority first execute
- Lowest priority last execute */
-
-HOOK __bgdexport( mod_theora, handler_hooks )[] = {
-    { 3000, refresh_video                     },
-    {    0, NULL                              }
-} ;

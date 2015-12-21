@@ -84,12 +84,7 @@
 #ifndef NO_MODCURL
 #   include <mod_curl_symbols.h>
 #endif
-#ifndef NO_MODSENSOR
-#   include <mod_sensor_symbols.h>
-#endif
-#ifndef NO_FSOCK
-#   include <fsock_symbols.h>
-#endif
+#include <fsock_symbols.h>
 #ifndef NO_MODTHEORA
 #   include <mod_theora_symbols.h>
 #endif
@@ -120,8 +115,7 @@ typedef struct
 #endif
 
 // Basic symbols used by the compiler and the runtime
-basic_symbols symbol_list[] =
-{
+basic_symbols symbol_list[] = {
     // Libs go first, modules later
     // name              , deps, constants, types, globals, locals, func_exp
     { "libsdlhandler.fakelib", NULL, NULL, NULL, NULL, NULL, NULL },
@@ -180,9 +174,6 @@ basic_symbols symbol_list[] =
 #ifndef NO_MODICONV
     { "mod_iconv.fakelib"    , NULL, NULL, NULL, NULL, NULL, mod_iconv_functions_exports },
 #endif
-#ifndef NO_MODIMAGE
-    { "image.fakelib"        , image_modules_dependency, NULL, NULL, NULL, NULL, image_functions_exports },
-#endif
 #ifndef NO_MODCHIPMUNK
     { "mod_chipmunk.fakelib" , mod_chipmunk_modules_dependency, mod_chipmunk_constants_def, mod_chipmunk_types_def, mod_chipmunk_globals_def, mod_chipmunk_locals_def, mod_chipmunk_functions_exports },
 #endif
@@ -192,14 +183,9 @@ basic_symbols symbol_list[] =
 #ifndef NO_MODCURL
     { "mod_curl.fakelib"     , NULL, mod_curl_constants_def, NULL, NULL, NULL, mod_curl_functions_exports },
 #endif
-#ifndef NO_MODSENSOR
-    { "mod_sensor.fakelib"   , NULL, mod_sensor_constants_def, NULL, NULL, NULL, mod_sensor_functions_exports },
-#endif
-#ifndef NO_FSOCK
     { "fsock.fakelib"        , NULL, NULL, NULL, NULL, NULL, fsock_functions_exports },
-#endif
 #ifndef NO_MODTHEORA
-    { "mod_theora.fakelib"   , NULL, NULL, NULL, NULL, NULL, mod_theora_functions_exports },
+    { "mod_theora.fakelib"   , mod_theora_modules_dependency, NULL, NULL, NULL, NULL, mod_theora_functions_exports },
 #endif
     { NULL                   , NULL, NULL, NULL, NULL, NULL, NULL }
 };
@@ -207,8 +193,7 @@ basic_symbols symbol_list[] =
 #ifndef __PXTB__
 // Symbols only required by the runtime, ordered just as on symbol_list
 // As a separate array to avoid compilation nightmares
-extra_symbols symbol_list_runtime[] =
-{
+extra_symbols symbol_list_runtime[] = {
     { NULL, NULL, libsdlhandler_module_initialize, libsdlhandler_module_finalize, NULL, NULL, NULL, libsdlhandler_handler_hooks },      //libsdlhandler
     { NULL, NULL, mod_gamecontroller_module_initialize, mod_gamecontroller_module_finalize, NULL, NULL, NULL, NULL }, //mod_gamecontroller
 	{ NULL, NULL, libjoy_module_initialize, libjoy_module_finalize, NULL, NULL, NULL, NULL }, //libjoy
@@ -265,9 +250,6 @@ extra_symbols symbol_list_runtime[] =
 #ifndef NO_MODICONV
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_iconv
 #endif
-#ifndef NO_MODIMAGE
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_image
-#endif
 #ifndef NO_MODCHIPMUNK
     { mod_chipmunk_globals_fixup, mod_chipmunk_locals_fixup, mod_chipmunk_module_initialize, mod_chipmunk_module_finalize, NULL, NULL, NULL, mod_chipmunk_handler_hooks }, //mod_chipmunk
 #endif
@@ -277,12 +259,7 @@ extra_symbols symbol_list_runtime[] =
 #ifndef NO_MODCURL
     { NULL, NULL, mod_curl_module_initialize, mod_curl_module_finalize, NULL, NULL, NULL, NULL }, //mod_curl
 #endif
-#ifndef NO_MODSENSOR
-    { NULL, NULL, mod_sensor_module_initialize, mod_sensor_module_finalize, NULL, NULL, NULL, NULL }, //mod_sensor
-#endif
-#ifndef NO_FSOCK
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //fsock
-#endif
 #ifndef NO_MODTHEORA
     { NULL, NULL, mod_theora_module_initialize, mod_theora_module_finalize, NULL, NULL, NULL, mod_theora_handler_hooks }, //mod_theora
 #endif

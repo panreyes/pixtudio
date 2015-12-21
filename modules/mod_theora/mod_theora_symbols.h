@@ -27,22 +27,35 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS __bgdexport( mod_theora, functions_exports )[] =
-{
-    {"VIDEO_PLAY"                  , "S"    , TYPE_DWORD , NULL  },
-    {"VIDEO_STOP"                  , ""     , TYPE_DWORD , NULL  },
-    {"VIDEO_PAUSE"                 , ""     , TYPE_DWORD , NULL  },
-    {"VIDEO_IS_PLAYING"            , ""     , TYPE_DWORD , NULL  },
-    {"VIDEO_SET_VOLUME"            , "I"    , TYPE_DWORD , NULL  },
-    { NULL                         , NULL   , 0          , NULL  }
-};
-#else
-extern DLSYSFUNCS __bgdexport( mod_theora, functions_exports )[];
-extern HOOK __bgdexport( mod_theora, handler_hooks )[];
+#ifndef __PXTB__
+extern int video_play(INSTANCE *my, int * params);
+extern int video_stop(INSTANCE *my, int * params);
+extern int video_pause();
+extern int video_is_playing();
+extern int video_set_volume(INSTANCE *my, int * params);
+extern void refresh_video();
+
+HOOK __bgdexport( mod_theora, handler_hooks )[] = {
+    { 3000, refresh_video                     },
+    {    0, NULL                              }
+} ;
+
 extern void __bgdexport( mod_theora, module_initialize )();
 extern void __bgdexport( mod_theora, module_finalize )();
-extern char __bgdexport( mod_theora, modules_dependency )[];
 #endif
 
+DLSYSFUNCS __bgdexport( mod_theora, functions_exports )[] = {
+    FUNC( "VIDEO_PLAY"                 , "S"    , TYPE_DWORD , video_play       ),
+    FUNC( "VIDEO_STOP"                 , ""     , TYPE_DWORD , video_stop       ),
+    FUNC( "VIDEO_PAUSE"                , ""     , TYPE_DWORD , video_pause      ),
+    FUNC( "VIDEO_IS_PLAYING"           , ""     , TYPE_DWORD , video_is_playing ),
+    FUNC( "VIDEO_SET_VOLUME"           , "I"    , TYPE_DWORD , video_set_volume ),
+    FUNC( NULL                         , NULL   , 0          , NULL             )
+};
+
+char * __bgdexport( mod_theora, modules_dependency )[] = {
+    "libgrbase",
+    "libvideo",
+    NULL
+};
 #endif

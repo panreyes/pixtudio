@@ -1,7 +1,8 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright Â© 2002-2006 Fenix Team (Fenix)
- *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -31,7 +32,29 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
+#ifndef __PXTB__
+extern int modtext_write( INSTANCE * my, int * params );
+extern int modtext_write2( INSTANCE * my, int * params );
+extern int modtext_write_int( INSTANCE * my, int * params );
+extern int modtext_write_int2( INSTANCE * my, int * params );
+extern int modtext_move_text( INSTANCE * my, int * params );
+extern int modtext_move_text2( INSTANCE * my, int * params );
+extern int modtext_delete_text( INSTANCE * my, int * params );
+extern int modtext_write_in_map( INSTANCE * my, int * params );
+extern int modtext_text_width( INSTANCE * my, int * params );
+extern int modtext_text_height( INSTANCE * my, int * params );
+extern int modtext_get_text_color( INSTANCE * my, int * params );
+extern int modtext_get_text_color2( INSTANCE * my, int * params );
+extern int modtext_set_text_color( INSTANCE * my, int * params );
+extern int modtext_set_text_color2( INSTANCE * my, int * params );
+extern int modtext_write_var( INSTANCE * my, int * params );
+extern int modtext_write_var2( INSTANCE * my, int * params );
+extern int modtext_write_float( INSTANCE * my, int * params );
+extern int modtext_write_float2( INSTANCE * my, int * params );
+extern int modtext_write_string( INSTANCE * my, int * params );
+extern int modtext_write_string2( INSTANCE * my, int * params );
+#endif
+
 #define ALIGN_TOP_LEFT      0
 #define ALIGN_TOP           1
 #define ALIGN_TOP_RIGHT     2
@@ -42,8 +65,7 @@
 #define ALIGN_BOTTOM        7
 #define ALIGN_BOTTOM_RIGHT  8
 
-DLCONSTANT __bgdexport( mod_text, constants_def)[] =
-{
+DLCONSTANT __bgdexport( mod_text, constants_def)[] = {
     { "ALL_TEXT"            , TYPE_INT  , 0                     },
     { "ALIGN_TOP_LEFT"      , TYPE_INT  , ALIGN_TOP_LEFT        },
     { "ALIGN_TOP"           , TYPE_INT  , ALIGN_TOP             },
@@ -58,27 +80,28 @@ DLCONSTANT __bgdexport( mod_text, constants_def)[] =
 } ;
 
 DLSYSFUNCS  __bgdexport( mod_text, functions_exports )[] = {
-    { "WRITE"               , "IIIIS"   , TYPE_INT  , 0 },
-    { "WRITE"               , "IIIIIS"  , TYPE_INT  , 0 },
-    { "WRITE_INT"           , "IIIIP"   , TYPE_INT  , 0 },
-    { "WRITE_INT"           , "IIIIIP"  , TYPE_INT  , 0 },
-    { "MOVE_TEXT"           , "III"     , TYPE_INT  , 0 },
-    { "MOVE_TEXT"           , "IIII"    , TYPE_INT  , 0 },
-    { "DELETE_TEXT"         , "I"       , TYPE_INT  , 0 },
-    { "WRITE_IN_MAP"        , "ISI"     , TYPE_INT  , 0 },
-    { "TEXT_WIDTH"          , "IS"      , TYPE_INT  , 0 },
-    { "TEXT_HEIGHT"         , "IS"      , TYPE_INT  , 0 },
-    { "GET_TEXT_COLOR"      , ""        , TYPE_INT  , 0 },
-    { "GET_TEXT_COLOR"      , "I"       , TYPE_INT  , 0 },
-    { "SET_TEXT_COLOR"      , "I"       , TYPE_INT  , 0 },
-    { "SET_TEXT_COLOR"      , "II"      , TYPE_INT  , 0 },
-    { "WRITE_VAR"           , "IIIIV++" , TYPE_INT  , 0 },
-    { "WRITE_VAR"           , "IIIIIV++", TYPE_INT  , 0 },
-    { "WRITE_FLOAT"         , "IIIIP"   , TYPE_INT  , 0 },
-    { "WRITE_FLOAT"         , "IIIIIP"  , TYPE_INT  , 0 },
-    { "WRITE_STRING"        , "IIIIP"   , TYPE_INT  , 0 },
-    { "WRITE_STRING"        , "IIIIIP"  , TYPE_INT  , 0 },
-    { 0                     , 0         , 0         , 0 }
+    FUNC( "WRITE"               , "IIIIS"   , TYPE_INT  , modtext_write             ),
+    FUNC( "WRITE"               , "IIIIIS"  , TYPE_INT  , modtext_write2            ),
+    FUNC( "WRITE_INT"           , "IIIIP"   , TYPE_INT  , modtext_write_int         ),
+    FUNC( "WRITE_INT"           , "IIIIIP"  , TYPE_INT  , modtext_write_int2        ),
+    FUNC( "MOVE_TEXT"           , "III"     , TYPE_INT  , modtext_move_text         ),
+    FUNC( "MOVE_TEXT"           , "IIII"    , TYPE_INT  , modtext_move_text2        ),
+    FUNC( "DELETE_TEXT"         , "I"       , TYPE_INT  , modtext_delete_text       ),
+    FUNC( "WRITE_IN_MAP"        , "ISI"     , TYPE_INT  , modtext_write_in_map      ),
+    FUNC( "TEXT_WIDTH"          , "IS"      , TYPE_INT  , modtext_text_width        ),
+    FUNC( "TEXT_HEIGHT"         , "IS"      , TYPE_INT  , modtext_text_height       ),
+    FUNC( "GET_TEXT_COLOR"      , ""        , TYPE_INT  , modtext_get_text_color    ),
+    FUNC( "GET_TEXT_COLOR"      , "I"       , TYPE_INT  , modtext_get_text_color2   ),
+    FUNC( "SET_TEXT_COLOR"      , "I"       , TYPE_INT  , modtext_set_text_color    ),
+    FUNC( "SET_TEXT_COLOR"      , "II"      , TYPE_INT  , modtext_set_text_color2   ),
+    FUNC( "WRITE_VAR"           , "IIIIV++" , TYPE_INT  , modtext_write_var         ),
+    FUNC( "WRITE_VAR"           , "IIIIIV++", TYPE_INT  , modtext_write_var2        ),
+    FUNC( "WRITE_FLOAT"         , "IIIIP"   , TYPE_INT  , modtext_write_float       ),
+    FUNC( "WRITE_FLOAT"         , "IIIIIP"  , TYPE_INT  , modtext_write_float2      ),
+    FUNC( "WRITE_STRING"        , "IIIIP"   , TYPE_INT  , modtext_write_string      ),
+    FUNC( "WRITE_STRING"        , "IIIIIP"  , TYPE_INT  , modtext_write_string2     ),
+
+    FUNC( 0                     , 0         , 0         , 0                         )
 };
 
 char * __bgdexport( mod_text, modules_dependency)[] =
@@ -89,10 +112,5 @@ char * __bgdexport( mod_text, modules_dependency)[] =
     "libfont",
     NULL
 };
-#else
-extern DLCONSTANT __bgdexport( mod_text, constants_def)[];
-extern DLSYSFUNCS __bgdexport( mod_text, functions_exports)[];
-extern char *     __bgdexport( mod_text, modules_dependency)[];
-#endif
 
 #endif

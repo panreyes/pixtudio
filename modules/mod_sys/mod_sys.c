@@ -1,5 +1,8 @@
 /*
- *  Copyright ï¿½ 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -32,6 +35,7 @@
 #include "bgddl.h"
 #include "files.h"
 #include "xstrings.h"
+#include "mod_sys.h"
 
 #include <unistd.h>
 
@@ -49,34 +53,13 @@ extern JNIEnv *Android_JNI_GetEnv();
 extern jclass Android_JNI_GetActivityClass(void);
 #endif
 
-/* ---------------------------------------------------------------------- */
-
-#ifndef _P_WAIT
-#define _P_WAIT     0
+#ifndef __MONOLITHIC__
+#include "mod_sys_symbols.h"
 #endif
-
-#ifndef _P_NOWAIT
-#define _P_NOWAIT   1
-#endif
-
-/*
-#define _P_OVERLAY  2
-#define _OLD_P_OVERLAY  _P_OVERLAY
-#define _P_NOWAITO  3
-#define _P_DETACH   4
-*/
-
-DLCONSTANT __bgdexport( mod_sys, constants_def )[] =
-{
-    { "_P_WAIT"     , TYPE_DWORD,  _P_WAIT   },
-    { "_P_NOWAIT"   , TYPE_DWORD,  _P_NOWAIT },
-    { NULL          , 0         ,  0         }
-} ;
 
 /* ---------------------------------------------------------------------- */
 
-static int modsys_exec( INSTANCE * my, int * params )
-{
+int modsys_exec( INSTANCE * my, int * params ) {
 #if (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
     NSString *urlString = [NSString stringWithFormat:@"%s" , string_get(params[1])];
     string_discard(params[1]);
@@ -154,8 +137,7 @@ static int modsys_exec( INSTANCE * my, int * params )
 
 /* ---------------------------------------------------------------------- */
 
-static int modsys_getenv( INSTANCE * my, int * params )
-{
+int modsys_getenv( INSTANCE * my, int * params ) {
     char *e ;
     int str ;
 
@@ -172,15 +154,5 @@ static int modsys_getenv( INSTANCE * my, int * params )
     string_use( str ) ;
     return str ;
 }
-
-/* ----------------------------------------------------------------- */
-/* Declaracion de funciones                                          */
-
-DLSYSFUNCS __bgdexport( mod_sys, functions_exports )[] =
-{
-    { "GETENV"  , "S"    , TYPE_STRING, modsys_getenv },
-    { "EXEC"    , "ISIP" , TYPE_INT   , modsys_exec   },
-    { 0         , 0      , 0          , 0             }
-};
 
 /* ----------------------------------------------------------------- */

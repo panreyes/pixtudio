@@ -22,6 +22,7 @@
 #include <sqlite3.h>
 #include "bgddl.h"
 #include "xstrings.h"
+
 #ifndef __MONOLITHIC__
 #include "mod_sqlite3_symbols.h"
 #endif
@@ -31,14 +32,13 @@ typedef struct
   int cols,
       rows;
   int CurrentRow;
-  char **pazResult;//internal use
+  char **pazResult; //internal use
 } SqlResult ;
 
 /* ----------------------------------------------------------------- */
 /*                  Function definitions                           */
 
-static int callback(void *NotUsed, int argc, char **argv, char **azColName)
-{/*
+static int callback(void *NotUsed, int argc, char **argv, char **azColName) {/*
   int i;
   for(i=0; i<argc; i++){
     printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
@@ -49,14 +49,12 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 }
 
 
-CONDITIONALLY_STATIC int modsqlite3_enableCache(INSTANCE * my, int * params)
-{
+int modsqlite3_enableCache(INSTANCE * my, int * params) {
   return sqlite3_enable_shared_cache(params[0]);
 }
 
 
-CONDITIONALLY_STATIC int modsqlite3_openDb (INSTANCE * my, int * params)
-{
+int modsqlite3_openDb (INSTANCE * my, int * params) {
     sqlite3 *db;
     const char * text = (const char *)string_get (params[0]) ;
 
@@ -72,15 +70,13 @@ CONDITIONALLY_STATIC int modsqlite3_openDb (INSTANCE * my, int * params)
 }
 
 
-CONDITIONALLY_STATIC int modsqlite3_closeDb (INSTANCE * my, int * params)
-{
+int modsqlite3_closeDb (INSTANCE * my, int * params) {
     if (params[0]) sqlite3_close((sqlite3 *)params[0]);
     return 1;
 }
 
 
-CONDITIONALLY_STATIC int modsqlite3_execDb (INSTANCE * my, int * params)
-{
+int modsqlite3_execDb (INSTANCE * my, int * params) {
   char *zErrMsg = 0;
   const char * text = (const char *)string_get (params[1]) ;
 
@@ -95,8 +91,7 @@ CONDITIONALLY_STATIC int modsqlite3_execDb (INSTANCE * my, int * params)
 }
 
 
-CONDITIONALLY_STATIC int modsqlite3_openTable (INSTANCE * my, int * params)
-{
+int modsqlite3_openTable (INSTANCE * my, int * params) {
   char *zErrMsg = 0;
   const char * text = (const char *)string_get (params[1]) ;
   SqlResult *resultado= (SqlResult *)params[2];
@@ -113,8 +108,7 @@ CONDITIONALLY_STATIC int modsqlite3_openTable (INSTANCE * my, int * params)
 }
 
 
-CONDITIONALLY_STATIC int modsqlite3_closeTable (INSTANCE * my, int * params)
-{
+int modsqlite3_closeTable (INSTANCE * my, int * params) {
   SqlResult *resultado= (SqlResult *)params[0];
 
   sqlite3_free_table(resultado->pazResult);
@@ -122,8 +116,7 @@ CONDITIONALLY_STATIC int modsqlite3_closeTable (INSTANCE * my, int * params)
 }
 
 
-CONDITIONALLY_STATIC int modsqlite3_getFieldName (INSTANCE * my, int * params)
-{
+int modsqlite3_getFieldName (INSTANCE * my, int * params) {
   SqlResult *resultado= (SqlResult *)params[0];
   int res=0;
 
@@ -134,8 +127,7 @@ CONDITIONALLY_STATIC int modsqlite3_getFieldName (INSTANCE * my, int * params)
 }
 
 
-CONDITIONALLY_STATIC int modsqlite3_getFieldValue (INSTANCE * my, int * params)
-{
+int modsqlite3_getFieldValue (INSTANCE * my, int * params) {
   SqlResult *resultado= (SqlResult *)params[0];
   int res=0;
   int i=(resultado->cols * resultado->CurrentRow)+ params[1];
@@ -149,20 +141,17 @@ CONDITIONALLY_STATIC int modsqlite3_getFieldValue (INSTANCE * my, int * params)
 }
 
 
-CONDITIONALLY_STATIC int modsqlite3_lastId (INSTANCE * my, int * params)
-{
+int modsqlite3_lastId (INSTANCE * my, int * params) {
   return sqlite3_last_insert_rowid((sqlite3*)params[0]);
 }
 
 
-CONDITIONALLY_STATIC int modsqlite3_totalChanges(INSTANCE * my, int * params)
-{
+int modsqlite3_totalChanges(INSTANCE * my, int * params) {
   return sqlite3_total_changes((sqlite3*)params[0]);
 }
 
 
-CONDITIONALLY_STATIC int modsqlite3_errMsg (INSTANCE * my, int * params)
-{
+int modsqlite3_errMsg (INSTANCE * my, int * params) {
   int res=0;
   const char *cad= sqlite3_errmsg((sqlite3*)params[0]);
 

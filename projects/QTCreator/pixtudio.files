@@ -944,3 +944,4 @@
 ../../modules/libkey/key_stats.h
 ../../modules/mod_effects/mod_effects.h
 ../../modules/mod_proc/mod_proc.h
+../../modules/mod_sys/mod_sys.h

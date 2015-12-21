@@ -31,35 +31,58 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS  __bgdexport( mod_string, functions_exports )[] =
-{
-    { "STRLEN"     , "S"   , TYPE_INT   , 0 },
-    { "LEN"        , "S"   , TYPE_INT   , 0 },
-    { "UCASE"      , "S"   , TYPE_STRING, 0 },
-    { "LCASE"      , "S"   , TYPE_STRING, 0 },
-    { "STRCASECMP" , "SS"  , TYPE_INT   , 0 },
-    { "SUBSTR"     , "SII" , TYPE_STRING, 0 },
-    { "SUBSTR"     , "SI"  , TYPE_STRING, 0 },
-    { "FIND"       , "SS"  , TYPE_INT   , 0 },
-    { "FIND"       , "SSI" , TYPE_INT   , 0 },
-    { "LPAD"       , "SI"  , TYPE_STRING, 0 },
-    { "RPAD"       , "SI"  , TYPE_STRING, 0 },
-    { "ITOA"       , "I"   , TYPE_STRING, 0 },
-    { "FTOA"       , "F"   , TYPE_STRING, 0 },
-    { "ATOI"       , "S"   , TYPE_INT   , 0 },
-    { "ATOF"       , "S"   , TYPE_FLOAT , 0 },
-    { "ASC"        , "S"   , TYPE_BYTE  , 0 },
-    { "CHR"        , "I"   , TYPE_STRING, 0 },
-    { "TRIM"       , "S"   , TYPE_STRING, 0 },
-    { "STRREV"     , "S"   , TYPE_STRING, 0 },
-    { "FORMAT"     , "I"   , TYPE_STRING, 0 },
-    { "FORMAT"     , "F"   , TYPE_STRING, 0 },
-    { "FORMAT"     , "FI"  , TYPE_STRING, 0 },
-    { 0            , 0     , 0          , 0 }
-};
-#else
-extern DLSYSFUNCS  __bgdexport( mod_string, functions_exports )[];
+#ifndef __PXTB__
+extern int modstring_strlen( INSTANCE * my, int * params );
+extern int modstring_strlen( INSTANCE * my, int * params );
+extern int modstring_strupper( INSTANCE * my, int * params );
+extern int modstring_strlower( INSTANCE * my, int * params );
+extern int modstring_strcasecmp( INSTANCE * my, int * params );
+extern int modstring_substr( INSTANCE * my, int * params );
+extern int modstring_substr2( INSTANCE * my, int * params );
+extern int modstring_substr2( INSTANCE * my, int * params );
+extern int modstring_strfind( INSTANCE * my, int * params );
+extern int modstring_strfindSSI( INSTANCE * my, int * params );
+extern int modstring_strfindSSI( INSTANCE * my, int * params );
+extern int modstring_lpad( INSTANCE * my, int * params );
+extern int modstring_rpad( INSTANCE * my, int * params );
+extern int modstring_itos( INSTANCE * my, int * params );
+extern int modstring_ftos( INSTANCE * my, int * params );
+extern int modstring_stoi( INSTANCE * my, int * params );
+extern int modstring_stof( INSTANCE * my, int * params );
+extern int modstring_asc( INSTANCE * my, int * params );
+extern int modstring_chr( INSTANCE * my, int * params );
+extern int modstring_trim( INSTANCE * my, int * params );
+extern int modstring_strrev( INSTANCE * my, int * params );
+extern int modstring_formatI( INSTANCE * my, int * params );
+extern int modstring_formatF( INSTANCE * my, int * params );
+extern int modstring_formatFI( INSTANCE * my, int * params );
+extern int modstring_formatFI( INSTANCE * my, int * params );
 #endif
+
+DLSYSFUNCS  __bgdexport( mod_string, functions_exports )[] = {
+    FUNC( "STRLEN"     , "S"   , TYPE_INT   , modstring_strlen     ),
+    FUNC( "LEN"        , "S"   , TYPE_INT   , modstring_strlen     ),
+    FUNC( "UCASE"      , "S"   , TYPE_STRING, modstring_strupper   ),
+    FUNC( "LCASE"      , "S"   , TYPE_STRING, modstring_strlower   ),
+    FUNC( "STRCASECMP" , "SS"  , TYPE_INT   , modstring_strcasecmp ),
+    FUNC( "SUBSTR"     , "SII" , TYPE_STRING, modstring_substr     ),
+    FUNC( "SUBSTR"     , "SI"  , TYPE_STRING, modstring_substr2    ),
+    FUNC( "FIND"       , "SS"  , TYPE_INT   , modstring_strfind    ),
+    FUNC( "FIND"       , "SSI" , TYPE_INT   , modstring_strfindSSI ),
+    FUNC( "LPAD"       , "SI"  , TYPE_STRING, modstring_lpad       ),
+    FUNC( "RPAD"       , "SI"  , TYPE_STRING, modstring_rpad       ),
+    FUNC( "ITOA"       , "I"   , TYPE_STRING, modstring_itos       ),
+    FUNC( "FTOA"       , "F"   , TYPE_STRING, modstring_ftos       ),
+    FUNC( "ATOI"       , "S"   , TYPE_INT   , modstring_stoi       ),
+    FUNC( "ATOF"       , "S"   , TYPE_FLOAT , modstring_stof       ),
+    FUNC( "ASC"        , "S"   , TYPE_BYTE  , modstring_asc        ),
+    FUNC( "CHR"        , "I"   , TYPE_STRING, modstring_chr        ),
+    FUNC( "TRIM"       , "S"   , TYPE_STRING, modstring_trim       ),
+    FUNC( "STRREV"     , "S"   , TYPE_STRING, modstring_strrev     ),
+    FUNC( "FORMAT"     , "I"   , TYPE_STRING, modstring_formatI    ),
+    FUNC( "FORMAT"     , "F"   , TYPE_STRING, modstring_formatF    ),
+    FUNC( "FORMAT"     , "FI"  , TYPE_STRING, modstring_formatFI   ),
+    FUNC( 0            , 0     , 0          , 0                    )
+};
 
 #endif

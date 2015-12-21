@@ -27,27 +27,11 @@
  *
  */
 
-#ifndef __MODSYS_SYMBOLS_H
-#define __MODSYS_SYMBOLS_H
+#ifndef MOD_SYS_H
+#define MOD_SYS_H
 
-#include "bgddl.h"
-#include "mod_sys.h"
+#define _P_WAIT     0
+#define _P_NOWAIT   1
 
-#ifndef __PXTB__
-extern int modsys_getenv( INSTANCE * my, int * params );
-extern int modsys_exec( INSTANCE * my, int * params );
-#endif
+#endif // MOD_SYS_H
 
-DLCONSTANT __bgdexport( mod_sys, constants_def )[] = {
-    { "_P_WAIT"     , TYPE_DWORD,  _P_WAIT   },
-    { "_P_NOWAIT"   , TYPE_DWORD,  _P_NOWAIT },
-    { NULL          , 0         ,  0         }
-} ;
-
-DLSYSFUNCS __bgdexport( mod_sys, functions_exports )[] = {
-    FUNC( "GETENV"  , "S"    , TYPE_STRING, modsys_getenv ),
-    FUNC( "EXEC"    , "ISIP" , TYPE_INT   , modsys_exec   ),
-    FUNC( 0         , 0      , 0          , 0             )
-};
-
-#endif
