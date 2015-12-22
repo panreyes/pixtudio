@@ -945,3 +945,17 @@
 ../../modules/mod_effects/mod_effects.h
 ../../modules/mod_proc/mod_proc.h
 ../../modules/mod_sys/mod_sys.h
+../../modules/mod_audio/Audio.cpp
+../../modules/mod_audio/Audio.h
+../../modules/mod_audio/Source.cpp
+../../modules/mod_audio/Source.h
+../../modules/mod_audio/wrap_Audio.cpp
+../../modules/mod_audio/wrap_Audio.h
+../../modules/mod_audio/wrap_Source.cpp
+../../modules/mod_audio/wrap_Source.h
+../../modules/mod_audio/openal/Audio.cpp
+../../modules/mod_audio/openal/Audio.h
+../../modules/mod_audio/openal/Pool.cpp
+../../modules/mod_audio/openal/Pool.h
+../../modules/mod_audio/openal/Source.cpp
+../../modules/mod_audio/openal/Source.h

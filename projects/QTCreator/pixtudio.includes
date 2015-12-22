@@ -136,3 +136,5 @@
 ../../core/common
 ../../core/pxtp/src
 ../../modules/mod_wm/locale
+../../modules/mod_audio
+../../modules/mod_audio/openal
