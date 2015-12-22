@@ -148,3 +148,16 @@ int bgd_get_locale( INSTANCE * my, int * params ) {
 }
 
 /* --------------------------------------------------------------------------- */
+
+void bgd_show_messagebox( INSTANCE * my, int * params ) {
+    Uint32 flags = (Uint32)params[0];
+    const char * title = string_get(params[1]);
+    const char * msg = string_get(params[2]);
+
+    if(SDL_ShowSimpleMessageBox(flags, title, msg, window) != 0) {
+        // Showing the dialog failed -> print to stderr
+        fprintf(stderr, msg);
+    }
+}
+
+/* --------------------------------------------------------------------------- */

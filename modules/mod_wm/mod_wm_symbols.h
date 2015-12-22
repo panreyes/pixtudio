@@ -31,6 +31,7 @@
 #define __MODWM_SYMBOLS_H
 
 #include <bgddl.h>
+#include <SDL_messagebox.h>
 
 #ifndef __PXTB__
 extern int bgd_set_title( INSTANCE * my, int * params );
@@ -43,26 +44,34 @@ extern int bgd_get_desktop_size( INSTANCE * my, int * params );
 extern int bgd_disable_screensaver( INSTANCE * my, int * params );
 extern int bgd_enable_screensaver( INSTANCE * my, int * params );
 extern int bgd_get_locale( INSTANCE * my, int * params );
+extern void bgd_show_messagebox( INSTANCE * my, int * params );
 #endif
 
+DLCONSTANT __bgdexport( mod_wm, constants_def)[] = {
+    { "MESSAGEBOX_ERROR"       , TYPE_INT , SDL_MESSAGEBOX_ERROR       },
+    { "MESSAGEBOX_WARNING"     , TYPE_INT , SDL_MESSAGEBOX_WARNING     },
+    { "MESSAGEBOX_INFORMATION" , TYPE_INT , SDL_MESSAGEBOX_INFORMATION },
+    { NULL                     , 0        , 0                          }
+} ;
+
 DLSYSFUNCS __bgdexport( mod_wm, functions_exports )[] = {
-    FUNC( "SET_TITLE"           , "S"   , TYPE_INT    , bgd_set_title           ),
-    FUNC( "SET_ICON"            , "II"  , TYPE_INT    , bgd_set_icon            ),
-    FUNC( "MINIMIZE"            , ""    , TYPE_INT    , bgd_minimize            ),
-    FUNC( "MOVE_WINDOW"         , "II"  , TYPE_INT    , bgd_move_window         ),
-    FUNC( "SET_WINDOW_POS"      , "II"  , TYPE_INT    , bgd_move_window         ),
-    FUNC( "GET_WINDOW_POS"      , "PP"  , TYPE_INT    , bgd_get_window_pos      ),
-    FUNC( "GET_WINDOW_SIZE"     , "PPPP", TYPE_INT    , bgd_get_window_size     ),
-    FUNC( "GET_DESKTOP_SIZE"    , "PP"  , TYPE_INT    , bgd_get_desktop_size    ),
-    FUNC( "DISABLE_SCREENSAVER" , ""    , TYPE_INT    , bgd_disable_screensaver ),
-    FUNC( "ENABLE_SCREENSAVER"  , ""    , TYPE_INT    , bgd_enable_screensaver  ),
-    FUNC( "GET_LOCALE"          , ""    , TYPE_STRING , bgd_get_locale          ),
+    FUNC( "SET_TITLE"           , "S"   , TYPE_INT      , bgd_set_title           ),
+    FUNC( "SET_ICON"            , "II"  , TYPE_INT      , bgd_set_icon            ),
+    FUNC( "MINIMIZE"            , ""    , TYPE_INT      , bgd_minimize            ),
+    FUNC( "MOVE_WINDOW"         , "II"  , TYPE_INT      , bgd_move_window         ),
+    FUNC( "SET_WINDOW_POS"      , "II"  , TYPE_INT      , bgd_move_window         ),
+    FUNC( "GET_WINDOW_POS"      , "PP"  , TYPE_INT      , bgd_get_window_pos      ),
+    FUNC( "GET_WINDOW_SIZE"     , "PPPP", TYPE_INT      , bgd_get_window_size     ),
+    FUNC( "GET_DESKTOP_SIZE"    , "PP"  , TYPE_INT      , bgd_get_desktop_size    ),
+    FUNC( "DISABLE_SCREENSAVER" , ""    , TYPE_INT      , bgd_disable_screensaver ),
+    FUNC( "ENABLE_SCREENSAVER"  , ""    , TYPE_INT      , bgd_enable_screensaver  ),
+    FUNC( "GET_LOCALE"          , ""    , TYPE_STRING   , bgd_get_locale          ),
+    FUNC( "MESSAGEBOX"          , "ISS" , TYPE_UNDEFINED, bgd_show_messagebox     ),
 
     FUNC( 0                     , 0     , 0           , 0                       )
 };
 
-char * __bgdexport( mod_wm, modules_dependency )[] =
-{
+char * __bgdexport( mod_wm, modules_dependency )[] = {
     "libgrbase",
     "libvideo",
     "libwm",

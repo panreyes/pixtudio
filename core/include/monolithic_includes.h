@@ -161,7 +161,7 @@ basic_symbols symbol_list[] = {
     { "mod_draw.fakelib"     , mod_draw_modules_dependency, NULL, NULL, NULL, NULL, mod_draw_functions_exports },
     { "mod_screen.fakelib"   , mod_screen_modules_dependency, NULL, NULL, NULL, NULL, mod_screen_functions_exports },
     { "mod_path.fakelib"     , mod_path_modules_dependency, mod_path_constants_def, NULL, NULL, NULL, mod_path_functions_exports },
-    { "mod_wm.fakelib"       , mod_wm_modules_dependency, NULL, NULL, NULL, NULL, mod_wm_functions_exports },
+    { "mod_wm.fakelib"       , mod_wm_modules_dependency, mod_wm_constants_def, NULL, NULL, NULL, mod_wm_functions_exports },
     { "mod_sys.fakelib"      , NULL, mod_sys_constants_def, NULL, NULL, NULL, mod_sys_functions_exports },
 #ifndef NO_MODMEM
     { "mod_mem.fakelib"      , NULL, NULL, NULL, NULL, NULL, mod_mem_functions_exports },
