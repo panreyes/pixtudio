@@ -46,7 +46,7 @@ DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [] = {
 
 
 char __bgdexport( mod_regex, globals_def )[] = "STRING regex_reg[15];\n";
-DLSYSFUNCS __bgdexport( mod_regex, functions_exports) [] = {
+DLSYSFUNCS __bgdexport( mod_regex, exported_functions) [] = {
     /* Regex */
     FUNC( "REGEX"                , "SS"    , TYPE_INT    , modregex_regex           ),
     FUNC( "STRING_REPLACE"       , "SSS"   , TYPE_STRING , modregex_string_replace  ),

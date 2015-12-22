@@ -38,7 +38,7 @@ extern void __bgdexport( libfont, module_initialize )();
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( libfont, modules_dependency )[] =
+char * __bgdexport( libfont, module_dependencies )[] =
 {
     "libgrbase",
     NULL

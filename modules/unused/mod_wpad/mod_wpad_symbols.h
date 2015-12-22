@@ -25,7 +25,7 @@
 #include "mod_wpad.h"
 
 #ifdef __PXTB__
-DLSYSFUNCS  __bgdexport( mod_wpad, functions_exports )[] =
+DLSYSFUNCS  __bgdexport( mod_wpad, exported_functions )[] =
 {
     { "WPAD_IS_READY"          , "I" , TYPE_INT      , 0 },
     { "WPAD_INFO"              , "II", TYPE_INT      , 0 },
@@ -37,7 +37,7 @@ DLSYSFUNCS  __bgdexport( mod_wpad, functions_exports )[] =
     { 0                        , 0   , 0             , 0 }
 };
 #else
-extern DLSYSFUNCS  __bgdexport( mod_wpad, functions_exports )[];
+extern DLSYSFUNCS  __bgdexport( mod_wpad, exported_functions )[];
 #endif
 
 #ifndef __PXTB__
@@ -81,7 +81,7 @@ DLCONSTANT __bgdexport( mod_wpad, constants_def )[] =
 
 /* ----------------------------------------------------------------- */
 
-char * __bgdexport( mod_wpad, modules_dependency )[] =
+char * __bgdexport( mod_wpad, module_dependencies )[] =
 {
     "mod_joy",
     NULL

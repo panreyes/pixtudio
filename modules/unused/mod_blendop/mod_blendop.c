@@ -274,7 +274,7 @@ static int modblendop_tint( INSTANCE * my, int * params )
 
 /* ---------------------------------------------------------------------- */
 
-DLSYSFUNCS __bgdexport( mod_blendop, functions_exports)[] =
+DLSYSFUNCS __bgdexport( mod_blendop, exported_functions)[] =
 {
     /* Blendops */
     { "BLENDOP_NEW"          , ""      , TYPE_INT   , modblendop_create_blendop },
@@ -293,7 +293,7 @@ DLSYSFUNCS __bgdexport( mod_blendop, functions_exports)[] =
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( mod_blendop, modules_dependency )[] =
+char * __bgdexport( mod_blendop, module_dependencies )[] =
 {
     "libgrbase",
     NULL

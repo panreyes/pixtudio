@@ -62,7 +62,7 @@ extern int modmem_memory_free( INSTANCE * my, int * params );
 extern int modmem_memory_total( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS __bgdexport( mod_mem, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_mem, exported_functions )[] = {
     FUNC( "MEM_CALLOC"      , "II"    , TYPE_POINTER, modmem_calloc         ),
     FUNC( "MEM_ALLOC"       , "I"     , TYPE_POINTER, modmem_alloc          ),
     FUNC( "MEM_FREE"        , "P"     , TYPE_INT    , modmem_free           ),

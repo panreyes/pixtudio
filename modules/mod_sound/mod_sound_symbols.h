@@ -92,7 +92,7 @@ char __bgdexport( mod_sound, globals_def )[] =
     "   sound_mode = MODE_STEREO ;\n"
     "   sound_channels = 8 ;\n";
 
-DLSYSFUNCS  __bgdexport( mod_sound, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_sound, exported_functions )[] = {
     FUNC( "SOUND_INIT"          , ""     , TYPE_INT , modsound_init               ),
     FUNC( "SOUND_CLOSE"         , ""     , TYPE_INT , modsound_close              ),
 
@@ -144,7 +144,7 @@ DLSYSFUNCS  __bgdexport( mod_sound, functions_exports )[] = {
 
 
 
-extern DLSYSFUNCS  __bgdexport( mod_sound, functions_exports )[];
+extern DLSYSFUNCS  __bgdexport( mod_sound, exported_functions )[];
 extern void  __bgdexport( mod_sound, module_initialize )();
 extern void __bgdexport( mod_sound, module_finalize )();
 

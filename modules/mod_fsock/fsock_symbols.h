@@ -36,7 +36,7 @@ extern int fsock_quit( INSTANCE * my, int * params );
 extern int fsock_fdisset( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS  __bgdexport( fsock, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( fsock, exported_functions )[] = {
     FUNC( "FSOCK_INIT"           , "I"    , TYPE_DWORD , fsock_init            ),
     FUNC( "FSOCK_GETERROR"       , ""     , TYPE_DWORD , fsock_geterror        ),
     FUNC( "FSOCK_GETFDSETSIZE"   , ""     , TYPE_DWORD , fsock_getfdsetsize    ),

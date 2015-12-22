@@ -56,7 +56,7 @@ DLCONSTANT __bgdexport( mod_effects, constants_def )[] = {
     { NULL          , 0       , 0               }
 } ;
 
-DLSYSFUNCS  __bgdexport( mod_effects, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_effects, exported_functions )[] = {
     FUNC( "GRAYSCALE"   , "IIB"   , TYPE_INT    , modeffects_grayscale ),
     FUNC( "RGBSCALE"    , "IIFFF" , TYPE_INT    , modeffects_rgbscale  ),
     FUNC( "BLUR"        , "IIB"   , TYPE_INT    , modeffects_blur      ),
@@ -64,7 +64,7 @@ DLSYSFUNCS  __bgdexport( mod_effects, functions_exports )[] = {
     FUNC( NULL          , NULL    , 0           , NULL                 )
 };
 
-char * __bgdexport( mod_effects, modules_dependency )[] = {
+char * __bgdexport( mod_effects, module_dependencies )[] = {
     "libgrbase",
     NULL
 };

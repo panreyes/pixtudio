@@ -55,7 +55,7 @@ DLCONSTANT __bgdexport( libjoy, constants_def )[] =
 
 /* ----------------------------------------------------------------- */
 
-char *__bgdexport( libjoy, modules_dependency )[] =
+char *__bgdexport( libjoy, module_dependencies )[] =
 {
     "libsdlhandler",
     NULL

@@ -455,8 +455,8 @@ static void import_module( const char * filename )
     char        ** globals_def = NULL;
     char        ** locals_def = NULL;
     DLCONSTANT  * constants_def = NULL;
-    DLSYSFUNCS  * functions_exports = NULL;
-    char        ** modules_dependency = NULL;
+    DLSYSFUNCS  * exported_functions = NULL;
+    char        ** module_dependencies = NULL;
     char        ** types_def = NULL;
 
     char        soname[ __MAX_PATH ], fullsoname[ __MAX_PATH ], **spath ;
@@ -526,17 +526,17 @@ static void import_module( const char * filename )
         compile_error( MSG_LIBRARY_NOT_FOUND, filename ) ;
     }
 
-    modules_dependency = ( char ** ) _dlibaddr( library, "modules_dependency" ) ;
+    module_dependencies = ( char ** ) _dlibaddr( library, "module_dependencies" ) ;
 
-    if ( modules_dependency ) {
+    if ( module_dependencies ) {
         char * old_import_filename = import_filename;
-        while ( *modules_dependency ) {
-            if ( import_exists( *modules_dependency ) == -1 ) {
-                import_filename = *modules_dependency ;
-                import_module( *modules_dependency );
+        while ( *module_dependencies ) {
+            if ( import_exists( *module_dependencies ) == -1 ) {
+                import_filename = *module_dependencies ;
+                import_module( *module_dependencies );
                 import_filename = NULL ;
             }
-            modules_dependency++;
+            module_dependencies++;
         }
         import_filename = old_import_filename;
     }
@@ -577,11 +577,11 @@ static void import_module( const char * filename )
         compile_varspace( &local, localdata, 1, 1, 0, v, DEFAULT_ALIGNMENT, 1 ) ;
     }
 
-    functions_exports = ( DLSYSFUNCS * ) _dlibaddr( library, "functions_exports" ) ;
-    if ( functions_exports ) {
-        while ( functions_exports->name ) {
-            sysproc_add( functions_exports->name, functions_exports->paramtypes, functions_exports->type, functions_exports->func );
-            functions_exports++;
+    exported_functions = ( DLSYSFUNCS * ) _dlibaddr( library, "exported_functions" ) ;
+    if ( exported_functions ) {
+        while ( exported_functions->name ) {
+            sysproc_add( exported_functions->name, exported_functions->paramtypes, exported_functions->type, exported_functions->func );
+            exported_functions++;
         }
     }
 }

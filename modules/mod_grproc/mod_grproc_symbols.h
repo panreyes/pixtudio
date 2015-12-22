@@ -87,7 +87,7 @@ char __bgdexport( mod_grproc, locals_def )[] =
     "int context;\n"
     "END\n";
 
-DLSYSFUNCS  __bgdexport( mod_grproc, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_grproc, exported_functions )[] = {
     FUNC( "ADVANCE"             , "I"   , TYPE_INT  , grproc_advance            ),
     FUNC( "XADVANCE"            , "II"  , TYPE_INT  , grproc_xadvance           ),
 
@@ -104,7 +104,7 @@ DLSYSFUNCS  __bgdexport( mod_grproc, functions_exports )[] = {
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( mod_grproc, modules_dependency )[] = {
+char * __bgdexport( mod_grproc, module_dependencies )[] = {
     "libmouse",
     "libgrbase",
     "libvideo",

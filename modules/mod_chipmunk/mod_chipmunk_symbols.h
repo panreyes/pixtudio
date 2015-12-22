@@ -193,7 +193,7 @@ DLCONSTANT __bgdexport( mod_chipmunk, constants_def )[] =
     { NULL , 0 , 0 }
 } ;
 
-char * __bgdexport( mod_chipmunk, modules_dependency )[] =
+char * __bgdexport( mod_chipmunk, module_dependencies )[] =
 {
     "librender",
     "libgrbase",
@@ -202,7 +202,7 @@ char * __bgdexport( mod_chipmunk, modules_dependency )[] =
     NULL
 };
 
-DLSYSFUNCS __bgdexport( mod_chipmunk, functions_exports) [] =
+DLSYSFUNCS __bgdexport( mod_chipmunk, exported_functions) [] =
 {
     {"INFINITYF"                            , ""             , TYPE_FLOAT     , 0},
     {"modChipmunkdeg2rad"                   , "F"            , TYPE_FLOAT     , 0},
@@ -448,8 +448,8 @@ extern DLCONSTANT __bgdexport( mod_chipmunk, constants_def )[];
 extern HOOK __bgdexport (mod_chipmunk , handler_hooks ) [];
 extern void __bgdexport( mod_chipmunk, module_initialize )();
 extern void __bgdexport( mod_chipmunk, module_finalize )();
-extern char * __bgdexport( mod_chipmunk, modules_dependency )[];
-extern DLSYSFUNCS __bgdexport( mod_chipmunk, functions_exports) [];
+extern char * __bgdexport( mod_chipmunk, module_dependencies )[];
+extern DLSYSFUNCS __bgdexport( mod_chipmunk, exported_functions) [];
 #endif
 
 #endif

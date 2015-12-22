@@ -46,7 +46,7 @@ DLVARFIXUP __bgdexport( mod_video, globals_fixup )[] = {
 };
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_video, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_video, exported_functions )[] = {
     FUNC( "SET_MODE"        , "I"     , TYPE_INT        , modvideo_set_mode   ),
     FUNC( "SET_MODE"        , "II"    , TYPE_INT        , modvideo_set_mode_2 ),
     FUNC( "SET_MODE"        , "III"   , TYPE_INT        , modvideo_set_mode_3 ),
@@ -58,7 +58,7 @@ DLSYSFUNCS  __bgdexport( mod_video, functions_exports )[] = {
     FUNC( 0                 , 0       , 0               , 0                   )
 };
 
-char * __bgdexport( mod_video, modules_dependency )[] = {
+char * __bgdexport( mod_video, module_dependencies )[] = {
     "libgrbase",
     "libvideo",
     "librender",

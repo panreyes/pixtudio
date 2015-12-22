@@ -28,7 +28,7 @@
 #include <bgddl.h>
 
 #ifdef __PXTB__
-DLSYSFUNCS __bgdexport( mod_iap, functions_exports )[] =
+DLSYSFUNCS __bgdexport( mod_iap, exported_functions )[] =
 {
     { "IAP_INIT"            , "S"     , TYPE_INT       , 0 },
     { "IAP_RECEIPTS_READY"  , ""      , TYPE_INT       , 0 },
@@ -39,7 +39,7 @@ DLSYSFUNCS __bgdexport( mod_iap, functions_exports )[] =
     { 0                     , 0       , 0              , 0 }
 };
 #else
-extern DLSYSFUNCS __bgdexport( mod_iap, functions_exports )[];
+extern DLSYSFUNCS __bgdexport( mod_iap, exported_functions )[];
 extern void __bgdexport( mod_iap, module_finalize )();
 #endif
 

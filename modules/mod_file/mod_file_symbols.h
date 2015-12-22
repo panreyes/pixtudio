@@ -65,7 +65,7 @@ DLCONSTANT  __bgdexport( mod_file, constants_def)[] = {
     { NULL          , 0       , 0  }
 } ;
 
-DLSYSFUNCS  __bgdexport( mod_file, functions_exports)[] = {
+DLSYSFUNCS  __bgdexport( mod_file, exported_functions)[] = {
     FUNC( "SAVE"        , "SV++" , TYPE_INT         , modfile_save        ),
     FUNC( "LOAD"        , "SV++" , TYPE_INT         , modfile_load        ),
     FUNC( "FOPEN"       , "SI"   , TYPE_INT         , modfile_fopen       ),

@@ -45,7 +45,7 @@ extern int bgd_is_LBM (INSTANCE * i, int * params);
 extern int bgd_is_XCF (INSTANCE * i, int * params);
 #endif
 
-DLSYSFUNCS __bgdexport( image, functions_exports )[] =
+DLSYSFUNCS __bgdexport( image, exported_functions )[] =
 {
 	{"LOAD_IMAGE", "S", TYPE_DWORD, SYSMACRO(bgd_load_image) },
 	{"IS_BMP", "S", TYPE_DWORD, SYSMACRO(bgd_is_BMP)},
@@ -61,7 +61,7 @@ DLSYSFUNCS __bgdexport( image, functions_exports )[] =
 	{0, 0, 0, 0}
 };
 
-char * __bgdexport( image, modules_dependency )[] =
+char * __bgdexport( image, module_dependencies )[] =
 {
 	"libgrbase",
 	"libvideo",

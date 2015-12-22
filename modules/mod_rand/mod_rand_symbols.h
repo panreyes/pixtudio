@@ -36,7 +36,7 @@ extern int rand_seed( INSTANCE * my, int * params );
 extern int rand_std( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_rand, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_rand, exported_functions )[] = {
     FUNC( "RAND_SEED"   , "I"   , TYPE_INT  , rand_seed ),
     FUNC( "RAND"        , "II"  , TYPE_INT  , rand_std  ),
     FUNC( 0             , 0     , 0         , 0         )

@@ -39,7 +39,7 @@ char __bgdexport( libwm, globals_def )[] =
     "mouse_status = 1;\n";              /* MOUSE status (INSIDE WINDOW:1) */
 
 /* --------------------------------------------------------------------------- */
-char * __bgdexport( libwm, modules_dependency )[] = {
+char * __bgdexport( libwm, module_dependencies )[] = {
     "libsdlhandler",
     NULL
 };

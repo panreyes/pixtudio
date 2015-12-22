@@ -44,7 +44,7 @@ extern void __bgdexport( mod_theora, module_initialize )();
 extern void __bgdexport( mod_theora, module_finalize )();
 #endif
 
-DLSYSFUNCS __bgdexport( mod_theora, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_theora, exported_functions )[] = {
     FUNC( "VIDEO_PLAY"                 , "S"    , TYPE_DWORD , video_play       ),
     FUNC( "VIDEO_STOP"                 , ""     , TYPE_DWORD , video_stop       ),
     FUNC( "VIDEO_PAUSE"                , ""     , TYPE_DWORD , video_pause      ),
@@ -53,7 +53,7 @@ DLSYSFUNCS __bgdexport( mod_theora, functions_exports )[] = {
     FUNC( NULL                         , NULL   , 0          , NULL             )
 };
 
-char * __bgdexport( mod_theora, modules_dependency )[] = {
+char * __bgdexport( mod_theora, module_dependencies )[] = {
     "libgrbase",
     "libvideo",
     NULL

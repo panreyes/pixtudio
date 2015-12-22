@@ -384,7 +384,7 @@ int mod_fmodex_stop_spectrum(INSTANCE * i, int * params)
 }
 
 /* Function declaration */
-DLSYSFUNCS __bgdexport( mod_fmodex, functions_exports )[] =
+DLSYSFUNCS __bgdexport( mod_fmodex, exported_functions )[] =
 {
     {"FMODEX_SONG_LOAD",         "S", TYPE_INT,       mod_fmodex_load_song },
     {"FMODEX_SONG_PLAY",         "I", TYPE_INT,       mod_fmodex_pause_song },

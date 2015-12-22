@@ -143,7 +143,7 @@ DLCONSTANT __bgdexport( mod_map, constants_def )[] = {
     { NULL               , 0       , 0                   }
 } ;
 
-DLSYSFUNCS  __bgdexport( mod_map, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_map, exported_functions )[] = {
     /* Bitmaps */
     FUNC( "MAP_BLOCK_COPY"      , "IIIIIIIIII"  , TYPE_INT      , modmap_map_block_copy     ),
     FUNC( "MAP_PUT"             , "IIIII"       , TYPE_INT      , modmap_map_put            ),
@@ -232,7 +232,7 @@ DLSYSFUNCS  __bgdexport( mod_map, functions_exports )[] = {
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( mod_map, modules_dependency )[] = {
+char * __bgdexport( mod_map, module_dependencies )[] = {
     "libgrbase",
     "libvideo",
     "libblit",

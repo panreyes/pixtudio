@@ -59,7 +59,7 @@ DLCONSTANT  __bgdexport( mod_sensor, constants_def )[] = {
     { "SENSOR_RHUMIDITY"            , TYPE_DWORD    , 12              },
 };
 
-DLSYSFUNCS  __bgdexport( mod_sensor, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_sensor, exported_functions )[] = {
     FUNC( "SENSOR_NUMBER",  "",    TYPE_INT,       modsensor_number     ),
     FUNC( "SENSOR_OPEN",    "I",   TYPE_INT,       modsensor_open       ),
     FUNC( "SENSOR_CLOSE",   "I",   TYPE_UNDEFINED, modsensor_close      ),

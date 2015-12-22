@@ -127,7 +127,7 @@ char __bgdexport( librender, locals_def )[] =
     "BYTE modb=255;\n"
     ;
 
-char * __bgdexport( librender, modules_dependency )[] =
+char * __bgdexport( librender, module_dependencies )[] =
 {
     "libgrbase",
     "libvideo",

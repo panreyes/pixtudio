@@ -370,14 +370,14 @@ SYSPROC * sysproc_get( int code )
 
 /* ---------------------------------------------------------------------- */
 
-void sysproc_add_tab( DLSYSFUNCS * functions_exports )
+void sysproc_add_tab( DLSYSFUNCS * exported_functions )
 {
-    if ( functions_exports )
+    if ( exported_functions )
     {
-        while ( functions_exports->name )
+        while ( exported_functions->name )
         {
-            sysproc_add( functions_exports->name, functions_exports->paramtypes, functions_exports->type, functions_exports->func );
-            functions_exports++;
+            sysproc_add( exported_functions->name, exported_functions->paramtypes, exported_functions->type, exported_functions->func );
+            exported_functions++;
         }
     }
 }
@@ -406,7 +406,7 @@ void sysproc_init()
 
     DLVARFIXUP    * globals_fixup = NULL ;
     DLVARFIXUP    * locals_fixup = NULL ;
-    DLSYSFUNCS    * functions_exports = NULL ;
+    DLSYSFUNCS    * exported_functions = NULL ;
     FN_HOOK         module_initialize ;
     FN_HOOK         module_finalize ;
     INSTANCE_HOOK   instance_create_hook ;
@@ -466,9 +466,9 @@ void sysproc_init()
             exit( 0 );
         }
 
-        globals_fixup     = ( DLVARFIXUP * ) _dlibaddr( library, "globals_fixup" ) ;
-        locals_fixup      = ( DLVARFIXUP * ) _dlibaddr( library, "locals_fixup" ) ;
-        functions_exports = ( DLSYSFUNCS * ) _dlibaddr( library, "functions_exports" ) ;
+        globals_fixup      = ( DLVARFIXUP * ) _dlibaddr( library, "globals_fixup" ) ;
+        locals_fixup       = ( DLVARFIXUP * ) _dlibaddr( library, "locals_fixup" ) ;
+        exported_functions = ( DLSYSFUNCS * ) _dlibaddr( library, "exported_functions" ) ;
 
         module_initialize = ( FN_HOOK ) _dlibaddr( library, "module_initialize" ) ;
         module_finalize   = ( FN_HOOK ) _dlibaddr( library, "module_finalize" ) ;
@@ -501,7 +501,7 @@ void sysproc_init()
             }
         }
 
-        sysproc_add_tab( functions_exports ) ;
+        sysproc_add_tab( exported_functions ) ;
 
         if ( module_initialize )
             hook_add( module_initialize, module_initialize_list, module_initialize_allocated, module_initialize_count ) ;

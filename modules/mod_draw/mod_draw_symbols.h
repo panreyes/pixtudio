@@ -50,7 +50,7 @@ extern int moddraw_get_pixel( INSTANCE * my, int * params );
 extern int moddraw_map_get_pixel( INSTANCE * my, int * params );
 extern int moddraw_map_put_pixel( INSTANCE * my, int * params );
 #endif
-DLSYSFUNCS __bgdexport( mod_draw, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_draw, exported_functions )[] = {
     FUNC( "DRAWING_MAP"     , "II"          , TYPE_INT  , moddraw_drawing_map       ),
     FUNC( "DRAWING_COLOR"   , "I"           , TYPE_INT  , moddraw_drawing_color     ),
     FUNC( "DRAW_LINE"       , "IIII"        , TYPE_INT  , moddraw_line              ),
@@ -71,7 +71,7 @@ DLSYSFUNCS __bgdexport( mod_draw, functions_exports )[] = {
     FUNC( NULL              , NULL          , 0         , NULL                      )
 };
 
-char * __bgdexport( mod_draw, modules_dependency )[] = {
+char * __bgdexport( mod_draw, module_dependencies )[] = {
     "libgrbase",
     "librender",
     "libdraw",

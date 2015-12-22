@@ -43,7 +43,7 @@ char __bgdexport( libtext, globals_def )[] =
     "text_z = -256;\n"
     "text_flags;\n" ;
 
-char * __bgdexport( libtext, modules_dependency )[] = {
+char * __bgdexport( libtext, module_dependencies )[] = {
     "libgrbase",
     "libblit",
     "librender",

@@ -35,14 +35,14 @@
 extern int modkey_key( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_key, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_key, exported_functions )[] = {
     FUNC( "KEY" , "I"   , TYPE_INT  , modkey_key   ),
     FUNC( 0     , 0     , 0         , 0            )
 };
 
 /* ----------------------------------------------------------------- */
 
-char * __bgdexport( mod_key, modules_dependency )[] =
+char * __bgdexport( mod_key, module_dependencies )[] =
 {
     "libkey",
     NULL

@@ -55,7 +55,7 @@ DLVARFIXUP __bgdexport( mod_screen, globals_fixup )[] = {
 };
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_screen, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_screen, exported_functions )[] = {
     FUNC( "REGION_DEFINE" , "IIIII"    , TYPE_INT , modscreen_define_region ),
     FUNC( "REGION_OUT"    , "II"       , TYPE_INT , modscreen_out_region    ),
 
@@ -70,7 +70,7 @@ DLSYSFUNCS  __bgdexport( mod_screen, functions_exports )[] = {
 
 };
 
-char * __bgdexport( mod_screen, modules_dependency )[] = {
+char * __bgdexport( mod_screen, module_dependencies )[] = {
     "libgrbase",
     "libvideo",
     "libblit",

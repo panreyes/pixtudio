@@ -179,7 +179,7 @@ char __bgdexport( libkey, globals_def )[] =
 
 /* ----------------------------------------------------------------- */
 
-char * __bgdexport( libkey, modules_dependency )[] =
+char * __bgdexport( libkey, module_dependencies )[] =
 {
     "libsdlhandler",
     NULL

@@ -1950,7 +1950,7 @@ static int modForceCreateBodyI(INSTANCE * i, int * params)
     return 1;
 }
 
-char * __bgdexport( mod_chipmunk, modules_dependency )[] =
+char * __bgdexport( mod_chipmunk, module_dependencies )[] =
 {
     "librender",
     "libgrbase",
@@ -1978,7 +1978,7 @@ static int modIntersectsBB(INSTANCE * my, int * params)
     return cpBBIntersects(v1,v2);
 }
 
-DLSYSFUNCS __bgdexport( mod_chipmunk, functions_exports) [] =
+DLSYSFUNCS __bgdexport( mod_chipmunk, exported_functions) [] =
 {
 
     {"INFINITYF" , "",   TYPE_FLOAT, modInfinity},

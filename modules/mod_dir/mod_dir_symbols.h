@@ -74,7 +74,7 @@ char __bgdexport( mod_dir, globals_def )[] =
     "    STRING statechg;\n"
     "END\n";
 
-DLSYSFUNCS __bgdexport( mod_dir, functions_exports)[] = {
+DLSYSFUNCS __bgdexport( mod_dir, exported_functions)[] = {
     FUNC( "CD"      , ""  , TYPE_STRING , moddir_cd     ),
     FUNC( "CD"      , "S" , TYPE_STRING , moddir_chdir  ),
     FUNC( "CHDIR"   , "S" , TYPE_INT    , moddir_chdir  ),

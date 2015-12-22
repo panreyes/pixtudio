@@ -31,7 +31,7 @@
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( mod_mouse, modules_dependency )[] = {
+char * __bgdexport( mod_mouse, module_dependencies )[] = {
     "libmouse",
     0
 };

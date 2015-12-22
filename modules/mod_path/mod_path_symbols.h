@@ -47,14 +47,14 @@ DLCONSTANT __bgdexport( mod_path, constants_def )[] = {
     { NULL          , 0       , 0           }
 } ;
 
-DLSYSFUNCS __bgdexport( mod_path, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_path, exported_functions )[] = {
     FUNC( "PATH_FIND"   , "IIIIIII", TYPE_INT   , modpathfind_path_find  ),
     FUNC( "PATH_GETXY"  , "PP"     , TYPE_INT   , modpathfind_path_getxy ),
     FUNC( "PATH_WALL"   , "I"      , TYPE_INT   , modpathfind_path_wall  ),
     FUNC( 0             , 0        , 0          , 0                      )
 };
 
-char * __bgdexport( mod_path, modules_dependency )[] =
+char * __bgdexport( mod_path, module_dependencies )[] =
 {
     "libgrbase",
     NULL

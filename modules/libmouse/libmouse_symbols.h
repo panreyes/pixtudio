@@ -57,7 +57,7 @@ char __bgdexport( libmouse, globals_def )[] =
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( libmouse, modules_dependency )[] =
+char * __bgdexport( libmouse, module_dependencies )[] =
 {
     "libsdlhandler",
     "libgrbase",

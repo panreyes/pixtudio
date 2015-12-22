@@ -39,7 +39,7 @@ extern int mod_scroll_stop( INSTANCE * my, int * params );
 extern int mod_scroll_move( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS __bgdexport( mod_scroll, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_scroll, exported_functions )[] = {
     FUNC( "SCROLL_START"    , "IIIIIIII", TYPE_INT   , mod_scroll_start2  ),
     FUNC( "SCROLL_START"    , "IIIIII"  , TYPE_INT   , mod_scroll_start   ),
     FUNC( "SCROLL_STOP"     , "I"       , TYPE_INT   , mod_scroll_stop    ),
@@ -49,7 +49,7 @@ DLSYSFUNCS __bgdexport( mod_scroll, functions_exports )[] = {
     
 };
 
-char * __bgdexport( mod_scroll, modules_dependency )[] = {
+char * __bgdexport( mod_scroll, module_dependencies )[] = {
     "libscroll",
     NULL
 };

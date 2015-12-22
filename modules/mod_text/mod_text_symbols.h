@@ -79,7 +79,7 @@ DLCONSTANT __bgdexport( mod_text, constants_def)[] = {
     { NULL                  , 0         , 0                     }
 } ;
 
-DLSYSFUNCS  __bgdexport( mod_text, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_text, exported_functions )[] = {
     FUNC( "WRITE"               , "IIIIS"   , TYPE_INT  , modtext_write             ),
     FUNC( "WRITE"               , "IIIIIS"  , TYPE_INT  , modtext_write2            ),
     FUNC( "WRITE_INT"           , "IIIIP"   , TYPE_INT  , modtext_write_int         ),
@@ -104,7 +104,7 @@ DLSYSFUNCS  __bgdexport( mod_text, functions_exports )[] = {
     FUNC( 0                     , 0         , 0         , 0                         )
 };
 
-char * __bgdexport( mod_text, modules_dependency)[] =
+char * __bgdexport( mod_text, module_dependencies)[] =
 {
     "libgrbase",
     "libblit",

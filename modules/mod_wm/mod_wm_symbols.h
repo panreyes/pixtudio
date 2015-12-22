@@ -54,7 +54,7 @@ DLCONSTANT __bgdexport( mod_wm, constants_def)[] = {
     { NULL                     , 0        , 0                          }
 } ;
 
-DLSYSFUNCS __bgdexport( mod_wm, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_wm, exported_functions )[] = {
     FUNC( "SET_TITLE"           , "S"   , TYPE_INT      , bgd_set_title           ),
     FUNC( "SET_ICON"            , "II"  , TYPE_INT      , bgd_set_icon            ),
     FUNC( "MINIMIZE"            , ""    , TYPE_INT      , bgd_minimize            ),
@@ -71,7 +71,7 @@ DLSYSFUNCS __bgdexport( mod_wm, functions_exports )[] = {
     FUNC( 0                     , 0     , 0           , 0                       )
 };
 
-char * __bgdexport( mod_wm, modules_dependency )[] = {
+char * __bgdexport( mod_wm, module_dependencies )[] = {
     "libgrbase",
     "libvideo",
     "libwm",

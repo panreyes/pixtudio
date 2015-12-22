@@ -246,8 +246,8 @@ static dlibhandle * dlibopen( const char * fname ) {
 static void * _dlibaddr( dlibhandle * handle, const char * symbol )
 {
     // Return the symbol they asked us for, or NULL
-    if(strncmp(symbol, "modules_dependency", strlen("modules_dependency")) == 0)
-        return symbol_list[handle->index].modules_dependency;
+    if(strncmp(symbol, "module_dependencies", strlen("module_dependencies")) == 0)
+        return symbol_list[handle->index].module_dependencies;
 
     if(strncmp(symbol, "constants_def", strlen("constants_def")) == 0)
         return symbol_list[handle->index].constants_def;
@@ -261,8 +261,8 @@ static void * _dlibaddr( dlibhandle * handle, const char * symbol )
     if(strncmp(symbol, "locals_def", strlen("locals_def")) == 0)
         return &symbol_list[handle->index].locals_def;
 
-    if(strncmp(symbol, "functions_exports", strlen("functions_exports")) == 0)
-        return symbol_list[handle->index].functions_exports;
+    if(strncmp(symbol, "exported_functions", strlen("exported_functions")) == 0)
+        return symbol_list[handle->index].exported_functions;
 
 #ifndef __PXTB__
     if(strncmp(symbol, "globals_fixup", strlen("globals_fixup")) == 0)
@@ -290,7 +290,7 @@ static void * _dlibaddr( dlibhandle * handle, const char * symbol )
         return symbol_list_runtime[handle->index].handler_hooks;
 
     // Unknown symbol, much probably an error in this implementation or a
-    // change in the BennuGD ABI
+    // change in the PixTudio ABI
 #endif
 
     return NULL;

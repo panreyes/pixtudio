@@ -451,7 +451,7 @@ int modconversor_32(INSTANCE * my, int * params )
 }
 
 
-DLSYSFUNCS __bgdexport( mod_conversor, functions_exports )[] =
+DLSYSFUNCS __bgdexport( mod_conversor, exported_functions )[] =
 {
 //{ "NOMBRE_FUNCION" , "" , TYPE_INT , modnombre_funcion },
     { "CONV_32_8", "III" , TYPE_INT , modconversor_32_8},

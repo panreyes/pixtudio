@@ -289,7 +289,7 @@ int modwpad_rumble( INSTANCE * my, int * params)
 
 /* ----------------------------------------------------------------- */
 /* Function declarations                                             */
-DLSYSFUNCS  __bgdexport( mod_wpad, functions_exports )[] =
+DLSYSFUNCS  __bgdexport( mod_wpad, exported_functions )[] =
 {
     { "WPAD_IS_READY"          , "I" , TYPE_INT      , modwpad_is_ready     },
     { "WPAD_INFO"              , "II", TYPE_INT      , modwpad_info         },

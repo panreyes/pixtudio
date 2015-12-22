@@ -59,7 +59,7 @@ static int bgd_iap_purchase(INSTANCE * my, int * params) {
 void __bgdexport( mod_iap, module_finalize )() {
 }
 
-DLSYSFUNCS __bgdexport( mod_iap, functions_exports )[] =
+DLSYSFUNCS __bgdexport( mod_iap, exported_functions )[] =
 {
     { "IAP_INIT"            , "S"     , TYPE_INT       , bgd_iap_init           },
     { "IAP_RECEIPTS_READY"  , ""      , TYPE_INT       , bgd_iap_receipts_ready },

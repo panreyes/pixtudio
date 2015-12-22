@@ -124,7 +124,7 @@ DLCONSTANT  __bgdexport( mod_curl, constants_def )[] = {
     { NULL          , 0       , 0  }
 };
 
-DLSYSFUNCS __bgdexport( mod_curl, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_curl, exported_functions )[] = {
     FUNC( "CURL_INIT"           , ""      , TYPE_INT    , bgd_curl_easy_init      ),
     FUNC( "CURL_CLEANUP"        , "I"     , TYPE_INT    , bgd_curl_easy_cleanup   ),
     FUNC( "CURL_FORMADD"        , "IISIS" , TYPE_INT    , bgd_curl_formadd        ),

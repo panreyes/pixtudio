@@ -76,7 +76,7 @@ char __bgdexport( mod_sqlite3, types_def )[] =
    "END\n"
    ;
 
-DLSYSFUNCS  __bgdexport( mod_sqlite3, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_sqlite3, exported_functions )[] = {
   FUNC("SQLITE3_ENABLECACHE"  , "I"  , TYPE_DWORD , modsqlite3_enableCache   ),
   FUNC("SQLITE3_OPEN"         , "SI" , TYPE_DWORD , modsqlite3_openDb        ),
   FUNC("SQLITE3_CLOSE"        , "I"  , TYPE_DWORD , modsqlite3_closeDb       ),

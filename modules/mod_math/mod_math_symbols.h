@@ -58,7 +58,7 @@ DLCONSTANT __bgdexport( mod_math, constants_def )[] = {
     { NULL  , 0         , 0         }
 } ;
 
-DLSYSFUNCS __bgdexport( mod_math, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_math, exported_functions )[] = {
     FUNC( "ABS"         , "F"       , TYPE_FLOAT    , math_abs          ),
     FUNC( "POW"         , "FF"      , TYPE_FLOAT    , math_pow          ),
     FUNC( "SQRT"        , "F"       , TYPE_FLOAT    , math_sqrt         ),

@@ -44,7 +44,7 @@ DLCONSTANT __bgdexport( mod_sys, constants_def )[] = {
     { NULL          , 0         ,  0         }
 } ;
 
-DLSYSFUNCS __bgdexport( mod_sys, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_sys, exported_functions )[] = {
     FUNC( "GETENV"  , "S"    , TYPE_STRING, modsys_getenv ),
     FUNC( "EXEC"    , "ISIP" , TYPE_INT   , modsys_exec   ),
     FUNC( 0         , 0      , 0          , 0             )

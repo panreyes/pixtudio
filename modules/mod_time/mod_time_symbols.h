@@ -36,7 +36,7 @@ extern void __bgdexport( mod_time, module_initialize )();
 extern void __bgdexport( mod_time, module_finalize )();
 #endif
 
-DLSYSFUNCS __bgdexport( mod_time, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_time, exported_functions )[] = {
     FUNC( "GET_TIMER"   , ""    , TYPE_INT      , modtime_get_timer ),
     FUNC( "TIME"        , ""    , TYPE_INT      , modtime_time      ),
     FUNC( "FTIME"       , "SI"  , TYPE_STRING   , modtime_ftime     ),

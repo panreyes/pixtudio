@@ -40,12 +40,11 @@ char __bgdexport( libvideo, globals_def )[] =
     "scale_mode = 0;\n"
     "full_screen = 0;\n"
     "scale_resolution = 0;\n"
-    "scale_resolution_aspectratio = 0;\n"
-    "scale_resolution_orientation = 0;\n";
+    "scale_resolution_aspectratio = 0;\n";
 
 /* --------------------------------------------------------------------------- */
 
-char *__bgdexport( libvideo, modules_dependency )[] = {
+char *__bgdexport( libvideo, module_dependencies )[] = {
     "libgrbase",
     NULL
 };
@@ -102,7 +101,6 @@ DLVARFIXUP __bgdexport( libvideo, globals_fixup )[] = {
     { "full_screen" , NULL, -1, -1 },
     { "scale_resolution", NULL, -1, -1 },
     { "scale_resolution_aspectratio", NULL, -1, -1 },
-    { "scale_resolution_orientation", NULL, -1, -1 },
 
     { NULL , NULL, -1, -1 }
 };

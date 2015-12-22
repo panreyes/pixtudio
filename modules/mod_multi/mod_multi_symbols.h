@@ -41,12 +41,12 @@ HOOK __bgdexport( mod_multi, handler_hooks )[] = {
 extern void __bgdexport( mod_multi, module_initialize )();
 #endif
 
-char * __bgdexport( mod_multi, modules_dependency )[] = {
+char * __bgdexport( mod_multi, module_dependencies )[] = {
     "libsdlhandler",
     NULL
 };
 
-DLSYSFUNCS __bgdexport( mod_multi, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_multi, exported_functions )[] = {
     FUNC( "MULTI_NUMPOINTERS" , ""      , TYPE_INT    , modmulti_numpointers ),
     FUNC( "MULTI_INFO"        , "IS"    , TYPE_INT    , modmulti_info ),
     FUNC( 0                   , 0       , 0           , 0 )

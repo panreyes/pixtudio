@@ -73,7 +73,7 @@ DLCONSTANT  __bgdexport( mod_gamecontroller, constants_def )[] = {
     { NULL          , 0       , 0  }
 };
 
-DLSYSFUNCS  __bgdexport( mod_gamecontroller, functions_exports )[] = {
+DLSYSFUNCS  __bgdexport( mod_gamecontroller, exported_functions )[] = {
     FUNC( "CONTROLLER_NUM"       , ""      , TYPE_INT    , modgamecontroller_num       ),
     FUNC( "CONTROLLER_OPEN"      , "I"     , TYPE_INT    , modgamecontroller_open      ),
     FUNC( "CONTROLLER_CLOSE"     , "I"     , TYPE_INT    , modgamecontroller_close     ),

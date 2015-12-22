@@ -34,7 +34,7 @@
 #ifdef __PXTB__
 /* ---------------------------------------------------------------------- */
 
-DLSYSFUNCS __bgdexport( mod_blendop, functions_exports)[] =
+DLSYSFUNCS __bgdexport( mod_blendop, exported_functions)[] =
 {
     /* Blendops */
     { "BLENDOP_NEW"          , ""      , TYPE_INT   , 0 },
@@ -53,14 +53,14 @@ DLSYSFUNCS __bgdexport( mod_blendop, functions_exports)[] =
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( mod_blendop, modules_dependency )[] =
+char * __bgdexport( mod_blendop, module_dependencies )[] =
 {
     "libgrbase",
     NULL
 };
 #else
-extern DLSYSFUNCS __bgdexport( mod_blendop, functions_exports)[];
-extern char __bgdexport( mod_blendop, modules_dependency )[];
+extern DLSYSFUNCS __bgdexport( mod_blendop, exported_functions)[];
+extern char __bgdexport( mod_blendop, module_dependencies )[];
 #endif
 
 #endif

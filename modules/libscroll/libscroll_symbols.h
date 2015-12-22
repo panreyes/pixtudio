@@ -70,7 +70,7 @@ char __bgdexport( libscroll, globals_def )[] =
     "reserved[6];\n"  /* size: 20 dwords */
     "END \n";
 
-char * __bgdexport( libscroll, modules_dependency )[] =
+char * __bgdexport( libscroll, module_dependencies )[] =
 {
     "libgrbase",
     "libblit",

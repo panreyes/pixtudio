@@ -103,7 +103,7 @@ char __bgdexport( mod_proc, locals_def )[] =
     "   dword signal_action;\n"
     "END\n";
 
-DLSYSFUNCS __bgdexport( mod_proc, functions_exports )[] = {
+DLSYSFUNCS __bgdexport( mod_proc, exported_functions )[] = {
     FUNC( "GET_ID"          , "I"   , TYPE_INT , modproc_get_id          ),
     FUNC( "GET_STATUS"      , "I"   , TYPE_INT , modproc_get_status      ),
     FUNC( "SIGNAL"          , "II"  , TYPE_INT , modproc_signal          ),

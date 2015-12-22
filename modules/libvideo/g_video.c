@@ -72,15 +72,13 @@ int waitvsync = 0 ;
 
 int scale_resolution = 0;
 int scale_resolution_aspectratio = 0;
-int scale_resolution_orientation = 0;
 
 enum {
     GRAPH_MODE = 0,
     SCALE_MODE,
     FULL_SCREEN,
     SCALE_RESOLUTION,
-    SCALE_RESOLUTION_ASPECTRATIO,
-    SCALE_RESOLUTION_ORIENTATION
+    SCALE_RESOLUTION_ASPECTRATIO
 };
 
 /* --------------------------------------------------------------------------- */
@@ -151,21 +149,16 @@ int gr_set_mode( int width, int height ) {
     scale_resolution = GLODWORD( libvideo, SCALE_RESOLUTION );
 
     if ( GLOEXISTS( libvideo, SCALE_RESOLUTION_ASPECTRATIO ) ) scale_resolution_aspectratio = GLODWORD( libvideo, SCALE_RESOLUTION_ASPECTRATIO );
-    if ( GLOEXISTS( libvideo, SCALE_RESOLUTION_ORIENTATION ) ) scale_resolution_orientation = GLODWORD( libvideo, SCALE_RESOLUTION_ORIENTATION );
 
     /* Overwrite all params */
-
     if ( ( e = getenv( "SCALE_RESOLUTION"             ) ) ) scale_resolution = atol( e );
     if ( ( e = getenv( "SCALE_RESOLUTION_ASPECTRATIO" ) ) ) scale_resolution_aspectratio = atol( e );
-    if ( ( e = getenv( "SCALE_RESOLUTION_ORIENTATION" ) ) ) scale_resolution_orientation = atol( e );
 
     /* Emulate old scale_mode vales */
     if( GLODWORD( libvideo, SCALE_MODE ) > 0 ) {
         surface_width = 2*width;
         surface_height = 2*height;
     }
-
-    if ( scale_resolution_orientation < 0 || scale_resolution_orientation > 4 ) scale_resolution_orientation = 0;
 
     format = SDL_PIXELFORMAT_ARGB8888;
 
