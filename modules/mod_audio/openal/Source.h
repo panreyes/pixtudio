@@ -42,9 +42,9 @@
 #include <AL/al.h>
 #endif
 
-namespace love
+namespace pixtudio
 {
-namespace audio
+namespace mod_audio
 {
 namespace openal
 {

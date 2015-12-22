@@ -25,7 +25,7 @@
 #include "common/StringMap.h"
 #include "Source.h"
 
-namespace love
+namespace pixtudio
 {
 
 namespace sound
@@ -36,7 +36,7 @@ class SoundData;
 
 } // sound
 
-namespace audio
+namespace mod_audio
 {
 
 /**

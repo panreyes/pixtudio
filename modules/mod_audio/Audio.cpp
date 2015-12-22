@@ -20,9 +20,9 @@
 
 #include "Audio.h"
 
-namespace love
+namespace pixtudio
 {
-namespace audio
+namespace mod_audio
 {
 
 StringMap<Audio::DistanceModel, Audio::DISTANCE_MAX_ENUM>::Entry Audio::distanceModelEntries[] =

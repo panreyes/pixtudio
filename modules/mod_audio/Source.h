@@ -25,9 +25,9 @@
 #include "common/Object.h"
 #include "common/StringMap.h"
 
-namespace love
+namespace pixtudio
 {
-namespace audio
+namespace mod_audio
 {
 
 class Source : public Object

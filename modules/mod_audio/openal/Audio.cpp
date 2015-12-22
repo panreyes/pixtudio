@@ -25,334 +25,289 @@
 
 #include <cstdlib>
 
-namespace love
-{
-namespace audio
-{
-namespace openal
-{
+namespace pixtudio {
+    namespace mod_audio {
+        namespace openal {
 
-Audio::PoolThread::PoolThread(Pool *pool)
-	: pool(pool)
-	, finish(false)
-{
-	threadName = "AudioPool";
-}
+            Audio::PoolThread::PoolThread(Pool *pool)
+                : pool(pool)
+                , finish(false) {
+                threadName = "AudioPool";
+            }
 
-Audio::PoolThread::~PoolThread()
-{
-}
+            Audio::PoolThread::~PoolThread() {
+            }
 
 
-void Audio::PoolThread::threadFunction()
-{
-	while (true)
-	{
-		{
-			thread::Lock lock(mutex);
-			if (finish)
-			{
-				return;
-			}
-		}
+            void Audio::PoolThread::threadFunction() {
+                while (true) {
+                    {
+                        thread::Lock lock(mutex);
+                        if (finish) {
+                            return;
+                        }
+                    }
 
-		pool->update();
-		delay(5);
-	}
-}
+                    pool->update();
+                    delay(5);
+                }
+            }
 
-void Audio::PoolThread::setFinish()
-{
-	thread::Lock lock(mutex);
-	finish = true;
-}
+            void Audio::PoolThread::setFinish() {
+                thread::Lock lock(mutex);
+                finish = true;
+            }
 
-Audio::Audio()
-	: device(nullptr)
-	, capture(nullptr)
-	, context(nullptr)
-	, pool(nullptr)
-	, poolThread(nullptr)
-	, distanceModel(DISTANCE_INVERSE_CLAMPED)
-{
-	// Passing null for default device.
-	device = alcOpenDevice(nullptr);
+            Audio::Audio()
+                : device(nullptr)
+                , capture(nullptr)
+                , context(nullptr)
+                , pool(nullptr)
+                , poolThread(nullptr)
+                , distanceModel(DISTANCE_INVERSE_CLAMPED) {
+                // Passing null for default device.
+                device = alcOpenDevice(nullptr);
 
-	if (device == nullptr)
-		throw love::Exception("Could not open device.");
+                if (device == nullptr)
+                    throw love::Exception("Could not open device.");
 
-	context = alcCreateContext(device, nullptr);
+                context = alcCreateContext(device, nullptr);
 
-	if (context == nullptr)
-		throw love::Exception("Could not create context.");
+                if (context == nullptr)
+                    throw love::Exception("Could not create context.");
 
-	if (!alcMakeContextCurrent(context) || alcGetError(device) != ALC_NO_ERROR)
-		throw love::Exception("Could not make context current.");
+                if (!alcMakeContextCurrent(context) || alcGetError(device) != ALC_NO_ERROR)
+                    throw love::Exception("Could not make context current.");
 
-	/*std::string captureName(alcGetString(NULL, ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER));
-	const ALCchar * devices = alcGetString(NULL, ALC_CAPTURE_DEVICE_SPECIFIER);
-	while (*devices)
-	{
-		std::string device(devices);
-		devices += device.size() + 1;
-		if (device.find("Mic") != std::string::npos || device.find("mic") != std::string::npos)
-		{
-			captureName = device;
-		}
-	}
+                /*std::string captureName(alcGetString(NULL, ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER));
+                const ALCchar * devices = alcGetString(NULL, ALC_CAPTURE_DEVICE_SPECIFIER);
+                while (*devices)
+                {
+                    std::string device(devices);
+                    devices += device.size() + 1;
+                    if (device.find("Mic") != std::string::npos || device.find("mic") != std::string::npos)
+                    {
+                        captureName = device;
+                    }
+                }
 
-	capture = alcCaptureOpenDevice(captureName.c_str(), 8000, AL_FORMAT_MONO16, 262144); // about 32 seconds
+                capture = alcCaptureOpenDevice(captureName.c_str(), 8000, AL_FORMAT_MONO16, 262144); // about 32 seconds
 
-	if (!capture)
-	{
-		// We're not going to prevent LOVE from running without a microphone, but we should warn, at least
-		std::cerr << "Warning, couldn't open capture device! No audio input!" << std::endl;
-	}*/
+                if (!capture)
+                {
+                    // We're not going to prevent LOVE from running without a microphone, but we should warn, at least
+                    std::cerr << "Warning, couldn't open capture device! No audio input!" << std::endl;
+                }*/
 
-	// pool must be allocated after AL context.
-	try
-	{
-		pool = new Pool();
-	}
-	catch (love::Exception &)
-	{
-		alcMakeContextCurrent(nullptr);
-		alcDestroyContext(context);
-		//if (capture) alcCaptureCloseDevice(capture);
-		alcCloseDevice(device);
-		throw;
-	}
+                // pool must be allocated after AL context.
+                try {
+                    pool = new Pool();
+                } catch (love::Exception &) {
+                    alcMakeContextCurrent(nullptr);
+                    alcDestroyContext(context);
+                    //if (capture) alcCaptureCloseDevice(capture);
+                    alcCloseDevice(device);
+                    throw;
+                }
 
-	poolThread = new PoolThread(pool);
-	poolThread->start();
-}
+                poolThread = new PoolThread(pool);
+                poolThread->start();
+            }
 
-Audio::~Audio()
-{
-	poolThread->setFinish();
-	poolThread->wait();
+            Audio::~Audio() {
+                poolThread->setFinish();
+                poolThread->wait();
 
-	delete poolThread;
-	delete pool;
+                delete poolThread;
+                delete pool;
 
-	alcMakeContextCurrent(nullptr);
-	alcDestroyContext(context);
-	//if (capture) alcCaptureCloseDevice(capture);
-	alcCloseDevice(device);
-}
+                alcMakeContextCurrent(nullptr);
+                alcDestroyContext(context);
+                //if (capture) alcCaptureCloseDevice(capture);
+                alcCloseDevice(device);
+            }
 
 
-const char *Audio::getName() const
-{
-	return "love.audio.openal";
-}
+            const char *Audio::getName() const {
+                return "love.audio.openal";
+            }
 
-love::audio::Source *Audio::newSource(love::sound::Decoder *decoder)
-{
-	return new Source(pool, decoder);
-}
+            love::audio::Source *Audio::newSource(love::sound::Decoder *decoder) {
+                return new Source(pool, decoder);
+            }
 
-love::audio::Source *Audio::newSource(love::sound::SoundData *soundData)
-{
-	return new Source(pool, soundData);
-}
+            love::audio::Source *Audio::newSource(love::sound::SoundData *soundData) {
+                return new Source(pool, soundData);
+            }
 
-int Audio::getSourceCount() const
-{
-	return pool->getSourceCount();
-}
+            int Audio::getSourceCount() const {
+                return pool->getSourceCount();
+            }
 
-int Audio::getMaxSources() const
-{
-	return pool->getMaxSources();
-}
+            int Audio::getMaxSources() const {
+                return pool->getMaxSources();
+            }
 
-bool Audio::play(love::audio::Source *source)
-{
-	return source->play();
-}
+            bool Audio::play(love::audio::Source *source) {
+                return source->play();
+            }
 
-void Audio::stop(love::audio::Source *source)
-{
-	source->stop();
-}
+            void Audio::stop(love::audio::Source *source) {
+                source->stop();
+            }
 
-void Audio::stop()
-{
-	pool->stop();
-}
+            void Audio::stop() {
+                pool->stop();
+            }
 
-void Audio::pause(love::audio::Source *source)
-{
-	source->pause();
-}
+            void Audio::pause(love::audio::Source *source) {
+                source->pause();
+            }
 
-void Audio::pause()
-{
-	pool->pause();
-#ifdef LOVE_ANDROID
-	alcDevicePauseSOFT(device);
-#endif
-}
+            void Audio::pause() {
+                pool->pause();
+            #ifdef LOVE_ANDROID
+                alcDevicePauseSOFT(device);
+            #endif
+            }
 
-void Audio::resume(love::audio::Source *source)
-{
-	source->resume();
-}
+            void Audio::resume(love::audio::Source *source) {
+                source->resume();
+            }
 
-void Audio::resume()
-{
-#ifdef LOVE_ANDROID
-	alcDeviceResumeSOFT(device);
-#endif
-	pool->resume();
-}
+            void Audio::resume() {
+            #ifdef LOVE_ANDROID
+                alcDeviceResumeSOFT(device);
+            #endif
+                pool->resume();
+            }
 
-void Audio::rewind(love::audio::Source *source)
-{
-	source->rewind();
-}
+            void Audio::rewind(love::audio::Source *source) {
+                source->rewind();
+            }
 
-void Audio::rewind()
-{
-	pool->rewind();
-}
+            void Audio::rewind() {
+                pool->rewind();
+            }
 
-void Audio::setVolume(float volume)
-{
-	alListenerf(AL_GAIN, volume);
-}
+            void Audio::setVolume(float volume) {
+                alListenerf(AL_GAIN, volume);
+            }
 
-float Audio::getVolume() const
-{
-	ALfloat volume;
-	alGetListenerf(AL_GAIN, &volume);
-	return volume;
-}
+            float Audio::getVolume() const {
+                ALfloat volume;
+                alGetListenerf(AL_GAIN, &volume);
+                return volume;
+            }
 
-void Audio::getPosition(float *v) const
-{
-	alGetListenerfv(AL_POSITION, v);
-}
+            void Audio::getPosition(float *v) const {
+                alGetListenerfv(AL_POSITION, v);
+            }
 
-void Audio::setPosition(float *v)
-{
-	alListenerfv(AL_POSITION, v);
-}
+            void Audio::setPosition(float *v) {
+                alListenerfv(AL_POSITION, v);
+            }
 
-void Audio::getOrientation(float *v) const
-{
-	alGetListenerfv(AL_ORIENTATION, v);
-}
+            void Audio::getOrientation(float *v) const {
+                alGetListenerfv(AL_ORIENTATION, v);
+            }
 
-void Audio::setOrientation(float *v)
-{
-	alListenerfv(AL_ORIENTATION, v);
-}
+            void Audio::setOrientation(float *v) {
+                alListenerfv(AL_ORIENTATION, v);
+            }
 
-void Audio::getVelocity(float *v) const
-{
-	alGetListenerfv(AL_VELOCITY, v);
-}
+            void Audio::getVelocity(float *v) const {
+                alGetListenerfv(AL_VELOCITY, v);
+            }
 
-void Audio::setVelocity(float *v)
-{
-	alListenerfv(AL_VELOCITY, v);
-}
+            void Audio::setVelocity(float *v) {
+                alListenerfv(AL_VELOCITY, v);
+            }
 
-void Audio::setDopplerScale(float scale)
-{
-	if (scale >= 0.0f)
-		alDopplerFactor(scale);
-}
+            void Audio::setDopplerScale(float scale) {
+                if (scale >= 0.0f)
+                    alDopplerFactor(scale);
+            }
 
-float Audio::getDopplerScale() const
-{
-	return alGetFloat(AL_DOPPLER_FACTOR);
-}
+            float Audio::getDopplerScale() const {
+                return alGetFloat(AL_DOPPLER_FACTOR);
+            }
 
-void Audio::record()
-{
-	if (!canRecord()) return;
-	alcCaptureStart(capture);
-}
+            void Audio::record() {
+                if (!canRecord()) return;
+                alcCaptureStart(capture);
+            }
 
-love::sound::SoundData *Audio::getRecordedData()
-{
-	if (!canRecord())
-		return NULL;
-	int samplerate = 8000;
-	ALCint samples;
-	alcGetIntegerv(capture, ALC_CAPTURE_SAMPLES, 4, &samples);
-	void *data = malloc(samples * (2/sizeof(char)));
-	alcCaptureSamples(capture, data, samples);
-	love::sound::SoundData *sd = new love::sound::SoundData(data, samples, samplerate, 16, 1);
-	free(data);
-	return sd;
-}
+            love::sound::SoundData *Audio::getRecordedData() {
+                if (!canRecord())
+                    return NULL;
+                int samplerate = 8000;
+                ALCint samples;
+                alcGetIntegerv(capture, ALC_CAPTURE_SAMPLES, 4, &samples);
+                void *data = malloc(samples * (2/sizeof(char)));
+                alcCaptureSamples(capture, data, samples);
+                love::sound::SoundData *sd = new love::sound::SoundData(data, samples, samplerate, 16, 1);
+                free(data);
+                return sd;
+            }
 
-love::sound::SoundData *Audio::stopRecording(bool returnData)
-{
-	if (!canRecord())
-		return NULL;
-	love::sound::SoundData *sd = NULL;
-	if (returnData)
-	{
-		sd = getRecordedData();
-	}
-	alcCaptureStop(capture);
-	return sd;
-}
+            love::sound::SoundData *Audio::stopRecording(bool returnData) {
+                if (!canRecord())
+                    return NULL;
+                love::sound::SoundData *sd = NULL;
+                if (returnData)
+                {
+                    sd = getRecordedData();
+                }
+                alcCaptureStop(capture);
+                return sd;
+            }
 
-bool Audio::canRecord()
-{
-	return (capture != NULL);
-}
+            bool Audio::canRecord() {
+                return (capture != NULL);
+            }
 
-Audio::DistanceModel Audio::getDistanceModel() const
-{
-	return distanceModel;
-}
+            Audio::DistanceModel Audio::getDistanceModel() const {
+                return distanceModel;
+            }
 
-void Audio::setDistanceModel(DistanceModel distanceModel)
-{
-	this->distanceModel = distanceModel;
+            void Audio::setDistanceModel(DistanceModel distanceModel) {
+                this->distanceModel = distanceModel;
 
-	switch (distanceModel)
-	{
-	case DISTANCE_NONE:
-		alDistanceModel(AL_NONE);
-		break;
+                switch (distanceModel) {
+                    case DISTANCE_NONE:
+                        alDistanceModel(AL_NONE);
+                        break;
 
-	case DISTANCE_INVERSE:
-		alDistanceModel(AL_INVERSE_DISTANCE);
-		break;
+                    case DISTANCE_INVERSE:
+                        alDistanceModel(AL_INVERSE_DISTANCE);
+                        break;
 
-	case DISTANCE_INVERSE_CLAMPED:
-		alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
-		break;
+                    case DISTANCE_INVERSE_CLAMPED:
+                        alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
+                        break;
 
-	case DISTANCE_LINEAR:
-		alDistanceModel(AL_LINEAR_DISTANCE);
-		break;
+                    case DISTANCE_LINEAR:
+                        alDistanceModel(AL_LINEAR_DISTANCE);
+                        break;
 
-	case DISTANCE_LINEAR_CLAMPED:
-		alDistanceModel(AL_LINEAR_DISTANCE_CLAMPED);
-		break;
+                    case DISTANCE_LINEAR_CLAMPED:
+                        alDistanceModel(AL_LINEAR_DISTANCE_CLAMPED);
+                        break;
 
-	case DISTANCE_EXPONENT:
-		alDistanceModel(AL_EXPONENT_DISTANCE);
-		break;
+                    case DISTANCE_EXPONENT:
+                        alDistanceModel(AL_EXPONENT_DISTANCE);
+                        break;
 
-	case DISTANCE_EXPONENT_CLAMPED:
-		alDistanceModel(AL_EXPONENT_DISTANCE_CLAMPED);
-		break;
+                    case DISTANCE_EXPONENT_CLAMPED:
+                        alDistanceModel(AL_EXPONENT_DISTANCE_CLAMPED);
+                        break;
 
-	default:
-		break;
-	}
-}
+                    default:
+                        break;
+                }
+            }
 
-} // openal
-} // audio
+        } // openal
+    } // audio
 } // love

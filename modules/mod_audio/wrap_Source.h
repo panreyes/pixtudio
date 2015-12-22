@@ -24,9 +24,9 @@
 #include "common/runtime.h"
 #include "Source.h"
 
-namespace love
+namespace pixtudio
 {
-namespace audio
+namespace mod_audio
 {
 
 Source *luax_checksource(lua_State *L, int idx);

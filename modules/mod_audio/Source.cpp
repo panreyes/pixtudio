@@ -20,9 +20,9 @@
 
 #include "Source.h"
 
-namespace love
+namespace pixtudio
 {
-namespace audio
+namespace mod_audio
 {
 
 Source::Source(Type type)
