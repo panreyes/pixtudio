@@ -156,7 +156,7 @@ void bgd_show_messagebox( INSTANCE * my, int * params ) {
 
     if(SDL_ShowSimpleMessageBox(flags, title, msg, window) != 0) {
         // Showing the dialog failed -> print to stderr
-        fprintf(stderr, msg);
+        fprintf(stderr, "%s\n", msg);
     }
 }
 
