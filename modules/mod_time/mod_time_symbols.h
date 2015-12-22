@@ -27,19 +27,21 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS __bgdexport( mod_time, functions_exports )[] =
-{
-    /* Fecha/Hora */
-    { "GET_TIMER"   , ""    , TYPE_INT      , 0 },
-    { "TIME"        , ""    , TYPE_INT      , 0 },
-    { "FTIME"       , "SI"  , TYPE_STRING   , 0 },
-    { 0             , 0     , 0             , 0 }
-};
-#else
-extern DLSYSFUNCS __bgdexport( mod_time, functions_exports )[];
+#ifndef __PXTB__
+extern int modtime_get_timer( INSTANCE * my, int * params );
+extern int modtime_time( INSTANCE * my, int * params );
+extern int modtime_ftime( INSTANCE * my, int * params );
+
 extern void __bgdexport( mod_time, module_initialize )();
 extern void __bgdexport( mod_time, module_finalize )();
 #endif
+
+DLSYSFUNCS __bgdexport( mod_time, functions_exports )[] = {
+    FUNC( "GET_TIMER"   , ""    , TYPE_INT      , modtime_get_timer ),
+    FUNC( "TIME"        , ""    , TYPE_INT      , modtime_time      ),
+    FUNC( "FTIME"       , "SI"  , TYPE_STRING   , modtime_ftime     ),
+
+    FUNC( 0             , 0     , 0             , 0                 )
+};
 
 #endif

@@ -1,7 +1,8 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright Â© 2002-2006 Fenix Team (Fenix)
- *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -31,29 +32,39 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS  __bgdexport( mod_video, functions_exports )[] =
-{
-    { "SET_MODE"        , "I"     , TYPE_INT        , 0 },
-    { "SET_MODE"        , "II"    , TYPE_INT        , 0 },
-    { "SET_MODE"        , "III"   , TYPE_INT        , 0 },
-    { "SET_FPS"         , "II"    , TYPE_INT        , 0 },
-    { "GET_MODES"       , "II"    , TYPE_POINTER    , 0 },
-    { "MODE_IS_OK"      , "IIII"  , TYPE_INT        , 0 },
-    { 0                 , 0       , 0               , 0 }
+#ifndef __PXTB__
+extern int modvideo_set_mode( INSTANCE * my, int * params );
+extern int modvideo_set_mode_2( INSTANCE * my, int * params );
+extern int modvideo_set_mode_3( INSTANCE * my, int * params );
+extern int modvideo_set_fps( INSTANCE * my, int * params );
+extern int modvideo_list_modes( INSTANCE * my, int * params );
+extern int modvideo_mode_is_ok( INSTANCE * my, int * params );
+
+DLVARFIXUP __bgdexport( mod_video, globals_fixup )[] = {
+    { "graph_mode" , NULL, -1, -1 },
+    { NULL , NULL, -1, -1 }
+};
+#endif
+
+DLSYSFUNCS  __bgdexport( mod_video, functions_exports )[] = {
+    FUNC( "SET_MODE"        , "I"     , TYPE_INT        , modvideo_set_mode   ),
+    FUNC( "SET_MODE"        , "II"    , TYPE_INT        , modvideo_set_mode_2 ),
+    FUNC( "SET_MODE"        , "III"   , TYPE_INT        , modvideo_set_mode_3 ),
+    FUNC( "SET_FPS"         , "II"    , TYPE_INT        , modvideo_set_fps    ),
+
+    FUNC( "GET_MODES"       , "II"    , TYPE_POINTER    , modvideo_list_modes ),
+    FUNC( "MODE_IS_OK"      , "IIII"  , TYPE_INT        , modvideo_mode_is_ok ),
+
+    FUNC( 0                 , 0       , 0               , 0                   )
 };
 
-char * __bgdexport( mod_video, modules_dependency )[] =
-{
+char * __bgdexport( mod_video, modules_dependency )[] = {
     "libgrbase",
     "libvideo",
     "librender",
     NULL
 };
-#else
+
 extern DLVARFIXUP __bgdexport( mod_video, globals_fixup )[];
-extern DLSYSFUNCS  __bgdexport( mod_video, functions_exports )[];
-extern char * __bgdexport( mod_video, modules_dependency )[];
-#endif
 
 #endif

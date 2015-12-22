@@ -38,27 +38,16 @@
 
 #include "dlvaracc.h"
 
+#ifndef __MONOLITHIC__
+#include "mod_timers_symbols.h"
+#else
+extern DLVARFIXUP __bgdexport( mod_timers, globals_fixup )[];
+#endif
+
 /* ----------------------------------------------------------------- */
 
 enum {
     TIMER = 0
-};
-
-/* ----------------------------------------------------------------- */
-/* Definicion de variables globales (usada en tiempo de compilacion) */
-
-char * __bgdexport( mod_timers, globals_def ) = "timer[9];\n";
-
-/* ----------------------------------------------------------------- */
-/* Son las variables que se desea acceder.                           */
-/* El interprete completa esta estructura, si la variable existe.    */
-/* (usada en tiempo de ejecucion)                                    */
-
-DLVARFIXUP __bgdexport( mod_timers, globals_fixup )[] =
-{
-    /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
-    { "timer"   , NULL, -1, -1 },
-    { NULL, NULL, -1, -1 }
 };
 
 /* ----------------------------------------------------------------- */
@@ -74,8 +63,7 @@ DLVARFIXUP __bgdexport( mod_timers, globals_fixup )[] =
  *      None
  */
 
-static void _advance_timers( void )
-{
+void _advance_timers( void ) {
     int * timer, i ;
     int curr_ticktimer = SDL_GetTicks() ;
     static int initial_ticktimer[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0} ;
@@ -89,15 +77,4 @@ static void _advance_timers( void )
         ltimer[i] = timer[i] = ( curr_ticktimer - initial_ticktimer[i] ) / 10 ;
     }
 }
-
-/* ----------------------------------------------------------------- */
-
-/* Bigest priority first execute
-   Lowest priority last execute */
-
-HOOK __bgdexport( mod_timers, handler_hooks )[] =
-{
-    { 100, _advance_timers },
-    {   0, NULL            }
-} ;
 

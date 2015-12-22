@@ -1,7 +1,8 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright Â© 2002-2006 Fenix Team (Fenix)
- *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -31,22 +32,33 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-DLSYSFUNCS __bgdexport( mod_wm, functions_exports )[] =
-{
-    /* Funciones de ventana */
-    { "SET_TITLE"           , "S"   , TYPE_INT    , 0 },
-    { "SET_ICON"            , "II"  , TYPE_INT    , 0 },
-    { "MINIMIZE"            , ""    , TYPE_INT    , 0 },
-    { "MOVE_WINDOW"         , "II"  , TYPE_INT    , 0 },
-    { "SET_WINDOW_POS"      , "II"  , TYPE_INT    , 0 },
-    { "GET_WINDOW_POS"      , "PP"  , TYPE_INT    , 0 },
-    { "GET_WINDOW_SIZE"     , "PPPP", TYPE_INT    , 0 },
-    { "GET_DESKTOP_SIZE"    , "PP"  , TYPE_INT    , 0 },
-    { "DISABLE_SCREENSAVER" , ""    , TYPE_INT    , 0 },
-    { "ENABLE_SCREENSAVER"  , ""    , TYPE_INT    , 0 },
-    { "GET_LOCALE"          , ""    , TYPE_STRING , 0 },
-    { 0                     , 0     , 0           , 0 }
+#ifndef __PXTB__
+extern int bgd_set_title( INSTANCE * my, int * params );
+extern int bgd_set_icon( INSTANCE * my, int * params );
+extern int bgd_minimize( INSTANCE * my, int * params );
+extern int bgd_move_window( INSTANCE * my, int * params );
+extern int bgd_get_window_pos( INSTANCE * my, int * params );
+extern int bgd_get_window_size( INSTANCE * my, int * params );
+extern int bgd_get_desktop_size( INSTANCE * my, int * params );
+extern int bgd_disable_screensaver( INSTANCE * my, int * params );
+extern int bgd_enable_screensaver( INSTANCE * my, int * params );
+extern int bgd_get_locale( INSTANCE * my, int * params );
+#endif
+
+DLSYSFUNCS __bgdexport( mod_wm, functions_exports )[] = {
+    FUNC( "SET_TITLE"           , "S"   , TYPE_INT    , bgd_set_title           ),
+    FUNC( "SET_ICON"            , "II"  , TYPE_INT    , bgd_set_icon            ),
+    FUNC( "MINIMIZE"            , ""    , TYPE_INT    , bgd_minimize            ),
+    FUNC( "MOVE_WINDOW"         , "II"  , TYPE_INT    , bgd_move_window         ),
+    FUNC( "SET_WINDOW_POS"      , "II"  , TYPE_INT    , bgd_move_window         ),
+    FUNC( "GET_WINDOW_POS"      , "PP"  , TYPE_INT    , bgd_get_window_pos      ),
+    FUNC( "GET_WINDOW_SIZE"     , "PPPP", TYPE_INT    , bgd_get_window_size     ),
+    FUNC( "GET_DESKTOP_SIZE"    , "PP"  , TYPE_INT    , bgd_get_desktop_size    ),
+    FUNC( "DISABLE_SCREENSAVER" , ""    , TYPE_INT    , bgd_disable_screensaver ),
+    FUNC( "ENABLE_SCREENSAVER"  , ""    , TYPE_INT    , bgd_enable_screensaver  ),
+    FUNC( "GET_LOCALE"          , ""    , TYPE_STRING , bgd_get_locale          ),
+
+    FUNC( 0                     , 0     , 0           , 0                       )
 };
 
 char * __bgdexport( mod_wm, modules_dependency )[] =
@@ -56,9 +68,5 @@ char * __bgdexport( mod_wm, modules_dependency )[] =
     "libwm",
     NULL
 };
-#else
-extern DLSYSFUNCS __bgdexport( mod_wm, functions_exports )[];
-extern char * __bgdexport( mod_wm, modules_dependency )[];
-#endif
 
 #endif

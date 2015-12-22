@@ -42,6 +42,12 @@
 #include "bgddl.h"
 #include "dlvaracc.h"
 
+#ifndef __MONOLITHIC__
+#include "mod_video_symbols.h"
+#else
+extern DLVARFIXUP __bgdexport( mod_video, globals_fixup )[];
+#endif
+
 /* --------------------------------------------------------------------------- */
 
 enum {
@@ -50,41 +56,28 @@ enum {
 
 /* --------------------------------------------------------------------------- */
 
-DLVARFIXUP __bgdexport( mod_video, globals_fixup )[] =
-{
-    /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
-    { "graph_mode" , NULL, -1, -1 },
-    { NULL , NULL, -1, -1 }
-};
-
-/* --------------------------------------------------------------------------- */
-
 /* Funciones de inicialización y carga */
 
-static int modvideo_set_mode( INSTANCE * my, int * params )
-{
+int modvideo_set_mode( INSTANCE * my, int * params ) {
     return gr_set_mode( params[0] / 10000, params[0] % 10000 ) ;
 }
 
 /* --------------------------------------------------------------------------- */
 
-static int modvideo_set_mode_2( INSTANCE * my, int * params )
-{
+int modvideo_set_mode_2( INSTANCE * my, int * params ) {
     return gr_set_mode( params[0], params[1] ) ;
 }
 
 /* --------------------------------------------------------------------------- */
 
-static int modvideo_set_mode_3( INSTANCE * my, int * params )
-{
+int modvideo_set_mode_3( INSTANCE * my, int * params ) {
     GLODWORD( mod_video, GRAPH_MODE ) = params[2] ;
     return gr_set_mode( params[0], params[1] ) ;
 }
 
 /* --------------------------------------------------------------------------- */
 
-static int modvideo_set_fps( INSTANCE * my, int * params )
-{
+int modvideo_set_fps( INSTANCE * my, int * params ) {
     gr_set_fps( params[0], params[1] ) ;
     return params[0];
 }
@@ -98,8 +91,7 @@ Returns NULL if there are no dimensions available for a particular format,
 or -1 if any dimension is okay for the given format.
 */
 
-static int modvideo_list_modes( INSTANCE * my, int * params )
-{
+int modvideo_list_modes( INSTANCE * my, int * params ) {
 #warning modvideo_list_modes is a stub implementation (See https://wiki.libsdl.org/SDL_GetDisplayMode)
     return -1;
 }
@@ -116,37 +108,9 @@ static int modvideo_list_modes( INSTANCE * my, int * params )
 
 */
 
-static int modvideo_mode_is_ok( INSTANCE * my, int * params )
-{
+int modvideo_mode_is_ok( INSTANCE * my, int * params ) {
 #warning modvideo_mode_is_ok is a stub implementation
     return 0;
 }
-
-/* --------------------------------------------------------------------------- */
-
-DLSYSFUNCS  __bgdexport( mod_video, functions_exports )[] =
-{
-
-    /* Video */
-    { "SET_MODE"        , "I"     , TYPE_INT        , modvideo_set_mode         },
-    { "SET_MODE"        , "II"    , TYPE_INT        , modvideo_set_mode_2       },
-    { "SET_MODE"        , "III"   , TYPE_INT        , modvideo_set_mode_3       },
-    { "SET_FPS"         , "II"    , TYPE_INT        , modvideo_set_fps          },
-
-    { "GET_MODES"       , "II"    , TYPE_POINTER    , modvideo_list_modes       },
-    { "MODE_IS_OK"      , "IIII"  , TYPE_INT        , modvideo_mode_is_ok       },
-
-    { 0                 , 0       , 0               , 0                         }
-};
-
-/* --------------------------------------------------------------------------- */
-
-char * __bgdexport( mod_video, modules_dependency )[] =
-{
-    "libgrbase",
-    "libvideo",
-    "librender",
-    NULL
-};
 
 /* --------------------------------------------------------------------------- */

@@ -1,7 +1,8 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright Â© 2002-2006 Fenix Team (Fenix)
- *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -31,12 +32,20 @@
 
 #include <bgddl.h>
 
-#ifdef __PXTB__
-char __bgdexport( mod_timers, globals_def )[] = "timer[9];\n";
-#else
-extern char __bgdexport( mod_timers, globals_def )[];
-extern DLVARFIXUP __bgdexport( mod_timers, globals_fixup )[];
-extern HOOK __bgdexport( mod_timers, handler_hooks )[];
+#ifndef __PXTB__
+extern void _advance_timers( void );
+
+DLVARFIXUP __bgdexport( mod_timers, globals_fixup )[] = {
+    { "timer"   , NULL, -1, -1 },
+    { NULL, NULL, -1, -1 }
+};
+
+HOOK __bgdexport( mod_timers, handler_hooks )[] = {
+    { 100, _advance_timers },
+    {   0, NULL            }
+} ;
 #endif
+
+char __bgdexport( mod_timers, globals_def )[] = "timer[9];\n";
 
 #endif
