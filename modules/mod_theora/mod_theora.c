@@ -87,6 +87,7 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
             alSourceUnqueueBuffers(video.audio_source, 1, &audio_buffer);
             if((error = alGetError()) != AL_NO_ERROR) {
                 alGenBuffers(1, &audio_buffer);
+                nbuffers++;
             }
         }
 
