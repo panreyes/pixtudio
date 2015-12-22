@@ -1,5 +1,8 @@
 /*
- *  Copyright Â(C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -142,53 +145,6 @@ int debug = 0;  /* 1 if running in debug mode      */
 #endif
 
 /* --------------------------------------------------------------------------- */
-
-#if defined(TARGET_GP2X_WIZ) || defined(TARGET_CAANOO)
-
-#define TIMER_BASE3 0x1980
-#define TIMER_REG(x) __bgdrtm_memregl[(TIMER_BASE3 + x) >> 2]
-
-volatile unsigned long *__bgdrtm_memregl = NULL;
-int __bgdrtm_memdev = -1;
-
-#ifdef TARGET_CAANOO
-static unsigned long caanoo_firmware_version = 0;
-#endif
-
-void bgdrtm_ptimer_init(void)
-{
-#if defined(TARGET_GP2X_WIZ)
-    TIMER_REG(0x44) = 0x922;
-#else
-    if ( caanoo_firmware_version < 1000006 ) /* firmware version < 1.0.6 */
-    {
-        TIMER_REG(0x44) = 0x922;
-    }
-    else
-    {
-        TIMER_REG(0x44) = 0x0FF2;
-    }
-#endif
-    TIMER_REG(0x40) = 0x0c;
-    TIMER_REG(0x08) = 0x6b;
-}
-
-unsigned long bgdrtm_ptimer_get_ticks_us(void)
-{
-    TIMER_REG(0x08) = 0x4b;  /* run timer, latch value */
-    return TIMER_REG(0);
-}
-
-void bgdrtm_ptimer_cleanup(void)
-{
-    TIMER_REG(0x40) = 0x0c;
-    TIMER_REG(0x08) = 0x23;
-    TIMER_REG(0x00) = 0;
-    TIMER_REG(0x40) = 0;
-    TIMER_REG(0x44) = 0;
-}
-
-#endif
 
 /* --------------------------------------------------------------------------- */
 /*
