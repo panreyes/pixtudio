@@ -62,7 +62,7 @@ DLCONSTANT  __bgdexport( mod_sqlite3, constants_def )[] = {
     {"SQLITE_OPEN_READONLY"  , TYPE_INT,  1 },
     {"SQLITE_OPEN_READWRITE" , TYPE_INT,  2 },
     {"SQLITE_OPEN_CREATE"    , TYPE_INT,  4 },
-    { NULL                   , 0       ,  0  }
+    { NULL                   , 0       ,  0 }
 } ;
 
 
