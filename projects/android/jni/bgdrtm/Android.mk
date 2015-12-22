@@ -18,7 +18,7 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(LOCAL_PATH)/../../../../3rdparty/libtheora/include/ \
 	$(LOCAL_PATH)/../../../../3rdparty/SDL_mixer/external/libvorbis-1.3.3/include \
 	$(LOCAL_PATH)/../../../../3rdparty/tre/lib \
-	$(LOCAL_PATH)/../../../../3rdparty/openal-soft/include/ \
+	$(LOCAL_PATH)/../../../../3rdparty/openal-soft-1.17.0/include/ \
 	$(MODULES_PATH)/libbgload/ \
 	$(MODULES_PATH)/mod_say/ \
 	$(MODULES_PATH)/mod_string/ \
@@ -166,7 +166,7 @@ LOCAL_SRC_FILES := \
 	../../../../3rdparty/theoraplay/theoraplay.c
 
 LOCAL_LDLIBS := -llog -ldl -lz
-LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png theora openal
+LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png theora libopenal
 LOCAL_STATIC_LIBRARIES += curl tre
 
 include $(BUILD_SHARED_LIBRARY)
