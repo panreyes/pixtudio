@@ -96,6 +96,7 @@ ifeq ($(SUPPORT_OGG),true)
         $(VORBIS_LIBRARY_PATH)/block.c \
         $(VORBIS_LIBRARY_PATH)/envelope.c \
         $(VORBIS_LIBRARY_PATH)/window.c \
+        $(VORBIS_LIBRARY_PATH)/lsp.c \
         $(VORBIS_LIBRARY_PATH)/lpc.c \
         $(VORBIS_LIBRARY_PATH)/analysis.c \
         $(VORBIS_LIBRARY_PATH)/synthesis.c \
