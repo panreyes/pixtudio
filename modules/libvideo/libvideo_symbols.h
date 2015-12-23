@@ -33,14 +33,14 @@
 #include "g_video.h"
 
 /* --------------------------------------------------------------------------- */
-/* Definicion de variables globales (usada en tiempo de compilacion) */
+/* Global vars (compile time) */
 
 char __bgdexport( libvideo, globals_def )[] =
     "graph_mode = 0;\n"
-    "scale_mode = 0;\n"
     "full_screen = 0;\n"
     "scale_resolution = 0;\n"
-    "scale_resolution_aspectratio = 0;\n";
+    "scale_resolution_aspectratio = 0;\n"
+    "BYTE scale_quality = 1;\n";
 
 /* --------------------------------------------------------------------------- */
 
@@ -64,7 +64,6 @@ DLCONSTANT  __bgdexport( libvideo, constants_def )[] = {
     { "M1280X1024"          , TYPE_DWORD    , 12801024              },
 
     { "MODE_WINDOW"         , TYPE_DWORD    , MODE_WINDOW           },
-    { "MODE_2XSCALE"        , TYPE_DWORD    , MODE_2XSCALE          },
     { "MODE_FULLSCREEN"     , TYPE_DWORD    , MODE_FULLSCREEN       },
 
     { "MODE_WAITVSYNC"      , TYPE_DWORD    , MODE_WAITVSYNC        },
@@ -91,16 +90,20 @@ DLCONSTANT  __bgdexport( libvideo, constants_def )[] = {
     { "SRA_STRETCH"         , TYPE_DWORD    , SRA_STRETCH           },
     { "SRA_PRESERVE"        , TYPE_DWORD    , SRA_PRESERVE          },
 
+    { "SCALE_NEAREST"       , TYPE_BYTE     , 0                     },
+    { "SCALE_LINEAR"        , TYPE_BYTE     , 1                     },
+
     { NULL                  , 0             , 0                     }
 } ;
 
 #ifndef __PXTB__
 DLVARFIXUP __bgdexport( libvideo, globals_fixup )[] = {
+    /* The compiler will fill in the gaps */
     { "graph_mode" , NULL, -1, -1 },
-    { "scale_mode" , NULL, -1, -1 },
     { "full_screen" , NULL, -1, -1 },
     { "scale_resolution", NULL, -1, -1 },
     { "scale_resolution_aspectratio", NULL, -1, -1 },
+    { "scale_quality", NULL, -1, -1 },
 
     { NULL , NULL, -1, -1 }
 };

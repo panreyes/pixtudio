@@ -75,10 +75,10 @@ int scale_resolution_aspectratio = 0;
 
 enum {
     GRAPH_MODE = 0,
-    SCALE_MODE,
     FULL_SCREEN,
     SCALE_RESOLUTION,
-    SCALE_RESOLUTION_ASPECTRATIO
+    SCALE_RESOLUTION_ASPECTRATIO,
+    SCALE_QUALITY
 };
 
 /* --------------------------------------------------------------------------- */
@@ -139,6 +139,7 @@ int gr_set_mode( int width, int height ) {
     Uint32 Bmask = 0;
     Uint32 Amask = 0;
     char * e;
+    char scale_quality;
 
     full_screen = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_FULLSCREEN ) ? 1 : 0 ;
     grab_input = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_MODAL ) ? 1 : 0 ;
@@ -147,18 +148,18 @@ int gr_set_mode( int width, int height ) {
     full_screen |= GLODWORD( libvideo, FULL_SCREEN );
 
     scale_resolution = GLODWORD( libvideo, SCALE_RESOLUTION );
+    scale_quality = GLOBYTE( libvideo, SCALE_QUALITY );
+    if(scale_quality >= 1) {
+        scale_quality = '1';
+    } else {
+        scale_quality = '0';
+    }
 
     if ( GLOEXISTS( libvideo, SCALE_RESOLUTION_ASPECTRATIO ) ) scale_resolution_aspectratio = GLODWORD( libvideo, SCALE_RESOLUTION_ASPECTRATIO );
 
     /* Overwrite all params */
     if ( ( e = getenv( "SCALE_RESOLUTION"             ) ) ) scale_resolution = atol( e );
     if ( ( e = getenv( "SCALE_RESOLUTION_ASPECTRATIO" ) ) ) scale_resolution_aspectratio = atol( e );
-
-    /* Emulate old scale_mode vales */
-    if( GLODWORD( libvideo, SCALE_MODE ) > 0 ) {
-        surface_width = 2*width;
-        surface_height = 2*height;
-    }
 
     format = SDL_PIXELFORMAT_ARGB8888;
 
@@ -254,7 +255,7 @@ int gr_set_mode( int width, int height ) {
     SDL_RenderPresent(renderer);
 
     // make the scaled rendering look smoother.
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, &scale_quality);
 
     // Enable SDL scaling, if needed
     if(renderer_width != width || renderer_height != height) {
