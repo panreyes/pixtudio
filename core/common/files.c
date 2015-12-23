@@ -703,11 +703,33 @@ static int open_raw( file * f, const char * filename, const char * mode )
     char    *p;
 
 #ifndef NO_ZLIB
-    if ( !strchr( mode, '0' ) )
-    {
-        f->type = F_GZFILE ;
-        f->gz = gzopen( filename, mode ) ;
-        f->eof  = 0 ;
+    if ( !strchr( mode, '0' ) ) {
+        /*
+         * First of all, determine if file is actually in gzip format
+         * by reading its first two bytes as its magic number.
+         * Zlib can read uncompressed files, but there appear to be
+         * bugs in the uncompressed reader and we'd rather use fopen
+         * for those.
+         *
+         * The two bytes are read separately to account for endianess
+         * issues.
+         */
+        FILE *fd;
+        unsigned char byte1, byte2;
+
+        fd = fopen(filename, "rb");
+        if(fd != NULL) {
+            fread(&byte1, 1, 1, fd);
+            fread(&byte2, 1, 1, fd);
+            fclose(fd);
+
+            if(byte1 == 0x1f && byte2 == 0x8b) {
+                f->type = F_GZFILE ;
+                f->gz = gzopen( filename, mode ) ;
+                f->eof  = 0 ;
+            }
+        }
+
         if ( f->gz ) return 1 ;
     }
 #endif
