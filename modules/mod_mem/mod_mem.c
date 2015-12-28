@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 /* WIN32 INCLUDES */
 #ifdef WIN32
@@ -51,11 +52,9 @@
 #define KERNELC_V_3 16
 #endif
 
-/* Mac OS X INCLUDES */
+/* OS X/iOS INCLUDES */
 #ifdef __APPLE__
-#include <unistd.h>
-#include <sys/utsname.h>
-#include <ctype.h>
+#include <sys/sysctl.h>
 #endif
 
 /* BSD INCLUDES */
@@ -173,6 +172,21 @@ int modmem_memory_total( INSTANCE * my, int * params )
 
     return -1;
 
+#elif defined(__APPLE__)
+    uint64_t total = 0;
+
+    size_t size = sizeof(total);
+    if( !sysctlbyname("hw.memsize", &total, &size, NULL, 0) ) {
+        if(total > INT_MAX) {
+            // We overflowed here
+            fprintf(stderr, "Warning: MEMORY_TOTAL returning %dB of memory, real total is %llu\n", INT_MAX, total);
+            return INT_MAX;
+        } else {
+            return (int)total;
+        }
+    }
+
+    return -1;
 #else
     return 0; //TODO
 
