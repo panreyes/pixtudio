@@ -179,7 +179,7 @@ int modmem_memory_total( INSTANCE * my, int * params )
     if( !sysctlbyname("hw.memsize", &total, &size, NULL, 0) ) {
         if(total > INT_MAX) {
             // We overflowed here
-            fprintf(stderr, "Warning: MEMORY_TOTAL returning %dB of memory, real total is %llu\n", INT_MAX, total);
+            fprintf(stderr, "Warning: MEMORY_TOTAL returning %dB of memory, real total is %lluB\n", INT_MAX, total);
             return INT_MAX;
         } else {
             return (int)total;
