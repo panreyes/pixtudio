@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <libgen.h>
 
 #include "bgddl.h"
 
@@ -239,5 +240,21 @@ int modfile_move( INSTANCE * my, int * params )
     string_discard( params[1] ) ;
     string_discard( params[0] ) ;
     return r ;
+}
+
+int modfile_dirname( INSTANCE * my, int * params ) {
+    int str_code = string_new(dirname(string_get(params[0])));
+    string_use(str_code) ;
+    string_discard(params[0]);
+
+    return str_code;
+}
+
+int modfile_basename( INSTANCE * my, int * params ) {
+    int str_code = string_new(basename(string_get(params[0])));
+    string_use(str_code) ;
+    string_discard(params[0]);
+
+    return str_code;
 }
 

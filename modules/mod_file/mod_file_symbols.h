@@ -48,6 +48,8 @@ extern int modfile_file( INSTANCE * my, int * params );
 extern int modfile_exists( INSTANCE * my, int * params );
 extern int modfile_remove( INSTANCE * my, int * params );
 extern int modfile_move( INSTANCE * my, int * params );
+extern int modfile_dirname( INSTANCE * my, int * params );
+extern int modfile_basename( INSTANCE * my, int * params );
 #endif
 
 DLCONSTANT  __bgdexport( mod_file, constants_def)[] = {
@@ -88,6 +90,10 @@ DLSYSFUNCS  __bgdexport( mod_file, exported_functions)[] = {
     FUNC( "FILE_EXISTS" , "S"    , TYPE_INT         , modfile_exists      ),
     FUNC( "FREMOVE"     , "S"    , TYPE_INT         , modfile_remove      ),
     FUNC( "FMOVE"       , "SS"   , TYPE_INT         , modfile_move        ),
+
+    FUNC( "DIRNAME"     , "S"    , TYPE_STRING      , modfile_dirname     ),
+    FUNC( "BASENAME"    , "S"    , TYPE_STRING      , modfile_basename    ),
+
     FUNC( 0             , 0      , 0                , 0                   )
 };
 
