@@ -144,8 +144,6 @@ void draw_instance_at( INSTANCE * i, REGION * region, int x, int y, GRAPH * dest
     PALETTE * palette = NULL;
     int paletteid;
 
-    uint8_t modr, modg, modb ;
-
     map = instance_graph( i ) ;
     if ( !map ) return ;
 
@@ -156,11 +154,6 @@ void draw_instance_at( INSTANCE * i, REGION * region, int x, int y, GRAPH * dest
         else if ( alpha < 255 )
             flags |= B_ALPHA | ( alpha << B_ALPHA_SHIFT );
     }
-
-    // Colour modulation
-    modr = LOCUINT8( librender, i, MODR );
-    modg = LOCUINT8( librender, i, MODG );
-    modb = LOCUINT8( librender, i, MODB );
 
     scalex = LOCINT32( librender, i, GRAPHSIZEX );
     scaley = LOCINT32( librender, i, GRAPHSIZEY );
