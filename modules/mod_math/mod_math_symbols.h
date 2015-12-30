@@ -1,7 +1,8 @@
 /*
- *  Copyright Â© 2006-2012 SplinterGU (Fenix/Bennugd)
- *  Copyright Â© 2002-2006 Fenix Team (Fenix)
- *  Copyright Â© 1999-2002 JosÃ© Luis CebriÃ¡n PagÃ¼e (Fenix)
+ *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2002-2006 Fenix Team (Fenix)
+ *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
  *  This file is part of PixTudio
  *
@@ -51,6 +52,9 @@ extern int math_fget_dist( INSTANCE * my, int * params );
 extern int math_near_angle( INSTANCE * my, int * params );
 extern int math_get_distx( INSTANCE * my, int * params );
 extern int math_get_disty( INSTANCE * my, int * params );
+extern int math_round( INSTANCE * my, int * params );
+extern int math_floor( INSTANCE * my, int * params );
+extern int math_ceil( INSTANCE * my, int * params );
 #endif
 
 DLCONSTANT __bgdexport( mod_math, constants_def )[] = {
@@ -80,6 +84,10 @@ DLSYSFUNCS __bgdexport( mod_math, exported_functions )[] = {
     FUNC( "NEAR_ANGLE"  , "III"     , TYPE_INT      , math_near_angle   ),
     FUNC( "GET_DISTX"   , "II"      , TYPE_INT      , math_get_distx    ),
     FUNC( "GET_DISTY"   , "II"      , TYPE_INT      , math_get_disty    ),
+
+    FUNC( "ROUND"       , "F"       , TYPE_FLOAT    , math_round        ),
+    FUNC( "FLOOR"       , "F"       , TYPE_FLOAT    , math_floor        ),
+    FUNC( "CEIL"        , "F"       , TYPE_FLOAT    , math_ceil         ),
 
     FUNC( 0             , 0         , 0             , 0                 )
 };
