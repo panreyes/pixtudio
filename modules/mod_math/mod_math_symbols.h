@@ -85,9 +85,9 @@ DLSYSFUNCS __bgdexport( mod_math, exported_functions )[] = {
     FUNC( "GET_DISTX"   , "II"      , TYPE_INT      , math_get_distx    ),
     FUNC( "GET_DISTY"   , "II"      , TYPE_INT      , math_get_disty    ),
 
-    FUNC( "ROUND"       , "F"       , TYPE_FLOAT    , math_round        ),
-    FUNC( "FLOOR"       , "F"       , TYPE_FLOAT    , math_floor        ),
-    FUNC( "CEIL"        , "F"       , TYPE_FLOAT    , math_ceil         ),
+    FUNC( "ROUND"       , "F"       , TYPE_INT      , math_round        ),
+    FUNC( "FLOOR"       , "F"       , TYPE_INT      , math_floor        ),
+    FUNC( "CEIL"        , "F"       , TYPE_INT      , math_ceil         ),
 
     FUNC( 0             , 0         , 0             , 0                 )
 };
