@@ -243,17 +243,19 @@ int modfile_move( INSTANCE * my, int * params )
 }
 
 int modfile_dirname( INSTANCE * my, int * params ) {
-    int str_code = string_new(dirname(string_get(params[0])));
-    string_use(str_code) ;
+    char * path = strdup(string_get(params[0]));
     string_discard(params[0]);
+    int str_code = string_new(dirname(path));
+    string_use(str_code);
 
     return str_code;
 }
 
 int modfile_basename( INSTANCE * my, int * params ) {
-    int str_code = string_new(basename(string_get(params[0])));
-    string_use(str_code) ;
+    char * path = strdup(string_get(params[0]));
     string_discard(params[0]);
+    int str_code = string_new(basename(path));
+    string_use(str_code);
 
     return str_code;
 }
