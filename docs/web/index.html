@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>PixTudio</title>
+        <meta name="description" content="Una guía interactiva de primeros pasos para Brackets.">
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+
+        <h1>PixTudio</h1>
+        <h2>Introduction</h2>
+        <p>
+            Welcome to PixTudio! PixTudio is a 2D game engine for Windows, Linux, OS X, Android &amp; iOS.
+        </p>
+        <p>
+            The game engine is licensed under the very permissive
+            <a href="http://opensource.org/licenses/Zlib">zlib license</a>, which means that you're free to
+            use it in both open-source and closed-source projects.
+        </p>
+
+        <h2>Project page</h2>
+        <p>
+            Check out the project page at <a href="https://bitbucket.org/josebagar/pixtudio">BitBucket</a>.
+        </p>
+        
+        <h2>Compiling PixTudio from source code</h2>
+        
+        <h3>Fedora 23 Workstation</h3>
+        <p>
+            Instructions here.
+        </p>
+        
+        <h3>Ubuntu 15.10</h3>
+        <p>
+            Instructions here.
+        </p>
+        
+        <h3>OS X</h3>
+        <p>
+            Instructions here.
+        </p>
+        
+        <h3>Windows 10</h3>
+        <p>
+            These instructions should work in earlier versions of Windows (as long as they're supported by Microsoft), but have only been tested in Windows 10.
+            <ul>
+                <li>Install <a href="http://msys2.github.io/">MSYS2</a> (don't forget
+                    to update it as described in the project page).</li>
+                <li>Open MinGW-w64 Win32 Shell</li>
+                <li>
+                    Install the required command line and development tools.
+                    <code>pacman -S msys/git make mingw32/mingw-w64-i686-gcc mingw32/mingw-w64-i686-pkg-config
+                    </code>
+                </li>
+                <li>
+                    Install the required dependencies.
+                    <code>pacman -S mingw32/mingw-w64-i686-SDL2 mingw32/mingw-w64-i686-SDL2_mixer mingw32/mingw-w64-i686-libpng mingw32/mingw-w64-i686-zlib mingw32/mingw-w64-i686-libogg mingw32/mingw-w64-i686-libvorbis mingw32/mingw-w64-i686-libtheora mingw32/mingw-w64-i686-libmodplug mingw32/mingw-w64-i686-libmikmod mingw32/mingw-w64-i686-libtre-git mingw32/mingw-w64-i686-flac mingw32/mingw-w64-i686-sqlite3 mingw32/mingw-w64-i686-curl mingw32/mingw-w64-i686-chipmunk mingw32/mingw-w64-i686-openal
+                    </code>
+                </li>
+                <li>
+                    Clone the source code repository.
+                    <code>git clone https://bitbucket.org/josebagar/pixtudio.git 
+                    </code>
+                </li>
+                <li>
+                    Compile the source code.
+                    <code>cd pixtudio/projects/QTCreator
+                        CC=gcc make
+                    </code>
+                </li>
+            </ul>
+        </p>
+        
+        <h3>Android</h3>
+        <p>
+            Install both the <a href="http://developer.android.com/sdk/index.html">Android SDK</a>
+            &amp; the <a href="http://developer.android.com/tools/sdk/ndk/index.html">NDK</a>.
+        </p>
+        
+        <p>
+            Please note that in order to compile PixTudio for Android yourself you don't need really need
+            Android Studio, only its SDK parts, but you might want to install the full Android Studio if
+            you're planning to develop other Android apps.
+        </p>
+        
+        <h3>iOS</h3>
+        <p>
+            Install the latest version of
+            <a href="https://itunes.apple.com/es/app/xcode/id497799835?mt=12#">Xcode</a> from Apple.
+        </p>
+        
+        <p>
+            Please note that PixTudio for iOS is still a work in progress project.
+        </p>
+
+        <h2>Some links</h2>
+        <ul>
+            <li><a href="http://forum.bennugd.org/index.php?board=97.0">PixTudio forum</a></li>
+        </ul>
+
+    </body>
+</html>
