@@ -76,7 +76,7 @@ LDFLAGS		=	-m32 -g $(MACHDEP)
 #---------------------------------------------------------------------------------
 ifeq ($(OS),Windows_NT)
 	EXTRA_LIBS = -lmingw32 -mwindows -lwsock32 -Wl,-subsystem,console
-	OPENAL = -lOpenAL32
+	OPENAL = $(shell pkg-config --libs openal)
 	TRE = $(shell pkg-config --libs tre)
 else
 	UNAME_S := $(shell uname -s)
