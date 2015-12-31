@@ -213,7 +213,7 @@ int math_get_disty( INSTANCE * my, int * params ) {
 int math_round( INSTANCE * my, int * params ) {
     float val = roundf(*( float * ) &params[0]);
 
-    return *(( int * )&val);
+    return (int)val;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -221,7 +221,7 @@ int math_round( INSTANCE * my, int * params ) {
 int math_floor( INSTANCE * my, int * params ) {
     float val = floorf(*( float * ) &params[0]);
 
-    return *(( int * )&val);
+    return (int)val;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -229,7 +229,7 @@ int math_floor( INSTANCE * my, int * params ) {
 int math_ceil( INSTANCE * my, int * params ) {
     float val = ceil(*( float * ) &params[0]);
 
-    return *(( int * )&val);
+    return (int)val;
 }
 
 /* --------------------------------------------------------------------------- */
