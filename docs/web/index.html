@@ -23,14 +23,51 @@
 
         <h2>Project page</h2>
         <p>
-            Check out the project page at <a href="https://bitbucket.org/josebagar/pixtudio">BitBucket</a>.
+            Check out the project page at
+            <a href="https://bitbucket.org/josebagar/pixtudio">
+                Bitbucket
+            </a>.
+        </p>
+
+        <h2>Bugs</h2>
+        <p>
+            Do you believe you found a bug? Report it at the
+            <a href="https://bitbucket.org/josebagar/pixtudio/issues?status=new&status=open">
+                Bitbucket bugtrack
+            </a>.
         </p>
 
         <h2>Compiling PixTudio from source code</h2>
 
         <h3>Fedora 23 Workstation</h3>
         <p>
-            Instructions here.
+            These instructions might work in earlier versions of Fedora and in other Fedora
+            spins, too, but have only been tested in a fully updated fresh installation of
+            Fedora 23 Workstation.
+            <ul>
+                <li>Open a terminal</li>
+                <li>
+                    Install the required command line utilities.
+                    <code>sudo dnf group install "Development Tools"
+                    </code>
+                </li>
+                <li>
+                    Install the required dependencies.
+                    <code>sudo dnf install SDL2-devel.i686 SDL2_mixer-devel.i686 libpng-devel.i686 zlib-devel.i686 libogg-devel.i686 libvorbis-devel.i686 libtheora-devel.i686 tre.i686 tre-devel.i686 sqlite-devel.i686 libcurl-devel.i686 openal-soft-devel.i686 glibc-devel.i686
+                    </code>
+                </li>
+                <li>
+                    Clone the source code repository.
+                    <code>git clone https://bitbucket.org/josebagar/pixtudio.git
+                    </code>
+                </li>
+                <li>
+                    Compile the source code.
+                    <code>cd pixtudio/projects/QTCreator
+                        make
+                    </code>
+                </li>
+            </ul>
         </p>
 
         <h3>Ubuntu 15.10</h3>
