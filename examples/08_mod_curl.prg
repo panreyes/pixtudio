@@ -40,7 +40,7 @@ Private
     string output;
 
 Begin
-    set_mode(width, height, 16);
+    set_mode(width, height);
 
     // Remove Google logo, if it exists already
     if(file_exists("classicplus.png"))

@@ -13,7 +13,7 @@ Private
     string controllername;
 
 BEGIN
-    set_mode(800,600,32);
+    set_mode(800, 600);
     set_fps(60, 0);
 
     font = fnt_load("font.fnt");

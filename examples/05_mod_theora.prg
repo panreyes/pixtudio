@@ -20,7 +20,7 @@ Private
     int vol=255;
 
 BEGIN
-    set_mode(1920, 1088, 32);
+    set_mode(1920, 1088);
     set_fps(60, 0);
 
     font = fnt_load("font.fnt");

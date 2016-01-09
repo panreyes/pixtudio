@@ -39,7 +39,7 @@ Private
     int songid;
 
 BEGIN
-    set_mode(800,600,32);
+    set_mode(800, 600);
     set_fps(60, 0);
 
     flags=B_HMIRROR;

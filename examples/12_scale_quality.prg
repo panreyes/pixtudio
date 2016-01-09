@@ -17,7 +17,7 @@ begin
         scale_quality = SCALE_LINEAR;
     end
 
-    set_mode(640, 480, 16);
+    set_mode(640, 480, MODE_FULLSCREEN);
     set_fps(60,0);
 
     x=400;
