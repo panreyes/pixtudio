@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2014-2015 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2014-2016 Joseba García Etxebarria <joseba.gar@gmail.com>
  *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
  *  Copyright (C) 2002-2006 Fenix Team (Fenix)
  *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
