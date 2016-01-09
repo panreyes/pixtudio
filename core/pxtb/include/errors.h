@@ -32,14 +32,12 @@
 
 #include <errors_st.h>
 
+extern struct _errindex errtable[10];
 
-extern struct _errindex errtable[10] ;
-
-extern struct _errmsg *	err_addError(int code,const char * msg) ;
-extern void				err_delError(struct _errmsg * err) ;
-extern const char *		err_getErrorByCode(int code) ;
-extern void				err_buildErrorTable(void) ;
-extern void				err_destroyErrorTable(void) ;
+extern struct _errmsg *err_addError(int code, const char *msg);
+extern void err_delError(struct _errmsg *err);
+extern const char *err_getErrorByCode(int code);
+extern void err_buildErrorTable(void);
+extern void err_destroyErrorTable(void);
 
 #endif
-

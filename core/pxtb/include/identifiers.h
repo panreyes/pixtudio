@@ -30,31 +30,29 @@
 #ifndef __IDENTIFIERS_H
 #define __IDENTIFIERS_H
 
-typedef struct _identifier
-{
-	const char * name ;
-	int    code ;
-	int	   line ;		/* First USE for the identifier */
-	int    f ;			/* file where the id was found */
-	struct _identifier * next ;
-}
-identifier ;
+typedef struct _identifier {
+    const char *name;
+    int code;
+    int line; /* First USE for the identifier */
+    int f;    /* file where the id was found */
+    struct _identifier *next;
+} identifier;
 
 /* Gestor de identificadores */
 
-extern void identifier_init () ;
-extern void identifier_dump () ;
-extern int  identifier_add (const char * string) ;
-extern int  identifier_add_as (const char * string, int code) ;
-extern int  identifier_search (const char * string) ;
-extern int  identifier_search_or_add (const char * string) ;
-extern const char * identifier_name (int code) ;
-extern int identifier_line (int code) ;
-extern int identifier_file (int code) ;
+extern void identifier_init();
+extern void identifier_dump();
+extern int identifier_add(const char *string);
+extern int identifier_add_as(const char *string, int code);
+extern int identifier_search(const char *string);
+extern int identifier_search_or_add(const char *string);
+extern const char *identifier_name(int code);
+extern int identifier_line(int code);
+extern int identifier_file(int code);
 
-extern int  identifier_next_code () ;
+extern int identifier_next_code();
 
-extern identifier * identifier_first() ;
-extern identifier * identifier_next (identifier * id) ;
+extern identifier *identifier_first();
+extern identifier *identifier_next(identifier *id);
 
 #endif

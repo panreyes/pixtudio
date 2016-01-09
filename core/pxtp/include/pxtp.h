@@ -39,7 +39,7 @@
  *  VERSION
  */
 
-#define PXTP_VERSION     "PXTP " VERSION " (" __DATE__ " " __TIME__ ")"
+#define PXTP_VERSION "PXTP " VERSION " (" __DATE__ " " __TIME__ ")"
 
 /*
  *  HEADER FILES
@@ -60,4 +60,3 @@
 /* Save/load with type information */
 
 #include "dcb.h"
-

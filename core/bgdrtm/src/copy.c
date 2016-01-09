@@ -44,7 +44,7 @@
 #include "xstrings.h"
 #include "bgdrtm.h"
 
-static int copytype( void * dst, void * src, DCB_TYPEDEF * var );
+static int copytype(void *dst, void *src, DCB_TYPEDEF *var);
 
 /*
  *  FUNCTION : copyvars
@@ -63,21 +63,18 @@ static int copytype( void * dst, void * src, DCB_TYPEDEF * var );
  *
  */
 
-int copyvars( void * dst, void * src, DCB_VAR * var, int nvars )
-{
+int copyvars(void *dst, void *src, DCB_VAR *var, int nvars) {
     int result = 0;
     int partial;
 
-    for ( ; nvars > 0; nvars--, var++ )
-    {
-        partial = copytype( dst, src, &var->Type );
-        src = (( uint8_t* )src ) + partial;
-        dst = (( uint8_t* )dst ) + partial;
+    for (; nvars > 0; nvars--, var++) {
+        partial = copytype(dst, src, &var->Type);
+        src     = ((uint8_t *)src) + partial;
+        dst     = ((uint8_t *)dst) + partial;
         result += partial;
     }
     return result;
 }
-
 
 /*
  *  FUNCTION : copytypes
@@ -95,23 +92,20 @@ int copyvars( void * dst, void * src, DCB_VAR * var, int nvars )
  *
  */
 
-int copytypes( void * dst, void * src, DCB_TYPEDEF * var, int nvars, int reps )
-{
+int copytypes(void *dst, void *src, DCB_TYPEDEF *var, int nvars, int reps) {
     int result = 0;
     int partial;
-    DCB_TYPEDEF * _var = var;
-    int _nvars = nvars ;
+    DCB_TYPEDEF *_var = var;
+    int _nvars        = nvars;
 
-    for ( ; reps > 0; reps-- )
-    {
-        var = _var;
+    for (; reps > 0; reps--) {
+        var   = _var;
         nvars = _nvars;
-        for ( ; nvars > 0; nvars--, var++ )
-        {
-            partial = copytype( dst, src, var );
+        for (; nvars > 0; nvars--, var++) {
+            partial = copytype(dst, src, var);
             result += partial;
-            src = (( uint8_t* )src ) + partial;
-            dst = (( uint8_t* )dst ) + partial;
+            src = ((uint8_t *)src) + partial;
+            dst = ((uint8_t *)dst) + partial;
         }
     }
     return result;
@@ -132,65 +126,61 @@ int copytypes( void * dst, void * src, DCB_TYPEDEF * var, int nvars, int reps )
  *
  */
 
-static int copytype( void * dst, void * src, DCB_TYPEDEF * var )
-{
+static int copytype(void *dst, void *src, DCB_TYPEDEF *var) {
     int count  = 1;
     int result = 0;
     int n      = 0;
 
-    for ( ;; )
-    {
-        switch ( var->BaseType[n] )
-        {
-            case TYPE_FLOAT:
-            case TYPE_INT:
-            case TYPE_DWORD:
-            case TYPE_POINTER:
-                memcpy( dst, src, 4 * count );
-                return 4 * count;
+    for (;;) {
+        switch (var->BaseType[n]) {
+        case TYPE_FLOAT:
+        case TYPE_INT:
+        case TYPE_DWORD:
+        case TYPE_POINTER:
+            memcpy(dst, src, 4 * count);
+            return 4 * count;
 
-            case TYPE_WORD:
-            case TYPE_SHORT:
-                memcpy( dst, src, 2 * count );
-                return 2 * count;
+        case TYPE_WORD:
+        case TYPE_SHORT:
+            memcpy(dst, src, 2 * count);
+            return 2 * count;
 
-            case TYPE_BYTE:
-            case TYPE_SBYTE:
-            case TYPE_CHAR:
-                memcpy( dst, src, count );
-                return count;
+        case TYPE_BYTE:
+        case TYPE_SBYTE:
+        case TYPE_CHAR:
+            memcpy(dst, src, count);
+            return count;
 
-            case TYPE_STRING:
-                while ( count-- )
-                {
-                    string_discard( *( int * )dst );
-                    string_use( *( int * )src );
-                    *(( int * )dst ) = *(( int * )src );
-                    dst = (( int * )dst ) + 1;
-                    src = (( int * )src ) + 1;
-                    result += 4;
-                }
-                return result;
+        case TYPE_STRING:
+            while (count--) {
+                string_discard(*(int *)dst);
+                string_use(*(int *)src);
+                *((int *)dst) = *((int *)src);
+                dst = ((int *)dst) + 1;
+                src = ((int *)src) + 1;
+                result += 4;
+            }
+            return result;
 
-            case TYPE_ARRAY:
-                count *= var->Count[n];
-                n++;
-                continue;
+        case TYPE_ARRAY:
+            count *= var->Count[n];
+            n++;
+            continue;
 
-            case TYPE_STRUCT:
-                for ( ; count ; count-- )
-                {
-                    int partial = copyvars( dst, src, dcb.varspace_vars[var->Members], dcb.varspace[var->Members].NVars );
-                    src = (( uint8_t* )src ) + partial;
-                    dst = (( uint8_t* )dst ) + partial;
-                    result += partial;
-                }
-                break;
+        case TYPE_STRUCT:
+            for (; count; count--) {
+                int partial = copyvars(dst, src, dcb.varspace_vars[var->Members],
+                                       dcb.varspace[var->Members].NVars);
+                src = ((uint8_t *)src) + partial;
+                dst = ((uint8_t *)dst) + partial;
+                result += partial;
+            }
+            break;
 
-            default:
-                fprintf( stderr, "ERROR: Runtime error - Could not copy datatype\n" ) ;
-                exit( 1 );
-                break;
+        default:
+            fprintf(stderr, "ERROR: Runtime error - Could not copy datatype\n");
+            exit(1);
+            break;
         }
         break;
     }
@@ -203,25 +193,22 @@ static int copytype( void * dst, void * src, DCB_TYPEDEF * var )
  *  Copy struct data from src to dst, using the information varspace given
  **/
 
-int bgd_copy_struct( INSTANCE * my, int * params )
-{
-    return ( int ) copytypes(( void * )params[0], ( void * )params[1], ( DCB_TYPEDEF * )params[2], params[3], params[4] );
+int bgd_copy_struct(INSTANCE *my, int *params) {
+    return (int)copytypes((void *)params[0], (void *)params[1], (DCB_TYPEDEF *)params[2], params[3],
+                          params[4]);
 }
 
-int bgd_internal_memcopy( INSTANCE * my, int * params )
-{
-    memmove(( void * )params[0], ( void * )params[1], params[2] ) ;
-    return 1 ;
+int bgd_internal_memcopy(INSTANCE *my, int *params) {
+    memmove((void *)params[0], (void *)params[1], params[2]);
+    return 1;
 }
 
-int bgd_internal_copy_string_array( INSTANCE * my, int * params )
-{
-    int n = params[ 2 ];
-    while( n-- )
-    {
-        ((int *)( params[ 0 ] )) [ n ] = ((int *)( params[ 1 ] )) [ n ];
-        string_use( ((int *)( params[ 0 ] )) [ n ] );
+int bgd_internal_copy_string_array(INSTANCE *my, int *params) {
+    int n = params[2];
+    while (n--) {
+        ((int *)(params[0]))[n] = ((int *)(params[1]))[n];
+        string_use(((int *)(params[0]))[n]);
     }
 
-    return 1 ;
+    return 1;
 }

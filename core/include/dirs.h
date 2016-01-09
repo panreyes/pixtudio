@@ -56,31 +56,28 @@
 
 /* ------------------------------------------------------------------------------------ */
 
-enum
-{
-    DIR_FI_ATTR_NORMAL         = 0x00000000,
-    DIR_FI_ATTR_DIRECTORY      = 0x00000001,
-    DIR_FI_ATTR_HIDDEN         = 0x00000002,
-    DIR_FI_ATTR_READONLY       = 0x00000004
+enum {
+    DIR_FI_ATTR_NORMAL    = 0x00000000,
+    DIR_FI_ATTR_DIRECTORY = 0x00000001,
+    DIR_FI_ATTR_HIDDEN    = 0x00000002,
+    DIR_FI_ATTR_READONLY  = 0x00000004
 };
 
 /* ------------------------------------------------------------------------------------ */
 
-typedef struct __DIR_FILEINFO_ST
-{
+typedef struct __DIR_FILEINFO_ST {
     char fullpath[__MAX_PATH];
     char filename[__MAX_PATH];
     long attributes;
     long size;
     struct tm crtime; /* creation time (unix not available) */
-    struct tm mtime; /* last modification time */
-    struct tm atime; /* last access time */
-    struct tm ctime; /* last status change time (windows not available) */
+    struct tm mtime;  /* last modification time */
+    struct tm atime;  /* last access time */
+    struct tm ctime;  /* last status change time (windows not available) */
 } __DIR_FILEINFO_ST;
 
-typedef struct __DIR_ST
-{
-    char * path;
+typedef struct __DIR_ST {
+    char *path;
 #ifdef _WIN32
     WIN32_FIND_DATA data;
     HANDLE handle;
@@ -95,16 +92,16 @@ typedef struct __DIR_ST
 
 /* ------------------------------------------------------------------------------------ */
 
-extern char *               dir_path_convert(const char *path) ;
+extern char *dir_path_convert(const char *path);
 
-extern char *	            dir_current(void) ;
-extern int		            dir_change(const char *dir) ;
-extern int		            dir_create(const char *dir) ;
-extern int		            dir_delete(const char *dir) ;
-extern int		            dir_deletefile(const char *filename) ;
+extern char *dir_current(void);
+extern int dir_change(const char *dir);
+extern int dir_create(const char *dir);
+extern int dir_delete(const char *dir);
+extern int dir_deletefile(const char *filename);
 
-extern __DIR_ST *           dir_open( const char * path );
-extern void                 dir_close ( __DIR_ST * hDir );
-extern __DIR_FILEINFO_ST *  dir_read( __DIR_ST * hDir );
+extern __DIR_ST *dir_open(const char *path);
+extern void dir_close(__DIR_ST *hDir);
+extern __DIR_FILEINFO_ST *dir_read(__DIR_ST *hDir);
 
 #endif

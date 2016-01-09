@@ -38,37 +38,37 @@
  * realidad es independiente del proceso original */
 
 #ifdef __BGDRTM__
-extern void         * globaldata ;
-extern void         * localdata ;
+extern void *globaldata;
+extern void *localdata;
 #endif
 
-extern int          local_size ;
+extern int local_size;
 
-extern INSTANCE     * first_instance ;
-extern INSTANCE     * last_instance ;
+extern INSTANCE *first_instance;
+extern INSTANCE *last_instance;
 
-extern int          instance_getid() ;
-extern INSTANCE     * instance_get( int id ) ;
-extern INSTANCE     * instance_get_by_type( uint32_t type, INSTANCE ** context ) ;
-extern INSTANCE     * instance_getfather( INSTANCE * i ) ;
-extern INSTANCE     * instance_getson( INSTANCE * i ) ;
-extern INSTANCE     * instance_getbigbro( INSTANCE * i ) ;
-extern INSTANCE     * instance_getsmallbro( INSTANCE * i ) ;
-extern INSTANCE     * instance_new( PROCDEF * proc, INSTANCE * father ) ;
-extern INSTANCE     * instance_duplicate( INSTANCE * i ) ;
-extern void         instance_destroy( INSTANCE * r ) ;
-extern void         instance_dump( INSTANCE * father, int indent ) ;
-extern void         instance_dump_all() ;
-extern void         instance_posupdate( INSTANCE * i ) ;
-extern int          instance_poschanged( INSTANCE * i ) ;
-extern int          instance_exists( INSTANCE * i ) ;
+extern int instance_getid();
+extern INSTANCE *instance_get(int id);
+extern INSTANCE *instance_get_by_type(uint32_t type, INSTANCE **context);
+extern INSTANCE *instance_getfather(INSTANCE *i);
+extern INSTANCE *instance_getson(INSTANCE *i);
+extern INSTANCE *instance_getbigbro(INSTANCE *i);
+extern INSTANCE *instance_getsmallbro(INSTANCE *i);
+extern INSTANCE *instance_new(PROCDEF *proc, INSTANCE *father);
+extern INSTANCE *instance_duplicate(INSTANCE *i);
+extern void instance_destroy(INSTANCE *r);
+extern void instance_dump(INSTANCE *father, int indent);
+extern void instance_dump_all();
+extern void instance_posupdate(INSTANCE *i);
+extern int instance_poschanged(INSTANCE *i);
+extern int instance_exists(INSTANCE *i);
 
-extern INSTANCE     * instance_next_by_priority();
-extern void         instance_dirty( INSTANCE * i ) ;
+extern INSTANCE *instance_next_by_priority();
+extern void instance_dirty(INSTANCE *i);
 
 /* Las siguientes funciones son el punto de entrada del intérprete */
 
-extern int          instance_go( INSTANCE * r ) ;
-extern int          instance_go_all() ;
+extern int instance_go(INSTANCE *r);
+extern int instance_go_all();
 
 #endif

@@ -31,26 +31,28 @@
 /* --------------------------------------------------------------------------- */
 
 #ifndef __PXTB__
-  #if defined(_MSC_VER) && !defined( __STATIC__ )
-    #define DLLEXPORT   __declspec(dllexport)
-    #define DLLIMPORT   __declspec(dllimport)
-  #else
-    #define DLLEXPORT
-    #define DLLIMPORT
-  #endif
+#if defined(_MSC_VER) && !defined(__STATIC__)
+#define DLLEXPORT __declspec(dllexport)
+#define DLLIMPORT __declspec(dllimport)
+#else
+#define DLLEXPORT
+#define DLLIMPORT
+#endif
 #endif
 
 /* --------------------------------------------------------------------------- */
 
 #ifdef __PXTB__
-#define FUNC(a,b,c,d)     { a, b, c, NULL }
+#define FUNC(a, b, c, d)                                                                           \
+    { a, b, c, NULL }
 #else
-#define FUNC(a,b,c,d)     { a, b, c, d }
+#define FUNC(a, b, c, d)                                                                           \
+    { a, b, c, d }
 #endif
 
 /* --------------------------------------------------------------------------- */
 
-#define __bgdexport(m,a)    m##_##a
+#define __bgdexport(m, a) m##_##a
 
 /* --------------------------------------------------------------------------- */
 
@@ -68,25 +70,22 @@
 
 /* --------------------------------------------------------------------------- */
 
-typedef struct
-{
-    char * var;
-    void * data_offset;
+typedef struct {
+    char *var;
+    void *data_offset;
     int size;
     int elements;
 } DLVARFIXUP;
 
-typedef struct
-{
-    char * name;
-    char * paramtypes;
+typedef struct {
+    char *name;
+    char *paramtypes;
     int type;
-    void * func;
+    void *func;
 } DLSYSFUNCS;
 
-typedef struct
-{
-    char * name;
+typedef struct {
+    char *name;
     BASETYPE type;
     int code;
 } DLCONSTANT;

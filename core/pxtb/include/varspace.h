@@ -36,40 +36,36 @@
 
 /* Un VARSPACE es una zona de definición de variables */
 
-typedef struct _varspace
-{
-	struct _variable * vars ;
-	int	size ;
-	int	count ;
-	int	reserved ;
-	int	last_offset ;
+typedef struct _varspace {
+    struct _variable *vars;
+    int size;
+    int count;
+    int reserved;
+    int last_offset;
 
-	int	* stringvars ;
-	int	stringvar_reserved ;
-	int	stringvar_count ;
-}
-VARSPACE ;
+    int *stringvars;
+    int stringvar_reserved;
+    int stringvar_count;
+} VARSPACE;
 
-typedef struct _variable
-{
-	TYPEDEF type ;
-	int	code ;
-	int	offset ;
-}
-VARIABLE ;
+typedef struct _variable {
+    TYPEDEF type;
+    int code;
+    int offset;
+} VARIABLE;
 
-extern VARSPACE * varspace_new () ;
-extern void       varspace_alloc (VARSPACE * n, int count) ;
-extern void       varspace_init (VARSPACE * n) ;
-extern void       varspace_add (VARSPACE * n, VARIABLE v) ;
-extern VARIABLE * varspace_search (VARSPACE * n, int code) ;
-extern void       varspace_dump (VARSPACE * n, int indent) ;
-extern void       varspace_destroy (VARSPACE * n) ;
-extern void	      varspace_varstring (VARSPACE * n, int offset) ;
+extern VARSPACE *varspace_new();
+extern void varspace_alloc(VARSPACE *n, int count);
+extern void varspace_init(VARSPACE *n);
+extern void varspace_add(VARSPACE *n, VARIABLE v);
+extern VARIABLE *varspace_search(VARSPACE *n, int code);
+extern void varspace_dump(VARSPACE *n, int indent);
+extern void varspace_destroy(VARSPACE *n);
+extern void varspace_varstring(VARSPACE *n, int offset);
 
 /* Datos globales y locales */
 
-extern VARSPACE global ;
-extern VARSPACE local ;
+extern VARSPACE global;
+extern VARSPACE local;
 
 #endif

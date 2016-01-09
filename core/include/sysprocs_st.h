@@ -38,14 +38,13 @@
 
 /* ---------------------------------------------------------------------- */
 
-typedef void ( * FN_HOOK )( void );
-typedef void ( * INSTANCE_HOOK )( INSTANCE * );
+typedef void (*FN_HOOK)(void);
+typedef void (*INSTANCE_HOOK)(INSTANCE *);
 
-typedef struct
-{
+typedef struct {
     int prio;
     FN_HOOK hook;
-} HOOK ;
+} HOOK;
 
 /* ---------------------------------------------------------------------- */
 

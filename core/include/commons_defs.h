@@ -34,30 +34,30 @@
 
 /* Instances Status, used in local STATUS var */
 
-#define STATUS_DEAD             0
-#define STATUS_KILLED           1
-#define STATUS_RUNNING          2
-#define STATUS_SLEEPING         3
-#define STATUS_FROZEN           4
-#define STATUS_WAITING_MASK     0x8000
+#define STATUS_DEAD 0
+#define STATUS_KILLED 1
+#define STATUS_RUNNING 2
+#define STATUS_SLEEPING 3
+#define STATUS_FROZEN 4
+#define STATUS_WAITING_MASK 0x8000
 
 /* New OS_* must be updated in bgdc/src/main_core.c and bgdrtm/src/misc.c */
 
-#define OS_WIN32                0
-#define OS_LINUX                1
-#define OS_BEOS                 2
-#define OS_MACOS                3
-#define OS_GP32                 4
-#define OS_DC                   5
-#define OS_BSD                  6
-#define OS_GP2X                 7
-#define OS_GP2X_WIZ             8
-#define OS_CAANOO               9
-#define OS_DINGUX_A320          10
-#define OS_WII                  1000
-#define OS_PSP                  1001
-#define OS_IOS                  1002
-#define OS_ANDROID              1003
+#define OS_WIN32 0
+#define OS_LINUX 1
+#define OS_BEOS 2
+#define OS_MACOS 3
+#define OS_GP32 4
+#define OS_DC 5
+#define OS_BSD 6
+#define OS_GP2X 7
+#define OS_GP2X_WIZ 8
+#define OS_CAANOO 9
+#define OS_DINGUX_A320 10
+#define OS_WII 1000
+#define OS_PSP 1001
+#define OS_IOS 1002
+#define OS_ANDROID 1003
 
 #endif
 

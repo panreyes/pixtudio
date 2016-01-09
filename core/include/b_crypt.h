@@ -32,42 +32,32 @@
 
 #ifdef USE_LIBDES
 #include <des.h>
-#define DES_key_schedule    des_key_schedule
-#define DES_key_sched       key_sched
-#define DES_ecb_encrypt     des_ecb_encrypt
-#define DES_cblock          des_cblock
+#define DES_key_schedule des_key_schedule
+#define DES_key_sched key_sched
+#define DES_ecb_encrypt des_ecb_encrypt
+#define DES_cblock des_cblock
 #else
 #include <openssl/des.h>
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-enum {
-    CRYPT_NONE = 0,
-    CRYPT_DES,
-    CRYPT_3DES
-};
+enum { CRYPT_NONE = 0, CRYPT_DES, CRYPT_3DES };
 
-enum {
-    KEY0 = 0,
-    KEY1,
-    KEY2,
-    MAX_KEYS
-};
+enum { KEY0 = 0, KEY1, KEY2, MAX_KEYS };
 
 /* ------------------------------------------------------------------------- */
 
-typedef struct
-{
+typedef struct {
     int method;
     DES_key_schedule ks[MAX_KEYS];
 } crypt_handle;
 
 /* ------------------------------------------------------------------------- */
 
-extern crypt_handle * crypt_create( int method, char * key );
-extern void crypt_destroy( crypt_handle * ch );
-extern int crypt_data( crypt_handle * ch, char * in, char * out, int size, int enc );
+extern crypt_handle *crypt_create(int method, char *key);
+extern void crypt_destroy(crypt_handle *ch);
+extern int crypt_data(crypt_handle *ch, char *in, char *out, int size, int enc);
 
 /* ------------------------------------------------------------------------- */
 

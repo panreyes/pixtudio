@@ -38,201 +38,188 @@
 /* Gestor de cadenas                                                      */
 /* ---------------------------------------------------------------------- */
 
-char * string_mem = 0 ;
-int string_allocated = 0 ;
-int string_used = 0 ;
+char *string_mem     = 0;
+int string_allocated = 0;
+int string_used      = 0;
 
-int * string_offset = 0 ;
-int string_max = 0 ;
-int string_count = 0 ;
+int *string_offset = 0;
+int string_max     = 0;
+int string_count   = 0;
 
-int autoinclude = 0 ;
+int autoinclude = 0;
 
-void string_init()
-{
-    string_mem = ( char * ) calloc( 4096, sizeof( char ) ) ;
-    string_allocated = 4096 ;
-    string_used = 1 ;
-    string_count = 1 ;
-    string_offset = ( int * ) calloc( 1024, sizeof( int ) ) ;
-    string_max = 1024 ;
-    string_mem[ 0 ] = 0 ;
-    string_offset[ 0 ] = 0 ;
+void string_init() {
+    string_mem       = (char *)calloc(4096, sizeof(char));
+    string_allocated = 4096;
+    string_used      = 1;
+    string_count     = 1;
+    string_offset    = (int *)calloc(1024, sizeof(int));
+    string_max       = 1024;
+    string_mem[0]    = 0;
+    string_offset[0] = 0;
 }
 
-void string_alloc( int bytes )
-{
-    string_mem = ( char * ) realloc( string_mem, string_allocated += bytes ) ;
-    if ( !string_mem )
-    {
-        fprintf( stdout, "string_alloc: out of memory\n" ) ;
-        exit( 1 ) ;
+void string_alloc(int bytes) {
+    string_mem = (char *)realloc(string_mem, string_allocated += bytes);
+    if (!string_mem) {
+        fprintf(stdout, "string_alloc: out of memory\n");
+        exit(1);
     }
 }
 
-void string_dump( void ( *wlog )( const char *fmt, ... ) )
-{
-    int i ;
-    printf( "\n---- %d strings ----\n\n", string_count ) ;
-    for ( i = 0 ; i < string_count ; i++ )
-        printf( "%4d: %s\n", i, string_mem + string_offset[ i ] ) ;
+void string_dump(void (*wlog)(const char *fmt, ...)) {
+    int i;
+    printf("\n---- %d strings ----\n\n", string_count);
+    for (i = 0; i < string_count; i++)
+        printf("%4d: %s\n", i, string_mem + string_offset[i]);
 }
 
-int string_new( const char * text )
-{
-    int len = strlen( text ) + 1 ;
+int string_new(const char *text) {
+    int len = strlen(text) + 1;
     int i;
 
     /* Reuse strings */
-    for ( i = 0; i < string_count; i++ ) if ( !strcmp( text, string_mem + string_offset[ i ] ) ) return i;
+    for (i = 0; i < string_count; i++)
+        if (!strcmp(text, string_mem + string_offset[i]))
+            return i;
 
-    if ( string_count == string_max )
-    {
-        string_max += 1024 ;
-        string_offset = ( int * ) realloc( string_offset, string_max * sizeof( int ) ) ;
-        if ( string_offset == 0 )
-        {
-            fprintf( stderr, "Too many strings, quitting\n" ) ;
-            exit( 1 ) ;
+    if (string_count == string_max) {
+        string_max += 1024;
+        string_offset = (int *)realloc(string_offset, string_max * sizeof(int));
+        if (string_offset == 0) {
+            fprintf(stderr, "Too many strings, quitting\n");
+            exit(1);
         }
     }
 
-    while ( string_used + len >= string_allocated ) string_alloc( 1024 ) ;
+    while (string_used + len >= string_allocated)
+        string_alloc(1024);
 
-    string_offset[ string_count ] = string_used ;
-    strcpy( string_mem + string_used, text ) ;
-    string_used += len ;
-    return string_count++ ;
+    string_offset[string_count] = string_used;
+    strcpy(string_mem + string_used, text);
+    string_used += len;
+    return string_count++;
 }
 
+char *validchars   = "\\/.";
+char *invalidchars = "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F"
+                     "\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F"
+                     "*?\"<>|";
 
-char * validchars = "\\/.";
-char * invalidchars = \
-        "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F" \
-        "\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F" \
-        "*?\"<>|";
-
-int check_for_valid_pathname( char * pathname )
-{
+int check_for_valid_pathname(char *pathname) {
     int n, l;
 
-    if ( !pathname || ( l = strlen( pathname ) ) > __MAX_PATH ) return 0;
+    if (!pathname || (l = strlen(pathname)) > __MAX_PATH)
+        return 0;
 
 #if WIN32
     /* Only ':' with this sintax: "L:..." */
-    if ( pathname[ 0 ] == ':' || ( l > 2 && strchr( pathname + 2, ':' ) ) ) return 0;
+    if (pathname[0] == ':' || (l > 2 && strchr(pathname + 2, ':')))
+        return 0;
 #endif
 
     /* Some invalid character? */
-    for ( n = 0; n < strlen( invalidchars ); n++ )
-        if ( strchr( pathname, invalidchars[ n ] ) ) return 0;
+    for (n = 0; n < strlen(invalidchars); n++)
+        if (strchr(pathname, invalidchars[n]))
+            return 0;
 
     return 1;
 }
 
 int no_include_this_file = 0;
 
-int string_compile( const char ** source )
-{
-    char c = *( *source ) ++, conv ;
-    const char * ptr ;
+int string_compile(const char **source) {
+    char c = *(*source)++, conv;
+    const char *ptr;
     int string_used_back = string_used;
 
-    if ( string_count == string_max )
-    {
-        string_max += 1024 ;
-        string_offset = ( int * ) realloc( string_offset, string_max * sizeof( int ) ) ;
-        if ( string_offset == 0 )
-        {
-            fprintf( stderr, "Too many strings, quitting\n" ) ;
-            exit( 1 ) ;
+    if (string_count == string_max) {
+        string_max += 1024;
+        string_offset = (int *)realloc(string_offset, string_max * sizeof(int));
+        if (string_offset == 0) {
+            fprintf(stderr, "Too many strings, quitting\n");
+            exit(1);
         }
     }
 
-    string_offset[ string_count ] = string_used ;
+    string_offset[string_count] = string_used;
 
-    while ( *( *source ) )
-    {
-        if ( *( *source ) == c )   /* Termina la string? */
+    while (*(*source)) {
+        if (*(*source) == c) /* Termina la string? */
         {
-            ( *source ) ++ ;
-            if ( *( *source ) == c )  /* Comienza una nueva? (esto es para strings divididas) */
+            (*source)++;
+            if (*(*source) == c) /* Comienza una nueva? (esto es para strings divididas) */
             {
-                ( *source ) ++ ;
-            }
-            else
-            {
-                /* Elimino todos los espacios para buscar si hay otra string, esto es para strings divididas */
-                ptr = ( *source ) ;
-                while ( ISSPACE( *ptr ) )
-                {
-                    if ( *ptr == '\n' ) line_count++ ;
-                    ptr++ ;
+                (*source)++;
+            } else {
+                /* Elimino todos los espacios para buscar si hay otra string, esto es para strings
+                 * divididas */
+                ptr = (*source);
+                while (ISSPACE(*ptr)) {
+                    if (*ptr == '\n')
+                        line_count++;
+                    ptr++;
                 }
-                /* Si despues de saltar todos los espacios, no tengo un delimitador de string, salgo */
-                if ( *ptr != c )
-                {
-                    ( *source ) = ptr; /* Fix: Splinter, por problema con numeracion de lineas */
-                    break ;
+                /* Si despues de saltar todos los espacios, no tengo un delimitador de string, salgo
+                 */
+                if (*ptr != c) {
+                    (*source) = ptr; /* Fix: Splinter, por problema con numeracion de lineas */
+                    break;
                 }
 
-                /* Obtengo delimitador de string, me posiciono en el caracter siguiente, dentro de la string */
-                ( *source ) = ptr + 1 ;
-                continue ;
+                /* Obtengo delimitador de string, me posiciono en el caracter siguiente, dentro de
+                 * la string */
+                (*source) = ptr + 1;
+                continue;
             }
-        }
-        else if ( *( *source ) == '\n' )
-        {
-            line_count++ ;
-            string_mem[ string_used++ ] = '\n' ;
+        } else if (*(*source) == '\n') {
+            line_count++;
+            string_mem[string_used++] = '\n';
 
-            ( *source ) ++ ;
-        }
-        else
-        {
+            (*source)++;
+        } else {
 #ifdef __USE_C_STRING_ESCAPE
-            if ( *( *source ) == '\\' && *( *source + 1 ) == c ) ( *source ) ++ ;
+            if (*(*source) == '\\' && *(*source + 1) == c)
+                (*source)++;
 #endif
-            conv = convert( *( *source ) ) ;
-            string_mem[ string_used++ ] = conv ;
+            conv                      = convert(*(*source));
+            string_mem[string_used++] = conv;
 
-            ( *source ) ++ ;
+            (*source)++;
         }
 
-        if ( string_used >= string_allocated )
-            string_alloc( 1024 ) ;
+        if (string_used >= string_allocated)
+            string_alloc(1024);
     }
 
-    string_mem[ string_used++ ] = 0 ;
+    string_mem[string_used++] = 0;
 
     int i;
 
     /* Reuse strings */
 
-    for ( i = 0; i < string_count; i++ )
-    {
-        if ( !strcmp( string_mem + string_used_back, string_mem + string_offset[ i ] ) )
-        {
+    for (i = 0; i < string_count; i++) {
+        if (!strcmp(string_mem + string_used_back, string_mem + string_offset[i])) {
             string_used = string_used_back;
             return i;
         }
     }
 
-    if ( string_used >= string_allocated ) string_alloc( 1024 ) ;
+    if (string_used >= string_allocated)
+        string_alloc(1024);
 
     /* Hack: añade el posible fichero al DCB */
 
-    if ( !no_include_this_file && autoinclude && check_for_valid_pathname( string_mem + string_offset[ string_count ] ) )
-        dcb_add_file( string_mem + string_offset[ string_count ] ) ;
+    if (!no_include_this_file && autoinclude &&
+        check_for_valid_pathname(string_mem + string_offset[string_count]))
+        dcb_add_file(string_mem + string_offset[string_count]);
 
     no_include_this_file = 0;
 
-    return string_count++ ;
+    return string_count++;
 }
 
-const char * string_get( int code )
-{
-    assert( code < string_count && code >= 0 ) ;
-    return string_mem + string_offset[ code ] ;
+const char *string_get(int code) {
+    assert(code < string_count && code >= 0);
+    return string_mem + string_offset[code];
 }
-

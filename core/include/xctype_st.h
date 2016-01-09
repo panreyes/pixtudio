@@ -27,19 +27,18 @@
  *
  */
 
-#define ISALPHA(c)     (c_type [(unsigned char)c] & CTYPE_ALPHA)
-#define ISSPACE(c)     (c_type [(unsigned char)c] & CTYPE_SPACE)
-#define ISNUM(c)       (c_type [(unsigned char)c] & CTYPE_NUM)
-#define ISALNUM(c)     (c_type [(unsigned char)c] & CTYPE_ALNUM)
-#define ISWORDCHAR(c)  (c_type [(unsigned char)c] & CTYPE_WORDCHAR)
-#define ISWORDFIRST(c) (c_type [(unsigned char)c] & CTYPE_WORDFIRST)
-#define TOUPPER(c)     (c_upper[(unsigned char)c])
-#define TOLOWER(c)     (c_lower[(unsigned char)c])
+#define ISALPHA(c) (c_type[(unsigned char)c] & CTYPE_ALPHA)
+#define ISSPACE(c) (c_type[(unsigned char)c] & CTYPE_SPACE)
+#define ISNUM(c) (c_type[(unsigned char)c] & CTYPE_NUM)
+#define ISALNUM(c) (c_type[(unsigned char)c] & CTYPE_ALNUM)
+#define ISWORDCHAR(c) (c_type[(unsigned char)c] & CTYPE_WORDCHAR)
+#define ISWORDFIRST(c) (c_type[(unsigned char)c] & CTYPE_WORDFIRST)
+#define TOUPPER(c) (c_upper[(unsigned char)c])
+#define TOLOWER(c) (c_lower[(unsigned char)c])
 
-#define CTYPE_ALPHA     1
-#define CTYPE_NUM       2
-#define CTYPE_WORDCHAR  4
+#define CTYPE_ALPHA 1
+#define CTYPE_NUM 2
+#define CTYPE_WORDCHAR 4
 #define CTYPE_WORDFIRST 8
-#define CTYPE_SPACE     16
-#define CTYPE_ALNUM     32
-
+#define CTYPE_SPACE 16
+#define CTYPE_ALNUM 32

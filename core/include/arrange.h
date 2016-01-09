@@ -28,60 +28,56 @@
  */
 
 #ifndef __ARRANGE_ST_H
-    #define __ARRANGE_ST_H
+#define __ARRANGE_ST_H
 
-    #include <stdint.h>
+#include <stdint.h>
 
-    #define __LIL_ENDIAN_ORDERING 1234
-    #define __BIG_ENDIAN_ORDERING 4321
+#define __LIL_ENDIAN_ORDERING 1234
+#define __BIG_ENDIAN_ORDERING 4321
 
-    #if defined(__hppa__) || \
-        defined(__m68k__) || \
-        defined(mc68000) || \
-        defined(_M_M68K) || \
-        (defined(__MIPS__) && defined(__MISPEB__)) || \
-        defined(__ppc__) || \
-        defined(__POWERPC__) || \
-        defined(_M_PPC) || \
-        defined(__sparc__)
-        #define __BYTEORDER  __BIG_ENDIAN_ORDERING
-    #else
-        #define __BYTEORDER  __LIL_ENDIAN_ORDERING
-    #endif
+#if defined(__hppa__) || defined(__m68k__) || defined(mc68000) || defined(_M_M68K) ||              \
+    (defined(__MIPS__) && defined(__MISPEB__)) || defined(__ppc__) || defined(__POWERPC__) ||      \
+    defined(_M_PPC) || defined(__sparc__)
+#define __BYTEORDER __BIG_ENDIAN_ORDERING
+#else
+#define __BYTEORDER __LIL_ENDIAN_ORDERING
+#endif
 
-    /* ---------------------------------------------------------------------- */
-    /* Trucos de portabilidad                                                 */
-    /* ---------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------- */
+/* Trucos de portabilidad                                                 */
+/* ---------------------------------------------------------------------- */
 
-    #if __BYTEORDER == __LIL_ENDIAN_ORDERING
-        #define ARRANGE_DWORD(x)
-        #define ARRANGE_WORD(x)
+#if __BYTEORDER == __LIL_ENDIAN_ORDERING
+#define ARRANGE_DWORD(x)
+#define ARRANGE_WORD(x)
 
-        #define ARRANGE_DWORDS(x,c)
-        #define ARRANGE_WORDS(x,c)
-    #else
-        static __inline__ void DO_Swap16(uint16_t * D) {
-            *D = ((*D<<8)|(*D>>8));
-        }
+#define ARRANGE_DWORDS(x, c)
+#define ARRANGE_WORDS(x, c)
+#else
+static __inline__ void DO_Swap16(uint16_t *D) {
+    *D = ((*D << 8) | (*D >> 8));
+}
 
-        static __inline__ void DO_Swap32(uint32_t * D) {
-            *D = ((*D<<24)|((*D<<8)&0x00FF0000)|((*D>>8)&0x0000FF00)|(*D>>24));
-        }
+static __inline__ void DO_Swap32(uint32_t *D) {
+    *D = ((*D << 24) | ((*D << 8) & 0x00FF0000) | ((*D >> 8) & 0x0000FF00) | (*D >> 24));
+}
 
-        #define ARRANGE_DWORD(x)    DO_Swap32(x)
-        #define ARRANGE_WORD(x)     DO_Swap16(x)
+#define ARRANGE_DWORD(x) DO_Swap32(x)
+#define ARRANGE_WORD(x) DO_Swap16(x)
 
-        #define ARRANGE_DWORDS(x,c) {               \
-            int __n;                                \
-            uint32_t * __p = (uint32_t *)(x);       \
-            for (__n = 0 ; __n < (int)(c) ; __n++)  \
-                ARRANGE_DWORD(&__p[__n]);           \
-            }
-        #define ARRANGE_WORDS(x,c) {                \
-            int __n;                                \
-            uint16_t * __p = (uint16_t *)(x);       \
-            for (__n = 0 ; __n < (int)(c) ; __n++)  \
-                ARRANGE_WORD(&__p[__n]);            \
-            }
-    #endif
+#define ARRANGE_DWORDS(x, c)                                                                       \
+    {                                                                                              \
+        int __n;                                                                                   \
+        uint32_t *__p = (uint32_t *)(x);                                                           \
+        for (__n = 0; __n < (int)(c); __n++)                                                       \
+            ARRANGE_DWORD(&__p[__n]);                                                              \
+    }
+#define ARRANGE_WORDS(x, c)                                                                        \
+    {                                                                                              \
+        int __n;                                                                                   \
+        uint16_t *__p = (uint16_t *)(x);                                                           \
+        for (__n = 0; __n < (int)(c); __n++)                                                       \
+            ARRANGE_WORD(&__p[__n]);                                                               \
+    }
+#endif
 #endif

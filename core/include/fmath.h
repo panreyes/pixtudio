@@ -37,27 +37,27 @@
 /* Rutinas matemáticas de punto fijo, basadas en Allegro */
 
 #ifndef M_PI
-#define M_PI        3.14159265358979323846  /* PI */
+#define M_PI 3.14159265358979323846 /* PI */
 #endif
 
 #ifndef ABS
-#define ABS(x)  (((x) < 0) ? -(x):(x))
+#define ABS(x) (((x) < 0) ? -(x) : (x))
 #endif
 #ifndef SGN
-#define SGN(a)  (((a) < 0) ? -1 : !(a) ? 0 : 1)
+#define SGN(a) (((a) < 0) ? -1 : !(a) ? 0 : 1)
 #endif
 
-typedef long int fixed ;
+typedef long int fixed;
 
-extern fixed ftofix( float x );
-extern float fixtof( fixed x );
-extern fixed itofix( int x );
-extern int fixtoi( fixed x );
-extern int fixceil( fixed x );
-extern fixed fcos( int x );
-extern fixed fsin( int x );
-extern fixed fmul( int x, int y );
-extern fixed fdiv( int x, int y );
+extern fixed ftofix(float x);
+extern float fixtof(fixed x);
+extern fixed itofix(int x);
+extern int fixtoi(fixed x);
+extern int fixceil(fixed x);
+extern fixed fcos(int x);
+extern fixed fsin(int x);
+extern fixed fmul(int x, int y);
+extern fixed fdiv(int x, int y);
 extern void init_cos_tables();
 
 #endif

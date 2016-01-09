@@ -39,10 +39,10 @@
  * el tipo "file" puede ser una estructura y las funciones,
  * ofrecer soporte transparente para ficheros PAK, etc. */
 
-#define F_XFILE  1
-#define F_FILE   2
+#define F_XFILE 1
+#define F_FILE 2
 #define F_GZFILE 3
-#define F_RWOPS  4
+#define F_RWOPS 4
 
 #ifndef NO_ZLIB
 #include <zlib.h>
@@ -53,9 +53,9 @@
 #endif
 
 #ifdef _WIN32
-#define __MAX_PATH          32768
+#define __MAX_PATH 32768
 #else
-#define __MAX_PATH          4096
+#define __MAX_PATH 4096
 #endif
 
 /*
@@ -80,24 +80,21 @@
 #define PATH_SLASH
 #endif
 
+typedef struct {
+    int type;
 
-typedef struct
-{
-    int     type ;
-
-    FILE *  fp ;
+    FILE *fp;
 #ifndef NO_ZLIB
-    gzFile  gz ;
+    gzFile gz;
 #endif
 #ifdef WITH_SDLRWOPS
-    SDL_RWops * rwops ;
+    SDL_RWops *rwops;
 #endif
-    int     n ;
-    int     error ;
-	char	name[__MAX_PATH];
-	long    pos ;
-	int     eof ;
-}
-file ;
+    int n;
+    int error;
+    char name[__MAX_PATH];
+    long pos;
+    int eof;
+} file;
 
 #endif

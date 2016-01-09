@@ -39,7 +39,7 @@
 /* y segmentos de datos                                                   */
 /* ---------------------------------------------------------------------- */
 
-VARSPACE global, local ;
+VARSPACE global, local;
 
 /*
  *  FUNCTION : varspace_dump
@@ -55,48 +55,44 @@ VARSPACE global, local ;
  *      None
  */
 
-void varspace_dump( VARSPACE * n, int indent )
-{
-    int i, t, to ;
-    char buffer[128] ;
+void varspace_dump(VARSPACE *n, int indent) {
+    int i, t, to;
+    char buffer[128];
 
-    for ( i = 0 ; i < n->count ; i++ )
-    {
-        if ( i < n->count - 1 )
-            to = n->vars[i+1].offset - 1 ;
+    for (i = 0; i < n->count; i++) {
+        if (i < n->count - 1)
+            to = n->vars[i + 1].offset - 1;
         else
-            to = n->last_offset - 1 ;
+            to = n->last_offset - 1;
 
-        printf( "[%04d:%04d]\t", n->vars[i].offset, to ) ;
-        for ( t = 0 ; t < indent ; t++ ) printf( " + " ) ;
-        typedef_describe( buffer, n->vars[i].type ) ;
-        printf( "%s %s", buffer, identifier_name( n->vars[i].code ) ) ;
+        printf("[%04d:%04d]\t", n->vars[i].offset, to);
+        for (t = 0; t < indent; t++)
+            printf(" + ");
+        typedef_describe(buffer, n->vars[i].type);
+        printf("%s %s", buffer, identifier_name(n->vars[i].code));
 
         /* Describe arrays of structs */
 
-        if ( typedef_is_array( n->vars[i].type ) )
-        {
-            TYPEDEF r = typedef_reduce( n->vars[i].type );
-            while ( typedef_is_array( r ) )
-                r = typedef_reduce( r );
-            if ( typedef_is_struct( r ) )
-            {
-                printf( ":\n" ) ;
-                varspace_dump( typedef_members( r ), indent + 1 ) ;
-            }
-            else
-                printf( "\n" );
+        if (typedef_is_array(n->vars[i].type)) {
+            TYPEDEF r = typedef_reduce(n->vars[i].type);
+            while (typedef_is_array(r))
+                r = typedef_reduce(r);
+            if (typedef_is_struct(r)) {
+                printf(":\n");
+                varspace_dump(typedef_members(r), indent + 1);
+            } else
+                printf("\n");
         }
 
         /* Describe structs */
 
-        else if ( typedef_is_struct( n->vars[i].type ) )
-        {
-            printf( ":\n" ) ;
-            varspace_dump( typedef_members( n->vars[i].type ), indent + 1 ) ;
+        else if (typedef_is_struct(n->vars[i].type)) {
+            printf(":\n");
+            varspace_dump(typedef_members(n->vars[i].type), indent + 1);
         }
 
-        else printf( "\n" ) ;
+        else
+            printf("\n");
     }
 }
 
@@ -113,14 +109,13 @@ void varspace_dump( VARSPACE * n, int indent )
  *      Pointer to the new varspace
  */
 
-VARSPACE * varspace_new()
-{
-    VARSPACE * v = ( VARSPACE * ) calloc( 1, sizeof( VARSPACE ) ) ;
-    if ( !v ) compile_error( "varspace_new: out of memory\n" ) ;
-    varspace_init( v ) ;
-    return v ;
+VARSPACE *varspace_new() {
+    VARSPACE *v = (VARSPACE *)calloc(1, sizeof(VARSPACE));
+    if (!v)
+        compile_error("varspace_new: out of memory\n");
+    varspace_init(v);
+    return v;
 }
-
 
 /*
  *  FUNCTION : varspace_destroy
@@ -134,10 +129,9 @@ VARSPACE * varspace_new()
  *      None
  */
 
-void varspace_destroy( VARSPACE * v )
-{
-    free( v->vars ) ;
-    free( v ) ;
+void varspace_destroy(VARSPACE *v) {
+    free(v->vars);
+    free(v);
 }
 
 /*
@@ -154,16 +148,16 @@ void varspace_destroy( VARSPACE * v )
  *      None
  */
 
-void varspace_init( VARSPACE * n )
-{
-    n->vars = ( VARIABLE * ) calloc( 16, sizeof( VARIABLE ) ) ;
-    n->reserved = 16 ;
-    n->count = 0 ;
-    n->size = 0 ;
-    n->stringvars = 0 ;
-    n->stringvar_reserved = 0 ;
-    n->stringvar_count = 0 ;
-    if ( !n->vars ) compile_error( "varspace_init: out of memory\n" ) ;
+void varspace_init(VARSPACE *n) {
+    n->vars               = (VARIABLE *)calloc(16, sizeof(VARIABLE));
+    n->reserved           = 16;
+    n->count              = 0;
+    n->size               = 0;
+    n->stringvars         = 0;
+    n->stringvar_reserved = 0;
+    n->stringvar_count = 0;
+    if (!n->vars)
+        compile_error("varspace_init: out of memory\n");
 }
 
 /*
@@ -182,14 +176,13 @@ void varspace_init( VARSPACE * n )
  *      None
  */
 
-void varspace_varstring( VARSPACE * n, int offset )
-{
-    if ( n->stringvar_reserved == n->stringvar_count )
-    {
-        n->stringvars = ( int * ) realloc( n->stringvars, ( n->stringvar_reserved += 16 ) * sizeof( int ) ) ;
-        if ( !n->stringvars ) compile_error( "varspace_varstring: out of memory\n" ) ;
+void varspace_varstring(VARSPACE *n, int offset) {
+    if (n->stringvar_reserved == n->stringvar_count) {
+        n->stringvars = (int *)realloc(n->stringvars, (n->stringvar_reserved += 16) * sizeof(int));
+        if (!n->stringvars)
+            compile_error("varspace_varstring: out of memory\n");
     }
-    n->stringvars[n->stringvar_count++] = offset ;
+    n->stringvars[n->stringvar_count++] = offset;
 }
 
 /*
@@ -206,10 +199,10 @@ void varspace_varstring( VARSPACE * n, int offset )
  *      None
  */
 
-void varspace_alloc( VARSPACE * n, int count )
-{
-    n->vars = ( VARIABLE * ) realloc( n->vars, sizeof( VARIABLE ) * ( n->reserved += count ) ) ;
-    if ( !n->vars ) compile_error( "varspace_alloc: out of memory\n" ) ;
+void varspace_alloc(VARSPACE *n, int count) {
+    n->vars = (VARIABLE *)realloc(n->vars, sizeof(VARIABLE) * (n->reserved += count));
+    if (!n->vars)
+        compile_error("varspace_alloc: out of memory\n");
 }
 
 /*
@@ -227,11 +220,11 @@ void varspace_alloc( VARSPACE * n, int count )
  *      None
  */
 
-void varspace_add( VARSPACE * n, VARIABLE v )
-{
-    if ( n->count == n->reserved ) varspace_alloc( n, 16 ) ;
-    n->vars[n->count++] = v ;
-    n->size += typedef_size( v.type ) ;
+void varspace_add(VARSPACE *n, VARIABLE v) {
+    if (n->count == n->reserved)
+        varspace_alloc(n, 16);
+    n->vars[n->count++] = v;
+    n->size += typedef_size(v.type);
 }
 
 /*
@@ -247,11 +240,11 @@ void varspace_add( VARSPACE * n, VARIABLE v )
  *      Pointer to the variable found or NULL if none
  */
 
-VARIABLE * varspace_search( VARSPACE * n, int code )
-{
-    int i ;
+VARIABLE *varspace_search(VARSPACE *n, int code) {
+    int i;
 
-    for ( i = 0 ; i < n->count ; i++ )
-        if ( n->vars[i].code == code ) return &n->vars[i] ;
-    return 0 ;
+    for (i = 0; i < n->count; i++)
+        if (n->vars[i].code == code)
+            return &n->vars[i];
+    return 0;
 }

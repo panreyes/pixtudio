@@ -33,50 +33,48 @@
 /* Data types */
 
 typedef enum {
-	TYPE_UNDEFINED = 0,
+    TYPE_UNDEFINED = 0,
 
-	TYPE_INT	 = 1,
-	TYPE_DWORD   = 2,
-	TYPE_SHORT	 = 3,
-	TYPE_WORD	 = 4,
-	TYPE_SBYTE	 = 5,
-	TYPE_BYTE	 = 6,
+    TYPE_INT   = 1,
+    TYPE_DWORD = 2,
+    TYPE_SHORT = 3,
+    TYPE_WORD  = 4,
+    TYPE_SBYTE = 5,
+    TYPE_BYTE  = 6,
 
-	TYPE_CHAR    = 8,
-	TYPE_FLOAT	 = 9,
+    TYPE_CHAR  = 8,
+    TYPE_FLOAT = 9,
 
-	TYPE_STRING  = 16,
-	TYPE_ARRAY	 = 17,
-	TYPE_STRUCT	 = 18,
-	TYPE_POINTER = 19
-}
-BASETYPE ;
+    TYPE_STRING  = 16,
+    TYPE_ARRAY   = 17,
+    TYPE_STRUCT  = 18,
+    TYPE_POINTER = 19
+} BASETYPE;
 
-typedef struct _typechunk
-{
-	BASETYPE   type ;
-	int	   count ;	/* For type == TYPE_ARRAY */
-} TYPECHUNK ;
+typedef struct _typechunk {
+    BASETYPE type;
+    int count; /* For type == TYPE_ARRAY */
+} TYPECHUNK;
 
 #define MAX_TYPECHUNKS 8
 
-typedef struct _typedef
-{
-	TYPECHUNK	   chunk[MAX_TYPECHUNKS] ;
-	int		   depth ;
-	struct _varspace * varspace ;
-} TYPEDEF ;
+typedef struct _typedef {
+    TYPECHUNK chunk[MAX_TYPECHUNKS];
+    int depth;
+    struct _varspace *varspace;
+} TYPEDEF;
 
-#define typedef_is_numeric(t)   ((t).chunk[0].type < 16)
-#define typedef_is_integer(t)   ((t).chunk[0].type < 8)
-#define typedef_is_float(t)     ((t).chunk[0].type == TYPE_FLOAT)
-#define typedef_is_string(t)    ((t).chunk[0].type == TYPE_STRING)
-#define typedef_is_struct(t)    ((t).chunk[0].type == TYPE_STRUCT)
-#define typedef_is_array(t)     ((t).chunk[0].type == TYPE_ARRAY)
-#define typedef_is_pointer(t)   ((t).chunk[0].type == TYPE_POINTER)
-#define typedef_count(t)        ((t).chunk[0].count)
-#define typedef_base(t)         ((t).chunk[0].type)
-#define typedef_members(t)      ((t).varspace)
-#define typedef_is_unsigned(t)	((t).chunk[0].type <= 8 && (t).chunk[0].type > 0 && !((t).chunk[0].type & 1))
+#define typedef_is_numeric(t) ((t).chunk[0].type < 16)
+#define typedef_is_integer(t) ((t).chunk[0].type < 8)
+#define typedef_is_float(t) ((t).chunk[0].type == TYPE_FLOAT)
+#define typedef_is_string(t) ((t).chunk[0].type == TYPE_STRING)
+#define typedef_is_struct(t) ((t).chunk[0].type == TYPE_STRUCT)
+#define typedef_is_array(t) ((t).chunk[0].type == TYPE_ARRAY)
+#define typedef_is_pointer(t) ((t).chunk[0].type == TYPE_POINTER)
+#define typedef_count(t) ((t).chunk[0].count)
+#define typedef_base(t) ((t).chunk[0].type)
+#define typedef_members(t) ((t).varspace)
+#define typedef_is_unsigned(t)                                                                     \
+    ((t).chunk[0].type <= 8 && (t).chunk[0].type > 0 && !((t).chunk[0].type & 1))
 
 #endif

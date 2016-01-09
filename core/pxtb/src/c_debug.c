@@ -42,44 +42,40 @@
 /* una instrucción o mnemónico, o de un bloque de código completo         */
 /* ---------------------------------------------------------------------- */
 
-void codeblock_dump (CODEBLOCK * c)
-{
-	int i, n, showdir ;
-	for (i = 0 ; i < c->current ; i += MN_PARAMS(c->data[i])+1)
-	{
-		showdir = 0 ;
-		for (n = 0 ; n < c->label_count ; n++)
-		{
-			if (c->labels[n] == i)
-			{
-				if (!showdir) printf ("\n") ;
-				printf ("Label %d:\n", n) ;
-				showdir = 1 ;
-			}
-		}
-		for (n = 1 ; n < c->loop_count ; n++)
-		{
-			if (c->loops[n*2] == i)
-			{
-				if (!showdir) printf ("\n") ;
-				printf("Start %d:\n", n) ;
-				showdir = 1 ;
-			}
-			if (c->loops[n*2+1] == i)
-			{
-				if (!showdir) printf ("\n") ;
-				printf("End %d:\n", n) ;
-				showdir = 1 ;
-			}
-		}
-		if (showdir) printf ("\n%d:\n", i) ;
+void codeblock_dump(CODEBLOCK *c) {
+    int i, n, showdir;
+    for (i = 0; i < c->current; i += MN_PARAMS(c->data[i]) + 1) {
+        showdir = 0;
+        for (n = 0; n < c->label_count; n++) {
+            if (c->labels[n] == i) {
+                if (!showdir)
+                    printf("\n");
+                printf("Label %d:\n", n);
+                showdir = 1;
+            }
+        }
+        for (n = 1; n < c->loop_count; n++) {
+            if (c->loops[n * 2] == i) {
+                if (!showdir)
+                    printf("\n");
+                printf("Start %d:\n", n);
+                showdir = 1;
+            }
+            if (c->loops[n * 2 + 1] == i) {
+                if (!showdir)
+                    printf("\n");
+                printf("End %d:\n", n);
+                showdir = 1;
+            }
+        }
+        if (showdir)
+            printf("\n%d:\n", i);
 
-		printf ("\t") ;
+        printf("\t");
 
-		mnemonic_dump (c->data[i], c->data[i+1] );
-
-	}
-	printf ("%d:\n", i) ;
+        mnemonic_dump(c->data[i], c->data[i + 1]);
+    }
+    printf("%d:\n", i);
 }
 
 /* ---------------------------------------------------------------------- */

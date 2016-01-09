@@ -39,41 +39,41 @@
 
 /* ---------------------------------------------------------------------- */
 
-extern char * sysproc_name( int code ) ;
+extern char *sysproc_name(int code);
 
 /* ---------------------------------------------------------------------- */
 
-extern HOOK * handler_hook_list ;
-extern int handler_hook_allocated ;
-extern int handler_hook_count ;
+extern HOOK *handler_hook_list;
+extern int handler_hook_allocated;
+extern int handler_hook_count;
 
-extern INSTANCE_HOOK * instance_pre_execute_hook_list ;
-extern int instance_pre_execute_hook_allocated ;
-extern int instance_pre_execute_hook_count ;
+extern INSTANCE_HOOK *instance_pre_execute_hook_list;
+extern int instance_pre_execute_hook_allocated;
+extern int instance_pre_execute_hook_count;
 
-extern INSTANCE_HOOK * instance_pos_execute_hook_list ;
-extern int instance_pos_execute_hook_allocated ;
-extern int instance_pos_execute_hook_count ;
+extern INSTANCE_HOOK *instance_pos_execute_hook_list;
+extern int instance_pos_execute_hook_allocated;
+extern int instance_pos_execute_hook_count;
 
-extern INSTANCE_HOOK * instance_create_hook_list ;
-extern int instance_create_hook_allocated ;
-extern int instance_create_hook_count ;
+extern INSTANCE_HOOK *instance_create_hook_list;
+extern int instance_create_hook_allocated;
+extern int instance_create_hook_count;
 
-extern INSTANCE_HOOK * instance_destroy_hook_list ;
-extern int instance_destroy_hook_allocated ;
-extern int instance_destroy_hook_count ;
+extern INSTANCE_HOOK *instance_destroy_hook_list;
+extern int instance_destroy_hook_allocated;
+extern int instance_destroy_hook_count;
 
-extern INSTANCE_HOOK * process_exec_hook_list ;
-extern int process_exec_hook_allocated ;
-extern int process_exec_hook_count ;
+extern INSTANCE_HOOK *process_exec_hook_list;
+extern int process_exec_hook_allocated;
+extern int process_exec_hook_count;
 
-extern FN_HOOK * module_initialize_list ;
-extern int module_initialize_allocated ;
-extern int module_initialize_count ;
+extern FN_HOOK *module_initialize_list;
+extern int module_initialize_allocated;
+extern int module_initialize_count;
 
-extern FN_HOOK * module_finalize_list ;
-extern int module_finalize_allocated ;
-extern int module_finalize_count ;
+extern FN_HOOK *module_finalize_list;
+extern int module_finalize_allocated;
+extern int module_finalize_count;
 
 /* ---------------------------------------------------------------------- */
 

@@ -33,17 +33,15 @@
 
 #include "typedef.h"
 
-typedef struct _constant
-{
-	int		code ;
-	int		value ;
-	TYPEDEF type ;
-}
-CONSTANT ;
+typedef struct _constant {
+    int code;
+    int value;
+    TYPEDEF type;
+} CONSTANT;
 
-extern void constants_init () ;
-extern void constants_dump () ;
-extern void constants_add (int code, TYPEDEF type, int value) ;
-extern CONSTANT * constants_search (int code) ;
+extern void constants_init();
+extern void constants_dump();
+extern void constants_add(int code, TYPEDEF type, int value);
+extern CONSTANT *constants_search(int code);
 
 #endif

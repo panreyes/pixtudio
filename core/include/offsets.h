@@ -31,22 +31,22 @@
 /* Offsets de los datos globales predefinidos */
 /* ------------------------------------------ */
 
-#define ARGC                    0
-#define ARGV_TABLE              ARGC                    + 4     /* 32+1 cadenas */
-#define OS_ID                   ARGV_TABLE              + 33*4
+#define ARGC 0
+#define ARGV_TABLE ARGC + 4 /* 32+1 cadenas */
+#define OS_ID ARGV_TABLE + 33 * 4
 
 /* ----------------------------------------- */
 /* Offsets de los datos locales predefinidos */
 /* ----------------------------------------- */
 
-#define PROCESS_ID              0
-#define PROCESS_TYPE            PROCESS_ID          + 4
-#define FRAME_PERCENT           PROCESS_TYPE        + 4
-#define STATUS                  FRAME_PERCENT       + 4
-#define SAVED_STATUS            STATUS              + 4
-#define SAVED_PRIORITY          SAVED_STATUS        + 4
-#define FATHER                  SAVED_PRIORITY      + 4
-#define SON                     FATHER              + 4
-#define SMALLBRO                SON                 + 4
-#define BIGBRO                  SMALLBRO            + 4
-#define PRIORITY                BIGBRO              + 4
+#define PROCESS_ID 0
+#define PROCESS_TYPE PROCESS_ID + 4
+#define FRAME_PERCENT PROCESS_TYPE + 4
+#define STATUS FRAME_PERCENT + 4
+#define SAVED_STATUS STATUS + 4
+#define SAVED_PRIORITY SAVED_STATUS + 4
+#define FATHER SAVED_PRIORITY + 4
+#define SON FATHER + 4
+#define SMALLBRO SON + 4
+#define BIGBRO SMALLBRO + 4
+#define PRIORITY BIGBRO + 4

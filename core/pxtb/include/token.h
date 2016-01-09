@@ -32,55 +32,53 @@
 
 #include <files.h>
 
-#define MAX_SOURCES         4096
-#define MAX_MACRO_PARAMS    256
+#define MAX_SOURCES 4096
+#define MAX_MACRO_PARAMS 256
 
 /* Tokenizador */
 
 /* Tipos de token */
 #define IDENTIFIER 1
-#define STRING     2
-#define NUMBER     3
-#define FLOAT      4
-#define LABEL      5
-#define NOTOKEN    6
+#define STRING 2
+#define NUMBER 3
+#define FLOAT 4
+#define LABEL 5
+#define NOTOKEN 6
 
-extern struct _token
-    {
-        int type ;
-        int code ;
-        float value ;
-        int file;
-        int line;
-    } token ;
+extern struct _token {
+    int type;
+    int code;
+    float value;
+    int file;
+    int line;
+} token;
 
-typedef struct _tok_pos
-    {
-        int             use_saved;
-        struct _token   token;
-        struct _token   token_saved;
-        struct _token   token_prev;
-        int             line_count;
-        int             current_file;
-        char            *source_ptr;
-    } tok_pos;
+typedef struct _tok_pos {
+    int use_saved;
+    struct _token token;
+    struct _token token_saved;
+    struct _token token_prev;
+    int line_count;
+    int current_file;
+    char *source_ptr;
+} tok_pos;
 
-extern void token_init( const char * source, int file ) ;
-extern void token_next() ;
-extern void token_back() ;
-extern void token_dump() ;
+extern void token_init(const char *source, int file);
+extern void token_next();
+extern void token_back();
+extern void token_dump();
 
 extern tok_pos token_pos();
-extern void token_set_pos( tok_pos tp );
+extern void token_set_pos(tok_pos tp);
 
-extern int line_count ;
-extern int current_file ;
-extern int n_files ;
-extern char files[MAX_SOURCES][__MAX_PATH] ;
+extern int line_count;
+extern int current_file;
+extern int n_files;
+extern char files[MAX_SOURCES][__MAX_PATH];
 
 /* Se exportan todos los token */
-extern struct _token token ;
-extern struct _token token_prev ;
-extern struct _token token_saved ;
+extern struct _token token;
+extern struct _token token_prev;
+extern struct _token token_saved;
 
 #endif

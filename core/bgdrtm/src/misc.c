@@ -48,100 +48,100 @@
 
 /* --------------------------------------------------------------------------- */
 
-char * appname          = NULL;
-char * appexename       = NULL;
-char * appexepath       = NULL;
-char * appexefullpath   = NULL;
+char *appname        = NULL;
+char *appexename     = NULL;
+char *appexepath     = NULL;
+char *appexefullpath = NULL;
 
 /* --------------------------------------------------------------------------- */
 
-int debug = 0;  /* 1 if running in debug mode      */
+int debug = 0; /* 1 if running in debug mode      */
 
 /* --------------------------------------------------------------------------- */
 
 /* os versions */
 #ifdef _WIN32
-#define _OS_ID          OS_WIN32
+#define _OS_ID OS_WIN32
 #endif
 
 #ifdef __linux__
-#define _OS_ID          OS_LINUX
+#define _OS_ID OS_LINUX
 #endif
 
 #ifdef TARGET_BEOS
-#define _OS_ID          OS_BEOS
+#define _OS_ID OS_BEOS
 #endif
 
 #ifdef __APPLE__
-#define _OS_ID          OS_MACOS
+#define _OS_ID OS_MACOS
 #endif
 
 #ifdef TARGET_GP32
-#define _OS_ID          OS_GP32
+#define _OS_ID OS_GP32
 #endif
 
 #ifdef TARGET_DC
-#define _OS_ID          OS_DC
+#define _OS_ID OS_DC
 #endif
 
 #ifdef TARGET_BSD
-#define _OS_ID          OS_BSD
+#define _OS_ID OS_BSD
 #endif
 
 #ifdef TARGET_GP2X
 #ifdef _OS_ID
 #undef _OS_ID
 #endif
-#define _OS_ID          OS_GP2X
+#define _OS_ID OS_GP2X
 #endif
 
 #ifdef TARGET_GP2X_WIZ
 #ifdef _OS_ID
 #undef _OS_ID
 #endif
-#define _OS_ID          OS_GP2X_WIZ
+#define _OS_ID OS_GP2X_WIZ
 #endif
 
 #ifdef TARGET_CAANOO
 #ifdef _OS_ID
 #undef _OS_ID
 #endif
-#define _OS_ID          OS_CAANOO
+#define _OS_ID OS_CAANOO
 #endif
 
 #ifdef TARGET_DINGUX_A320
 #ifdef _OS_ID
 #undef _OS_ID
 #endif
-#define _OS_ID          OS_DINGUX_A320
+#define _OS_ID OS_DINGUX_A320
 #endif
 
 #ifdef TARGET_WII
 #ifdef _OS_ID
 #undef _OS_ID
 #endif
-#define _OS_ID          OS_WII
+#define _OS_ID OS_WII
 #endif
 
 #ifdef TARGET_PSP
 #ifdef _OS_ID
 #undef _OS_ID
 #endif
-#define _OS_ID          OS_PSP
+#define _OS_ID OS_PSP
 #endif
 
 #if (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
 #ifdef _OS_ID
 #undef _OS_ID
 #endif
-#define _OS_ID          OS_IOS
+#define _OS_ID OS_IOS
 #endif
 
 #ifdef __ANDROID__
 #ifdef _OS_ID
 #undef _OS_ID
 #endif
-#define _OS_ID          OS_ANDROID
+#define _OS_ID OS_ANDROID
 #endif
 
 /* --------------------------------------------------------------------------- */
@@ -160,41 +160,41 @@ int debug = 0;  /* 1 if running in debug mode      */
  *      Result of the comparison
  */
 
-int bgdrtm_strncmpi( char * str1, char * str2, int sz )
-{
-    while (( *str1 || *str2 ) && sz )
-    {
+int bgdrtm_strncmpi(char *str1, char *str2, int sz) {
+    while ((*str1 || *str2) && sz) {
 #ifdef _WIN32
-        if ( toupper( *str1 ) != toupper( *str2 ) ) return toupper( *str1 ) - toupper( *str2 );
+        if (toupper(*str1) != toupper(*str2))
+            return toupper(*str1) - toupper(*str2);
 #else
-        if ( *str1 != *str2 ) return *str1 - *str2;
+        if (*str1 != *str2)
+            return *str1 - *str2;
 #endif
-        str1++; str2++; sz--;
+        str1++;
+        str2++;
+        sz--;
     }
 
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
 
-void bgdrtm_entry( int argc, char * argv[] )
-{
+void bgdrtm_entry(int argc, char *argv[]) {
     int i;
-    int * args = (int *)&GLODWORD( ARGV_TABLE );
-    char * os_id;
+    int *args = (int *)&GLODWORD(ARGV_TABLE);
+    char *os_id;
 
-    GLODWORD( ARGC ) = argc ;
+    GLODWORD(ARGC) = argc;
 
-    for ( i = 0 ; i < argc && i < 32; i++ )
-    {
-        args[i] = string_new( argv[i] ) ;
-        string_use( args[i] ) ;
+    for (i = 0; i < argc && i < 32; i++) {
+        args[i] = string_new(argv[i]);
+        string_use(args[i]);
     }
 
-    if ( ( os_id = getenv( "OS_ID" ) ) )
-        GLODWORD( OS_ID ) = atol( os_id ) ;
+    if ((os_id = getenv("OS_ID")))
+        GLODWORD(OS_ID) = atol(os_id);
     else
-        GLODWORD( OS_ID ) = _OS_ID ;
+        GLODWORD(OS_ID) = _OS_ID;
 
     init_cos_tables();
 }
@@ -213,15 +213,14 @@ void bgdrtm_entry( int argc, char * argv[] )
  *
  */
 
-void bgdrtm_exit( int exit_value )
-{
+void bgdrtm_exit(int exit_value) {
     int n;
     /* Finalize all modules */
-    if ( module_finalize_count )
-        for ( n = 0; n < module_finalize_count; n++ )
+    if (module_finalize_count)
+        for (n = 0; n < module_finalize_count; n++)
             module_finalize_list[n]();
 
-    exit( exit_value ) ;
+    exit(exit_value);
 }
 
 /* --------------------------------------------------------------------------- */

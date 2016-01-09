@@ -28,16 +28,16 @@
  */
 
 #ifndef __VARSPACE_FILE_H
-    #define __VARSPACE_FILE_H
+#define __VARSPACE_FILE_H
 
-    #include <stdint.h>
+#include <stdint.h>
 
-    #include "dcb.h"
-    #include "files.h"
+#include "dcb.h"
+#include "files.h"
 
-    int savetype (file * fp, void * data, DCB_TYPEDEF * var, int dcbformat);
-    int loadtype (file * fp, void * data, DCB_TYPEDEF * var, int dcbformat);
-    int savetypes( file * fp, void * data, DCB_TYPEDEF * var, int nvars, int dcbformat );
-    int loadtypes( file * fp, void * data, DCB_TYPEDEF * var, int nvars, int dcbformat );
+int savetype(file *fp, void *data, DCB_TYPEDEF *var, int dcbformat);
+int loadtype(file *fp, void *data, DCB_TYPEDEF *var, int dcbformat);
+int savetypes(file *fp, void *data, DCB_TYPEDEF *var, int nvars, int dcbformat);
+int loadtypes(file *fp, void *data, DCB_TYPEDEF *var, int nvars, int dcbformat);
 
 #endif

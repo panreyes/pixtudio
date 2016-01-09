@@ -30,21 +30,16 @@
 #ifndef __ERRORS_ST_H
 #define __ERRORS_ST_H
 
-typedef struct _errmsg
-{
-	int					code ;
-	char			  *	msg ;
-	struct _errmsg	  *	next ;
-	struct _errmsg	  *	prev ;
-}
-errmsg ;
+typedef struct _errmsg {
+    int code;
+    char *msg;
+    struct _errmsg *next;
+    struct _errmsg *prev;
+} errmsg;
 
-typedef struct _errindex
-{
-    int		 count ;
-    errmsg * errlist ;
-}
-errindex ;
+typedef struct _errindex {
+    int count;
+    errmsg *errlist;
+} errindex;
 
 #endif
-

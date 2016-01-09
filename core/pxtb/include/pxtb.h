@@ -43,7 +43,7 @@
  *  VERSION
  */
 
-#define PXTB_VERSION     "PixTudio Blender " VERSION " (" __DATE__ " " __TIME__ ")"
+#define PXTB_VERSION "PixTudio Blender " VERSION " (" __DATE__ " " __TIME__ ")"
 
 #ifdef __APPLE__
 #define _printf(...) printf(__VA_ARGS__)
@@ -85,20 +85,20 @@
 #include "procdef.h"
 #include "compiler.h"
 
-extern char * main_path ;
+extern char *main_path;
 
-extern char * appexename ;
-extern char * appexepath ;
-extern char * appexefullpath ;
+extern char *appexename;
+extern char *appexepath;
+extern char *appexefullpath;
 
-extern int autoinclude ;    /* Incluye ficheros en el DCB automáticamente */
-extern int imports[] ;      /* Códigos de cadena con nombres de imports */
-extern int nimports ;       /* Número de imports */
-extern int libmode ;
+extern int autoinclude; /* Incluye ficheros en el DCB automáticamente */
+extern int imports[];   /* Códigos de cadena con nombres de imports */
+extern int nimports;    /* Número de imports */
+extern int libmode;
 
-extern char langinfo[64] ;  /* language setting */
+extern char langinfo[64]; /* language setting */
 
-extern int no_include_this_file ;
+extern int no_include_this_file;
 
 extern int debug;
 
@@ -106,38 +106,36 @@ extern int debug;
 
 #include "dcb.h"
 
-extern void dcb_add_file (const char * filename) ;
-extern int  dcb_save (const char * filename, int options, const char * stubname) ;
-extern void dcb_settype (DCB_TYPEDEF * d, TYPEDEF * t) ;
+extern void dcb_add_file(const char *filename);
+extern int dcb_save(const char *filename, int options, const char *stubname);
+extern void dcb_settype(DCB_TYPEDEF *d, TYPEDEF *t);
 
 /* Funciones del sistema (no definidas) */
 
-typedef struct _sysproc
-{
-    int    code ;
-    char * name ;
-    char * paramtypes ;
-    BASETYPE type ;
-    int    params ;
-    int    id ;
+typedef struct _sysproc {
+    int code;
+    char *name;
+    char *paramtypes;
+    BASETYPE type;
+    int params;
+    int id;
 
     /* For sysproc_list */
-    struct _sysproc * next;
-} SYSPROC ;
+    struct _sysproc *next;
+} SYSPROC;
 
-extern int         sysproc_add    (char * name, char * paramtypes, int type, void * func);
-extern SYSPROC *   sysproc_get    (int id) ;
-extern SYSPROC * * sysproc_getall (int id) ;
-extern char    *   sysproc_name   (int code) ;
-extern void        sysproc_init() ;
+extern int sysproc_add(char *name, char *paramtypes, int type, void *func);
+extern SYSPROC *sysproc_get(int id);
+extern SYSPROC **sysproc_getall(int id);
+extern char *sysproc_name(int code);
+extern void sysproc_init();
 
-extern void compile_warning( int, const char *fmt, ... );
-extern void compile_error( const char *fmt, ... );
+extern void compile_warning(int, const char *fmt, ...);
+extern void compile_error(const char *fmt, ...);
 
 /* Constantes */
 
-extern void core_init() ;
+extern void core_init();
 
 #include "offsets.h"
 #include "pslang.h"
-

@@ -35,8 +35,8 @@
 
 /* Fast access sysproc list, by identifier code */
 
-SYSPROC  ** sysproc_list = NULL ;
-int         sysproc_maxid = 0 ;
+SYSPROC **sysproc_list = NULL;
+int sysproc_maxid      = 0;
 
 /* Este fichero contiene sólo las definiciones de las funciones del sistema */
 
@@ -55,8 +55,7 @@ int         sysproc_maxid = 0 ;
  *      none
  */
 
-void sysproc_init( void )
-{
+void sysproc_init(void) {
 }
 
 /*
@@ -74,50 +73,48 @@ void sysproc_init( void )
  *      Identifier code allocated for the function
  */
 
-int sysproc_add( char * name, char * paramtypes, int type, void * func )
-{
-    static SYSPROC * sysproc_new = 0 ;
-    static int sysproc_maxcode = 0 ;
-    static int sysproc_count = 0 ;
+int sysproc_add(char *name, char *paramtypes, int type, void *func) {
+    static SYSPROC *sysproc_new = 0;
+    static int sysproc_maxcode  = 0;
+    static int sysproc_count    = 0;
 
-    if ( !sysproc_new )
-    {
-        sysproc_new = sysprocs ;
-        while ( sysproc_new->name )
-        {
-            if ( sysproc_new->code > sysproc_maxcode ) sysproc_maxcode = sysproc_new->code ;
-            sysproc_new++ ;
-            sysproc_count++ ;
+    if (!sysproc_new) {
+        sysproc_new = sysprocs;
+        while (sysproc_new->name) {
+            if (sysproc_new->code > sysproc_maxcode)
+                sysproc_maxcode = sysproc_new->code;
+            sysproc_new++;
+            sysproc_count++;
         }
     }
 
-    if ( sysproc_count >= MAX_SYSPROCS ) compile_error( MSG_TOO_MANY_SYSPROCS ) ;
+    if (sysproc_count >= MAX_SYSPROCS)
+        compile_error(MSG_TOO_MANY_SYSPROCS);
 
     sysproc_maxcode++;
 
-    sysproc_new->code = sysproc_maxcode ;
-    sysproc_new->name = name ;
-    sysproc_new->paramtypes = paramtypes ;
-    sysproc_new->params = strlen( paramtypes ) ;
-    sysproc_new->type = type ;
-    sysproc_new->id   = identifier_search_or_add( name ) ;
-    sysproc_new->next = NULL ;
+    sysproc_new->code       = sysproc_maxcode;
+    sysproc_new->name       = name;
+    sysproc_new->paramtypes = paramtypes;
+    sysproc_new->params     = strlen(paramtypes);
+    sysproc_new->type       = type;
+    sysproc_new->id         = identifier_search_or_add(name);
+    sysproc_new->next       = NULL;
 
-    sysproc_new++ ;
-    sysproc_count++ ;
+    sysproc_new++;
+    sysproc_count++;
 
     /* If the fast-access list is already filled, free it to fill it again
      * in sysproc_get. We should add the new process to the list, but this
      * is a very rare possibility and we're lazy */
 
-    if ( sysproc_list != NULL )
-    {
-        free( sysproc_list );
-        sysproc_list = NULL;
+    if (sysproc_list != NULL) {
+        free(sysproc_list);
+        sysproc_list  = NULL;
         sysproc_maxid = 0;
     }
 
-    return sysproc_new->code ;
+    return sysproc_new->code;
 }
 
 /*
@@ -133,46 +130,46 @@ int sysproc_add( char * name, char * paramtypes, int type, void * func )
  *      Pointer to the SYSPROC object or NULL if none exists
  */
 
-SYSPROC * sysproc_get( int id )
-{
-    SYSPROC * s ;
+SYSPROC *sysproc_get(int id) {
+    SYSPROC *s;
 
     /* If the table is filled, get the process with direct access */
 
-    if ( id < sysproc_maxid ) return sysproc_list[id];
+    if (id < sysproc_maxid)
+        return sysproc_list[id];
 
     /* Fill the table */
 
-    if ( sysproc_list == NULL )
-    {
+    if (sysproc_list == NULL) {
         /* Alloc IDs if necessary and get the maximum one */
 
-        for ( s = sysprocs ; s->name ; s++ )
-        {
-            if ( s->id == 0 ) s->id = identifier_search_or_add( s->name ) ;
-            if ( s->id > sysproc_maxid ) sysproc_maxid = s->id;
+        for (s = sysprocs; s->name; s++) {
+            if (s->id == 0)
+                s->id = identifier_search_or_add(s->name);
+            if (s->id > sysproc_maxid)
+                sysproc_maxid = s->id;
 
             s->next = NULL;
         }
 
         /* Alloc the table */
 
-        sysproc_maxid = (( sysproc_maxid + 1 ) & ~31 ) + 32;
-        sysproc_list  = ( SYSPROC ** ) calloc( sysproc_maxid, sizeof( SYSPROC * ) );
-        if ( sysproc_list == NULL ) abort();
+        sysproc_maxid = ((sysproc_maxid + 1) & ~31) + 32;
+        sysproc_list = (SYSPROC **)calloc(sysproc_maxid, sizeof(SYSPROC *));
+        if (sysproc_list == NULL)
+            abort();
 
         /* Fill it */
 
-        for ( s = sysprocs ; s->name ; s++ )
-        {
-            if ( s->id > 0 )
-            {
-                s->next = sysproc_list[s->id];
+        for (s = sysprocs; s->name; s++) {
+            if (s->id > 0) {
+                s->next             = sysproc_list[s->id];
                 sysproc_list[s->id] = s;
             }
         }
 
-        if ( id < sysproc_maxid ) return sysproc_list[id];
+        if (id < sysproc_maxid)
+            return sysproc_list[id];
     }
 
     return NULL;
@@ -193,23 +190,21 @@ SYSPROC * sysproc_get( int id )
  *      NULL if no process with this id exists
  */
 
-SYSPROC ** sysproc_getall( int id )
-{
-    SYSPROC * s = sysproc_get( id ) ;
-    SYSPROC ** table;
-    int found = 0 ;
+SYSPROC **sysproc_getall(int id) {
+    SYSPROC *s = sysproc_get(id);
+    SYSPROC **table;
+    int found = 0;
 
-    if ( s == NULL ) return NULL;
+    if (s == NULL)
+        return NULL;
 
-    table = calloc( 32, sizeof( SYSPROC * ) ) ;
-    do
-    {
+    table = calloc(32, sizeof(SYSPROC *));
+    do {
         table[found++] = s;
         s = s->next;
-    }
-    while ( s && found <= 31 );
+    } while (s && found <= 31);
     table[found] = NULL;
-    return table ;
+    return table;
 }
 
 /*
@@ -226,15 +221,13 @@ SYSPROC ** sysproc_getall( int id )
 
 /* ---------------------------------------------------------------------- */
 
-char * sysproc_name( int code )
-{
-    SYSPROC * s = sysprocs ;
+char *sysproc_name(int code) {
+    SYSPROC *s = sysprocs;
 
-    while ( s->name )
-    {
-        if ( s->code == code ) return s->name ;
-        s++ ;
+    while (s->name) {
+        if (s->code == code)
+            return s->name;
+        s++;
     }
-    return 0 ;
+    return 0;
 }
-

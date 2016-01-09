@@ -34,55 +34,51 @@
 
 /* Process definitions, more simple than in the compiler */
 
-typedef struct _procdef
-{
-	int * pridata ;
-	int * pubdata ;
+typedef struct _procdef {
+    int *pridata;
+    int *pubdata;
 
-	int * code ;
+    int *code;
 
-	int exitcode ;
-	int errorcode ;
+    int exitcode;
+    int errorcode;
 
-	int * strings ;
-	int * pubstrings ;
+    int *strings;
+    int *pubstrings;
 
-	int private_size ;
-	int public_size ;
+    int private_size;
+    int public_size;
 
-	int code_size ;
+    int code_size;
 
-	int string_count ;
-	int pubstring_count ;
+    int string_count;
+    int pubstring_count;
 
-	int params ;
-	int id ;
-	int type ;
-	int flags ;
-	char * name ;
+    int params;
+    int id;
+    int type;
+    int flags;
+    char *name;
 
     int breakpoint;
-}
-PROCDEF ;
+} PROCDEF;
 
-#define PROC_USES_FRAME 	0x01
-#define PROC_USES_LOCALS	0x02
-#define PROC_FUNCTION   	0x04
-#define PROC_USES_PUBLICS   0x08
+#define PROC_USES_FRAME 0x01
+#define PROC_USES_LOCALS 0x02
+#define PROC_FUNCTION 0x04
+#define PROC_USES_PUBLICS 0x08
 
 /* System functions */
 
-typedef int SYSFUNC (INSTANCE *, int *) ;
-typedef struct _sysproc
-{
-	int       code ;
-	char    * name ;
-	char    * paramtypes ;
-	int       type ;
-	int       params ;
-	SYSFUNC * func ;
-	int       id ;
-}
-SYSPROC ;
+typedef int SYSFUNC(INSTANCE *, int *);
+typedef struct _sysproc {
+    int code;
+    char *name;
+    char *paramtypes;
+    int type;
+    int params;
+    SYSFUNC *func;
+    int id;
+} SYSPROC;
 
 #endif

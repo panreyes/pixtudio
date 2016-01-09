@@ -43,22 +43,22 @@
 
 /* --------------------------------------------------------------------------- */
 
-extern void * globaldata ;
-extern void * localdata ;
-extern int    local_size ;
-extern int  * localstr ;
-extern int    local_strings ;
+extern void *globaldata;
+extern void *localdata;
+extern int local_size;
+extern int *localstr;
+extern int local_strings;
 
-extern PROCDEF * procs ;
-extern PROCDEF * mainproc ;
-extern int procdef_count ;
+extern PROCDEF *procs;
+extern PROCDEF *mainproc;
+extern int procdef_count;
 
 extern char *appname;
 extern char *appexename;
 extern char *appexepath;
 extern char *appexefullpath;
 
-extern int debug ;          /* 1 if running in debug mode                    */
+extern int debug; /* 1 if running in debug mode                    */
 
 /* Trace */
 extern int debug_mode;
@@ -70,22 +70,22 @@ extern int force_debug;
 extern int debug_next;
 
 extern int trace_sentence;
-extern INSTANCE * trace_instance;
+extern INSTANCE *trace_instance;
 
 /* --------------------------------------------------------------------------- */
-extern int bgdrtm_strncmpi( char * str1, char * str2, int sz );
+extern int bgdrtm_strncmpi(char *str1, char *str2, int sz);
 
-extern int dcb_load( const char * filename ) ;
-extern int dcb_load_from( file * fp, const char * dcbname, int offset ) ;
+extern int dcb_load(const char *filename);
+extern int dcb_load_from(file *fp, const char *dcbname, int offset);
 
-extern char * getid_name( unsigned int code );
+extern char *getid_name(unsigned int code);
 
-extern void mnemonic_dump( int i, int param );
+extern void mnemonic_dump(int i, int param);
 
 /* --------------------------------------------------------------------------- */
 
-extern void bgdrtm_entry( int argc, char * argv[] );
-extern void bgdrtm_exit( int n );
+extern void bgdrtm_entry(int argc, char *argv[]);
+extern void bgdrtm_exit(int n);
 
 /* --------------------------------------------------------------------------- */
 

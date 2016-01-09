@@ -36,37 +36,35 @@
 
 /* Un segmento es una zona lineal de datos que puede crecer dinámicamente */
 
-typedef struct _segment
-{
-	void    * bytes ;
-	int	current ;
-	int	reserved ;
-	int	id ;
-}
-segment ;
+typedef struct _segment {
+    void *bytes;
+    int current;
+    int reserved;
+    int id;
+} segment;
 
-extern segment * segment_new() ;
-extern segment * segment_duplicate(segment * s) ;
-extern segment * segment_get(int id) ;
+extern segment *segment_new();
+extern segment *segment_duplicate(segment *s);
+extern segment *segment_get(int id);
 
 /* Devuelven el offset del nuevo dato */
-extern int       segment_add_as    (segment * s, int32_t value, BASETYPE t) ;
-extern int       segment_add_dword (segment * s, int32_t value) ;
-extern int       segment_add_word  (segment * s, int16_t value) ;
-extern int       segment_add_byte  (segment * s, int8_t  value) ;
-extern int       segment_add_from  (segment * s, segment * from) ;
+extern int segment_add_as(segment *s, int32_t value, BASETYPE t);
+extern int segment_add_dword(segment *s, int32_t value);
+extern int segment_add_word(segment *s, int16_t value);
+extern int segment_add_byte(segment *s, int8_t value);
+extern int segment_add_from(segment *s, segment *from);
 
-extern void      segment_dump(segment *) ;
-extern void      segment_destroy(segment *) ;
-extern void      segment_copy(segment *, int base_offset, int total_length) ;
-extern void      segment_alloc (segment * n, int count) ;
+extern void segment_dump(segment *);
+extern void segment_destroy(segment *);
+extern void segment_copy(segment *, int base_offset, int total_length);
+extern void segment_alloc(segment *n, int count);
 
-extern segment  * globaldata ;
-extern segment  * localdata ;
+extern segment *globaldata;
+extern segment *localdata;
 
 /* Segmentos nombrados (para tipos definidos por el usuario */
 
-extern segment * segment_by_name (int code) ;
-extern void      segment_name    (segment * s, int code) ;
+extern segment *segment_by_name(int code);
+extern void segment_name(segment *s, int code);
 
 #endif

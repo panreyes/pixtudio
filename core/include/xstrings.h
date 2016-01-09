@@ -38,35 +38,35 @@
 #ifndef __XSTRINGS_H
 #define __XSTRINGS_H
 
-extern void _string_ptoa( char *t, void * p );
-extern void _string_ntoa( char *p, unsigned long n );
-extern void _string_utoa( char *p, unsigned long n );
+extern void _string_ptoa(char *t, void *p);
+extern void _string_ntoa(char *p, unsigned long n);
+extern void _string_utoa(char *p, unsigned long n);
 
-extern void         string_init() ;
-extern const char * string_get( int code ) ;
-extern void         string_dump( void ( *wlog )( const char *fmt, ... ) );
-extern void         string_load( void *, int, int, int, int ) ;
-extern int          string_new( const char * ptr ) ;
-extern int          string_newa( const char * ptr, unsigned count ) ;
-extern void         string_use( int code ) ;
-extern void         string_discard( int code ) ;
-extern int          string_add( int code1, int code2 ) ;
-extern int          string_compile( const char ** source ) ;
-extern int          string_itoa( int n ) ;
-extern int          string_uitoa( unsigned int n ) ;
-extern int          string_ftoa( float n ) ;
-extern int          string_ptoa( void * n ) ;
-extern int          string_comp( int code1, int code2 ) ;
-extern int          string_casecmp( int code1, int code2 ) ;
-extern int          string_char( int n, int nchar ) ;
-extern int          string_substr( int code, int first, int len ) ;
-extern int          string_find( int code1, int code2, int first ) ;
-extern int          string_ucase( int code1 ) ;
-extern int          string_lcase( int code1 ) ;
-extern int          string_strip( int code ) ;
-extern int          string_pad( int code, int length, int align ) ;
-extern int          string_replace( int id_rep, int id_with, int id_orig) ;
-extern int          string_format( double number, int dec, char point, char thousands ) ;
-extern int          string_concat( int code1, char * str2 ) ;
+extern void string_init();
+extern const char *string_get(int code);
+extern void string_dump(void (*wlog)(const char *fmt, ...));
+extern void string_load(void *, int, int, int, int);
+extern int string_new(const char *ptr);
+extern int string_newa(const char *ptr, unsigned count);
+extern void string_use(int code);
+extern void string_discard(int code);
+extern int string_add(int code1, int code2);
+extern int string_compile(const char **source);
+extern int string_itoa(int n);
+extern int string_uitoa(unsigned int n);
+extern int string_ftoa(float n);
+extern int string_ptoa(void *n);
+extern int string_comp(int code1, int code2);
+extern int string_casecmp(int code1, int code2);
+extern int string_char(int n, int nchar);
+extern int string_substr(int code, int first, int len);
+extern int string_find(int code1, int code2, int first);
+extern int string_ucase(int code1);
+extern int string_lcase(int code1);
+extern int string_strip(int code);
+extern int string_pad(int code, int length, int align);
+extern int string_replace(int id_rep, int id_with, int id_orig);
+extern int string_format(double number, int dec, char point, char thousands);
+extern int string_concat(int code1, char *str2);
 
 #endif

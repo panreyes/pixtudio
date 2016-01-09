@@ -29,14 +29,13 @@
 
 #include <xctype_st.h>
 
-extern int dos_chars ;		/* 1 = MS-DOS charset source code */
-extern char c_type[256] ;
-extern unsigned char c_upper[256] ;
-extern unsigned char c_lower[256] ;
+extern int dos_chars; /* 1 = MS-DOS charset source code */
+extern char c_type[256];
+extern unsigned char c_upper[256];
+extern unsigned char c_lower[256];
 
-extern unsigned char convert (unsigned char c) ;
-extern void init_c_type () ;
+extern unsigned char convert(unsigned char c);
+extern void init_c_type();
 
-extern unsigned char dos_to_win[256] ;
-extern unsigned char win_to_dos[256] ;
-
+extern unsigned char dos_to_win[256];
+extern unsigned char win_to_dos[256];
