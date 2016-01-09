@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2011 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2011-2016 Joseba García Etxebarria <joseba.gar@gmail.com>
  *
  *  mod_wpad is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

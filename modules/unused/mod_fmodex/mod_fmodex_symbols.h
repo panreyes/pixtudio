@@ -1,5 +1,7 @@
 /*
- *  Copyright (c) 2011 Joseba GarcÃ­a Echebarria. All rights reserved.
+ *  Copyright (C) 2009-2016 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *
+ *  This file is part of PixTudio
  *
  *  This software is provided 'as-is', without any express or implied
  *  warranty. In no event will the authors be held liable for any damages

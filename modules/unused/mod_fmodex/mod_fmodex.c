@@ -1,5 +1,5 @@
 /*
- *  Copyright Â© 2009-2012 Joseba GarcÃ­a Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2009-2016 Joseba García Etxebarria <joseba.gar@gmail.com>
  *
  *  This file is part of PixTudio
  *
