@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
-
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>PixTudio</title>
-        <meta name="description" content="Una guía interactiva de primeros pasos para Brackets.">
+        <meta name="description" content="PixTudio game engine description page.">
         <link rel="stylesheet" href="main.css">
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+             ga('create', 'UA-72167122-1', 'auto');
+             ga('send', 'pageview');
+        </script>
     </head>
     <body>
-
         <h1>PixTudio</h1>
         <h2>Introduction</h2>
         <p>
@@ -44,62 +51,62 @@
             These instructions might work in earlier versions of Fedora and in other Fedora
             spins, too, but have only been tested in a fully updated fresh installation of
             Fedora 23 Workstation.
-            <ul>
-                <li>Open a terminal</li>
-                <li>
-                    Install the required command line utilities.
-                    <code>sudo dnf group install "Development Tools"
-                    </code>
-                </li>
-                <li>
-                    Install the required dependencies.
-                    <code>sudo dnf install SDL2-devel.i686 SDL2_mixer-devel.i686 libpng-devel.i686 zlib-devel.i686 libogg-devel.i686 libvorbis-devel.i686 libtheora-devel.i686 tre.i686 tre-devel.i686 sqlite-devel.i686 libcurl-devel.i686 openal-soft-devel.i686 glibc-devel.i686
-                    </code>
-                </li>
-                <li>
-                    Clone the source code repository.
-                    <code>git clone https://bitbucket.org/josebagar/pixtudio.git
-                    </code>
-                </li>
-                <li>
-                    Compile the source code.
-                    <code>cd pixtudio/projects/QTCreator
-                        make
-                    </code>
-                </li>
-            </ul>
         </p>
+        <ul>
+            <li>Open a terminal</li>
+            <li>
+                Install the required command line utilities.
+                <code>sudo dnf group install "Development Tools"
+                </code>
+            </li>
+            <li>
+                Install the required dependencies.
+                <code>sudo dnf install SDL2-devel.i686 SDL2_mixer-devel.i686 libpng-devel.i686 zlib-devel.i686 libogg-devel.i686 libvorbis-devel.i686 libtheora-devel.i686 tre.i686 tre-devel.i686 sqlite-devel.i686 libcurl-devel.i686 openal-soft-devel.i686 glibc-devel.i686
+                </code>
+            </li>
+            <li>
+                Clone the source code repository.
+                <code>git clone https://bitbucket.org/josebagar/pixtudio.git
+                </code>
+            </li>
+            <li>
+                Compile the source code.
+                <code>cd pixtudio/projects/QTCreator
+                    make
+                </code>
+            </li>
+        </ul>
 
         <h3>Ubuntu 15.10</h3>
         <p>
             These instructions might work in earlier versions of Ubuntu and in other Ubuntu
             flavours, too, but have only been tested in a fresh installation of Ubuntu 15.10.
-            <ul>
-                <li>Open a terminal</li>
-                <li>
-                    Install the required command line utilities.
-                    <code>sudo apt-get update
-                        sudo apt-get install git
-                    </code>
-                </li>
-                <li>
-                    Install the required dependencies.
-                    <code>sudo apt-get install libsdl2-dev:i386 libsdl2-mixer-dev:i386 libpng12-dev:i386 zlib1g-dev:i386 libogg-dev:i386 libvorbis-dev:i386 libtheora-dev:i386 libtre-dev:i386 libsqlite3-dev:i386 libcurl4-gnutls-dev:i386 libopenal-dev:i386 libc6-dev-i386
-                    </code>
-                </li>
-                <li>
-                    Clone the source code repository.
-                    <code>git clone https://bitbucket.org/josebagar/pixtudio.git
-                    </code>
-                </li>
-                <li>
-                    Compile the source code.
-                    <code>cd pixtudio/projects/QTCreator
-                        make
-                    </code>
-                </li>
-            </ul>
         </p>
+        <ul>
+            <li>Open a terminal</li>
+            <li>
+                Install the required command line utilities.
+                <code>sudo apt-get update
+                    sudo apt-get install git
+                </code>
+            </li>
+            <li>
+                Install the required dependencies.
+                <code>sudo apt-get install libsdl2-dev:i386 libsdl2-mixer-dev:i386 libpng12-dev:i386 zlib1g-dev:i386 libogg-dev:i386 libvorbis-dev:i386 libtheora-dev:i386 libtre-dev:i386 libsqlite3-dev:i386 libcurl4-gnutls-dev:i386 libopenal-dev:i386 libc6-dev-i386
+                </code>
+            </li>
+            <li>
+                Clone the source code repository.
+                <code>git clone https://bitbucket.org/josebagar/pixtudio.git
+                </code>
+            </li>
+            <li>
+                Compile the source code.
+                <code>cd pixtudio/projects/QTCreator
+                    make
+                </code>
+            </li>
+        </ul>
 
         <h3>OS X</h3>
         <p>
@@ -109,33 +116,33 @@
         <h3>Windows 10</h3>
         <p>
             These instructions should work in earlier versions of Windows (as long as they're supported by Microsoft), but have only been tested in Windows 10.
-            <ul>
-                <li>Install <a href="http://msys2.github.io/">MSYS2</a> (don't forget
-                    to update it as described in the project page).</li>
-                <li>Open <b>MinGW-w64 Win32 Shell</b> (not MSYS2 Shell!)</li>
-                <li>
-                    Install the required command line and development tools.
-                    <code>pacman -S msys/git make mingw32/mingw-w64-i686-gcc mingw32/mingw-w64-i686-pkg-config
-                    </code>
-                </li>
-                <li>
-                    Install the required dependencies.
-                    <code>pacman -S mingw32/mingw-w64-i686-SDL2 mingw32/mingw-w64-i686-SDL2_mixer mingw32/mingw-w64-i686-libpng mingw32/mingw-w64-i686-zlib mingw32/mingw-w64-i686-libogg mingw32/mingw-w64-i686-libvorbis mingw32/mingw-w64-i686-libtheora mingw32/mingw-w64-i686-libmodplug mingw32/mingw-w64-i686-libmikmod mingw32/mingw-w64-i686-libtre-git mingw32/mingw-w64-i686-flac mingw32/mingw-w64-i686-sqlite3 mingw32/mingw-w64-i686-curl mingw32/mingw-w64-i686-chipmunk mingw32/mingw-w64-i686-openal
-                    </code>
-                </li>
-                <li>
-                    Clone the source code repository.
-                    <code>git clone https://bitbucket.org/josebagar/pixtudio.git
-                    </code>
-                </li>
-                <li>
-                    Compile the source code.
-                    <code>cd pixtudio/projects/QTCreator
-                        CC=gcc make
-                    </code>
-                </li>
-            </ul>
         </p>
+        <ul>
+            <li>Install <a href="http://msys2.github.io/">MSYS2</a> (don't forget
+                to update it as described in the project page).</li>
+            <li>Open <b>MinGW-w64 Win32 Shell</b> (not MSYS2 Shell!)</li>
+            <li>
+                Install the required command line and development tools.
+                <code>pacman -S msys/git make mingw32/mingw-w64-i686-gcc mingw32/mingw-w64-i686-pkg-config
+                </code>
+            </li>
+            <li>
+                Install the required dependencies.
+                <code>pacman -S mingw32/mingw-w64-i686-SDL2 mingw32/mingw-w64-i686-SDL2_mixer mingw32/mingw-w64-i686-libpng mingw32/mingw-w64-i686-zlib mingw32/mingw-w64-i686-libogg mingw32/mingw-w64-i686-libvorbis mingw32/mingw-w64-i686-libtheora mingw32/mingw-w64-i686-libmodplug mingw32/mingw-w64-i686-libmikmod mingw32/mingw-w64-i686-libtre-git mingw32/mingw-w64-i686-flac mingw32/mingw-w64-i686-sqlite3 mingw32/mingw-w64-i686-curl mingw32/mingw-w64-i686-chipmunk mingw32/mingw-w64-i686-openal
+                </code>
+            </li>
+            <li>
+                Clone the source code repository.
+                <code>git clone https://bitbucket.org/josebagar/pixtudio.git
+                </code>
+            </li>
+            <li>
+                Compile the source code.
+                <code>cd pixtudio/projects/QTCreator
+                    CC=gcc make
+                </code>
+            </li>
+        </ul>
 
         <h3>Android</h3>
         <p>
