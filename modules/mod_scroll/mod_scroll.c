@@ -35,24 +35,25 @@
 
 /* --------------------------------------------------------------------------- */
 
-int mod_scroll_start( INSTANCE * my, int * params ) {
-    scroll_start( params[0], params[1], params[2], params[3], params[4], params[5], 0, 0 ) ;
-    return 1 ;
+int mod_scroll_start(INSTANCE *my, int *params) {
+    scroll_start(params[0], params[1], params[2], params[3], params[4], params[5], 0, 0);
+    return 1;
 }
 
-int mod_scroll_start2( INSTANCE * my, int * params ) {
-    scroll_start( params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7] ) ;
-    return 1 ;
+int mod_scroll_start2(INSTANCE *my, int *params) {
+    scroll_start(params[0], params[1], params[2], params[3], params[4], params[5], params[6],
+                 params[7]);
+    return 1;
 }
 
-int mod_scroll_stop( INSTANCE * my, int * params ) {
-    scroll_stop( params[0] ) ;
-    return 1 ;
+int mod_scroll_stop(INSTANCE *my, int *params) {
+    scroll_stop(params[0]);
+    return 1;
 }
 
-int mod_scroll_move( INSTANCE * my, int * params ) {
-    scroll_update (params[0]) ;
-    return 1 ;
+int mod_scroll_move(INSTANCE *my, int *params) {
+    scroll_update(params[0]);
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */

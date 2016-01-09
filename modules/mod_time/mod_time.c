@@ -49,15 +49,15 @@
 /* --------------------------------------------------------------------------- */
 /* Timer                                                                       */
 
-int modtime_get_timer( INSTANCE * my, int * params ) {
-    return SDL_GetTicks() ;
+int modtime_get_timer(INSTANCE *my, int *params) {
+    return SDL_GetTicks();
 }
 
 /* --------------------------------------------------------------------------- */
 /* Time of day                                                                 */
 
-int modtime_time( INSTANCE * my, int * params ) {
-    return time( 0 ) ;
+int modtime_time(INSTANCE *my, int *params) {
+    return time(0);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -74,159 +74,155 @@ int modtime_time( INSTANCE * my, int * params ) {
  *
  */
 
-int modtime_ftime( INSTANCE * my, int * params ) {
-    char buffer[128] ;
-    char * format ;
-    struct tm * t ;
-    int ret ;
-    time_t tim ;
-    char * base ;
+int modtime_ftime(INSTANCE *my, int *params) {
+    char buffer[128];
+    char *format;
+    struct tm *t;
+    int ret;
+    time_t tim;
+    char *base;
 
 #ifdef _WIN32
     /* aux buffer to make all changes... */
-    char aux[128] ;
-    unsigned char pos ;
+    char aux[128];
+    unsigned char pos;
 #endif
 
-    format = base = strdup( string_get( params[0] ) ) ;
-    string_discard( params[0] ) ;
+    format = base = strdup(string_get(params[0]));
+    string_discard(params[0]);
 
 #ifdef _WIN32
     /* Addapting win32 strftime formats to linux formats */
     /* HEAVY PATCH... :( */
-    pos = 0 ;
-    while ( *format && pos < 127 )
-    {
-        switch ( *format )
-        {
-            case '%': /* MIGHT NEED CONVERSION... */
-                aux[pos] = *format ;
-                pos++ ;
-                format++ ;
-                switch ( *format )
-                {
-                    case 'e':
-                        aux[pos++] = '#' ;
-                        aux[pos] = 'd' ;
-                        break ;
-                    case 'l':
-                        aux[pos++] = '#' ;
-                        aux[pos] = 'I' ;
-                        break ;
-                    case 'k':
-                        aux[pos++] = '#' ;
-                        aux[pos] = 'H' ;
-                        break ;
-                    case 'P':
-                        aux[pos] = 'p' ;
-                        break ;
+    pos = 0;
+    while (*format && pos < 127) {
+        switch (*format) {
+        case '%': /* MIGHT NEED CONVERSION... */
+            aux[pos] = *format;
+            pos++;
+            format++;
+            switch (*format) {
+            case 'e':
+                aux[pos++] = '#';
+                aux[pos]   = 'd';
+                break;
+            case 'l':
+                aux[pos++] = '#';
+                aux[pos]   = 'I';
+                break;
+            case 'k':
+                aux[pos++] = '#';
+                aux[pos]   = 'H';
+                break;
+            case 'P':
+                aux[pos] = 'p';
+                break;
 
-                    case 'C':
-                        aux[pos++] = '%' ;
-                        aux[pos++] = *format ;
-                        aux[pos++] = '%' ;
-                        aux[pos] = 'Y' ;
-                        break ;
+            case 'C':
+                aux[pos++] = '%';
+                aux[pos++] = *format;
+                aux[pos++] = '%';
+                aux[pos]   = 'Y';
+                break;
 
-                    case 'u':
-                        aux[pos++] = '%' ;
-                        aux[pos++] = *format ;
-                        aux[pos++] = '%' ;
-                        aux[pos] = 'w' ;
-                        break ;
+            case 'u':
+                aux[pos++] = '%';
+                aux[pos++] = *format;
+                aux[pos++] = '%';
+                aux[pos]   = 'w';
+                break;
 
-                    case '%':   //MUST BE %%%% TO KEEP 2 IN POSTPROCESS
-                        aux[pos++] = '%' ;
-                        aux[pos++] = '%' ;
-                        aux[pos] = '%' ;
-                        break ;
+            case '%': // MUST BE %%%% TO KEEP 2 IN POSTPROCESS
+                aux[pos++] = '%';
+                aux[pos++] = '%';
+                aux[pos]   = '%';
+                break;
 
-                    default:
-                        aux[pos] = *format ;
-                        break ;
-                }
-                break ;
+            default:
+                aux[pos] = *format;
+                break;
+            }
+            break;
 
-            default: aux[pos] = *format ;
-                break ;
+        default:
+            aux[pos] = *format;
+            break;
         }
-        format++ ;
-        pos++ ;
+        format++;
+        pos++;
     }
-    aux[pos] = 0 ;
-    format = aux ;
+    aux[pos] = 0;
+    format   = aux;
 #endif
 
-    tim = ( time_t ) params[1] ;
-    t = localtime( &tim ) ;
-    strftime( buffer, sizeof( buffer ), format, t ) ;
+    tim = (time_t)params[1];
+    t = localtime(&tim);
+    strftime(buffer, sizeof(buffer), format, t);
 
 #ifdef _WIN32
     /* win32 postprocess */
-    aux[0] = '\0' ;
-    format = buffer ;
-    pos = 0 ;
-    while ( *format )
-    {
-        switch ( *format )
-        {
-            case '%':
-                format++ ;
-                switch ( *format )
-                {
-                    case 'u':
-                        format++ ;
-                        if ( *format == '0' ) *format = '7' ;
-                        aux[pos] = *format ;
-                        break ;
+    aux[0] = '\0';
+    format = buffer;
+    pos = 0;
+    while (*format) {
+        switch (*format) {
+        case '%':
+            format++;
+            switch (*format) {
+            case 'u':
+                format++;
+                if (*format == '0')
+                    *format = '7';
+                aux[pos]    = *format;
+                break;
 
-                    case 'C':
-                        format++ ;
-                        aux[pos++] = *format ;
-                        format++ ;
-                        aux[pos] = *format ;
-                        format++ ;
-                        format++ ;
-                        break ;
-
-                    default:
-                        aux[pos] = *format ;
-                        break ;
-                }
-                break ;
+            case 'C':
+                format++;
+                aux[pos++] = *format;
+                format++;
+                aux[pos] = *format;
+                format++;
+                format++;
+                break;
 
             default:
-                aux[pos] = *format ;
-                break ;
+                aux[pos] = *format;
+                break;
+            }
+            break;
+
+        default:
+            aux[pos] = *format;
+            break;
         }
-        format++ ;
+        format++;
         pos++;
     }
-    aux[pos] = '\0' ;
-    strcpy( buffer, aux ) ;
+    aux[pos] = '\0';
+    strcpy(buffer, aux);
 #endif
 
-    ret = string_new( buffer ) ;
-    string_use( ret ) ;
+    ret = string_new(buffer);
+    string_use(ret);
 
-    free( base ) ;
+    free(base);
 
-    return ret ;
+    return ret;
 }
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport( mod_time, module_initialize )() {
-    if ( !SDL_WasInit( SDL_INIT_TIMER ) ) {
-        SDL_InitSubSystem( SDL_INIT_TIMER );
+void __bgdexport(mod_time, module_initialize)() {
+    if (!SDL_WasInit(SDL_INIT_TIMER)) {
+        SDL_InitSubSystem(SDL_INIT_TIMER);
     }
 }
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport( mod_time, module_finalize )() {
-    if ( SDL_WasInit( SDL_INIT_TIMER ) ) {
-        SDL_QuitSubSystem( SDL_INIT_TIMER );
+void __bgdexport(mod_time, module_finalize)() {
+    if (SDL_WasInit(SDL_INIT_TIMER)) {
+        SDL_QuitSubSystem(SDL_INIT_TIMER);
     }
 }
 

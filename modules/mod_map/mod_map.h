@@ -64,19 +64,18 @@
 #pragma pack(push, 1)
 #endif
 
-typedef struct
-{
-    uint8_t magic[7] ;
-    uint8_t version ;
-    uint16_t width ;
-    uint16_t height ;
-    uint32_t code ;
-    int8_t name[32] ;
+typedef struct {
+    uint8_t magic[7];
+    uint8_t version;
+    uint16_t width;
+    uint16_t height;
+    uint32_t code;
+    int8_t name[32];
 }
 #ifdef __GNUC__
-__attribute__ ((packed))
+__attribute__((packed))
 #endif
-MAP_HEADER ;
+MAP_HEADER;
 
 #ifdef _MSC_VER
 #pragma pack(pop)
@@ -84,27 +83,27 @@ MAP_HEADER ;
 
 /* ------------------------------------------ */
 
-extern int gr_load_fpg( const char * filename ) ;
-extern int gr_load_map( const char * filename ) ;
-extern int gr_load_pal( const char * filename ) ;
-extern int gr_load_png( const char * filename ) ;
-extern int gr_load_pcx( const char * filename ) ;
+extern int gr_load_fpg(const char *filename);
+extern int gr_load_map(const char *filename);
+extern int gr_load_pal(const char *filename);
+extern int gr_load_png(const char *filename);
+extern int gr_load_pcx(const char *filename);
 
-extern int gr_save_system_pal( const char * filename ) ;
+extern int gr_save_system_pal(const char *filename);
 
-extern int gr_save_fpg( int libid, const char * filename ) ;
-extern int gr_save_map( GRAPH * gr, char * filename ) ;
-extern int gr_save_pal( const char * filename, PALETTE * pal ) ;
-extern int gr_save_png( GRAPH * gr, const char * filename ) ;
+extern int gr_save_fpg(int libid, const char *filename);
+extern int gr_save_map(GRAPH *gr, char *filename);
+extern int gr_save_pal(const char *filename, PALETTE *pal);
+extern int gr_save_png(GRAPH *gr, const char *filename);
 
-extern GRAPH * gr_read_png( const char * filename );
+extern GRAPH *gr_read_png(const char *filename);
 
-extern PALETTE * gr_read_pal( file * fp ) ;
-extern PALETTE * gr_read_pal_with_gamma( file * fp );
+extern PALETTE *gr_read_pal(file *fp);
+extern PALETTE *gr_read_pal_with_gamma(file *fp);
 
-extern int gr_font_load( char * filename ) ;
-extern int gr_load_bdf( const char * filename ) ;
-extern int gr_load_ttf( const char * filename, int size, int bpp, int fg, int bg ) ;
-extern int gr_font_save( int fontid, const char * filename ) ;
+extern int gr_font_load(char *filename);
+extern int gr_load_bdf(const char *filename);
+extern int gr_load_ttf(const char *filename, int size, int bpp, int fg, int bg);
+extern int gr_font_save(int fontid, const char *filename);
 
 #endif

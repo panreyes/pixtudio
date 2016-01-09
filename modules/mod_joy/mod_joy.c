@@ -54,8 +54,8 @@
  *
  **/
 
-int modjoy_num( INSTANCE * my, int * params ) {
-    return ( libjoy_num() );
+int modjoy_num(INSTANCE *my, int *params) {
+    return (libjoy_num());
 }
 
 /* --------------------------------------------------------------------------- */
@@ -66,8 +66,8 @@ int modjoy_num( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_name( INSTANCE * my, int * params ) {
-    return ( libjoy_name( params[0] ) );
+int modjoy_name(INSTANCE *my, int *params) {
+    return (libjoy_name(params[0]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -79,8 +79,8 @@ int modjoy_name( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_select( INSTANCE * my, int * params ) {
-    return ( libjoy_select( params[0] ) );
+int modjoy_select(INSTANCE *my, int *params) {
+    return (libjoy_select(params[0]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -92,8 +92,8 @@ int modjoy_select( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_buttons( INSTANCE * my, int * params ) {
-    return ( libjoy_buttons() ) ;
+int modjoy_buttons(INSTANCE *my, int *params) {
+    return (libjoy_buttons());
 }
 
 /* --------------------------------------------------------------------------- */
@@ -105,8 +105,8 @@ int modjoy_buttons( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_axes( INSTANCE * my, int * params ) {
-    return ( libjoy_axes() ) ;
+int modjoy_axes(INSTANCE *my, int *params) {
+    return (libjoy_axes());
 }
 
 /* --------------------------------------------------------------------------- */
@@ -118,8 +118,8 @@ int modjoy_axes( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_get_button( INSTANCE * my, int * params ) {
-    return ( libjoy_get_button( params[0] ) ) ;
+int modjoy_get_button(INSTANCE *my, int *params) {
+    return (libjoy_get_button(params[0]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -132,8 +132,8 @@ int modjoy_get_button( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_get_position( INSTANCE * my, int * params ) {
-    return ( libjoy_get_position( params[0] ) ) ;
+int modjoy_get_position(INSTANCE *my, int *params) {
+    return (libjoy_get_position(params[0]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -144,8 +144,8 @@ int modjoy_get_position( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_hats( INSTANCE * my, int * params ) {
-    return ( libjoy_hats() ) ;
+int modjoy_hats(INSTANCE *my, int *params) {
+    return (libjoy_hats());
 }
 
 /* --------------------------------------------------------------------------- */
@@ -156,8 +156,8 @@ int modjoy_hats( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_balls( INSTANCE * my, int * params ) {
-    return ( libjoy_balls() ) ;
+int modjoy_balls(INSTANCE *my, int *params) {
+    return (libjoy_balls());
 }
 
 /* --------------------------------------------------------------------------- */
@@ -168,8 +168,8 @@ int modjoy_balls( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_get_hat( INSTANCE * my, int * params ) {
-    return ( libjoy_get_hat( params[0] ) ) ;
+int modjoy_get_hat(INSTANCE *my, int *params) {
+    return (libjoy_get_hat(params[0]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -180,14 +180,14 @@ int modjoy_get_hat( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_get_ball( INSTANCE * my, int * params ) {
-    return ( libjoy_get_ball( params[0], ( int* )params[1], ( int* )params[2] ) ) ;
+int modjoy_get_ball(INSTANCE *my, int *params) {
+    return (libjoy_get_ball(params[0], (int *)params[1], (int *)params[2]));
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modjoy_get_accel( INSTANCE * my, int * params ) {
-    return ( libjoy_get_accel( ( int * ) params[0], ( int * ) params[1], ( int * ) params[2] ) );
+int modjoy_get_accel(INSTANCE *my, int *params) {
+    return (libjoy_get_accel((int *)params[0], (int *)params[1], (int *)params[2]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -203,8 +203,8 @@ int modjoy_get_accel( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_buttons_specific( INSTANCE * my, int * params ) {
-    return ( libjoy_buttons_specific( params[0] ) ) ;
+int modjoy_buttons_specific(INSTANCE *my, int *params) {
+    return (libjoy_buttons_specific(params[0]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -216,8 +216,8 @@ int modjoy_buttons_specific( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_axes_specific( INSTANCE * my, int * params ) {
-    return ( libjoy_axes_specific( params[0] ) ) ;
+int modjoy_axes_specific(INSTANCE *my, int *params) {
+    return (libjoy_axes_specific(params[0]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -229,8 +229,8 @@ int modjoy_axes_specific( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_get_button_specific( INSTANCE * my, int * params ) {
-    return ( libjoy_get_button_specific( params[0], params[1] ) );
+int modjoy_get_button_specific(INSTANCE *my, int *params) {
+    return (libjoy_get_button_specific(params[0], params[1]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -243,8 +243,8 @@ int modjoy_get_button_specific( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_get_position_specific( INSTANCE * my, int * params ) {
-    return ( libjoy_get_position_specific( params[0], params[1] ) );
+int modjoy_get_position_specific(INSTANCE *my, int *params) {
+    return (libjoy_get_position_specific(params[0], params[1]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -257,8 +257,8 @@ int modjoy_get_position_specific( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_hats_specific( INSTANCE * my, int * params ) {
-    return ( libjoy_hats_specific( params[0] ) ) ;
+int modjoy_hats_specific(INSTANCE *my, int *params) {
+    return (libjoy_hats_specific(params[0]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -269,8 +269,8 @@ int modjoy_hats_specific( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_balls_specific( INSTANCE * my, int * params ) {
-    return ( libjoy_balls_specific( params[0] ) ) ;
+int modjoy_balls_specific(INSTANCE *my, int *params) {
+    return (libjoy_balls_specific(params[0]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -281,8 +281,8 @@ int modjoy_balls_specific( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_get_hat_specific( INSTANCE * my, int * params ) {
-    return ( libjoy_get_hat_specific( params[0], params[1] ) );
+int modjoy_get_hat_specific(INSTANCE *my, int *params) {
+    return (libjoy_get_hat_specific(params[0], params[1]));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -293,14 +293,15 @@ int modjoy_get_hat_specific( INSTANCE * my, int * params ) {
  *
  **/
 
-int modjoy_get_ball_specific( INSTANCE * my, int * params ) {
-    return ( libjoy_get_ball_specific( params[0], params[1], ( int * ) params[2], ( int * ) params[3] ) );
+int modjoy_get_ball_specific(INSTANCE *my, int *params) {
+    return (libjoy_get_ball_specific(params[0], params[1], (int *)params[2], (int *)params[3]));
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modjoy_get_accel_specific( INSTANCE * my, int * params ) {
-    return ( libjoy_get_accel_specific( params[0], ( int * ) params[1], ( int * ) params[2], ( int * ) params[3] ) );
+int modjoy_get_accel_specific(INSTANCE *my, int *params) {
+    return (
+        libjoy_get_accel_specific(params[0], (int *)params[1], (int *)params[2], (int *)params[3]));
 }
 
 /* ---------------------------------------------------------------------- */

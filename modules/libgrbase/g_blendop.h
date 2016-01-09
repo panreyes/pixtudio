@@ -33,15 +33,15 @@
 /* Blend ops */
 /* --------- */
 
-extern void blend_apply( GRAPH * bitmap, int16_t * blend ) ;
-extern void blend_assign( GRAPH * bitmap, int16_t * blend ) ;
-extern int16_t * blend_create( void ) ;
-extern void blend_free( int16_t * blend );
-extern void blend_grayscale( int16_t * blend, int method ) ;
-extern void blend_init( int16_t * blend ) ;
-extern void blend_intensity( int16_t * blend, float ammount ) ;
-extern void blend_swap( int16_t * blend ) ;
-extern void blend_tint( int16_t * blend, float ammount, uint8_t cr, uint8_t cg, uint8_t cb ) ;
-extern void blend_translucency( int16_t * blend, float ammount ) ;
+extern void blend_apply(GRAPH *bitmap, int16_t *blend);
+extern void blend_assign(GRAPH *bitmap, int16_t *blend);
+extern int16_t *blend_create(void);
+extern void blend_free(int16_t *blend);
+extern void blend_grayscale(int16_t *blend, int method);
+extern void blend_init(int16_t *blend);
+extern void blend_intensity(int16_t *blend, float ammount);
+extern void blend_swap(int16_t *blend);
+extern void blend_tint(int16_t *blend, float ammount, uint8_t cr, uint8_t cg, uint8_t cb);
+extern void blend_translucency(int16_t *blend, float ammount);
 
 #endif

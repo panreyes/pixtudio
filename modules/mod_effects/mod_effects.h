@@ -27,18 +27,18 @@
 #ifndef __MODEFFECTS_H
 #define __MODEFFECTS_H
 
-#define BLUR_NORMAL     0
-#define BLUR_3x3        1
-#define BLUR_5x5        2
-#define BLUR_5x5_MAP    3
+#define BLUR_NORMAL 0
+#define BLUR_3x3 1
+#define BLUR_5x5 2
+#define BLUR_5x5_MAP 3
 
-#define GSCALE_RGB      0
-#define GSCALE_R        1
-#define GSCALE_G        2
-#define GSCALE_B        3
-#define GSCALE_RG       4
-#define GSCALE_RB       5
-#define GSCALE_GB       6
-#define GSCALE_OFF     -1
+#define GSCALE_RGB 0
+#define GSCALE_R 1
+#define GSCALE_G 2
+#define GSCALE_B 3
+#define GSCALE_RG 4
+#define GSCALE_RB 5
+#define GSCALE_GB 6
+#define GSCALE_OFF -1
 
 #endif

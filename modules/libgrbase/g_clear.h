@@ -33,8 +33,8 @@
 #include "bgdcore.h"
 #include "g_region.h"
 
-extern void gr_clear( GRAPH * dest );
-extern void gr_clear_as( GRAPH * dest, int color );
-extern void gr_clear_region( GRAPH * dest, REGION * region );
+extern void gr_clear(GRAPH *dest);
+extern void gr_clear_as(GRAPH *dest, int color);
+extern void gr_clear_region(GRAPH *dest, REGION *region);
 
 #endif

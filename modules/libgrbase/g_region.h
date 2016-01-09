@@ -32,13 +32,11 @@
 
 /* --------------------------------------------------------------------------- */
 
-typedef struct _clipregion
-{
-    int x ;
-    int y ;
-    int x2 ;    /* Inclusive */
-    int y2 ;
-}
-REGION ;
+typedef struct _clipregion {
+    int x;
+    int y;
+    int x2; /* Inclusive */
+    int y2;
+} REGION;
 
 #endif

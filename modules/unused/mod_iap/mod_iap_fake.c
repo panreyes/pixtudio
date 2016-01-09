@@ -30,12 +30,12 @@
 /* --------------------------------------------------------------------------- */
 
 // Calls the initialize function in the Java IAP code
-static int bgd_iap_init(INSTANCE * my, int * params) {
+static int bgd_iap_init(INSTANCE *my, int *params) {
     return 0;
 }
 
 // Check if the receipts are already available
-static int bgd_iap_receipts_ready(INSTANCE * my, int * params) {
+static int bgd_iap_receipts_ready(INSTANCE *my, int *params) {
     return 0;
 }
 
@@ -43,29 +43,27 @@ static int bgd_iap_receipts_ready(INSTANCE * my, int * params) {
 static void bgd_iap_shutdown() {
 }
 
-static int bgd_iap_purchased(INSTANCE * my, int * params) {
+static int bgd_iap_purchased(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int bgd_iap_isouya(INSTANCE * my, int * params) {
+static int bgd_iap_isouya(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int bgd_iap_purchase(INSTANCE * my, int * params) {
+static int bgd_iap_purchase(INSTANCE *my, int *params) {
     return 0;
 }
 
 // Finalize iap
-void __bgdexport( mod_iap, module_finalize )() {
+void __bgdexport(mod_iap, module_finalize)() {
 }
 
-DLSYSFUNCS __bgdexport( mod_iap, exported_functions )[] =
-{
-    { "IAP_INIT"            , "S"     , TYPE_INT       , bgd_iap_init           },
-    { "IAP_RECEIPTS_READY"  , ""      , TYPE_INT       , bgd_iap_receipts_ready },
-    { "IAP_SHUTDOWN"        , ""      , TYPE_UNDEFINED , bgd_iap_shutdown       },
-    { "IAP_PURCHASED"       , "S"     , TYPE_INT       , bgd_iap_purchased      },
-    { "IAP_ISOUYA"          , ""      , TYPE_INT       , bgd_iap_isouya         },
-    { "IAP_PURCHASE"        , "SP"    , TYPE_INT       , bgd_iap_purchase       },
-    { 0                     , 0       , 0           , 0                         }
-};
+DLSYSFUNCS __bgdexport(mod_iap, exported_functions)[] = {
+    {"IAP_INIT", "S", TYPE_INT, bgd_iap_init},
+    {"IAP_RECEIPTS_READY", "", TYPE_INT, bgd_iap_receipts_ready},
+    {"IAP_SHUTDOWN", "", TYPE_UNDEFINED, bgd_iap_shutdown},
+    {"IAP_PURCHASED", "S", TYPE_INT, bgd_iap_purchased},
+    {"IAP_ISOUYA", "", TYPE_INT, bgd_iap_isouya},
+    {"IAP_PURCHASE", "SP", TYPE_INT, bgd_iap_purchase},
+    {0, 0, 0, 0}};

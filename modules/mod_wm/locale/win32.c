@@ -30,11 +30,9 @@ char locale[6];
 
 // get_locale implementation using the win32 API
 const char *get_locale() {
-    GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SISO639LANGNAME,
-                  locale, 3);
+    GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SISO639LANGNAME, locale, 3);
     locale[2] = '_';
-    GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SISO3166CTRYNAME,
-                  locale+3, 3);
+    GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SISO3166CTRYNAME, locale + 3, 3);
 
     return (const char *)locale;
 }

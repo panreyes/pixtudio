@@ -27,10 +27,8 @@
 #include "Audio.h"
 #include "wrap_Source.h"
 
-namespace pixtudio
-{
-namespace mod_audio
-{
+namespace pixtudio {
+namespace mod_audio {
 
 extern "C" LOVE_EXPORT int luaopen_love_audio(lua_State *L);
 

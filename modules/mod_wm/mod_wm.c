@@ -50,111 +50,122 @@
 /* Window Manager                                                              */
 /* --------------------------------------------------------------------------- */
 
-int bgd_set_title( INSTANCE * my, int * params ) {
-    gr_set_caption( ( char * )string_get( params[0] ) ) ;
-    return 1 ;
+int bgd_set_title(INSTANCE *my, int *params) {
+    gr_set_caption((char *)string_get(params[0]));
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int bgd_set_icon( INSTANCE * my, int * params ) {
-    gr_set_icon( bitmap_get( params[0], params[1] ) );
-    return 1 ;
+int bgd_set_icon(INSTANCE *my, int *params) {
+    gr_set_icon(bitmap_get(params[0], params[1]));
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int bgd_minimize( INSTANCE * my, int * params ) {
+int bgd_minimize(INSTANCE *my, int *params) {
     SDL_MinimizeWindow(window);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int bgd_move_window( INSTANCE * my, int * params ) {
+int bgd_move_window(INSTANCE *my, int *params) {
     int res = 0;
-    if ( full_screen ) return 0;
+    if (full_screen)
+        return 0;
 
     SDL_SetWindowPosition(window, params[0], params[1]);
 
-    return res ;
+    return res;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int bgd_get_window_pos( INSTANCE * my, int * params ) {
-    if ( full_screen ) return -1;
+int bgd_get_window_pos(INSTANCE *my, int *params) {
+    if (full_screen)
+        return -1;
 
-    int x,y;
+    int x, y;
 
-    SDL_GetWindowPosition(window, &x, &y );
-    if ( params[0] ) *(( int * )( params[0] ) ) = x;
-    if ( params[1] ) *(( int * )( params[1] ) ) = y;
+    SDL_GetWindowPosition(window, &x, &y);
+    if (params[0])
+        *((int *)(params[0])) = x;
+    if (params[1])
+        *((int *)(params[1])) = y;
 
-    return 1 ;
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int bgd_get_window_size( INSTANCE * my, int * params ) {
-    int w,h;
+int bgd_get_window_size(INSTANCE *my, int *params) {
+    int w, h;
 
-    SDL_GetWindowSize(window, &w, &h );
-    if ( params[0] ) *(( int * )( params[0] ) ) = w;
-    if ( params[1] ) *(( int * )( params[1] ) ) = h;
-    //FIXME: Get this working
-    if ( params[2] ) *(( int * )( params[2] ) ) = w;
-    if ( params[3] ) *(( int * )( params[3] ) ) = h;
+    SDL_GetWindowSize(window, &w, &h);
+    if (params[0])
+        *((int *)(params[0])) = w;
+    if (params[1])
+        *((int *)(params[1])) = h;
+    // FIXME: Get this working
+    if (params[2])
+        *((int *)(params[2])) = w;
+    if (params[3])
+        *((int *)(params[3])) = h;
 
-    return 1 ;
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int bgd_get_desktop_size( INSTANCE * my, int * params ) {
+int bgd_get_desktop_size(INSTANCE *my, int *params) {
     SDL_DisplayMode mode;
 
-    if(SDL_GetDesktopDisplayMode(0, &mode) < 0 ) return -1;
+    if (SDL_GetDesktopDisplayMode(0, &mode) < 0)
+        return -1;
 
-    if ( params[0] ) *(( int * )( params[0] ) ) = mode.w;
-    if ( params[1] ) *(( int * )( params[1] ) ) = mode.h;
+    if (params[0])
+        *((int *)(params[0])) = mode.w;
+    if (params[1])
+        *((int *)(params[1])) = mode.h;
 
-    return 1 ;
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int bgd_disable_screensaver( INSTANCE * my, int * params ) {
+int bgd_disable_screensaver(INSTANCE *my, int *params) {
     SDL_DisableScreenSaver();
 
-    return 1 ;
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int bgd_enable_screensaver( INSTANCE * my, int * params ) {
+int bgd_enable_screensaver(INSTANCE *my, int *params) {
     SDL_EnableScreenSaver();
 
-    return 1 ;
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int bgd_get_locale( INSTANCE * my, int * params ) {
+int bgd_get_locale(INSTANCE *my, int *params) {
     int str_locale = string_new(get_locale());
     string_use(str_locale);
 
-    return str_locale ;
+    return str_locale;
 }
 
 /* --------------------------------------------------------------------------- */
 
-void bgd_show_messagebox( INSTANCE * my, int * params ) {
-    Uint32 flags = (Uint32)params[0];
-    const char * title = string_get(params[1]);
-    const char * msg = string_get(params[2]);
+void bgd_show_messagebox(INSTANCE *my, int *params) {
+    Uint32 flags      = (Uint32)params[0];
+    const char *title = string_get(params[1]);
+    const char *msg   = string_get(params[2]);
 
-    if(SDL_ShowSimpleMessageBox(flags, title, msg, window) != 0) {
+    if (SDL_ShowSimpleMessageBox(flags, title, msg, window) != 0) {
         // Showing the dialog failed -> print to stderr
         fprintf(stderr, "%s\n", msg);
     }

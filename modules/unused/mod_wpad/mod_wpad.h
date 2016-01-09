@@ -27,26 +27,26 @@
 #ifndef __MODWPAD_H
 #define __MODWPAD_H
 
-#define WPAD_BATT        0
-#define WPAD_X           1
-#define WPAD_Y           2
-#define WPAD_Z           3
-#define WPAD_ANGLE       4
-#define WPAD_PITCH       5
-#define WPAD_ROLL        6
-#define WPAD_ACCELX      7
-#define WPAD_ACCELY      8
-#define WPAD_ACCELZ      9
-#define WPAD_WTL         3
-#define WPAD_WTR         4
-#define WPAD_WBL         5
-#define WPAD_WBR         6
-#define WPAD_GX			 10
-#define WPAD_GY	         11
-#define WPAD_GZ          12
-#define WPAD_IS_BB       100
+#define WPAD_BATT 0
+#define WPAD_X 1
+#define WPAD_Y 2
+#define WPAD_Z 3
+#define WPAD_ANGLE 4
+#define WPAD_PITCH 5
+#define WPAD_ROLL 6
+#define WPAD_ACCELX 7
+#define WPAD_ACCELY 8
+#define WPAD_ACCELZ 9
+#define WPAD_WTL 3
+#define WPAD_WTR 4
+#define WPAD_WBL 5
+#define WPAD_WBR 6
+#define WPAD_GX 10
+#define WPAD_GY 11
+#define WPAD_GZ 12
+#define WPAD_IS_BB 100
 #define WPAD_HAS_NUNCHUK 101
 #define WPAD_HAS_CLASSIC 102
-#define WPAD_HAS_GUITAR  103
+#define WPAD_HAS_GUITAR 103
 
 #endif

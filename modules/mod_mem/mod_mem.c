@@ -77,34 +77,37 @@
 /* Linux utility function */
 
 #ifdef __linux__
-static int kernel_version_type( void )
-{
+static int kernel_version_type(void) {
     struct utsname sysinf;
     int kernel_v[3];
     int i, t, fv = 0;
 
-    if ( uname( &sysinf ) == -1 )
+    if (uname(&sysinf) == -1)
         return -1;
 
-    bzero(( int* )kernel_v, sizeof( int )*3 );
+    bzero((int *)kernel_v, sizeof(int) * 3);
 
-    for ( i = 0, t = 0; i <= 2; i++ )
-    {
-        if ( sysinf.release[t] )
-        {
-            kernel_v[i] = atoi( &sysinf.release[t] );
-            while ( sysinf.release[++t] && sysinf.release[t] != '.' )
+    for (i = 0, t = 0; i <= 2; i++) {
+        if (sysinf.release[t]) {
+            kernel_v[i] = atoi(&sysinf.release[t]);
+            while (sysinf.release[++t] && sysinf.release[t] != '.')
                 ;
             t++;
         }
     }
 
-    if ( !fv && kernel_v[0] > KERNELC_V_1 ) fv = 1;
-    if ( !fv && kernel_v[0] < KERNELC_V_1 ) fv = 2;
-    if ( !fv && kernel_v[1] > KERNELC_V_2 ) fv = 1;
-    if ( !fv && kernel_v[1] < KERNELC_V_2 ) fv = 2;
-    if ( !fv && kernel_v[2] > KERNELC_V_3 ) fv = 1;
-    if ( !fv && kernel_v[2] < KERNELC_V_3 ) fv = 2;
+    if (!fv && kernel_v[0] > KERNELC_V_1)
+        fv = 1;
+    if (!fv && kernel_v[0] < KERNELC_V_1)
+        fv = 2;
+    if (!fv && kernel_v[1] > KERNELC_V_2)
+        fv = 1;
+    if (!fv && kernel_v[1] < KERNELC_V_2)
+        fv = 2;
+    if (!fv && kernel_v[2] > KERNELC_V_3)
+        fv = 1;
+    if (!fv && kernel_v[2] < KERNELC_V_3)
+        fv = 2;
 
     return fv;
 }
@@ -116,23 +119,24 @@ static int kernel_version_type( void )
  *  and may or may not be an approximation.
  */
 
-int modmem_memory_free( INSTANCE * my, int * params )
-{
+int modmem_memory_free(INSTANCE *my, int *params) {
 #ifdef WIN32
-    MEMORYSTATUS mem ;
-    GlobalMemoryStatus( &mem ) ;
-    return mem.dwAvailPhys ;
+    MEMORYSTATUS mem;
+    GlobalMemoryStatus(&mem);
+    return mem.dwAvailPhys;
 
 #elif defined(__linux__)
     /* Linux and other Unix (?) */
     struct sysinfo meminf;
     int fv;
 
-    if ( sysinfo( &meminf ) == -1 ) return -1;
+    if (sysinfo(&meminf) == -1)
+        return -1;
 
-    if ( !( fv = kernel_version_type() ) ) return -1;
+    if (!(fv = kernel_version_type()))
+        return -1;
 
-    if ( fv == 1 )
+    if (fv == 1)
         return meminf.freeram * meminf.mem_unit;
     else
         return meminf.freeram;
@@ -140,7 +144,7 @@ int modmem_memory_free( INSTANCE * my, int * params )
     return -1;
 
 #else
-    return 0; //TODO
+    return 0; // TODO
 
 #endif
 }
@@ -149,23 +153,24 @@ int modmem_memory_free( INSTANCE * my, int * params )
  *  Return total number of bytes of physical memory
  */
 
-int modmem_memory_total( INSTANCE * my, int * params )
-{
+int modmem_memory_total(INSTANCE *my, int *params) {
 #ifdef WIN32
-    MEMORYSTATUS mem ;
-    GlobalMemoryStatus( &mem ) ;
-    return mem.dwTotalPhys ;
+    MEMORYSTATUS mem;
+    GlobalMemoryStatus(&mem);
+    return mem.dwTotalPhys;
 
 #elif defined(__linux__)
     /* Linux and other Unix (?) */
     struct sysinfo meminf;
     int fv;
 
-    if ( sysinfo( &meminf ) == -1 ) return -1;
+    if (sysinfo(&meminf) == -1)
+        return -1;
 
-    if ( !( fv = kernel_version_type() ) ) return -1;
+    if (!(fv = kernel_version_type()))
+        return -1;
 
-    if ( fv == 1 )
+    if (fv == 1)
         return meminf.totalram * meminf.mem_unit;
     else
         return meminf.totalram;
@@ -176,10 +181,11 @@ int modmem_memory_total( INSTANCE * my, int * params )
     uint64_t total = 0;
 
     size_t size = sizeof(total);
-    if( !sysctlbyname("hw.memsize", &total, &size, NULL, 0) ) {
-        if(total > INT_MAX) {
+    if (!sysctlbyname("hw.memsize", &total, &size, NULL, 0)) {
+        if (total > INT_MAX) {
             // We overflowed here
-            fprintf(stderr, "Warning: MEMORY_TOTAL returning %dB of memory, real total is %lluB\n", INT_MAX, total);
+            fprintf(stderr, "Warning: MEMORY_TOTAL returning %dB of memory, real total is %lluB\n",
+                    INT_MAX, total);
             return INT_MAX;
         } else {
             return (int)total;
@@ -188,73 +194,65 @@ int modmem_memory_total( INSTANCE * my, int * params )
 
     return -1;
 #else
-    return 0; //TODO
+    return 0; // TODO
 
 #endif
 }
 
-int modmem_memcmp( INSTANCE * my, int * params )
-{
-    return ( memcmp(( void * )params[0], ( void * )params[1], params[2] ) ) ;
+int modmem_memcmp(INSTANCE *my, int *params) {
+    return (memcmp((void *)params[0], (void *)params[1], params[2]));
 }
 
-int modmem_memmove( INSTANCE * my, int * params )
-{
-    memmove(( void * )params[0], ( void * )params[1], params[2] ) ;
-    return 1 ;
+int modmem_memmove(INSTANCE *my, int *params) {
+    memmove((void *)params[0], (void *)params[1], params[2]);
+    return 1;
 }
 
-int modmem_memcopy( INSTANCE * my, int * params )
-{
-    memcpy(( void * )params[0], ( void * )params[1], params[2] ) ;
-    return 1 ;
+int modmem_memcopy(INSTANCE *my, int *params) {
+    memcpy((void *)params[0], (void *)params[1], params[2]);
+    return 1;
 }
 
-int modmem_memset( INSTANCE * my, int * params )
-{
-    memset(( void * )params[0], params[1], params[2] ) ;
-    return 1 ;
+int modmem_memset(INSTANCE *my, int *params) {
+    memset((void *)params[0], params[1], params[2]);
+    return 1;
 }
 
-int modmem_memsetw( INSTANCE * my, int * params )
-{
-    uint16_t * ptr = ( uint16_t * )params[0] ;
-    const uint16_t b = params[1] ;
-    int n ;
+int modmem_memsetw(INSTANCE *my, int *params) {
+    uint16_t *ptr    = (uint16_t *)params[0];
+    const uint16_t b = params[1];
+    int n;
 
-    for ( n = params[2] ; n ; n-- ) *ptr++ = b ;
-    return 1 ;
+    for (n = params[2]; n; n--)
+        *ptr++ = b;
+    return 1;
 }
 
-int modmem_memseti( INSTANCE * my, int * params )
-{
-    uint32_t * ptr = ( uint32_t * )params[0] ;
-    const uint32_t b = params[1] ;
-    int n ;
+int modmem_memseti(INSTANCE *my, int *params) {
+    uint32_t *ptr    = (uint32_t *)params[0];
+    const uint32_t b = params[1];
+    int n;
 
-    for ( n = params[2] ; n ; n-- ) *ptr++ = b ;
-    return 1 ;
+    for (n = params[2]; n; n--)
+        *ptr++ = b;
+    return 1;
 }
 
-int modmem_calloc( INSTANCE * my, int * params )
-{
-    return (( int ) calloc( params[0], params[1] ) ) ;
+int modmem_calloc(INSTANCE *my, int *params) {
+    return ((int)calloc(params[0], params[1]));
 }
 
-int modmem_alloc( INSTANCE * my, int * params )
-{
-    return (( int ) malloc( params[0] ) ) ;
+int modmem_alloc(INSTANCE *my, int *params) {
+    return ((int)malloc(params[0]));
 }
 
-int modmem_realloc( INSTANCE * my, int * params )
-{
-    return (( int )realloc(( void * )params[0], params[1] ) ) ;
+int modmem_realloc(INSTANCE *my, int *params) {
+    return ((int)realloc((void *)params[0], params[1]));
 }
 
-int modmem_free( INSTANCE * my, int * params )
-{
-    free(( void * )params[0] ) ;
-    return 1 ;
+int modmem_free(INSTANCE *my, int *params) {
+    free((void *)params[0]);
+    return 1;
 }
 
 /* ---------------------------------------------------------------------- */

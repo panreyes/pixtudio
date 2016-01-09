@@ -42,61 +42,52 @@
 #include <dlvaracc.h>
 
 /* Definitions for limits */
-#define MAXCHANNELS         64
-#define SPECTRUMSIZE        256
+#define MAXCHANNELS 64
+#define SPECTRUMSIZE 256
 
 /* Constant definitions for BennuGD vars */
-enum {
-    FMODEX_SPECTRUM = 0,
-    SOUND_FREQ,
-    FMODEX_SPECTRUMSIZE
-};
+enum { FMODEX_SPECTRUM = 0, SOUND_FREQ, FMODEX_SPECTRUMSIZE };
 
 /* Error checking, no return value */
-#define ERRCHECK(FUNCTION) \
-{ \
-    if (result != FMOD_OK) \
-        fprintf(stderr, "mod_fmodex: %s error! (%d) %s\n", FUNCTION, result, \
-            FMOD_ErrorString(result)); \
-} \
+#define ERRCHECK(FUNCTION)                                                                         \
+    {                                                                                              \
+        if (result != FMOD_OK)                                                                     \
+            fprintf(stderr, "mod_fmodex: %s error! (%d) %s\n", FUNCTION, result,                   \
+                    FMOD_ErrorString(result));                                                     \
+    }
 
 /* Error checking, return a value in case of failure */
-#define ERRCHECK_RETURN(FUNCTION, retval) \
-{ \
-    if (result != FMOD_OK) { \
-        fprintf(stderr, "mod_fmodex: %s error! (%d) %s\n", FUNCTION, result, \
-            FMOD_ErrorString(result)); \
-        return retval; \
-    } \
-}
+#define ERRCHECK_RETURN(FUNCTION, retval)                                                          \
+    {                                                                                              \
+        if (result != FMOD_OK) {                                                                   \
+            fprintf(stderr, "mod_fmodex: %s error! (%d) %s\n", FUNCTION, result,                   \
+                    FMOD_ErrorString(result));                                                     \
+            return retval;                                                                         \
+        }                                                                                          \
+    }
 
 /* These var should stay static */
-static FMOD_SYSTEM     *fsystem;
-static FMOD_SOUND      *mic_sound = 0;
-static FMOD_CHANNEL    *spectrum_channel = 0;
-static int              analyzing_spectrum;
+static FMOD_SYSTEM *fsystem;
+static FMOD_SOUND *mic_sound          = 0;
+static FMOD_CHANNEL *spectrum_channel = 0;
+static int analyzing_spectrum;
 
 /* Global info (where spectrum is stored) */
-char __bgdexport( mod_fmodex, globals_def )[] =
-    "float fmodex_spectrum[256];\n"
-    "int   sound_freq = 48000;\n"
-    "int   fmodex_spectrumsize = 0;\n";
+char __bgdexport(mod_fmodex, globals_def)[] = "float fmodex_spectrum[256];\n"
+                                              "int   sound_freq = 48000;\n"
+                                              "int   fmodex_spectrumsize = 0;\n";
 
 /* Globals fixup (so that the interpreter knows where to look for vars) */
-DLVARFIXUP __bgdexport( mod_fmodex, globals_fixup )[] =
-{
-    { "fmodex_spectrum" , NULL, -1, -1 },
-    { "sound_freq" , NULL, -1, -1 },
-    { "fmodex_spectrumsize" , NULL, -1, -1 },
-    { NULL, NULL, -1, -1 }
-};
+DLVARFIXUP __bgdexport(mod_fmodex, globals_fixup)[] = {{"fmodex_spectrum", NULL, -1, -1},
+                                                       {"sound_freq", NULL, -1, -1},
+                                                       {"fmodex_spectrumsize", NULL, -1, -1},
+                                                       {NULL, NULL, -1, -1}};
 
 /* Takes care of initializing the module */
-void fmodex_init()
-{
-    FMOD_RESULT       result;
-    unsigned int      version;
-    int               outputrate=0;
+void fmodex_init() {
+    FMOD_RESULT result;
+    unsigned int version;
+    int outputrate = 0;
 
     /*
         Create a System object and initialize.
@@ -107,9 +98,9 @@ void fmodex_init()
     result = FMOD_System_GetVersion(fsystem, &version);
     ERRCHECK("FMODEx_Init");
 
-    if (version < FMOD_VERSION)
-    {
-        printf("Error! You are using an old version of FMOD %08x.  This program requires %08x\n", version, FMOD_VERSION);
+    if (version < FMOD_VERSION) {
+        printf("Error! You are using an old version of FMOD %08x.  This program requires %08x\n",
+               version, FMOD_VERSION);
     }
 
 #ifdef __linux__
@@ -129,17 +120,17 @@ void fmodex_init()
 }
 
 /* Load a song as a stream (for decoding it at runtime) */
-int mod_fmodex_load_song(INSTANCE * i, int * params)
-{
-    FMOD_SOUND       *sound;
-    FMOD_CHANNEL     *channel = 0;
-    FMOD_RESULT       result;
-    int channel_index=0;
+int mod_fmodex_load_song(INSTANCE *i, int *params) {
+    FMOD_SOUND *sound;
+    FMOD_CHANNEL *channel = 0;
+    FMOD_RESULT result;
+    int channel_index = 0;
 
     FMOD_System_Update(fsystem);
 
     /* Load the song as a stream */
-    result = FMOD_System_CreateSound(fsystem, string_get(params[0]), FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM, 0, &sound);
+    result = FMOD_System_CreateSound(fsystem, string_get(params[0]),
+                                     FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM, 0, &sound);
     ERRCHECK_RETURN("FMODEX_LOAD_SONG", -1);
     /* Now start playback of the song, inmediately pause it */
     result = FMOD_System_PlaySound(fsystem, FMOD_CHANNEL_FREE, sound, 1, &channel);
@@ -154,10 +145,9 @@ int mod_fmodex_load_song(INSTANCE * i, int * params)
 
 /* Pause/Unpause a song   */
 /* Also used as PLAY_SONG */
-int mod_fmodex_pause_song(INSTANCE * i, int * params)
-{
-    FMOD_RESULT              result;
-    FMOD_CHANNEL            *channel = 0;
+int mod_fmodex_pause_song(INSTANCE *i, int *params) {
+    FMOD_RESULT result;
+    FMOD_CHANNEL *channel = 0;
     int paused;
 
     /* Retrieve the channel from the given ID */
@@ -166,7 +156,7 @@ int mod_fmodex_pause_song(INSTANCE * i, int * params)
 
     /* Now set the channel status to paused/unpaused */
     result = FMOD_Channel_GetPaused(channel, &paused);
-    if ( result == FMOD_OK )
+    if (result == FMOD_OK)
         result = FMOD_Channel_SetPaused(channel, !paused);
     else
         ERRCHECK_RETURN("FMODEX_PAUSE_SONG", -1);
@@ -174,11 +164,10 @@ int mod_fmodex_pause_song(INSTANCE * i, int * params)
 }
 
 /* Check wether a given song is playing */
-int mod_fmodex_is_playing_song(INSTANCE * i, int * params)
-{
-    FMOD_RESULT              result;
-    FMOD_CHANNEL            *channel = 0;
-    int playing=0;
+int mod_fmodex_is_playing_song(INSTANCE *i, int *params) {
+    FMOD_RESULT result;
+    FMOD_CHANNEL *channel = 0;
+    int playing           = 0;
 
     /* Retrieve the channel from the given ID */
     result = FMOD_System_GetChannel(fsystem, params[0], &channel);
@@ -191,11 +180,10 @@ int mod_fmodex_is_playing_song(INSTANCE * i, int * params)
 }
 
 /* Stop song playback */
-int mod_fmodex_stop_song(INSTANCE * i, int * params)
-{
-    FMOD_RESULT              result;
-    FMOD_CHANNEL            *channel = 0;
-    FMOD_SOUND              *sound;
+int mod_fmodex_stop_song(INSTANCE *i, int *params) {
+    FMOD_RESULT result;
+    FMOD_CHANNEL *channel = 0;
+    FMOD_SOUND *sound;
 
     /* Get the channel number */
     result = FMOD_System_GetChannel(fsystem, params[0], &channel);
@@ -210,7 +198,7 @@ int mod_fmodex_stop_song(INSTANCE * i, int * params)
     ERRCHECK_RETURN("FMODEX_SONG_STOP", -1);
 
     /* Release the FMOD_SOUND */
-    result = FMOD_Sound_Release( sound );
+    result = FMOD_Sound_Release(sound);
     ERRCHECK_RETURN("FMODEX_SONG_STOP", -1);
 
     return 0;
@@ -218,13 +206,12 @@ int mod_fmodex_stop_song(INSTANCE * i, int * params)
 
 /* Initialize spectrum analysis for a song that's already playing
  http://www.cs.cf.ac.uk/Dave/Multimedia/node271.html */
-int mod_fmodex_song_get_spectrum(INSTANCE * i, int * params)
-{
-    FMOD_RESULT              result;
-    FMOD_CHANNEL            *channel = 0;
-    int                      playing = 0;
+int mod_fmodex_song_get_spectrum(INSTANCE *i, int *params) {
+    FMOD_RESULT result;
+    FMOD_CHANNEL *channel = 0;
+    int playing           = 0;
 
-    if( analyzing_spectrum != 0 )
+    if (analyzing_spectrum != 0)
         return -1;
 
     // Check the given channel is actually playing a song
@@ -242,10 +229,9 @@ int mod_fmodex_song_get_spectrum(INSTANCE * i, int * params)
 }
 
 // Returns the total number of recording devices
-int mic_num()
-{
+int mic_num() {
     FMOD_RESULT result;
-    int         numdrivers=0;
+    int numdrivers = 0;
 
     /* Get the number of recording devices */
     result = FMOD_System_GetRecordNumDrivers(fsystem, &numdrivers);
@@ -255,20 +241,18 @@ int mic_num()
 }
 
 /* Get number of available input devices (mikes) */
-int mod_fmodex_mic_num(INSTANCE * i, int * params)
-{
+int mod_fmodex_mic_num(INSTANCE *i, int *params) {
     return mic_num();
 }
 
 /* Return the name for the n-th input device */
-int mod_fmodex_mic_name(INSTANCE * i, int * params)
-{
+int mod_fmodex_mic_name(INSTANCE *i, int *params) {
     FMOD_RESULT result;
-    int         strid=0;
-    char        micname[256];
+    int strid = 0;
+    char micname[256];
 
     /* Check we've not been asked to get info from a nonexistant microphone */
-    if(params[0] >= mic_num()) {
+    if (params[0] >= mic_num()) {
         strid = string_new("Invalid microphone or mic. not present");
         string_use(strid);
         return strid;
@@ -286,21 +270,20 @@ int mod_fmodex_mic_name(INSTANCE * i, int * params)
 }
 
 /* Update the spectrum */
-void spectrum_update()
-{
-    FMOD_RESULT   result;
-    int           i=0;
-    float        *spectrum, fmodex_spectrum[SPECTRUMSIZE];
+void spectrum_update() {
+    FMOD_RESULT result;
+    int i = 0;
+    float *spectrum, fmodex_spectrum[SPECTRUMSIZE];
 
     if (analyzing_spectrum == 0)
         return;
 
     result = FMOD_Channel_GetSpectrum(spectrum_channel, fmodex_spectrum, SPECTRUMSIZE, 0,
-                        FMOD_DSP_FFT_WINDOW_TRIANGLE );
+                                      FMOD_DSP_FFT_WINDOW_TRIANGLE);
     ERRCHECK("FMODEX_GET_SPECTRUM");
 
-    spectrum = ( float * ) ( &GLODWORD( mod_fmodex, FMODEX_SPECTRUM ) );
-    for(i=0; i < SPECTRUMSIZE; i++) {
+    spectrum = (float *)(&GLODWORD(mod_fmodex, FMODEX_SPECTRUM));
+    for (i = 0; i < SPECTRUMSIZE; i++) {
         // Choose this is you want the spectrum in dBs
         // spectrum[i] = 10.0f * (float)log10(fmodex_spectrum[i]) * 2.0f;
         // Absolute value (0.0 <-> 1.0)
@@ -309,8 +292,7 @@ void spectrum_update()
 }
 
 /* Stop spectrum analysis */
-void fmodex_stop_spectrum_analysis()
-{
+void fmodex_stop_spectrum_analysis() {
     FMOD_RESULT result;
 
     if (analyzing_spectrum == 0)
@@ -328,13 +310,12 @@ void fmodex_stop_spectrum_analysis()
 
 /* Initialize spectrum analysis
    http://www.cs.cf.ac.uk/Dave/Multimedia/node271.html */
-int mod_fmodex_mic_get_spectrum(INSTANCE * i, int * params)
-{
-    FMOD_RESULT             result;
-    FMOD_CREATESOUNDEXINFO  exinfo;
-    int                     outputrate=0;
+int mod_fmodex_mic_get_spectrum(INSTANCE *i, int *params) {
+    FMOD_RESULT result;
+    FMOD_CREATESOUNDEXINFO exinfo;
+    int outputrate = 0;
 
-    if( analyzing_spectrum != 0 )
+    if (analyzing_spectrum != 0)
         return -1;
 
     // Get the current output frequency range
@@ -351,17 +332,18 @@ int mod_fmodex_mic_get_spectrum(INSTANCE * i, int * params)
     exinfo.numchannels      = 1;
     exinfo.format           = FMOD_SOUND_FORMAT_PCM16;
     exinfo.defaultfrequency = outputrate;
-    exinfo.length           = exinfo.defaultfrequency * exinfo.numchannels ;
+    exinfo.length           = exinfo.defaultfrequency * exinfo.numchannels;
 
-    result = FMOD_System_CreateSound(fsystem, 0, FMOD_2D | FMOD_SOFTWARE | FMOD_LOOP_NORMAL | FMOD_OPENUSER, &exinfo, &mic_sound);
+    result = FMOD_System_CreateSound(fsystem, 0,
+                                     FMOD_2D | FMOD_SOFTWARE | FMOD_LOOP_NORMAL | FMOD_OPENUSER,
+                                     &exinfo, &mic_sound);
     ERRCHECK_RETURN("FMODEX_GET_SPECTRUM", -1);
 
     /* Now, start recording, updating the spectrum matrix is done separately */
     result = FMOD_System_RecordStart(fsystem, params[0], mic_sound, 1);
     ERRCHECK("FMODEX_GET_SPECTRUM");
 
-    result = FMOD_System_PlaySound(fsystem, FMOD_CHANNEL_FREE,
-                                   mic_sound, 0, &spectrum_channel);
+    result = FMOD_System_PlaySound(fsystem, FMOD_CHANNEL_FREE, mic_sound, 0, &spectrum_channel);
     ERRCHECK("FMODEX_GET_SPECTRUM");
 
     /* Dont hear what is being recorded otherwise it will feedback.
@@ -377,38 +359,33 @@ int mod_fmodex_mic_get_spectrum(INSTANCE * i, int * params)
 }
 
 /* Stop performing spectrum analysis */
-int mod_fmodex_stop_spectrum(INSTANCE * i, int * params)
-{
+int mod_fmodex_stop_spectrum(INSTANCE *i, int *params) {
     fmodex_stop_spectrum_analysis();
     return 0;
 }
 
 /* Function declaration */
-DLSYSFUNCS __bgdexport( mod_fmodex, exported_functions )[] =
-{
-    {"FMODEX_SONG_LOAD",         "S", TYPE_INT,       mod_fmodex_load_song },
-    {"FMODEX_SONG_PLAY",         "I", TYPE_INT,       mod_fmodex_pause_song },
-    {"FMODEX_SONG_PAUSE",        "I", TYPE_INT,       mod_fmodex_pause_song },
-    {"FMODEX_SONG_RESUME",       "I", TYPE_INT,       mod_fmodex_pause_song },
-    {"FMODEX_SONG_PLAYING",      "I", TYPE_INT,       mod_fmodex_is_playing_song },
-    {"FMODEX_SONG_STOP",         "I", TYPE_INT,       mod_fmodex_stop_song },
-    {"FMODEX_SONG_GET_SPECTRUM", "I", TYPE_INT,       mod_fmodex_song_get_spectrum },
-    {"FMODEX_MIC_NUM",           "",  TYPE_INT,       mod_fmodex_mic_num },
-    {"FMODEX_MIC_NAME",          "I", TYPE_STRING,    mod_fmodex_mic_name },
-    {"FMODEX_MIC_GET_SPECTRUM",  "I", TYPE_UNDEFINED, mod_fmodex_mic_get_spectrum },
-    {"FMODEX_STOP_SPECTRUM",     "",  TYPE_UNDEFINED, mod_fmodex_stop_spectrum },
-    {0, 0, 0, 0}
-};
+DLSYSFUNCS __bgdexport(mod_fmodex, exported_functions)[] = {
+    {"FMODEX_SONG_LOAD", "S", TYPE_INT, mod_fmodex_load_song},
+    {"FMODEX_SONG_PLAY", "I", TYPE_INT, mod_fmodex_pause_song},
+    {"FMODEX_SONG_PAUSE", "I", TYPE_INT, mod_fmodex_pause_song},
+    {"FMODEX_SONG_RESUME", "I", TYPE_INT, mod_fmodex_pause_song},
+    {"FMODEX_SONG_PLAYING", "I", TYPE_INT, mod_fmodex_is_playing_song},
+    {"FMODEX_SONG_STOP", "I", TYPE_INT, mod_fmodex_stop_song},
+    {"FMODEX_SONG_GET_SPECTRUM", "I", TYPE_INT, mod_fmodex_song_get_spectrum},
+    {"FMODEX_MIC_NUM", "", TYPE_INT, mod_fmodex_mic_num},
+    {"FMODEX_MIC_NAME", "I", TYPE_STRING, mod_fmodex_mic_name},
+    {"FMODEX_MIC_GET_SPECTRUM", "I", TYPE_UNDEFINED, mod_fmodex_mic_get_spectrum},
+    {"FMODEX_STOP_SPECTRUM", "", TYPE_UNDEFINED, mod_fmodex_stop_spectrum},
+    {0, 0, 0, 0}};
 
 /* Routines to be run when the library is imported */
-void __bgdexport( mod_fmodex, module_initialize )()
-{
+void __bgdexport(mod_fmodex, module_initialize)() {
     fmodex_init();
 }
 
 /* Routines to be run when the library is closed */
-void __bgdexport( mod_fmodex, module_finalize )()
-{
+void __bgdexport(mod_fmodex, module_finalize)() {
     fmodex_stop_spectrum_analysis();
     FMOD_System_Release(fsystem);
 }
@@ -416,9 +393,4 @@ void __bgdexport( mod_fmodex, module_finalize )()
 /* Bigest priority first execute
    Lowest priority last execute */
 
-HOOK __bgdexport( mod_fmodex, handler_hooks )[] =
-{
-    { 1000, spectrum_update    },
-    {    0, NULL               }
-} ;
-
+HOOK __bgdexport(mod_fmodex, handler_hooks)[] = {{1000, spectrum_update}, {0, NULL}};

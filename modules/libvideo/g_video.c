@@ -42,136 +42,131 @@
 #ifndef __MONOLITHIC__
 #include "libvideo_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport( libvideo, globals_fixup )[];
+extern DLVARFIXUP __bgdexport(libvideo, globals_fixup)[];
 #endif
 
 /* --------------------------------------------------------------------------- */
 
-GRAPH * icon = NULL ;
+GRAPH *icon = NULL;
 
-SDL_Surface * screen = NULL ;
-SDL_Window * window = NULL;
-SDL_Renderer * renderer = NULL;
+SDL_Surface *screen    = NULL;
+SDL_Window *window     = NULL;
+SDL_Renderer *renderer = NULL;
 SDL_RendererInfo renderer_info;
 
-char * apptitle = NULL ;
+char *apptitle = NULL;
 
-int scr_width = 320 ;
-int scr_height = 240 ;
-int renderer_width = 320 ;
-int renderer_height = 240 ;
+int scr_width       = 320;
+int scr_height      = 240;
+int renderer_width  = 320;
+int renderer_height = 240;
 
-int scr_initialized = 0 ;
+int scr_initialized = 0;
 
-int full_screen = 0 ;
-int double_buffer = 0 ;
-int hardware_scr = 0 ;
-int grab_input = 0 ;
-int frameless = 0 ;
-int waitvsync = 0 ;
+int full_screen   = 0;
+int double_buffer = 0;
+int hardware_scr  = 0;
+int grab_input    = 0;
+int frameless     = 0;
+int waitvsync     = 0;
 
-int scale_resolution = 0;
+int scale_resolution             = 0;
 int scale_resolution_aspectratio = 0;
 
-enum {
-    GRAPH_MODE = 0,
-    FULL_SCREEN,
-    SCALE_RESOLUTION,
-    SCALE_RESOLUTION_ASPECTRATIO,
-    SCALE_QUALITY
-};
+enum { GRAPH_MODE = 0, FULL_SCREEN, SCALE_RESOLUTION, SCALE_RESOLUTION_ASPECTRATIO, SCALE_QUALITY };
 
 /* --------------------------------------------------------------------------- */
 
-void gr_wait_vsync()
-{
+void gr_wait_vsync() {
 }
 
 /* --------------------------------------------------------------------------- */
 
-void gr_set_caption( char * title )
-{
+void gr_set_caption(char *title) {
     SDL_SetWindowTitle(window, apptitle = title);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int gr_set_icon( GRAPH * map ) {
-    if (( icon = map )) {
+int gr_set_icon(GRAPH *map) {
+    if ((icon = map)) {
         SDL_Surface *ico = NULL;
-        if ( icon->format->depth == 8 ) {
+        if (icon->format->depth == 8) {
             SDL_Color palette[256];
-            if ( sys_pixel_format && sys_pixel_format->palette ) {
-                int n ;
-                for ( n = 0 ; n < 256 ; n++ ) {
-                    palette[ n ].r = sys_pixel_format->palette->rgb[ n ].r;
-                    palette[ n ].g = sys_pixel_format->palette->rgb[ n ].g;
-                    palette[ n ].b = sys_pixel_format->palette->rgb[ n ].b;
+            if (sys_pixel_format && sys_pixel_format->palette) {
+                int n;
+                for (n = 0; n < 256; n++) {
+                    palette[n].r = sys_pixel_format->palette->rgb[n].r;
+                    palette[n].g = sys_pixel_format->palette->rgb[n].g;
+                    palette[n].b = sys_pixel_format->palette->rgb[n].b;
                 }
             }
 
-            ico = SDL_CreateRGBSurfaceFrom( icon->data, 32, 32, 8, 32, 0x00, 0x00, 0x00, 0x00 ) ;
+            ico = SDL_CreateRGBSurfaceFrom(icon->data, 32, 32, 8, 32, 0x00, 0x00, 0x00, 0x00);
 
             SDL_SetPaletteColors(ico->format->palette, palette, 0, 256);
         } else {
-            ico = SDL_CreateRGBSurfaceFrom( icon->data, 32, 32, icon->format->depth,
-                                            icon->pitch, icon->format->Rmask, icon->format->Gmask,
-                                            icon->format->Bmask, icon->format->Amask ) ;
+            ico = SDL_CreateRGBSurfaceFrom(icon->data, 32, 32, icon->format->depth, icon->pitch,
+                                           icon->format->Rmask, icon->format->Gmask,
+                                           icon->format->Bmask, icon->format->Amask);
         }
 
         SDL_SetWindowIcon(window, ico);
-        SDL_FreeSurface( ico ) ;
+        SDL_FreeSurface(ico);
     }
 
-    return 1 ;
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int gr_set_mode( int width, int height ) {
-    int surface_width = width;
+int gr_set_mode(int width, int height) {
+    int surface_width  = width;
     int surface_height = height;
-    int texture_depth = 0;
-    Uint32 sdl_flags = 0;
-    Uint32 format = 0;
-    Uint32 Rmask = 0;
-    Uint32 Gmask = 0;
-    Uint32 Bmask = 0;
-    Uint32 Amask = 0;
-    char * e;
+    int texture_depth  = 0;
+    Uint32 sdl_flags   = 0;
+    Uint32 format      = 0;
+    Uint32 Rmask       = 0;
+    Uint32 Gmask       = 0;
+    Uint32 Bmask       = 0;
+    Uint32 Amask       = 0;
+    char *e;
     char scale_quality;
 
-    full_screen = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_FULLSCREEN ) ? 1 : 0 ;
-    grab_input = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_MODAL ) ? 1 : 0 ;
-    frameless = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_FRAMELESS ) ? 1 : 0 ;
-    waitvsync = ( GLODWORD( libvideo, GRAPH_MODE ) & MODE_WAITVSYNC ) ? 1 : 0 ;
-    full_screen |= GLODWORD( libvideo, FULL_SCREEN );
+    full_screen = (GLODWORD(libvideo, GRAPH_MODE) & MODE_FULLSCREEN) ? 1 : 0;
+    grab_input  = (GLODWORD(libvideo, GRAPH_MODE) & MODE_MODAL) ? 1 : 0;
+    frameless   = (GLODWORD(libvideo, GRAPH_MODE) & MODE_FRAMELESS) ? 1 : 0;
+    waitvsync = (GLODWORD(libvideo, GRAPH_MODE) & MODE_WAITVSYNC) ? 1 : 0;
+    full_screen |= GLODWORD(libvideo, FULL_SCREEN);
 
-    scale_resolution = GLODWORD( libvideo, SCALE_RESOLUTION );
-    scale_quality = GLOBYTE( libvideo, SCALE_QUALITY );
-    if(scale_quality >= 1) {
+    scale_resolution = GLODWORD(libvideo, SCALE_RESOLUTION);
+    scale_quality = GLOBYTE(libvideo, SCALE_QUALITY);
+    if (scale_quality >= 1) {
         scale_quality = '1';
     } else {
         scale_quality = '0';
     }
 
-    if ( GLOEXISTS( libvideo, SCALE_RESOLUTION_ASPECTRATIO ) ) scale_resolution_aspectratio = GLODWORD( libvideo, SCALE_RESOLUTION_ASPECTRATIO );
+    if (GLOEXISTS(libvideo, SCALE_RESOLUTION_ASPECTRATIO))
+        scale_resolution_aspectratio = GLODWORD(libvideo, SCALE_RESOLUTION_ASPECTRATIO);
 
     /* Overwrite all params */
-    if ( ( e = getenv( "SCALE_RESOLUTION"             ) ) ) scale_resolution = atol( e );
-    if ( ( e = getenv( "SCALE_RESOLUTION_ASPECTRATIO" ) ) ) scale_resolution_aspectratio = atol( e );
+    if ((e = getenv("SCALE_RESOLUTION")))
+        scale_resolution = atol(e);
+    if ((e = getenv("SCALE_RESOLUTION_ASPECTRATIO")))
+        scale_resolution_aspectratio = atol(e);
 
     format = SDL_PIXELFORMAT_ARGB8888;
 
     /* Inicializa el modo gráfico */
 
-    if ( scrbitmap ) {
-        bitmap_destroy( scrbitmap ) ;
-        scrbitmap = NULL ;
+    if (scrbitmap) {
+        bitmap_destroy(scrbitmap);
+        scrbitmap = NULL;
     }
 
     // Use the new & fancy SDL 2 routines
-    if(!window) {
+    if (!window) {
         sdl_flags = SDL_WINDOW_SHOWN;
         if (frameless) {
             sdl_flags |= SDL_WINDOW_BORDERLESS;
@@ -182,46 +177,46 @@ int gr_set_mode( int width, int height ) {
         if (grab_input) {
             sdl_flags |= SDL_WINDOW_INPUT_GRABBED;
         }
-        window = SDL_CreateWindow(apptitle,
-                                  SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        window = SDL_CreateWindow(apptitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                   surface_width, surface_height, sdl_flags);
         if (!window) {
             SDL_Log("Error creating window (%s)", SDL_GetError());
             return -1;
         }
     } else {
-        // Window resizing is not allowed in android/iOS
-#if !defined(__ANDROID__) && !((defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR)) && !defined(TARGET_OS_MAC))
+// Window resizing is not allowed in android/iOS
+#if !defined(__ANDROID__) &&                                                                       \
+    !((defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR)) && !defined(TARGET_OS_MAC))
         int w, h;
 
         SDL_GetWindowSize(window, &w, &h);
-        if(w != surface_width || h != surface_height) {
+        if (w != surface_width || h != surface_height) {
             SDL_SetWindowSize(window, surface_width, surface_height);
         }
 
         sdl_flags = SDL_GetWindowFlags(window);
-        if((sdl_flags & SDL_WINDOW_BORDERLESS) && !frameless) {
+        if ((sdl_flags & SDL_WINDOW_BORDERLESS) && !frameless) {
             SDL_SetWindowBordered(window, SDL_TRUE);
-        } else if(!(sdl_flags & SDL_WINDOW_BORDERLESS) && frameless) {
+        } else if (!(sdl_flags & SDL_WINDOW_BORDERLESS) && frameless) {
             SDL_SetWindowBordered(window, SDL_FALSE);
         }
 
-        if((sdl_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) && !full_screen) {
+        if ((sdl_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) && !full_screen) {
             SDL_SetWindowFullscreen(window, 0);
-        } else if(!(sdl_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) && full_screen) {
+        } else if (!(sdl_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) && full_screen) {
             SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
         }
 #endif
     }
 
     // Handle window grab
-    if(grab_input) {
+    if (grab_input) {
         SDL_SetWindowGrab(window, SDL_TRUE);
     } else {
         SDL_SetWindowGrab(window, SDL_FALSE);
     }
 
-    if(! renderer) {
+    if (!renderer) {
         sdl_flags = SDL_RENDERER_ACCELERATED;
         if (waitvsync) {
             sdl_flags |= SDL_RENDERER_PRESENTVSYNC;
@@ -258,7 +253,7 @@ int gr_set_mode( int width, int height ) {
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, &scale_quality);
 
     // Enable SDL scaling, if needed
-    if(renderer_width != width || renderer_height != height) {
+    if (renderer_width != width || renderer_height != height) {
         SDL_RenderSetLogicalSize(renderer, width, height);
         SDL_Log("Set logical size to: %dx%d", width, height);
     }
@@ -274,109 +269,114 @@ int gr_set_mode( int width, int height ) {
     // Create a SDL_Surface for the pixel data until the complete rendering pipeline
     // is handled by SDL_Render
     SDL_PixelFormatEnumToMasks(format, &texture_depth, &Rmask, &Gmask, &Bmask, &Amask);
-    if(screen) {
+    if (screen) {
         SDL_FreeSurface(screen);
     }
     screen = SDL_CreateRGBSurface(0, width, height, texture_depth, Rmask, Gmask, Bmask, Amask);
 
-    if ( !sys_pixel_format ) {
-        sys_pixel_format = bitmap_create_format( 32 );
+    if (!sys_pixel_format) {
+        sys_pixel_format = bitmap_create_format(32);
     } else {
-        PALETTE * p = sys_pixel_format->palette;
+        PALETTE *p = sys_pixel_format->palette;
 
-        free( sys_pixel_format );
-        sys_pixel_format = bitmap_create_format( 32 );
+        free(sys_pixel_format);
+        sys_pixel_format = bitmap_create_format(32);
 
-        if ( p ) {
+        if (p) {
             sys_pixel_format->palette = p;
-            pal_refresh( sys_pixel_format->palette ) ;
+            pal_refresh(sys_pixel_format->palette);
         }
     }
 
-    scr_initialized = 1 ;
+    scr_initialized = 1;
 
-    SDL_ShowCursor( 0 ) ;
+    SDL_ShowCursor(0);
 
-    pal_refresh( NULL ) ;
-    palette_changed = 1 ;
+    pal_refresh(NULL);
+    palette_changed = 1;
 
-//    gr_make_trans_table();
+    //    gr_make_trans_table();
 
     /* Bitmaps de fondo */
 
     /* Only allow background with same properties that video mode */
-    if ( !background ||
-         scr_width != screen->w || scr_height != screen->h ||
-         sys_pixel_format->depth != background->format->depth ) {
-        if ( background ) {
-            bitmap_destroy( background );
+    if (!background || scr_width != screen->w || scr_height != screen->h ||
+        sys_pixel_format->depth != background->format->depth) {
+        if (background) {
+            bitmap_destroy(background);
         }
-        background = bitmap_new( 0, screen->w, screen->h, sys_pixel_format->depth ) ;
-        if ( background ) {
-            gr_clear( background ) ;
-            bitmap_add_cpoint( background, 0, 0 ) ;
+        background = bitmap_new(0, screen->w, screen->h, sys_pixel_format->depth);
+        if (background) {
+            gr_clear(background);
+            bitmap_add_cpoint(background, 0, 0);
         }
     }
 
-    scr_width = screen->w ;
-    scr_height = screen->h ;
+    scr_width  = screen->w;
+    scr_height = screen->h;
 
-    regions[0].x  = 0 ;
-    regions[0].y  = 0 ;
-    regions[0].x2 = screen->w - 1 ;
-    regions[0].y2 = screen->h - 1 ;
+    regions[0].x  = 0;
+    regions[0].y  = 0;
+    regions[0].x2 = screen->w - 1;
+    regions[0].y2 = screen->h - 1;
 
     // Finalmente seteamos icono de aplicacion
     // Necesitamos crear una surface a partir de un MAP generico de 16x16...
-    gr_set_icon( icon );
+    gr_set_icon(icon);
 
-    if ( background ) background->modified = 1;
+    if (background)
+        background->modified = 1;
 
     return 0;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int gr_init( int width, int height )
-{
-#if defined(__ANDROID__) || ((defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR)) && !defined(TARGET_OS_MAC))
-    return gr_set_mode( 0, 0 );
+int gr_init(int width, int height) {
+#if defined(__ANDROID__) ||                                                                        \
+    ((defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR)) && !defined(TARGET_OS_MAC))
+    return gr_set_mode(0, 0);
 #else
-    return gr_set_mode( width, height );
+    return gr_set_mode(width, height);
 #endif
 }
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport( libvideo, module_initialize )() {
-    char * e;
+void __bgdexport(libvideo, module_initialize)() {
+    char *e;
 
-    if ( !SDL_WasInit( SDL_INIT_VIDEO ) ) SDL_InitSubSystem( SDL_INIT_VIDEO );
+    if (!SDL_WasInit(SDL_INIT_VIDEO))
+        SDL_InitSubSystem(SDL_INIT_VIDEO);
 
     // Disable screensaver/screen-lock. According to SDL docs it'll reenable after SDL quits
     SDL_DisableScreenSaver();
 
     apptitle = appname;
 
-    if ( ( e = getenv( "VIDEO_WIDTH"  ) ) ) scr_width = atoi(e);
-    if ( ( e = getenv( "VIDEO_HEIGHT" ) ) ) scr_height = atoi(e);
-    if ( ( e = getenv( "VIDEO_FULLSCREEN" ) ) ) GLODWORD( libvideo, GRAPH_MODE ) |= atoi(e) ? MODE_FULLSCREEN : 0;
+    if ((e = getenv("VIDEO_WIDTH")))
+        scr_width = atoi(e);
+    if ((e = getenv("VIDEO_HEIGHT")))
+        scr_height = atoi(e);
+    if ((e = getenv("VIDEO_FULLSCREEN")))
+        GLODWORD(libvideo, GRAPH_MODE) |= atoi(e) ? MODE_FULLSCREEN : 0;
 
-    gr_init( scr_width, scr_height ) ;
+    gr_init(scr_width, scr_height);
 }
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport( libvideo, module_finalize )() {
-    if ( renderer ) {
+void __bgdexport(libvideo, module_finalize)() {
+    if (renderer) {
         SDL_DestroyRenderer(renderer);
     }
 
-    if ( window ) {
+    if (window) {
         SDL_DestroyWindow(window);
     }
 
-    if ( SDL_WasInit( SDL_INIT_VIDEO ) ) SDL_QuitSubSystem( SDL_INIT_VIDEO );
+    if (SDL_WasInit(SDL_INIT_VIDEO))
+        SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
 /* --------------------------------------------------------------------------- */

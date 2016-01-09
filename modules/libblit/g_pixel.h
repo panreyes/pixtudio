@@ -36,15 +36,15 @@
 
 /* --------------------------------------------------------------------------- */
 
-extern int pixel_color8 ;
-extern uint16_t pixel_color16 ;
-extern uint32_t pixel_color32 ;
+extern int pixel_color8;
+extern uint16_t pixel_color16;
+extern uint32_t pixel_color32;
 
-extern uint16_t pixel_color16_alpha ;
+extern uint16_t pixel_color16_alpha;
 
-extern int pixel_alpha ;
-extern uint8_t * pixel_alpha8 ;
-extern uint16_t * pixel_alpha16 ;
+extern int pixel_alpha;
+extern uint8_t *pixel_alpha8;
+extern uint16_t *pixel_alpha16;
 
 /* --------------------------------------------------------------------------- */
 /* Pixels */
@@ -52,17 +52,21 @@ extern uint16_t * pixel_alpha16 ;
 
 /* --------------------------------------------------------------------------- */
 
-#define _Pixel8(ptr,color)              * ((uint8_t *)(ptr)) = (( pixel_alpha == 255 ) ? (color) : (pixel_alpha8[(uint8_t)(((color) << 8) + *(ptr))]))
-#define _Pixel16(ptr,color,color_alpha) * ((uint16_t *)(ptr)) = (( pixel_alpha == 255 ) ? (color) : (pixel_alpha16[(uint16_t)*(ptr)] + (color_alpha)))
-#define _Pixel32(ptr,color)             * ((uint32_t *)(ptr)) = (( pixel_alpha == 255 ) ? (color) : (color))
+#define _Pixel8(ptr, color)                                                                        \
+    *((uint8_t *)(ptr)) =                                                                          \
+        ((pixel_alpha == 255) ? (color) : (pixel_alpha8[(uint8_t)(((color) << 8) + *(ptr))]))
+#define _Pixel16(ptr, color, color_alpha)                                                          \
+    *((uint16_t *)(ptr)) =                                                                         \
+        ((pixel_alpha == 255) ? (color) : (pixel_alpha16[(uint16_t) * (ptr)] + (color_alpha)))
+#define _Pixel32(ptr, color) *((uint32_t *)(ptr)) = ((pixel_alpha == 255) ? (color) : (color))
 
 /* --------------------------------------------------------------------------- */
 
-extern int gr_get_pixel( GRAPH * dest, int x, int y );
-extern void gr_put_pixel(GRAPH * dest, int x, int y, int color);
-extern void gr_put_pixelc(GRAPH * dest, REGION * clip, int x, int y, int color);
-extern void gr_setalpha( int value );
-extern void gr_setcolor( int c );
+extern int gr_get_pixel(GRAPH *dest, int x, int y);
+extern void gr_put_pixel(GRAPH *dest, int x, int y, int color);
+extern void gr_put_pixelc(GRAPH *dest, REGION *clip, int x, int y, int color);
+extern void gr_setalpha(int value);
+extern void gr_setcolor(int c);
 
 /* --------------------------------------------------------------------------- */
 #endif

@@ -48,7 +48,7 @@ const char *get_locale() {
     if (mid) {
         jstring langString = (jstring)(*mEnv)->CallObjectMethod(mEnv, localeObject, mid);
         lang = (*mEnv)->GetStringUTFChars(mEnv, langString, NULL);
-        if(strlen(lang) == 0) {
+        if (strlen(lang) == 0) {
             memcpy(locale, "(-", 2);
         } else {
             memcpy(locale, lang, 2);
@@ -62,10 +62,10 @@ const char *get_locale() {
     if (mid) {
         jstring countryString = (jstring)(*mEnv)->CallObjectMethod(mEnv, localeObject, mid);
         country = (*mEnv)->GetStringUTFChars(mEnv, countryString, NULL);
-        if(strlen(country) == 0) {
-            memcpy(locale+3, "-)", 2);
+        if (strlen(country) == 0) {
+            memcpy(locale + 3, "-)", 2);
         } else {
-            memcpy(locale+3, country, 2);
+            memcpy(locale + 3, country, 2);
         }
         (*mEnv)->ReleaseStringUTFChars(mEnv, countryString, country);
     }

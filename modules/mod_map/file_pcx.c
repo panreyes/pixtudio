@@ -37,8 +37,7 @@
  * TYPE DEFINITIONS
  */
 
-typedef struct
-{
+typedef struct {
     uint8_t Manufacturer;
     uint8_t Version;
     uint8_t Encoding;
@@ -53,7 +52,7 @@ typedef struct
     int16_t HscreenSize;
     int16_t VscreenSize;
     uint8_t Filler[54];
-} PCXheader ;
+} PCXheader;
 
 /* --------------------------------------------------------------------------- */
 
@@ -70,121 +69,106 @@ typedef struct
  *
  */
 
-GRAPH * gr_read_pcx( const char * filename )
-{
-    PCXheader header ;
-    file *    file ;
-    int       width, height, x, y, p, count ;
-    GRAPH *   bitmap ;
-    uint8_t *   ptr, ch ;
+GRAPH *gr_read_pcx(const char *filename) {
+    PCXheader header;
+    file *file;
+    int width, height, x, y, p, count;
+    GRAPH *bitmap;
+    uint8_t *ptr, ch;
 
-    file = file_open( filename, "rb" ) ;
-    if ( !file ) return NULL ;
+    file = file_open(filename, "rb");
+    if (!file)
+        return NULL;
 
-    file_read( file, &header, sizeof( header ) ) ;
+    file_read(file, &header, sizeof(header));
 
     /* Arrange the data for big-endian machines */
-    ARRANGE_WORD( &header.Xmax );
-    ARRANGE_WORD( &header.Xmin );
-    ARRANGE_WORD( &header.Ymax );
-    ARRANGE_WORD( &header.Ymin );
-    ARRANGE_WORD( &header.BytesPerLine );
-    ARRANGE_WORD( &header.PaletteInfo );
-    ARRANGE_WORD( &header.HDpi );
-    ARRANGE_WORD( &header.VDpi );
-    ARRANGE_WORD( &header.HscreenSize );
-    ARRANGE_WORD( &header.VscreenSize );
+    ARRANGE_WORD(&header.Xmax);
+    ARRANGE_WORD(&header.Xmin);
+    ARRANGE_WORD(&header.Ymax);
+    ARRANGE_WORD(&header.Ymin);
+    ARRANGE_WORD(&header.BytesPerLine);
+    ARRANGE_WORD(&header.PaletteInfo);
+    ARRANGE_WORD(&header.HDpi);
+    ARRANGE_WORD(&header.VDpi);
+    ARRANGE_WORD(&header.HscreenSize);
+    ARRANGE_WORD(&header.VscreenSize);
 
-    width  = header.Xmax - header.Xmin + 1 ;
-    height = header.Ymax - header.Ymin + 1 ;
+    width  = header.Xmax - header.Xmin + 1;
+    height = header.Ymax - header.Ymin + 1;
 
-    bitmap = bitmap_new( 0, width, height, ( header.BitsPerPixel == 8 ) ? 8 : 16 ) ;
-    if ( !bitmap )
-    {
-        file_close( file );
+    bitmap = bitmap_new(0, width, height, (header.BitsPerPixel == 8) ? 8 : 16);
+    if (!bitmap) {
+        file_close(file);
         return NULL;
     }
 
-    if ( width > header.BytesPerLine )
-    {
-        bitmap_destroy( bitmap );
-        file_close( file );
+    if (width > header.BytesPerLine) {
+        bitmap_destroy(bitmap);
+        file_close(file);
         return NULL;
     }
 
-    if ( header.BitsPerPixel == 8 )
-    {
-        for ( y = 0 ; y < height ; y++ )
-            for ( p = 0 ; p < header.NPlanes ; p++ )
-            {
-                ptr = ( uint8_t * )bitmap->data + bitmap->pitch * y ;
-                for ( x = 0 ; x < header.BytesPerLine ; )
-                {
-                    if ( file_read( file, &ch, 1 ) < 1 )
-                    {
-                        bitmap_destroy( bitmap );
-                        file_close( file );
+    if (header.BitsPerPixel == 8) {
+        for (y = 0; y < height; y++)
+            for (p = 0; p < header.NPlanes; p++) {
+                ptr = (uint8_t *)bitmap->data + bitmap->pitch * y;
+                for (x = 0; x < header.BytesPerLine;) {
+                    if (file_read(file, &ch, 1) < 1) {
+                        bitmap_destroy(bitmap);
+                        file_close(file);
                         return NULL;
                     }
-                    if (( ch & 0xC0 ) == 0xC0 )
-                    {
-                        count = ( ch & 0x3F ) ;
-                        file_read( file, &ch, 1 ) ;
+                    if ((ch & 0xC0) == 0xC0) {
+                        count = (ch & 0x3F);
+                        file_read(file, &ch, 1);
+                    } else {
+                        count = 1;
                     }
-                    else
-                    {
-                        count = 1 ;
-                    }
-                    while ( count-- )
-                    {
-                        *ptr = ch ;
-                        x++ ;
-                        ptr += header.NPlanes ;
+                    while (count--) {
+                        *ptr = ch;
+                        x++;
+                        ptr += header.NPlanes;
                     }
                 }
             }
 
-        if ( file_read( file, &ch, 1 ) == 1 && ch == 0x0c )
-        {
-            uint8_t colors[256 * 3] ;
-            if ( file_read( file, colors, sizeof( colors ) ) )
-            {
-                bitmap->format->palette = pal_new_rgb(( uint8_t * )colors );
-                pal_refresh( bitmap->format->palette );
+        if (file_read(file, &ch, 1) == 1 && ch == 0x0c) {
+            uint8_t colors[256 * 3];
+            if (file_read(file, colors, sizeof(colors))) {
+                bitmap->format->palette = pal_new_rgb((uint8_t *)colors);
+                pal_refresh(bitmap->format->palette);
 
-                if ( !sys_pixel_format->palette )
-                {
-                    sys_pixel_format->palette = pal_new( bitmap->format->palette );
-/*                    pal_use( bitmap->format->palette ); */
-                    palette_changed = 1 ;
+                if (!sys_pixel_format->palette) {
+                    sys_pixel_format->palette = pal_new(bitmap->format->palette);
+                    /*                    pal_use( bitmap->format->palette ); */
+                    palette_changed = 1;
                 }
             }
         }
-    }
-    else
-    {
-        bitmap_destroy( bitmap );
-        file_close( file );
+    } else {
+        bitmap_destroy(bitmap);
+        file_close(file);
         return NULL;
     }
 
     bitmap->needs_texture_update = 1;
 
-    bitmap->modified = 0 ;
-    bitmap_analyze( bitmap );
+    bitmap->modified = 0;
+    bitmap_analyze(bitmap);
 
-    return bitmap ;
+    return bitmap;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int gr_load_pcx( const char * mapname )
-{
-    GRAPH * gr = gr_read_pcx( mapname ) ;
-    if ( !gr ) return 0 ;
-    gr->code = bitmap_next_code() ;
-    grlib_add_map( 0, gr ) ;
-    return gr->code ;
+int gr_load_pcx(const char *mapname) {
+    GRAPH *gr = gr_read_pcx(mapname);
+    if (!gr)
+        return 0;
+    gr->code = bitmap_next_code();
+    grlib_add_map(0, gr);
+    return gr->code;
 }
 
 /* --------------------------------------------------------------------------- */

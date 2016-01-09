@@ -1,5 +1,5 @@
 #ifdef _MSC_VER
-  #define INLINE __forceinline /* use __forceinline (VC++ specific) */
+#define INLINE __forceinline /* use __forceinline (VC++ specific) */
 #else
-  #define INLINE inline        /* use standard inline */
+#define INLINE inline /* use standard inline */
 #endif

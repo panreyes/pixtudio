@@ -33,15 +33,15 @@
 
 /* --------------------------------------------------------------------------- */
 
-int pixel_color8 = 15 ;
-uint16_t pixel_color16 = 0xFFFF ;
-uint32_t pixel_color32 = 0xFFFFFFFF ;
+int pixel_color8       = 15;
+uint16_t pixel_color16 = 0xFFFF;
+uint32_t pixel_color32 = 0xFFFFFFFF;
 
-uint16_t pixel_color16_alpha = 0xFFFF ;
+uint16_t pixel_color16_alpha = 0xFFFF;
 
-int pixel_alpha = 255;
-uint8_t * pixel_alpha8 = NULL ;
-uint16_t * pixel_alpha16 = NULL ;
+int pixel_alpha         = 255;
+uint8_t *pixel_alpha8   = NULL;
+uint16_t *pixel_alpha16 = NULL;
 
 /* --------------------------------------------------------------------------- */
 /*
@@ -58,22 +58,23 @@ uint16_t * pixel_alpha16 = NULL ;
  *
  */
 
-int gr_get_pixel( GRAPH * dest, int x, int y ) {
-    if ( x < 0 || y < 0 || x >= ( int ) dest->width || y >= ( int ) dest->height ) return -1 ;
+int gr_get_pixel(GRAPH *dest, int x, int y) {
+    if (x < 0 || y < 0 || x >= (int)dest->width || y >= (int)dest->height)
+        return -1;
 
-    switch ( dest->format->depth )
-    {
-        case 1:
-            return (( *( uint8_t * )( dest->data + dest->pitch * y + ( x >> 3 ) ) ) & ( 0x80 >> ( x & 7 ) ) ) ? 1 : 0;
+    switch (dest->format->depth) {
+    case 1:
+        return ((*(uint8_t *)(dest->data + dest->pitch * y + (x >> 3))) & (0x80 >> (x & 7))) ? 1
+                                                                                             : 0;
 
-        case 8:
-            return *(( uint8_t * ) dest->data + dest->pitch * y + x ) ;
+    case 8:
+        return *((uint8_t *)dest->data + dest->pitch * y + x);
 
-        case 16:
-            return *( uint16_t * )(( uint8_t * ) dest->data + dest->pitch * y + ( x << 1 ) ) ;
+    case 16:
+        return *(uint16_t *)((uint8_t *)dest->data + dest->pitch * y + (x << 1));
 
-        case 32:
-            return *( uint32_t * )(( uint8_t * ) dest->data + dest->pitch * y + ( x << 2 ) ) ;
+    case 32:
+        return *(uint32_t *)((uint8_t *)dest->data + dest->pitch * y + (x << 2));
     }
     return -1;
 }
@@ -95,80 +96,87 @@ int gr_get_pixel( GRAPH * dest, int x, int y ) {
  *
  */
 
-void gr_put_pixel( GRAPH * dest, int x, int y, int color )
-{
-    if ( x < 0 || y < 0 || x >= ( int ) dest->width || y >= ( int ) dest->height ) return ;
+void gr_put_pixel(GRAPH *dest, int x, int y, int color) {
+    if (x < 0 || y < 0 || x >= (int)dest->width || y >= (int)dest->height)
+        return;
 
-    switch ( dest->format->depth )
-    {
-        case 1:
-            if ( color )
-                *(( uint8_t * ) dest->data + dest->pitch * y + ( x >> 3 ) ) |= ( 0x80 >> ( x & 7 ) ) ;
-            else
-                *(( uint8_t * ) dest->data + dest->pitch * y + ( x >> 3 ) ) &= ~( 0x80 >> ( x & 7 ) ) ;
-            break;
+    switch (dest->format->depth) {
+    case 1:
+        if (color)
+            *((uint8_t *)dest->data + dest->pitch * y + (x >> 3)) |= (0x80 >> (x & 7));
+        else
+            *((uint8_t *)dest->data + dest->pitch * y + (x >> 3)) &= ~(0x80 >> (x & 7));
+        break;
 
-        case 8:
-            _Pixel8(( uint8_t * ) dest->data + dest->pitch * y + x , color );
-            break;
+    case 8:
+        _Pixel8((uint8_t *)dest->data + dest->pitch * y + x, color);
+        break;
 
-        case 16:
-            _Pixel16(( uint8_t * ) dest->data + dest->pitch * y + ( x << 1 ), color, gr_alpha16( pixel_alpha )[ color ] ) ;
-            break;
+    case 16:
+        _Pixel16((uint8_t *)dest->data + dest->pitch * y + (x << 1), color,
+                 gr_alpha16(pixel_alpha)[color]);
+        break;
 
-        case 32:
-            {
-                uint32_t * ptr = ( uint32_t * ) (( uint8_t * ) dest->data + dest->pitch * y + ( x << 2 )) ;
+    case 32: {
+        uint32_t *ptr = (uint32_t *)((uint8_t *)dest->data + dest->pitch * y + (x << 2));
 
-                if ( pixel_alpha == 255 && ( color & 0xff000000 ) == 0xff000000 )
-                {
-                    *ptr = color ;
-                }
+        if (pixel_alpha == 255 && (color & 0xff000000) == 0xff000000) {
+            *ptr = color;
+        } else {
+            unsigned int _f = color & 0xff000000, _f2;
+            unsigned int r, g, b;
+
+            _f  = (_f >> 24) * pixel_alpha / 255;
+            _f2 = 255 - _f;
+
+            if (_f != 0x000000ff) {
+                r = ((color & 0x00ff0000) * _f + ((*ptr & 0x00ff0000) * _f2)) >> 8;
+                g = ((color & 0x0000ff00) * _f + ((*ptr & 0x0000ff00) * _f2)) >> 8;
+                b = ((color & 0x000000ff) * _f + ((*ptr & 0x000000ff) * _f2)) >> 8;
+
+                if (r > 0x00ff0000)
+                    r = 0x00ff0000;
                 else
-                {
-                    unsigned int _f = color & 0xff000000, _f2 ;
-                    unsigned int r, g, b ;
+                    r &= 0x00ff0000;
+                if (g > 0x0000ff00)
+                    g = 0x0000ff00;
+                else
+                    g &= 0x0000ff00;
+                if (b > 0x000000ff)
+                    b = 0x000000ff;
+                else
+                    b &= 0x000000ff;
 
-                    _f = ( _f >> 24 ) * pixel_alpha / 255 ;
-                    _f2 = 255 - _f ;
+                *ptr = (_f << 24) | r | g | b;
+            } else {
+                r = ((color & 0x00ff0000) * pixel_alpha + ((*ptr & 0x00ff0000) * _f2)) >> 8;
+                g = ((color & 0x0000ff00) * pixel_alpha + ((*ptr & 0x0000ff00) * _f2)) >> 8;
+                b = ((color & 0x000000ff) * pixel_alpha + ((*ptr & 0x000000ff) * _f2)) >> 8;
 
-                    if ( _f != 0x000000ff )
-                    {
-                        r = ( ( color & 0x00ff0000 ) * _f + (( *ptr & 0x00ff0000 ) * _f2 ) ) >> 8 ;
-                        g = ( ( color & 0x0000ff00 ) * _f + (( *ptr & 0x0000ff00 ) * _f2 ) ) >> 8 ;
-                        b = ( ( color & 0x000000ff ) * _f + (( *ptr & 0x000000ff ) * _f2 ) ) >> 8 ;
+                if (r > 0x00ff0000)
+                    r = 0x00ff0000;
+                else
+                    r &= 0x00ff0000;
+                if (g > 0x0000ff00)
+                    g = 0x0000ff00;
+                else
+                    g &= 0x0000ff00;
+                if (b > 0x000000ff)
+                    b = 0x000000ff;
+                else
+                    b &= 0x000000ff;
 
-                        if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-                        if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-                        if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-                        *ptr = ( _f << 24 ) | r | g | b ;
-                    }
-                    else
-                    {
-                        r = ( ( color & 0x00ff0000 ) * pixel_alpha + (( *ptr & 0x00ff0000 ) * _f2 ) ) >> 8 ;
-                        g = ( ( color & 0x0000ff00 ) * pixel_alpha + (( *ptr & 0x0000ff00 ) * _f2 ) ) >> 8 ;
-                        b = ( ( color & 0x000000ff ) * pixel_alpha + (( *ptr & 0x000000ff ) * _f2 ) ) >> 8 ;
-
-                        if ( r > 0x00ff0000 ) r = 0x00ff0000 ; else r &= 0x00ff0000 ;
-                        if ( g > 0x0000ff00 ) g = 0x0000ff00 ; else g &= 0x0000ff00 ;
-                        if ( b > 0x000000ff ) b = 0x000000ff ; else b &= 0x000000ff ;
-
-                        *ptr = 0xff000000 | r | g | b ;
-                    }
-                }
+                *ptr = 0xff000000 | r | g | b;
             }
-            break;
+        }
+    } break;
     }
 
-    if ( color )
-    {
-        dest->modified = 2 ;
+    if (color) {
+        dest->modified = 2;
         dest->info_flags &= ~GI_CLEAN;
-    }
-    else
-    {
-        dest->modified = 1 ; /* Doesn't need analysis */
+    } else {
+        dest->modified = 1; /* Doesn't need analysis */
         dest->info_flags &= ~GI_NOCOLORKEY;
     }
 
@@ -191,10 +199,9 @@ void gr_put_pixel( GRAPH * dest, int x, int y, int color )
  *
  */
 
-void gr_put_pixelc( GRAPH * dest, REGION * clip, int x, int y, int color )
-{
-    if ( clip && x >= clip->x && x <= clip->x2 && y >= clip->y && y <= clip->y2 )
-        gr_put_pixel( dest, x, y, color );
+void gr_put_pixelc(GRAPH *dest, REGION *clip, int x, int y, int color) {
+    if (clip && x >= clip->x && x <= clip->x2 && y >= clip->y && y <= clip->y2)
+        gr_put_pixel(dest, x, y, color);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -211,32 +218,32 @@ void gr_put_pixelc( GRAPH * dest, REGION * clip, int x, int y, int color )
  *
  */
 
-void gr_setcolor( int c )
-{
-/*
-    int r, g, b;
+void gr_setcolor(int c) {
+    /*
+        int r, g, b;
 
-    if ( c )
-    {
-        if ( sys_pixel_format->depth != 8 )
+        if ( c )
         {
-            gr_get_rgb( c, &r, &g, &b );
-            pixel_color8 = gr_find_nearest_color( r, g, b );
+            if ( sys_pixel_format->depth != 8 )
+            {
+                gr_get_rgb( c, &r, &g, &b );
+                pixel_color8 = gr_find_nearest_color( r, g, b );
+            }
+            else
+            {
+
+            }
         }
         else
-        {
-
-        }
-    }
-    else
-        pixel_color8 = 0;
-*/
+            pixel_color8 = 0;
+    */
     /* Fix this */
-    pixel_color8 = c;
-    pixel_color16 = c ;
-    pixel_color32 = c ;
+    pixel_color8  = c;
+    pixel_color16 = c;
+    pixel_color32 = c;
 
-    if ( sys_pixel_format->depth == 16 && pixel_alpha != 255 ) pixel_color16_alpha = gr_alpha16( pixel_alpha )[ pixel_color16 ];
+    if (sys_pixel_format->depth == 16 && pixel_alpha != 255)
+        pixel_color16_alpha = gr_alpha16(pixel_alpha)[pixel_color16];
 }
 
 /* --------------------------------------------------------------------------- */
@@ -253,20 +260,16 @@ void gr_setcolor( int c )
  *
  */
 
-void gr_setalpha( int value )
-{
+void gr_setalpha(int value) {
     value &= 0xFF;
     pixel_alpha = value;
 
-    if ( sys_pixel_format->depth == 16 )
-    {
-        pixel_alpha8 = gr_alpha8( value );
-        pixel_alpha16 = gr_alpha16( 255 - value );
-        pixel_color16_alpha = gr_alpha16( value )[ pixel_color16 ];
-    }
-    else
-    {
-        pixel_alpha8 = gr_alpha8( value );
+    if (sys_pixel_format->depth == 16) {
+        pixel_alpha8        = gr_alpha8(value);
+        pixel_alpha16       = gr_alpha16(255 - value);
+        pixel_color16_alpha = gr_alpha16(value)[pixel_color16];
+    } else {
+        pixel_alpha8 = gr_alpha8(value);
     }
 }
 

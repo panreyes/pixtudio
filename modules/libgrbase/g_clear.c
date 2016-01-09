@@ -49,11 +49,11 @@
  *
  */
 
-void gr_clear( GRAPH * dest ) {
-    memset( dest->data, 0, dest->pitch * dest->height ) ;
+void gr_clear(GRAPH *dest) {
+    memset(dest->data, 0, dest->pitch * dest->height);
     dest->needs_texture_update = 1;
 
-    dest->modified = 1 ; /* Doesn't need analysis */
+    dest->modified = 1; /* Doesn't need analysis */
 
     dest->info_flags &= ~GI_NOCOLORKEY;
     dest->info_flags |= GI_CLEAN;
@@ -74,65 +74,61 @@ void gr_clear( GRAPH * dest ) {
  *
  */
 
-void gr_clear_as( GRAPH * dest, int color ) {
+void gr_clear_as(GRAPH *dest, int color) {
     uint32_t y;
 
-    if ( !color ) {
-        gr_clear( dest );
+    if (!color) {
+        gr_clear(dest);
         return;
     }
 
-    switch ( dest->format->depth ) {
-        case 8:
-        {
-            memset( dest->data, color, dest->pitch * dest->height ) ;
-            break;
-        }
+    switch (dest->format->depth) {
+    case 8: {
+        memset(dest->data, color, dest->pitch * dest->height);
+        break;
+    }
 
-        case 16:
-        {
-            uint8_t * data = dest->data ;
-            int16_t * ptr ;
-            int n ;
-            y = dest->height;
-            while ( y-- )
-            {
-                ptr = ( int16_t * ) data;
-                n = dest->width;
-                while ( n-- ) * ptr++ = color ;
-                data += dest->pitch ;
-            }
-            break;
+    case 16: {
+        uint8_t *data = dest->data;
+        int16_t *ptr;
+        int n;
+        y = dest->height;
+        while (y--) {
+            ptr = (int16_t *)data;
+            n = dest->width;
+            while (n--)
+                *ptr++ = color;
+            data += dest->pitch;
         }
+        break;
+    }
 
-        case 32:
-        {
-            uint8_t * data = dest->data ;
-            uint32_t * ptr ;
-            int n ;
-            y = dest->height;
-            while ( y-- )
-            {
-                ptr = ( uint32_t * ) data;
-                n = dest->width;
-                while ( n-- ) * ptr++ = color ;
-                data += dest->pitch ;
-            }
-            break;
+    case 32: {
+        uint8_t *data = dest->data;
+        uint32_t *ptr;
+        int n;
+        y = dest->height;
+        while (y--) {
+            ptr = (uint32_t *)data;
+            n = dest->width;
+            while (n--)
+                *ptr++ = color;
+            data += dest->pitch;
         }
+        break;
+    }
 
-        case 1:
-        {
-            int c = color ? 0xFF : 0 ;
-            memset( dest->data, c, dest->pitch * dest->height ) ;
-            break;
-        }
+    case 1: {
+        int c = color ? 0xFF : 0;
+        memset(dest->data, c, dest->pitch * dest->height);
+        break;
+    }
     }
 
     dest->needs_texture_update = 1;
 
-    dest->modified = 1 ; /* Doesn't need analysis */
-    if ( dest->format->depth != 32 || ( color & 0xff000000 ) == 0xff000000 )
+    dest->modified = 1; /* Doesn't need analysis */
+    if (dest->format->depth != 32 || (color & 0xff000000) == 0xff000000)
         dest->info_flags |= GI_NOCOLORKEY;
     else
         dest->info_flags &= ~GI_NOCOLORKEY;
@@ -154,64 +150,57 @@ void gr_clear_as( GRAPH * dest, int color ) {
  *
  */
 
-void gr_clear_region( GRAPH * dest, REGION * region )
-{
-    REGION base_region ;
-    int y, l ;
+void gr_clear_region(GRAPH *dest, REGION *region) {
+    REGION base_region;
+    int y, l;
 
-    if ( !dest ) dest = scrbitmap ;
-    if ( !region )
-    {
-        region = &base_region ;
-        region->x = 0 ;
-        region->y = 0 ;
-        region->x2 = dest->width - 1 ;
-        region->y2 = dest->height - 1 ;
-    }
-    else
-    {
-        base_region = *region ;
-        region = &base_region ;
-        region->x = MAX( MIN( region->x, region->x2 ), 0 ) ;
-        region->y = MAX( MIN( region->y, region->y2 ), 0 ) ;
-        region->x2 = MIN( MAX( region->x, region->x2 ), dest->width - 1 ) ;
-        region->y2 = MIN( MAX( region->y, region->y2 ), dest->height - 1 ) ;
+    if (!dest)
+        dest = scrbitmap;
+    if (!region) {
+        region     = &base_region;
+        region->x  = 0;
+        region->y  = 0;
+        region->x2 = dest->width - 1;
+        region->y2 = dest->height - 1;
+    } else {
+        base_region = *region;
+        region      = &base_region;
+        region->x   = MAX(MIN(region->x, region->x2), 0);
+        region->y   = MAX(MIN(region->y, region->y2), 0);
+        region->x2  = MIN(MAX(region->x, region->x2), dest->width - 1);
+        region->y2  = MIN(MAX(region->y, region->y2), dest->height - 1);
     }
 
-    switch ( dest->format->depth )
-    {
-        case 8:
-        case 16:
-        case 32:
-        {
-            uint8_t * data = (( uint8_t * ) dest->data ) + dest->pitch * region->y + region->x * dest->format->depthb;
-            l = ( region->x2 - region->x + 1 ) * dest->format->depthb;
-            for ( y = region->y; y <= region->y2; y++ )
-            {
-                memset( data, 0, l );
-                data += dest->pitch ;
-            }
-            break ;
+    switch (dest->format->depth) {
+    case 8:
+    case 16:
+    case 32: {
+        uint8_t *data =
+            ((uint8_t *)dest->data) + dest->pitch * region->y + region->x * dest->format->depthb;
+        l = (region->x2 - region->x + 1) * dest->format->depthb;
+        for (y = region->y; y <= region->y2; y++) {
+            memset(data, 0, l);
+            data += dest->pitch;
         }
-
-        case 1:
-        {
-            uint8_t * data = (( uint8_t * ) dest->data ) + region->x / 8 ;
-            l = ( region->x2 - region->x - 1 ) / 8 + 1 ;
-            for ( y = region->y; y <= region->y2; y++ )
-            {
-                /* Esta debe ser cambiada, por bits */
-                memset( data, 0, l ) ;
-                data += dest->pitch ;
-            }
-            break ;
-        }
-
-        default:
-            return;
+        break;
     }
 
-    dest->modified = 1 ; /* Doesn't need analysis */
+    case 1: {
+        uint8_t *data = ((uint8_t *)dest->data) + region->x / 8;
+        l = (region->x2 - region->x - 1) / 8 + 1;
+        for (y = region->y; y <= region->y2; y++) {
+            /* Esta debe ser cambiada, por bits */
+            memset(data, 0, l);
+            data += dest->pitch;
+        }
+        break;
+    }
+
+    default:
+        return;
+    }
+
+    dest->modified = 1; /* Doesn't need analysis */
     dest->info_flags &= ~GI_NOCOLORKEY;
 }
 

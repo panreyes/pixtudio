@@ -30,8 +30,7 @@
 #ifndef MOD_SYS_H
 #define MOD_SYS_H
 
-#define _P_WAIT     0
-#define _P_NOWAIT   1
+#define _P_WAIT 0
+#define _P_NOWAIT 1
 
 #endif // MOD_SYS_H
-

@@ -30,11 +30,11 @@
 #ifndef __G_RECTS
 #define __G_RECTS
 
-#define DIRTYCOLS  32 /* max: 32 */
-#define DIRTYROWS  16 /* max: 32 */
+#define DIRTYCOLS 32 /* max: 32 */
+#define DIRTYROWS 16 /* max: 32 */
 
-void gr_mark_rect( int x, int y, int width, int height ) ;
-int gr_mark_rects( REGION * rects ) ;
-void gr_rects_clear() ;
+void gr_mark_rect(int x, int y, int width, int height);
+int gr_mark_rects(REGION *rects);
+void gr_rects_clear();
 
 #endif

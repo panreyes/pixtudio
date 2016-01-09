@@ -54,10 +54,10 @@
 
 /* --------------------------------------------------------------------------- */
 
-#define MAX_JOYS    32
+#define MAX_JOYS 32
 
 static int _max_joys = 0;
-static SDL_Joystick * _joysticks[MAX_JOYS];
+static SDL_Joystick *_joysticks[MAX_JOYS];
 static int _selected_joystick = -1;
 
 /* --------------------------------------------------------------------------- */
@@ -65,9 +65,8 @@ static int _selected_joystick = -1;
 /* Returns the number of joysticks present in the system                       */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_num( void )
-{
-    return _max_joys ;
+int libjoy_num(void) {
+    return _max_joys;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -75,11 +74,10 @@ int libjoy_num( void )
 /* Returns the name for a given joystick present in the system                 */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_name( int joy )
-{
+int libjoy_name(int joy) {
     int result;
-    result = string_new( SDL_JoystickNameForIndex( joy ) );
-    string_use( result );
+    result = string_new(SDL_JoystickNameForIndex(joy));
+    string_use(result);
     return result;
 }
 
@@ -88,9 +86,8 @@ int libjoy_name( int joy )
 /* Returns the selected joystick number                                        */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_select( int joy )
-{
-    return ( _selected_joystick = joy );
+int libjoy_select(int joy) {
+    return (_selected_joystick = joy);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -98,12 +95,11 @@ int libjoy_select( int joy )
 /* Returns the selected joystick total buttons                                 */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_buttons( void )
-{
-    if ( _selected_joystick >= 0 && _selected_joystick < _max_joys ) {
-        return SDL_JoystickNumButtons( _joysticks[ _selected_joystick ] ) ;
+int libjoy_buttons(void) {
+    if (_selected_joystick >= 0 && _selected_joystick < _max_joys) {
+        return SDL_JoystickNumButtons(_joysticks[_selected_joystick]);
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -111,11 +107,11 @@ int libjoy_buttons( void )
 /* Returns the selected joystick total axes                                    */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_axes( void ) {
-    if ( _selected_joystick >= 0 && _selected_joystick < _max_joys ) {
-        return SDL_JoystickNumAxes( _joysticks[ _selected_joystick ] ) ;
+int libjoy_axes(void) {
+    if (_selected_joystick >= 0 && _selected_joystick < _max_joys) {
+        return SDL_JoystickNumAxes(_joysticks[_selected_joystick]);
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -123,11 +119,11 @@ int libjoy_axes( void ) {
 /* Returns the selected joystick state for the given button                    */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_get_button( int button ) {
-    if ( _selected_joystick >= 0 && _selected_joystick < _max_joys ) {
-        return SDL_JoystickGetButton( _joysticks[ _selected_joystick ], button ) ;
+int libjoy_get_button(int button) {
+    if (_selected_joystick >= 0 && _selected_joystick < _max_joys) {
+        return SDL_JoystickGetButton(_joysticks[_selected_joystick], button);
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -135,11 +131,11 @@ int libjoy_get_button( int button ) {
 /* Returns the selected joystick state for the given axis                      */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_get_position( int axis ) {
-    if ( _selected_joystick >= 0 && _selected_joystick < _max_joys ){
-        return SDL_JoystickGetAxis( _joysticks[ _selected_joystick ], axis ) ;
+int libjoy_get_position(int axis) {
+    if (_selected_joystick >= 0 && _selected_joystick < _max_joys) {
+        return SDL_JoystickGetAxis(_joysticks[_selected_joystick], axis);
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -147,11 +143,11 @@ int libjoy_get_position( int axis ) {
 /* Returns the total number of POV hats of the current selected joystick       */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_hats( void ) {
-    if ( _selected_joystick >= 0 && _selected_joystick < _max_joys ) {
-        return SDL_JoystickNumHats( _joysticks[ _selected_joystick ] ) ;
+int libjoy_hats(void) {
+    if (_selected_joystick >= 0 && _selected_joystick < _max_joys) {
+        return SDL_JoystickNumHats(_joysticks[_selected_joystick]);
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -159,11 +155,11 @@ int libjoy_hats( void ) {
 /* Returns the total number of balls of the current selected joystick          */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_balls( void ) {
-    if ( _selected_joystick >= 0 && _selected_joystick < _max_joys ) {
-        return SDL_JoystickNumBalls( _joysticks[ _selected_joystick ] ) ;
+int libjoy_balls(void) {
+    if (_selected_joystick >= 0 && _selected_joystick < _max_joys) {
+        return SDL_JoystickNumBalls(_joysticks[_selected_joystick]);
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -171,13 +167,13 @@ int libjoy_balls( void ) {
 /* Returns the state of the specfied hat on the current selected joystick      */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_get_hat( int hat ) {
-    if ( _selected_joystick >= 0 && _selected_joystick < _max_joys ) {
-        if ( hat >= 0 && hat <= SDL_JoystickNumHats( _joysticks[ _selected_joystick ] ) ) {
-            return SDL_JoystickGetHat( _joysticks[ _selected_joystick ], hat ) ;
+int libjoy_get_hat(int hat) {
+    if (_selected_joystick >= 0 && _selected_joystick < _max_joys) {
+        if (hat >= 0 && hat <= SDL_JoystickNumHats(_joysticks[_selected_joystick])) {
+            return SDL_JoystickGetHat(_joysticks[_selected_joystick], hat);
         }
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -185,18 +181,18 @@ int libjoy_get_hat( int hat ) {
 /* Returns the state of the specfied ball on the current selected joystick     */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_get_ball( int ball, int * dx, int * dy ) {
-    if ( _selected_joystick >= 0 && _selected_joystick < _max_joys ) {
-        if ( ball >= 0 && ball <= SDL_JoystickNumBalls( _joysticks[ball] ) ) {
-            return SDL_JoystickGetBall( _joysticks[ _selected_joystick ], ball, dx, dy ) ;
+int libjoy_get_ball(int ball, int *dx, int *dy) {
+    if (_selected_joystick >= 0 && _selected_joystick < _max_joys) {
+        if (ball >= 0 && ball <= SDL_JoystickNumBalls(_joysticks[ball])) {
+            return SDL_JoystickGetBall(_joysticks[_selected_joystick], ball, dx, dy);
         }
     }
-    return -1 ;
+    return -1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int libjoy_get_accel( int * x, int * y, int * z ) {
+int libjoy_get_accel(int *x, int *y, int *z) {
     return -1;
 }
 
@@ -209,11 +205,11 @@ int libjoy_get_accel( int * x, int * y, int * z ) {
 /* Returns the selected joystick total buttons                                 */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_buttons_specific( int joy ) {
-    if ( joy >= 0 && joy < _max_joys ) {
-        return SDL_JoystickNumButtons( _joysticks[ joy ] ) ;
+int libjoy_buttons_specific(int joy) {
+    if (joy >= 0 && joy < _max_joys) {
+        return SDL_JoystickNumButtons(_joysticks[joy]);
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -221,11 +217,11 @@ int libjoy_buttons_specific( int joy ) {
 /* Returns the selected joystick total axes                                    */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_axes_specific( int joy ) {
-    if ( joy >= 0 && joy < _max_joys ) {
-        return SDL_JoystickNumAxes( _joysticks[ joy ] ) ;
+int libjoy_axes_specific(int joy) {
+    if (joy >= 0 && joy < _max_joys) {
+        return SDL_JoystickNumAxes(_joysticks[joy]);
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -233,13 +229,13 @@ int libjoy_axes_specific( int joy ) {
 /* Returns the selected joystick state for the given button                    */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_get_button_specific( int joy, int button ) {
-    if ( joy >= 0 && joy < _max_joys ) {
-        if ( button >= 0 && button <= SDL_JoystickNumButtons( _joysticks[ joy ] ) ) {
-            return SDL_JoystickGetButton( _joysticks[ joy ], button ) ;
+int libjoy_get_button_specific(int joy, int button) {
+    if (joy >= 0 && joy < _max_joys) {
+        if (button >= 0 && button <= SDL_JoystickNumButtons(_joysticks[joy])) {
+            return SDL_JoystickGetButton(_joysticks[joy], button);
         }
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -247,13 +243,13 @@ int libjoy_get_button_specific( int joy, int button ) {
 /* Returns the selected joystick state for the given axis                      */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_get_position_specific( int joy, int axis ) {
-    if ( joy >= 0 && joy < _max_joys )     {
-        if ( axis >= 0 && axis <= SDL_JoystickNumAxes( _joysticks[ joy ] ) ) {
-            return SDL_JoystickGetAxis( _joysticks[ joy ], axis ) ;
+int libjoy_get_position_specific(int joy, int axis) {
+    if (joy >= 0 && joy < _max_joys) {
+        if (axis >= 0 && axis <= SDL_JoystickNumAxes(_joysticks[joy])) {
+            return SDL_JoystickGetAxis(_joysticks[joy], axis);
         }
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -264,11 +260,11 @@ int libjoy_get_position_specific( int joy, int axis ) {
 /* Returns the total number of POV hats of the specified joystick              */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_hats_specific( int joy )  {
-    if ( joy >= 0 && joy < _max_joys ){
-        return SDL_JoystickNumHats( _joysticks[ joy ] ) ;
+int libjoy_hats_specific(int joy) {
+    if (joy >= 0 && joy < _max_joys) {
+        return SDL_JoystickNumHats(_joysticks[joy]);
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -276,11 +272,11 @@ int libjoy_hats_specific( int joy )  {
 /* Returns the total number of balls of the specified joystick                 */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_balls_specific( int joy ) {
-    if ( joy >= 0 && joy < _max_joys ) {
-        return SDL_JoystickNumBalls( _joysticks[ joy ] ) ;
+int libjoy_balls_specific(int joy) {
+    if (joy >= 0 && joy < _max_joys) {
+        return SDL_JoystickNumBalls(_joysticks[joy]);
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -288,13 +284,13 @@ int libjoy_balls_specific( int joy ) {
 /* Returns the state of the specfied hat on the specified joystick             */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_get_hat_specific( int joy, int hat ) {
-    if ( joy >= 0 && joy < _max_joys ) {
-        if ( hat >= 0 && hat <= SDL_JoystickNumHats( _joysticks[ joy ] ) ) {
-            return SDL_JoystickGetHat( _joysticks[ joy ], hat ) ;
+int libjoy_get_hat_specific(int joy, int hat) {
+    if (joy >= 0 && joy < _max_joys) {
+        if (hat >= 0 && hat <= SDL_JoystickNumHats(_joysticks[joy])) {
+            return SDL_JoystickGetHat(_joysticks[joy], hat);
         }
     }
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -302,18 +298,18 @@ int libjoy_get_hat_specific( int joy, int hat ) {
 /* Returns the state of the specfied ball on the specified joystick            */
 /* --------------------------------------------------------------------------- */
 
-int libjoy_get_ball_specific( int joy, int ball, int * dx, int * dy ) {
-    if ( joy >= 0 && joy < _max_joys ) {
-        if ( ball >= 0 && ball <= SDL_JoystickNumBalls( _joysticks[ joy ] ) ) {
-            return SDL_JoystickGetBall( _joysticks[ joy ], ball, dx, dy ) ;
+int libjoy_get_ball_specific(int joy, int ball, int *dx, int *dy) {
+    if (joy >= 0 && joy < _max_joys) {
+        if (ball >= 0 && ball <= SDL_JoystickNumBalls(_joysticks[joy])) {
+            return SDL_JoystickGetBall(_joysticks[joy], ball, dx, dy);
         }
     }
-    return -1 ;
+    return -1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int libjoy_get_accel_specific( int joy, int * x, int * y, int * z ) {
+int libjoy_get_accel_specific(int joy, int *x, int *y, int *z) {
     return -1;
 }
 
@@ -321,38 +317,41 @@ int libjoy_get_accel_specific( int joy, int * x, int * y, int * z ) {
 /* Funciones de inicializacion del modulo/plugin                               */
 /* --------------------------------------------------------------------------- */
 
-void  __bgdexport( libjoy, module_initialize )() {
+void __bgdexport(libjoy, module_initialize)() {
     int i;
 
-    if ( !SDL_WasInit( SDL_INIT_JOYSTICK ) ) {
-        SDL_InitSubSystem( SDL_INIT_JOYSTICK );
-        SDL_JoystickEventState( SDL_ENABLE ) ;
+    if (!SDL_WasInit(SDL_INIT_JOYSTICK)) {
+        SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+        SDL_JoystickEventState(SDL_ENABLE);
     }
 
     /* Open all joysticks */
-    if (( _max_joys = SDL_NumJoysticks() ) > MAX_JOYS ) {
-        fprintf( stderr, "[JOY] Warning: maximum number of joysticks exceeded (%i>%i)", _max_joys, MAX_JOYS );
+    if ((_max_joys = SDL_NumJoysticks()) > MAX_JOYS) {
+        fprintf(stderr, "[JOY] Warning: maximum number of joysticks exceeded (%i>%i)", _max_joys,
+                MAX_JOYS);
         _max_joys = MAX_JOYS;
     }
 
-    for ( i = 0; i < _max_joys; i++ ) {
-        _joysticks[i] = SDL_JoystickOpen( i ) ;
-        if ( !_joysticks[ i ] ) printf( "[JOY] Failed to open joystick '%i'", i );
+    for (i = 0; i < _max_joys; i++) {
+        _joysticks[i] = SDL_JoystickOpen(i);
+        if (!_joysticks[i])
+            printf("[JOY] Failed to open joystick '%i'", i);
     }
 
-    SDL_JoystickUpdate() ;
+    SDL_JoystickUpdate();
 }
 
 /* ----------------------------------------------------------------- */
 
-void  __bgdexport( libjoy, module_finalize )() {
+void __bgdexport(libjoy, module_finalize)() {
     int i;
 
-    for ( i = 0; i < _max_joys; i++ )
-        if ( _joysticks[ i ] ) SDL_JoystickClose( _joysticks[ i ] ) ;
+    for (i = 0; i < _max_joys; i++)
+        if (_joysticks[i])
+            SDL_JoystickClose(_joysticks[i]);
 
-    if ( SDL_WasInit( SDL_INIT_JOYSTICK ) ) SDL_QuitSubSystem( SDL_INIT_JOYSTICK );
-
+    if (SDL_WasInit(SDL_INIT_JOYSTICK))
+        SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 }
 
 /* ----------------------------------------------------------------- */

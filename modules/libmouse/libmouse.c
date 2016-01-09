@@ -47,19 +47,19 @@
 
 /* --------------------------------------------------------------------------- */
 
-static int last_mousex = 0;
-static int last_mousey = 0;
-static int last_mousez = 0;
-static int last_mousefile = 0;
-static int last_mousegraph = 0;
-static int last_mouseangle = 0;
-static int last_mousesize = 0;
-static int last_mouseflags = 0;
-static int last_mouseregion = 0;
+static int last_mousex       = 0;
+static int last_mousey       = 0;
+static int last_mousez       = 0;
+static int last_mousefile    = 0;
+static int last_mousegraph   = 0;
+static int last_mouseangle   = 0;
+static int last_mousesize    = 0;
+static int last_mouseflags   = 0;
+static int last_mouseregion  = 0;
 static int last_mousecenterx = -1;
 static int last_mousecentery = -1;
 
-static GRAPH * mouse_map = NULL;
+static GRAPH *mouse_map = NULL;
 
 /* --------------------------------------------------------------------------- */
 
@@ -85,30 +85,28 @@ enum {
 
 /* --------------------------------------------------------------------------- */
 
-DLVARFIXUP __bgdexport( libmouse, globals_fixup )[] =
-{
+DLVARFIXUP __bgdexport(libmouse, globals_fixup)[] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
 
-    { "mouse.x"         , NULL, -1, -1 },
-    { "mouse.y"         , NULL, -1, -1 },
-    { "mouse.z"         , NULL, -1, -1 },
-    { "mouse.file"      , NULL, -1, -1 },
-    { "mouse.graph"     , NULL, -1, -1 },
-    { "mouse.angle"     , NULL, -1, -1 },
-    { "mouse.size"      , NULL, -1, -1 },
-    { "mouse.flags"     , NULL, -1, -1 },
-    { "mouse.region"    , NULL, -1, -1 },
-    { "mouse.left"      , NULL, -1, -1 },
-    { "mouse.middle"    , NULL, -1, -1 },
-    { "mouse.right"     , NULL, -1, -1 },
-    { "mouse.wheelup"   , NULL, -1, -1 },
-    { "mouse.wheeldown" , NULL, -1, -1 },
-    { "mouse.modr"      , NULL, -1, -1 },
-    { "mouse.modg"      , NULL, -1, -1 },
-    { "mouse.modb"      , NULL, -1, -1 },
+    {"mouse.x", NULL, -1, -1},
+    {"mouse.y", NULL, -1, -1},
+    {"mouse.z", NULL, -1, -1},
+    {"mouse.file", NULL, -1, -1},
+    {"mouse.graph", NULL, -1, -1},
+    {"mouse.angle", NULL, -1, -1},
+    {"mouse.size", NULL, -1, -1},
+    {"mouse.flags", NULL, -1, -1},
+    {"mouse.region", NULL, -1, -1},
+    {"mouse.left", NULL, -1, -1},
+    {"mouse.middle", NULL, -1, -1},
+    {"mouse.right", NULL, -1, -1},
+    {"mouse.wheelup", NULL, -1, -1},
+    {"mouse.wheeldown", NULL, -1, -1},
+    {"mouse.modr", NULL, -1, -1},
+    {"mouse.modg", NULL, -1, -1},
+    {"mouse.modb", NULL, -1, -1},
 
-    { NULL              , NULL, -1, -1 }
-};
+    {NULL, NULL, -1, -1}};
 
 /* --------------------------------------------------------------------------- */
 
@@ -126,59 +124,60 @@ DLVARFIXUP __bgdexport( libmouse, globals_fixup )[] =
  *      None
  */
 
-static void do_mouse_events()
-{
-    SDL_Event e ;
-    static int last_mouse_x = -1, last_mouse_y = -1 ;
+static void do_mouse_events() {
+    SDL_Event e;
+    static int last_mouse_x = -1, last_mouse_y = -1;
 
     /* Actualizar eventos */
 
     /* El cambio de mouse.x/y afecta directamente al ratón */
 
-    if (
-        ( last_mouse_x != -1 && GLOINT32( libmouse, MOUSEX ) != last_mouse_x ) ||
-        ( last_mouse_y != -1 && GLOINT32( libmouse, MOUSEY ) != last_mouse_y ) )
-    {
-        SDL_WarpMouseInWindow(window, GLOINT32(libmouse, MOUSEX), GLOINT32( libmouse, MOUSEY ));
+    if ((last_mouse_x != -1 && GLOINT32(libmouse, MOUSEX) != last_mouse_x) ||
+        (last_mouse_y != -1 && GLOINT32(libmouse, MOUSEY) != last_mouse_y)) {
+        SDL_WarpMouseInWindow(window, GLOINT32(libmouse, MOUSEX), GLOINT32(libmouse, MOUSEY));
     }
 
     /* Procesa los eventos de mouse pendientes */
 
-    GLODWORD( libmouse, MOUSEWHEELUP )   = 0 ;
-    GLODWORD( libmouse, MOUSEWHEELDOWN ) = 0 ;
+    GLODWORD(libmouse, MOUSEWHEELUP) = 0;
+    GLODWORD(libmouse, MOUSEWHEELDOWN) = 0;
 
-    while ( SDL_PeepEvents( &e, 1, SDL_GETEVENT, SDL_MOUSEMOTION, SDL_MOUSEWHEEL ) > 0 )
-    {
-        switch ( e.type )
-        {
-            case SDL_MOUSEMOTION:
-                GLOINT32( libmouse, MOUSEX ) = e.motion.x * ((float)scr_width/(float)renderer_width) ;
-                GLOINT32( libmouse, MOUSEY ) = e.motion.y * ((float)scr_height/(float)renderer_height) ;
-                break ;
+    while (SDL_PeepEvents(&e, 1, SDL_GETEVENT, SDL_MOUSEMOTION, SDL_MOUSEWHEEL) > 0) {
+        switch (e.type) {
+        case SDL_MOUSEMOTION:
+            GLOINT32(libmouse, MOUSEX) = e.motion.x * ((float)scr_width / (float)renderer_width);
+            GLOINT32(libmouse, MOUSEY) = e.motion.y * ((float)scr_height / (float)renderer_height);
+            break;
 
-            case SDL_MOUSEBUTTONDOWN:
-                if ( e.button.button == SDL_BUTTON_LEFT )      GLODWORD( libmouse, MOUSELEFT )     = 1 ;
-                if ( e.button.button == SDL_BUTTON_MIDDLE )    GLODWORD( libmouse, MOUSEMIDDLE )   = 1 ;
-                if ( e.button.button == SDL_BUTTON_RIGHT )     GLODWORD( libmouse, MOUSERIGHT )    = 1 ;
-                break ;
+        case SDL_MOUSEBUTTONDOWN:
+            if (e.button.button == SDL_BUTTON_LEFT)
+                GLODWORD(libmouse, MOUSELEFT) = 1;
+            if (e.button.button == SDL_BUTTON_MIDDLE)
+                GLODWORD(libmouse, MOUSEMIDDLE) = 1;
+            if (e.button.button == SDL_BUTTON_RIGHT)
+                GLODWORD(libmouse, MOUSERIGHT) = 1;
+            break;
 
-            case SDL_MOUSEBUTTONUP:
-                if ( e.button.button == SDL_BUTTON_LEFT )      GLODWORD( libmouse, MOUSELEFT )      = 0 ;
-                if ( e.button.button == SDL_BUTTON_MIDDLE )    GLODWORD( libmouse, MOUSEMIDDLE )    = 0 ;
-                if ( e.button.button == SDL_BUTTON_RIGHT )     GLODWORD( libmouse, MOUSERIGHT )     = 0 ;
-                break ;
+        case SDL_MOUSEBUTTONUP:
+            if (e.button.button == SDL_BUTTON_LEFT)
+                GLODWORD(libmouse, MOUSELEFT) = 0;
+            if (e.button.button == SDL_BUTTON_MIDDLE)
+                GLODWORD(libmouse, MOUSEMIDDLE) = 0;
+            if (e.button.button == SDL_BUTTON_RIGHT)
+                GLODWORD(libmouse, MOUSERIGHT) = 0;
+            break;
 
-            case SDL_MOUSEWHEEL:
-                if(e.wheel.y > 0)
-                    GLODWORD(libmouse, MOUSEWHEELUP)++;
-                else if(e.wheel.y < 0)
-                    GLODWORD(libmouse, MOUSEWHEELDOWN)++;
-                break;
+        case SDL_MOUSEWHEEL:
+            if (e.wheel.y > 0)
+                GLODWORD(libmouse, MOUSEWHEELUP)++;
+            else if (e.wheel.y < 0)
+                GLODWORD(libmouse, MOUSEWHEELDOWN)++;
+            break;
         }
     }
 
-    last_mouse_x = GLOINT32( libmouse, MOUSEX ) ;
-    last_mouse_y = GLOINT32( libmouse, MOUSEY ) ;
+    last_mouse_x = GLOINT32(libmouse, MOUSEX);
+    last_mouse_y = GLOINT32(libmouse, MOUSEY);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -196,28 +195,26 @@ static void do_mouse_events()
  *      1 if the mouse has changed since last call
  */
 
-static int mouse_info( INSTANCE * i, REGION * clip, int * z, int * drawme )
-{
-    int mousex ;
-    int mousey ;
-    int mousez ;
-    int mousefile ;
-    int mousegraph ;
+static int mouse_info(INSTANCE *i, REGION *clip, int *z, int *drawme) {
+    int mousex;
+    int mousey;
+    int mousez;
+    int mousefile;
+    int mousegraph;
     int mouseangle;
     int mousesize;
     int mouseflags;
     int mouseregion;
     int changed;
 
-    * z = mousez = GLOINT32( libmouse, MOUSEZ );
+    *z = mousez = GLOINT32(libmouse, MOUSEZ);
 
-    mousefile   = GLODWORD( libmouse, MOUSEFILE );
-    mousegraph  = GLODWORD( libmouse, MOUSEGRAPH );
+    mousefile  = GLODWORD(libmouse, MOUSEFILE);
+    mousegraph = GLODWORD(libmouse, MOUSEGRAPH);
 
-    mouse_map = ( mousegraph > 0 ) ? bitmap_get( mousefile, mousegraph ) : NULL ;
-    if ( !mouse_map )
-    {
-        * drawme = 0;
+    mouse_map = (mousegraph > 0) ? bitmap_get(mousefile, mousegraph) : NULL;
+    if (!mouse_map) {
+        *drawme = 0;
         /*
         clip->x = clip->x2 = -2;
         clip->y = clip->y2 = -2;
@@ -225,68 +222,44 @@ static int mouse_info( INSTANCE * i, REGION * clip, int * z, int * drawme )
         return 0;
     }
 
-    mousex      = GLOINT32( libmouse, MOUSEX );
-    mousey      = GLOINT32( libmouse, MOUSEY );
-//    mousez      = GLODWORD( libmouse, MOUSEZ );
-    mouseangle  = GLOINT32( libmouse, MOUSEANGLE );
-    mousesize   = GLOINT32( libmouse, MOUSESIZE );
-    mouseflags  = GLODWORD( libmouse, MOUSEFLAGS );
-    mouseregion = GLOINT32( libmouse, MOUSEREGION );
+    mousex = GLOINT32(libmouse, MOUSEX);
+    mousey = GLOINT32(libmouse, MOUSEY);
+    //    mousez      = GLODWORD( libmouse, MOUSEZ );
+    mouseangle  = GLOINT32(libmouse, MOUSEANGLE);
+    mousesize   = GLOINT32(libmouse, MOUSESIZE);
+    mouseflags  = GLODWORD(libmouse, MOUSEFLAGS);
+    mouseregion = GLOINT32(libmouse, MOUSEREGION);
 
-    * drawme = 1;
+    *drawme = 1;
 
-    changed =
-        ( mouse_map && mouse_map->modified ) ||
-        last_mousex      != mousex      ||
-        last_mousey      != mousey      ||
-        last_mousez      != mousez      ||
-        last_mousefile   != mousefile   ||
-        last_mousegraph  != mousegraph  ||
-        last_mouseangle  != mouseangle  ||
-        last_mousesize   != mousesize   ||
-        last_mouseflags  != mouseflags  ||
-        last_mouseregion != mouseregion ||
-        (
-            mouse_map->ncpoints &&
-            (
-                last_mousecenterx != mouse_map->cpoints[0].x ||
-                last_mousecentery != mouse_map->cpoints[0].y
-            )
-        )
-        ;
+    changed = (mouse_map && mouse_map->modified) || last_mousex != mousex ||
+              last_mousey != mousey || last_mousez != mousez || last_mousefile != mousefile ||
+              last_mousegraph != mousegraph || last_mouseangle != mouseangle ||
+              last_mousesize != mousesize || last_mouseflags != mouseflags ||
+              last_mouseregion != mouseregion ||
+              (mouse_map->ncpoints && (last_mousecenterx != mouse_map->cpoints[0].x ||
+                                       last_mousecentery != mouse_map->cpoints[0].y));
 
-    if ( changed )
-    {
-        last_mousex         = mousex ;
-        last_mousey         = mousey ;
-        last_mousez         = mousez ;
-        last_mousefile      = mousefile ;
-        last_mousegraph     = mousegraph ;
-        last_mouseangle     = mouseangle ;
-        last_mousesize      = mousesize ;
-        last_mouseflags     = mouseflags ;
-        last_mouseregion    = mouseregion ;
-        if ( mouse_map->ncpoints )
-        {
+    if (changed) {
+        last_mousex      = mousex;
+        last_mousey      = mousey;
+        last_mousez      = mousez;
+        last_mousefile   = mousefile;
+        last_mousegraph  = mousegraph;
+        last_mouseangle  = mouseangle;
+        last_mousesize   = mousesize;
+        last_mouseflags  = mouseflags;
+        last_mouseregion = mouseregion;
+        if (mouse_map->ncpoints) {
             last_mousecenterx = mouse_map->cpoints[0].x;
             last_mousecentery = mouse_map->cpoints[0].y;
-        }
-        else
-        {
+        } else {
             last_mousecenterx = CPOINT_UNDEFINED;
             last_mousecentery = CPOINT_UNDEFINED;
         }
 
-        gr_get_bbox(
-            clip,
-            0,
-            mousex,
-            mousey,
-            mouseflags,
-            mouseangle ,
-            mousesize ,
-            mousesize ,
-            mouse_map ) ;
+        gr_get_bbox(clip, 0, mousex, mousey, mouseflags, mouseangle, mousesize, mousesize,
+                    mouse_map);
     }
 
     return changed;
@@ -306,42 +279,28 @@ static int mouse_info( INSTANCE * i, REGION * clip, int * z, int * drawme )
  *      None
  */
 
-static void mouse_draw( INSTANCE * i, REGION * clip )
-{
-    int r ;
+static void mouse_draw(INSTANCE *i, REGION *clip) {
+    int r;
     REGION region;
 
-    r = GLOINT32( libmouse, MOUSEREGION ) ;
-    if ( r < 0 || r > 31 ) r = 0 ;
+    r = GLOINT32(libmouse, MOUSEREGION);
+    if (r < 0 || r > 31)
+        r = 0;
 
     region = regions[r];
-    if ( clip ) region_union( &region, clip );
+    if (clip)
+        region_union(&region, clip);
 
-    if ( GLOINT32( libmouse, MOUSEANGLE ) || GLOINT32( libmouse, MOUSESIZE ) != 100 )
-        gr_rotated_blit(
-            0,
-            &region,
-            GLOINT32( libmouse, MOUSEX ),
-            GLOINT32( libmouse, MOUSEY ),
-            GLODWORD( libmouse, MOUSEFLAGS ),
-            GLOINT32( libmouse, MOUSEANGLE ),
-            GLOINT32( libmouse, MOUSESIZE ),
-            GLOINT32( libmouse, MOUSESIZE ),
-            GLOUINT8( libmouse, MOUSEMODR ),
-            GLOUINT8( libmouse, MOUSEMODG ),
-            GLOUINT8( libmouse, MOUSEMODB ),
-            mouse_map ) ;
+    if (GLOINT32(libmouse, MOUSEANGLE) || GLOINT32(libmouse, MOUSESIZE) != 100)
+        gr_rotated_blit(0, &region, GLOINT32(libmouse, MOUSEX), GLOINT32(libmouse, MOUSEY),
+                        GLODWORD(libmouse, MOUSEFLAGS), GLOINT32(libmouse, MOUSEANGLE),
+                        GLOINT32(libmouse, MOUSESIZE), GLOINT32(libmouse, MOUSESIZE),
+                        GLOUINT8(libmouse, MOUSEMODR), GLOUINT8(libmouse, MOUSEMODG),
+                        GLOUINT8(libmouse, MOUSEMODB), mouse_map);
     else
-        gr_blit(
-            0,
-            &region,
-            GLOINT32( libmouse, MOUSEX ),
-            GLOINT32( libmouse, MOUSEY ),
-            GLODWORD( libmouse, MOUSEFLAGS ),
-            GLOUINT8( libmouse, MOUSEMODR ),
-            GLOUINT8( libmouse, MOUSEMODG ),
-            GLOUINT8( libmouse, MOUSEMODB ),
-            mouse_map ) ;
+        gr_blit(0, &region, GLOINT32(libmouse, MOUSEX), GLOINT32(libmouse, MOUSEY),
+                GLODWORD(libmouse, MOUSEFLAGS), GLOUINT8(libmouse, MOUSEMODR),
+                GLOUINT8(libmouse, MOUSEMODG), GLOUINT8(libmouse, MOUSEMODB), mouse_map);
 
     mouse_map->modified = 0;
 }
@@ -351,17 +310,12 @@ static void mouse_draw( INSTANCE * i, REGION * clip )
 /* Bigest priority first execute
    Lowest priority last execute */
 
-HOOK __bgdexport( libmouse, handler_hooks )[] =
-{
-    { 4800, do_mouse_events },
-    { 0, NULL }
-} ;
+HOOK __bgdexport(libmouse, handler_hooks)[] = {{4800, do_mouse_events}, {0, NULL}};
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport( libmouse, module_initialize )()
-{
-    gr_new_object( GLOINT32( libmouse, MOUSEZ ), mouse_info, mouse_draw, 0 );
+void __bgdexport(libmouse, module_initialize)() {
+    gr_new_object(GLOINT32(libmouse, MOUSEZ), mouse_info, mouse_draw, 0);
 }
 
 /* --------------------------------------------------------------------------- */

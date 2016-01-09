@@ -62,27 +62,27 @@
  *      A non-zero positive value if the key is pressed, 0 otherwise
  */
 
-static _inline int _get_key( int code ) {
-    key_equiv * curr ;
-    int found = 0 ;
+static _inline int _get_key(int code) {
+    key_equiv *curr;
+    int found = 0;
 
-    if ( !keystate ) return 0;
+    if (!keystate)
+        return 0;
 
-    curr = &key_table[code] ;
+    curr = &key_table[code];
 
-    while ( curr && found == 0 )
-    {
-        found = keystate[curr->sdlk_equiv] ;
-        curr = curr->next ;
+    while (curr && found == 0) {
+        found = keystate[curr->sdlk_equiv];
+        curr  = curr->next;
     }
 
-    return found ;
+    return found;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modkey_key( INSTANCE * my, int * params ) {
-    return ( _get_key( params[0] ) );
+int modkey_key(INSTANCE *my, int *params) {
+    return (_get_key(params[0]));
 }
 
 /* --------------------------------------------------------------------------- */

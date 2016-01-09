@@ -36,27 +36,27 @@
 
 /* --------------------------------------------------------------------------- */
 
-#define FPS_INTIAL_VALUE    25
-#define FPS_INTIAL_SKIP     2
+#define FPS_INTIAL_VALUE 25
+#define FPS_INTIAL_SKIP 2
 
 /* --------------------------------------------------------------------------- */
 
-int fps_value = FPS_INTIAL_VALUE ;
-int max_jump = FPS_INTIAL_SKIP ;
-float frame_ms = 1000.0 / FPS_INTIAL_VALUE ; /* 40.0 ; */
+int fps_value  = FPS_INTIAL_VALUE;
+int max_jump   = FPS_INTIAL_SKIP;
+float frame_ms = 1000.0 / FPS_INTIAL_VALUE; /* 40.0 ; */
 
-uint32_t frame_count = 0 ;
-int last_frame_ticks = 0 ;
-int jump = 0 ;
+uint32_t frame_count = 0;
+int last_frame_ticks = 0;
+int jump             = 0;
 
-int FPS_count = 0 ;
-int FPS_init = 0 ;
+int FPS_count = 0;
+int FPS_init  = 0;
 
-int FPS_count_sync = 0 ;
-int FPS_init_sync = 0 ;
+int FPS_count_sync = 0;
+int FPS_init_sync  = 0;
 
 float ticks_per_frame = 0;
-float fps_partial = 0;
+float fps_partial     = 0;
 
 /* --------------------------------------------------------------------------- */
 /* Inicialización y controles de tiempo                                        */
@@ -75,16 +75,16 @@ float fps_partial = 0;
  *      None
  */
 
-void gr_set_fps( int fps, int skip )
-{
-    if ( fps == fps_value && skip == max_jump ) return ;
+void gr_set_fps(int fps, int skip) {
+    if (fps == fps_value && skip == max_jump)
+        return;
 
-    frame_ms = fps ? 1000.0 / ( float ) fps : 0.0 ;
-    max_jump = skip ;
-    fps_value = ( int ) fps;
+    frame_ms  = fps ? 1000.0 / (float)fps : 0.0;
+    max_jump  = skip;
+    fps_value = (int)fps;
 
-    FPS_init_sync = FPS_init = 0 ;
-    FPS_count_sync = FPS_count = 0 ;
+    FPS_init_sync = FPS_init = 0;
+    FPS_count_sync = FPS_count = 0;
 
     jump = 0;
 }
@@ -102,201 +102,174 @@ void gr_set_fps( int fps, int skip )
  *      None
  */
 
-void gr_wait_frame()
-{
-    int frame_ticks ;
+void gr_wait_frame() {
+    int frame_ticks;
 
-    frame_count++ ;
+    frame_count++;
 
     /* -------------- */
 
     /* Tomo Tick actual */
-    frame_ticks = SDL_GetTicks() ;
-    if ( !FPS_init_sync )
-    {
-        FPS_init_sync = FPS_init = SDL_GetTicks() ;
-        FPS_count_sync = FPS_count = 0 ;
+    frame_ticks = SDL_GetTicks();
+    if (!FPS_init_sync) {
+        FPS_init_sync = FPS_init = SDL_GetTicks();
+        FPS_count_sync = FPS_count = 0;
         jump = 0;
 
         /* Tiempo inicial del nuevo frame */
-        last_frame_ticks = frame_ticks ;
+        last_frame_ticks = frame_ticks;
 
         return;
     }
 
     /* Tiempo transcurrido total del ejecucion del ultimo frame (Frame time en ms) */
-    * ( float * ) &GLODWORD( librender, FRAME_TIME ) = ( frame_ticks - last_frame_ticks ) / 1000.0f ;
+    *(float *)&GLODWORD(librender, FRAME_TIME) = (frame_ticks - last_frame_ticks) / 1000.0f;
 
     /* -------------- */
 
-    FPS_count++ ;
+    FPS_count++;
 
     /* -------------- */
 
-    if ( fps_value )
-    {
-        FPS_count_sync++ ;
+    if (fps_value) {
+        FPS_count_sync++;
 
-        ticks_per_frame = ( ( float ) ( frame_ticks - FPS_init_sync ) ) / ( float ) FPS_count_sync ;
-        fps_partial = 1000.0 / ticks_per_frame ;
+        ticks_per_frame = ((float)(frame_ticks - FPS_init_sync)) / (float)FPS_count_sync;
+        fps_partial     = 1000.0 / ticks_per_frame;
 
-        if ( fps_partial == fps_value )
-        {
-            FPS_init_sync = frame_ticks ;
-            FPS_count_sync = 0 ;
+        if (fps_partial == fps_value) {
+            FPS_init_sync  = frame_ticks;
+            FPS_count_sync = 0;
             jump = 0;
-        }
-        else if ( fps_partial > fps_value )
-        {
-            int delay = FPS_count_sync * frame_ms - ( frame_ticks - FPS_init_sync ) ;
+        } else if (fps_partial > fps_value) {
+            int delay = FPS_count_sync * frame_ms - (frame_ticks - FPS_init_sync);
 
-            if ( delay > 0 )
-            {
-                SDL_Delay( delay ) ;
+            if (delay > 0) {
+                SDL_Delay(delay);
                 /* Reajust after delay */
-                frame_ticks = SDL_GetTicks() ;
-                ticks_per_frame = ( ( float ) ( frame_ticks - FPS_init_sync ) ) / ( float ) FPS_count_sync ;
-                fps_partial = 1000.0 / ticks_per_frame ;
+                frame_ticks     = SDL_GetTicks();
+                ticks_per_frame = ((float)(frame_ticks - FPS_init_sync)) / (float)FPS_count_sync;
+                fps_partial     = 1000.0 / ticks_per_frame;
             }
 
-            jump = 0 ;
-        }
-        else
-        {
-            if ( jump < max_jump ) /* Como no me alcanza el tiempo, voy a hacer skip */
-                jump++ ; /* No dibujar el frame */
-            else
-            {
-                FPS_init_sync = frame_ticks ;
-                FPS_count_sync = 0 ;
-                jump = 0 ;
+            jump = 0;
+        } else {
+            if (jump < max_jump) /* Como no me alcanza el tiempo, voy a hacer skip */
+                jump++;          /* No dibujar el frame */
+            else {
+                FPS_init_sync  = frame_ticks;
+                FPS_count_sync = 0;
+                jump           = 0;
             }
         }
     }
 
     /* Si paso 1 segundo o mas desde la ultima lectura */
-    if ( frame_ticks - FPS_init >= 1000 )
-    {
-        if ( fps_value )
-        {
-            GLODWORD( librender, SPEED_GAUGE ) = FPS_count /*fps_partial*/ * 100.0 / fps_value ;
-        }
-        else
-        {
-            GLODWORD( librender, SPEED_GAUGE ) = 100 ;
+    if (frame_ticks - FPS_init >= 1000) {
+        if (fps_value) {
+            GLODWORD(librender, SPEED_GAUGE) = FPS_count /*fps_partial*/ * 100.0 / fps_value;
+        } else {
+            GLODWORD(librender, SPEED_GAUGE) = 100;
         }
 
-        GLODWORD( librender, FPS ) = FPS_count ;
+        GLODWORD(librender, FPS) = FPS_count;
 
-        FPS_init = frame_ticks ;
-        FPS_count = 0 ;
+        FPS_init  = frame_ticks;
+        FPS_count = 0;
     }
 
     /* Tiempo inicial del nuevo frame */
-    last_frame_ticks = frame_ticks ;
+    last_frame_ticks = frame_ticks;
 }
 
 /* --------------------------------------------------------------------------- */
 
 static SDL_Color palette[256];
 
-void gr_refresh_palette()
-{
-    int n ;
+void gr_refresh_palette() {
+    int n;
 
-    if ( sys_pixel_format->depth > 8 )
-    {
-        if ( sys_pixel_format->palette )
-        {
-            for ( n = 0 ; n < 256 ; n++ )
-            {
-                sys_pixel_format->palette->colorequiv[ n ] = gr_map_rgb
-                        (
-                            sys_pixel_format,
-                            sys_pixel_format->palette->rgb[ n ].r,
-                            sys_pixel_format->palette->rgb[ n ].g,
-                            sys_pixel_format->palette->rgb[ n ].b
-                        ) ;
+    if (sys_pixel_format->depth > 8) {
+        if (sys_pixel_format->palette) {
+            for (n = 0; n < 256; n++) {
+                sys_pixel_format->palette->colorequiv[n] = gr_map_rgb(
+                    sys_pixel_format, sys_pixel_format->palette->rgb[n].r,
+                    sys_pixel_format->palette->rgb[n].g, sys_pixel_format->palette->rgb[n].b);
             }
         }
-    }
-    else if ( sys_pixel_format->depth == 8 )
-    {
-        if ( sys_pixel_format->palette )
-        {
-            for ( n = 0 ; n < 256 ; n++ )
-            {
-                palette[ n ].r = sys_pixel_format->palette->rgb[ n ].r;
-                palette[ n ].g = sys_pixel_format->palette->rgb[ n ].g;
-                palette[ n ].b = sys_pixel_format->palette->rgb[ n ].b;
+    } else if (sys_pixel_format->depth == 8) {
+        if (sys_pixel_format->palette) {
+            for (n = 0; n < 256; n++) {
+                palette[n].r = sys_pixel_format->palette->rgb[n].r;
+                palette[n].g = sys_pixel_format->palette->rgb[n].g;
+                palette[n].b = sys_pixel_format->palette->rgb[n].b;
             }
-        }
-        else
-        {
-            uint8_t * pal = default_palette;
-            for ( n = 0 ; n < 256 ; n++ )
-            {
-                palette[ n ].r = *pal++;
-                palette[ n ].g = *pal++;
-                palette[ n ].b = *pal++;
+        } else {
+            uint8_t *pal = default_palette;
+            for (n = 0; n < 256; n++) {
+                palette[n].r = *pal++;
+                palette[n].g = *pal++;
+                palette[n].b = *pal++;
             }
         }
         SDL_SetPaletteColors(screen->format->palette, palette, 0, 256);
     }
 
-    palette_changed = 0;
-    trans_table_updated = 0 ;
+    palette_changed     = 0;
+    trans_table_updated = 0;
 }
 
 /* --------------------------------------------------------------------------- */
 
-void gr_draw_frame()
-{
-    if ( ! scr_initialized ) return ;
-    if ( jump ) return ;
+void gr_draw_frame() {
+    if (!scr_initialized)
+        return;
+    if (jump)
+        return;
 
     /* Actualiza paleta */
 
-    if ( palette_changed ) gr_refresh_palette();
+    if (palette_changed)
+        gr_refresh_palette();
 
-    if ( !trans_table_updated ) gr_make_trans_table();
+    if (!trans_table_updated)
+        gr_make_trans_table();
 
     /* Bloquea el bitmap de pantalla */
 
-    if ( gr_lock_screen() < 0 ) return ;
+    if (gr_lock_screen() < 0)
+        return;
 
     /* Dibuja la pantalla */
 
-    gr_draw_screen( scrbitmap, GLODWORD( librender, RESTORETYPE ), GLODWORD( librender, DUMPTYPE ) );
+    gr_draw_screen(scrbitmap, GLODWORD(librender, RESTORETYPE), GLODWORD(librender, DUMPTYPE));
 
     /* Fading */
 
-    if ( fade_on || fade_set ) {
-        gr_fade_step() ;
-        if ( background ) background->modified = 1 ;
+    if (fade_on || fade_set) {
+        gr_fade_step();
+        if (background)
+            background->modified = 1;
     }
 
     /* Actualiza la paleta y la pantalla */
 
-    gr_unlock_screen() ;
-
+    gr_unlock_screen();
 }
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport( librender, module_initialize )()
-{
-    if ( !SDL_WasInit( SDL_INIT_TIMER ) ) {
-        SDL_InitSubSystem( SDL_INIT_TIMER );
+void __bgdexport(librender, module_initialize)() {
+    if (!SDL_WasInit(SDL_INIT_TIMER)) {
+        SDL_InitSubSystem(SDL_INIT_TIMER);
     }
 }
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport( librender, module_finalize )()
-{
-    if ( SDL_WasInit( SDL_INIT_TIMER ) ) {
-        SDL_QuitSubSystem( SDL_INIT_TIMER );
+void __bgdexport(librender, module_finalize)() {
+    if (SDL_WasInit(SDL_INIT_TIMER)) {
+        SDL_QuitSubSystem(SDL_INIT_TIMER);
     }
 }
 

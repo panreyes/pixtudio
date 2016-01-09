@@ -49,83 +49,77 @@
 #include <AL/alext.h>
 #endif
 
-namespace pixtudio
-{
-namespace mod_audio
-{
-namespace openal
-{
+namespace pixtudio {
+namespace mod_audio {
+namespace openal {
 
 class Source;
 
-class Pool
-{
-public:
+class Pool {
+  public:
+    Pool();
+    ~Pool();
 
-	Pool();
-	~Pool();
+    /**
+     * Checks whether an OpenAL source is available.
+     * @return True if at least one is available, false otherwise.
+     **/
+    bool isAvailable() const;
 
-	/**
-	 * Checks whether an OpenAL source is available.
-	 * @return True if at least one is available, false otherwise.
-	 **/
-	bool isAvailable() const;
+    /**
+     * Checks whether a Source is currently in the playing list.
+     **/
+    bool isPlaying(Source *s);
 
-	/**
-	 * Checks whether a Source is currently in the playing list.
-	 **/
-	bool isPlaying(Source *s);
+    void update();
 
-	void update();
+    int getSourceCount() const;
+    int getMaxSources() const;
 
-	int getSourceCount() const;
-	int getMaxSources() const;
+    bool play(Source *source, ALuint &out);
+    void stop();
+    void stop(Source *source);
+    void pause();
+    void pause(Source *source);
+    void resume();
+    void resume(Source *source);
+    void rewind();
+    void rewind(Source *source);
+    void softRewind(Source *source);
+    void seek(Source *source, float offset, void *unit);
+    float tell(Source *source, void *unit);
+    double getDuration(Source *source, void *unit);
 
-	bool play(Source *source, ALuint &out);
-	void stop();
-	void stop(Source *source);
-	void pause();
-	void pause(Source *source);
-	void resume();
-	void resume(Source *source);
-	void rewind();
-	void rewind(Source *source);
-	void softRewind(Source *source);
-	void seek(Source *source, float offset, void *unit);
-	float tell(Source *source, void *unit);
-	double getDuration(Source *source, void *unit);
+  private:
+    /**
+     * Makes the specified OpenAL source available for use.
+     * @param source The OpenAL source.
+     **/
+    void release(Source *source);
 
-private:
+    ALuint findi(const Source *source) const;
 
-	/**
-	 * Makes the specified OpenAL source available for use.
-	 * @param source The OpenAL source.
-	 **/
-	void release(Source *source);
+    bool findSource(Source *source, ALuint &out);
+    bool removeSource(Source *source);
 
-	ALuint findi(const Source *source) const;
+    // Maximum possible number of OpenAL sources the pool attempts to generate.
+    static const int MAX_SOURCES = 64;
 
-	bool findSource(Source *source, ALuint &out);
-	bool removeSource(Source *source);
+    // OpenAL sources
+    ALuint sources[MAX_SOURCES];
 
-	// Maximum possible number of OpenAL sources the pool attempts to generate.
-	static const int MAX_SOURCES = 64;
+    // Total number of created sources in the pool.
+    int totalSources;
 
-	// OpenAL sources
-	ALuint sources[MAX_SOURCES];
+    // A queue of available sources.
+    std::queue<ALuint> available;
 
-	// Total number of created sources in the pool.
-	int totalSources;
+    // A map of playing sources.
+    std::map<Source *, ALuint> playing;
 
-	// A queue of available sources.
-	std::queue<ALuint> available;
-
-	// A map of playing sources.
-	std::map<Source *, ALuint> playing;
-
-	// Only one thread can access this object at the same time. This mutex will
-	// make sure of that.
-	love::thread::MutexRef mutex;
+    // Only one thread can access this object at the same time. This mutex will
+    // make sure of that.
+    love::thread::MutexRef mutex;
 
 }; // Pool
 

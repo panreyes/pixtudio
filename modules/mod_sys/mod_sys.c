@@ -59,9 +59,9 @@ extern jclass Android_JNI_GetActivityClass(void);
 
 /* ---------------------------------------------------------------------- */
 
-int modsys_exec( INSTANCE * my, int * params ) {
+int modsys_exec(INSTANCE *my, int *params) {
 #if (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
-    NSString *urlString = [NSString stringWithFormat:@"%s" , string_get(params[1])];
+    NSString *urlString = [NSString stringWithFormat:@"%s", string_get(params[1])];
     string_discard(params[1]);
 
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
@@ -70,7 +70,7 @@ int modsys_exec( INSTANCE * my, int * params ) {
     jmethodID mid;
     jclass mActivityClass;
 
-    JNIEnv *mEnv = Android_JNI_GetEnv();
+    JNIEnv *mEnv   = Android_JNI_GetEnv();
     mActivityClass = Android_JNI_GetActivityClass();
     mid = (*mEnv)->GetStaticMethodID(mEnv, mActivityClass, "openURL", "(Ljava/lang/String;)V");
     if (mid) {
@@ -81,78 +81,75 @@ int modsys_exec( INSTANCE * my, int * params ) {
     string_discard(params[1]);
     return 0;
 #else
-    int mode = params[0];
-    char * filename = ( char * ) string_get( params[1] );
-    int argc = params[2];
-    char ** argv;
+    int mode       = params[0];
+    char *filename = (char *)string_get(params[1]);
+    int argc       = params[2];
+    char **argv;
     int n = 0;
-#   ifndef WIN32
+#ifndef WIN32
     pid_t child;
-#   endif
+#endif
     int status = -1;
 
     // fill argv
-    argv = ( char ** ) calloc( argc + 2, sizeof( char * ) );
+    argv    = (char **)calloc(argc + 2, sizeof(char *));
     argv[0] = filename;
-    for ( n = 0; n < argc; n++ ) {
-        argv[n + 1] = ( char * ) string_get((( int * )( params[3] ) )[n] );
+    for (n = 0; n < argc; n++) {
+        argv[n + 1] = (char *)string_get(((int *)(params[3]))[n]);
     }
 
-    // Execute program
-#   ifdef WIN32
-    status = spawnvp( mode, filename, ( const char ** )argv );
-#   else
-    if (( child = fork() ) == -1 ) {
-        //Error
-        status = -1 ;
-    } else if ( child == 0 ) {
-        execvp( filename, ( char * const * )argv );
+// Execute program
+#ifdef WIN32
+    status = spawnvp(mode, filename, (const char **)argv);
+#else
+    if ((child = fork()) == -1) {
+        // Error
+        status = -1;
+    } else if (child == 0) {
+        execvp(filename, (char *const *)argv);
         exit(-1);
     } else {
         /* father */
-        switch ( mode ) {
-            case _P_WAIT:
-                if ( waitpid( child, &status, WUNTRACED ) != child )
-                    status = -1;
-                else
-                    status = (int)(char)WEXITSTATUS(status);
-                break;
+        switch (mode) {
+        case _P_WAIT:
+            if (waitpid(child, &status, WUNTRACED) != child)
+                status = -1;
+            else
+                status = (int)(char)WEXITSTATUS(status);
+            break;
 
-            case _P_NOWAIT:
-                status = child;
-                break;
+        case _P_NOWAIT:
+            status = child;
+            break;
         }
     }
 #endif
 
     // Free resources
-    string_discard( params[1] );
-    if ( argv ) {
-        free( argv );
+    string_discard(params[1]);
+    if (argv) {
+        free(argv);
     }
 
-    return ( status ) ;
+    return (status);
 #endif
 }
 
 /* ---------------------------------------------------------------------- */
 
-int modsys_getenv( INSTANCE * my, int * params ) {
-    char *e ;
-    int str ;
+int modsys_getenv(INSTANCE *my, int *params) {
+    char *e;
+    int str;
 
-    if (( e = getenv( string_get( params[0] ) ) ) )
-    {
-        str = string_new( e ) ;
-    }
-    else
-    {
-        str = string_new( "" ) ;
+    if ((e = getenv(string_get(params[0])))) {
+        str = string_new(e);
+    } else {
+        str = string_new("");
     }
 
-    string_discard( params[0] ) ;
-    string_use( str ) ;
-    return str ;
+    string_discard(params[0]);
+    string_use(str);
+    return str;
 }
 
 /* ----------------------------------------------------------------- */

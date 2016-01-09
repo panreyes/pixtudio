@@ -51,31 +51,27 @@ typedef struct {
 
 multi_pointer pointers[MAX_POINTERS];
 
-int numpointers=0;
+int numpointers = 0;
 
 // Required for mouse emulation
-enum {
-    MOUSEX = 0,
-    MOUSEY,
-    MOUSELEFT = 9
-};
+enum { MOUSEX = 0, MOUSEY, MOUSELEFT = 9 };
 
 /* Return the position of finger in the pointers array, if it's not there,
 return the first unused entry.
 If there are none available, return -1 */
 int get_sdlfinger_index(SDL_FingerID finger) {
-    int n=0;
+    int n = 0;
 
     // First, try to see if the given ID matches any active one
-    for(n=0; n<MAX_POINTERS; n++) {
-        if(finger == pointers[n].fingerid) {
+    for (n = 0; n < MAX_POINTERS; n++) {
+        if (finger == pointers[n].fingerid) {
             return n;
         }
     }
 
     // ID not found, try to find a free spot
-    for(n=0; n<MAX_POINTERS; n++) {
-        if(pointers[n].active == SDL_FALSE) {
+    for (n = 0; n < MAX_POINTERS; n++) {
+        if (pointers[n].active == SDL_FALSE) {
             return n;
         }
     }
@@ -86,14 +82,14 @@ int get_sdlfinger_index(SDL_FingerID finger) {
 
 /* Process SDL events looking for multitouch-related ones */
 void parse_input_events() {
-    int n=0;
-    float x=0.0, y=0.0;
-    double width=0.0, height=0.0;
+    int n   = 0;
+    float x = 0.0, y = 0.0;
+    double width = 0.0, height = 0.0;
     SDL_Event e;
 
     // SDL will give us the touch position relative to the whole window
     // but we might have set a different virtual resolution
-    if(screen) {
+    if (screen) {
         width  = screen->w;
         height = screen->h;
     } else {
@@ -103,103 +99,103 @@ void parse_input_events() {
     }
 
     // Parse the SDL event
-    while ( SDL_PeepEvents( &e, 1, SDL_GETEVENT, SDL_FINGERDOWN, SDL_FINGERMOTION ) > 0 ) {
-        switch ( e.type ) {
-            case SDL_FINGERDOWN:
-                // Retrive the the position in the array
-                n = get_sdlfinger_index(e.tfinger.fingerId);
+    while (SDL_PeepEvents(&e, 1, SDL_GETEVENT, SDL_FINGERDOWN, SDL_FINGERMOTION) > 0) {
+        switch (e.type) {
+        case SDL_FINGERDOWN:
+            // Retrive the the position in the array
+            n = get_sdlfinger_index(e.tfinger.fingerId);
 
-                // Quit if fingerId not found or array full
-                if (n == -1) {
-                    break;
+            // Quit if fingerId not found or array full
+            if (n == -1) {
+                break;
+            }
+
+            // Store the amount of fingers onscreen
+            numpointers = SDL_GetNumTouchFingers(e.tfinger.touchId);
+            // Store the data about this finger's position
+            pointers[n].fingerid = e.tfinger.fingerId;
+            pointers[n].active   = SDL_TRUE;
+            x                    = e.tfinger.x * width;
+            y                    = e.tfinger.y * height;
+            pointers[n].pressure = (float)e.tfinger.pressure * 255;
+
+            // Convert the touch location taking scaling/rotations into account
+            pointers[n].x = (int)x;
+            pointers[n].y = (int)y;
+
+            // Fake a mouse click, but only for the first pointer and
+            // if libmouse has been imported
+            /*if (n == 0) {
+                if ( GLOEXISTS( libmouse, MOUSEX ) ) {
+                    GLOINT32( libmouse, MOUSEX )    = pointers[n].x;
+                    GLOINT32( libmouse, MOUSEY )    = pointers[n].y;
+                    GLODWORD( libmouse, MOUSELEFT ) = 1 ;
                 }
+            }*/
+            break;
 
-                // Store the amount of fingers onscreen
-                numpointers = SDL_GetNumTouchFingers(e.tfinger.touchId);
-                // Store the data about this finger's position
-                pointers[n].fingerid = e.tfinger.fingerId;
-                pointers[n].active = SDL_TRUE;
-                x = e.tfinger.x * width;
-                y = e.tfinger.y * height;
-                pointers[n].pressure = (float)e.tfinger.pressure * 255;
+        case SDL_FINGERMOTION:
+            // Retrive the touch state, the finger id and the position in the array
+            n = get_sdlfinger_index(e.tfinger.fingerId);
 
-                // Convert the touch location taking scaling/rotations into account
-                pointers[n].x = (int)x;
-                pointers[n].y = (int)y;
-
-                // Fake a mouse click, but only for the first pointer and
-                // if libmouse has been imported
-                /*if (n == 0) {
-                    if ( GLOEXISTS( libmouse, MOUSEX ) ) {
-                        GLOINT32( libmouse, MOUSEX )    = pointers[n].x;
-                        GLOINT32( libmouse, MOUSEY )    = pointers[n].y;
-                        GLODWORD( libmouse, MOUSELEFT ) = 1 ;
-                    }
-                }*/
+            // Quit if fingerid not found
+            if (n == -1)
                 break;
 
-            case SDL_FINGERMOTION:
-                // Retrive the touch state, the finger id and the position in the array
-                n = get_sdlfinger_index(e.tfinger.fingerId);
+            // Update the data about this finger's position
+            x                    = e.tfinger.x * width;
+            y                    = e.tfinger.y * height;
+            pointers[n].pressure = (float)e.tfinger.pressure * 255;
 
-                // Quit if fingerid not found
-                if (n == -1)
-                    break;
+            // Convert the touch location taking scaling/rotations into account
+            pointers[n].x = (int)x;
+            pointers[n].y = (int)y;
 
-                // Update the data about this finger's position
-                x = e.tfinger.x * width;
-                y = e.tfinger.y * height;
-                pointers[n].pressure = (float)e.tfinger.pressure * 255;
+            // Fake a mouse move, but only if libmouse has been imported
+            /*if (n == 0) {
+                if ( GLOEXISTS( libmouse, MOUSEX ) ) {
+                    GLOINT32( libmouse, MOUSEX ) = pointers[n].x;
+                    GLOINT32( libmouse, MOUSEY ) = pointers[n].y;
+                }
+            }*/
+            break;
 
-                // Convert the touch location taking scaling/rotations into account
-                pointers[n].x = (int)x;
-                pointers[n].y = (int)y;
+        case SDL_FINGERUP:
+            // Retrive the touch state, the finger id and the position in the array
+            n = get_sdlfinger_index(e.tfinger.fingerId);
 
-                // Fake a mouse move, but only if libmouse has been imported
-                /*if (n == 0) {
-                    if ( GLOEXISTS( libmouse, MOUSEX ) ) {
-                        GLOINT32( libmouse, MOUSEX ) = pointers[n].x;
-                        GLOINT32( libmouse, MOUSEY ) = pointers[n].y;
-                    }
-                }*/
+            // Refresh the total number of fingers onscreen
+            numpointers = SDL_GetNumTouchFingers(e.tfinger.touchId);
+
+            // Quit if fingerid not found
+            if (n == -1)
                 break;
 
-            case SDL_FINGERUP:
-                // Retrive the touch state, the finger id and the position in the array
-                n = get_sdlfinger_index(e.tfinger.fingerId);
+            // Remove the data about this finger's position
+            pointers[n].active   = SDL_FALSE;
+            pointers[n].pressure = 0.0;
 
-                // Refresh the total number of fingers onscreen
-                numpointers = SDL_GetNumTouchFingers(e.tfinger.touchId);
-
-                // Quit if fingerid not found
-                if (n == -1)
-                    break;
-
-                // Remove the data about this finger's position
-                pointers[n].active = SDL_FALSE;
-                pointers[n].pressure = 0.0;
-
-                // Fake a mouse release, but only for the first pointer and
-                // if libmouse is imported
-                /*if (n == 0) {
-                    if ( GLOEXISTS( libmouse, MOUSEX ) ) {
-                        GLODWORD( libmouse, MOUSELEFT ) = 0 ;
-                    }
-                }*/
-                break;
+            // Fake a mouse release, but only for the first pointer and
+            // if libmouse is imported
+            /*if (n == 0) {
+                if ( GLOEXISTS( libmouse, MOUSEX ) ) {
+                    GLODWORD( libmouse, MOUSELEFT ) = 0 ;
+                }
+            }*/
+            break;
         }
     }
 }
 
 // Return the total number of active pointers
-int modmulti_numpointers(INSTANCE * my, int * params) {
+int modmulti_numpointers(INSTANCE *my, int *params) {
     return numpointers;
 }
 
 // Get some info about the given pointer
-int modmulti_info(INSTANCE * my, int * params) {
-    const char *info = (char *) string_get(params[1]);
-    int n=params[0];
+int modmulti_info(INSTANCE *my, int *params) {
+    const char *info = (char *)string_get(params[1]);
+    int n            = params[0];
 
     string_discard(params[1]);
 
@@ -209,14 +205,14 @@ int modmulti_info(INSTANCE * my, int * params) {
     }
 
     // Return the info we were asked for
-    if(strncasecmp(info, "X", 1) == 0) {
+    if (strncasecmp(info, "X", 1) == 0) {
         return pointers[n].x;
-    } else if(strncasecmp(info, "Y", 1) == 0) {
+    } else if (strncasecmp(info, "Y", 1) == 0) {
         return pointers[n].y;
-    } else if(strncasecmp(info, "PRESSURE", 8) == 0) {
+    } else if (strncasecmp(info, "PRESSURE", 8) == 0) {
         return pointers[n].pressure;
-    } else if(strncasecmp(info, "ACTIVE", 6) == 0) {
-        if(pointers[n].active == SDL_TRUE) {
+    } else if (strncasecmp(info, "ACTIVE", 6) == 0) {
+        if (pointers[n].active == SDL_TRUE) {
             return 1;
         } else {
             return 0;
@@ -228,7 +224,7 @@ int modmulti_info(INSTANCE * my, int * params) {
 
 /* ----------------------------------------------------------------- */
 
-void __bgdexport( mod_multi, module_initialize )() {
+void __bgdexport(mod_multi, module_initialize)() {
     SDL_SetHint("SDL_ANDROID_SEPARATE_MOUSE_AND_TOUCH", "1");
 }
 

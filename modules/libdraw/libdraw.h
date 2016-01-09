@@ -38,14 +38,15 @@ extern uint32_t drawing_stipple;
 
 /* --------------------------------------------------------------------------- */
 
-void draw_vline( GRAPH * dest, REGION * clip, int x, int y, int h );
-void draw_hline( GRAPH * dest, REGION * clip, int x, int y, int w );
-void draw_box( GRAPH * dest, REGION * clip, int x, int y, int w, int h );
-void draw_rectangle( GRAPH * dest, REGION * clip, int x, int y, int w, int h );
-void draw_circle( GRAPH * dest, REGION * clip, int x, int y, int r );
-void draw_fcircle( GRAPH * dest, REGION * clip, int x, int y, int r );
-void draw_line(GRAPH * dest, REGION * clip, int x, int y, int w, int h );
-void draw_bezier(GRAPH * dest, REGION * clip, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, int level);
+void draw_vline(GRAPH *dest, REGION *clip, int x, int y, int h);
+void draw_hline(GRAPH *dest, REGION *clip, int x, int y, int w);
+void draw_box(GRAPH *dest, REGION *clip, int x, int y, int w, int h);
+void draw_rectangle(GRAPH *dest, REGION *clip, int x, int y, int w, int h);
+void draw_circle(GRAPH *dest, REGION *clip, int x, int y, int r);
+void draw_fcircle(GRAPH *dest, REGION *clip, int x, int y, int r);
+void draw_line(GRAPH *dest, REGION *clip, int x, int y, int w, int h);
+void draw_bezier(GRAPH *dest, REGION *clip, int x1, int y1, int x2, int y2, int x3, int y3, int x4,
+                 int y4, int level);
 
 /* --------------------------------------------------------------------------- */
 

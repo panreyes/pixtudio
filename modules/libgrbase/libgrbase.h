@@ -51,14 +51,14 @@
 
 /* --------------------------------------------------------------------------- */
 
-extern PIXEL_FORMAT * std_pixel_format8 ;
-extern PIXEL_FORMAT * std_pixel_format16 ;
-extern PIXEL_FORMAT * std_pixel_format32 ;
+extern PIXEL_FORMAT *std_pixel_format8;
+extern PIXEL_FORMAT *std_pixel_format16;
+extern PIXEL_FORMAT *std_pixel_format32;
 
-extern PIXEL_FORMAT * sys_pixel_format ;
+extern PIXEL_FORMAT *sys_pixel_format;
 
-extern GRAPH * background ;
-extern GRAPH * scrbitmap ;
+extern GRAPH *background;
+extern GRAPH *scrbitmap;
 
 /* --------------------------------------------------------------------------- */
 

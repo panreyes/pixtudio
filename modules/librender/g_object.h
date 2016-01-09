@@ -30,51 +30,47 @@
 
 /* --------------------------------------------------------------------------- */
 
-typedef int ( OBJ_INFO )( void * what, REGION * clip, int * key, int * ready );
-typedef void ( OBJ_DRAW )( void * what, REGION * clip );
+typedef int(OBJ_INFO)(void *what, REGION *clip, int *key, int *ready);
+typedef void(OBJ_DRAW)(void *what, REGION *clip);
 
-typedef struct _object
-{
-    int z ;
-    OBJ_INFO * info ;
-    OBJ_DRAW * draw ;
-    void * what ;
-    int changed ;
-    int ready ;         /* Ready to draw */
-    REGION bbox ;
-    REGION bbox_saved ;
+typedef struct _object {
+    int z;
+    OBJ_INFO *info;
+    OBJ_DRAW *draw;
+    void *what;
+    int changed;
+    int ready; /* Ready to draw */
+    REGION bbox;
+    REGION bbox_saved;
 
     int seq;
 
-    struct _object * prev ;
-    struct _object * next ;
-}
-OBJECT ;
+    struct _object *prev;
+    struct _object *next;
+} OBJECT;
 
-typedef struct _container
-{
-    int key ;
-    OBJECT * first_in_key ;
+typedef struct _container {
+    int key;
+    OBJECT *first_in_key;
 
-    struct _container * prev ;
-    struct _container * next ;
-}
-CONTAINER ;
+    struct _container *prev;
+    struct _container *next;
+} CONTAINER;
 
 /* --------------------------------------------------------------------------- */
 
-//extern CONTAINER * sorted_object_list;
+// extern CONTAINER * sorted_object_list;
 
 /* --------------------------------------------------------------------------- */
 
-extern CONTAINER * search_container( int key ) ;
-extern CONTAINER * get_container( int key ) ;
-extern void destroy_container( CONTAINER * ctr ) ;
-extern int gr_new_object( int z, OBJ_INFO * info, OBJ_DRAW * draw, void * what );
-extern void gr_destroy_object( int id ) ;
-extern void gr_update_objects_mark_rects( int restore, int dump ) ;
-extern void gr_draw_objects( REGION * updaterects, int count ) ;
-extern void gr_draw_objects_complete( void ) ;
+extern CONTAINER *search_container(int key);
+extern CONTAINER *get_container(int key);
+extern void destroy_container(CONTAINER *ctr);
+extern int gr_new_object(int z, OBJ_INFO *info, OBJ_DRAW *draw, void *what);
+extern void gr_destroy_object(int id);
+extern void gr_update_objects_mark_rects(int restore, int dump);
+extern void gr_draw_objects(REGION *updaterects, int count);
+extern void gr_draw_objects_complete(void);
 
 /* --------------------------------------------------------------------------- */
 

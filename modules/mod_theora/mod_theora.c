@@ -23,7 +23,6 @@
  *     distribution.
 */
 
-
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -34,11 +33,11 @@
 #include <SDL.h>
 #include <theoraplay.h>
 #ifdef __APPLE__
-#   include <OpenAL/al.h>
-#   include <OpenAL/alc.h>
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
 #else
-#   include <AL/al.h>
-#   include <AL/alc.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 #endif
 
 /* PixTudio stuff */
@@ -51,8 +50,7 @@
 #include "mod_theora_symbols.h"
 #endif
 
-struct ctx
-{
+struct ctx {
     GRAPH *graph;
     const THEORAPLAY_VideoFrame *frame;
     const THEORAPLAY_AudioPacket *audio;
@@ -69,7 +67,6 @@ struct ctx video;
 
 char playing_video = 0;
 
-
 static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
     ALuint audio_buffer;
     ALuint error;
@@ -78,28 +75,28 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
     ALsizei size, freq;
     static int nbuffers = 0;
 
-    if(audio_context != NULL) {
+    if (audio_context != NULL) {
         // Generate an audio buffer (if needed) or reuse an already-processed one
-        if(nbuffers <= 10) {
+        if (nbuffers <= 10) {
             alGenBuffers(1, &audio_buffer);
             nbuffers++;
         } else {
             alSourceUnqueueBuffers(video.audio_source, 1, &audio_buffer);
-            if((error = alGetError()) != AL_NO_ERROR) {
+            if ((error = alGetError()) != AL_NO_ERROR) {
                 alGenBuffers(1, &audio_buffer);
                 nbuffers++;
             }
         }
 
         // If we could get a valid audio_buffer, process the audio data and queue it
-        if((error = alGetError()) == AL_NO_ERROR) {
+        if ((error = alGetError()) == AL_NO_ERROR) {
             size = (ALsizei)(audio->frames * audio->channels * 4); // 4 == sizeof(float32)
-            if(audio->channels == 1) {
+            if (audio->channels == 1) {
                 format = alGetEnumValue("AL_FORMAT_MONO_FLOAT32");
                 freq = (ALsizei)audio->freq;
-            } else if(audio->channels == 2) {
+            } else if (audio->channels == 2) {
                 format = alGetEnumValue("AL_FORMAT_STEREO_FLOAT32");
-                freq = (ALsizei)audio->freq;
+                freq   = (ALsizei)audio->freq;
             } else {
                 // HACK, HACK, HACK!!
                 format = alGetEnumValue("AL_FORMAT_MONO_FLOAT32");
@@ -108,7 +105,7 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
                         audio->channels);
             }
             alBufferData(audio_buffer, format, audio->samples, size, freq);
-            if((error = alGetError()) != AL_NO_ERROR) {
+            if ((error = alGetError()) != AL_NO_ERROR) {
                 fprintf(stderr, "Audio buffer data copying failed: %s\n", alGetString(error));
             } else {
                 // Queue the audio buffer for playback
@@ -118,11 +115,11 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
                 // so we remove processed buffers from the queue and
                 // restart playback
                 alGetSourcei(video.audio_source, AL_SOURCE_STATE, &status);
-                if(status == AL_STOPPED) {
+                if (status == AL_STOPPED) {
                     // We could probably do this all at once
                     ALuint processed_buffer;
                     alSourceUnqueueBuffers(video.audio_source, 1, &processed_buffer);
-                    while((error = alGetError()) == AL_NO_ERROR) {
+                    while ((error = alGetError()) == AL_NO_ERROR) {
                         alDeleteBuffers(1, &processed_buffer);
                         alSourceUnqueueBuffers(video.audio_source, 1, &processed_buffer);
                     }
@@ -140,7 +137,7 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
 
 // Paint the current video frame onscreen, skipping those that we already missed
 void refresh_video() {
-    if(! playing_video) {
+    if (!playing_video) {
         return;
     }
 
@@ -154,17 +151,14 @@ void refresh_video() {
     }
 
     // Play video frames when it's time.
-    if (video.frame && (video.frame->playms <= now))
-    {
-        if ( video.framems && ((now - video.frame->playms) >= video.framems) )
-        {
+    if (video.frame && (video.frame->playms <= now)) {
+        if (video.framems && ((now - video.frame->playms) >= video.framems)) {
             // Skip frames to catch up, but keep track of the last one
             // in case we catch up to a series of dupe frames, which
             // means we'd have to draw that final frame and then wait for
             // more.
             const THEORAPLAY_VideoFrame *last = video.frame;
-            while ((video.frame = THEORAPLAY_getVideo(video.decoder)) != NULL)
-            {
+            while ((video.frame = THEORAPLAY_getVideo(video.decoder)) != NULL) {
                 THEORAPLAY_freeVideo(last);
                 last = video.frame;
                 if ((now - video.frame->playms) < video.framems)
@@ -184,15 +178,15 @@ void refresh_video() {
                 SDL_Log("WARNING: Video playback can't keep up, skipping frames!\n");
             } // if
         } else {
-            if(SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
+            if (SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
                 SDL_Log("Error updating texture: %s", SDL_GetError());
             } else {
-                memcpy(pixels, video.frame->pixels, video.graph->height * pitch*1.5);
+                memcpy(pixels, video.frame->pixels, video.graph->height * pitch * 1.5);
                 SDL_UnlockTexture(video.graph->texture);
 
                 // Mark the video GRAPH as dirty so that BennuGD redraws it
                 video.graph->modified = 1;
-                video.graph->info_flags &=~GI_CLEAN;
+                video.graph->info_flags &= ~GI_CLEAN;
             }
         }
         THEORAPLAY_freeVideo(video.frame);
@@ -200,7 +194,7 @@ void refresh_video() {
     }
 
     // TODO: We're doing nothing to determine if we skipped some frames and need to catch up!
-    if(audio_context != NULL) {
+    if (audio_context != NULL) {
         while ((video.audio = THEORAPLAY_getAudio(video.decoder)) != NULL) {
             queue_audio(video.audio);
         }
@@ -214,7 +208,7 @@ int video_is_playing() {
     return playing_video;
 }
 
-int video_play(INSTANCE *my, int * params) {
+int video_play(INSTANCE *my, int *params) {
     int bpp, graphid;
     const int MAX_FRAMES = 30;
     void *pixels;
@@ -222,16 +216,17 @@ int video_play(INSTANCE *my, int * params) {
 
     bpp = screen->format->BitsPerPixel;
 
-    if(playing_video == 1) {
+    if (playing_video == 1) {
         return -1;
     }
 
-    if(! scr_initialized) {
+    if (!scr_initialized) {
         return (-1);
     }
 
     /* Start the decoding, we want to use a YUV format to reduce CPU usage */
-    video.decoder = THEORAPLAY_startDecodeFile(string_get(params[0]), MAX_FRAMES, THEORAPLAY_VIDFMT_IYUV);
+    video.decoder =
+        THEORAPLAY_startDecodeFile(string_get(params[0]), MAX_FRAMES, THEORAPLAY_VIDFMT_IYUV);
     string_discard(params[0]);
 
     if (!video.decoder) {
@@ -247,27 +242,29 @@ int video_play(INSTANCE *my, int * params) {
         SDL_Delay(10);
     }
 
-    if(! THEORAPLAY_hasVideoStream(video.decoder)) {
+    if (!THEORAPLAY_hasVideoStream(video.decoder)) {
         THEORAPLAY_stopDecode(video.decoder);
         return -1;
     }
 
-    if(! THEORAPLAY_hasAudioStream(video.decoder)) {
+    if (!THEORAPLAY_hasAudioStream(video.decoder)) {
         THEORAPLAY_stopDecode(video.decoder);
         return -1;
     }
 
     while (!video.frame || !video.audio) {
-        if (!video.frame) video.frame = THEORAPLAY_getVideo(video.decoder);
-        if (!video.audio) video.audio = THEORAPLAY_getAudio(video.decoder);
+        if (!video.frame)
+            video.frame = THEORAPLAY_getVideo(video.decoder);
+        if (!video.audio)
+            video.audio = THEORAPLAY_getAudio(video.decoder);
         SDL_Delay(10);
     }
 
-    video.framems = (video.frame->fps == 0.0) ? 0 : ((Uint32) (1000.0 / video.frame->fps));
+    video.framems = (video.frame->fps == 0.0) ? 0 : ((Uint32)(1000.0 / video.frame->fps));
 
     // Generate the audio source
     alGenSources((ALuint)1, &video.audio_source);
-    if(alGetError() != AL_NO_ERROR) {
+    if (alGetError() != AL_NO_ERROR) {
         fprintf(stderr, "Audio source creation failed\n");
         alcCloseDevice(audio_device);
         THEORAPLAY_stopDecode(video.decoder);
@@ -288,9 +285,9 @@ int video_play(INSTANCE *my, int * params) {
     video.baseticks = SDL_GetTicks();
 
     // Create the graph holding the video surface
-    graphid = bitmap_next_code();
+    graphid     = bitmap_next_code();
     video.graph = bitmap_new_streaming(graphid, video.frame->width, video.frame->height, bpp);
-    if(! video.graph) {
+    if (!video.graph) {
         THEORAPLAY_stopDecode(video.decoder);
         video.decoder = NULL;
         THEORAPLAY_stopDecode(video.decoder);
@@ -298,14 +295,14 @@ int video_play(INSTANCE *my, int * params) {
     }
 
     // Blank the GRAPH texture before showing it, otherwise junk will be shown
-    if(SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
+    if (SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
         SDL_Log("Error updating texture: %s", SDL_GetError());
     } else {
-        memcpy(pixels, video.frame->pixels, video.graph->height * pitch*1.5);
+        memcpy(pixels, video.frame->pixels, video.graph->height * pitch * 1.5);
         SDL_UnlockTexture(video.graph->texture);
     }
 
-    grlib_add_map( 0, video.graph ) ;
+    grlib_add_map(0, video.graph);
     THEORAPLAY_freeVideo(video.frame);
     video.frame = NULL;
 
@@ -317,11 +314,11 @@ int video_play(INSTANCE *my, int * params) {
 }
 
 /* Stop the currently being played video and release theoraplay stuff */
-int video_stop(INSTANCE *my, int * params) {
+int video_stop(INSTANCE *my, int *params) {
     ALuint error;
     ALuint audio_buffer;
 
-    if(! playing_video) {
+    if (!playing_video) {
         return 0;
     }
     // Stop the video playback lock
@@ -330,26 +327,26 @@ int video_stop(INSTANCE *my, int * params) {
     // Immediately stop audio playback
     alSourceStop(video.audio_source);
 
-    if(video.graph) {
+    if (video.graph) {
         grlib_unload_map(0, video.graph->code);
         video.graph = NULL;
     }
 
-    if(video.decoder) {
+    if (video.decoder) {
         THEORAPLAY_stopDecode(video.decoder);
         video.decoder = NULL;
     }
 
     // Unqueue & delete all the buffers associated with a source
     alSourceUnqueueBuffers(video.audio_source, 1, &audio_buffer);
-    while((error = alGetError()) == AL_NO_ERROR) {
+    while ((error = alGetError()) == AL_NO_ERROR) {
         alDeleteBuffers(1, &audio_buffer);
         alSourceUnqueueBuffers(video.audio_source, 1, &audio_buffer);
     }
 
     // Once the source has no more queued buffers, it can be deleted
     alDeleteSources(1, &video.audio_source);
-    if((error = alGetError()) != AL_NO_ERROR) {
+    if ((error = alGetError()) != AL_NO_ERROR) {
         fprintf(stderr, "OpenAL error deleting source: %x, %s\n", error, alGetString(error));
     }
 
@@ -365,12 +362,12 @@ int video_pause() {
    Input must be an integer 0-255.
    Returns 0 on success and -1 on error
 */
-int video_set_volume(INSTANCE *my, int * params) {
+int video_set_volume(INSTANCE *my, int *params) {
     ALuint error;
 
     float new_volume = (float)params[0] / 255.0;
     alSourcef(video.audio_source, AL_GAIN, new_volume);
-    if((error = alGetError()) != AL_NO_ERROR) {
+    if ((error = alGetError()) != AL_NO_ERROR) {
         fprintf(stderr, "OpenAL error setting volume: %x, %s\n", error, alGetString(error));
         return -1;
     }
@@ -378,9 +375,9 @@ int video_set_volume(INSTANCE *my, int * params) {
     return 0;
 }
 
-void __bgdexport( mod_theora, module_initialize )() {
+void __bgdexport(mod_theora, module_initialize)() {
     // Initialize OpenAL
-    alGetError();  // clear error stack
+    alGetError();                       // clear error stack
     audio_device = alcOpenDevice(NULL); // open default device
     if (audio_device == NULL) {
         fprintf(stderr, "Audio initialization failed!\n");
@@ -403,7 +400,7 @@ void __bgdexport( mod_theora, module_initialize )() {
 
     // Since audio in the Theora videos is float32, load that extension
     // TODO: This'll fail, since we're doing nothing to prevent
-    if(! alIsExtensionPresent("AL_EXT_FLOAT32")) {
+    if (!alIsExtensionPresent("AL_EXT_FLOAT32")) {
         fprintf(stderr, "OpenAL Extension AL_EXT_FLOAT32 not present, refusing to initialise\n");
         alcMakeContextCurrent(NULL);
         alcDestroyContext(audio_context);
@@ -411,23 +408,21 @@ void __bgdexport( mod_theora, module_initialize )() {
     }
 }
 
-void __bgdexport( mod_theora, module_finalize )() {
+void __bgdexport(mod_theora, module_finalize)() {
     video_stop(NULL, NULL);
 
-    if(audio_context) {
-        if(alcMakeContextCurrent(NULL) == ALC_FALSE) {
+    if (audio_context) {
+        if (alcMakeContextCurrent(NULL) == ALC_FALSE) {
             fprintf(stderr, "OpenAL error resetting default context\n");
         }
         alcDestroyContext(audio_context);
     }
     audio_context = NULL;
 
-    if(audio_device) {
-        if(alcCloseDevice(audio_device) == ALC_FALSE) {
+    if (audio_device) {
+        if (alcCloseDevice(audio_device) == ALC_FALSE) {
             fprintf(stderr, "OpenAL error closing audio device\n");
         }
     }
     audio_device = NULL;
-
 }
-

@@ -70,8 +70,8 @@ static int find_free_controllerID(SDL_GameController **where) {
 
     // Try to find an empty spot (the pointer should be NULL there)
     len = sb_count(where);
-    for(i=0; i<len; i++) {
-        if(where[i] == NULL) {
+    for (i = 0; i < len; i++) {
+        if (where[i] == NULL) {
             return i;
         }
     }
@@ -94,11 +94,11 @@ static int find_free_controllerID(SDL_GameController **where) {
  *
  */
 int check_controller_id(int id) {
-    if(id < 0 || id > (sb_count(open_controllers) - 1)) {
+    if (id < 0 || id > (sb_count(open_controllers) - 1)) {
         return 0;
     }
 
-    if(open_controllers[id] == NULL) {
+    if (open_controllers[id] == NULL) {
         return 0;
     }
 
@@ -107,7 +107,7 @@ int check_controller_id(int id) {
 
 /* --------------------------------------------------------------------------- */
 void controller_close(int index) {
-    if(check_controller_id(index)) {
+    if (check_controller_id(index)) {
         SDL_GameControllerClose(open_controllers[index]);
         open_controllers[index] = NULL;
     }
@@ -115,33 +115,33 @@ void controller_close(int index) {
 
 /* --------------------------------------------------------------------------- */
 
-int modgamecontroller_getaxis( INSTANCE * my, int * params ) {
-    int id = params[0];
+int modgamecontroller_getaxis(INSTANCE *my, int *params) {
+    int id   = params[0];
     int axis = params[1];
 
-    if(! check_controller_id(id)) {
+    if (!check_controller_id(id)) {
         return CONTROLLER_INVALID;
     }
 
     return SDL_GameControllerGetAxis(open_controllers[id], axis);
 }
 
-int modgamecontroller_getbutton( INSTANCE * my, int * params ) {
-    int id = params[0];
+int modgamecontroller_getbutton(INSTANCE *my, int *params) {
+    int id     = params[0];
     int button = params[1];
 
-    if(! check_controller_id(id)) {
+    if (!check_controller_id(id)) {
         return CONTROLLER_INVALID;
     }
 
     return SDL_GameControllerGetButton(open_controllers[id], button);
 }
 
-int modgamecontroller_getname( INSTANCE * my, int * params ) {
+int modgamecontroller_getname(INSTANCE *my, int *params) {
     int str = 0;
-    int id = params[0];
+    int id  = params[0];
 
-    if(! check_controller_id(id)) {
+    if (!check_controller_id(id)) {
         str = string_new("INVALID");
         string_use(str);
         return str;
@@ -153,14 +153,14 @@ int modgamecontroller_getname( INSTANCE * my, int * params ) {
     return str;
 }
 
-int modgamecontroller_num( INSTANCE * my, int * params ) {
-    return ( SDL_NumJoysticks() );
+int modgamecontroller_num(INSTANCE *my, int *params) {
+    return (SDL_NumJoysticks());
 }
 
-int modgamecontroller_close( INSTANCE * my, int * params ) {
+int modgamecontroller_close(INSTANCE *my, int *params) {
     int id = params[0];
 
-    if(! check_controller_id(id)) {
+    if (!check_controller_id(id)) {
         return CONTROLLER_INVALID;
     }
 
@@ -169,14 +169,14 @@ int modgamecontroller_close( INSTANCE * my, int * params ) {
     return 0;
 }
 
-int modgamecontroller_open( INSTANCE * my, int * params ) {
+int modgamecontroller_open(INSTANCE *my, int *params) {
     SDL_GameController *controller;
     int n, index = params[0];
 
     if (SDL_IsGameController(index)) {
         controller = SDL_GameControllerOpen(index);
         n = find_free_controllerID(open_controllers);
-        if(n >= 0) {
+        if (n >= 0) {
             open_controllers[n] = controller;
         } else {
             sb_push(open_controllers, controller);
@@ -192,25 +192,24 @@ int modgamecontroller_open( INSTANCE * my, int * params ) {
 /* ------------------------------------------------------------ */
 /* Module initialisation routines                               */
 
-void  __bgdexport( mod_gamecontroller, module_initialize )() {
-    if ( !SDL_WasInit( SDL_INIT_GAMECONTROLLER ) ) {
-        SDL_InitSubSystem( SDL_INIT_GAMECONTROLLER );
+void __bgdexport(mod_gamecontroller, module_initialize)() {
+    if (!SDL_WasInit(SDL_INIT_GAMECONTROLLER)) {
+        SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER);
     }
 }
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport( mod_gamecontroller, module_finalize )() {
-    int32_t i=0, n=0;
+void __bgdexport(mod_gamecontroller, module_finalize)() {
+    int32_t i = 0, n = 0;
     // Unload controllers, if any
     n = sb_count(open_controllers);
-    for(i=0; i<n; i++) {
+    for (i = 0; i < n; i++) {
         controller_close(i);
     }
     sb_free(open_controllers);
 
-    if ( SDL_WasInit( SDL_INIT_GAMECONTROLLER ) ) {
-        SDL_QuitSubSystem( SDL_INIT_GAMECONTROLLER );
+    if (SDL_WasInit(SDL_INIT_GAMECONTROLLER)) {
+        SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
     }
 }
-

@@ -32,22 +32,20 @@
 
 #define MAXLIBS 1024
 
-typedef struct _grlib
-{
-    GRAPH ** maps ;
-    int map_reserved ;
-    char name[ 64 ];
-}
-GRLIB ;
+typedef struct _grlib {
+    GRAPH **maps;
+    int map_reserved;
+    char name[64];
+} GRLIB;
 
-extern GRLIB * syslib ;
+extern GRLIB *syslib;
 
-extern GRAPH * bitmap_get( int libid, int mapcode ) ;
-extern GRLIB * grlib_get( int libid ) ;
-extern void grlib_init() ;
-extern int grlib_new() ;
-extern void grlib_destroy( int libid ) ;
-extern int grlib_add_map( int libid, GRAPH * map ) ;
-extern int grlib_unload_map( int libid, int mapcode ) ;
+extern GRAPH *bitmap_get(int libid, int mapcode);
+extern GRLIB *grlib_get(int libid);
+extern void grlib_init();
+extern int grlib_new();
+extern void grlib_destroy(int libid);
+extern int grlib_add_map(int libid, GRAPH *map);
+extern int grlib_unload_map(int libid, int mapcode);
 
 #endif

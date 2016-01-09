@@ -51,95 +51,92 @@
 #endif
 
 namespace pixtudio {
-    namespace mod_audio {
-        namespace openal {
+namespace mod_audio {
+namespace openal {
 
-        class Audio : public love::audio::Audio {
-            public:
+class Audio : public love::audio::Audio {
+  public:
+    Audio();
+    ~Audio();
 
-                Audio();
-                ~Audio();
+    // Implements Module.
+    const char *getName() const;
 
-                // Implements Module.
-                const char *getName() const;
+    // Implements Audio.
+    love::audio::Source *newSource(love::sound::Decoder *decoder);
+    love::audio::Source *newSource(love::sound::SoundData *soundData);
+    int getSourceCount() const;
+    int getMaxSources() const;
+    bool play(love::audio::Source *source);
+    void stop(love::audio::Source *source);
+    void stop();
+    void pause(love::audio::Source *source);
+    void pause();
+    void resume(love::audio::Source *source);
+    void resume();
+    void rewind(love::audio::Source *source);
+    void rewind();
+    void setVolume(float volume);
+    float getVolume() const;
 
-                // Implements Audio.
-                love::audio::Source *newSource(love::sound::Decoder *decoder);
-                love::audio::Source *newSource(love::sound::SoundData *soundData);
-                int getSourceCount() const;
-                int getMaxSources() const;
-                bool play(love::audio::Source *source);
-                void stop(love::audio::Source *source);
-                void stop();
-                void pause(love::audio::Source *source);
-                void pause();
-                void resume(love::audio::Source *source);
-                void resume();
-                void rewind(love::audio::Source *source);
-                void rewind();
-                void setVolume(float volume);
-                float getVolume() const;
+    void getPosition(float *v) const;
+    void setPosition(float *v);
+    void getOrientation(float *v) const;
+    void setOrientation(float *v);
+    void getVelocity(float *v) const;
+    void setVelocity(float *v);
 
-                void getPosition(float *v) const;
-                void setPosition(float *v);
-                void getOrientation(float *v) const;
-                void setOrientation(float *v);
-                void getVelocity(float *v) const;
-                void setVelocity(float *v);
+    void setDopplerScale(float scale);
+    float getDopplerScale() const;
 
-                void setDopplerScale(float scale);
-                float getDopplerScale() const;
+    void record();
+    love::sound::SoundData *getRecordedData();
+    love::sound::SoundData *stopRecording(bool returnData);
+    bool canRecord();
 
-                void record();
-                love::sound::SoundData *getRecordedData();
-                love::sound::SoundData *stopRecording(bool returnData);
-                bool canRecord();
+    DistanceModel getDistanceModel() const;
+    void setDistanceModel(DistanceModel distanceModel);
 
-                DistanceModel getDistanceModel() const;
-                void setDistanceModel(DistanceModel distanceModel);
+  private:
+    // The OpenAL device.
+    ALCdevice *device;
 
-            private:
+    // The OpenAL capture device (microphone).
+    ALCdevice *capture;
 
-                // The OpenAL device.
-                ALCdevice *device;
+    // The OpenAL context.
+    ALCcontext *context;
 
-                // The OpenAL capture device (microphone).
-                ALCdevice *capture;
+    // The Pool.
+    Pool *pool;
 
-                // The OpenAL context.
-                ALCcontext *context;
+    class PoolThread : public thread::Threadable {
+      protected:
+        Pool *pool;
 
-                // The Pool.
-                Pool *pool;
+        // Set this to true when the thread should finish.
+        // Main thread will write to this value, and PoolThread
+        // will read from it.
+        volatile bool finish;
 
-                class PoolThread: public thread::Threadable
-                {
-                protected:
-                    Pool *pool;
+        // finish lock
+        love::thread::MutexRef mutex;
 
-                    // Set this to true when the thread should finish.
-                    // Main thread will write to this value, and PoolThread
-                    // will read from it.
-                    volatile bool finish;
+      public:
+        PoolThread(Pool *pool);
+        ~PoolThread();
+        void setFinish();
+        void threadFunction();
+    };
 
-                    // finish lock
-                    love::thread::MutexRef mutex;
+    PoolThread *poolThread;
 
-                public:
-                    PoolThread(Pool *pool);
-                    ~PoolThread();
-                    void setFinish();
-                    void threadFunction();
-                };
+    DistanceModel distanceModel;
 
-                PoolThread *poolThread;
+}; // Audio
 
-                DistanceModel distanceModel;
-
-        }; // Audio
-
-        } // openal
-    } // audio
+} // openal
+} // audio
 } // love
 
 #endif // LOVE_AUDIO_OPENAL_AUDIO_H

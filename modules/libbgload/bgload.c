@@ -46,12 +46,12 @@
  * Helper function preparing params
  **/
 
-static bgdata *prep( int *params ) {
-    bgdata *t = ( bgdata* )malloc( sizeof( bgdata ) );
-    t->file = strdup(( char * )string_get( params[0] ));
-    t->id = ( int* )params[1];
-    *( t->id ) = -2 ; // WAIT STATUS
-    string_discard( params[0] );
+static bgdata *prep(int *params) {
+    bgdata *t = (bgdata *)malloc(sizeof(bgdata));
+    t->file   = strdup((char *)string_get(params[0]));
+    t->id = (int *)params[1];
+    *(t->id) = -2; // WAIT STATUS
+    string_discard(params[0]);
     return t;
 }
 
@@ -61,22 +61,22 @@ static bgdata *prep( int *params ) {
  * Helper function executed in the new thread
  **/
 
-int bgDoLoad( void *d ) {
-    bgdata *t = ( bgdata* )d;
-    *( t->id ) = ( *t->fn )( t->file );
-    free( t->file );
-    free( t );
+int bgDoLoad(void *d) {
+    bgdata *t = (bgdata *)d;
+    *(t->id) = (*t->fn)(t->file);
+    free(t->file);
+    free(t);
     return 0;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int bgload( int ( *fn )(), int * params ) {
-    bgdata *t = prep( params );
-    t->fn = fn;
+int bgload(int (*fn)(), int *params) {
+    bgdata *t = prep(params);
+    t->fn     = fn;
 
-    SDL_CreateThread( bgDoLoad, "PixTudio BG loading thread", (void *)t );
-    return 0 ;
+    SDL_CreateThread(bgDoLoad, "PixTudio BG loading thread", (void *)t);
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */

@@ -32,7 +32,7 @@
 
 /* --------------------------------------------------------------------------- */
 
-#define C_SCROLL    1
+#define C_SCROLL 1
 
 /* --------------------------------------------------------------------------- */
 
@@ -40,62 +40,56 @@
 #define __PACKED
 #define inline __inline
 #else
-#define __PACKED __attribute__ ((packed))
+#define __PACKED __attribute__((packed))
 #endif
 
 #ifdef _MSC_VER
 #pragma pack(push, 1)
 #endif
 
-typedef struct _scrolldata
-{
-    int fileid ;
-    int graphid ;
-    int backid ;
-    REGION * region ;
-    int flags ;
+typedef struct _scrolldata {
+    int fileid;
+    int graphid;
+    int backid;
+    REGION *region;
+    int flags;
 
-    int x0, y0 ;
-    int posx0, posy0 ;
-    int x1, y1 ;
-    int z ;
+    int x0, y0;
+    int posx0, posy0;
+    int x1, y1;
+    int z;
 
-    INSTANCE * camera ;
+    INSTANCE *camera;
 
-    int ratio ;
-    int speed ;
-    REGION * region1 ;
-    REGION * region2 ;
+    int ratio;
+    int speed;
+    REGION *region1;
+    REGION *region2;
 
     int destfile;
     int destid;
 
-    int active ;
+    int active;
 
-    struct _scrolldata * follows ;
-}
-__PACKED
-scrolldata ;
+    struct _scrolldata *follows;
+} __PACKED scrolldata;
 
-typedef struct _scroll_Extra_data
-{
-    int32_t x0 ;
-    int32_t y0 ;
-    int32_t x1 ;
-    int32_t y1 ;
-    int32_t z ;
-    int32_t camera ;
-    int32_t ratio ;
-    int32_t speed ;
-    int32_t region1 ;
-    int32_t region2 ;
-    int32_t flags1 ;
-    int32_t flags2 ;
-    int32_t follows ;
-    int32_t reserved[7] ;       /* First reserved dword point to internal scrolldata struct */
-}
-__PACKED
-SCROLL_EXTRA_DATA ;
+typedef struct _scroll_Extra_data {
+    int32_t x0;
+    int32_t y0;
+    int32_t x1;
+    int32_t y1;
+    int32_t z;
+    int32_t camera;
+    int32_t ratio;
+    int32_t speed;
+    int32_t region1;
+    int32_t region2;
+    int32_t flags1;
+    int32_t flags2;
+    int32_t follows;
+    int32_t reserved[7]; /* First reserved dword point to internal scrolldata struct */
+} __PACKED SCROLL_EXTRA_DATA;
 
 #ifdef _MSC_VER
 #pragma pack(pop)
@@ -103,15 +97,16 @@ SCROLL_EXTRA_DATA ;
 
 /* --------------------------------------------------------------------------- */
 
-extern scrolldata  scrolls[10] ;
+extern scrolldata scrolls[10];
 
 /* --------------------------------------------------------------------------- */
 
-extern void scroll_start( int n, int fileid, int graphid, int backid, int region, int flags, int destfile, int destid ) ;
-extern void scroll_stop( int n ) ;
-extern void scroll_update( int n );
-extern void scroll_draw( int n, REGION * clipping ) ;
-extern void scroll_region( int n, REGION * r ) ;
+extern void scroll_start(int n, int fileid, int graphid, int backid, int region, int flags,
+                         int destfile, int destid);
+extern void scroll_stop(int n);
+extern void scroll_update(int n);
+extern void scroll_draw(int n, REGION *clipping);
+extern void scroll_region(int n, REGION *r);
 
 /* --------------------------------------------------------------------------- */
 

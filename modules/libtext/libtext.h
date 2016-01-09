@@ -37,57 +37,59 @@
 
 /* --------------------------------------------------------------------------- */
 
-#define MAX_TEXTS           512
+#define MAX_TEXTS 512
 
 // Tipos para gr_text_new_var
 
-#define TEXT_TEXT           1
-#define TEXT_STRING         2
-#define TEXT_INT            3
-#define TEXT_FLOAT          4
-#define TEXT_WORD           5
-#define TEXT_BYTE           6
-#define TEXT_CHARARRAY      7
-#define TEXT_SHORT          8
-#define TEXT_DWORD          9
-#define TEXT_SBYTE          10
-#define TEXT_CHAR           11
-#define TEXT_POINTER        12
+#define TEXT_TEXT 1
+#define TEXT_STRING 2
+#define TEXT_INT 3
+#define TEXT_FLOAT 4
+#define TEXT_WORD 5
+#define TEXT_BYTE 6
+#define TEXT_CHARARRAY 7
+#define TEXT_SHORT 8
+#define TEXT_DWORD 9
+#define TEXT_SBYTE 10
+#define TEXT_CHAR 11
+#define TEXT_POINTER 12
 
 /* Alineacion para textos */
-#define ALIGN_TOP_LEFT      0
-#define ALIGN_TOP           1
-#define ALIGN_TOP_RIGHT     2
-#define ALIGN_CENTER_LEFT   3
-#define ALIGN_CENTER        4
-#define ALIGN_CENTER_RIGHT  5
-#define ALIGN_BOTTOM_LEFT   6
-#define ALIGN_BOTTOM        7
-#define ALIGN_BOTTOM_RIGHT  8
+#define ALIGN_TOP_LEFT 0
+#define ALIGN_TOP 1
+#define ALIGN_TOP_RIGHT 2
+#define ALIGN_CENTER_LEFT 3
+#define ALIGN_CENTER 4
+#define ALIGN_CENTER_RIGHT 5
+#define ALIGN_BOTTOM_LEFT 6
+#define ALIGN_BOTTOM 7
+#define ALIGN_BOTTOM_RIGHT 8
 
 /* --------------------------------------------------------------------------- */
 
-extern int fntcolor ;          /* Color for drawing bitmap text    */
+extern int fntcolor; /* Color for drawing bitmap text    */
 
 /* --------------------------------------------------------------------------- */
 
-extern void gr_text_setcolor( int c ) ;
-extern void gr_text_setcolor2( int textid, int c ) ;
-extern int gr_text_getcolor() ;
-extern int gr_text_getcolor2( int textid ) ;
-extern int gr_text_new( int fontid, int x, int y, int centered, const char * text ) ;
-extern int gr_text_new2( int fontid, int x, int y, int z, int centered, const char * text ) ;
-extern int gr_text_new_var( int fontid, int x, int y, int centered, const void * var, int type ) ;
-extern int gr_text_new_var2( int fontid, int x, int y, int z, int centered, const void * var, int type ) ;
-extern void gr_text_move( int textid, int x, int y ) ;
-extern void gr_text_move2( int textid, int x, int y, int z ) ;
-extern void gr_text_destroy( int textid ) ;
-extern int gr_text_margintop( int fontid, const unsigned char * text ) ;
-extern int gr_text_width( int fontid, const unsigned char * text ) ;
-extern int gr_text_widthn( int fontid, const unsigned char * text, int n ) ;
-extern int gr_text_height( int fontid, const unsigned char * text ) ;
-extern int gr_text_put( GRAPH * dest, REGION * region, int fontid, int x, int y, const unsigned char * text ) ;
-extern GRAPH * gr_text_bitmap( int fontid, const char * text, int centered ) ;
+extern void gr_text_setcolor(int c);
+extern void gr_text_setcolor2(int textid, int c);
+extern int gr_text_getcolor();
+extern int gr_text_getcolor2(int textid);
+extern int gr_text_new(int fontid, int x, int y, int centered, const char *text);
+extern int gr_text_new2(int fontid, int x, int y, int z, int centered, const char *text);
+extern int gr_text_new_var(int fontid, int x, int y, int centered, const void *var, int type);
+extern int gr_text_new_var2(int fontid, int x, int y, int z, int centered, const void *var,
+                            int type);
+extern void gr_text_move(int textid, int x, int y);
+extern void gr_text_move2(int textid, int x, int y, int z);
+extern void gr_text_destroy(int textid);
+extern int gr_text_margintop(int fontid, const unsigned char *text);
+extern int gr_text_width(int fontid, const unsigned char *text);
+extern int gr_text_widthn(int fontid, const unsigned char *text, int n);
+extern int gr_text_height(int fontid, const unsigned char *text);
+extern int gr_text_put(GRAPH *dest, REGION *region, int fontid, int x, int y,
+                       const unsigned char *text);
+extern GRAPH *gr_text_bitmap(int fontid, const char *text, int centered);
 
 /* --------------------------------------------------------------------------- */
 

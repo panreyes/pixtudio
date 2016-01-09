@@ -30,12 +30,12 @@
 #ifndef __G_INSTANCE_H
 #define __G_INSTANCE_H
 
-extern void instance_get_bbox( INSTANCE * i, GRAPH * gr, REGION * dest );
-extern void draw_instance_at( INSTANCE * i, REGION * r, int x, int y, GRAPH * dest ) ;
-extern void draw_instance( INSTANCE * i, REGION * clip ) ;
-extern void instance_update_bbox( INSTANCE * i ) ;
-extern GRAPH * instance_graph( INSTANCE * i ) ;
-extern GRAPH * instance_collision_graph( INSTANCE * i ) ;
-extern int instance_visible( INSTANCE * i );
+extern void instance_get_bbox(INSTANCE *i, GRAPH *gr, REGION *dest);
+extern void draw_instance_at(INSTANCE *i, REGION *r, int x, int y, GRAPH *dest);
+extern void draw_instance(INSTANCE *i, REGION *clip);
+extern void instance_update_bbox(INSTANCE *i);
+extern GRAPH *instance_graph(INSTANCE *i);
+extern GRAPH *instance_collision_graph(INSTANCE *i);
+extern int instance_visible(INSTANCE *i);
 
 #endif

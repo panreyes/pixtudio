@@ -38,20 +38,20 @@
 
 /* ---------------------------------------------------------------------- */
 
-int rand_seed( INSTANCE * my, int * params ) {
-    srand( params[0] ) ;
-    return 1 ;
+int rand_seed(INSTANCE *my, int *params) {
+    srand(params[0]);
+    return 1;
 }
 
 /* ---------------------------------------------------------------------- */
 
-int rand_std( INSTANCE * my, int * params ) {
-    int num1 = MIN( params[0], params[1] ) ;
-    int num2 = MAX( params[0], params[1] ) ;
-    int var = num2 - num1 + 1;
+int rand_std(INSTANCE *my, int *params) {
+    int num1 = MIN(params[0], params[1]);
+    int num2 = MAX(params[0], params[1]);
+    int var  = num2 - num1 + 1;
 
-    if ( var > RAND_MAX )
-        return num1 + rand() * ((( double ) var ) / RAND_MAX );
+    if (var > RAND_MAX)
+        return num1 + rand() * (((double)var) / RAND_MAX);
     else
         return num1 + rand() % var;
 }

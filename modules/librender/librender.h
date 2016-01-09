@@ -52,7 +52,7 @@
 
 /* --------------------------------------------------------------------------- */
 
-#define C_SCREEN            0
+#define C_SCREEN 0
 
 /* --------------------------------------------------------------------------- */
 
@@ -124,11 +124,10 @@ enum {
 
 /* --------------------------------------------------------------------------- */
 
-extern DLVARFIXUP __bgdexport( librender, globals_fixup )[];
-extern DLVARFIXUP __bgdexport( librender, locals_fixup )[];
+extern DLVARFIXUP __bgdexport(librender, globals_fixup)[];
+extern DLVARFIXUP __bgdexport(librender, locals_fixup)[];
 
 /* --------------------------------------------------------------------------- */
 #endif
 
 #endif
-

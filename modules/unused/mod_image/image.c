@@ -51,24 +51,22 @@
 #include "mod_image_symbols.h"
 #endif
 
+static int sdlf_seek(SDL_RWops *context, int offset, int whence);
+static int sdlf_read(SDL_RWops *context, void *ptr, int size, int count);
+static int sdlf_write(SDL_RWops *context, const void *ptr, int size, int count);
+static int sdlf_close(SDL_RWops *context);
 
-static int sdlf_seek (SDL_RWops * context, int offset, int whence);
-static int sdlf_read (SDL_RWops * context, void * ptr, int size, int count);
-static int sdlf_write (SDL_RWops * context, const void * ptr, int size, int count);
-static int sdlf_close (SDL_RWops * context);
-
-enum
-{
-	TYPE_BMP = 0x001,
-	TYPE_GIF = 0x002,
-	TYPE_JPG = 0x004,
-	TYPE_LBM = 0x008,
-	TYPE_PCX = 0x010,
-	TYPE_PNG = 0x020,
-	TYPE_PNM = 0x040,
-	TYPE_TIF = 0x080,
-	TYPE_XPM = 0x100,
-	TYPE_XCF = 0x200
+enum {
+    TYPE_BMP = 0x001,
+    TYPE_GIF = 0x002,
+    TYPE_JPG = 0x004,
+    TYPE_LBM = 0x008,
+    TYPE_PCX = 0x010,
+    TYPE_PNG = 0x020,
+    TYPE_PNM = 0x040,
+    TYPE_TIF = 0x080,
+    TYPE_XPM = 0x100,
+    TYPE_XCF = 0x200
 };
 
 /*
@@ -84,51 +82,49 @@ enum
  *
  */
 
-SDL_RWops * file_RWops (file * fp)
-{
-	static SDL_RWops * sdlf;
+SDL_RWops *file_RWops(file *fp) {
+    static SDL_RWops *sdlf;
 
-	sdlf = SDL_AllocRW();
-	if (sdlf == NULL) return NULL;
+    sdlf = SDL_AllocRW();
+    if (sdlf == NULL)
+        return NULL;
 
-	sdlf->seek = sdlf_seek;
-	sdlf->read = sdlf_read;
-	sdlf->write = sdlf_write;
-	sdlf->close = sdlf_close;
-	sdlf->hidden.unknown.data1 = fp;
+    sdlf->seek                 = sdlf_seek;
+    sdlf->read                 = sdlf_read;
+    sdlf->write                = sdlf_write;
+    sdlf->close                = sdlf_close;
+    sdlf->hidden.unknown.data1 = fp;
 
-	return sdlf;
+    return sdlf;
 }
 
 /* Stub functions for RWops */
 
-static int sdlf_seek (SDL_RWops * context, int offset, int whence)
-{
-	file * fp = (file *) context->hidden.unknown.data1;
-	file_seek (fp, offset, whence);
-	return file_pos (fp);
+static int sdlf_seek(SDL_RWops *context, int offset, int whence) {
+    file *fp = (file *)context->hidden.unknown.data1;
+    file_seek(fp, offset, whence);
+    return file_pos(fp);
 }
 
-static int sdlf_read (SDL_RWops * context, void * ptr, int size, int count)
-{
-	file * fp = (file *) context->hidden.unknown.data1;
-	if (count == 0) return -1;
-	return file_read (fp, ptr, size * count) / size;
+static int sdlf_read(SDL_RWops *context, void *ptr, int size, int count) {
+    file *fp = (file *)context->hidden.unknown.data1;
+    if (count == 0)
+        return -1;
+    return file_read(fp, ptr, size * count) / size;
 }
 
-static int sdlf_write (SDL_RWops * context, const void * ptr, int size, int count)
-{
-	file * fp = (file *) context->hidden.unknown.data1;
-	if (count == 0) return -1;
-	return file_write (fp, ptr, size * count) / size;
+static int sdlf_write(SDL_RWops *context, const void *ptr, int size, int count) {
+    file *fp = (file *)context->hidden.unknown.data1;
+    if (count == 0)
+        return -1;
+    return file_write(fp, ptr, size * count) / size;
 }
 
-static int sdlf_close (SDL_RWops * context)
-{
-	/* We don't close the file here with file_close, because the SDL_RWops
-	 * is created from an existing file * pointer that could be closed
-	 * elsewhere! */
-	return 1;
+static int sdlf_close(SDL_RWops *context) {
+    /* We don't close the file here with file_close, because the SDL_RWops
+     * is created from an existing file * pointer that could be closed
+     * elsewhere! */
+    return 1;
 }
 
 /*
@@ -144,46 +140,42 @@ static int sdlf_close (SDL_RWops * context)
  *
  */
 
-int gr_load_image (const char * filename)
-{
-    file            * fp;
-    GRAPH           * gr = NULL, * gr1 = NULL;
-    SDL_RWops       * rwops;
-    SDL_Surface     * s = NULL , * aux = NULL;
+int gr_load_image(const char *filename) {
+    file *fp;
+    GRAPH *gr = NULL, *gr1 = NULL;
+    SDL_RWops *rwops;
+    SDL_Surface *s = NULL, *aux = NULL;
 
     /* Some libimage loaders may not be compatible with the file_* functions
     * (for example, back-seeks in compressed gzip files are not supported) */
-    s = IMG_Load (filename);
+    s = IMG_Load(filename);
 
     /* Try to open compressed/packed files */
-    if (s == NULL)
-    {
-        fp = file_open (filename, "rb");
+    if (s == NULL) {
+        fp = file_open(filename, "rb");
         if (fp == NULL) {
             printf("Image: Couldn't load %s\n", filename);
             return 0;
         }
-        rwops = file_RWops (fp);
-        if (rwops != NULL) s = IMG_Load_RW (rwops, 1);
+        rwops = file_RWops(fp);
+        if (rwops != NULL)
+            s = IMG_Load_RW(rwops, 1);
         SDL_FreeRW(rwops);
         file_close(fp);
     }
 
     /* Convert the SDL_Surface to a Bennu MAP */
-    if (s != NULL)
-    {
-        //printf("Image loaded with %dbpp\n", s->format->BitsPerPixel);
+    if (s != NULL) {
+        // printf("Image loaded with %dbpp\n", s->format->BitsPerPixel);
         // Create the map from the surface raw bitmap data
         // Convert it if needed.
 
-        if(s->format->BitsPerPixel != screen->format->BitsPerPixel)
-        {
-            //printf("Need to convert the surface to %dbpp.\n", screen->format->BitsPerPixel);
+        if (s->format->BitsPerPixel != screen->format->BitsPerPixel) {
+            // printf("Need to convert the surface to %dbpp.\n", screen->format->BitsPerPixel);
             // Duplicate the s surface to aux, free s surface
             aux = SDL_ConvertSurface(s, screen->format, 0);
             SDL_FreeSurface(s);
-            if(aux == NULL)
-            {
+            if (aux == NULL) {
                 printf("Image error: Couldn't convert the libimage");
                 return 0;
             }
@@ -195,20 +187,18 @@ int gr_load_image (const char * filename)
         // Make the data permanent
         gr = bitmap_clone(gr1);
 
-        if ( gr->format->depth == 32 )
-        {
+        if (gr->format->depth == 32) {
             int h, w;
-            char * src = gr->data;
-            int * ptr = src;
+            char *src = gr->data;
+            int *ptr  = src;
 
-            for ( h = gr->height; h--; )
-            {
-                for ( w = gr->width; w--; )
-                {
-                    if ( *ptr & 0x00FFFFFF ) *ptr |= 0x0FF000000 ;
+            for (h = gr->height; h--;) {
+                for (w = gr->width; w--;) {
+                    if (*ptr & 0x00FFFFFF)
+                        *ptr |= 0x0FF000000;
                     ptr++;
                 }
-                ptr = ( src += gr->pitch );
+                ptr = (src += gr->pitch);
             }
         }
 
@@ -221,13 +211,11 @@ int gr_load_image (const char * filename)
 
         // Free surface and unlock it (if needed)
         SDL_FreeSurface(s);
-    }
-    else
-    {
+    } else {
         printf("Image: Couldn't load %s\n", filename);
     }
 
-    return ( gr != NULL ) ? gr->code : 0;
+    return (gr != NULL) ? gr->code : 0;
 }
 
 /*
@@ -243,31 +231,40 @@ int gr_load_image (const char * filename)
  *      1 if the libimage has such a type, 0 otherwise
  */
 
-int gr_image_type (const char * filename, int type)
-{
-	file        * fp = file_open (filename, "rb");
-	SDL_RWops   * rwops;
-	int           result = 0;
+int gr_image_type(const char *filename, int type) {
+    file *fp = file_open(filename, "rb");
+    SDL_RWops *rwops;
+    int result = 0;
 
-	if (fp == NULL) return 0;
-	rwops = file_RWops (fp);
-	if (rwops != NULL)
-	{
-		if (type & TYPE_BMP) result |= IMG_isBMP(rwops) ? 1:0;
-		if (type & TYPE_PNM) result |= IMG_isPNM(rwops) ? 1:0;
-		if (type & TYPE_XPM) result |= IMG_isXPM(rwops) ? 1:0;
-		if (type & TYPE_XCF) result |= IMG_isXCF(rwops) ? 1:0;
-		if (type & TYPE_PCX) result |= IMG_isPCX(rwops) ? 1:0;
-		if (type & TYPE_GIF) result |= IMG_isGIF(rwops) ? 1:0;
-		if (type & TYPE_JPG) result |= IMG_isJPG(rwops) ? 1:0;
-		if (type & TYPE_TIF) result |= IMG_isTIF(rwops) ? 1:0;
-		if (type & TYPE_PNG) result |= IMG_isPNG(rwops) ? 1:0;
-		if (type & TYPE_LBM) result |= IMG_isLBM(rwops) ? 1:0;
+    if (fp == NULL)
+        return 0;
+    rwops = file_RWops(fp);
+    if (rwops != NULL) {
+        if (type & TYPE_BMP)
+            result |= IMG_isBMP(rwops) ? 1 : 0;
+        if (type & TYPE_PNM)
+            result |= IMG_isPNM(rwops) ? 1 : 0;
+        if (type & TYPE_XPM)
+            result |= IMG_isXPM(rwops) ? 1 : 0;
+        if (type & TYPE_XCF)
+            result |= IMG_isXCF(rwops) ? 1 : 0;
+        if (type & TYPE_PCX)
+            result |= IMG_isPCX(rwops) ? 1 : 0;
+        if (type & TYPE_GIF)
+            result |= IMG_isGIF(rwops) ? 1 : 0;
+        if (type & TYPE_JPG)
+            result |= IMG_isJPG(rwops) ? 1 : 0;
+        if (type & TYPE_TIF)
+            result |= IMG_isTIF(rwops) ? 1 : 0;
+        if (type & TYPE_PNG)
+            result |= IMG_isPNG(rwops) ? 1 : 0;
+        if (type & TYPE_LBM)
+            result |= IMG_isLBM(rwops) ? 1 : 0;
 
-		SDL_FreeRW(rwops);
-	}
-	file_close(fp);
-	return result;
+        SDL_FreeRW(rwops);
+    }
+    file_close(fp);
+    return result;
 }
 
 /* --------------------------- Fenix functions --------------------------- */
@@ -275,122 +272,109 @@ int gr_image_type (const char * filename, int type)
 /*
  *  LOAD_IMAGE (STRING file)
  */
-int bgd_load_image (INSTANCE * i, int * params)
-{
-	const char * ptr = string_get(params[0]);
-	int result = gr_load_image(ptr);
-	string_discard(params[0]);
-	return result;
+int bgd_load_image(INSTANCE *i, int *params) {
+    const char *ptr = string_get(params[0]);
+    int result = gr_load_image(ptr);
+    string_discard(params[0]);
+    return result;
 }
 
 /*
  *  IS_PCX (STRING file)
  */
-int bgd_is_PCX (INSTANCE * i, int * params)
-{
-	const char * ptr = string_get(params[0]);
-	int result = gr_image_type(ptr, TYPE_PCX);
-	string_discard(params[0]);
-	return result;
+int bgd_is_PCX(INSTANCE *i, int *params) {
+    const char *ptr = string_get(params[0]);
+    int result = gr_image_type(ptr, TYPE_PCX);
+    string_discard(params[0]);
+    return result;
 }
 
 /*
  *  IS_GIF (STRING file)
  */
-int bgd_is_GIF (INSTANCE * i, int * params)
-{
-	const char * ptr = string_get(params[0]);
-	int result = gr_image_type(ptr, TYPE_GIF);
-	string_discard(params[0]);
-	return result;
+int bgd_is_GIF(INSTANCE *i, int *params) {
+    const char *ptr = string_get(params[0]);
+    int result = gr_image_type(ptr, TYPE_GIF);
+    string_discard(params[0]);
+    return result;
 }
 
 /*
  *  IS_JPG (STRING file)
  */
-int bgd_is_JPG (INSTANCE * i, int * params)
-{
-	const char * ptr = string_get(params[0]);
-	int result = gr_image_type(ptr, TYPE_JPG);
-	string_discard(params[0]);
-	return result;
+int bgd_is_JPG(INSTANCE *i, int *params) {
+    const char *ptr = string_get(params[0]);
+    int result = gr_image_type(ptr, TYPE_JPG);
+    string_discard(params[0]);
+    return result;
 }
 
 /*
  *  IS_PNG (STRING file)
  */
-int bgd_is_PNG (INSTANCE * i, int * params)
-{
-	const char * ptr = string_get(params[0]);
-	int result = gr_image_type(ptr, TYPE_PNG);
-	string_discard(params[0]);
-	return result;
+int bgd_is_PNG(INSTANCE *i, int *params) {
+    const char *ptr = string_get(params[0]);
+    int result = gr_image_type(ptr, TYPE_PNG);
+    string_discard(params[0]);
+    return result;
 }
 
 /*
  *  IS_XPM (STRING file)
  */
-int bgd_is_XPM (INSTANCE * i, int * params)
-{
-	const char * ptr = string_get(params[0]);
-	int result = gr_image_type(ptr, TYPE_XPM);
-	string_discard(params[0]);
-	return result;
+int bgd_is_XPM(INSTANCE *i, int *params) {
+    const char *ptr = string_get(params[0]);
+    int result = gr_image_type(ptr, TYPE_XPM);
+    string_discard(params[0]);
+    return result;
 }
 
 /*
  *  IS_BMP (STRING file)
  */
-int bgd_is_BMP (INSTANCE * i, int * params)
-{
-	const char * ptr = string_get(params[0]);
-	int result = gr_image_type(ptr, TYPE_BMP);
-	string_discard(params[0]);
-	return result;
+int bgd_is_BMP(INSTANCE *i, int *params) {
+    const char *ptr = string_get(params[0]);
+    int result = gr_image_type(ptr, TYPE_BMP);
+    string_discard(params[0]);
+    return result;
 }
 
 /*
  *  IS_PNM (STRING file)
  */
-int bgd_is_PNM (INSTANCE * i, int * params)
-{
-	const char * ptr = string_get(params[0]);
-	int result = gr_image_type(ptr, TYPE_PNM);
-	string_discard(params[0]);
-	return result;
+int bgd_is_PNM(INSTANCE *i, int *params) {
+    const char *ptr = string_get(params[0]);
+    int result = gr_image_type(ptr, TYPE_PNM);
+    string_discard(params[0]);
+    return result;
 }
 
 /*
  *  IS_TIF (STRING file)
  */
-int bgd_is_TIF (INSTANCE * i, int * params)
-{
-	const char * ptr = string_get(params[0]);
-	int result = gr_image_type(ptr, TYPE_TIF);
-	string_discard(params[0]);
-	return result;
+int bgd_is_TIF(INSTANCE *i, int *params) {
+    const char *ptr = string_get(params[0]);
+    int result = gr_image_type(ptr, TYPE_TIF);
+    string_discard(params[0]);
+    return result;
 }
 
 /*
  *  IS_LBM (STRING file)
  */
-int bgd_is_LBM (INSTANCE * i, int * params)
-{
-	const char * ptr = string_get(params[0]);
-	int result = gr_image_type(ptr, TYPE_LBM);
-	string_discard(params[0]);
-	return result;
+int bgd_is_LBM(INSTANCE *i, int *params) {
+    const char *ptr = string_get(params[0]);
+    int result = gr_image_type(ptr, TYPE_LBM);
+    string_discard(params[0]);
+    return result;
 }
 
 /*
  *  IS_XCF (STRING file)
  */
-int bgd_is_XCF (INSTANCE * i, int * params)
-{
-	const char * ptr = string_get(params[0]);
-	int result = gr_image_type(ptr, TYPE_XCF);
-	string_discard(params[0]);
-	return result;
+int bgd_is_XCF(INSTANCE *i, int *params) {
+    const char *ptr = string_get(params[0]);
+    int result = gr_image_type(ptr, TYPE_XCF);
+    string_discard(params[0]);
+    return result;
 }
-
-

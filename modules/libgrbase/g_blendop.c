@@ -36,25 +36,27 @@
 
 /* Fast macros for color component extraction from a 16 bits value */
 
-#define GETR(color) (((color & sys_pixel_format->Rmask) >> sys_pixel_format->Rshift) << sys_pixel_format->Rloss)
-#define GETG(color) (((color & sys_pixel_format->Gmask) >> sys_pixel_format->Gshift) << sys_pixel_format->Gloss)
-#define GETB(color) (((color & sys_pixel_format->Bmask) >> sys_pixel_format->Bshift) << sys_pixel_format->Bloss)
+#define GETR(color)                                                                                \
+    (((color & sys_pixel_format->Rmask) >> sys_pixel_format->Rshift) << sys_pixel_format->Rloss)
+#define GETG(color)                                                                                \
+    (((color & sys_pixel_format->Gmask) >> sys_pixel_format->Gshift) << sys_pixel_format->Gloss)
+#define GETB(color)                                                                                \
+    (((color & sys_pixel_format->Bmask) >> sys_pixel_format->Bshift) << sys_pixel_format->Bloss)
 
 /* Fast macros for color composition */
 
-#define MAKERGB_SATURATE(r,g,b)                                             \
-    (                                                                           \
-            ((int)(r) > 255 ? sys_pixel_format->Rmask : (((int)(r) >> sys_pixel_format->Rloss) << sys_pixel_format->Rshift)) |    \
-            ((int)(g) > 255 ? sys_pixel_format->Gmask : (((int)(g) >> sys_pixel_format->Gloss) << sys_pixel_format->Gshift)) |    \
-            ((int)(b) > 255 ? sys_pixel_format->Bmask : (((int)(b) >> sys_pixel_format->Bloss) << sys_pixel_format->Bshift))      \
-    )
+#define MAKERGB_SATURATE(r, g, b)                                                                  \
+    (((int)(r) > 255 ? sys_pixel_format->Rmask                                                     \
+                     : (((int)(r) >> sys_pixel_format->Rloss) << sys_pixel_format->Rshift)) |      \
+     ((int)(g) > 255 ? sys_pixel_format->Gmask                                                     \
+                     : (((int)(g) >> sys_pixel_format->Gloss) << sys_pixel_format->Gshift)) |      \
+     ((int)(b) > 255 ? sys_pixel_format->Bmask                                                     \
+                     : (((int)(b) >> sys_pixel_format->Bloss) << sys_pixel_format->Bshift)))
 
-#define MAKERGB(r,g,b)                                                  \
-    (                                                                       \
-            (((int)(r) >> sys_pixel_format->Rloss) << sys_pixel_format->Rshift) |   \
-            (((int)(g) >> sys_pixel_format->Gloss) << sys_pixel_format->Gshift) |   \
-            (((int)(b) >> sys_pixel_format->Bloss) << sys_pixel_format->Bshift)     \
-    )
+#define MAKERGB(r, g, b)                                                                           \
+    ((((int)(r) >> sys_pixel_format->Rloss) << sys_pixel_format->Rshift) |                         \
+     (((int)(g) >> sys_pixel_format->Gloss) << sys_pixel_format->Gshift) |                         \
+     (((int)(b) >> sys_pixel_format->Bloss) << sys_pixel_format->Bshift))
 
 /* --------------------------------------------------------------------------- */
 /*
@@ -73,18 +75,17 @@
  *      None
  */
 
-void blend_init( int16_t * blend )
-{
+void blend_init(int16_t *blend) {
     int i;
-    int16_t * blend2;
+    int16_t *blend2;
 
-    if ( !blend ) return ;
+    if (!blend)
+        return;
 
     blend2 = blend + 65536;
 
-    for ( i = 0; i < 65536; i++ )
-    {
-        *blend++ = i;
+    for (i = 0; i < 65536; i++) {
+        *blend++  = i;
         *blend2++ = 0;
     }
 }
@@ -114,12 +115,12 @@ void blend_init( int16_t * blend )
  *      Pointer to the new blendop table or NULL if not enough memory
  */
 
-int16_t * blend_create( void )
-{
-    int16_t * blend = malloc( 65536 * 2 * sizeof( int16_t ) );
-    if ( !blend ) return NULL;
+int16_t *blend_create(void) {
+    int16_t *blend = malloc(65536 * 2 * sizeof(int16_t));
+    if (!blend)
+        return NULL;
 
-    blend_init( blend );
+    blend_init(blend);
 
     return blend;
 }
@@ -140,27 +141,27 @@ int16_t * blend_create( void )
  *      1               OK
  */
 
-void blend_apply( GRAPH * graph, int16_t * blend ) {
-    uint16_t * ptr;
+void blend_apply(GRAPH *graph, int16_t *blend) {
+    uint16_t *ptr;
     uint32_t x, y;
-    uint8_t * ptr8;
-    int16_t * blend2;
+    uint8_t *ptr8;
+    int16_t *blend2;
 
-    if ( !graph || !blend || graph->format->depth != 16 ) return ;
+    if (!graph || !blend || graph->format->depth != 16)
+        return;
 
     blend2 = blend + 65536;
 
-    ptr = ( uint16_t * ) (ptr8 = ( uint8_t * ) graph->data);
+    ptr = (uint16_t *)(ptr8 = (uint8_t *)graph->data);
     y = graph->height;
-    while ( y-- )
-    {
+    while (y--) {
         x = graph->width;
-        while ( x-- )
-        {
-            if ( *ptr ) * ptr = blend[ *ptr ] + blend2[ *ptr ];
+        while (x--) {
+            if (*ptr)
+                *ptr = blend[*ptr] + blend2[*ptr];
             ptr++;
         }
-        ptr = ( uint16_t * ) (ptr8 += graph->pitch);
+        ptr = (uint16_t *)(ptr8 += graph->pitch);
     }
 
     graph->modified = 2;
@@ -181,10 +182,11 @@ void blend_apply( GRAPH * graph, int16_t * blend ) {
  *      None
  */
 
-void blend_assign( GRAPH * graph, int16_t * blend ) {
-    if ( !graph ) return ;
+void blend_assign(GRAPH *graph, int16_t *blend) {
+    if (!graph)
+        return;
     graph->blend_table = blend;
-    graph->modified = 1; /* Doesn't need analysis */
+    graph->modified    = 1; /* Doesn't need analysis */
 }
 
 /* --------------------------------------------------------------------------- */
@@ -200,9 +202,10 @@ void blend_assign( GRAPH * graph, int16_t * blend ) {
  *      None
  */
 
-void blend_free( int16_t * blend ) {
-    if ( !blend ) return ;
-    free( blend );
+void blend_free(int16_t *blend) {
+    if (!blend)
+        return;
+    free(blend);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -229,61 +232,58 @@ void blend_free( int16_t * blend ) {
  *      1               Ok
  */
 
-void blend_grayscale( int16_t * blend, int method ) {
+void blend_grayscale(int16_t *blend, int method) {
     int i, r, g, b, max, min;
-    int16_t * blend2;
+    int16_t *blend2;
 
-    if ( !blend ) return ;
+    if (!blend)
+        return;
 
-    switch ( method )
-    {
-        case 1:
-            blend2 = blend + 65536;
+    switch (method) {
+    case 1:
+        blend2 = blend + 65536;
 
-            for ( i = 0; i < 65536; i++ )
-            {
-                r = ( int )( GETR( i ) * 0.3 );
-                g = ( int )( GETG( i ) * 0.59 );
-                b = ( int )( GETB( i ) * 0.11 );
-                r = r + g + b;
-                *blend++ = MAKERGB( r, r, r );
-                *blend2++ = 0;
-            }
-            break;
+        for (i = 0; i < 65536; i++) {
+            r         = (int)(GETR(i) * 0.3);
+            g         = (int)(GETG(i) * 0.59);
+            b         = (int)(GETB(i) * 0.11);
+            r         = r + g + b;
+            *blend++  = MAKERGB(r, r, r);
+            *blend2++ = 0;
+        }
+        break;
 
-        case 2:
-            blend2 = blend + 65536;
+    case 2:
+        blend2 = blend + 65536;
 
-            for ( i = 0; i < 65536; i++ )
-            {
-                r = GETR( i );
-                g = GETG( i );
-                b = GETB( i );
+        for (i = 0; i < 65536; i++) {
+            r = GETR(i);
+            g = GETG(i);
+            b = GETB(i);
 
-            max = ( r > g ) ? ( r > b ) ? r : g : ( g > b ) ? g : b;
-            min = ( r < g ) ? ( r < b ) ? r : g : ( g < b ) ? g : b;
+            max = (r > g) ? (r > b) ? r : g : (g > b) ? g : b;
+            min = (r < g) ? (r < b) ? r : g : (g < b) ? g : b;
 
-                r = ( max + min ) / 2;
-                *blend++ = MAKERGB( r, r, r );
-                *blend2++ = 0;
-            }
-            break;
+            r         = (max + min) / 2;
+            *blend++  = MAKERGB(r, r, r);
+            *blend2++ = 0;
+        }
+        break;
 
-        case 3:
-            blend2 = blend + 65536;
+    case 3:
+        blend2 = blend + 65536;
 
-            for ( i = 0; i < 65536; i++ )
-            {
-                r = GETR( i );
-                g = GETG( i );
-                b = GETB( i );
+        for (i = 0; i < 65536; i++) {
+            r = GETR(i);
+            g = GETG(i);
+            b = GETB(i);
 
-            max = ( r > g ) ? ( r > b ) ? r : g : ( g > b ) ? g : b;
+            max = (r > g) ? (r > b) ? r : g : (g > b) ? g : b;
 
-                *blend++ = MAKERGB( max, max, max );
-                *blend2++ = 0;
-            }
-            break;
+            *blend++  = MAKERGB(max, max, max);
+            *blend2++ = 0;
+        }
+        break;
     }
 }
 
@@ -304,32 +304,34 @@ void blend_grayscale( int16_t * blend, int method ) {
  *      None
  */
 
-void blend_translucency( int16_t * blend, float amount ) {
+void blend_translucency(int16_t *blend, float amount) {
     int i, r, g, b;
     float amount2;
-    int16_t * blend2;
+    int16_t *blend2;
 
-    if ( !blend ) return ;
+    if (!blend)
+        return;
 
     blend2 = blend + 65536;
 
-    if ( amount > 1.0f ) amount = 1.0f;
-    if ( amount < 0.0f ) amount = 0.0f;
+    if (amount > 1.0f)
+        amount = 1.0f;
+    if (amount < 0.0f)
+        amount = 0.0f;
 
-    amount = 1.0f - amount;
+    amount  = 1.0f - amount;
     amount2 = 1.0f - amount;
 
-    for ( i = 0; i < 65536; i++ )
-    {
-        r = ( int )( GETR( *blend ) * amount );
-        g = ( int )( GETG( *blend ) * amount );
-        b = ( int )( GETB( *blend ) * amount );
-        *blend++ = MAKERGB( r, g, b );
+    for (i = 0; i < 65536; i++) {
+        r        = (int)(GETR(*blend) * amount);
+        g        = (int)(GETG(*blend) * amount);
+        b        = (int)(GETB(*blend) * amount);
+        *blend++ = MAKERGB(r, g, b);
 
-        r = ( int )( GETR( i ) * amount2 );
-        g = ( int )( GETG( i ) * amount2 );
-        b = ( int )( GETB( i ) * amount2 );
-        *blend2++ = MAKERGB( r, g, b );
+        r         = (int)(GETR(i) * amount2);
+        g         = (int)(GETG(i) * amount2);
+        b         = (int)(GETB(i) * amount2);
+        *blend2++ = MAKERGB(r, g, b);
     }
 }
 
@@ -351,19 +353,20 @@ void blend_translucency( int16_t * blend, float amount ) {
  *      None
  */
 
-void blend_intensity( int16_t * blend, float amount ) {
+void blend_intensity(int16_t *blend, float amount) {
     int i, r, g, b;
 
-    if ( !blend ) return ;
+    if (!blend)
+        return;
 
-    if ( amount < 0.0f ) amount = 0.0f;
+    if (amount < 0.0f)
+        amount = 0.0f;
 
-    for ( i = 65536; i--; )
-    {
-        r = ( int )( GETR( *blend ) * amount );
-        g = ( int )( GETG( *blend ) * amount );
-        b = ( int )( GETB( *blend ) * amount );
-        *blend++ = MAKERGB_SATURATE( r, g, b );
+    for (i = 65536; i--;) {
+        r        = (int)(GETR(*blend) * amount);
+        g        = (int)(GETG(*blend) * amount);
+        b        = (int)(GETB(*blend) * amount);
+        *blend++ = MAKERGB_SATURATE(r, g, b);
     }
 }
 
@@ -381,23 +384,21 @@ void blend_intensity( int16_t * blend, float amount ) {
  *      None
  */
 
-void blend_swap( int16_t * blend )
-{
+void blend_swap(int16_t *blend) {
     int i, j;
-    int16_t * blend2;
+    int16_t *blend2;
 
-    if ( !blend ) return ;
+    if (!blend)
+        return;
 
     blend2 = blend + 65536;
 
-    for ( i = 65536; i--; )
-    {
-        j = *blend;
-        *blend++ = *blend2;
+    for (i = 65536; i--;) {
+        j         = *blend;
+        *blend++  = *blend2;
         *blend2++ = j;
     }
 }
-
 
 /* --------------------------------------------------------------------------- */
 /*
@@ -421,20 +422,22 @@ void blend_swap( int16_t * blend )
  *      None
  */
 
-void blend_tint( int16_t * blend, float amount, uint8_t cr, uint8_t cg, uint8_t cb ) {
+void blend_tint(int16_t *blend, float amount, uint8_t cr, uint8_t cg, uint8_t cb) {
     int i, r, g, b;
 
-    if ( !blend ) return ;
+    if (!blend)
+        return;
 
-    if ( amount > 1.0f ) amount = 1.0f;
-    if ( amount < 0.0f ) amount = 0.0f;
+    if (amount > 1.0f)
+        amount = 1.0f;
+    if (amount < 0.0f)
+        amount = 0.0f;
 
-    for ( i = 65536; i--; )
-    {
-        r = ( int )( amount * cr + ( 1.0f - amount ) * GETR( *blend ) );
-        g = ( int )( amount * cg + ( 1.0f - amount ) * GETG( *blend ) );
-        b = ( int )( amount * cb + ( 1.0f - amount ) * GETB( *blend ) );
-        *blend = MAKERGB_SATURATE( r, g, b );
+    for (i = 65536; i--;) {
+        r      = (int)(amount * cr + (1.0f - amount) * GETR(*blend));
+        g      = (int)(amount * cg + (1.0f - amount) * GETG(*blend));
+        b      = (int)(amount * cb + (1.0f - amount) * GETB(*blend));
+        *blend = MAKERGB_SATURATE(r, g, b);
         blend++;
     }
 }

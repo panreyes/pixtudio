@@ -34,7 +34,7 @@
 /* --------------------------------------------------------------------------- */
 /* Gestión de regiones                                                         */
 
-REGION regions[ 32 ] ;
+REGION regions[32];
 
 /* --------------------------------------------------------------------------- */
 /*
@@ -56,19 +56,19 @@ REGION regions[ 32 ] ;
  *      None
  */
 
-void region_define( int region, int x, int y, int width, int height )
-{
-    if ( region < 1 || region > 31 ) return ;
+void region_define(int region, int x, int y, int width, int height) {
+    if (region < 1 || region > 31)
+        return;
 #if 1
-    regions[ region ].x = x;
-    regions[ region ].y = y ;
-    regions[ region ].x2 = ( x + width ) - 1 ;
-    regions[ region ].y2 = ( y + height ) - 1 ;
+    regions[region].x  = x;
+    regions[region].y  = y;
+    regions[region].x2 = (x + width) - 1;
+    regions[region].y2 = (y + height) - 1;
 #else
-    regions[ region ].x = MAX( x, 0 ) ;
-    regions[ region ].y = MAX( y, 0 ) ;
-    regions[ region ].x2 = MIN( scr_width, x + width ) - 1 ;
-    regions[ region ].y2 = MIN( scr_height, y + height ) - 1 ;
+    regions[region].x  = MAX(x, 0);
+    regions[region].y  = MAX(y, 0);
+    regions[region].x2 = MIN(scr_width, x + width) - 1;
+    regions[region].y2 = MIN(scr_height, y + height) - 1;
 #endif
 }
 
@@ -88,12 +88,11 @@ void region_define( int region, int x, int y, int width, int height )
  *
  */
 
-void region_union( REGION * dest, REGION * b )
-{
-    dest->x = MAX( dest->x, b->x ) ;
-    dest->y = MAX( dest->y, b->y ) ;
-    dest->y2 = MIN( dest->y2, b->y2 ) ;
-    dest->x2 = MIN( dest->x2, b->x2 ) ;
+void region_union(REGION *dest, REGION *b) {
+    dest->x  = MAX(dest->x, b->x);
+    dest->y  = MAX(dest->y, b->y);
+    dest->y2 = MIN(dest->y2, b->y2);
+    dest->x2 = MIN(dest->x2, b->x2);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -110,9 +109,8 @@ void region_union( REGION * dest, REGION * b )
  *
  */
 
-int region_is_empty( REGION * a )
-{
-    return ( a->x2 < a->x ) || ( a->y2 < a->y ) ;
+int region_is_empty(REGION *a) {
+    return (a->x2 < a->x) || (a->y2 < a->y);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -130,9 +128,8 @@ int region_is_empty( REGION * a )
  *
  */
 
-int region_is_out( REGION * a, REGION * b )
-{
-    return ( b->x > a->x2 || b->y > a->y2 || b->x2 < a->x || b->y2 < a->y );
+int region_is_out(REGION *a, REGION *b) {
+    return (b->x > a->x2 || b->y > a->y2 || b->x2 < a->x || b->y2 < a->y);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -152,21 +149,20 @@ int region_is_out( REGION * a, REGION * b )
  *
  */
 
-REGION * region_new( int x, int y, int width, int height )
-{
-    REGION * region = malloc( sizeof( REGION ) ) ;
+REGION *region_new(int x, int y, int width, int height) {
+    REGION *region = malloc(sizeof(REGION));
 #if 1
-    region->x = x ;
-    region->y = y ;
-    region->x2 = ( x + width ) - 1 ;
-    region->y2 = ( y + height ) - 1 ;
+    region->x  = x;
+    region->y  = y;
+    region->x2 = (x + width) - 1;
+    region->y2 = (y + height) - 1;
 #else
-    region->x = MAX( x, 0 ) ;
-    region->y = MAX( y, 0 ) ;
-    region->x2 = MIN( scr_width, x + width ) - 1 ;
-    region->y2 = MIN( scr_height, y + height ) - 1 ;
+    region->x  = MAX(x, 0);
+    region->y  = MAX(y, 0);
+    region->x2 = MIN(scr_width, x + width) - 1;
+    region->y2 = MIN(scr_height, y + height) - 1;
 #endif
-    return region ;
+    return region;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -183,11 +179,11 @@ REGION * region_new( int x, int y, int width, int height )
  *
  */
 
-REGION * region_get( int n )
-{
-    if ( n < 0 || n > 31 ) return 0 ;
+REGION *region_get(int n) {
+    if (n < 0 || n > 31)
+        return 0;
 
-    return &regions[ n ] ;
+    return &regions[n];
 }
 
 /* --------------------------------------------------------------------------- */
@@ -204,9 +200,8 @@ REGION * region_get( int n )
  *
  */
 
-void region_destroy( REGION * region )
-{
-    free( region );
+void region_destroy(REGION *region) {
+    free(region);
 }
 
 /* --------------------------------------------------------------------------- */

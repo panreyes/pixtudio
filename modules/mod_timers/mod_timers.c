@@ -41,14 +41,12 @@
 #ifndef __MONOLITHIC__
 #include "mod_timers_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport( mod_timers, globals_fixup )[];
+extern DLVARFIXUP __bgdexport(mod_timers, globals_fixup)[];
 #endif
 
 /* ----------------------------------------------------------------- */
 
-enum {
-    TIMER = 0
-};
+enum { TIMER = 0 };
 
 /* ----------------------------------------------------------------- */
 /*
@@ -63,18 +61,18 @@ enum {
  *      None
  */
 
-void _advance_timers( void ) {
-    int * timer, i ;
-    int curr_ticktimer = SDL_GetTicks() ;
-    static int initial_ticktimer[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0} ;
-    static int ltimer[10] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1} ; // -1 to force initial_ticktimer update
+void _advance_timers(void) {
+    int *timer, i;
+    int curr_ticktimer               = SDL_GetTicks();
+    static int initial_ticktimer[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    static int ltimer[10]            = {-1, -1, -1, -1, -1,
+                             -1, -1, -1, -1, -1}; // -1 to force initial_ticktimer update
 
     /* TODO: Here add checking for console_mode, don't advance in this mode */
-    timer = ( int * ) ( &GLODWORD( mod_timers, TIMER ) );
-    for ( i = 0 ; i < 10 ; i++ )
-    {
-        if ( timer[i] != ltimer[i] ) initial_ticktimer[i] = curr_ticktimer - ( timer[i] * 10 ) ;
-        ltimer[i] = timer[i] = ( curr_ticktimer - initial_ticktimer[i] ) / 10 ;
+    timer = (int *)(&GLODWORD(mod_timers, TIMER));
+    for (i = 0; i < 10; i++) {
+        if (timer[i] != ltimer[i])
+            initial_ticktimer[i] = curr_ticktimer - (timer[i] * 10);
+        ltimer[i] = timer[i] = (curr_ticktimer - initial_ticktimer[i]) / 10;
     }
 }
-

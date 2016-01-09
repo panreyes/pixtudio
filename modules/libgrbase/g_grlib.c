@@ -37,76 +37,72 @@
 
 /* --------------------------------------------------------------------------- */
 
-GRLIB * syslib = 0 ;
+GRLIB *syslib = 0;
 
-static uint32_t * libs_bmp = NULL ;
-static int libs_allocated = 0 ;
-static int libs_last = 0;
-static GRLIB ** libs = NULL;
-
-/* --------------------------------------------------------------------------- */
-
-static GRLIB * grlib_create() ;
+static uint32_t *libs_bmp = NULL;
+static int libs_allocated = 0;
+static int libs_last      = 0;
+static GRLIB **libs       = NULL;
 
 /* --------------------------------------------------------------------------- */
 
-int grlib_newid()
-{
-    int n, nb, lim, ini ;
+static GRLIB *grlib_create();
+
+/* --------------------------------------------------------------------------- */
+
+int grlib_newid() {
+    int n, nb, lim, ini;
 
     // Si tengo suficientes alocados, retorno el siguiente segun libs_last
-    if ( libs_last < libs_allocated )
-    {
-        if ( !bit_tst( libs_bmp, libs_last ) )
-        {
-            bit_set( libs_bmp, libs_last );
-            return libs_last++ ;
+    if (libs_last < libs_allocated) {
+        if (!bit_tst(libs_bmp, libs_last)) {
+            bit_set(libs_bmp, libs_last);
+            return libs_last++;
         }
     }
 
-    // Ya no tengo mas espacio, entonces busco alguno libre entre ~+32 desde el ultimo fijo y ~-32 del ultimo asignado
+    // Ya no tengo mas espacio, entonces busco alguno libre entre ~+32 desde el ultimo fijo y ~-32
+    // del ultimo asignado
 
-    ini = ( libs_last < libs_allocated ) ? ( libs_last >> 5 ) : 0 ;
-    lim = ( libs_allocated >> 5 ) ;
+    ini = (libs_last < libs_allocated) ? (libs_last >> 5) : 0;
+    lim = (libs_allocated >> 5);
 
-    while ( 1 )
-    {
-        for ( n = ini; n < lim ; n++ )
-        {
-            if ( libs_bmp[n] != ( uint32_t ) 0xFFFFFFFF ) // Aca hay 1 libre, busco cual es
+    while (1) {
+        for (n = ini; n < lim; n++) {
+            if (libs_bmp[n] != (uint32_t)0xFFFFFFFF) // Aca hay 1 libre, busco cual es
             {
-                for ( nb = 0; nb < 32; nb++ )
-                {
-                    if ( !bit_tst( libs_bmp + n, nb ) )
-                    {
-                        libs_last = ( n << 5 ) + nb ;
-                        bit_set( libs_bmp, libs_last );
-                        return libs_last++ ;
+                for (nb = 0; nb < 32; nb++) {
+                    if (!bit_tst(libs_bmp + n, nb)) {
+                        libs_last = (n << 5) + nb;
+                        bit_set(libs_bmp, libs_last);
+                        return libs_last++;
                     }
                 }
             }
         }
-        if ( !ini ) break;
+        if (!ini)
+            break;
         lim = ini;
         ini = 0;
     }
 
-    libs_last = libs_allocated ;
+    libs_last = libs_allocated;
 
     /* Increment space, no more slots availables
        256 new maps available for alloc */
 
-    libs_allocated += 256 ;
-    libs_bmp = ( uint32_t * ) realloc( libs_bmp, sizeof( uint32_t ) * ( libs_allocated >> 5 ) );
-    memset( &libs_bmp[( libs_last >> 5 )], 0, 32 );  /* 256 >> 5 = 8 * sizeof ( uint32_t ) = 8 * 4 = 32 */
+    libs_allocated += 256;
+    libs_bmp = (uint32_t *)realloc(libs_bmp, sizeof(uint32_t) * (libs_allocated >> 5));
+    memset(&libs_bmp[(libs_last >> 5)], 0,
+           32); /* 256 >> 5 = 8 * sizeof ( uint32_t ) = 8 * 4 = 32 */
 
-    libs = ( GRLIB ** ) realloc( libs, sizeof( GRLIB * ) * libs_allocated );
-    memset( &libs[ libs_last ], 0, sizeof( GRLIB * ) * 256 );
+    libs = (GRLIB **)realloc(libs, sizeof(GRLIB *) * libs_allocated);
+    memset(&libs[libs_last], 0, sizeof(GRLIB *) * 256);
 
     /* Devuelvo libs_last e incremento en 1, ya que ahora tengo BLOCK_INCR mas que antes */
-    bit_set( libs_bmp, libs_last );
+    bit_set(libs_bmp, libs_last);
 
-    return libs_last++ ;
+    return libs_last++;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -122,40 +118,39 @@ int grlib_newid()
  *      ID of the new library or -1 if error
  */
 
-int grlib_new()
-{
-    GRLIB * lib = grlib_create() ;
-    int i ;
+int grlib_new() {
+    GRLIB *lib = grlib_create();
+    int i;
 
-    if ( !lib ) return -1;
+    if (!lib)
+        return -1;
 
-    i = grlib_newid();
-    libs[ i ] = lib;
+    i       = grlib_newid();
+    libs[i] = lib;
 
-    return ( i );
+    return (i);
 }
 
 /* --------------------------------------------------------------------------- */
 /* Static convenience function */
 
-static GRLIB * grlib_create()
-{
-    GRLIB * lib ;
+static GRLIB *grlib_create() {
+    GRLIB *lib;
 
-    lib = ( GRLIB * ) malloc( sizeof( GRLIB ) ) ;
-    if ( !lib ) return 0 ;
+    lib = (GRLIB *)malloc(sizeof(GRLIB));
+    if (!lib)
+        return 0;
 
-    lib->maps = ( GRAPH ** ) calloc( 32, sizeof( GRAPH * ) ) ;
-    if ( !lib->maps )
-    {
-        free( lib );
-        return 0 ;
+    lib->maps = (GRAPH **)calloc(32, sizeof(GRAPH *));
+    if (!lib->maps) {
+        free(lib);
+        return 0;
     }
 
-    lib->name[ 0 ] = 0 ;
-    lib->map_reserved = 32 ;
+    lib->name[0]      = 0;
+    lib->map_reserved = 32;
 
-    return lib ;
+    return lib;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -171,10 +166,10 @@ static GRLIB * grlib_create()
  *      Pointer to the object required or NULL if it does not exist
  */
 
-GRLIB * grlib_get( int libid )
-{
-    if ( libid < 0 || libid >= libs_allocated ) return 0 ;
-    return libs[ libid ] ;
+GRLIB *grlib_get(int libid) {
+    if (libid < 0 || libid >= libs_allocated)
+        return 0;
+    return libs[libid];
 }
 
 /* --------------------------------------------------------------------------- */
@@ -190,20 +185,21 @@ GRLIB * grlib_get( int libid )
  *      0 if there wasn't a map with this code, 1 otherwise
  */
 
-void grlib_destroy( int libid )
-{
-    int i ;
-    GRLIB * lib = grlib_get( libid ) ;
-    if ( !lib ) return ;
+void grlib_destroy(int libid) {
+    int i;
+    GRLIB *lib = grlib_get(libid);
+    if (!lib)
+        return;
 
-    libs[ libid ] = 0 ;
+    libs[libid] = 0;
 
-    for ( i = 0; i < lib->map_reserved; i++ ) bitmap_destroy( lib->maps[ i ] ) ;
+    for (i = 0; i < lib->map_reserved; i++)
+        bitmap_destroy(lib->maps[i]);
 
-    free( lib->maps ) ;
-    free( lib ) ;
+    free(lib->maps);
+    free(lib);
 
-    bit_clr( libs_bmp, libid );
+    bit_clr(libs_bmp, libid);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -220,23 +216,25 @@ void grlib_destroy( int libid )
  *      0 if there wasn't a map with this code, 1 otherwise
  */
 
-int grlib_unload_map( int libid, int mapcode )
-{
-    GRLIB * lib ;
+int grlib_unload_map(int libid, int mapcode) {
+    GRLIB *lib;
 
-    if ( mapcode < 1 || mapcode > 999 )
-        lib = syslib ;
+    if (mapcode < 1 || mapcode > 999)
+        lib = syslib;
     else
-        lib = grlib_get( libid ) ;
+        lib = grlib_get(libid);
 
-    if ( lib == NULL ) return 0 ;
+    if (lib == NULL)
+        return 0;
 
-    if ( lib->map_reserved <= mapcode ) return 0 ;
-    if ( !lib->maps[ mapcode ] ) return 0 ;
+    if (lib->map_reserved <= mapcode)
+        return 0;
+    if (!lib->maps[mapcode])
+        return 0;
 
-    bitmap_destroy( lib->maps[ mapcode ] ) ;
-    lib->maps[ mapcode ] = 0 ;
-    return 1 ;
+    bitmap_destroy(lib->maps[mapcode]);
+    lib->maps[mapcode] = 0;
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -255,36 +253,39 @@ int grlib_unload_map( int libid, int mapcode )
  *      -1 if error, a number >= 0 otherwise
  */
 
-int grlib_add_map( int libid, GRAPH * map )
-{
-    GRLIB * lib ;
+int grlib_add_map(int libid, GRAPH *map) {
+    GRLIB *lib;
 
-    if ( map->code < 1 || map->code > 999 )
-        lib = syslib ;
+    if (map->code < 1 || map->code > 999)
+        lib = syslib;
     else
-        lib = grlib_get( libid ) ;
+        lib = grlib_get(libid);
 
-    if ( !lib ) return -1 ;
-    if ( map->code < 0 ) return -1 ;
+    if (!lib)
+        return -1;
+    if (map->code < 0)
+        return -1;
 
-    if ( map->code > 0 ) grlib_unload_map( libid, map->code ) ;
+    if (map->code > 0)
+        grlib_unload_map(libid, map->code);
 
-    if ( lib->map_reserved <= map->code )
-    {
-        GRAPH ** lmaps;
-        int new_reserved = ( map->code & ~0x001F ) + 32 ;
+    if (lib->map_reserved <= map->code) {
+        GRAPH **lmaps;
+        int new_reserved = (map->code & ~0x001F) + 32;
 
-        lmaps = ( GRAPH ** ) realloc( lib->maps, sizeof( GRAPH* ) * new_reserved ) ;
-        if ( !lmaps ) return -1; // No memory
+        lmaps = (GRAPH **)realloc(lib->maps, sizeof(GRAPH *) * new_reserved);
+        if (!lmaps)
+            return -1; // No memory
         lib->maps = lmaps;
 
-        memset( lib->maps + lib->map_reserved, 0, ( new_reserved - lib->map_reserved ) * sizeof( GRAPH * ) ) ;
-        lib->map_reserved = new_reserved ;
+        memset(lib->maps + lib->map_reserved, 0,
+               (new_reserved - lib->map_reserved) * sizeof(GRAPH *));
+        lib->map_reserved = new_reserved;
     }
 
-    lib->maps[ map->code ] = map ;
+    lib->maps[map->code] = map;
 
-    return map->code ;
+    return map->code;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -305,31 +306,34 @@ int grlib_add_map( int libid, GRAPH * map )
  *
  */
 
-GRAPH * bitmap_get( int libid, int mapcode )
-{
-    GRLIB * lib = NULL ;
+GRAPH *bitmap_get(int libid, int mapcode) {
+    GRLIB *lib = NULL;
 
-    if ( !libid )
-    {
+    if (!libid) {
         /* Using (0, 0) we can get the background map */
-        if ( !mapcode ) return background ;
+        if (!mapcode)
+            return background;
 
         /* Using (0, -1) we can get the screen bitmap (undocumented bug/feature) */
-        if ( mapcode == -1 ) return scrbitmap ;
+        if (mapcode == -1)
+            return scrbitmap;
     }
 
     /* Get the map from the system library
      * (the only one that can have more than 1000 maps)
      */
-    if ( mapcode > 999 ) lib = syslib ;
+    if (mapcode > 999)
+        lib = syslib;
 
-    if ( !lib ) lib = grlib_get( libid ) ;
+    if (!lib)
+        lib = grlib_get(libid);
 
     /* Get the map from a library */
 
-    if ( lib && lib->map_reserved > mapcode && mapcode >= 0 ) return lib->maps[ mapcode ] ;
+    if (lib && lib->map_reserved > mapcode && mapcode >= 0)
+        return lib->maps[mapcode];
 
-    return 0 ;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -346,9 +350,9 @@ GRAPH * bitmap_get( int libid, int mapcode )
  *
  */
 
-void grlib_init()
-{
-    if ( !syslib ) syslib = grlib_create() ;
+void grlib_init() {
+    if (!syslib)
+        syslib = grlib_create();
 }
 
 /* --------------------------------------------------------------------------- */

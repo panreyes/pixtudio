@@ -43,15 +43,15 @@
 #ifndef __MONOLITHIC__
 #include "libwm_symbols.h"
 #else
-extern DLVARFIXUP  __bgdexport( libwm, globals_fixup )[];
+extern DLVARFIXUP __bgdexport(libwm, globals_fixup)[];
 #endif
 
 /* --------------------------------------------------------------------------- */
 
-#define EXIT_STATUS         0
-#define WINDOW_STATUS       1
-#define FOCUS_STATUS        2
-#define MOUSE_STATUS        3
+#define EXIT_STATUS 0
+#define WINDOW_STATUS 1
+#define FOCUS_STATUS 2
+#define MOUSE_STATUS 3
 
 /* --------------------------------------------------------------------------- */
 /* Gestión de eventos de ventana                                               */
@@ -70,51 +70,51 @@ extern DLVARFIXUP  __bgdexport( libwm, globals_fixup )[];
  */
 
 void wm_events() {
-    SDL_Event e ;
+    SDL_Event e;
 
     /* Procesa los eventos de ventana pendientes */
 
-    GLODWORD( libwm, EXIT_STATUS ) = 0 ;
+    GLODWORD(libwm, EXIT_STATUS) = 0;
 
     /* Handle the plethora of events different systems can produce here */
-    while ( SDL_PeepEvents( &e, 1, SDL_GETEVENT, SDL_QUIT, SDL_WINDOWEVENT ) > 0 ) {
-        switch ( e.type ) {
-            case SDL_QUIT:
-                /* UPDATE  exit status... initilized each frame */
-                GLODWORD( libwm, EXIT_STATUS ) = 1 ;
-                break ;
-            case SDL_WINDOWEVENT:
-                switch (e.window.event) {
-                    case SDL_WINDOWEVENT_MINIMIZED:
-                        GLODWORD(libwm, WINDOW_STATUS) = 0;
-                        break;
-                    case SDL_WINDOWEVENT_RESTORED:
-                        // TODO: Is this necessary anymore?
-                        gr_set_mode(screen->w, screen->h);
-                        GLODWORD(libwm, WINDOW_STATUS) = 1;
-                        break;
-                    case SDL_WINDOWEVENT_ENTER:
-                        GLODWORD(libwm, MOUSE_STATUS) = 1;
-                        break;
-                    case SDL_WINDOWEVENT_LEAVE:
-                        GLODWORD(libwm, MOUSE_STATUS) = 0;
-                        break;
-                    case SDL_WINDOWEVENT_HIDDEN:
-                        GLODWORD(libwm, WINDOW_STATUS) = 0;
-                        break;
-                    case SDL_WINDOWEVENT_SHOWN:
-                        GLODWORD(libwm, WINDOW_STATUS) = 1;
-                        break;
-                    case SDL_WINDOWEVENT_FOCUS_LOST:
-                        GLODWORD(libwm, FOCUS_STATUS) = 0;
-                        break;
-                    case SDL_WINDOWEVENT_FOCUS_GAINED:
-                        GLODWORD(libwm, FOCUS_STATUS) = 1;
-                        break;
-                }
+    while (SDL_PeepEvents(&e, 1, SDL_GETEVENT, SDL_QUIT, SDL_WINDOWEVENT) > 0) {
+        switch (e.type) {
+        case SDL_QUIT:
+            /* UPDATE  exit status... initilized each frame */
+            GLODWORD(libwm, EXIT_STATUS) = 1;
+            break;
+        case SDL_WINDOWEVENT:
+            switch (e.window.event) {
+            case SDL_WINDOWEVENT_MINIMIZED:
+                GLODWORD(libwm, WINDOW_STATUS) = 0;
+                break;
+            case SDL_WINDOWEVENT_RESTORED:
+                // TODO: Is this necessary anymore?
+                gr_set_mode(screen->w, screen->h);
+                GLODWORD(libwm, WINDOW_STATUS) = 1;
+                break;
+            case SDL_WINDOWEVENT_ENTER:
+                GLODWORD(libwm, MOUSE_STATUS) = 1;
+                break;
+            case SDL_WINDOWEVENT_LEAVE:
+                GLODWORD(libwm, MOUSE_STATUS) = 0;
+                break;
+            case SDL_WINDOWEVENT_HIDDEN:
+                GLODWORD(libwm, WINDOW_STATUS) = 0;
+                break;
+            case SDL_WINDOWEVENT_SHOWN:
+                GLODWORD(libwm, WINDOW_STATUS) = 1;
+                break;
+            case SDL_WINDOWEVENT_FOCUS_LOST:
+                GLODWORD(libwm, FOCUS_STATUS) = 0;
+                break;
+            case SDL_WINDOWEVENT_FOCUS_GAINED:
+                GLODWORD(libwm, FOCUS_STATUS) = 1;
+                break;
+            }
 
-            case SDL_SYSWMEVENT:
-                break ;
+        case SDL_SYSWMEVENT:
+            break;
         }
     }
 }

@@ -49,15 +49,14 @@
 /* --------------------------------------------------------------------------- */
 
 /* Dibujo de primitivas */
-#define DRAWOBJ_LINE        1
-#define DRAWOBJ_RECT        2
-#define DRAWOBJ_BOX         3
-#define DRAWOBJ_CIRCLE      4
-#define DRAWOBJ_FCIRCLE     5
-#define DRAWOBJ_CURVE       6
+#define DRAWOBJ_LINE 1
+#define DRAWOBJ_RECT 2
+#define DRAWOBJ_BOX 3
+#define DRAWOBJ_CIRCLE 4
+#define DRAWOBJ_FCIRCLE 5
+#define DRAWOBJ_CURVE 6
 
-typedef struct _drawing_object
-{
+typedef struct _drawing_object {
     int type;
     int x1;
     int y1;
@@ -75,17 +74,16 @@ typedef struct _drawing_object
     int color32;
     int id;
 
-    struct _drawing_object * prev;
-    struct _drawing_object * next;
-}
-DRAWING_OBJECT;
+    struct _drawing_object *prev;
+    struct _drawing_object *next;
+} DRAWING_OBJECT;
 
 /* --------------------------------------------------------------------------- */
 
-static DRAWING_OBJECT * drawing_objects = NULL;
+static DRAWING_OBJECT *drawing_objects = NULL;
 
-static GRAPH * drawing_graph = NULL;
-static int drawing_z = -512 ;
+static GRAPH *drawing_graph = NULL;
+static int drawing_z        = -512;
 
 /* --------------------------------------------------------------------------- */
 
@@ -103,36 +101,34 @@ static int drawing_z = -512 ;
  *
  */
 
-static int _moddraw_object_info( DRAWING_OBJECT * dr, REGION * clip, int * z, int * drawme )
-{
+static int _moddraw_object_info(DRAWING_OBJECT *dr, REGION *clip, int *z, int *drawme) {
     REGION newclip;
     int minx, miny, maxx, maxy;
 
-    * drawme = 1;
+    *drawme = 1;
 
-    switch ( dr->type )
-    {
-        case DRAWOBJ_CIRCLE:
-        case DRAWOBJ_FCIRCLE:
-            newclip.x = dr->x1 - dr->x2;
-            newclip.y = dr->y1 - dr->x2;
-            newclip.x2 = dr->x1 + dr->x2;
-            newclip.y2 = dr->y1 + dr->x2;
-            break;
+    switch (dr->type) {
+    case DRAWOBJ_CIRCLE:
+    case DRAWOBJ_FCIRCLE:
+        newclip.x  = dr->x1 - dr->x2;
+        newclip.y  = dr->y1 - dr->x2;
+        newclip.x2 = dr->x1 + dr->x2;
+        newclip.y2 = dr->y1 + dr->x2;
+        break;
 
-        case DRAWOBJ_CURVE:
-            newclip.x = dr->x1;
-            newclip.y = dr->y1;
-            newclip.x2 = dr->x4;
-            newclip.y2 = dr->y4;
-            break;
+    case DRAWOBJ_CURVE:
+        newclip.x  = dr->x1;
+        newclip.y  = dr->y1;
+        newclip.x2 = dr->x4;
+        newclip.y2 = dr->y4;
+        break;
 
-        default:
-            newclip.x = dr->x1;
-            newclip.y = dr->y1;
-            newclip.x2 = dr->x2;
-            newclip.y2 = dr->y2;
-            break;
+    default:
+        newclip.x  = dr->x1;
+        newclip.y  = dr->y1;
+        newclip.x2 = dr->x2;
+        newclip.y2 = dr->y2;
+        break;
     }
 
     minx = newclip.x;
@@ -140,28 +136,24 @@ static int _moddraw_object_info( DRAWING_OBJECT * dr, REGION * clip, int * z, in
     maxx = newclip.x2;
     maxy = newclip.y2;
 
-    if ( minx > maxx )
-    {
+    if (minx > maxx) {
         minx = newclip.x2;
         maxx = newclip.x;
     }
 
-    if ( miny > maxy )
-    {
+    if (miny > maxy) {
         miny = newclip.y2;
         maxy = newclip.y;
     }
 
-    newclip.x = minx;
-    newclip.y = miny;
+    newclip.x  = minx;
+    newclip.y  = miny;
     newclip.x2 = maxx;
     newclip.y2 = maxy;
 
-    if (
-        newclip.x != clip->x || newclip.y != clip->y ||
-        newclip.x2 != clip->x2 || newclip.y2 != clip->y2 )
-    {
-        * clip = newclip;
+    if (newclip.x != clip->x || newclip.y != clip->y || newclip.x2 != clip->x2 ||
+        newclip.y2 != clip->y2) {
+        *clip = newclip;
         return 0;
     }
 
@@ -182,46 +174,46 @@ static int _moddraw_object_info( DRAWING_OBJECT * dr, REGION * clip, int * z, in
  *
  */
 
-static void _moddraw_object_draw( DRAWING_OBJECT * dr, REGION * clip )
-{
-    int b8 = pixel_color8;
+static void _moddraw_object_draw(DRAWING_OBJECT *dr, REGION *clip) {
+    int b8  = pixel_color8;
     int b16 = pixel_color16;
     int b32 = pixel_color32;
 
-    pixel_color8 = dr->color8;
+    pixel_color8  = dr->color8;
     pixel_color16 = dr->color16;
     pixel_color32 = dr->color32;
 
-    if ( pixel_alpha != 255 ) gr_setalpha( pixel_alpha );
+    if (pixel_alpha != 255)
+        gr_setalpha(pixel_alpha);
 
-    switch ( dr->type )
-    {
-        case DRAWOBJ_LINE:
-            draw_line( scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1 );
-            break;
+    switch (dr->type) {
+    case DRAWOBJ_LINE:
+        draw_line(scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1);
+        break;
 
-        case DRAWOBJ_RECT:
-            draw_rectangle( scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1 ) ;
-            break;
+    case DRAWOBJ_RECT:
+        draw_rectangle(scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1);
+        break;
 
-        case DRAWOBJ_BOX:
-            draw_box( scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1 ) ;
-            break;
+    case DRAWOBJ_BOX:
+        draw_box(scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1);
+        break;
 
-        case DRAWOBJ_CIRCLE:
-            draw_circle( scrbitmap, clip, dr->x1, dr->y1, dr->x2 );
-            break;
+    case DRAWOBJ_CIRCLE:
+        draw_circle(scrbitmap, clip, dr->x1, dr->y1, dr->x2);
+        break;
 
-        case DRAWOBJ_FCIRCLE:
-            draw_fcircle( scrbitmap, clip, dr->x1, dr->y1, dr->x2 );
-            break;
+    case DRAWOBJ_FCIRCLE:
+        draw_fcircle(scrbitmap, clip, dr->x1, dr->y1, dr->x2);
+        break;
 
-        case DRAWOBJ_CURVE:
-            draw_bezier( scrbitmap, clip, dr->x1, dr->y1, dr->x2, dr->y2,  dr->x3,  dr->y3,  dr->x4,  dr->y4,  dr->level );
-            break;
+    case DRAWOBJ_CURVE:
+        draw_bezier(scrbitmap, clip, dr->x1, dr->y1, dr->x2, dr->y2, dr->x3, dr->y3, dr->x4, dr->y4,
+                    dr->level);
+        break;
     }
 
-    pixel_color8 = b8;
+    pixel_color8  = b8;
     pixel_color16 = b16;
     pixel_color32 = b32;
 }
@@ -241,25 +233,26 @@ static void _moddraw_object_draw( DRAWING_OBJECT * dr, REGION * clip )
  *
  */
 
-static int _moddraw_object_new( DRAWING_OBJECT * dr, int z )
-{
-    if ( !dr ) return -1;
+static int _moddraw_object_new(DRAWING_OBJECT *dr, int z) {
+    if (!dr)
+        return -1;
 
     /* Fill the struct and register the new object */
 
-    if ( drawing_objects ) drawing_objects->prev = dr ;
+    if (drawing_objects)
+        drawing_objects->prev = dr;
 
-    dr->prev = NULL;
-    dr->next = drawing_objects;
-    dr->color8 = pixel_color8;
+    dr->prev    = NULL;
+    dr->next    = drawing_objects;
+    dr->color8  = pixel_color8;
     dr->color16 = pixel_color16;
     dr->color32 = pixel_color32;
 
-    dr->id = gr_new_object( z, _moddraw_object_info, _moddraw_object_draw, dr );
+    dr->id = gr_new_object(z, _moddraw_object_info, _moddraw_object_draw, dr);
 
     drawing_objects = dr;
 
-    return ( int ) dr;
+    return (int)dr;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -277,31 +270,32 @@ static int _moddraw_object_new( DRAWING_OBJECT * dr, int z )
  *
  */
 
-static void _moddraw_object_destroy( int id )
-{
-    DRAWING_OBJECT * dr = ( DRAWING_OBJECT * ) id, * next;
-    int destroyall = 0;
+static void _moddraw_object_destroy(int id) {
+    DRAWING_OBJECT *dr = (DRAWING_OBJECT *)id, *next;
+    int destroyall     = 0;
 
-    if ( !dr )
-    {
-        dr = drawing_objects;
+    if (!dr) {
+        dr         = drawing_objects;
         destroyall = 1;
     }
 
-    while ( dr )
-    {
+    while (dr) {
         next = dr->next;
 
-        if ( dr->next ) dr->next->prev = dr->prev;
-        if ( dr->prev ) dr->prev->next = dr->next;
+        if (dr->next)
+            dr->next->prev = dr->prev;
+        if (dr->prev)
+            dr->prev->next = dr->next;
 
-        gr_destroy_object( dr->id );
+        gr_destroy_object(dr->id);
 
-        if ( drawing_objects == dr ) drawing_objects = dr->next;
+        if (drawing_objects == dr)
+            drawing_objects = dr->next;
 
-        free( dr );
+        free(dr);
 
-        if ( !destroyall ) break;
+        if (!destroyall)
+            break;
 
         dr = next;
     }
@@ -323,19 +317,18 @@ static void _moddraw_object_destroy( int id )
  *
  */
 
-static void _moddraw_object_move( int id, int x, int y )
-{
-    DRAWING_OBJECT * dr = ( DRAWING_OBJECT * ) id;
+static void _moddraw_object_move(int id, int x, int y) {
+    DRAWING_OBJECT *dr = (DRAWING_OBJECT *)id;
 
-    if ( dr )
-    {
+    if (dr) {
         int incx = x - dr->x1;
         int incy = y - dr->y1;
 
         dr->x1 += incx;
         dr->y1 += incy;
 
-        if ( dr->type == DRAWOBJ_CIRCLE || dr->type == DRAWOBJ_FCIRCLE ) return ;
+        if (dr->type == DRAWOBJ_CIRCLE || dr->type == DRAWOBJ_FCIRCLE)
+            return;
 
         dr->x2 += incx;
         dr->y2 += incy;
@@ -349,216 +342,197 @@ static void _moddraw_object_move( int id, int x, int y )
 /* --------------------------------------------------------------------------- */
 /* Exportable functions                                                        */
 
-int moddraw_drawing_map( INSTANCE * my, int * params )
-{
-    drawing_graph = bitmap_get( params[ 0 ], params[ 1 ] ) ;
-    return 1 ;
+int moddraw_drawing_map(INSTANCE *my, int *params) {
+    drawing_graph = bitmap_get(params[0], params[1]);
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int moddraw_drawing_at( INSTANCE * my, int * params )
-{
+int moddraw_drawing_at(INSTANCE *my, int *params) {
     drawing_graph = NULL;
-    drawing_z = params[ 0 ];
-    return 1 ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-int moddraw_drawing_stipple( INSTANCE * my, int * params )
-{
-    drawing_stipple = params[ 0 ];
+    drawing_z     = params[0];
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int moddraw_delete_drawing( INSTANCE * my, int * params )
-{
-    _moddraw_object_destroy( params[ 0 ] );
+int moddraw_drawing_stipple(INSTANCE *my, int *params) {
+    drawing_stipple = params[0];
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int moddraw_move_drawing( INSTANCE * my, int * params )
-{
-    _moddraw_object_move( params[ 0 ], params[ 1 ], params[ 2 ] );
+int moddraw_delete_drawing(INSTANCE *my, int *params) {
+    _moddraw_object_destroy(params[0]);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int moddraw_drawing_color( INSTANCE * my, int * params )
-{
-    gr_setcolor( params[ 0 ] );
-    return 1 ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-int moddraw_drawing_alpha( INSTANCE * my, int * params )
-{
-    gr_setalpha( params[ 0 ] );
+int moddraw_move_drawing(INSTANCE *my, int *params) {
+    _moddraw_object_move(params[0], params[1], params[2]);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int moddraw_box( INSTANCE * my, int * params )
-{
-    if ( !drawing_graph )
-    {
-        DRAWING_OBJECT * dr = malloc( sizeof( DRAWING_OBJECT ) );
+int moddraw_drawing_color(INSTANCE *my, int *params) {
+    gr_setcolor(params[0]);
+    return 1;
+}
+
+/* --------------------------------------------------------------------------- */
+
+int moddraw_drawing_alpha(INSTANCE *my, int *params) {
+    gr_setalpha(params[0]);
+    return 1;
+}
+
+/* --------------------------------------------------------------------------- */
+
+int moddraw_box(INSTANCE *my, int *params) {
+    if (!drawing_graph) {
+        DRAWING_OBJECT *dr = malloc(sizeof(DRAWING_OBJECT));
 
         dr->type = DRAWOBJ_BOX;
-        dr->x1 = params[ 0 ];
-        dr->y1 = params[ 1 ];
-        dr->x2 = params[ 2 ];
-        dr->y2 = params[ 3 ];
-        return _moddraw_object_new( dr, drawing_z );
+        dr->x1   = params[0];
+        dr->y1   = params[1];
+        dr->x2   = params[2];
+        dr->y2 = params[3];
+        return _moddraw_object_new(dr, drawing_z);
     }
 
-    draw_box( drawing_graph, 0, params[ 0 ], params[ 1 ], params[ 2 ] - params[ 0 ], params[ 3 ] - params[ 1 ] ) ;
-    return 1 ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-int moddraw_rect( INSTANCE * my, int * params )
-{
-    if ( !drawing_graph )
-    {
-        DRAWING_OBJECT * dr = malloc( sizeof( DRAWING_OBJECT ) );
-
-        dr->type = DRAWOBJ_RECT;
-        dr->x1 = params[ 0 ];
-        dr->y1 = params[ 1 ];
-        dr->x2 = params[ 2 ];
-        dr->y2 = params[ 3 ];
-        return _moddraw_object_new( dr, drawing_z );
-    }
-
-    draw_rectangle( drawing_graph, 0, params[ 0 ], params[ 1 ], params[ 2 ] - params[ 0 ], params[ 3 ] - params[ 1 ] ) ;
-    return 1 ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-int moddraw_line( INSTANCE * my, int * params )
-{
-    if ( !drawing_graph )
-    {
-        DRAWING_OBJECT * dr = malloc( sizeof( DRAWING_OBJECT ) );
-
-        dr->type = DRAWOBJ_LINE;
-        dr->x1 = params[ 0 ];
-        dr->y1 = params[ 1 ];
-        dr->x2 = params[ 2 ];
-        dr->y2 = params[ 3 ];
-        return _moddraw_object_new( dr, drawing_z );
-    }
-
-    draw_line( drawing_graph, 0, params[ 0 ], params[ 1 ], params[ 2 ] - params[ 0 ], params[ 3 ] - params[ 1 ] );
-    return 1 ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-int moddraw_circle( INSTANCE * my, int * params )
-{
-    if ( !drawing_graph )
-    {
-        DRAWING_OBJECT * dr = malloc( sizeof( DRAWING_OBJECT ) );
-
-        dr->type = DRAWOBJ_CIRCLE;
-        dr->x1 = params[ 0 ];
-        dr->y1 = params[ 1 ];
-        dr->x2 = params[ 2 ];
-        return _moddraw_object_new( dr, drawing_z );
-    }
-
-    draw_circle( drawing_graph, 0, params[ 0 ], params[ 1 ], params[ 2 ] ) ;
-    return 1 ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-int moddraw_fcircle( INSTANCE * my, int * params )
-{
-    if ( !drawing_graph )
-    {
-        DRAWING_OBJECT * dr = malloc( sizeof( DRAWING_OBJECT ) );
-
-        dr->type = DRAWOBJ_FCIRCLE;
-        dr->x1 = params[ 0 ];
-        dr->y1 = params[ 1 ];
-        dr->x2 = params[ 2 ];
-        return _moddraw_object_new( dr, drawing_z );
-    }
-
-    draw_fcircle( drawing_graph, 0, params[ 0 ], params[ 1 ], params[ 2 ] ) ;
-    return 1 ;
-}
-
-/* --------------------------------------------------------------------------- */
-
-int moddraw_bezier( INSTANCE * my, int * params )
-{
-    if ( !drawing_graph )
-    {
-        DRAWING_OBJECT * dr = malloc( sizeof( DRAWING_OBJECT ) );
-
-        dr->type = DRAWOBJ_CURVE;
-        dr->x1 = params[ 0 ];
-        dr->y1 = params[ 1 ];
-        dr->x2 = params[ 2 ];
-        dr->y2 = params[ 3 ];
-        dr->x3 = params[ 4 ];
-        dr->y3 = params[ 5 ];
-        dr->x4 = params[ 6 ];
-        dr->y4 = params[ 7 ];
-        dr->level = params[ 8 ];
-        return _moddraw_object_new( dr, drawing_z );
-    }
-
-    draw_bezier( drawing_graph, 0, params[ 0 ], params[ 1 ], params[ 2 ], params[ 3 ], params[ 4 ], params[ 5 ], params[ 6 ], params[ 7 ], params[ 8 ] );
+    draw_box(drawing_graph, 0, params[0], params[1], params[2] - params[0], params[3] - params[1]);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int moddraw_get_pixel( INSTANCE * my, int * params )
-{
-    return gr_get_pixel( background, params[ 0 ], params[ 1 ] ) ;
+int moddraw_rect(INSTANCE *my, int *params) {
+    if (!drawing_graph) {
+        DRAWING_OBJECT *dr = malloc(sizeof(DRAWING_OBJECT));
+
+        dr->type = DRAWOBJ_RECT;
+        dr->x1   = params[0];
+        dr->y1   = params[1];
+        dr->x2   = params[2];
+        dr->y2 = params[3];
+        return _moddraw_object_new(dr, drawing_z);
+    }
+
+    draw_rectangle(drawing_graph, 0, params[0], params[1], params[2] - params[0],
+                   params[3] - params[1]);
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int moddraw_put_pixel( INSTANCE * my, int * params )
-{
-    gr_put_pixel( background, params[ 0 ], params[ 1 ], params[ 2 ] ) ;
-    return 1 ;
+int moddraw_line(INSTANCE *my, int *params) {
+    if (!drawing_graph) {
+        DRAWING_OBJECT *dr = malloc(sizeof(DRAWING_OBJECT));
+
+        dr->type = DRAWOBJ_LINE;
+        dr->x1   = params[0];
+        dr->y1   = params[1];
+        dr->x2   = params[2];
+        dr->y2 = params[3];
+        return _moddraw_object_new(dr, drawing_z);
+    }
+
+    draw_line(drawing_graph, 0, params[0], params[1], params[2] - params[0], params[3] - params[1]);
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int moddraw_map_get_pixel( INSTANCE * my, int * params )
-{
-    GRAPH * map = bitmap_get( params[ 0 ], params[ 1 ] ) ;
-    if ( !map ) return -1;
-    return gr_get_pixel( map, params[ 2 ], params[ 3 ] ) ;
+int moddraw_circle(INSTANCE *my, int *params) {
+    if (!drawing_graph) {
+        DRAWING_OBJECT *dr = malloc(sizeof(DRAWING_OBJECT));
+
+        dr->type = DRAWOBJ_CIRCLE;
+        dr->x1   = params[0];
+        dr->y1   = params[1];
+        dr->x2 = params[2];
+        return _moddraw_object_new(dr, drawing_z);
+    }
+
+    draw_circle(drawing_graph, 0, params[0], params[1], params[2]);
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int moddraw_map_put_pixel( INSTANCE * my, int * params )
-{
-    GRAPH * map = bitmap_get( params[ 0 ], params[ 1 ] ) ;
-    if ( !map ) return 0 ;
-    gr_put_pixel( map, params[ 2 ], params[ 3 ], params[ 4 ] ) ;
-    return 1 ;
+int moddraw_fcircle(INSTANCE *my, int *params) {
+    if (!drawing_graph) {
+        DRAWING_OBJECT *dr = malloc(sizeof(DRAWING_OBJECT));
+
+        dr->type = DRAWOBJ_FCIRCLE;
+        dr->x1   = params[0];
+        dr->y1   = params[1];
+        dr->x2 = params[2];
+        return _moddraw_object_new(dr, drawing_z);
+    }
+
+    draw_fcircle(drawing_graph, 0, params[0], params[1], params[2]);
+    return 1;
+}
+
+/* --------------------------------------------------------------------------- */
+
+int moddraw_bezier(INSTANCE *my, int *params) {
+    if (!drawing_graph) {
+        DRAWING_OBJECT *dr = malloc(sizeof(DRAWING_OBJECT));
+
+        dr->type  = DRAWOBJ_CURVE;
+        dr->x1    = params[0];
+        dr->y1    = params[1];
+        dr->x2    = params[2];
+        dr->y2    = params[3];
+        dr->x3    = params[4];
+        dr->y3    = params[5];
+        dr->x4    = params[6];
+        dr->y4    = params[7];
+        dr->level = params[8];
+        return _moddraw_object_new(dr, drawing_z);
+    }
+
+    draw_bezier(drawing_graph, 0, params[0], params[1], params[2], params[3], params[4], params[5],
+                params[6], params[7], params[8]);
+    return 1;
+}
+
+/* --------------------------------------------------------------------------- */
+
+int moddraw_get_pixel(INSTANCE *my, int *params) {
+    return gr_get_pixel(background, params[0], params[1]);
+}
+
+/* --------------------------------------------------------------------------- */
+
+int moddraw_put_pixel(INSTANCE *my, int *params) {
+    gr_put_pixel(background, params[0], params[1], params[2]);
+    return 1;
+}
+
+/* --------------------------------------------------------------------------- */
+
+int moddraw_map_get_pixel(INSTANCE *my, int *params) {
+    GRAPH *map = bitmap_get(params[0], params[1]);
+    if (!map)
+        return -1;
+    return gr_get_pixel(map, params[2], params[3]);
+}
+
+/* --------------------------------------------------------------------------- */
+
+int moddraw_map_put_pixel(INSTANCE *my, int *params) {
+    GRAPH *map = bitmap_get(params[0], params[1]);
+    if (!map)
+        return 0;
+    gr_put_pixel(map, params[2], params[3], params[4]);
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */

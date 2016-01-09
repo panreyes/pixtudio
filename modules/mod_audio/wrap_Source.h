@@ -24,10 +24,8 @@
 #include "common/runtime.h"
 #include "Source.h"
 
-namespace pixtudio
-{
-namespace mod_audio
-{
+namespace pixtudio {
+namespace mod_audio {
 
 Source *luax_checksource(lua_State *L, int idx);
 extern "C" int luaopen_source(lua_State *L);

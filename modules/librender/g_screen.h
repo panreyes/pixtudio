@@ -30,8 +30,8 @@
 #ifndef __SCREEN_H
 #define __SCREEN_H
 
-extern void gr_draw_screen( GRAPH * dest, int restore_type, int dump_type ) ;
-extern int gr_lock_screen() ;
-extern void gr_unlock_screen() ;
+extern void gr_draw_screen(GRAPH *dest, int restore_type, int dump_type);
+extern int gr_lock_screen();
+extern void gr_unlock_screen();
 
 #endif

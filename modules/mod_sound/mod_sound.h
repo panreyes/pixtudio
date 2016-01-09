@@ -24,9 +24,9 @@
  *
  */
 
-#define SOUND_FREQ              0
-#define SOUND_MODE              1
-#define SOUND_CHANNELS          2
+#define SOUND_FREQ 0
+#define SOUND_MODE 1
+#define SOUND_CHANNELS 2
 
-static int audio_initialized = 0 ;
+static int audio_initialized = 0;
 int sound_init();

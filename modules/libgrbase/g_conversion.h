@@ -32,10 +32,10 @@
 
 /* Rutinas de conversión entre formatos */
 
-extern void gr_convert16_ScreenTo565( uint16_t * ptr, int len );
-extern void gr_convert16_565ToScreen( uint16_t * ptr, int len );
-extern void gr_fade16( GRAPH * graph, int r, int g, int b );
-extern uint16_t * gr_alpha16( int alpha );
-extern uint8_t * gr_alpha8( int alpha );
+extern void gr_convert16_ScreenTo565(uint16_t *ptr, int len);
+extern void gr_convert16_565ToScreen(uint16_t *ptr, int len);
+extern void gr_fade16(GRAPH *graph, int r, int g, int b);
+extern uint16_t *gr_alpha16(int alpha);
+extern uint8_t *gr_alpha8(int alpha);
 
 #endif

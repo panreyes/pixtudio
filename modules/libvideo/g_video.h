@@ -36,65 +36,65 @@
 
 /* --------------------------------------------------------------------------- */
 /* Graph Mode */
-#define MODE_WINDOW         0x0000
-#define MODE_2XSCALE        0x0100
-#define MODE_FULLSCREEN     0x0200
-#define MODE_MODAL          0x1000
-#define MODE_FRAMELESS      0x2000
-#define MODE_WAITVSYNC      0x4000
+#define MODE_WINDOW 0x0000
+#define MODE_2XSCALE 0x0100
+#define MODE_FULLSCREEN 0x0200
+#define MODE_MODAL 0x1000
+#define MODE_FRAMELESS 0x2000
+#define MODE_WAITVSYNC 0x4000
 
 /* Scaler */
-#define SCALE_NONE          0x0000
-#define SCALE_SCALE2X       0x0001
+#define SCALE_NONE 0x0000
+#define SCALE_SCALE2X 0x0001
 
 /* Scale resolution orientation */
-#define SRO_NORMAL          0
-#define SRO_LEFT            1
-#define SRO_DOWN            2
-#define SRO_RIGHT           3
+#define SRO_NORMAL 0
+#define SRO_LEFT 1
+#define SRO_DOWN 2
+#define SRO_RIGHT 3
 
 /* Scale resolution aspectratio */
-#define SRA_STRETCH         0
-#define SRA_PRESERVE        1
+#define SRA_STRETCH 0
+#define SRA_PRESERVE 1
 
 /* --------------------------------------------------------------------------- */
 
-extern GRAPH * icon ;
+extern GRAPH *icon;
 
-extern SDL_Surface * screen ;
+extern SDL_Surface *screen;
 
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern SDL_RendererInfo renderer_info;
 
-extern char * apptitle ;
+extern char *apptitle;
 
-extern int scr_width ;
-extern int scr_height ;
-extern int renderer_width ;
-extern int renderer_height ;
+extern int scr_width;
+extern int scr_height;
+extern int renderer_width;
+extern int renderer_height;
 
-extern int scr_initialized ;
+extern int scr_initialized;
 
-extern int full_screen ;
-extern int double_buffer ;
-extern int hardware_scr ;
-extern int grab_input ;
-extern int frameless ;
+extern int full_screen;
+extern int double_buffer;
+extern int hardware_scr;
+extern int grab_input;
+extern int frameless;
 
-extern int waitvsync ;
+extern int waitvsync;
 
-extern int scale_resolution ;
+extern int scale_resolution;
 
 extern int scale_resolution_aspectratio;
 extern int scale_resolution_orientation;
 
 /* --------------------------------------------------------------------------- */
 
-extern int gr_init( int width, int height );
-extern void gr_set_caption( char * title );
-extern int gr_set_icon( GRAPH * map );
-extern int gr_set_mode( int width, int height );
+extern int gr_init(int width, int height);
+extern void gr_set_caption(char *title);
+extern int gr_set_icon(GRAPH *map);
+extern int gr_set_mode(int width, int height);
 extern void gr_wait_vsync();
 
 /* --------------------------------------------------------------------------- */

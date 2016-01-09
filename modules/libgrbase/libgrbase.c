@@ -35,25 +35,24 @@
 
 /* --------------------------------------------------------------------------- */
 
-PIXEL_FORMAT * std_pixel_format8  = NULL;
-PIXEL_FORMAT * std_pixel_format16 = NULL;
-PIXEL_FORMAT * std_pixel_format32 = NULL;
+PIXEL_FORMAT *std_pixel_format8  = NULL;
+PIXEL_FORMAT *std_pixel_format16 = NULL;
+PIXEL_FORMAT *std_pixel_format32 = NULL;
 
-PIXEL_FORMAT * sys_pixel_format = NULL;
+PIXEL_FORMAT *sys_pixel_format = NULL;
 
-GRAPH * background = NULL ;
-GRAPH * scrbitmap = NULL ;
+GRAPH *background = NULL;
+GRAPH *scrbitmap  = NULL;
 
 /* --------------------------------------------------------------------------- */
 /* Module initialization                                                       */
 
-void __bgdexport( libgrbase, module_initialize )()
-{
-    std_pixel_format8  = bitmap_create_format( 8 ) ;
-    std_pixel_format16 = bitmap_create_format( 16 ) ;
-    std_pixel_format32 = bitmap_create_format( 32 ) ;
+void __bgdexport(libgrbase, module_initialize)() {
+    std_pixel_format8  = bitmap_create_format(8);
+    std_pixel_format16 = bitmap_create_format(16);
+    std_pixel_format32 = bitmap_create_format(32);
 
-    grlib_init() ;
+    grlib_init();
 }
 
 /* --------------------------------------------------------------------------- */

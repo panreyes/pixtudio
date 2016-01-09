@@ -32,19 +32,19 @@
 
 /* --------------------------------------------------------------------------- */
 
-extern uint32_t frame_count ;
-extern int last_frame_ticks ;
-extern int next_frame_ticks ;
-extern float frame_ms ;
-extern int max_jump ;
-extern int current_jump ;
-extern int jump ;
-extern int FPS_count ;
-extern int FPS_init ;
+extern uint32_t frame_count;
+extern int last_frame_ticks;
+extern int next_frame_ticks;
+extern float frame_ms;
+extern int max_jump;
+extern int current_jump;
+extern int jump;
+extern int FPS_count;
+extern int FPS_init;
 
 /* --------------------------------------------------------------------------- */
 
-extern void gr_set_fps( int fps, int jump );
+extern void gr_set_fps(int fps, int jump);
 extern void gr_wait_frame();
 extern void gr_draw_frame();
 

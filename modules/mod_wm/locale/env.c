@@ -33,9 +33,9 @@ char locale[6];
 int copy_locale_var(const char *varname, char *dest) {
     char *full_locale = getenv("LANG");
 
-    if(full_locale != NULL) {
+    if (full_locale != NULL) {
         uint8_t n = strlen(full_locale);
-        if(n > 5) {
+        if (n > 5) {
             n = 5;
         }
 
@@ -51,9 +51,9 @@ int copy_locale_var(const char *varname, char *dest) {
 // get_locale implementation reading the LANG environment variable
 // returns en_US on failure
 const char *get_locale() {
-    if(copy_locale_var("LANG", locale) > 0) {
+    if (copy_locale_var("LANG", locale) > 0) {
         return (const char *)locale;
-    } else if(copy_locale_var("LC_ALL", locale) > 0) {
+    } else if (copy_locale_var("LC_ALL", locale) > 0) {
         return (const char *)locale;
     }
 

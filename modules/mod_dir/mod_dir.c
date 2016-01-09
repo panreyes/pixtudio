@@ -57,13 +57,12 @@
 #ifndef __MONOLITHIC__
 #include "mod_dir_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport( mod_dir, globals_fixup)[];
+extern DLVARFIXUP __bgdexport(mod_dir, globals_fixup)[];
 #endif
 
 /* ----------------------------------------------------------------- */
 
-enum
-{
+enum {
     FILE_PATH = 0,
     FILE_NAME,
     FILE_DIRECTORY,
@@ -74,106 +73,108 @@ enum
     FILE_MODIFIED,
     FILE_ACCESSED,
     FILE_STATECHG
-} ;
+};
 
 /* ----------------------------------------------------------------- */
 /* DIRECTORY FUNCTIONS */
 
-int moddir_cd( INSTANCE * my, int * params )
-{
-    char * d = dir_current() ;
-    int r = string_new( d ) ;
-    string_use( r ) ;
-    if ( d ) free( d ) ;
-    return r ;
+int moddir_cd(INSTANCE *my, int *params) {
+    char *d = dir_current();
+    int r = string_new(d);
+    string_use(r);
+    if (d)
+        free(d);
+    return r;
 }
 
-int moddir_chdir( INSTANCE * my, int * params )
-{
-    const char * d = string_get( params[ 0 ] ) ;
-    int ret = dir_change( d ) ;
-    string_discard( params[ 0 ] ) ;
-    return ( ret ) ;
+int moddir_chdir(INSTANCE *my, int *params) {
+    const char *d = string_get(params[0]);
+    int ret = dir_change(d);
+    string_discard(params[0]);
+    return (ret);
 }
 
-int moddir_mkdir( INSTANCE * my, int * params )
-{
-    const char * d = string_get( params[ 0 ] ) ;
-    int ret = dir_create( d ) ;
-    string_discard( params[ 0 ] ) ;
-    return ( ret ) ;
+int moddir_mkdir(INSTANCE *my, int *params) {
+    const char *d = string_get(params[0]);
+    int ret = dir_create(d);
+    string_discard(params[0]);
+    return (ret);
 }
 
-int moddir_rmdir( INSTANCE * my, int * params )
-{
-    const char * d = string_get( params[ 0 ] ) ;
-    int ret = dir_delete( d );
-    string_discard( params[ 0 ] ) ;
-    return ( ret ) ;
+int moddir_rmdir(INSTANCE *my, int *params) {
+    const char *d = string_get(params[0]);
+    int ret = dir_delete(d);
+    string_discard(params[0]);
+    return (ret);
 }
 
-int moddir_rm( INSTANCE * my, int * params )
-{
-    const char * d = string_get( params[ 0 ] ) ;
-    int ret = dir_deletefile( d );
-    string_discard( params[ 0 ] ) ;
-    return ( ret ) ;
+int moddir_rm(INSTANCE *my, int *params) {
+    const char *d = string_get(params[0]);
+    int ret = dir_deletefile(d);
+    string_discard(params[0]);
+    return (ret);
 }
 
-static int __moddir_read(__DIR_ST * dh )
-{
-    __DIR_FILEINFO_ST * dif;
-    char buffer[ 20 ];
+static int __moddir_read(__DIR_ST *dh) {
+    __DIR_FILEINFO_ST *dif;
+    char buffer[20];
     int result;
 
-    dif = dir_read( dh );
-    if ( !dif )
-    {
-        result = string_new( "" );
-        string_use( result );
-        return ( result );
+    dif = dir_read(dh);
+    if (!dif) {
+        result = string_new("");
+        string_use(result);
+        return (result);
     }
 
     /* discard previous strings values */
-    string_discard( GLODWORD( mod_dir, FILE_NAME ) );
-    string_discard( GLODWORD( mod_dir, FILE_PATH ) );
-    string_discard( GLODWORD( mod_dir, FILE_CREATED ) );
-    string_discard( GLODWORD( mod_dir, FILE_MODIFIED ) );
-    string_discard( GLODWORD( mod_dir, FILE_ACCESSED ) );
-    string_discard( GLODWORD( mod_dir, FILE_STATECHG ) );
+    string_discard(GLODWORD(mod_dir, FILE_NAME));
+    string_discard(GLODWORD(mod_dir, FILE_PATH));
+    string_discard(GLODWORD(mod_dir, FILE_CREATED));
+    string_discard(GLODWORD(mod_dir, FILE_MODIFIED));
+    string_discard(GLODWORD(mod_dir, FILE_ACCESSED));
+    string_discard(GLODWORD(mod_dir, FILE_STATECHG));
 
-    GLODWORD( mod_dir, FILE_NAME        ) = string_new( dif->filename ); string_use( GLODWORD( mod_dir, FILE_NAME ) );
-    GLODWORD( mod_dir, FILE_PATH        ) = string_new( dif->fullpath ); string_use( GLODWORD( mod_dir, FILE_PATH ) );
+    GLODWORD(mod_dir, FILE_NAME) = string_new(dif->filename);
+    string_use(GLODWORD(mod_dir, FILE_NAME));
+    GLODWORD(mod_dir, FILE_PATH) = string_new(dif->fullpath);
+    string_use(GLODWORD(mod_dir, FILE_PATH));
 
-    GLODWORD( mod_dir, FILE_DIRECTORY   ) = dif->attributes & DIR_FI_ATTR_DIRECTORY ? 1 : 0;
-    GLODWORD( mod_dir, FILE_HIDDEN      ) = dif->attributes & DIR_FI_ATTR_HIDDEN    ? 1 : 0;
-    GLODWORD( mod_dir, FILE_READONLY    ) = dif->attributes & DIR_FI_ATTR_READONLY  ? 1 : 0;
-    GLODWORD( mod_dir, FILE_SIZE        ) = dif->size;
+    GLODWORD(mod_dir, FILE_DIRECTORY) = dif->attributes & DIR_FI_ATTR_DIRECTORY ? 1 : 0;
+    GLODWORD(mod_dir, FILE_HIDDEN) = dif->attributes & DIR_FI_ATTR_HIDDEN ? 1 : 0;
+    GLODWORD(mod_dir, FILE_READONLY) = dif->attributes & DIR_FI_ATTR_READONLY ? 1 : 0;
+    GLODWORD(mod_dir, FILE_SIZE) = dif->size;
 
-    /* Store file times */
+/* Store file times */
 #ifdef _WIN32
-    strftime( buffer, 20, "%d/%m/%Y %H:%M:S", &dif->mtime );
-    GLODWORD( mod_dir, FILE_CREATED     ) = string_new( buffer ); string_use( GLODWORD( mod_dir, FILE_CREATED  ) );
+    strftime(buffer, 20, "%d/%m/%Y %H:%M:S", &dif->mtime);
+    GLODWORD(mod_dir, FILE_CREATED) = string_new(buffer);
+    string_use(GLODWORD(mod_dir, FILE_CREATED));
 #else
-    GLODWORD( mod_dir, FILE_CREATED     ) = string_new( "" ); string_use( GLODWORD( mod_dir, FILE_CREATED  ) );
+    GLODWORD(mod_dir, FILE_CREATED) = string_new("");
+    string_use(GLODWORD(mod_dir, FILE_CREATED));
 #endif
 
-    strftime( buffer, 20, "%d/%m/%Y %H:%M:S", &dif->crtime );
-    GLODWORD( mod_dir, FILE_MODIFIED    ) = string_new( buffer ); string_use( GLODWORD( mod_dir, FILE_MODIFIED ) );
+    strftime(buffer, 20, "%d/%m/%Y %H:%M:S", &dif->crtime);
+    GLODWORD(mod_dir, FILE_MODIFIED) = string_new(buffer);
+    string_use(GLODWORD(mod_dir, FILE_MODIFIED));
 
-    strftime( buffer, 20, "%d/%m/%Y %H:%M:S", &dif->atime );
-    GLODWORD( mod_dir, FILE_ACCESSED    ) = string_new( buffer ); string_use( GLODWORD( mod_dir, FILE_ACCESSED ) );
+    strftime(buffer, 20, "%d/%m/%Y %H:%M:S", &dif->atime);
+    GLODWORD(mod_dir, FILE_ACCESSED) = string_new(buffer);
+    string_use(GLODWORD(mod_dir, FILE_ACCESSED));
 
 #ifndef _WIN32
-    strftime( buffer, 20, "%d/%m/%Y %H:%M:S", &dif->ctime );
-    GLODWORD( mod_dir, FILE_STATECHG    ) = string_new( buffer ); string_use( GLODWORD( mod_dir, FILE_STATECHG ) );
+    strftime(buffer, 20, "%d/%m/%Y %H:%M:S", &dif->ctime);
+    GLODWORD(mod_dir, FILE_STATECHG) = string_new(buffer);
+    string_use(GLODWORD(mod_dir, FILE_STATECHG));
 #else
-    GLODWORD( mod_dir, FILE_STATECHG    ) = string_new( "" ); string_use( GLODWORD( mod_dir, FILE_STATECHG ) );
+    GLODWORD(mod_dir, FILE_STATECHG) = string_new("");
+    string_use(GLODWORD(mod_dir, FILE_STATECHG));
 #endif
 
     /* Return */
-    result = GLODWORD( mod_dir, FILE_NAME );
-    string_use( result );
+    result = GLODWORD(mod_dir, FILE_NAME);
+    string_use(result);
     return result;
 }
 
@@ -184,30 +185,28 @@ static int __moddir_read(__DIR_ST * dh )
  *  until no more files exists. It then returns NIL.
  */
 
-int moddir_glob( INSTANCE * my, int * params )
-{
-    const char * path = string_get( params[ 0 ] );
-    static __DIR_ST * dh = NULL;
+int moddir_glob(INSTANCE *my, int *params) {
+    const char *path    = string_get(params[0]);
+    static __DIR_ST *dh = NULL;
     int result;
 
-    if ( dh && strcmp( dh->path, path ) )
-    {
-        dir_close( dh );
+    if (dh && strcmp(dh->path, path)) {
+        dir_close(dh);
         dh = NULL;
     }
 
-    if ( !dh ) dh = dir_open( path );
+    if (!dh)
+        dh = dir_open(path);
 
-    string_discard( params[ 0 ] );
+    string_discard(params[0]);
 
-    if ( !dh )
-    {
-        result = string_new( "" );
-        string_use( result );
-        return ( result );
+    if (!dh) {
+        result = string_new("");
+        string_use(result);
+        return (result);
     }
 
-    return ( __moddir_read( dh ) ) ;
+    return (__moddir_read(dh));
 }
 
 /*  int DIROPEN (STRING path)
@@ -216,19 +215,18 @@ int moddir_glob( INSTANCE * my, int * params )
  *  return 0 if fail.
  */
 
-int moddir_open( INSTANCE * my, int * params )
-{
-    int result = ( int ) dir_open( string_get( params[ 0 ] ) );
-    string_discard( params[ 0 ] );
+int moddir_open(INSTANCE *my, int *params) {
+    int result = (int)dir_open(string_get(params[0]));
+    string_discard(params[0]);
     return result;
 }
 
 /*  int DIRCLOSE (INT handle)
  */
 
-int moddir_close( INSTANCE * my, int * params )
-{
-    if ( params[ 0 ] ) dir_close ( ( __DIR_ST * ) params[ 0 ] ) ;
+int moddir_close(INSTANCE *my, int *params) {
+    if (params[0])
+        dir_close((__DIR_ST *)params[0]);
     return 1;
 }
 
@@ -239,25 +237,22 @@ int moddir_close( INSTANCE * my, int * params )
  *  until no more files exists. It then returns NIL.
  */
 
-int moddir_read( INSTANCE * my, int * params )
-{
-    return ( __moddir_read((__DIR_ST *) params[ 0 ] ) ) ;
+int moddir_read(INSTANCE *my, int *params) {
+    return (__moddir_read((__DIR_ST *)params[0]));
 }
 
 /*  string
  *
  */
-int moddir_get_basepath( INSTANCE * my, int * params )
-{
+int moddir_get_basepath(INSTANCE *my, int *params) {
     int code;
     code = string_new(SDL_GetBasePath());
     string_use(code);
 
-    return code ;
+    return code;
 }
 
-int moddir_get_prefpath( INSTANCE * my, int * params )
-{
+int moddir_get_prefpath(INSTANCE *my, int *params) {
     int code;
     code = string_new(SDL_GetPrefPath(string_get(params[0]), string_get(params[1])));
     string_use(code);
@@ -265,7 +260,7 @@ int moddir_get_prefpath( INSTANCE * my, int * params )
     string_discard(params[0]);
     string_discard(params[1]);
 
-    return code ;
+    return code;
 }
 
 /* ---------------------------------------------------------------------- */

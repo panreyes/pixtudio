@@ -58,16 +58,15 @@
  *      Pointer to the graphic or NULL if none
  */
 
-GRAPH * instance_graph( INSTANCE * i )
-{
+GRAPH *instance_graph(INSTANCE *i) {
     int c;
 
     // Get GRAPH * to draw
-    if (( c = LOCDWORD( librender, i, GRAPHID ) ) ) {
-        return bitmap_get( LOCDWORD( librender, i, FILEID ), c ) ;
+    if ((c = LOCDWORD(librender, i, GRAPHID))) {
+        return bitmap_get(LOCDWORD(librender, i, FILEID), c);
     }
 
-    return 0 ; // No graph to draw
+    return 0; // No graph to draw
 }
 
 /* --------------------------------------------------------------------------- */
@@ -83,180 +82,182 @@ GRAPH * instance_graph( INSTANCE * i )
  *      Pointer to the graphic or NULL if none
  */
 
-GRAPH * instance_collision_graph( INSTANCE * i )
-{
+GRAPH *instance_collision_graph(INSTANCE *i) {
     int c;
 
     // Get GRAPH * to draw
-    if (( c = LOCDWORD( librender, i, COLLISIONGRAPHID ) ) ) {
-        return bitmap_get( LOCDWORD( librender, i, FILEID ), c ) ;
-    } else if (( c = LOCDWORD( librender, i, GRAPHID ) ) ) {
-        return bitmap_get( LOCDWORD( librender, i, FILEID ), c ) ;
+    if ((c = LOCDWORD(librender, i, COLLISIONGRAPHID))) {
+        return bitmap_get(LOCDWORD(librender, i, FILEID), c);
+    } else if ((c = LOCDWORD(librender, i, GRAPHID))) {
+        return bitmap_get(LOCDWORD(librender, i, FILEID), c);
     }
 
-    return 0 ; // No graph to draw
+    return 0; // No graph to draw
 }
 
-void instance_get_bbox( INSTANCE * i, GRAPH * gr, REGION * dest )
-{
+void instance_get_bbox(INSTANCE *i, GRAPH *gr, REGION *dest) {
     REGION *region;
-    int x, y, r ;
-    int scalex, scaley ;
+    int x, y, r;
+    int scalex, scaley;
 
-    r = LOCINT32( librender, i, REGIONID ) ;
-    if ( r > 0 && r < 32 )
-        region = &regions[ r ] ;
+    r = LOCINT32(librender, i, REGIONID);
+    if (r > 0 && r < 32)
+        region = &regions[r];
     else
-        region = &regions[ 0 ];
+        region = &regions[0];
 
-    x = LOCINT32( librender, i, COORDX ) ;
-    y = LOCINT32( librender, i, COORDY ) ;
+    x = LOCINT32(librender, i, COORDX);
+    y = LOCINT32(librender, i, COORDY);
 
-    RESOLXY( librender, i, x, y );
+    RESOLXY(librender, i, x, y);
 
-    scalex = LOCINT32( librender, i, GRAPHSIZEX );
-    scaley = LOCINT32( librender, i, GRAPHSIZEY );
+    scalex = LOCINT32(librender, i, GRAPHSIZEX);
+    scaley = LOCINT32(librender, i, GRAPHSIZEY);
 
-    if ( scalex == 100 && scaley == 100 ) scalex = scaley = LOCINT32( librender, i, GRAPHSIZE );
+    if (scalex == 100 && scaley == 100)
+        scalex = scaley = LOCINT32(librender, i, GRAPHSIZE);
 
-    gr_get_bbox( dest,
-            region,
-            x,
-            y,
-            LOCDWORD( librender, i, FLAGS ),
-            LOCINT32( librender, i, ANGLE ),
-            scalex,
-            scaley,
-            gr
-               ) ;
+    gr_get_bbox(dest, region, x, y, LOCDWORD(librender, i, FLAGS), LOCINT32(librender, i, ANGLE),
+                scalex, scaley, gr);
 }
 
 /* ---------------------------------------------------------------------- */
 
-void draw_instance_at( INSTANCE * i, REGION * region, int x, int y, GRAPH * dest )
-{
-    GRAPH * map ;
-    int16_t * blend_table = NULL ;
-    int flags ;
-    int scalex, scaley ;
-    int alpha ;
+void draw_instance_at(INSTANCE *i, REGION *region, int x, int y, GRAPH *dest) {
+    GRAPH *map;
+    int16_t *blend_table = NULL;
+    int flags;
+    int scalex, scaley;
+    int alpha;
     int blendop;
-    PALETTE * palette = NULL;
+    PALETTE *palette = NULL;
     int paletteid;
 
-    map = instance_graph( i ) ;
-    if ( !map ) return ;
+    map = instance_graph(i);
+    if (!map)
+        return;
 
-    flags = LOCDWORD( librender, i, FLAGS );
+    flags = LOCDWORD(librender, i, FLAGS);
 
-    if (( alpha = LOCDWORD( librender, i, ALPHA ) ) != 255 ) {
-        if ( alpha <= 0 ) return ;
-        else if ( alpha < 255 )
-            flags |= B_ALPHA | ( alpha << B_ALPHA_SHIFT );
+    if ((alpha = LOCDWORD(librender, i, ALPHA)) != 255) {
+        if (alpha <= 0)
+            return;
+        else if (alpha < 255)
+            flags |= B_ALPHA | (alpha << B_ALPHA_SHIFT);
     }
 
-    scalex = LOCINT32( librender, i, GRAPHSIZEX );
-    scaley = LOCINT32( librender, i, GRAPHSIZEY );
-    if ( scalex == 100 && scaley == 100 ) {
-        scalex = scaley = LOCINT32( librender, i, GRAPHSIZE );
+    scalex = LOCINT32(librender, i, GRAPHSIZEX);
+    scaley = LOCINT32(librender, i, GRAPHSIZEY);
+    if (scalex == 100 && scaley == 100) {
+        scalex = scaley = LOCINT32(librender, i, GRAPHSIZE);
     }
 
-    if (( blendop = LOCDWORD( librender, i, BLENDOP ) ) ) {
-        blend_table = map->blend_table;
-        map->blend_table = ( int16_t * ) blendop;
+    if ((blendop = LOCDWORD(librender, i, BLENDOP))) {
+        blend_table      = map->blend_table;
+        map->blend_table = (int16_t *)blendop;
     }
 
-    if (( paletteid = LOCDWORD( librender, i, PALETTEID ) ) ) {
-        palette = map->format->palette ;
-        map->format->palette = ( PALETTE * ) paletteid;
+    if ((paletteid = LOCDWORD(librender, i, PALETTEID))) {
+        palette              = map->format->palette;
+        map->format->palette = (PALETTE *)paletteid;
     }
 
     /* WARNING: don't remove "scalex != 100 || scaley != 100 ||" from begin the next condition */
-    if ( scalex != 100 || scaley != 100 || LOCINT32( librender, i, ANGLE ) ) {
-        gr_rotated_blit( dest, region, x, y, flags, LOCINT32( librender, i, ANGLE ), scalex, scaley, LOCUINT8( librender, i, MODR ), LOCUINT8( librender, i, MODG ), LOCUINT8( librender, i, MODB ), map ) ;
+    if (scalex != 100 || scaley != 100 || LOCINT32(librender, i, ANGLE)) {
+        gr_rotated_blit(dest, region, x, y, flags, LOCINT32(librender, i, ANGLE), scalex, scaley,
+                        LOCUINT8(librender, i, MODR), LOCUINT8(librender, i, MODG),
+                        LOCUINT8(librender, i, MODB), map);
     } else {
-        gr_blit( dest, region, x, y, flags, LOCUINT8( librender, i, MODR ), LOCUINT8( librender, i, MODG ), LOCUINT8( librender, i, MODB ), map ) ;
+        gr_blit(dest, region, x, y, flags, LOCUINT8(librender, i, MODR),
+                LOCUINT8(librender, i, MODG), LOCUINT8(librender, i, MODB), map);
     }
 
-    if ( paletteid ) map->format->palette = palette;
-    if ( blendop ) map->blend_table = blend_table;
-
+    if (paletteid)
+        map->format->palette = palette;
+    if (blendop)
+        map->blend_table = blend_table;
 }
 
 /* --------------------------------------------------------------------------- */
 /* Rutinas gráficas de alto nivel */
 
-void draw_instance( INSTANCE * i, REGION * clip )
-{
-    GRAPH * map ;
-    int16_t * blend_table = NULL ;
+void draw_instance(INSTANCE *i, REGION *clip) {
+    GRAPH *map;
+    int16_t *blend_table = NULL;
     int flags;
     int scalex, scaley;
     REGION region;
-    int alpha ;
-    int blendop = 0 ;
-    PALETTE * palette = NULL ;
+    int alpha;
+    int blendop      = 0;
+    PALETTE *palette = NULL;
     int paletteid;
 
     /* Difference with draw_instance_at from here */
-    int x, y, r ;
+    int x, y, r;
     /* Difference with draw_instance_at to here */
 
-//    map = instance_graph( i ) ;
-    map = ( GRAPH * ) LOCDWORD( librender, i, GRAPHPTR );
-    if ( !map ) return ;
+    //    map = instance_graph( i ) ;
+    map = (GRAPH *)LOCDWORD(librender, i, GRAPHPTR);
+    if (!map)
+        return;
 
-    flags = LOCDWORD( librender, i, FLAGS ) ;
+    flags = LOCDWORD(librender, i, FLAGS);
 
-    if (( alpha = LOCDWORD( librender, i, ALPHA ) ) != 255 )
-    {
-        if ( alpha <= 0 ) return ;
-        else if ( alpha < 255 )
-            flags |= B_ALPHA | ( alpha << B_ALPHA_SHIFT );
+    if ((alpha = LOCDWORD(librender, i, ALPHA)) != 255) {
+        if (alpha <= 0)
+            return;
+        else if (alpha < 255)
+            flags |= B_ALPHA | (alpha << B_ALPHA_SHIFT);
     }
 
-    scalex = LOCINT32( librender, i, GRAPHSIZEX );
-    scaley = LOCINT32( librender, i, GRAPHSIZEY );
-    if ( scalex == 100 && scaley == 100 ) scalex = scaley = LOCINT32( librender, i, GRAPHSIZE );
+    scalex = LOCINT32(librender, i, GRAPHSIZEX);
+    scaley = LOCINT32(librender, i, GRAPHSIZEY);
+    if (scalex == 100 && scaley == 100)
+        scalex = scaley = LOCINT32(librender, i, GRAPHSIZE);
 
-    if (( blendop = LOCDWORD( librender, i, BLENDOP ) ) )
-    {
-        blend_table = map->blend_table;
-        map->blend_table = ( int16_t * ) blendop;
+    if ((blendop = LOCDWORD(librender, i, BLENDOP))) {
+        blend_table      = map->blend_table;
+        map->blend_table = (int16_t *)blendop;
     }
 
-    if (( paletteid = LOCDWORD( librender, i, PALETTEID ) ) )
-    {
-        palette = map->format->palette ;
-        map->format->palette = ( PALETTE * ) paletteid;
+    if ((paletteid = LOCDWORD(librender, i, PALETTEID))) {
+        palette              = map->format->palette;
+        map->format->palette = (PALETTE *)paletteid;
     }
 
     /* Difference with draw_instance_at from here */
 
-    x = LOCINT32( librender, i, COORDX ) ;
-    y = LOCINT32( librender, i, COORDY ) ;
+    x = LOCINT32(librender, i, COORDX);
+    y = LOCINT32(librender, i, COORDY);
 
-    RESOLXY( librender, i, x, y );
+    RESOLXY(librender, i, x, y);
 
-    r = LOCINT32( librender, i, REGIONID ) ;
-    if ( r > 0 && r < 32 )
-        region = regions[ r ] ;
+    r = LOCINT32(librender, i, REGIONID);
+    if (r > 0 && r < 32)
+        region = regions[r];
     else
-        region = regions[ 0 ];
+        region = regions[0];
 
-    if ( clip ) region_union( &region, clip );
+    if (clip)
+        region_union(&region, clip);
     /* Difference with draw_instance_at to here */
 
     /* WARNING: don't remove "scalex != 100 || scaley != 100 ||" from begin the next condition */
-    if ( scalex != 100 || scaley != 100 || LOCINT32( librender, i, ANGLE ) )
-        gr_rotated_blit( 0, &region, x, y, flags, LOCINT32( librender, i, ANGLE ), scalex, scaley, LOCUINT8( librender, i, MODR ), LOCUINT8( librender, i, MODG ), LOCUINT8( librender, i, MODB ), map ) ;
+    if (scalex != 100 || scaley != 100 || LOCINT32(librender, i, ANGLE))
+        gr_rotated_blit(0, &region, x, y, flags, LOCINT32(librender, i, ANGLE), scalex, scaley,
+                        LOCUINT8(librender, i, MODR), LOCUINT8(librender, i, MODG),
+                        LOCUINT8(librender, i, MODB), map);
     else
-        gr_blit( 0, &region, x, y, flags, LOCUINT8( librender, i, MODR ), LOCUINT8( librender, i, MODG ), LOCUINT8( librender, i, MODB ), map ) ;
+        gr_blit(0, &region, x, y, flags, LOCUINT8(librender, i, MODR), LOCUINT8(librender, i, MODG),
+                LOCUINT8(librender, i, MODB), map);
 
-    if ( paletteid ) map->format->palette = palette;
-    if ( blendop ) map->blend_table = blend_table;
+    if (paletteid)
+        map->format->palette = palette;
+    if (blendop)
+        map->blend_table = blend_table;
 
-    if ( map->modified ) map->modified = 0;
+    if (map->modified)
+        map->modified = 0;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -274,15 +275,13 @@ void draw_instance( INSTANCE * i, REGION * clip )
  *      1 if there is any change, 0 otherwise
  */
 
-int draw_instance_info( INSTANCE * i, REGION * region, int * z, int * drawme )
-{
-    GRAPH * graph;
+int draw_instance_info(INSTANCE *i, REGION *region, int *z, int *drawme) {
+    GRAPH *graph;
 
-    * drawme = 0;
+    *drawme = 0;
 
-    LOCDWORD( librender, i, GRAPHPTR ) = ( int )( graph = instance_graph( i ) );
-    if ( !graph )
-    {
+    LOCDWORD(librender, i, GRAPHPTR) = (int)(graph = instance_graph(i));
+    if (!graph) {
         /*
                 region->x  = -2; region->y  = -2;
                 region->x2 = -2; region->y2 = -2;
@@ -294,80 +293,67 @@ int draw_instance_info( INSTANCE * i, REGION * region, int * z, int * drawme )
     int status;
     int coordz, coordx, coordy;
 
-    status = ( LOCDWORD( librender, i, STATUS ) & ~STATUS_WAITING_MASK ) ;
+    status = (LOCDWORD(librender, i, STATUS) & ~STATUS_WAITING_MASK);
 
-    coordz = LOCINT32( librender, i, COORDZ );
+    coordz = LOCINT32(librender, i, COORDZ);
 
     /* Si tiene grafico o (ctype == 0 y esta corriendo o congelado) */
 
-    if ( LOCDWORD( librender, i, CTYPE ) == C_SCREEN && ( status == STATUS_RUNNING || status == STATUS_FROZEN ) )
-        * drawme = 1;
+    if (LOCDWORD(librender, i, CTYPE) == C_SCREEN &&
+        (status == STATUS_RUNNING || status == STATUS_FROZEN))
+        *drawme = 1;
 
+    coordx = LOCINT32(librender, i, COORDX);
+    coordy = LOCINT32(librender, i, COORDY);
 
-    coordx = LOCINT32( librender, i, COORDX );
-    coordy = LOCINT32( librender, i, COORDY );
+    RESOLXY(librender, i, coordx, coordy);
 
-    RESOLXY( librender, i, coordx, coordy );
+    changed = graph->modified || LOCINT32(librender, i, SAVED_COORDX) != coordx ||
+              LOCINT32(librender, i, SAVED_COORDY) != coordy ||
+              LOCINT32(librender, i, SAVED_COORDZ) != coordz ||
+              LOCDWORD(librender, i, SAVED_GRAPHID) != LOCDWORD(librender, i, GRAPHID) ||
+              LOCINT32(librender, i, SAVED_ANGLE) != LOCINT32(librender, i, ANGLE) ||
+              LOCDWORD(librender, i, SAVED_ALPHA) != LOCDWORD(librender, i, ALPHA) ||
+              LOCDWORD(librender, i, SAVED_BLENDOP) != LOCDWORD(librender, i, BLENDOP) ||
+              LOCINT32(librender, i, SAVED_GRAPHSIZE) != LOCINT32(librender, i, GRAPHSIZE) ||
+              LOCINT32(librender, i, SAVED_GRAPHSIZEX) != LOCINT32(librender, i, GRAPHSIZEX) ||
+              LOCINT32(librender, i, SAVED_GRAPHSIZEY) != LOCINT32(librender, i, GRAPHSIZEY) ||
+              LOCDWORD(librender, i, SAVED_FLAGS) != LOCDWORD(librender, i, FLAGS) ||
+              LOCDWORD(librender, i, SAVED_FILEID) != LOCDWORD(librender, i, FILEID) ||
+              (graph->ncpoints && (LOCDWORD(librender, i, SAVED_CENTERX) != graph->cpoints[0].x ||
+                                   LOCDWORD(librender, i, SAVED_CENTERY) != graph->cpoints[0].y));
 
-    changed =
-        graph->modified                                                                           ||
-        LOCINT32( librender, i, SAVED_COORDX )        != coordx                                   ||
-        LOCINT32( librender, i, SAVED_COORDY )        != coordy                                   ||
-        LOCINT32( librender, i, SAVED_COORDZ )        != coordz                                   ||
-        LOCDWORD( librender, i, SAVED_GRAPHID )       != LOCDWORD( librender, i, GRAPHID )        ||
-        LOCINT32( librender, i, SAVED_ANGLE )         != LOCINT32( librender, i, ANGLE )          ||
-        LOCDWORD( librender, i, SAVED_ALPHA )         != LOCDWORD( librender, i, ALPHA )          ||
-        LOCDWORD( librender, i, SAVED_BLENDOP )       != LOCDWORD( librender, i, BLENDOP )        ||
-        LOCINT32( librender, i, SAVED_GRAPHSIZE )     != LOCINT32( librender, i, GRAPHSIZE )      ||
-        LOCINT32( librender, i, SAVED_GRAPHSIZEX )    != LOCINT32( librender, i, GRAPHSIZEX )     ||
-        LOCINT32( librender, i, SAVED_GRAPHSIZEY )    != LOCINT32( librender, i, GRAPHSIZEY )     ||
-        LOCDWORD( librender, i, SAVED_FLAGS )         != LOCDWORD( librender, i, FLAGS )          ||
-        LOCDWORD( librender, i, SAVED_FILEID )        != LOCDWORD( librender, i, FILEID )         ||
-        (
-            graph->ncpoints &&
-            (
-                LOCDWORD( librender, i, SAVED_CENTERX )       != graph->cpoints[0].x              ||
-                LOCDWORD( librender, i, SAVED_CENTERY )       != graph->cpoints[0].y
-            )
-        )
-        ;
-
-    if ( changed )
-    {
+    if (changed) {
         /* Update key */
 
-        * z = coordz;
+        *z = coordz;
 
-        LOCINT32( librender, i, SAVED_COORDX )       = coordx;
-        LOCINT32( librender, i, SAVED_COORDY )       = coordy;
-        LOCINT32( librender, i, SAVED_COORDZ )       = coordz;
-        LOCDWORD( librender, i, SAVED_GRAPHID )      = LOCDWORD( librender, i, GRAPHID );
-        LOCINT32( librender, i, SAVED_ANGLE )        = LOCINT32( librender, i, ANGLE );
-        LOCDWORD( librender, i, SAVED_ALPHA )        = LOCDWORD( librender, i, ALPHA );
-        LOCDWORD( librender, i, SAVED_BLENDOP )      = LOCDWORD( librender, i, BLENDOP );
-        LOCINT32( librender, i, SAVED_GRAPHSIZE )    = LOCINT32( librender, i, GRAPHSIZE );
-        LOCINT32( librender, i, SAVED_GRAPHSIZEX )   = LOCINT32( librender, i, GRAPHSIZEX );
-        LOCINT32( librender, i, SAVED_GRAPHSIZEY )   = LOCINT32( librender, i, GRAPHSIZEY );
-        LOCDWORD( librender, i, SAVED_FLAGS )        = LOCDWORD( librender, i, FLAGS );
-        LOCDWORD( librender, i, SAVED_FILEID )       = LOCDWORD( librender, i, FILEID );
-        if ( graph->ncpoints )
-        {
-            LOCDWORD( librender, i, SAVED_CENTERX )      = graph->cpoints[0].x;
-            LOCDWORD( librender, i, SAVED_CENTERY )      = graph->cpoints[0].y;
-        }
-        else
-        {
-            LOCDWORD( librender, i, SAVED_CENTERX )      = CPOINT_UNDEFINED;
-            LOCDWORD( librender, i, SAVED_CENTERY )      = CPOINT_UNDEFINED;
+        LOCINT32(librender, i, SAVED_COORDX) = coordx;
+        LOCINT32(librender, i, SAVED_COORDY) = coordy;
+        LOCINT32(librender, i, SAVED_COORDZ) = coordz;
+        LOCDWORD(librender, i, SAVED_GRAPHID) = LOCDWORD(librender, i, GRAPHID);
+        LOCINT32(librender, i, SAVED_ANGLE) = LOCINT32(librender, i, ANGLE);
+        LOCDWORD(librender, i, SAVED_ALPHA) = LOCDWORD(librender, i, ALPHA);
+        LOCDWORD(librender, i, SAVED_BLENDOP) = LOCDWORD(librender, i, BLENDOP);
+        LOCINT32(librender, i, SAVED_GRAPHSIZE) = LOCINT32(librender, i, GRAPHSIZE);
+        LOCINT32(librender, i, SAVED_GRAPHSIZEX) = LOCINT32(librender, i, GRAPHSIZEX);
+        LOCINT32(librender, i, SAVED_GRAPHSIZEY) = LOCINT32(librender, i, GRAPHSIZEY);
+        LOCDWORD(librender, i, SAVED_FLAGS) = LOCDWORD(librender, i, FLAGS);
+        LOCDWORD(librender, i, SAVED_FILEID) = LOCDWORD(librender, i, FILEID);
+        if (graph->ncpoints) {
+            LOCDWORD(librender, i, SAVED_CENTERX) = graph->cpoints[0].x;
+            LOCDWORD(librender, i, SAVED_CENTERY) = graph->cpoints[0].y;
+        } else {
+            LOCDWORD(librender, i, SAVED_CENTERX) = CPOINT_UNDEFINED;
+            LOCDWORD(librender, i, SAVED_CENTERY) = CPOINT_UNDEFINED;
         }
 
-        instance_get_bbox( i, graph, region );
+        instance_get_bbox(i, graph, region);
         return 1;
     }
 
     return changed;
 }
-
 
 /* ----------------------------------------------------------------------
  Dlls Hooks
@@ -383,10 +369,10 @@ int draw_instance_info( INSTANCE * i, REGION * region, int * z, int * drawme )
  *      None
  */
 
-void __bgdexport( librender, instance_create_hook )( INSTANCE * r )
-{
+void __bgdexport(librender, instance_create_hook)(INSTANCE *r) {
     /* COORZ is 0 when a new instance is created */
-    LOCDWORD( librender, r, OBJECTID ) = gr_new_object( /* LOCINT32( librender, r, COORDZ ) */ 0, draw_instance_info, draw_instance, r );
+    LOCDWORD(librender, r, OBJECTID) = gr_new_object(/* LOCINT32( librender, r, COORDZ ) */ 0,
+                                                     draw_instance_info, draw_instance, r);
 }
 
 /*
@@ -399,7 +385,7 @@ void __bgdexport( librender, instance_create_hook )( INSTANCE * r )
  *      None
  */
 
-void __bgdexport( librender, instance_destroy_hook )( INSTANCE * r )
-{
-    if ( LOCDWORD( librender, r, OBJECTID ) ) gr_destroy_object( LOCDWORD( librender, r, OBJECTID ) );
+void __bgdexport(librender, instance_destroy_hook)(INSTANCE *r) {
+    if (LOCDWORD(librender, r, OBJECTID))
+        gr_destroy_object(LOCDWORD(librender, r, OBJECTID));
 }

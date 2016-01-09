@@ -34,54 +34,48 @@
 /* Graphics library                                                     */
 /* -------------------------------------------------------------------- */
 
-#define RESOLXY(m,r,x,y) \
-    {                                           \
-        int res = LOCINT32(m, r, RESOLUTION ) ; \
-        if ( res > 0 )                          \
-        {                                       \
-            if ( x < 0 )                        \
-                ( x ) = ( ( x ) - ( res - 1 )) / res ; \
-            else                                \
-                ( x ) /= res ;                  \
-                                                \
-            if ( y < 0 )                        \
-                ( y ) = ( ( y ) - ( res - 1 )) / res ; \
-            else                                \
-                ( y ) /= res ;                  \
-        }                                       \
-        else if ( res < 0 )                     \
-        {                                       \
-            ( x ) *= -res ;                     \
-            ( y ) *= -res ;                     \
-        }                                       \
+#define RESOLXY(m, r, x, y)                                                                        \
+    {                                                                                              \
+        int res = LOCINT32(m, r, RESOLUTION);                                                      \
+        if (res > 0) {                                                                             \
+            if (x < 0)                                                                             \
+                (x) = ((x) - (res - 1)) / res;                                                     \
+            else                                                                                   \
+                (x) /= res;                                                                        \
+                                                                                                   \
+            if (y < 0)                                                                             \
+                (y) = ((y) - (res - 1)) / res;                                                     \
+            else                                                                                   \
+                (y) /= res;                                                                        \
+        } else if (res < 0) {                                                                      \
+            (x) *= -res;                                                                           \
+            (y) *= -res;                                                                           \
+        }                                                                                          \
     }
 
-#define RESOLXYZ(m,r,x,y,z) \
-    {                                           \
-        int res = LOCINT32(m, r, RESOLUTION ) ; \
-        if ( res > 0 )                          \
-        {                                       \
-            if ( x < 0 )                        \
-                ( x ) = ( ( x ) - ( res - 1 )) / res ; \
-            else                                \
-                ( x ) /= res ;                  \
-                                                \
-            if ( y < 0 )                        \
-                ( y ) = ( ( y ) - ( res - 1 )) / res ; \
-            else                                \
-                ( y ) /= res ;                  \
-                                                \
-            if ( z < 0 )                        \
-                ( z ) = ( ( z ) - ( res - 1 )) / res ; \
-            else                                \
-                ( z ) /= res ;                  \
-        }                                       \
-        else if ( res < 0 )                     \
-        {                                       \
-            ( x ) *= -res ;                     \
-            ( y ) *= -res ;                     \
-            ( z ) *= -res ;                     \
-        }                                       \
+#define RESOLXYZ(m, r, x, y, z)                                                                    \
+    {                                                                                              \
+        int res = LOCINT32(m, r, RESOLUTION);                                                      \
+        if (res > 0) {                                                                             \
+            if (x < 0)                                                                             \
+                (x) = ((x) - (res - 1)) / res;                                                     \
+            else                                                                                   \
+                (x) /= res;                                                                        \
+                                                                                                   \
+            if (y < 0)                                                                             \
+                (y) = ((y) - (res - 1)) / res;                                                     \
+            else                                                                                   \
+                (y) /= res;                                                                        \
+                                                                                                   \
+            if (z < 0)                                                                             \
+                (z) = ((z) - (res - 1)) / res;                                                     \
+            else                                                                                   \
+                (z) /= res;                                                                        \
+        } else if (res < 0) {                                                                      \
+            (x) *= -res;                                                                           \
+            (y) *= -res;                                                                           \
+            (z) *= -res;                                                                           \
+        }                                                                                          \
     }
 
 #endif

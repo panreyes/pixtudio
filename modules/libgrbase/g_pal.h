@@ -35,32 +35,30 @@
 #pragma pack(push, 1)
 #endif
 
-typedef struct _rgb_component
-{
-    uint8_t     r ;
-    uint8_t     g ;
-    uint8_t     b ;
+typedef struct _rgb_component {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
 }
 #ifdef __GNUC__
-__attribute__ ((packed))
+__attribute__((packed))
 #endif
-rgb_component ;
+rgb_component;
 
-typedef struct _palette
-{
-    rgb_component       rgb[256] ;
+typedef struct _palette {
+    rgb_component rgb[256];
 
-    uint32_t            colorequiv[256] ;
+    uint32_t colorequiv[256];
 
-    int                 use;
+    int use;
 
-    struct _palette     * next ;
-    struct _palette     * prev ;
+    struct _palette *next;
+    struct _palette *prev;
 }
 #ifdef __GNUC__
-__attribute__ ((packed))
+__attribute__((packed))
 #endif
-PALETTE ;
+PALETTE;
 
 #ifdef _MSC_VER
 #pragma pack(pop)
@@ -75,22 +73,22 @@ PALETTE ;
 /* Paleta de colores */
 /* ----------------- */
 
-extern PALETTE * first_palette ;
+extern PALETTE *first_palette;
 
-extern int palette_changed ;
+extern int palette_changed;
 
 /* Lista ordenada de colores */
 
-extern int color_list[ 256 ] ;
+extern int color_list[256];
 
 /* Tabla de transparencias */
 
-extern uint8_t trans_table[ 256 ][ 256 ] ;
-extern int trans_table_updated ;
+extern uint8_t trans_table[256][256];
+extern int trans_table_updated;
 
 /* Deja un color a 50% de intensidad */
 
-extern uint16_t colorghost[65536] ;
+extern uint16_t colorghost[65536];
 
 /* Paleta de colores por defecto */
 
@@ -99,34 +97,34 @@ extern uint32_t default_colorequiv[256];
 
 /* --------------------------------------------------------------------------- */
 
-extern int find_nearest_color( PALETTE * pal, int first, int last, int r, int g, int b );
-extern int gr_map_rgb( PIXEL_FORMAT * format, int r, int g, int b );
-extern int gr_map_rgba( PIXEL_FORMAT * format, int r, int g, int b, int a );
-extern void pal_refresh( PALETTE * pal );
-extern void pal_use( PALETTE * pal );
-extern int pal_discard( PALETTE * pal );
-extern PALETTE * pal_new( PALETTE * basepal );
-extern PALETTE * pal_new_rgb( unsigned char * datapal );
-extern void pal_destroy( PALETTE * pal );
-extern int pal_get( PALETTE * spal, int color, int num, uint8_t * pal );
-extern int pal_set( PALETTE * spal, int color, int num, uint8_t * pal );
-extern int pal_map_assign( int libid, int mapcode, PALETTE * palid );
-extern int pal_map_remove( int libid, int mapcode );
-extern void gr_roll_palette( int color0, int num, int inc );
-extern int gr_rgb( int r, int g, int b );
-extern int gr_rgba( int r, int g, int b, int a );
-extern void gr_get_rgb( int color, int *r, int *g, int *b );
-extern void gr_get_rgba( int color, int *r, int *g, int *b, int *a );
-extern int gr_rgb_depth( int depth, int r, int g, int b );
-extern int gr_rgba_depth( int depth, int r, int g, int b, int a );
-extern void gr_get_rgb_depth( int depth, int color, int *r, int *g, int *b );
-extern void gr_get_rgba_depth( int depth, int color, int *r, int *g, int *b, int *a );
-extern int gr_find_nearest_color( int r, int g, int b );
-extern int gr_get_color( int r, int g, int b );
+extern int find_nearest_color(PALETTE *pal, int first, int last, int r, int g, int b);
+extern int gr_map_rgb(PIXEL_FORMAT *format, int r, int g, int b);
+extern int gr_map_rgba(PIXEL_FORMAT *format, int r, int g, int b, int a);
+extern void pal_refresh(PALETTE *pal);
+extern void pal_use(PALETTE *pal);
+extern int pal_discard(PALETTE *pal);
+extern PALETTE *pal_new(PALETTE *basepal);
+extern PALETTE *pal_new_rgb(unsigned char *datapal);
+extern void pal_destroy(PALETTE *pal);
+extern int pal_get(PALETTE *spal, int color, int num, uint8_t *pal);
+extern int pal_set(PALETTE *spal, int color, int num, uint8_t *pal);
+extern int pal_map_assign(int libid, int mapcode, PALETTE *palid);
+extern int pal_map_remove(int libid, int mapcode);
+extern void gr_roll_palette(int color0, int num, int inc);
+extern int gr_rgb(int r, int g, int b);
+extern int gr_rgba(int r, int g, int b, int a);
+extern void gr_get_rgb(int color, int *r, int *g, int *b);
+extern void gr_get_rgba(int color, int *r, int *g, int *b, int *a);
+extern int gr_rgb_depth(int depth, int r, int g, int b);
+extern int gr_rgba_depth(int depth, int r, int g, int b, int a);
+extern void gr_get_rgb_depth(int depth, int color, int *r, int *g, int *b);
+extern void gr_get_rgba_depth(int depth, int color, int *r, int *g, int *b, int *a);
+extern int gr_find_nearest_color(int r, int g, int b);
+extern int gr_get_color(int r, int g, int b);
 extern void gr_make_trans_table();
-extern void gr_set_rgb( int color, int r, int g, int b );
-extern void gr_get_colors( int color, int num, uint8_t * pal );
-extern void gr_set_colors( int color, int num, uint8_t * pal );
+extern void gr_set_rgb(int color, int r, int g, int b);
+extern void gr_get_colors(int color, int num, uint8_t *pal);
+extern void gr_set_colors(int color, int num, uint8_t *pal);
 
 /* --------------------------------------------------------------------------- */
 

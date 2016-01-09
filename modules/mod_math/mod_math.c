@@ -47,187 +47,191 @@
 /* Mathematical functions */
 /* --------------------------------------------------------------------------- */
 
-int math_abs( INSTANCE * my, int * params ) {
-    float num = *( float * ) &params[0] ;
-    float res = ( num < 0 ) ? -num : num ;
-    return *(( int * )&res ) ;
+int math_abs(INSTANCE *my, int *params) {
+    float num = *(float *)&params[0];
+    float res = (num < 0) ? -num : num;
+    return *((int *)&res);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_pow( INSTANCE * my, int * params ) {
-    float res = ( float )pow( *( float * ) &params[0], *( float * ) &params[1] ) ;
-    return *(( int * )&res ) ;
+int math_pow(INSTANCE *my, int *params) {
+    float res = (float)pow(*(float *)&params[0], *(float *)&params[1]);
+    return *((int *)&res);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_sqrt( INSTANCE * my, int * params ) {
-    float res = ( float )sqrt( *( float * ) &params[0] ) ;
-    return *(( int * )&res ) ;
+int math_sqrt(INSTANCE *my, int *params) {
+    float res = (float)sqrt(*(float *)&params[0]);
+    return *((int *)&res);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_cos( INSTANCE * my, int * params ) {
-    float param = *( float * ) &params[0] ;
-    float res = ( float )cos(( double )( param * M_PI / 180000.0 ) ) ;
-    return *(( int * )&res ) ;
+int math_cos(INSTANCE *my, int *params) {
+    float param = *(float *)&params[0];
+    float res = (float)cos((double)(param * M_PI / 180000.0));
+    return *((int *)&res);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_sin( INSTANCE * my, int * params ) {
-    float param = *( float * ) &params[0] ;
-    float res = ( float )sin(( double )( param * M_PI / 180000.0 ) ) ;
-    return *(( int * )&res ) ;
+int math_sin(INSTANCE *my, int *params) {
+    float param = *(float *)&params[0];
+    float res = (float)sin((double)(param * M_PI / 180000.0));
+    return *((int *)&res);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_tan( INSTANCE * my, int * params ) {
-    float param = *( float * ) &params[0] ;
-    float res = ( float )tan(( double )( param * M_PI / 180000.0 ) ) ;
-    return *(( int * )&res ) ;
+int math_tan(INSTANCE *my, int *params) {
+    float param = *(float *)&params[0];
+    float res = (float)tan((double)(param * M_PI / 180000.0));
+    return *((int *)&res);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_acos( INSTANCE * my, int * params ) {
-    float param = *( float * ) &params[0] ;
-    float res = ( float )( acos(( double )param ) * 180000.0 / M_PI ) ;
-    return *(( int * )&res ) ;
+int math_acos(INSTANCE *my, int *params) {
+    float param = *(float *)&params[0];
+    float res = (float)(acos((double)param) * 180000.0 / M_PI);
+    return *((int *)&res);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_asin( INSTANCE * my, int * params ) {
-    float param = *( float * ) &params[0] ;
-    float res = ( float )( asin(( double )param ) * 180000.0 / M_PI ) ;
-    return *(( int * )&res ) ;
+int math_asin(INSTANCE *my, int *params) {
+    float param = *(float *)&params[0];
+    float res = (float)(asin((double)param) * 180000.0 / M_PI);
+    return *((int *)&res);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_atan( INSTANCE * my, int * params ) {
-    float param = *( float * ) &params[0] ;
-    float res = ( float )( atan(( double )param ) * 180000.0 / M_PI ) ;
-    return *(( int * )&res ) ;
+int math_atan(INSTANCE *my, int *params) {
+    float param = *(float *)&params[0];
+    float res = (float)(atan((double)param) * 180000.0 / M_PI);
+    return *((int *)&res);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_atan2( INSTANCE * my, int * params ) {
-    float param1 = *( float * ) &params[0],
-          param2 = *( float * ) &params[1];
-    float res = ( float )( atan2(( double )param1, ( double )param2 ) * 180000.0 / M_PI ) ;
-    return *(( int * )&res ) ;
+int math_atan2(INSTANCE *my, int *params) {
+    float param1 = *(float *)&params[0], param2 = *(float *)&params[1];
+    float res = (float)(atan2((double)param1, (double)param2) * 180000.0 / M_PI);
+    return *((int *)&res);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_isinf( INSTANCE * my, int * params ) {
-    double param = ( double ) *( float * ) &params[0] ;
-    return isinf( param );
+int math_isinf(INSTANCE *my, int *params) {
+    double param = (double)*(float *)&params[0];
+    return isinf(param);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_isnan( INSTANCE * my, int * params ) {
-    double param = ( double ) *( float * ) & params[0] ;
-    return isnan( param );
+int math_isnan(INSTANCE *my, int *params) {
+    double param = (double)*(float *)&params[0];
+    return isnan(param);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_finite( INSTANCE * my, int * params ) {
-    double param = ( double ) *( float * ) &params[0] ;
-    return isfinite ( param );
+int math_finite(INSTANCE *my, int *params) {
+    double param = (double)*(float *)&params[0];
+    return isfinite(param);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_fget_angle( INSTANCE * my, int * params ) {
-    double dx = params[2] - params[0] ;
-    double dy = params[3] - params[1] ;
-    int angle ;
+int math_fget_angle(INSTANCE *my, int *params) {
+    double dx = params[2] - params[0];
+    double dy = params[3] - params[1];
+    int angle;
 
-    if ( dx == 0 ) return ( dy > 0 ) ? 270000L : 90000L ;
+    if (dx == 0)
+        return (dy > 0) ? 270000L : 90000L;
 
-    angle = ( int )( atan( dy / dx ) * 180000.0 / M_PI ) ;
+    angle = (int)(atan(dy / dx) * 180000.0 / M_PI);
 
-    return ( dx > 0 ) ? -angle : -angle + 180000L ;
+    return (dx > 0) ? -angle : -angle + 180000L;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_fget_dist( INSTANCE * my, int * params ) {
-    double dx = params[2] - params[0] ;
-    double dy = params[3] - params[1] ;
+int math_fget_dist(INSTANCE *my, int *params) {
+    double dx = params[2] - params[0];
+    double dy = params[3] - params[1];
 
-    return ( int )sqrt( dx*dx + dy*dy ) ;
+    return (int)sqrt(dx * dx + dy * dy);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_near_angle( INSTANCE * my, int * params ) {
-    int angle = params[0] ;
-    int dest  = params[1] ;
-    int incr  = params[2] ;
+int math_near_angle(INSTANCE *my, int *params) {
+    int angle = params[0];
+    int dest  = params[1];
+    int incr  = params[2];
 
-    if ( angle < dest && dest - angle > 180000L )
-        angle += 360000L ;
+    if (angle < dest && dest - angle > 180000L)
+        angle += 360000L;
 
-    if ( angle > dest && angle - dest > 180000L )
-        angle -= 360000L ;
+    if (angle > dest && angle - dest > 180000L)
+        angle -= 360000L;
 
-    if ( angle < dest ) {
-        angle += incr ;
-        if ( angle > dest ) angle = dest ;
+    if (angle < dest) {
+        angle += incr;
+        if (angle > dest)
+            angle = dest;
     } else {
-        angle -= incr ;
-        if ( angle < dest ) angle = dest ;
+        angle -= incr;
+        if (angle < dest)
+            angle = dest;
     }
 
-    if ( angle < 0 ) return angle + 360000L ;
-    if ( angle >= 360000L ) return angle - 360000L ;
-    return angle ;
+    if (angle < 0)
+        return angle + 360000L;
+    if (angle >= 360000L)
+        return angle - 360000L;
+    return angle;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_get_distx( INSTANCE * my, int * params ) {
-    double angle = params[0] * M_PI / 180000.0 ;
-    return ( int )( params[1] * cos( angle ) ) ;
+int math_get_distx(INSTANCE *my, int *params) {
+    double angle = params[0] * M_PI / 180000.0;
+    return (int)(params[1] * cos(angle));
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_get_disty( INSTANCE * my, int * params ) {
-    double angle = params[0] * M_PI / 180000.0 ;
-    return ( int )( params[1] * -sin( angle ) ) ;
+int math_get_disty(INSTANCE *my, int *params) {
+    double angle = params[0] * M_PI / 180000.0;
+    return (int)(params[1] * -sin(angle));
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_round( INSTANCE * my, int * params ) {
-    float val = roundf(*( float * ) &params[0]);
+int math_round(INSTANCE *my, int *params) {
+    float val = roundf(*(float *)&params[0]);
 
     return (int)val;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_floor( INSTANCE * my, int * params ) {
-    float val = floorf(*( float * ) &params[0]);
+int math_floor(INSTANCE *my, int *params) {
+    float val = floorf(*(float *)&params[0]);
 
     return (int)val;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int math_ceil( INSTANCE * my, int * params ) {
-    float val = ceil(*( float * ) &params[0]);
+int math_ceil(INSTANCE *my, int *params) {
+    float val = ceil(*(float *)&params[0]);
 
     return (int)val;
 }

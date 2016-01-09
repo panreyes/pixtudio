@@ -36,17 +36,17 @@
 
 /* --------------------------------------------------------------------------- */
 
-extern REGION regions[ 32 ] ;
+extern REGION regions[32];
 
 /* --------------------------------------------------------------------------- */
 
-extern void region_define( int region, int x, int y, int width, int height ) ;
-extern void region_union( REGION * a, REGION * b ) ;
-extern int region_is_empty( REGION * a ) ;
-extern int region_is_out( REGION * a, REGION * b ) ;
-extern REGION * region_new( int x, int y, int width, int height );
-extern void region_destroy( REGION * );
-extern REGION * region_get( int n );
+extern void region_define(int region, int x, int y, int width, int height);
+extern void region_union(REGION *a, REGION *b);
+extern int region_is_empty(REGION *a);
+extern int region_is_out(REGION *a, REGION *b);
+extern REGION *region_new(int x, int y, int width, int height);
+extern void region_destroy(REGION *);
+extern REGION *region_get(int n);
 
 /* --------------------------------------------------------------------------- */
 

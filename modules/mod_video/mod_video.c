@@ -45,40 +45,38 @@
 #ifndef __MONOLITHIC__
 #include "mod_video_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport( mod_video, globals_fixup )[];
+extern DLVARFIXUP __bgdexport(mod_video, globals_fixup)[];
 #endif
 
 /* --------------------------------------------------------------------------- */
 
-enum {
-    GRAPH_MODE = 0
-};
+enum { GRAPH_MODE = 0 };
 
 /* --------------------------------------------------------------------------- */
 
 /* Funciones de inicialización y carga */
 
-int modvideo_set_mode( INSTANCE * my, int * params ) {
-    return gr_set_mode( params[0] / 10000, params[0] % 10000 ) ;
+int modvideo_set_mode(INSTANCE *my, int *params) {
+    return gr_set_mode(params[0] / 10000, params[0] % 10000);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modvideo_set_mode_2( INSTANCE * my, int * params ) {
-    return gr_set_mode( params[0], params[1] ) ;
+int modvideo_set_mode_2(INSTANCE *my, int *params) {
+    return gr_set_mode(params[0], params[1]);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modvideo_set_mode_3( INSTANCE * my, int * params ) {
-    GLODWORD( mod_video, GRAPH_MODE ) = params[2] ;
-    return gr_set_mode( params[0], params[1] ) ;
+int modvideo_set_mode_3(INSTANCE *my, int *params) {
+    GLODWORD(mod_video, GRAPH_MODE) = params[2];
+    return gr_set_mode(params[0], params[1]);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modvideo_set_fps( INSTANCE * my, int * params ) {
-    gr_set_fps( params[0], params[1] ) ;
+int modvideo_set_fps(INSTANCE *my, int *params) {
+    gr_set_fps(params[0], params[1]);
     return params[0];
 }
 
@@ -91,7 +89,7 @@ Returns NULL if there are no dimensions available for a particular format,
 or -1 if any dimension is okay for the given format.
 */
 
-int modvideo_list_modes( INSTANCE * my, int * params ) {
+int modvideo_list_modes(INSTANCE *my, int *params) {
 #warning modvideo_list_modes is a stub implementation (See https://wiki.libsdl.org/SDL_GetDisplayMode)
     return -1;
 }
@@ -108,7 +106,7 @@ int modvideo_list_modes( INSTANCE * my, int * params ) {
 
 */
 
-int modvideo_mode_is_ok( INSTANCE * my, int * params ) {
+int modvideo_mode_is_ok(INSTANCE *my, int *params) {
 #warning modvideo_mode_is_ok is a stub implementation
     return 0;
 }

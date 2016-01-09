@@ -28,8 +28,8 @@
 #ifndef __BITWISE_MAP_H
 #define __BITWISE_MAP_H
 
-#define bit_set(m,b)    (((uint32_t *)(m))[(b)>>5] |=   1<<((b)&0x1F))
-#define bit_clr(m,b)    (((uint32_t *)(m))[(b)>>5] &= ~(1<<((b)&0x1F)))
-#define bit_tst(m,b)    (((uint32_t *)(m))[(b)>>5] &   (1<<((b)&0x1F)))
+#define bit_set(m, b) (((uint32_t *)(m))[(b) >> 5] |= 1 << ((b)&0x1F))
+#define bit_clr(m, b) (((uint32_t *)(m))[(b) >> 5] &= ~(1 << ((b)&0x1F)))
+#define bit_tst(m, b) (((uint32_t *)(m))[(b) >> 5] & (1 << ((b)&0x1F)))
 
 #endif
