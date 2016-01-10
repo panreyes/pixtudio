@@ -373,31 +373,6 @@ static void draw_at(GRAPH *dest, int x, int y, REGION *r, INSTANCE *i) {
 
 /* --------------------------------------------------------------------------- */
 
-static int get_bbox(REGION *bbox, INSTANCE *proc) {
-    GRAPH *b;
-    int x, y;
-    int scalex, scaley;
-
-    b = instance_graph(proc);
-    if (!b)
-        return 0;
-
-    scalex = LOCINT32(mod_grproc, proc, GRAPHSIZEX);
-    scaley = LOCINT32(mod_grproc, proc, GRAPHSIZEY);
-    if (scalex == 100 && scaley == 100)
-        scalex = scaley = LOCINT32(mod_grproc, proc, GRAPHSIZE);
-
-    x = LOCINT32(mod_grproc, proc, COORDX);
-    y = LOCINT32(mod_grproc, proc, COORDY);
-
-    RESOLXY(mod_grproc, proc, x, y);
-
-    gr_get_bbox(bbox, 0, x, y, LOCDWORD(mod_grproc, proc, FLAGS) & (B_HMIRROR | B_VMIRROR),
-                LOCINT32(mod_grproc, proc, ANGLE), scalex, scaley, b);
-
-    return 1;
-}
-
 static int get_collision_bbox(REGION *bbox, INSTANCE *proc) {
     GRAPH *b;
     int x, y;
