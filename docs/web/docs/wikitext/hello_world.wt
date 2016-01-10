@@ -1,0 +1,17 @@
+[[Category:General]]
+[[Category:Tutorials]]
+
+The Bennu Hello World! Example.
+
+<pre>
+import "mod_say" // import the module to output text to console, using say()
+
+Process Main() // start the definition of the main process
+Begin // start the code
+    say("Hello World!");
+End // end the definition of the main process
+</pre>
+Used in example: [[import]], [[Process]], [[Begin]], [[End]], [[say]]()
+
+This will import the module "''mod_say''" which contains the definition of the "''say()''" function.
+The function will echo the argument "Hello World" to the screen.

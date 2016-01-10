@@ -1,0 +1,46 @@
+[[Category:functions]]
+[[Category:graphical effects]]
+[[Category:mod_effects]]
+
+==Definition==
+'''INT''' rgbscale ( <'''INT''' fileID> , <'''INT''' graphID> , <'''FLOAT''' r> , <'''FLOAT''' g> , <'''FLOAT''' b> )
+
+This will convert the specified [[graphic]] by using the specified color as a reference. The converted graphic will have only the specified color and lighter/darker colors; see [[#Notes|notes]] for the details.
+
+== Parameters ==
+{|
+| '''INT''' fileID || - The [[fileID]] of the [[file]] that holds the graphics.
+|-
+| '''INT''' graphID || - The [[graphID]] of the [[graphic]] to convert.
+|-
+| '''FLOAT''' r || - The red component of the color to be used for reference.
+|-
+| '''FLOAT''' g || - The green component of the color to be used for reference.
+|-
+| '''FLOAT''' b || - The blue component of the color to be used for reference.
+|}
+
+== Returns ==
+'''INT'''
+{|
+| -1 || - Invalid graphic.
+|-
+| 1 || - Success.
+|}
+
+== Notes ==
+The exact formula is:
+<pre>
+for every pixel:
+    c = 0.3 * oldpixel_r + 0.59 * oldpixel_g + 0.11 * oldpixel_b
+    newpixel_r = r * c;
+    newpixel_g = g * c;
+    newpixel_b = b * c;
+</pre>
+where r,g,b are the specified r,g,b.
+
+Note that <code>[[rgbscale]](0,map,1,1,1) = [[grayscale]](0,map,0)</code>, for a valid graphic (0,map).
+
+{{Moduledocbox
+  | module = Mod_effects
+}}

@@ -1,0 +1,38 @@
+[Fenix](Fenix "wikilink") 0.84a.
+
+Note that there is a [newer version](Latest_Fenix_version "wikilink")
+available and it is recommended that one is used.
+
+Download
+--------
+
+-   [Fenix 0.84a Source](Media:Fenix084a-src-release.zip "wikilink")
+-   [Fenix 0.84a Binaries
+    official](Media:Fenix084a-win32-binary.zip "wikilink")
+-   [Fenix 0.84a Binaries (Windows
+    Vista compatible!)](Media:Fenix_0.84a_bin_vista.zip‎ "wikilink")
+
+Bugs
+----
+
+There are multiple bugs known to exist in [Fenix](Fenix "wikilink")
+0.84a:
+
+-   The first [local variable](local_variable "wikilink") to be declared
+    by the user will get corrupt. (fixed in [0.86](0.86 "wikilink"))
+-   Comments before [precompiler](precompiler "wikilink") statements
+    give an error (fixed in [0.93](0.93 "wikilink"))
+-   Precompiler statement [\#else](Precompiler_else "wikilink") doesn't
+    work properly (fixed in [0.93](0.93 "wikilink"))
+-   The first [rand](rand "wikilink")() statement in a program returns
+    the same number every execution of the program if the difference
+    between lower and upper bound is relatively small, for example 20.
+    (fixed in [0.93](0.93 "wikilink"))
+-   When using the [continue](continue "wikilink") statement the count-
+    or stepping statement does not get executed before jumping to the
+    checking of the condition. (fixed in [0.86](0.86 "wikilink"))
+-   Using [switch](switch "wikilink")(My\_string) can cause sudden
+    program exits. (<i>fixed in ...?</i>)
+
+Changelog
+---------

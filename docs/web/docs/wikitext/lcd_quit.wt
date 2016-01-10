@@ -1,0 +1,20 @@
+[[Category:functions]]
+[[Category:lcddll]]
+[[Category:dll]]
+
+[[Functioncategory:Lcddll|'''Up to LCD.DLL Functions''']]
+----
+
+
+==Definition==
+'''INT''' LCD_Quit ( )
+
+Deinitializes [[LCD.DLL]].
+
+== Returns ==
+'''INT''' : [[LCD_ERRORCODES|LCD.DLL Errorcode]]
+{|
+| LCD_ERROR_NONE || - No error.
+|}
+
+{{Lcdfuncbox}}

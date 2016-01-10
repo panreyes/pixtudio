@@ -1,0 +1,97 @@
+Definition
+----------
+
+**INT** fli\_move ( &lt;**INT** fli\_id&gt; , &lt;**INT** x&gt; ,
+&lt;**INT** y&gt; )
+
+Changes the [x](x "wikilink") and [y](y "wikilink") coordinates of the
+fli/flc animation loaded with [Fli\_start](Fli_start "wikilink")(). If
+more properties need to be changed, you can use
+[Fli\_params](Fli_params "wikilink")() instead.
+
+Parameters
+----------
+
+  ----------------- ---------------------------------------------------------------------------------------
+  **INT** fli\_id   - The handle id of the fli/flc file loaded with [Fli\_start](Fli_start "wikilink")().
+  '''INT ''' x      - Change the horizontal position.
+  '''INT ''' y      - Change the vertical position.
+  ----------------- ---------------------------------------------------------------------------------------
+
+Returns
+-------
+
+**INT** : Success
+
+  --- -------------------------------------------------------------
+  0   - Changing the parameters failed, i.e. some error occurred.
+  1   - Changing the parameters was sucessfull.
+  --- -------------------------------------------------------------
+
+Example
+-------
+
+    // import modules
+    IMPORT "mod_say";
+    IMPORT "mod_debug";
+    IMPORT "mod_proc";
+    IMPORT "mod_grproc";
+    IMPORT "mod_map";
+    IMPORT "mod_key";
+    IMPORT "mod_video";
+    IMPORT "mod_screen";
+    IMPORT "mod_flic";
+
+
+    GLOBAL
+
+    int fli_file1;
+
+    PRIVATE
+
+    PROCESS main ();
+
+    PRIVATE
+    int rewind_status;
+    int move_status;
+    int info_status;
+    int fli_angle=0;
+    int param_status=0;
+
+    BEGIN
+
+       set_mode(640,480,16);
+        
+       //           fli_move(int fli_id, int x, int y);
+       param_status=fli_move(fli_file1, 200, 300);
+       
+       say("param_status: "+param_status);
+       
+       WHILE (NOT key(_esc))
+        
+        IF (frame_fli()==0)      
+           // rewind the fli file      
+           rewind_status=reset_fli();      
+        END                     
+      
+       FRAME;
+      END
+        
+      // stop the fli file
+      end_fli();
+      
+    END
+
+Used in example: [Frame\_fli](Frame_fli "wikilink")(),
+[End\_fli](End_fli "wikilink")(), [Reset\_fli](Reset_fli "wikilink")(),
+[say](say "wikilink")(), [key](key "wikilink")()
+
+See also
+--------
+
+The related functions: [Fli\_z](Fli_z "wikilink")(),
+[Fli\_angle](Fli_angle "wikilink")(),
+[Fli\_size](Fli_size "wikilink")(),
+[Fli\_flags](Fli_flags "wikilink")().
+
+<Category:functions> <Category:fli> <Category:mod_flic>

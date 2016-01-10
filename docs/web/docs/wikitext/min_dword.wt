@@ -1,0 +1,13 @@
+[[Category:constants]]
+[[Category:internal]]
+
+== Definition ==
+'''DWORD''' MIN_DWORD = 0
+
+The minimum integer value reachable with a [[dword]] ([[unsigned]] [[integer]]).
+
+See also [[MAX_DWORD]].
+
+{{Moduledocbox
+  | module = internal
+}}

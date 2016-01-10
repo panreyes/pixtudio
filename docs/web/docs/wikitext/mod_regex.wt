@@ -1,0 +1,15 @@
+[[Category:modules]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Regular expressions module.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_regex
+}}
+
+{{modulebox}}

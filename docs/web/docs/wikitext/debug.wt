@@ -1,0 +1,24 @@
+[[Category:reserved]]
+[[Category:language]]
+[[Category:Basic statement]]
+
+== Syntax ==
+'''Debug''' ''';'''
+
+== Description ==
+Debug is a reserved word used to tell [[Bennu]] to go into debug mode, only if the [[DCB]] was compiled with debug information ([[bgdc|compiler]] option <code>-g</code>). If the module [[mod_debug]] was imported as well, the console is immediately invoked and one can begin tracing from the debug statement.
+
+[[Debugging|Here]]'s a handy page about debugging a Bennu program.
+
+== Example ==
+<pre>
+Function int debug_warning(string warning)
+Begin
+    say("Warning: " + warning);
+    debug;
+    return 0;
+End
+</pre>
+Used in example: [[say]](), [[debug]]
+
+{{Keywords}}

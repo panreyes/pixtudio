@@ -1,0 +1,27 @@
+[[Category:functions]]
+[[Category:lcddll]]
+[[Category:dll]]
+
+[[Functioncategory:Lcddll|'''Up to LCD.DLL Functions''']]
+----
+
+
+==Definition==
+'''INT''' LCD_GetHeight ( <'''INT''' device> )
+
+Returns the height in pixels of the LCDscreen of the specified device.
+
+== Parameters ==
+{|
+| '''INT''' device || - Number of the device.
+|}
+
+== Returns ==
+'''INT''' : The height of the LCDscreen in pixels.
+{|
+| LCD_ERROR_INVALIDDEVICE || - -20 || - Invalid device.
+|-
+| >=0 || || - The height of the LCDscreen in pixels.
+|}
+
+{{Lcdfuncbox}}

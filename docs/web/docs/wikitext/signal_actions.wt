@@ -1,0 +1,15 @@
+[[Category:constantcategories]]
+
+== Definition ==
+Signal actions are modes which indicate how a process should react to a signal.
+
+See [[signal_action]]().
+
+== List ==
+{|
+| ''Constant'' || - ''Value'' || - ''Meaning''
+|-
+| S_DFL || - 0 || - Signal is received and will be reacted upon (default).
+|-
+| S_IGN || - 1 || - Signal is ignored.
+|}

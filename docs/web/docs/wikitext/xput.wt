@@ -1,0 +1,46 @@
+[[Category:functions]]
+[[Category:screen]]
+[[Category:mod_screen]]
+
+==Definition==
+'''INT''' xput ( <'''INT''' fileID> , <'''INT''' GraphID> , <'''INT''' x> , <'''INT''' y> , <'''INT''' angle> , <'''INT''' size> , <'''INT''' blitflags> , <'''INT''' region> )
+
+Draws ([[blit]]s) a [[graphic]] onto the [[background]].
+
+If the advanced parameters aren't needed, [[put]]() can be used.
+
+== Parameters ==
+{| 
+| '''INT''' fileID || - The [[fileID]] of the [[file]] that holds the graphics.
+|-
+| '''INT''' graphID || - The [[graphID]] of the [[graphic]] to draw with.
+|-
+| '''INT''' x || - Where on the background graphic's x-axis to put the graphic.
+|-
+| '''INT''' y || - Where on the background graphic's y-axis to put the graphic.
+|-
+| '''INT''' angle || - What [[angle]] to draw the graphic at.
+|-
+| '''INT''' size || - What [[size]] to draw the graphic at.
+|-
+| '''INT''' blitflags || - What [[blit flags]] to draw the graphic with.
+|-
+| '''INT''' regionID || - The [[regionID]] of the [[region]] in which the graphic is only allowed to be drawn.
+|}
+
+== Returns ==
+'''INT''' : [[true]]
+
+== Notes ==
+The x and y parameters denote where to draw the graphic, that is, where the center of the to be drawn graphic will be. Blit flags can be used to give the drawing (blitting) a special effect.
+
+When angle is 0 and size is 100, the speed is greater, because the graph doesn't need rotating or scaling.
+
+== Errors ==
+{|
+| Unsupported color depth || - The graphic's color depth is greater than the background graphic's.
+|}
+
+{{Moduledocbox
+  | module = Mod_screen
+}}

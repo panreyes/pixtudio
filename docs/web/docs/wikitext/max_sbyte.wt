@@ -1,0 +1,13 @@
+[[Category:constants]]
+[[Category:internal]]
+
+== Definition ==
+'''CHAR''' MAX_SBYTE = 127
+
+The maximum integer value reachable with a [[signed]] [[byte]].
+
+See also [[MIN_SBYTE]].
+
+{{Moduledocbox
+  | module = internal
+}}

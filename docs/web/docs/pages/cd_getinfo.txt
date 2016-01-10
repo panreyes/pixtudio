@@ -1,0 +1,29 @@
+Definition
+----------
+
+**INT** cd\_getinfo ( &lt;**INT** cdID&gt; )
+
+Fills the [global](global "wikilink") [structure](structure "wikilink")
+[cdinfo](cdinfo "wikilink") with information about the specified CD/DVD
+drive.
+
+Returns `1` if there is a valid CD in the drive and `0` otherwise.
+
+Parameters
+----------
+
+  -------------- -------------------------------------------------------------
+  **INT** cdID   - The cdID of the CD/DVD drive of which the info is wanted.
+  -------------- -------------------------------------------------------------
+
+Returns
+-------
+
+**INT**
+
+  --- ----------------------------------------------------------------------------------------------------------
+  0   - Invalid CD/DVD or no CD/DVD in drive.
+  1   - Valid CD (structure [cdinfo](cdinfo "wikilink") is filled successfully with information about the CD).
+  --- ----------------------------------------------------------------------------------------------------------
+
+<Category:functions> <Category:CD> <Category:mod_cd>

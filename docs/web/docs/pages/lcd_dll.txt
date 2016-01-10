@@ -1,0 +1,2 @@
+1.  REDIRECT <DLL:LCD.DLL>
+

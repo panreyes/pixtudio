@@ -1,0 +1,7 @@
+== Definition ==
+'''DrawID'''
+
+A DrawID is an identifier associated with a certain [[drawing]]. It is returned by [[Functioncategory:drawing|draw_xxx() functions]]. It can be used in other functions, to alter its state.
+
+== Notes ==
+DrawID "0" means all [[drawing]]s.

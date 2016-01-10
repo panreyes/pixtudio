@@ -1,0 +1,6 @@
+== Description ==
+The background is a [[graphic]], in the [[system file]] ([[fileID]] of ''0'') with a [[graphID]] equal to [[BACKGROUND]].
+
+Examples in use:
+* <code>[[map_clear]](0,[[BACKGROUND]]);</code>, to clear the background to black (same as [[screen_clear]]).
+* <code>[[drawing_map]](0,[[BACKGROUND]]);</code>, to set drawing to the background.

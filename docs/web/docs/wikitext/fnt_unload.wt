@@ -1,0 +1,22 @@
+[[Category:functions]]
+[[Category:Fonts]]
+[[Category:mod_map]]
+
+==Definition==
+'''INT''' fnt_unload ( <'''INT''' fontID> )
+
+Unloads the specified [[font]] from memory.
+
+The previous name [[unload_fnt]]() is deprecated. 
+
+== Parameters ==
+{|
+| '''INT''' fontID|| - The [[fontID]] of the [[file]] to unload. 
+|}
+
+== Returns ==
+'''INT''' : [[false]]
+
+{{Moduledocbox
+  | module = Mod_map
+}}

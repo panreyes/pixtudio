@@ -1,0 +1,2 @@
+1.  REDIRECT [Global variables](Global_variables "wikilink")
+

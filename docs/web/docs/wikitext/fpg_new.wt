@@ -1,0 +1,29 @@
+[[Category:functions]]
+[[Category:fpg]]
+[[Category:mod_map]]
+
+==Definition==
+'''INT''' fpg_new ( )
+
+Creates and initializes a new [[file]].
+
+To add [[graphic]]s to the created file, use the returned [[fileID]] in the function [[fpg_add]](). The file can be saved with [[fpg_save]](). To free a file, use [[fpg_unload]]().
+
+The previous name [[new_fpg]]() is deprecated. 
+
+== Returns ==
+'''INT''' : [[fileID]]
+{|
+| -1 || - Too many files or insufficient memory.
+|-
+| >=0 || - The fileID of the new file.
+|}
+
+== Errors ==
+{|
+| Insufficient memory || - There is insufficient memory available. This error doesn't occur often.
+|}
+
+{{Moduledocbox
+  | module = Mod_map
+}}

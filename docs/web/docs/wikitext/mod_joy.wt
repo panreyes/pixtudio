@@ -1,0 +1,16 @@
+[[Category:modules]]
+[[Category:libjoy]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Joystick module.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_joy
+}}
+
+{{modulebox}}

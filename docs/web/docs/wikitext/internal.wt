@@ -1,0 +1,16 @@
+[[Category:modules]]
+[[Category:internal]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Internal default data.
+
+== Usage ==
+
+{{module_exports
+  | modulename = internal
+}}
+
+{{modulebox}}

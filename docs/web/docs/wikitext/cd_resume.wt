@@ -1,0 +1,25 @@
+[[Category:functions]]
+[[Category:CD]]
+[[Category:mod_cd]]
+
+==Definition==
+'''INT''' cd_resume ( <'''INT''' cdID> )
+
+Resumes playback of the specified CD/DVD drive.
+
+== Parameters ==
+{|
+| '''INT''' cdID || - The cdID of the CD/DVD drive to resume playback on.
+|}
+
+== Returns ==
+'''INT'''
+{|
+| 0 || - Invalid CD/DVD drive.
+|-
+| 1 || - Playback of the CD/DVD drive is resumed.
+|}
+
+{{Moduledocbox
+  | module = Mod_cd
+}}

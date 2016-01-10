@@ -1,0 +1,40 @@
+[[Category:functions]]
+[[Category:crypt]]
+[[Category:mod_crypt]]
+
+==Syntax==
+''' INT''' crypt_encrypt ( <'''INT POINTER''' handle>, <'''CHAR POINTER''' in>, <'''CHAR POINTER''' out>, <'''INT''' blocks>,  )
+
+OR
+
+''' INT''' crypt_encrypt ( <''' INT''' method>, <'''CHAR POINTER''' key>, <'''CHAR POINTER''' in>, <'''CHAR POINTER''' out>, <'''INT''' blocks>,  )
+
+== Description ==
+Encrypt a selected data using a handle or creating a handle with the given method and key.
+
+== Parameters ==
+{| 
+| '''INT''' method || - Method to encrypt. may be CRYPT_DES or CRYPT_3DES
+|- 
+| '''CHAR POINTER''' key || - key used to the encryption.
+|- 
+| '''INT POINTER''' handle || - handle to use to encrypt.
+|- 
+| '''CHAR POINTER''' in || - data to encrypt.
+|- 
+| '''CHAR POINTER''' out || - pointer for where to write encrypted data.
+|- 
+| '''INT''' blocks || - length of the data to encrypt.
+|}
+
+== Returns ==
+'''INT''' :  Successrate
+{|
+| -1 || - Error.
+|-
+| 0 || - Ok.
+|}
+
+{{Moduledocbox
+  | module = Mod_crypt
+}}

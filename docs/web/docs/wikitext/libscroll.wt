@@ -1,0 +1,20 @@
+[[Category:modules]]
+[[Category:internal]]
+[[Category:libgrbase]]
+[[Category:libblit]]
+[[Category:librender]]
+[[Category:libvideo]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Internal library for [[scrolls]].
+
+== Usage ==
+
+{{module_exports
+  | modulename = libscroll
+}}
+
+{{modulebox}}

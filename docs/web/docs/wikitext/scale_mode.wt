@@ -1,0 +1,19 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:global variables]]
+[[category:libvideo]]
+
+[[Global variables|'''Up to Global Variables''']]
+
+----
+
+'''INT''' scale_mode = SCALE_NONE
+
+== Description ==
+'''Scale_mode''' is a [[global variable]], holding the current or to be [[scale_modes|scale mode]]. The mode can be changed by assigning a different mode to the variable and then calling [[set_mode]](). Default is [[SCALE_NONE]].
+
+== See also ==
+* [[sound_mode]]
+* [[graph_mode]]
+
+{{Globals}}

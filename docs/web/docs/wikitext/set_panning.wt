@@ -1,0 +1,30 @@
+[[Category:functions]]
+[[Category:sound]]
+[[Category:mod_sound]]
+
+==Definition==
+'''INT''' set_panning ( <'''INT''' channel> , <'''INT''' left> , <'''INT''' right> )
+
+Sets the stereo panning of a [[sound channel]], i.e. set the volumes of the left and right speakers individually.
+
+== Parameters ==
+{| 
+| '''INT''' channel || - The [[sound channel]] to change the panning of.
+|-
+| '''INT''' left || - The volume of the left speaker (0-255).
+|-
+| '''INT''' right || - The volume of the right speaker (0-255).
+|}
+
+== Returns ==
+'''INT''' : Status.
+{|
+| 0 || - Ok.
+|-
+| -1 || - Error: sound inactive.
+|}
+
+
+{{Funcbox
+  | category=Sound
+}}

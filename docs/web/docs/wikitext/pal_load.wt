@@ -1,0 +1,84 @@
+[[Category:functions]]
+[[Category:palettes]]
+[[Category:mod_map]]
+
+== Syntax ==
+'''INT''' pal_load ( <'''STRING''' filename>, [ <'''POINTER''' id>] )
+
+== Description ==
+Loads a color palette from a file. 
+
+The current [[palette]] is switched to the loaded one. Note that one can load a palette from an 8bit [[FPG]] or [[MAP]] file (the remaining graphic data will not be loaded) or a [[PAL]] file.
+
+The previous name [[load_pal]]() is deprecated. 
+
+== Parameters ==
+{| 
+| '''STRING''' filename || - The filename of the file that you wish to load the [[palette]] from (including extension and possible path).
+|-
+|'''POINTER''' id || - Optional parameter, for loading a palette in the background.
+|}
+
+
+
+== Returns ==
+
+'''INT''' : [[graphID]]
+{|
+| -2 || - Waiting for the file to be loaded, see notes.
+|-
+| -1 || - There was an error loading the file.
+|-
+| >=0 || - The graphID of the newly created palette.
+|}
+
+
+''the following applies for versions prior rc282:''
+
+'''INT''' : Error.
+{|
+| -1 || - Error: could not open file; corrupt or truncated file; file doesn't contain palette information.
+|-
+| 0  || - Error: could not obtain filename; some [[FPL]] error.
+|-
+| 1 || - No error: [[palette]] was loaded with success.
+|}
+
+
+== Example ==
+<pre>
+Program example;
+Begin
+
+    load_pal("example.pal");
+
+    Loop
+        frame;
+    End
+
+End
+</pre>
+
+== Notes ==
+
+The optional parameter '''id''' was introduced in version rc282 and allows you to load resources in the background.
+It used with the [[Offset]] operator. See example below:
+
+<pre>
+      load_pal("archivo_gordo.pal", &idpal);
+      while(idpal==-2)
+            say("Big File Loading ....");
+            frame;
+      end
+      if(idpal==-1)
+          say("Something went wrong!!");
+          exit(); // o return
+      end
+
+      say("Big file loaded ok!!");
+</pre>
+
+
+{{Moduledocbox
+  | module = Mod_map
+}}

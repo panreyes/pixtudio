@@ -1,0 +1,15 @@
+[[Category:modules]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+CD module, adding audio CD playback functionality.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_cd
+}}
+
+{{modulebox}}

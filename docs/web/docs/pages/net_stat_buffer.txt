@@ -1,0 +1,2 @@
+1.  REDIRECT [NET\_Stat\_Buffer](NET_Stat_Buffer "wikilink")
+

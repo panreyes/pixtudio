@@ -1,0 +1,101 @@
+Definition
+----------
+
+**INT** fli\_reset ( &lt; Fli\_ID &gt; )
+
+Rewinds the specified fli/flc animation created by
+[start\_fli](start_fli "wikilink")().
+
+Parameters
+----------
+
+  ----------------- ---------------------------------------------------
+  **INT** Fli\_ID   - Identifier of the animation you want to rewind.
+  ----------------- ---------------------------------------------------
+
+Returns
+-------
+
+**INT** : Success
+
+  --- ---------------------------------
+  1   - The animation has been reset.
+  --- ---------------------------------
+
+Example
+-------
+
+    Import "mod_video";
+    Import "mod_key";
+    Import "mod_flic";
+
+    private
+      int iAnimation1;
+      int iAnimation2;
+    end
+
+    begin
+      set_mode(640,480,32);
+
+      //This simple function creates an animation at the indicated coordinates.   
+      iAnimation1=fli_start("animation.fli",50,80); 
+
+      //This creates the same animation at another coordinates. To show the power of the additional arguments
+      //this animation is twice bigger, inclined 30 degrees and translucent. 
+      iAnimation2=fli_start("animation.fli",350,200,0,30000,200,4);
+
+      while(! key(_esc))
+
+        if(key(_1))
+          //Do nothing until the key is released
+          while(key(_1))frame; end 
+          if(iAnimation1!=null)    //If the animation wasn't terminated...
+            fli_end(iAnimation1);  //...stop only the simple animation...
+            iAnimation1=null;      //...and free the handle
+          else
+            iAnimation1=fli_start("animation.fli",50,80); 
+          end
+        end
+
+        if(key(_2))
+          //Do nothing until the key is released
+          while(key(_2))frame; end 
+          if(iAnimation2!=null)    //If the animation wasn't terminated...
+            fli_end(iAnimation2);  //...stop only the advanced animation...
+            iAnimation2=null;      //...and free the handle
+          else
+            iAnimation2=fli_start("animation.fli",350,200,0,30000,200,4);
+          end
+        end
+
+        //If the simple animation was not terminated AND is over rewind it.
+        if ( (iAnimation1!=null) and (fli_frame(iAnimation1)==0) )  
+          fli_reset(iAnimation1);                   
+        end
+
+        //If the advanced animation was not terminated AND is over rewind it.
+        if ( (iAnimation2!=null) and (fli_frame(iAnimation2)==0) ) 
+          fli_reset(iAnimation2);                   
+        end;                            
+        frame;
+      end
+    end
+
+Used in example: [set\_mode](set_mode "wikilink")(),
+[Fli\_start](Fli_start "wikilink")(),
+[Fli\_frame](Fli_frame "wikilink")(), [Fli\_end](Fli_end "wikilink")(),
+[key](key "wikilink")()
+
+Notes
+-----
+
+To reset an animation created by [Start\_fli](Start_fli "wikilink")()
+use [Reset\_fli](Reset_fli "wikilink")() instead.
+
+See also
+--------
+
+[Fli\_end](Fli_end "wikilink")(), [Fli\_frame](Fli_frame "wikilink")(),
+[Fli\_start](Fli_start "wikilink")().
+
+<Category:functions> <Category:fli> <Category:mod_flic>

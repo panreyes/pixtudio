@@ -1,0 +1,80 @@
+[[Category:modules]]
+[[Category:3rd party]]
+[[Category:libgrbase]]
+[[Category:libfont]]
+[[Category:libfreetype-6]]
+
+[[DLLs|'''Up to DLL's''']]
+----
+
+Truetype font module. Can load TTF files and convert them into [[FNT|Bennu fonts]] in memory.
+
+== Description==
+mod_ttf is a [[module]] for loading [http://en.wikipedia.org/wiki/TrueType True Type fonts] into [[Bennu]].
+
+== Features ==
+* Loading of True Type fonts.
+* [http://en.wikipedia.org/wiki/Anti_aliasing Anti-aliasing] functionality.
+
+== How to use ==
+To be able to use it, you must import the module, like any other:
+<pre>import "mod_ttf"</pre>
+Then you can use the functions to load [[font]]s. After you are done with the loaded fonts, you can unload them using [[fnt_unload]](), just like you would unload regular Bennu fonts.
+
+== Download ==
+Here's a package containing the library and the source:
+* [[Media:mod_ttf.zip|mod_ttf.dll (win32)]]
+
+Requires ''freetype6.DLL'' (included in package).
+
+{{module_exports
+  | modulename = mod_ttf
+}}
+
+== Test program ==
+<pre>
+import "mod_key"
+import "mod_map"
+import "mod_video"
+import "mod_ttf"
+import "mod_text"
+import "mod_screen"
+Global
+  int id_ttfs[4];
+  int id_bg;
+  int depth = 32;
+  string fontfilename="c:/windows/fonts/vladimir.ttf";
+End
+
+Process Main()
+Begin
+    set_mode(320,240,depth);
+    id_bg = new_map(320,240,depth);
+    map_clear(0,id_bg,RGB(0,255,0));
+    put_screen(0,id_bg);
+    id_ttfs[0] = load_ttf(fontfilename,48); 
+    id_ttfs[1] = load_ttfaa(fontfilename,48,depth,RGBA(255,0,0,255),RGBA(255,0,0,0)); 
+    id_ttfs[2] = ttf_loadx(fontfilename,48,depth,RGBA(0,0,255,255),RGBA(0,0,255,0),1); 
+    id_ttfs[3] = ttf_loadx(fontfilename,48,depth,RGBA(0,0,255,255),RGBA(0,0,255,0),100); 
+    id_ttfs[4] = ttf_loadx(fontfilename,48,depth,RGBA(0,0,255,255),RGBA(0,0,255,0),255); 
+    write(id_ttfs[0],25,30,0,"Hello");
+    set_text_color(rgb(255,0,255));
+    write(id_ttfs[0],155,30,0,"World");
+    write(id_ttfs[1],25,130,0,"Bye");
+    write(id_ttfs[2],155,90,0,"World");
+    write(id_ttfs[3],155,130,0,"World");
+    write(id_ttfs[4],155,170,0,"World");
+    Repeat
+        frame;
+    Until(key(_ESC))
+
+    unload_fnt(id_ttfs[4]);
+    unload_fnt(id_ttfs[3]);
+    unload_fnt(id_ttfs[2]);
+    unload_fnt(id_ttfs[1]);
+    unload_fnt(id_ttfs[0]);
+    unload_map(0,id_bg);
+End
+</pre>
+
+{{modulebox}}

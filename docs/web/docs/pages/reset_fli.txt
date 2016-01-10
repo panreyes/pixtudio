@@ -1,0 +1,38 @@
+Definition
+----------
+
+**INT** reset\_fli ( )
+
+Rewinds the fli/flc animation beeing played created by
+[Start\_fli](Start_fli "wikilink")(). Because it is related to the
+[Start\_fli](Start_fli "wikilink")(), there can only be one fli/flc
+animation beeing played at one given time.
+
+Parameters
+----------
+
+This function has no arguments.
+
+Returns
+-------
+
+**INT** : Success
+
+  --- ---------------------------------
+  1   - The animation has been reset.
+  --- ---------------------------------
+
+Notes
+-----
+
+For resetting independent animations created by
+[Fli\_start](Fli_start "wikilink")() see also
+[Fli\_reset](Fli_reset "wikilink")().
+
+See also
+--------
+
+[Start\_fli](Start_fli "wikilink")(),
+[Frame\_fli](Frame_fli "wikilink")(), [End\_fli](End_fli "wikilink")().
+
+<Category:functions> <Category:fli> <Category:mod_flic>

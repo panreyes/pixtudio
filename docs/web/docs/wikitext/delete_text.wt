@@ -1,0 +1,42 @@
+[[Category:functions]]
+[[Category:texts]]
+[[Category:mod_text]]
+
+==Definition==
+'''INT''' delete_text ( <'''INT''' TextID> )
+
+Deletes a certain [[text]] from the screen.
+
+== Parameters ==
+{|
+| '''INT''' TextID || - [[TextID]] of the [[text]] to be deleted.
+|}
+
+== Returns ==
+'''INT''' : [[true]]
+
+== Notes ==
+[[Delete_text]]([[ALL_TEXT]]) deletes all text from the screen.
+
+== Example ==
+<pre>
+Program test;
+Global
+    my_text;
+Begin
+    my_text = write(0,320/2,200/2,4,"Press space to delete this.");
+    Repeat
+        if (key(_space))
+            if(my_text>0)
+                delete_text(my_text);
+                my_text = 0;
+            end
+        end
+        Frame;
+    Until(key(_esc))
+End
+</pre>
+Used in example: [[write]](), [[key]](), [[textID]]
+
+This will result in something like:<br />
+[[Image:delete_text.jpg]]

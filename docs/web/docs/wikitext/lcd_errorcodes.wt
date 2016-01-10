@@ -1,0 +1,63 @@
+[[Category:errorcodes]]
+[[Category:lcddll]]
+[[Category:dll]]
+
+[[Lcddll|'''Up to LCD.DLL''']]
+----
+
+
+Here is a list of all the errorcodes regarding [[LCD_DLL|LCD.DLL]].
+
+Catching errorcodes is very easy: just check if the return value is negative, then it is an error.
+<pre>
+result = LCD_Xxx();
+if(result<0)
+    say("LCD Errorcode: " + result);
+else
+    // success
+end
+</pre>
+
+{| 
+| ''Constant'' || - ''Value'' || - ''Description''
+|-
+| LCD_ERROR_NONE || - 0 || - No error.
+|-
+| LCD_ERROR_RPCSSERVERUNAVAILABLE || - -10 || - The RPC Server is unavailable.
+|-
+| LCD_ERROR_RPCXWRONGPIPEVERSION || - -11 || - RPC X: wrong pipe version
+|-
+| LCD_ERROR_OLDWINVERSION || - -12 || - Old Windows Version (must be 2000 or higher)
+|-
+| LCD_ERROR_NOSYSTEMRESOURCES || - -13 || - No system resources available.
+|-
+| LCD_ERROR_SERVICEINACTIVE || - -14 || - The service is inactive.
+|-
+| LCD_ERROR_NOTINITIALIZED || - -15 || - LCD.DLL is not initialized.
+|-
+| LCD_ERROR_ALREADYINITIALIZED || - -16 || - LCD.DLL was already initialized.
+|-
+| LCD_ERROR_INVALIDCONNECTION || - -17 || - Invalid connection.
+|-
+| LCD_ERROR_TOOMANYCONNECTIONS || - -18 || - Too many connections.
+|-
+| LCD_ERROR_NOACTIVECONNECTIONS || - -19 || - There are no active connections.
+|-
+| LCD_ERROR_INVALIDDEVICE || - -20 || - Invalid device.
+|-
+| LCD_ERROR_DEVICENOTCONNECTED || - -21 || - Device not connected.
+|-
+| LCD_ERROR_INVALIDPARAMETER || - -22 || - Invalid parameter.
+|-
+| LCD_ERROR_FILENOTFOUND || - -23 || - File not found.
+|-
+| LCD_ERROR_ALREADYEXISTS || - -24 || - File or connection already exists.
+|-
+| LCD_ERROR_NOMOREITEMS || - -25 || - No more devices to enumerate.
+|-
+| LCD_ERROR_INVALIDBUTTON || - -26 || - Invalid button.
+|-
+| LCD_ERROR_UNKNOWN || - -27 || - Unknown error.
+|}
+
+{{Lcddocbox}}

@@ -1,0 +1,15 @@
+[[Category:functions]]
+[[Category:palettes]]
+[[Category:mod_map]]
+
+==Definition==
+
+'''INT''' fade_off ( )
+
+Fades the screen from the current setting to black out.
+
+This call is equivalent to <code>[[fade]](0,0,0,16)</code>.
+
+== Returns ==
+
+'''INT''' : [[true]]

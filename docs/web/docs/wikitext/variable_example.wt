@@ -1,0 +1,14 @@
+[[:category:variables]]<!--Remove the :-->
+
+== Definition ==
+'''VariableType''' VariableName
+
+VariableName is for variable variabilities.
+
+== Notes ==
+Don't set it to -1 or your pc will explode. 
+
+== Example ==
+<pre>
+VariableName = 100;
+</pre>

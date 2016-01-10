@@ -1,0 +1,13 @@
+[[Category:constantcategories]]
+
+== Description ==
+When assigned to to the [[global variable]] [[scale_resolution_aspectratio]] allows to choose between stretching a screen resized by [[screen_resolution]] to fill the screen or keeping his aspect ratio. 
+
+== List ==
+{|
+| ''Constant'' || - ''Value'' || ''Description''
+|-
+| SRA_STRETCH || - 0 || Stretches the screen.
+|-
+| SRA_PRESERVE || - 1 || Keeps the aspect ratio.
+|}

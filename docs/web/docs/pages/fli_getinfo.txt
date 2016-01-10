@@ -1,0 +1,136 @@
+Definition
+----------
+
+**INT** fli\_getinfo ( &lt;**INT** fli\_id&gt; , &lt;**POINTER** x&gt; ,
+&lt;**POINTER** y&gt; , &lt;**POINTER** z&gt; , &lt;**POINTER**
+angle&gt; , &lt;**POINTER** size&gt; , &lt;**POINTER** flags &gt;,
+&lt;**POINTER** num\_frames &gt;, &lt;**POINTER** width &gt;,
+&lt;**POINTER** height &gt;)
+
+Obtains the properties of the fli/flc animation loaded with
+[Fli\_start](Fli_start "wikilink")(), such as the [x](x "wikilink"),
+[y](y "wikilink"), [z](z "wikilink"), [angle](angle "wikilink"),
+[size](size "wikilink") and [flags](flags "wikilink"), the number
+frames, the width and the height. The [pointers](pointer "wikilink")
+should accessed with the *adress operator **(&)*** (see the example
+below).
+
+Parameters
+----------
+
+  ------------------------- ---------------------------------------------------------------------------------------
+  **INT** fli\_id           - The handle id of the fli/flc file loaded with [Fli\_start](Fli_start "wikilink")().
+  **POINTER** x             - Information about the horizontal position.
+  **POINTER** y             - Information about the vertical position.
+  **POINTER** z             - Information about the depth plane.
+  **POINTER** angle         - Information about the rotation.
+  **POINTER** size          - Information about the size.
+  **POINTER** flags         - Information about the mirroring.
+  **POINTER** num\_frames   - Information about the number of frames.
+  **POINTER** width         - Information about the width in pixels.
+  **POINTER** height        - Information about the height in pixels.
+  ------------------------- ---------------------------------------------------------------------------------------
+
+Returns
+-------
+
+**INT** : Success
+
+  --- ---------------------------------------------------------------
+  0   - Obtaining the information failed, i.e. some error occurred.
+  1   - Obtaining the information was sucessfull.
+  --- ---------------------------------------------------------------
+
+Example
+-------
+
+    // import modules
+    IMPORT "mod_say";
+    IMPORT "mod_debug";
+    IMPORT "mod_proc";
+    IMPORT "mod_grproc";
+    IMPORT "mod_map";
+    IMPORT "mod_key";
+    IMPORT "mod_video";
+    IMPORT "mod_screen";
+    IMPORT "mod_flic";
+
+
+    GLOBAL
+
+    int fli_file1;
+
+    STRUCT flic_info;
+
+       int x;
+       int y; 
+       int z;
+       int angle; 
+       int size; 
+       int flags; 
+       int frames; 
+       int width;
+       int height;
+    END
+
+
+    PROCESS main ();
+
+    PRIVATE
+    int rewind_status;
+    int move_status;
+    int info_status;
+    int fli_angle=0;
+
+    BEGIN
+
+       set_mode(640,480,16);
+       
+       // int start_fli (string filename, int x, int y);
+       fli_file1=fli_start("video.fli",0,0,0,fli_angle,100,0);
+
+       info_status=fli_getinfo( fli_file1, 
+                               &flic_info.x, 
+                               &flic_info.y, 
+                               &flic_info.z, 
+                               &flic_info.angle, 
+                               &flic_info.size, 
+                               &flic_info.flags, 
+                               &flic_info.frames, 
+                               &flic_info.width, 
+                               &flic_info.height );
+       
+       say("");
+       say("info status: "+info_status);
+       
+       say("flic_info.x: "+flic_info.x);
+       say("flic_info.y: "+flic_info.y);
+       say("flic_info.z: "+flic_info.z);
+       say("flic_info.angle: "+flic_info.angle);
+       say("flic_info.size: "+flic_info.size);
+       say("flic_info.flags: "+flic_info.flags);
+       say("flic_info.frames: "+flic_info.frames);
+       say("flic_info.width: "+flic_info.width);
+       say("flic_info.height: "+flic_info.height);
+       
+       WHILE (NOT key(_esc))
+        
+        IF (frame_fli()==0)      
+           // rewind the fli file      
+           rewind_status=reset_fli();      
+        END                     
+      
+       FRAME;
+      END
+        
+      // stop the fli file
+      end_fli();
+      
+    END
+
+Used in example: [Frame\_fli](Frame_fli "wikilink")(),
+[End\_fli](End_fli "wikilink")(), [Reset\_fli](Reset_fli "wikilink")(),
+[say](say "wikilink")(), [key](key "wikilink")(),
+[Struct](Struct "wikilink")
+
+<Category:functions> <Category:fli> <Category:mod_flic>

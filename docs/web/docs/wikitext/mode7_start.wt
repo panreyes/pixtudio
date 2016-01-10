@@ -1,0 +1,419 @@
+[[Category:functions]]
+[[Category:mode7]]
+[[Category:mod_m7]]
+
+==Definition==
+'''INT''' Start_mode7 ( <'''INT''' m7 number> ,  <'''INT''' fileID> , <'''INT''' graphID> , <'''INT''' externalgraphID> , <'''INT''' regionnumber> , <'''INT''' height of horizon > , [ <'''INT''' destination fileID >, <'''INT''' destination graphID > ] )
+
+
+The mode7 scroll is an advanced, semi-3d graphics mode, similair to, and named after the [http://en.wikipedia.org/wiki/Mode_7 7th graphics mode] of the [http://en.wikipedia.org/wiki/Super_Nintendo_Entertainment_System Snes] gameconsole. This function creates a 3d effect by using a graphic in a folded plane. Just like [[scroll]]s, there can be up to 10 windows. The fields are defined in the [[Mode7|mode7 structure]].
+
+The camera of the mode7 window is placed in the folded plane, and it's position (distance) is related to the process it follows. Thus, the process that has it's [[ProcessID]] associated with the camera. The height and the focus of the camera can also be controlled. This [[ProcessID]] association works exactly like that of [[scroll]]s.
+
+In this version, the mode7 window can be drawn on a map, so you can do all sorts of fancy stuff with it, like move, scale or rotate the window. Basically anything you could do with a map.
+
+Also called [[Start_mode7]](). 
+
+== Parameters ==
+{|
+| '''INT''' m7number || - The ID for the new mode7 window, so it can be referenced to later.
+|-
+| '''INT''' fileID || - The [[fileID]] of the [[file]] containing the graphics used in the [[Mode7]] window.
+|-
+| '''INT''' graphID || - The [[graphID]] of the [[graphic]] of the main graphic that is going to be folded.
+|-
+| '''INT''' externalgraphID || - A folded background, see notes for more detailed information.
+|-
+| '''INT''' regionnumber || - The [[region]] in which to put the [[Mode7]] window .
+|-
+| '''INT''' height of horizon || - Sets the horizon height, see notes for more detailed information.
+|-
+| '''INT''' destination fileID || - The [[fileID]] of the [[file]] containing the destination graphics used in the [[Mode7]] window, i.e. the systemfile.
+|-
+| '''INT''' destination graphID || - The [[graphID]] of the [[graphic]] of the destination graphic where the mode7 window will be drawn on.
+|}
+
+== Returns ==
+'''INT''' : [[true]]
+
+== Notes ==
+
+=== externalgraphID ===
+
+''The background graphic, this is also a folded plane wich is shown in perspective beyond the main graphic. The width and height dimensions must be powers of two, i.e. 64 x 32 pixels. When this value is set to 0, no external graphic is displayed.''
+
+
+===  height of horizon ===
+
+''This parameter indicates the distance between the horizon and the top of the screen (mode7 window). When the camera is placed above or completely below the plane, nothing is displayed above/below the horizon.'' 
+
+
+== Example ==
+
+This example is a slightly modified version of the example with the [[Start_mode7]]() function, but in this case the two mode7 windows are drawn on a map wich is controlled by a process, so that the map can be manipulated.
+
+<pre>
+/* Based on original bennupack sample: 2 Medium\Mode7\Testmodo7 */
+/* Modified by Handsource/DYKO. */
+/* Extended version. */
+
+
+// import modules
+IMPORT "mod_say";
+IMPORT "mod_debug";
+IMPORT "mod_proc";
+IMPORT "mod_grproc";
+IMPORT "mod_map";
+IMPORT "mod_text";
+IMPORT "mod_key";
+IMPORT "mod_video";
+IMPORT "mod_screen";
+IMPORT "mod_draw";
+IMPORT "mod_m7";
+IMPORT "mod_scroll";
+
+
+
+GLOBAL
+
+   int graphics_lib;
+   int color;
+ 
+   int object1_id;
+   int object2_id;
+   
+   int mode7_window1;
+   int mode7_window2;
+   
+   int mode7_blit_graph;
+   
+ 
+PROCESS int main(); 
+
+PRIVATE
+
+BEGIN
+
+    set_mode(640,480,8);
+    set_fps(50,0);
+    
+    // load the fpg file with the graphics
+    graphics_lib=load_fpg("graf2.fpg");
+  
+   
+    // (standard version, 6 parameters)
+    // start_mode7 (int <m7 number>, 
+    //              int <file>, 
+    //              int <graphic>, 
+    //              int <external graphic>, 
+    //              int <region number> ,
+    //              int <height of horizon>);
+    
+    // (alternative, slightly more advances version, 2 extra parameters)
+    // start_mode7 (int <m7 number>, 
+    //              int <file>, 
+    //              int <graphic>, 
+    //              int <external graphic>, 
+    //              int <region number> ,
+    //              int <height of horizon>
+    //              int <destination file>
+    //              int <destination graphic>);
+   
+
+    // create a map to blit the mode7 window on
+    mode7_blit_graph=new_map(640,480,8);
+    
+    // display the "mode7_blit_graph".
+    blit_graph();
+
+   
+    // create 2 mode7 windows, window 0 and 1, we're using the extended version here, so both mode7
+    // windows are drawn on the "mode7_blit_graph".
+    mode7_window1=start_mode7(0,graphics_lib,1,-1,0,64,0,mode7_blit_graph);
+    mode7_window2=start_mode7(1,graphics_lib,2,0,0,64,0,mode7_blit_graph);
+    
+    say("mode7_window1 status: "+mode7_window1);
+    say("mode7_window2 status: "+mode7_window2);
+     
+    
+    m7[0].color=15;     // sets the color of the mode7 border (no. 0) to color #15.
+    
+    m7[0].camera=id;    // assign the camera of the first (no. 0) mode7 plane to the "main" 
+                        // process.
+    
+    m7[0].height=9;     // Lower the height of the camera, this is 32 by default.
+    
+    m7[0].distance=20;  // Place the position of the camera slightly closer to the process it
+                        // follows. This is value is 64 by default.
+                        
+    m7[0].focus=256;    // standard value of the camera focus.
+    
+    m7[1].color=15;      // sets the color of the mode7 border (no. 1) to color #15.
+    
+    m7[1].camera=id;    // assign the camera of the first (no. 1) mode7 plane to the "main" 
+                        // process.
+    
+    m7[1].height=-6;    // When the height of the camera is a negative number, the camera will
+                        // placed underneath the folded surface and displays the ceiling instead
+                        // of the bottom.
+                        
+    m7[1].distance=20;  // Place the position of the camera slightly closer to the process it
+                        // follows. This is value is 64 by default.
+    
+    m7[1].focus=256;    // standard value of the camera focus.
+    
+    m7[1].z=m7[0].z-1;  // set the depth plane of mode7 window [1] above the depth of mode7 window [0].
+    
+    ctype=c_m7;         // set the ctype of the "main" process to the mode7 type.
+   
+    
+    resolution=100;
+    
+    // create the two objct processes.
+    object1_id=object1(graphics_lib); 
+    object2_id=object2(graphics_lib);
+    
+    
+    // write instructions
+    write(0 ,20,30,ALIGN_CENTER_LEFT,"Mode 7 extended (with destination map) test demo, instructions"); 
+    
+    write(0 ,20,50,ALIGN_CENTER_LEFT,"cursor keys: move main object"); 
+    write(0 ,20,60,ALIGN_CENTER_LEFT,"+ and -: change the height of both mode7 windows"); 
+    write(0 ,20,70,ALIGN_CENTER_LEFT,"W and S: advance main object"); 
+    write(0 ,20,80,ALIGN_CENTER_LEFT,"A and D: change angle of main object"); 
+    
+    write(0 ,20,100,ALIGN_CENTER_LEFT,"F1 and F2: decrease/increase camera FOCUS of mode7 window 0");    
+    write(0 ,20,110,ALIGN_CENTER_LEFT,"Z and X: decrease/increase camera DISTANCE of mode7 window 0"); 
+    write(0 ,20,120,ALIGN_CENTER_LEFT,"C and V: decrease/increase camera HEIGHT of mode7 window 1 only"); 
+    
+    write(0 ,20,140,ALIGN_CENTER_LEFT,"O and P: decrease/increase HEIGHT of the secondary object"); 
+    
+    write(0 ,20,160,ALIGN_CENTER_LEFT,"F3 and F4: decrease/increase size of destination map"); 
+    write(0 ,20,170,ALIGN_CENTER_LEFT,"F5 and F6: decrease/increase angle of destination map"); 
+    write(0 ,20,180,ALIGN_CENTER_LEFT,"F7 and F8: decrease/increase x of destination map"); 
+    write(0 ,20,190,ALIGN_CENTER_LEFT,"F9 and F10: decrease/increase y of destination map"); 
+    
+    
+    WHILE (NOT key(_esc))
+        
+        // move main object
+        IF (key(_up)) 
+           x+=100; 
+        END
+        IF (key(_down)) 
+           x-=100; 
+        END
+        IF (key(_left)) 
+           y-=100; 
+        END
+        IF (key(_right)) 
+           y+=100; 
+        END
+        
+        // change the height of both mode7 windows
+        IF (key(_c_minus) AND m7[0].height>9)
+            m7[0].height--;
+            m7[1].height--;         
+            say("m7[0].height: "+m7[0].height);
+            say("m7[0].height: "+m7[1].height);
+        END
+        
+        // change the height of both mode7 windows
+        IF (key(_c_plus))
+            m7[0].height++;
+            m7[1].height++;          
+            say("m7[0].height: "+m7[0].height);
+            say("m7[0].height: "+m7[1].height);
+        END
+        
+        // advance main object
+        IF (key(_w)) 
+           advance(100); 
+        END
+        
+        // advance main object
+        IF (key(_s)) 
+           advance(-100); 
+        END
+        
+        // change angle of main object
+        IF (key(_a)) 
+           angle+=2000; 
+        END
+        
+        // change angle of main object
+        IF (key(_d)) 
+           angle-=2000; 
+        END
+        
+        // decrease camera focus of window 0
+        IF (key(_f1)) 
+           m7[0].focus--; 
+           say("m7[0].focus: "+m7[0].focus);         
+        END
+        
+        // increase camera focus of window 0
+        IF (key(_f2)) 
+           m7[0].focus++; 
+           say("m7[0].focus: "+m7[0].focus);         
+        END
+        
+        // decrease camera distance of window 0
+        IF (key(_z)) 
+           m7[0].distance--; 
+           say("m7[0].distance: "+m7[0].distance);         
+        END
+        
+        // increase camera distance of window 0
+        IF (key(_x)) 
+           m7[0].distance++; 
+           say("m7[0].distance: "+m7[0].distance);      
+        END
+        
+        // decrease camera height of window 1
+        IF (key(_c)) 
+           m7[1].height--; 
+           say("m7[1].height: "+m7[1].height);      
+        END
+        
+        // increase camera height of window 1
+        IF (key(_v)) 
+           m7[1].height++; 
+           say("m7[1].height: "+m7[1].height);      
+        END
+        
+        FRAME;
+    END
+    
+    // stop both mode7 windows.
+    stop_mode7(0);
+    stop_mode7(1);
+    
+    // kill all processes, execpt the "main" process.
+    let_me_alone();
+END
+
+
+
+PROCESS int object1 (int file);
+
+PRIVATE
+
+BEGIN
+   
+   
+    priority=father.priority-1;
+    resolution=100;
+    graph=3;
+    
+    ctype=c_m7;
+    cnumber=c_0; // make this process visible in window 0
+    
+    LOOP
+        // use the positional coordinates from the "main" process, wich is it's
+        // father process.
+        x=father.x;  
+        y=father.y;
+        FRAME;
+    END
+END
+
+
+
+PROCESS int object2 (int file);
+
+PRIVATE
+
+BEGIN
+
+
+    x=100;
+    y=100;
+    graph=3;
+    
+    ctype=c_m7;
+    cnumber=c_0; // make this process visible in window 0
+   
+    LOOP
+       
+        IF (key(_o)) 
+           height--; 
+        END
+        
+        IF (key(_p)) 
+           height++; 
+        END
+       
+        FRAME;
+    END
+END
+
+
+// Process for handling the "destination graph" feature, i.e. the map on wich
+// the mode7 windows are drawn.
+PROCESS int blit_graph();
+
+PRIVATE
+
+BEGIN
+
+   x=320;
+   y=240;
+   
+   ctype=c_screen;
+   
+   file=0;
+   graph=mode7_blit_graph; // set the graph to the map created in memory.
+   
+   LOOP
+   
+      // the controls for the "fancy stuff".
+      IF (key(_f3) AND size >20)
+         size-=10;
+      END
+      
+      IF (key(_f4) AND size <1000)
+         size+=10;
+      END
+      
+      IF (key(_f5) AND angle >0)
+         angle-=100;
+      END
+      
+      IF (key(_f6) AND angle <360000)
+         angle+=100;
+      END
+      
+      IF (key(_f7) AND x >0)
+         x-=10;
+      END
+      
+      IF (key(_f8) AND x <1000)
+         x+=10;
+      END
+      
+      IF (key(_f9) AND y >0)
+         y-=10;
+      END
+      
+      IF (key(_f10) AND y <1000)
+         y+=10;
+      END
+      
+      
+      FRAME;
+   END
+END
+
+</pre>
+
+
+Used in example: [[key]](), [[say]](), [[Stop_mode7]](), [[advance]](), [[Father]], [[angle]]
+
+== Using Mode7 ==
+
+For each [[process]] that you want to be part of a [[mode7 window]], you must set the [[local variable]] [[ctype]] to value [[C_M7]]. It should also be noted that the local variable [[c_number]] is used for selecting in which mode7 windowd a process should be displayed. Additionally, you must set the camera property of the [[Mode7|mode7 structure]] to the [[processID]] of the process you wish to be followed.
+
+== See also ==
+
+The [[http://wiki.bennugd.org/index.php?title=Tutorial:Mode7_demo mode7 tutorial]]

@@ -1,0 +1,21 @@
+[[Category:controlpoints]]
+
+== Definition ==
+
+Native bennu map files have a special propetry, wich is an [[Array]] of controlpoints. A controlpoint has an [[X]] and [[Y]] coordinate, and a number. A map can have up to 1000 controlpoints, ranging from 0 to 999. Controlpoint 0 is always the center of the bitmap by default, but this can be changed with the [[Center_set]]() function.
+
+The controlpoints 1-999 are optional and can be created with the [[Point_set]]() function, and read with the [[Point_get]]() function. It is also possible to change the controlpoints of the maps inside and [[FPG]] archive. Besides changing the controlpoints in a program, they can also be edited with fpg editors like [http://code.google.com/p/smartfpgeditor/ Smart FPG Editor].
+
+
+
+== See also ==
+* [[MAP Format Specification]]
+* [[map_new]]()
+* [[map_load]]()
+* [[map_save]]()
+* [[map_unload]]()
+* [[Center_set]]()
+* [[Point_set]]()
+* [[Point_get]]()
+
+{{Filetypes}}

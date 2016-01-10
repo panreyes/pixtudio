@@ -1,0 +1,90 @@
+[[Category:functions]]
+[[Category:fli]]
+[[Category:mod_flic]]
+
+==Definition==
+'''INT''' fli_move ( <'''INT''' fli_id> , <'''INT''' x> , <'''INT''' y> )
+
+Changes the [[x]] and [[y]] coordinates of the fli/flc animation loaded with [[Fli_start]](). If more properties need to be changed, you can use [[Fli_params]]() instead.
+
+== Parameters ==
+{|
+| '''INT''' fli_id || - The handle id of the fli/flc file loaded with [[Fli_start]]().
+|-
+| '''INT ''' x           || - Change the horizontal position.
+|-
+| '''INT ''' y           || - Change the vertical position.
+|}
+
+== Returns ==
+'''INT''' : Success
+{|
+| 0 || - Changing the parameters failed, i.e. some error occurred.
+|-
+| 1 || - Changing the parameters was sucessfull.
+|}
+
+== Example ==
+<pre>
+// import modules
+IMPORT "mod_say";
+IMPORT "mod_debug";
+IMPORT "mod_proc";
+IMPORT "mod_grproc";
+IMPORT "mod_map";
+IMPORT "mod_key";
+IMPORT "mod_video";
+IMPORT "mod_screen";
+IMPORT "mod_flic";
+
+
+GLOBAL
+
+int fli_file1;
+
+PRIVATE
+
+PROCESS main ();
+
+PRIVATE
+int rewind_status;
+int move_status;
+int info_status;
+int fli_angle=0;
+int param_status=0;
+
+BEGIN
+
+   set_mode(640,480,16);
+    
+   //           fli_move(int fli_id, int x, int y);
+   param_status=fli_move(fli_file1, 200, 300);
+   
+   say("param_status: "+param_status);
+   
+   WHILE (NOT key(_esc))
+    
+    IF (frame_fli()==0)      
+       // rewind the fli file      
+       rewind_status=reset_fli();      
+    END                     
+  
+   FRAME;
+  END
+    
+  // stop the fli file
+  end_fli();
+  
+END
+
+</pre>
+
+Used in example: [[Frame_fli]](), [[End_fli]](), [[Reset_fli]](), [[say]](), [[key]]()
+
+== See also ==
+
+The related functions: [[Fli_z]](), [[Fli_angle]](), [[Fli_size]](), [[Fli_flags]]().
+
+{{Moduledocbox
+  | module = Mod_flic
+}}

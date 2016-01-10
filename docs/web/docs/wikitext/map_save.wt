@@ -1,0 +1,31 @@
+[[Category:functions]]
+[[Category:maps]]
+[[Category:mod_map]]
+
+==Definition==
+'''INT''' map_save ( <'''INT''' fileID> , <'''INT''' graphID> , <'''STRING''' filename> )
+
+Saves the specified [[graphic]] as ''filename'' with the format [[MAP]].
+
+The previous name [[save_map]]() is deprecated. 
+
+== Parameters ==
+{| 
+| '''INT''' fileID || - The [[fileID]] of the [[file]] that holds the graphic.
+|- 
+| '''INT''' graphID || - The [[graphID]] of the graphic to unload.
+|-
+| '''STRING''' filename || - The name of the [[MAP]] file to be saved, including a possible path. 
+|}
+
+== Returns ==
+'''INT''' : Successrate
+{|
+| [[false]] || - An error: Invalid graphic; could not open file.
+|-
+| [[true]] || - Graphic saved.
+|}
+
+{{Moduledocbox
+  | module = Mod_map
+}}

@@ -1,0 +1,2 @@
+1.  REDIRECT [bdf\_load](bdf_load "wikilink")
+

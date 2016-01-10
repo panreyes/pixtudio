@@ -1,0 +1,24 @@
+[[Category:functions]]
+[[Category:drawing]]
+[[Category:mod_draw]]
+
+==Definition==
+'''INT''' drawing_map ( <'''INT''' fileID> , <'''INT''' graphID>  )
+
+Tells [[Bennu]] to draw the coming [[drawing]]s on a certain [[graphic]].
+
+In order to draw with a certain z value again, [[drawing_z]]() can be used.
+
+== Parameters ==
+{|
+| '''INT''' fileID || - The [[fileID]] of the [[file]] that holds the graphic.
+|-
+| '''INT''' graphID || - The [[graphID]] of the [[graphic]] to draw on.
+|}
+
+== Returns ==
+'''INT''' : [[true]]
+
+{{Funcbox
+  | category=Drawing
+}}

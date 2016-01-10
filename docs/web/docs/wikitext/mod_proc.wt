@@ -1,0 +1,15 @@
+[[Category:modules]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Process interaction and manipulation module.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_proc
+}}
+
+{{modulebox}}

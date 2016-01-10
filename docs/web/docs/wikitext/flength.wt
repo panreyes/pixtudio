@@ -1,0 +1,16 @@
+[[Category:functions]]
+[[Category:files]]
+[[Category:mod_file]]
+
+==Definition==
+'''INT''' flength ( <'''INT''' filehandle> )
+
+Gives back the size of a certain file.
+
+== Parameters ==
+{| 
+| '''INT''' filehandle || - The [[FileHandle]] of the file returned by [[fopen]]().
+|}
+
+== Returns ==
+'''INT''': The size of the file in bytes.

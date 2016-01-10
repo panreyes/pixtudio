@@ -1,0 +1,21 @@
+[[Category:General]]
+[[Category:Language]]
+
+== Syntax ==
+'''import''' '''"''' <filename> '''"'''
+
+== Description ==
+Imports a Bennu [[DLL]] with name ''filename'' into the program, which allows the usage of additional functionality in a [[Bennu]] program. For more information, see the [[DLL | article on DLLs]].
+
+== Example ==
+<pre>
+import "mod_say"
+import "my_dll";
+
+Process Main()
+Begin
+End
+</pre>
+Used in example: [[import]]
+
+{{Keywords}}

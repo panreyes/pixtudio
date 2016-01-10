@@ -1,0 +1,54 @@
+[[Category:functions]]
+[[Category:texts]]
+[[Category:mod_text]]
+
+==Definition==
+'''INT''' write_in_map ( <'''INT''' fontID> , <'''STRING''' text> , <'''INT''' alignment> )
+
+Creates a new [[graphic]] in memory with the given text on it (without borders around the text) and puts it in the [[system file]].
+
+== Parameters ==
+{| 
+| '''INT''' fontID || - The [[FontID]] of the font to be used for the text.
+|-
+| '''STRING''' text || - The text to be used.
+|-
+| '''INT''' alignment || - The type of [[Alignment modes|alignment]].
+|}
+
+== Returns ==
+'''INT''' : [[GraphID]]
+{|
+| 0 || - Error. The text could not be obtained or was empty.
+|-
+| !0 || - The [[GraphID]] of the [[graphic]] of the generated [[graphic]] in the [[system file]].
+|}
+== Notes ==
+This function creates a [[graphic]] containing the specified [[font]], with a [[width]] and [[height]] determined by the physical size of the text; the graphic's size will fit the text exactly to the pixel. The graphic will be stored in memory with [[FileID]] 0 (using the [[system file]]), and can be obtained at any time by calling its [[GraphID]]. The graphic can also be unloaded from memory by using [[unload_map]]().
+
+The centre of the graph ([[control point]] 0) is given according to the given [[alignment]]. This gives added functionality of being able to place the graph like texts, yet also using [[flags]], [[alpha]], rotation, [[collision]](), etc.
+
+Processes can adopt the graphic containing the text, or it can be displayed with some [[Functioncategory:Maps|maps functions]], creating a very handy function.
+
+== Errors ==
+{|
+| Invalid font || - The specified font does not exist or is invalid.
+|}
+
+== Example ==
+<pre>
+Program example;
+Begin
+    Set_text_color(rgb(222,195,140));
+    graph=write_in_map(0,"Game programming is awesome!",4);
+    repeat
+        x=mouse.x;
+        y=mouse.y;
+    frame;
+    until(key(_esc))
+End
+</pre>
+Used in example: [[set_text_color]](), [[rgb]](), [[key]](), [[x]], [[y]], [[mouse]]
+
+This will result in something like:<br/>
+[[Image:Write_in_map.png]]

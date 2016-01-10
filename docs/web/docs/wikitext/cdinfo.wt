@@ -1,0 +1,52 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:global variables]]
+[[category:CD]]
+[[Category:mod_cd]]
+
+[[Global variables|'''Up to Global Variables''']]
+
+----
+
+
+== Definition ==
+'''Struct''' cdinfo
+
+cdinfo is a [[global|global variable]] [[struct]], containing information about a CD/DVD drive, last obtained using [[cd_getinfo]]().
+
+== Members ==
+''filling this out later...''
+{|
+| ''Member name'' || - ''Description''
+|-
+| '''INT''' current_track || - 
+|-
+| '''INT''' current_frame || - 
+|-
+| '''INT''' tracks || - 
+|-
+| '''INT''' minute || - 
+|-
+| '''INT''' second || - 
+|-
+| '''INT''' subframe || - 
+|-
+| '''INT''' minutes || - 
+|-
+| '''INT''' seconds || - 
+|-
+| '''INT''' subframes || - 
+|-
+| '''STRUCT''' track[99]
+:{|
+| '''INT''' audio || - 
+|-
+| '''INT''' minutes || - 
+|-
+| '''INT''' seconds || - 
+|-
+| '''INT''' subframes || - 
+|}
+|}
+
+{{Globals}}

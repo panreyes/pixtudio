@@ -1,0 +1,32 @@
+[[Category:functions]]
+[[Category:lcddll]]
+[[Category:dll]]
+
+[[Functioncategory:Lcddll|'''Up to LCD.DLL Functions''']]
+----
+
+
+==Definition==
+'''INT''' LCD_About ( )
+
+Tells the user about [[LCD_DLL|LCD.DLL]], using the [[Fenix console]].
+
+== Returns ==
+'''INT''' : The current LCD.DLL version (integer).
+
+== Example ==
+<pre>
+Program example;
+    include "LCD.fh";
+Begin
+
+    LCD_About();
+   
+    Loop
+        frame;
+    End
+
+End
+</pre>
+
+{{Lcdfuncbox}}

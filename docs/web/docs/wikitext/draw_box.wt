@@ -1,0 +1,33 @@
+[[Category:functions]]
+[[Category:drawing]]
+[[Category:mod_draw]]
+
+==Definition==
+'''INT''' draw_box ( <'''INT''' x0> , <'''INT''' y0> , <'''INT''' x1> , <'''INT''' y1> )
+
+Draws a filled rectangle with corners ''(x0,y0)'', ''(x0,y1)'', ''(x1,y0)'' and ''(x1,y1)''.
+
+== Parameters ==
+{|
+| '''INT''' x0 || - The x coordinate of one corner of the filled rectangle.
+|- 
+| '''INT''' y0 || - The y coordinate of one corner of the filled rectangle.
+|- 
+| '''INT''' x1 || - The x coordinate of the diagonally opposite corner of the filled rectangle.
+|- 
+| '''INT''' y1 || - The y coordinate of the diagonally opposite corner of the filled rectangle.
+|}
+
+== Returns ==
+'''INT''' : [[DrawID]]
+{|
+| -1 || - Error.
+|-
+| 1 || - If drawn after [[drawing_map]]().
+|-
+| !-1&&!1 || - The [[DrawID]] of the [[drawing]] created.
+|}
+
+{{Funcbox
+  | category=Drawing
+}}

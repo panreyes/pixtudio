@@ -1,0 +1,71 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:global variables]]
+[[category:libgrbase]]
+[[category:librender]]
+[[category:libvideo]]
+
+[[Global variables|'''Up to Global Variables''']]
+
+----
+
+
+== Definition ==
+'''STRUCT''' M7[9]
+
+M7 is a [[global variable]] [[struct]] [[array]], containing information about the current state of the ten available mode7 windows (0..9). It is used to influence the settings of a mode7 window, initiated by [[Start_mode7]](). 
+
+== Members of one Struct ==
+{|
+|
+| ''Member name'' || - ''Description''
+|
+|-
+|
+| '''INT''' camera || - The [[processID]] of the process to be followed (default: 0).
+|
+|-
+|
+| '''INT''' height || - The height of the camera. This variable sets the height of the camera in relation to the bottom. A positive number will put the camera position higher, when a negative number is used, then the camera is placed beneath the folded surface, and shows the ceiling instead of the ground. (defualt: 32).
+|
+|-
+|
+| '''INT''' distance || - Distance of the camera related to the [[process]] it follows. It's position is placed a little bit behind the [[processID]] wich is associated with the camera field of the mode7 structure. (default: 64).
+|
+|-
+|
+| '''INT''' horizon || - Height of the horizon. This is the same value as indicated in the corresponding argument of the [[Start_mode7]] function. It's initial value will be equal to the function's parameter when the function is initiated. With this field it is possible to look "up" or "down".
+|
+|-
+|
+| '''INT''' focus || - Adjusts the camera lens, this value controls the camera's perspective. The value can range between 0 and 512. With this you can warp the surface. The higher the value is, the closer the processes are placed on the plane (default: 256).
+|
+|-
+|
+| '''INT''' z || - The [[Z]]-coordinate of the scroll window (default: 256).
+|
+|-
+|
+| '''INT''' color || - This field controls the color of the mode7 border. When the external graphic is not specified in the [[Start_mode7]]() function, this variable will control the color in wich you would like to use for the border.  (default: 0).
+|
+|-
+|
+| '''INT''' flags || - [[Bit flags]].
+|}
+
+
+== Notes ==
+
+The name "mode7" is a historical name, as it was the 7th graphics mode of the [http://en.wikipedia.org/wiki/Super_Nintendo_Entertainment_System Snes] gameconsole.
+
+== See also ==
+
+The [http://en.wikipedia.org/wiki/Mode_7 7th mode7 wikipedia page].
+
+The predefined local variable [[Xgraph]], wich is allows sprites to be viewed under an angle in a mode7 window. 
+
+== Example ==
+
+See the [[http://wiki.bennugd.org/index.php?title=Tutorial:Mode7_demo mode7 tutorial]]
+
+{{Globals}}

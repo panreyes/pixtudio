@@ -1,0 +1,96 @@
+[[Category:functions]]
+[[Category:maps]]
+[[Category:mod_map]]
+
+==Definition==
+'''INT''' map_info_set ( <'''INT''' fileID> , <'''INT''' graphID> , <'''INT''' info_type> , <'''INT''' value> )
+
+Changes the x or y coordinate of the center pixel (controlpoint 0). This function is also known as [[Graphic_set]](). 
+
+== Parameters ==
+{| 
+| '''INT''' fileID || - The [[file]] that holds the graph.
+|-
+| '''INT''' graphID || - The [[graph]] to get information from.
+|-
+| '''INT''' info_type || - What [[Graphical_infotypes|type of information]] you want to change, see note.
+|-
+| '''INT''' value || - The new x or y coordinate of the center pixel.
+|}
+
+== Returns ==
+'''INT''' : Returns the information you want.<br />
+If the specified graph was invalid it returns 0.<br />
+If the specified infotype was not recognized it returns 1.
+
+== Example ==
+
+<pre>
+IMPORT "mod_say";
+IMPORT "mod_debug";
+IMPORT "mod_key";
+IMPORT "mod_map";
+IMPORT "mod_video";
+IMPORT "mod_wm";
+IMPORT "mod_draw";
+IMPORT "mod_screen";
+
+
+GLOBAL
+
+   int map_id;
+   
+   int status;
+
+
+PROCESS main();
+
+BEGIN
+
+   set_mode(320,200,32);
+
+   map_id=load_map("3COCHE.MAP");
+   
+   // print the original data.
+   say("width of the map: "+graphic_info(0,map_id,G_WIDTH));
+   say("height of the map: "+graphic_info(0,map_id,G_HEIGHT));
+   say("g_x_center of the map: "+graphic_info(0,map_id,G_X_CENTER));
+   say("g_y_center of the map: "+graphic_info(0,map_id,G_Y_CENTER));
+   
+   // change the x and y coordinates of the center pixel and display it.
+   status=map_info_set(0,map_id,G_X_CENTER,20);
+   status=map_info_set(0,map_id,G_Y_CENTER,10);
+   say("center pixel changed:");
+   say("g_x_center of the map: "+graphic_info(0,map_id,G_X_CENTER));
+   say("g_y_center of the map: "+graphic_info(0,map_id,G_Y_CENTER));
+   
+   say("status: "+status);
+   
+   graph=map_id;
+   x=100; 
+   y=100;
+   
+   LOOP
+      IF (key(_esc))
+         BREAK;
+      END
+      FRAME;
+   END
+END
+</pre>
+
+
+== Notes ==
+
+As infotype, only two options are valid:
+
+{| 
+| '''G_X_CENTER'''  || - Change the x coordinate of the center pixel.
+|-
+| '''G_Y_CENTER'''  || - Change the y coordinate of the center pixel.
+|}
+
+
+{{Funcbox
+  | category = Maps
+}}

@@ -1,0 +1,40 @@
+[[Category:functions]]
+[[Category:programinteraction]]
+[[Category:mod_wm]]
+
+==Definition==
+'''INT''' minimize ( )
+
+Iconifies/minimizes the window.
+
+== Returns ==
+'''INT''' : success
+{|
+| 0 || - If minimizing/iconification is not support or was refused by the window manager.
+|-
+| !0 || - Success.
+|}
+
+== Example ==
+<pre>
+import "mod_key"
+import "mod_wm"
+
+Process Main()
+Begin
+
+    Repeat
+    	if(key(_M))
+    		while(key(_M)) frame; end
+    		minimize();
+    	end
+        frame;
+    Until(key(_ESC)||exit_status)
+
+End
+</pre>
+Used in example: [[key]](), [[minimize]](), [[exit_status]]
+
+{{Moduledocbox
+  | module = Mod_wm
+}}

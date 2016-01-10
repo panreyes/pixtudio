@@ -1,0 +1,11 @@
+[[category:general]]
+
+Control flow statements are statements which influence the control flow (the order in which statements are executed) of the program.
+
+* [[If|If, ElseIf, Else, End]]
+* [[While|While, End]]
+* [[Repeat|Repeat, Until]]
+* [[For|For, End]]
+* [[From|From, To, Step, End]]
+* [[Loop|Loop, End]]
+* [[Switch|Switch, Case, Default, End]]

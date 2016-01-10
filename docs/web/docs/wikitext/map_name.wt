@@ -1,0 +1,22 @@
+[[Category:functions]]
+[[Category:maps]]
+[[Category:mod_map]]
+
+==Definition==
+'''STRING''' map_name ( <'''INT''' fileID> , <'''INT''' graphID> )
+
+Retrieves the name of an in-game [[graphic]].
+
+== Parameters ==
+{| 
+| '''INT''' fileID || - The [[fileID]] of the [[file]] that holds the graphic.
+|- 
+| '''INT''' graphID || - The [[graphID]] of the graphic.
+|}
+
+== Returns ==
+'''STRING''' : Name of the graphic
+
+{{Funcbox
+  | category = Mod_map
+}}

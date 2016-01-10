@@ -1,0 +1,2 @@
+1.  REDIRECT [NET\_Hostname](NET_Hostname "wikilink")
+

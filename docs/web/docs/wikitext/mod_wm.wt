@@ -1,0 +1,18 @@
+[[Category:modules]]
+[[Category:libsdlhandler]]
+[[Category:libvideo]]
+[[Category:libwm]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Window Manager module.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_wm
+}}
+
+{{modulebox}}

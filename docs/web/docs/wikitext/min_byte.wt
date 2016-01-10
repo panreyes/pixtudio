@@ -1,0 +1,13 @@
+[[Category:constants]]
+[[Category:internal]]
+
+== Definition ==
+'''CHAR''' MIN_BYTE = 0
+
+The minimum integer value reachable with a [[byte]] ([[unsigned]] [[char]]).
+
+See also [[MAX_BYTE]].
+
+{{Moduledocbox
+  | module = internal
+}}

@@ -1,0 +1,13 @@
+[[Category:constants]]
+[[Category:internal]]
+
+== Definition ==
+'''SHORT''' MAX_SHORT = 32767
+
+The maximum integer value reachable with a [[short]] ([[signed]] [[word]]).
+
+See also [[MIN_SHORT]].
+
+{{Moduledocbox
+  | module = internal
+}}

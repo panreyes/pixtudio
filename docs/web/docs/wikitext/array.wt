@@ -1,0 +1,46 @@
+[[Category:language]]
+[[Category:datatypes]]
+
+== Definition ==
+<datatype> <array name>'''['''<upperlimit>''']''' [= <values>]
+
+'''Array'''s are [[datatypes]], consisting of a ''range'' of variables of the ''same type''. The range is <code>0..upperlimit</code>, meaning there are <code>upperlimit+1</code> elements in the array.
+
+The initializing values start at the first (''0th'') element and go up from there (see [[#Multiple types|example]]).
+
+== Example ==
+
+=== Mutliple ints ===
+<pre>
+int lottery[9]; // an array of 10 ints
+</pre>
+Use them like:
+<pre>
+lottery[0] = 1;
+lottery[5] = 35;
+lottery[1] = lottery[5];
+</pre>
+
+=== Multiple types ===
+Consider, using [[Type]]:
+<pre>
+Type _point;
+    float x;
+    float y;
+End
+</pre>
+<pre>
+_point point[2] = 1,2,// an array of 3 points at positions (1,2), (3,4) and (5,6)
+                  3,4,
+                  5,6;
+</pre>
+Use them like:
+<pre>
+point[0].x = 0;
+point[1].y = 54.2;
+point[2].x = point[0].x;
+point[1].x = point[2].y = 23.2;
+</pre>
+
+=== Multiple structs ===
+See [[Struct#Multiple identical data groups|Struct example]].

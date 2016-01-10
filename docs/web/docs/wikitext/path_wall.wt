@@ -1,0 +1,25 @@
+[[Category:functions]]
+[[Category:Pathfind]]
+[[Category:mod_path]]
+
+== Syntax ==
+'''INT ''' path_wall ( <'''INT''' wall_color> )
+
+== Description ==
+
+This function changes the wall color. Normally, [[Path_find]]() only uses two colors, i.e. black and white. By using this function before making a call to Path_find, Path_find will use the color indiated by this function instead. The color may '''not''' be a '''zero''', bcause that is usually black. ''For more information, see the [[http://bennugd.svn.sourceforge.net/viewvc/bennugd/modules/mod_path/mod_path.c?revision=277&view=markup bennu mod_path.c sourcecode]].
+''
+
+== Parameters ==
+{|
+| '''INT''' Color || - The palette color.
+|}
+
+== Returns ==
+'''INT''' : - The color value.
+
+
+
+{{Moduledocbox
+  | module = Mod_path
+}}

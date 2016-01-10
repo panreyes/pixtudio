@@ -1,0 +1,3 @@
+1.  REDIRECT [Alignment modes](Alignment_modes "wikilink")
+
+<Category:constants> <Category:mod_text>

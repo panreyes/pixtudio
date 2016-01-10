@@ -1,0 +1,19 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:global variables]]
+[[category:internal]]
+
+[[Global variables|'''Up to Global Variables''']]
+[[internal|'''Up to Internal''']]
+
+----
+
+
+== Definition ==
+'''INT''' argc
+
+'''Argc''' is a [[global variable]], holding the number of arguments passed when calling [[BGDI]], including the bytecode file. The arguments can be found in the global variable [[argv]].
+
+{{Moduledocbox
+  | module = internal
+}}

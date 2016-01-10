@@ -1,0 +1,15 @@
+[[Category:modules]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Foreign Function Interface library, offering a way of interfacing with functions from another language, for example [[DLL]]s.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_ffi
+}}
+
+{{modulebox}}

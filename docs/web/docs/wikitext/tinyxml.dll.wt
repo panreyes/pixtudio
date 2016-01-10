@@ -1,0 +1,21 @@
+[[Category:modules]]
+[[Category:3rd party]]
+[[Category:TinyXML]]
+
+[[Modules|'''Up to Modules''']]
+----
+
+
+== Description ==
+Description for TinyXML module. Work in progress
+
+== How to use ==
+
+
+
+{{Module_exports
+  | modulename = tinyxml
+}}
+
+
+{{modulebox}}

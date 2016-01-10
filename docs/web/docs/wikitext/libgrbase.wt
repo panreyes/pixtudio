@@ -1,0 +1,16 @@
+[[Category:modules]]
+[[Category:internal]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Internal library for certain graphical functionality.
+
+== Usage ==
+
+{{module_exports
+  | modulename = libgrbase
+}}
+
+{{modulebox}}

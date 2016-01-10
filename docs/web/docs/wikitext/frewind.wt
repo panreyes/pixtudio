@@ -1,0 +1,26 @@
+[[Category:functions]]
+[[Category:files]]
+[[Category:mod_file]]
+
+==Definition==
+'''UNDEFINED''' frewind ( <'''INT''' filehandle> )
+
+Sets the byte offset (reading position) to the begin of a certain file. This is similair to using: <pre>fseek(file_id,0,SEEK_SET);</pre>
+
+
+== Parameters ==
+{| 
+| '''INT''' filehandle || - The [[FileHandle]] of the file returned by [[fopen]]().
+|}
+
+== Returns ==
+'''INT'''
+
+{|
+| 1 ||- The begin position of the file.
+|}
+
+
+== See also ==
+
+[[fseek]]()

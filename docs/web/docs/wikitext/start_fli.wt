@@ -1,0 +1,91 @@
+[[Category:functions]]
+[[Category:fli]]
+[[Category:mod_flic]]
+
+==Definition==
+'''INT''' start_fli ( <'''STRING''' filename> , <'''INT''' x> , <'''INT''' y> )
+
+Loads and plays an [http://en.wikipedia.org/wiki/FLIC_%28file_format%29 autodesk animator] flic animation. This is a simple, but antique animation format, that only supports 256 colors. It doesn't support sound. It's a memory efficient format, with some form of compression. 
+
+The animation clip can be positioned on the screen, with the x and y coordinates. Normally, these values should be 0 if the animation should be centered on the screen.
+
+There is also an slightly more adavanced version of this function, called [[Fli_start]]().
+
+== Parameters ==
+{|
+| '''STRING''' filename || - The name of the fli/flc file to load and play.
+|-
+| '''INT''' x           || - The horizontal position.
+|-
+| '''INT''' y           || - The vertical position.
+|}
+
+== Returns ==
+'''INT''' : Success
+{|
+| 0 || - Loading the fli/flc file failed, i.e. filename incorrect or corrupt/unsupported file version.
+|-
+| >0 || - Loading was sucessfull.
+|}
+
+== Notes ==
+
+There can only be one fli/flc animation beeing played at one given time, so it is not possible to play two or more animations at the same time. 
+
+
+== Example ==
+<pre>
+/ import modules
+IMPORT "mod_say";
+IMPORT "mod_debug";
+IMPORT "mod_proc";
+IMPORT "mod_grproc";
+IMPORT "mod_map";
+IMPORT "mod_key";
+IMPORT "mod_video";
+IMPORT "mod_screen";
+IMPORT "mod_flic";
+
+
+GLOBAL
+
+int fli_file1;
+
+
+PRIVATE
+
+
+PROCESS main ();
+
+PRIVATE
+
+BEGIN
+
+   set_mode(640,480,16);
+   
+   fli_file1=start_fli("video.fli",0,0);
+   
+   say(fli_file1); // print status result, should be non-zero if sucessfull.
+   
+   WHILE (NOT key(_esc))
+    
+    IF (frame_fli()==0) 
+       
+       // rewind the fli file
+       reset_fli(); 
+    END                     
+  
+   FRAME;
+  END
+  
+  // stop the fli file
+  end_fli();
+  
+END
+</pre>
+
+Used in example: [[Frame_fli]](), [[End_fli]](), [[Reset_fli]](), [[say]](), [[key]]()
+
+{{Moduledocbox
+  | module = Mod_flic
+}}

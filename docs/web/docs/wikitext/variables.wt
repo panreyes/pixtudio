@@ -1,0 +1,25 @@
+[[Index|'''Up to Index''']]
+
+[[variablecategories|'''Variable Categories''']]
+
+----
+
+List of all predefined variables.
+----
+Global variables
+<DPL>
+category=global variables
+mode=userformat
+listseparators = ,\n* [[%PAGE%|%TITLE%]],,
+redirects = include
+replaceintitle = /\\? /,&#95;
+</DPL>
+
+Local variables
+<DPL>
+category=local variables
+mode=userformat
+listseparators = ,\n* [[%PAGE%|%TITLE%]],,
+redirects = include
+replaceintitle = /\\? /,&#95;
+</DPL>

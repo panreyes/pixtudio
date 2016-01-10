@@ -1,0 +1,18 @@
+[[Category:modules]]
+[[Category:libgrbase]]
+[[Category:libvideo]]
+[[Category:librender]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Video module.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_video
+}}
+
+{{modulebox}}

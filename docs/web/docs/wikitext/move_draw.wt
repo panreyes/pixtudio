@@ -1,0 +1,24 @@
+[[Category:functions]]
+[[Category:drawing]]
+[[Category:mod_draw]]
+
+==Definition==
+'''INT''' move_draw ( <'''INT''' DrawID> , <'''INT''' x> , <'''INT''' y> )
+
+Moves a certain [[drawing]] on the screen. Only drawings drawn with a certain z value can be moved like this, as other ones are drawn on a [[graphic]] and thus cannot be moved.
+
+== Parameters ==
+{|
+| '''INT''' DrawID || - [[DrawID]] of the [[drawing]] to be moved.
+|- 
+| '''INT''' x || - The new x coordinate of the drawing.
+|- 
+| '''INT''' y || - The new y coordinate of the drawing.
+|}
+
+== Returns ==
+'''INT''' : [[true]]
+
+{{Funcbox
+  | category=Drawing
+}}

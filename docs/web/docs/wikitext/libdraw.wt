@@ -1,0 +1,16 @@
+[[Category:modules]]
+[[Category:internal]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Internal library for drawing.
+
+== Usage ==
+
+{{module_exports
+  | modulename = libdraw
+}}
+
+{{modulebox}}

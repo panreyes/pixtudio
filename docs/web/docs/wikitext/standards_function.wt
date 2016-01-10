@@ -1,0 +1,108 @@
+[[Category:Standards]]
+
+[[Standards|'''Up to Standards''']]
+----
+
+
+Click [[Template:function|here]] to get the template for this standard.<br>
+Click [[Function_example|here]] to get an example of this standard.
+
+<pre>
+NOTE:
+In the WikiCode, before a new section there is one empty line and after
+there is one or none. Categories can either be at the top or the bottom
+in the WikiCode, but preferred is top as most of the pages have that.
+Add a function to the category "functions" and to any other it applies
+(like "networkdll"); if it is a native function, add it do the
+category "native":
+[[Category:functions]]
+
+When internally linking to a function, do it like so, using the "()":
+[[functionname]]()
+</pre>
+
+==Definition==
+'''INT''' example_function ( <'''INT''' example_int> , <'''WORD''' example_word> , [<'''STRING''' example_string>] )
+
+Does something.
+
+Here goes a more detailed story about the function.
+
+<pre>
+NOTE:
+"Does something" is a small summary of the function, in one sentence.
+Then a white line and then a more indepth story about the function.
+The "[]" indicate an optional parameter. Format WikiCode function definition:
+
+'''DATATYPE''' example_function ( [<'''PARAMETERTYPE''' parametername>] )
+
+Notice the spaces around the '(', ',' and ')'. The functionname is in all
+lower case, unless otherwise stated by the creator of the function.
+Datatypes are always all uppercase. Parameters can differ a little, but
+are mostly only lowercase.
+</pre>
+
+== Parameters ==
+{| 
+| '''INT''' example_int || - Something about this int.
+|- 
+| '''WORD''' example_word || - Something about this word.
+|- 
+| ['''STRING''' example_string] || - Something about this optional string.
+|}
+
+<pre>
+NOTE:
+Use a list, it will result in a much better look. The "-" could be left out,
+but actually looks nice.
+</pre>
+
+== Returns ==
+'''INT''' : Some int.
+{|
+| 0 || - Error.
+|-
+| !0 || - Success.
+|}
+
+<pre>
+NOTE:
+If it returns a code, like an errorcode, you can make a list:
+{|
+| some errorcode || - blabla
+|-
+| another || - yadayada
+|}
+</pre>
+
+== Errors ==
+List all [[error]]s which could be thrown by use of this function. If you
+don't know how or the function doesn't throw errors, just leave this section
+out. If you're certain it errors something, leave a notice that it errors
+something, but you don't know what.
+
+== Notes ==
+Here are some notes, which explains some parts in more depth. Mostly not
+needed, in which case it can be left out.
+
+== Example ==
+<pre>
+Program example;
+Begin
+    Loop
+        frame;
+    End
+End
+</pre>
+
+<pre>
+NOTE:
+Please keep "tabs" at 4 spaces. Try to make the code look tidy and readable.
+Under the code, outside the pre-tags, list the functions used and possible
+other useful pages, like the page about pointers if the example relies on the
+knowledge of pointers. First list the functions, then general pages and last
+language pages. The last two aren't commonly useful, meaning that a link to
+[[Begin]] for example is rarely needed. Consider this example:
+
+Used in example: [[new_map]](), [[map_clear]](), [[pointer]]
+</pre>

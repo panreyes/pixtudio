@@ -1,0 +1,37 @@
+[[:Category:functions]]<!--Remove the :-->
+
+==Definition==
+'''INT''' example_function ( <'''INT''' example_int> , <'''WORD''' example_word> , [<'''STRING''' example_string>] )
+
+Does something.
+
+Here goes a more detailed story about the function.
+
+== Parameters ==
+{| 
+| '''INT''' example_int || - Something about this int.
+|- 
+| '''WORD''' example_word || - Something about this word.
+|- 
+| ['''STRING''' example_string] || - Something about this optional string.
+|}
+
+== Returns ==
+'''INT''' : Some int.
+
+== Errors ==
+List all [[error]]s which could be thrown by use of this function.
+
+== Notes ==
+Here are some notes, which explains some parts in more depth.
+
+== Example ==
+<pre>
+Program example;
+Begin
+    Repeat
+        frame;
+    Until(key(_ESC))
+End
+</pre>
+Used in example:

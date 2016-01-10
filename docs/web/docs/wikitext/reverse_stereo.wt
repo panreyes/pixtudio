@@ -1,0 +1,29 @@
+[[Category:functions]]
+[[Category:sound]]
+[[Category:mod_sound]]
+
+==Definition==
+'''INT''' reverse_stero ( <'''INT''' channel> , <'''INT''' flip>)
+
+This function swaps the stereo of the indicated [[sound channel]].
+
+== Parameters ==
+{| 
+| '''INT''' channels|| - The channel of wich it's stereo is to be reversed.
+|-
+| '''INT''' flip || - The flip, (0 = normal , 1 = reverse).
+|}
+
+== Returns ==
+'''INT''' : Status.
+{|
+| 0 || - Ok.
+|-
+| -1 || - There is an error.
+|}
+
+
+
+{{Funcbox
+  | category=Sound
+}}

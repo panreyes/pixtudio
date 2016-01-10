@@ -1,0 +1,29 @@
+Definition
+----------
+
+**INT** Mode7\_stop ( &lt;**INT** mode7number &gt; )
+
+Stops the selected mode7 display. There can be 10 (0-9) mode7 windows
+active at once. This is similair to [Scrolls](Scroll "wikilink").
+
+Also called [stop\_mode7](stop_mode7 "wikilink")().
+
+Parameters
+----------
+
+  --------------------- --------------------------------------------------------
+  **INT** mode7number   - The ID of the [Mode7](Mode7 "wikilink") window (0-9)
+  --------------------- --------------------------------------------------------
+
+Returns
+-------
+
+**INT** : [true](true "wikilink")
+
+See also
+--------
+
+[Start\_mode7](Start_mode7 "wikilink")(),
+[Mode7\_start](Mode7_start "wikilink")()
+
+<Category:functions> <Category:mode7> <Category:mod_m7>

@@ -1,0 +1,18 @@
+[[Category:functions]]
+[[Category:files]]
+[[Category:mod_file]]
+
+==Definition==
+'''INT''' ftell ( <'''INT''' filehandle> )
+
+Returns the current reading position of a certain file.
+
+The reading position can be altered by [[fseek]]().
+
+== Parameters ==
+{| 
+| '''INT''' filehandle || - The [[FileHandle]] of the file returned by [[fopen]]().
+|}
+
+== Returns ==
+'''INT''': The current reading position of the specified file.

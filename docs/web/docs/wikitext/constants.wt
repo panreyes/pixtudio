@@ -1,0 +1,16 @@
+[[Index|'''Up to Index''']]
+
+[[constantcategories|'''Constant Categories''']]
+
+----
+
+List of all constants.
+----
+<DPL>
+category=constants
+mode=userformat
+columns = 4
+listseparators = ,\n* [[%PAGE%|%TITLE%]],,
+redirects = include
+replaceintitle = /\\? /,&#95;
+</DPL>

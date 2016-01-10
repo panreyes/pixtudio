@@ -1,0 +1,34 @@
+[[Category:functions]]
+[[Category:maps]]
+[[Category:mod_map]]
+
+==Definition==
+'''INT''' map_clone ( <'''INT''' fileID> , <'''INT''' graphID> )
+
+Clones a certain [[graphic]] and puts it in the [[system file]].
+
+== Parameters ==
+{|
+| '''INT''' fileID || - The [[fileID]] of the [[file]] holding the graphic.
+|-
+| '''INT''' graphID || - The [[graphID]] of the graphic to be cloned.
+|}
+
+== Returns ==
+'''INT''' : [[GraphID]]
+{|
+| 0 || - Invalid graphic specified; 
+|-
+| >0 || - The graphID of the clone graphic.
+|}
+
+== Errors ==
+{|
+| Unsupported color depth || - The specified graph has a not supported color depth. ''(Console)''
+|-
+| Insufficient memory || - There is insufficient memory available. This error doesn't occur often. ''(Console)''
+|}
+
+{{Funcbox
+  | category = Maps
+}}

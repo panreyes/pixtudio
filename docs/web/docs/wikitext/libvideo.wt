@@ -1,0 +1,17 @@
+[[Category:modules]]
+[[Category:internal]]
+[[Category:libgrbase]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Internal library for video.
+
+== Usage ==
+
+{{module_exports
+  | modulename = libvideo
+}}
+
+{{modulebox}}

@@ -1,0 +1,17 @@
+##Alignment modes
+###Description
+Alignment modes are modes which indicate how a graphic or text will be aligned relative to its center.
+
+###List
+<table class="table table-bordered table-hover table-condensed table-striped">
+	<tr><th>Constant<th>Value
+	<tr><td>ALIGN_TOP_LEFT<td>0
+	<tr><td>ALIGN_TOP<td>1
+	<tr><td>ALIGN_TOP_RIGHT<td>2
+	<tr><td>ALIGN_CENTER_LEFT<td>3
+	<tr><td>ALIGN_CENTER<td>4
+	<tr><td>ALIGN_CENTER_RIGHT<td>5
+	<tr><td>ALIGN_BOTTOM_LEFT<td>6
+	<tr><td>ALIGN_BOTTOM<td>7
+	<tr><td>ALIGN_BOTTOM_RIGHT<td>8
+</table>

@@ -1,0 +1,16 @@
+[[Category:modules]]
+[[Category:libgrbase]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+[[Blend Operation]] module, to blend target and source [[graphic]]s when drawn.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_blendop
+}}
+
+{{modulebox}}

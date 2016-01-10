@@ -1,0 +1,21 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:local variables]]
+[[category:librender]]
+:''This is about the [[local variable]]. Did you mean the scan code [[\_Z|_Z]]?''
+----
+[[Local variables|'''Up to Local Variables''']]
+
+----
+
+== Definition ==
+'''INT''' z = 0
+
+Z is a predefined [[local variable]] that defines the depth position of the process [[graph]] in the [[screen]].
+This variable affects what process [[graph]] will be drawn before other one. A process with higher z will be drawn beneath a process with a lower z.
+
+== See also ==
+* [[x]]
+* [[y]]
+
+{{Locals}}

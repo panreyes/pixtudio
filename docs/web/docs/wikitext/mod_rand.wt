@@ -1,0 +1,15 @@
+[[Category:modules]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Random number generator module.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_rand
+}}
+
+{{modulebox}}

@@ -1,0 +1,5 @@
+<DPL>
+category=functioncategories
+mode=userformat
+listseparators = ,\n* [[%PAGE%|%TITLE%]],,
+</DPL>

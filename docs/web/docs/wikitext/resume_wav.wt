@@ -1,0 +1,66 @@
+[[Category:functions]]
+[[Category:sound]]
+[[Category:mod_sound]]
+
+==Definition==
+'''INT''' resume_wav ('''INT''' < channel > )
+
+Resumes the currently paused wave channel, that was paused by [[Pause_wav]]().
+
+
+== Parameters ==
+{|
+| '''INT''' channel || - The WAV [[sound channel]].
+|}
+
+
+== Returns ==
+'''INT''' : Error.
+{|
+| -1 || - Error: sound inactive.
+|-
+| 0 || - No error.
+|}
+
+== Example ==
+<pre>
+// import modules
+IMPORT "mod_say";
+IMPORT "mod_debug";
+IMPORT "mod_proc";
+IMPORT "mod_key";
+IMPORT "mod_sound";
+
+GLOBAL
+   int wav;
+   int channel;
+  
+PROCESS main();  
+BEGIN
+
+  wav=load_wav("wav.wav");
+  
+  say("Test pause_wav...");
+  say("ENTER = Pause Sound...");
+  say("Press ESC to quit...");
+  
+  channel=play_wav(wav,-1);
+  
+  REPEAT
+  
+    IF(key(_enter))
+      pause_wav(channel);
+      FRAME(2500);
+      resume_wav(channel);
+    END
+    
+    FRAME;
+  UNTIL(key(_esc))
+END
+</pre>
+
+Used in example: [[key]](), [[say]](), [[pause_wav]](), [[play_wav]](), [[load_wav]]().
+
+{{Funcbox
+  | category=Sound
+}}

@@ -1,0 +1,13 @@
+[[Category:constants]]
+[[Category:internal]]
+
+== Definition ==
+'''DWORD''' MAX_DWORD = 4294967295
+
+The maximum integer value reachable with a [[dword]] ([[unsigned]] [[integer]]).
+
+See also [[MIN_DWORD]].
+
+{{Moduledocbox
+  | module = internal
+}}

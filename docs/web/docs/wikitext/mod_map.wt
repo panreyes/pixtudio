@@ -1,0 +1,19 @@
+[[Category:modules]]
+[[Category:libgrbase]]
+[[Category:libvideo]]
+[[Category:libblit]]
+[[Category:libfont]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Maps module.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_map
+}}
+
+{{modulebox}}

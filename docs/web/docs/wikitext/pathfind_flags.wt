@@ -1,0 +1,13 @@
+[[Category:constantcategories]]
+
+== Definition ==
+Pathfind flags are used in [[path_find]](), to specify optional functionality.
+
+== List ==
+{|
+| ''Constant'' || - ''Value'' || - ''Description''
+|-
+| PF_NODIAG || - 1 || - Prohibit the pathfinding from using diagonal paths.
+|-
+| PF_REVERSE || - 2 || - Return the path found in reverse order.
+|}

@@ -1,0 +1,30 @@
+[[Category:modules]]
+[[Category:3rd party]]
+[[Category:pangodll]]
+
+[[Modules|'''Up to Modules''']]
+----
+
+Pango.dll is a [http://www.pango.org Pango] wrapper for BennuGD. 
+
+== Description ==
+Pango is a [http://www.pango.org Pango] wrapper for BennuGD. It can render complex text with HTML-like markup and UTF-8 encoded text in most alphabets through [http://sdlpango.sourceforge.net SDL_Pango].
+
+The library works well in both 16 and 32 bit color modes.
+
+On 16 bit color mode, the background color must be manually specified or otherwise, a solid color rectangle will be returned.
+
+== How to use ==
+To be able to use it, you must import the module, like any other:
+<pre>import "pango"</pre>
+There is only one function you can use: [[pango_render]](). With this, you can create pango graphics.
+
+{{Module_exports
+  | modulename = pangodll
+}}
+
+== Download ==
+* [[Media:Pango-mingw-win32.zip|Pango (win32, mingw)]] (Source & example included)
+* [[Media:Pango.zip|Pango (linux)]] (Source & example included)
+
+{{modulebox}}

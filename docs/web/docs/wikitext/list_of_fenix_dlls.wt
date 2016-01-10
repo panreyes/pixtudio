@@ -1,0 +1,11 @@
+This is a list of [[DLL]]s avaliable for [[fenix]]. For more information, see [[DLL]].
+For a list of documented DLL's, see [[DLLs]].
+
+* [[Explosion DLL]] Explosion generator.
+* [[GUI DLL]] Adds functionality for various GUI elements such as windows and textboxes.
+* [[Image DLL]] Allows other image formats to be used in [[fenix]] such as jpeg.
+* [[Mixer DLL]] Various sound functions
+* [[MPEG DLL]] (requires "smpeg.dll") Allows MPEG video playback. 
+* [[Network DLL]] (requires "SDL_net.dll" and "Network.fh" files) Adds network functionality using TCP.
+* [[LCD DLL]] Adds functionality for the Logitech G15 LCD screen.
+* [[TTF DLL]] (requires "freetype.dll") Lets TrueType Fonts be used.

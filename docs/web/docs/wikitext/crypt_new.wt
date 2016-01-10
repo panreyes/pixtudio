@@ -1,0 +1,23 @@
+[[Category:functions]]
+[[Category:crypt]]
+[[Category:mod_crypt]]
+
+== Syntax ==
+'''INT POINTER''' crypt_new ( <'''INT''' method> ,  <'''CHAR POINTER''' key>)
+
+== Description ==
+Create a handle to start to encrypt information.
+
+== Parameters ==
+{| 
+| '''INT''' method || - Method to encrypt. may be CRYPT_DES or CRYPT_3DES
+|- 
+| '''CHAR POINTER''' key || - key used to the encryption.
+|}
+
+== Returns ==
+'''INT POINTER''' : crypt handle identifier. It is 0 then the handle can not be created.
+
+{{Moduledocbox
+  | module = Mod_crypt
+}}

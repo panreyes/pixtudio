@@ -1,0 +1,41 @@
+[[Category:Standards]]
+
+[[Standards|'''Up to Standards''']]
+----
+
+Click [[Template:variable|here]] to get the template for this standard.<br>
+Click [[Variable_example|here]] to get an example of this standard.
+
+<pre>
+Don't forget to add it to a category, like "local variables", or "predefined variables", or combinations.
+Always add it to the category "variables":
+[[category:variables]]
+
+When internally linking to variables, just put "[[]]" around the name, like:
+[[father]]
+</pre>
+
+== Definition ==
+'''VariableType''' VariableName
+
+VariableName is for yadayada.
+
+<pre>
+The main usage and functionality of the variable.
+</pre>
+
+== Notes ==
+Don't set it to blablabla. 
+
+<pre>
+Warnings, tips, etc.
+</pre>
+
+== Example ==
+<pre>
+VariableName = 100;
+</pre>
+
+<pre>
+An example showing the usage of the variable.
+</pre>

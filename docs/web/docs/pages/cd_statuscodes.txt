@@ -1,0 +1,20 @@
+Definition
+----------
+
+CD statuscodes are [status codes](status_codes "wikilink") returned by
+the function [cd\_status](cd_status "wikilink")() , to specify the
+current status of a CD drive.
+
+List
+----
+
+  --------------- ----------- -------------------------
+  *Constant*      - *Value*   - *Description*
+  CD\_ERROR       - -1        - Error.
+  CD\_TRAYEMPTY   - 0         - The CD tray is empty.
+  CD\_STOPPED     - 1         - The CD is stopped.
+  CD\_PLAYING     - 2         - The CD is playing.
+  CD\_PAUSED      - 3         - The CD is paused.
+  --------------- ----------- -------------------------
+
+<Category:constantcategories> <Category:mod_cd> <Category:cd>

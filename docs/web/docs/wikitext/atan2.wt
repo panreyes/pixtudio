@@ -1,0 +1,36 @@
+[[Category:functions]]
+[[Category:math]]
+[[Category:mod_math]]
+
+== Syntax ==
+'''FLOAT''' atan2 ( <'''FLOAT''' y> ,  <'''FLOAT''' x>)
+
+== Description ==
+Returns the arctangent of a certain ''value''. It is computed as the arc tangent of y/x. The signs of the arguments are used to perform the calculation.
+
+This [[function]] performs an arctangent calculation on a certain value and returns an [[angle]] between but not including -180000 and 180000 (-180-180º).
+
+== Parameters ==
+{| 
+| '''FLOAT''' y || - The Y value to be performed an arctangent calculation on.
+|-
+| '''FLOAT''' x || - The X value to be performed an arctangent calculation on.
+|}
+
+== Returns ==
+'''FLOAT''' : The arctangent result of the specified value, an angle between but not including -180000 and 180000 (-180-180º).
+
+== Notes ==
+The [[angle]] value returned by this function is in thousandths of degrees, as most angles within [[Bennu]] are.
+
+== See also ==
+
+[[atan]]()
+
+To read about all aspects of trigonometry, you can visit Wikipedia's [http://en.wikipedia.org/wiki/Trigonometric_function Trigonometric function] page.
+
+Wikipedia's [http://en.wikipedia.org/wiki/Atan2 Atan2] page.
+
+{{Moduledocbox
+  | module = Mod_math
+}}

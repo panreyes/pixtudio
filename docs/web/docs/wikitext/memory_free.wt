@@ -1,0 +1,33 @@
+[[Category:functions]]
+[[Category:memory]]
+[[Category:mod_mem]]
+
+==Syntax==
+'''INT''' memory_free ( )
+
+== Description ==
+Returns the free memory total in bytes.
+
+Also called [[mem_available]]().
+
+== Returns ==
+'''INT''' : Free memory total in bytes.
+
+== Example ==
+<pre>
+import "mod_mem"
+import "mod_say"
+
+Process Main()
+Begin
+
+    say("Total memory: " + memory_total());
+    say("Free memory:  " + memory_free() );
+
+End
+</pre>
+Used in example: [[say]](), [[memory_total]](), [[memory_free]]()
+
+{{Moduledocbox
+  | module = Mod_mem
+}}

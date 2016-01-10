@@ -1,0 +1,16 @@
+[[Category:modules]]
+[[Category:libgrbase]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Pathfind module. 
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_path
+}}
+
+{{modulebox}}

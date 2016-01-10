@@ -1,0 +1,33 @@
+[[Category:functions]]
+[[Category:fpg]]
+[[Category:mod_map]]
+
+==Definition==
+'''INT''' fpg_add ( <'''INT''' destFileID> , <'''INT''' destGraphID> ,  <'''INT''' origFileID> , <'''INT''' origGraphID> )
+
+Copies a certain [[graphic]] in a certain [[file]] to a certain file with a certain [[graphID]].
+
+== Parameters ==
+{| 
+| '''INT''' destFileID || - The [[fileID]] of the destination [[file]].
+|-
+| '''INT''' destGraphID || - The [[graphID]] in the destination file where to add the [[graphic]].
+|-
+| '''INT''' origFileID || - The [[fileID]] of the original file where the graphic is located.
+|-
+| '''INT''' origGraphID || - The [[graphID]] of the graphic to add.
+|}
+
+== Returns ==
+'''INT''' : [[graphID]]
+{|
+| -1 || - Invalid destination file or graphID.
+|-
+| 0 || - Invalid original file or graphID.
+|-
+| >0 || - The GraphID of the destination graphic.
+|}
+
+{{Moduledocbox
+  | module = Mod_map
+}}

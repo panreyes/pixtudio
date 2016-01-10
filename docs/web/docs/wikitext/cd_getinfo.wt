@@ -1,0 +1,27 @@
+[[Category:functions]]
+[[Category:CD]]
+[[Category:mod_cd]]
+
+==Definition==
+'''INT''' cd_getinfo ( <'''INT''' cdID> )
+
+Fills the [[global]] [[structure]] [[cdinfo]] with information about the specified CD/DVD drive.
+
+Returns <code>1</code> if there is a valid CD in the drive and <code>0</code> otherwise.
+
+== Parameters ==
+{|
+| '''INT''' cdID || - The cdID of the CD/DVD drive of which the info is wanted.
+|}
+
+== Returns ==
+'''INT'''
+{|
+| 0 || - Invalid CD/DVD or no CD/DVD in drive.
+|-
+| 1 || - Valid CD (structure [[cdinfo]] is filled successfully with information about the CD).
+|}
+
+{{Moduledocbox
+  | module = Mod_cd
+}}

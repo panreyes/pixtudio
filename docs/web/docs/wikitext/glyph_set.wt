@@ -1,0 +1,31 @@
+[[Category:functions]]
+[[Category:fonts]]
+[[Category:mod_map]]
+
+== Definition ==
+'''INT''' glyph_set ( <'''INT''' fontID> , <'''INT''' glyphID> , <'''INT''' fileID> , <'''INT''' graphID> )
+
+Sets the specified [[glyph]] of the specified [[font]]. The new glyph will be a copy of the specified [[graphic]] and thus it may be freed after the call.
+
+The previous name [[set_glyph]]() is deprecated. 
+
+== Parameters ==
+{|
+| '''INT''' fontID || - The [[fontID]] of the font the glyph is to be set.
+|-
+| '''INT''' glyphID || - The [[glyphID]] of the glyph in the specified font.
+|-
+| '''INT''' fileID || - The [[fileID]] of the [[file]] that holds the graphic.
+|-
+| '''INT''' graphID || - The [[graphID]] of the [[graphic]] to be copied.
+|}
+
+== Returns ==
+'''INT''' : [[false]]
+
+== See also ==
+* [[glyph_get]]()
+
+{{Moduledocbox
+  | module = Mod_map
+}}

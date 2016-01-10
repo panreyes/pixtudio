@@ -1,0 +1,19 @@
+[[Category:modules]]
+[[Category:internal]]
+[[Category:libsdlhandler]]
+[[Category:libgrbase]]
+[[Category:libblit]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Internal library for rendering.
+
+== Usage ==
+
+{{module_exports
+  | modulename = librender
+}}
+
+{{modulebox}}

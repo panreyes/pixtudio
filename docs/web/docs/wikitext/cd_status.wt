@@ -1,0 +1,22 @@
+[[Category:functions]]
+[[Category:CD]]
+[[Category:mod_cd]]
+
+==Definition==
+'''INT''' cd_status ( <'''INT''' cdID> )
+
+Returns the current status of the specified CD/DVD drive.
+
+See [[CD statuscodes]].
+
+== Parameters ==
+{|
+| '''INT''' cdID || - The cdID of the CD/DVD drive of which the status is wanted.
+|}
+
+== Returns ==
+'''INT''' : The current status of the specified CD/DVD drive.
+
+{{Moduledocbox
+  | module = Mod_cd
+}}

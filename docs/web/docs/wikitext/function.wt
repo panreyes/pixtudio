@@ -1,0 +1,54 @@
+[[Category:General]]
+[[Category:reserved]]
+[[Category:language]]
+[[category:basic statement]]
+
+[[Basic statements|'''Up to Basic Statements''']]
+
+[[:Category:functions|'''List of Functions''']]
+----
+
+
+== Syntax==
+{{Syntaxdocbox}}
+'''Function''' <returntype> <name> '''(''' [ <parameters> ] ''')'''<br>
+[ '''Public'''
+: [ <public variables> ]
+'''End''' ]<br>
+[ '''Private'''
+: [ <private variables> ]
+'''End''' ]<br>
+'''Begin'''
+: [ <function code> ]
+[ '''OnExit'''
+: [ <exit code> ]
+]<br>
+'''End'''
+
+== Description ==
+Function is a reserved word used to start the code of a function. 
+
+A function is a [[subroutine]] to which one or more of the following apply:
+*it receives [[parameters]]
+*it acts on the parameters
+*it processes [[data]] located elsewhere
+*it [[return]]s a [[value]]
+
+The difference between a function and a [[process]] is that the calling process or function waits until the function is completed. When a process or function calls a process, it doesn't wait. This means that, even when the called function contains [[frame]] statements, the calling function or process still waits for the function to finish. This is shown in [[Tutorial:Textinput|this tutorial]]. 
+
+For a list of functions, see [[:Category:functions|this list of functions]].
+
+== Example ==
+<pre>
+Function int addInts( int a , int b )
+Private // Declare private variables here
+Begin // Start the main functioncode
+    return a+b;
+End // End the main functioncode
+</pre>
+addInts(3,6); will return 9. One can see that the function does indeed:
+*receive parameters.
+*act on the parameters.
+*return a value.
+
+{{Keywords}}

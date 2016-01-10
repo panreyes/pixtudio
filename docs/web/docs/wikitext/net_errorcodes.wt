@@ -1,0 +1,103 @@
+[[Category:errorcodes]]
+[[Category:networkdll]]
+[[Category:dll]]
+
+[[Networkdll|'''Up to Network.DLL''']]
+----
+
+
+Here is a list of all the errorcodes regarding [[Network_DLL|Network.DLL]].
+
+Catching errorcodes is very easy: just check if the return value is negative, then it is an error.
+<pre>
+result = NET_Xxx();
+if(result<0)
+    say("NET Error: " + NET_GetError(result));
+else
+    // success
+end
+</pre>
+
+{| 
+| ''Constant'' || - ''Description''
+|-
+| NET_ERROR_NONE || - No error.
+|- 
+| NET_ERROR_INITIALIZATION || - Error during initialization.
+|- 
+| NET_ERROR_NOTINITIALIZED || - Network.DLL not initialized. Depecrated.
+|- 
+| NET_ERROR_INVALIDADDRESS || - Invalid IP address. Deprecated.
+|- 
+| NET_ERROR_RESOLVINGHOST || - Could not resolve host.
+|- 
+| NET_ERROR_ALLOCSOCKETSET || - Could not allocate socketset. Deprecated.
+|- 
+| NET_ERROR_INVALIDSOCKETSET || - The socketset is invalid.
+|- 
+| NET_ERROR_SOCKETSETINACTIVE || - The socketset is inactive.
+|- 
+| NET_ERROR_ADDINGSOCKET || - Could not add socket to socketset.
+|- 
+| NET_ERROR_INVALIDSOCKETSET || - The socketset is invalid.
+|- 
+| NET_ERROR_DELETINGSOCKET || - Could not delete the socket.
+|- 
+| NET_ERROR_CONNECTING || - Could not connect.
+|- 
+| NET_ERROR_INVALIDCONN || - The connection is invalid.
+|- 
+| NET_ERROR_CONNINACTIVE || - The connection is inactive.
+|- 
+| NET_ERROR_LISTENINGONCONN || - Could not listen on connection.
+|- 
+| NET_ERROR_TOOMANYCONNS || - There are too many connections
+|- 
+| NET_ERROR_TOOFEWCONNS || - Too small number of maximum connections
+|- 
+| NET_ERROR_INVALIDTYPE || - The type specified is invalid.
+|- 
+| NET_ERROR_ALREADYINIT || - Network.DLL already initialized.
+|- 
+| NET_ERROR_MESSAGETOOLONG || - The message is too long.
+|- 
+| NET_ERROR_MESSAGETOOSHORT || - The message is too short.
+|- 
+| NET_ERROR_OUTGOINGSTACKFULL || - Outgoing Message stack is full. 
+|- 
+| NET_ERROR_INCOMINGSTACKFULL || - Incoming Message stack is full. 
+|- 
+| NET_ERROR_SENDING || - Could not send message. 
+|- 
+| NET_ERROR_RECEIVING || - Could not receive message. 
+|- 
+| NET_ERROR_DISCONNECTING || - Could not close connection. 
+|- 
+| NET_ERROR_DISCONNECTED || - Connection was closed. 
+|- 
+| NET_ERROR_TOOMANYLISTENERS || - Too many listenports specified.
+|- 
+| NET_ERROR_INVALIDPORTNUMBER || - The portnumber is invalid (<0 or >65535).
+|- 
+| NET_ERROR_SIZEMISMATCH || - Integral size mismatch.
+|- 
+| NET_ERROR_RESOLVINGIP || - Could not resolve IP.
+|- 
+| NET_ERROR_NONEXTERNALCONN || - Non-external connection. Deprecated.
+|- 
+| NET_ERROR_NONEWMESSAGE || - The incomingbuffer is empty.
+|- 
+| NET_ERROR_UNFINISHEDMESSAGE || - The message in the incomingbuffer is incomplete.
+|- 
+| NET_ERROR_NULLPOINTER || - NULL pointer exception.
+|- 
+| NET_ERROR_NONEXISTINGGRAPH || - The graph does not exist.
+|- 
+| NET_ERROR_NONEXISTINGFILE || - The file does not exist.
+|- 
+| NET_ERROR_CREATINGGRAPH || - Could not create graph.
+|- 
+| NET_ERROR_OPENINGFILE || - Could not open file.
+|}
+
+{{Netdocbox}}

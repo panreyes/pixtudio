@@ -1,0 +1,46 @@
+[[Category:functions]]
+[[Category:logdll]]
+[[Category:dll]]
+
+[[Functioncategory:Logdll|'''Up to Log.dll functions''']]
+----
+
+
+==Definition==
+'''FLOAT''' log ( <'''FLOAT''' n> , [<'''FLOAT''' b>] )
+
+Returns a [http://en.wikipedia.org/wiki/Logarithm logarithm] of number ''n'' with base ''b''. If ''b'' is not specified, the number 10 will be used as base.
+
+== Parameters ==
+{| 
+| '''FLOAT''' n || - The number that will be used for the logarithm.
+|-
+| '''FLOAT''' base || - The base that will be used for the logarithm.
+|}
+
+== Returns ==
+'''FLOAT''' : The logarithm of ''n''.
+
+== Example ==
+<pre>
+Import "log.dll";
+
+Global
+    float logarithm=0.0;
+End
+
+Process main()
+Begin
+    write_float(0,160,100,4,&logarithm);
+	
+    While(not(key(_esc)))
+        If (key(_1)) logarithm=log(1000,9); End 
+        If (key(_2)) logarithm=log(1000); End
+
+        Frame;
+    End
+End
+</pre>
+Used in example: [[import]], [[write_float]](), [[key]](), [[log]]()
+
+{{Logfuncbox}}

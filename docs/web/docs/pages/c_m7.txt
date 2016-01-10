@@ -1,0 +1,3 @@
+1.  REDIRECT [Coordinatetype\_modes](Coordinatetype_modes "wikilink")
+
+<Category:constants> <Category:mod_m7>

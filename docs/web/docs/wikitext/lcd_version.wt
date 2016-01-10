@@ -1,0 +1,34 @@
+[[Category:functions]]
+[[Category:lcddll]]
+[[Category:dll]]
+
+[[Functioncategory:Lcddll|'''Up to LCD.DLL Functions''']]
+----
+
+
+==Definition==
+'''STRING''' LCD_Version ( )
+
+Returns the current [[LCD_DLL|LCD.DLL]] version.
+
+== Returns ==
+'''STRING''' : The current [[LCD_DLL|LCD.DLL]] version (string).
+
+== Example ==
+<pre>
+Program example;
+    include "LCD.fh";
+Private
+    string lcdver;
+Begin
+
+    lcdver = LCD_Version();
+   
+    Loop
+        frame;
+    End
+
+End
+</pre>
+
+{{Lcdfuncbox}}

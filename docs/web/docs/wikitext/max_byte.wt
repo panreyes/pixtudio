@@ -1,0 +1,13 @@
+[[Category:constants]]
+[[Category:internal]]
+
+== Definition ==
+'''CHAR''' MAX_BYTE = 255
+
+The maximum integer value reachable with a [[byte]] ([[unsigned]] [[char]]).
+
+See also [[MIN_BYTE]].
+
+{{Moduledocbox
+  | module = internal
+}}

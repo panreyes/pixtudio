@@ -1,0 +1,12 @@
+[**Up to Modules**](Modules "wikilink")
+
+------------------------------------------------------------------------
+
+Wii controller support module. This library will help you read input
+data and operate Wii controllers.
+
+Usage
+-----
+
+<Category:modules> [Category:3rd party](Category:3rd_party "wikilink")
+<Category:mod_joy> <Category:mod_wpad>

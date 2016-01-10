@@ -1,0 +1,51 @@
+[[Category:functions]]
+[[Category:sound]]
+[[Category:mod_sound]]
+
+==Definition==
+'''INT''' play_song ( <'''INT''' songID> , <'''INT''' repeats> )
+
+Plays a song.
+
+== Parameters ==
+{| 
+| '''INT''' songID || - [[SongID]] of the song loaded previously with [[load_song]]().
+|- 
+| '''INT''' repeats || - Number of times to repeat the song. Use -1 for an infinite loop.
+|}
+
+== Returns ==
+'''INT''' : Error.
+{|
+| -1 || - Error: sound inactive; mixer error; invalid [[songID]].
+|-
+| 0 || - No error.
+|}
+
+== Errors ==
+{|
+| Sound inactive || - The sound is inactive.
+|-
+| Invalid songID || - The [[songID]] was invalid.
+|-
+| Other || - Some Mixer error.
+|}
+
+== Example ==
+<pre>
+Program example;
+Private
+    int song;
+Begin
+    song = load_song("my_song.ogg");
+    play_song(song,0);
+    Loop
+        frame;
+    End
+End
+</pre>
+Used in example: [[load_song]]()
+
+{{Funcbox
+  | category=Sound
+}}

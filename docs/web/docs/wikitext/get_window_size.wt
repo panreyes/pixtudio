@@ -1,0 +1,63 @@
+[[Category:functions]]
+[[Category:programinteraction]]
+[[Category:mod_wm]]
+
+== Syntax ==
+'''INT''' get_window_size ( <'''INT POINTER''' window_width> , <'''INT POINTER''' window_height> , <'''INT POINTER''' client_width> , <'''INT POINTER''' client_height> )
+
+== Description ==
+Get the window and client size.
+
+== Parameters ==
+{|
+| '''INT POINTER''' window_width || - Pointer to where the window width will be written.
+|- 
+| '''INT POINTER''' window_height || - Pointer to where the window height will be written.
+|- 
+| '''INT POINTER''' client_width || - Pointer to where the client width of window will be written.
+|- 
+| '''INT POINTER''' client_height || - Pointer to where the client height of window will be written.
+|}
+
+== Returns ==
+'''INT''' : Successrate
+{|
+| [[false]] || - Error.
+|-
+| [[true]] || - Ok.
+|}
+
+== Example ==
+<pre>
+import "mod_key"
+import "mod_video"
+import "mod_text"
+import "mod_wm"
+Global
+    desktop_width = 640;
+    desktop_height = 480;
+    window_width = 0;
+    window_height = 0;
+    client_width = 0;
+    client_height = 0;
+End
+
+Process Main()
+Begin
+  
+    get_desktop_size(& desktop_width,& desktop_height);
+    get_window_size ( & window_width,  &window_height , & client_width ,  & client_height );
+    set_mode (desktop_width-window_width+client_width,desktop_height-window_height+client_height,32);
+    set_window_pos(0,0);
+  
+    write(0,desktop_width/2,desktop_height/2+30,0,"ESC to exit");
+    while (!key(_ESC) )
+        frame;
+    end
+End
+</pre>
+Used in example: [[get_desktop_size]](), [[get_window_size]](), [[set_mode]](), [[set_window_pos]](),  [[write]](), [[key]]()
+
+{{Moduledocbox
+  | module = Mod_wm
+}}

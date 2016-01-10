@@ -1,0 +1,17 @@
+[[Category:modules]]
+[[Category:internal]]
+[[Category:libgrbase]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Internal library for fonts.
+
+== Usage ==
+
+{{module_exports
+  | modulename = libfont
+}}
+
+{{modulebox}}

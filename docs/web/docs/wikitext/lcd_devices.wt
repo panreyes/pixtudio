@@ -1,0 +1,22 @@
+[[Category:functions]]
+[[Category:lcddll]]
+[[Category:dll]]
+
+[[Functioncategory:Lcddll|'''Up to LCD.DLL Functions''']]
+----
+
+
+==Definition==
+'''INT''' LCD_Devices ( )
+
+Returns the number of devices available.
+
+== Returns ==
+'''INT''' : The number of LCD devices available.
+{|
+| 0 || - No devices or error.
+|-
+| !0 || - The number of LCD devices available.
+|}
+
+{{Lcdfuncbox}}

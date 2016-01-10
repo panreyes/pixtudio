@@ -1,0 +1,57 @@
+[[Category:functions]]
+[[Category:Joystick]]
+[[Category:mod_wpad]]
+
+==Definition==
+'''INT''' wpad_rumble ( <'''INT''' wpad_number> , <'''INT''' rumble> )
+
+Toggles rumbling (vibration) on "wpad_number" device on or off.
+
+== Parameters ==
+{| 
+| '''INT''' wpad_number || - The controller whose state you want to altere. ''wpad_number'' must be a positive integer up to 8 (the maximum number of controllers supported by the Wii console).
+|-
+| '''INT''' rumble    || - 1 to start rumbling, 0 to stop it.
+|}
+
+== Returns ==
+'''INT''' : [[false]]
+
+== Example ==
+<pre>
+import "mod_video"
+import "mod_wpad"
+import "mod_mouse"
+
+// Will make the given device vibrate for a short period of time
+Process rumble_a_bit(int which)
+Begin
+    wpad_rumble(which, 1);  // Start rumbling
+    FRAME(200);
+    wpad_rumble(which, 0);  // Stop rumbling
+End;
+
+Process Main()
+Begin
+    set_mode(320, 240, 8);
+
+    // Wait until the first controller is fully ready
+    while(! wpad_is_ready(1))
+        frame;
+    end;
+
+    // Pressing button "A" on your Wiimote will trigger a mouse.left event
+    while(! mouse.left)
+        // Pressing button "B" on your Wiimote will trigger a mouse.right event
+        if(mouse.right)
+            rumble_a_bit(0);
+        end;
+        frame;
+    end;
+End
+</pre>
+Used in example: [[set_mode]](), [[wpad_is_ready]](), [[mouse]], [[wpad_info]]()
+
+{{Funcbox
+ | category = Mod_wpad
+}}

@@ -1,0 +1,12 @@
+[[Category:dll]]
+[[Category:guidll]]
+
+[[DLLs|'''Up to DLL's''']]
+----
+
+
+Page for GUI.dll. If someone knows how to use this and/or has some advice regarding it, be so kind as to write it here.
+
+''This library is not supported in bennu, it dates back to fenix version 0.84a and 0.84b. It has not been updated since, although an updated version that can be used with bennu is most welcome.''
+
+{{Dllbox}}

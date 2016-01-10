@@ -1,0 +1,24 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:global variables]]
+[[category:libwm]]
+
+[[Global variables|'''Up to Global Variables''']]
+
+----
+
+
+== Definition ==
+'''INT''' mouse_status
+
+'''mouse_status''' is a [[predefined]] [[global variable]], holding whether or not the mouse cursor is inside the Bennu window.
+
+{|
+| ''Value'' || - ''Description''
+|-
+| [[false]] || - The mouse cursor is outside the Bennu window.
+|-
+| [[true]] || - The mouse cursor is inside the Bennu window.
+|}
+
+{{Globals}}

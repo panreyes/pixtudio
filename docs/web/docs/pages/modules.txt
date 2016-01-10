@@ -1,0 +1,44 @@
+[**Up to Index**](Index "wikilink")
+
+[**List of Functions**](functions "wikilink")\
+[**List of Constants**](constants "wikilink")\
+[**List of Globals**](globals "wikilink")\
+[**List of Locals**](locals "wikilink")\
+
+------------------------------------------------------------------------
+
+Modules add extra functionality to [Bennu](Bennu "wikilink"), as Bennu
+on its own is just a language and a virtual machine. The default modules
+contain the basics you need to make a game: video, audio, input, etc.
+More advanced external libraries are available, like network and 3D
+rendering.
+
+Enabling a module is easy, using [import](import "wikilink"):
+
+:   `'''import''' '''"''' <modulename> '''"'''`
+
+Some external libraries use a header (.[INC](INC "wikilink")) instead,
+so use [include](include "wikilink"):
+
+:   `'''include''' '''"''' <includename> '''"'''`
+
+------------------------------------------------------------------------
+
+Official Modules
+----------------
+
+<DPL> category=modules notcategory=internal notcategory=3rd party
+notnamespace=Category columns=1 listseparators = {|,\\n|
+**[](%PAGE% "wikilink")** || - ,\\n,|} inlinetext=|- replaceintitle =
+/\\\\? /,\_ redirects = include ordermethod = titlewithoutnamespace
+resultsfooter = \\n%PAGES% modules noresultsfooter= 0 modules
+oneresultfooter= 1 module </DPL>
+
+3rd party modules
+-----------------
+
+<DPL> category=modules category=3rd party columns=1 listseparators =
+{|,\\n| **[](%PAGE% "wikilink")** || - ,\\n,|} inlinetext=|-
+replaceintitle = /\\\\? /,\_ redirects = include ordermethod =
+titlewithoutnamespace resultsfooter = \\n%PAGES% libraries
+noresultsfooter= 0 libraries oneresultfooter= 1 library </DPL>

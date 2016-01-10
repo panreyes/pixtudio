@@ -1,0 +1,24 @@
+[[Category:functions]]
+[[Category:files]]
+[[Category:mod_file]]
+
+==Definition==
+'''INT''' fputs ( <'''INT''' filehandle> , <'''STRING''' line> )
+
+Writes a line to a certain file.
+
+== Parameters ==
+{| 
+| '''INT''' filehandle || - The [[FileHandle]] of the file returned by [[fopen]]().
+|}
+
+== Returns ==
+'''INT''': Number of bytes written.
+{|
+| 0 || - There was an error.
+|-
+| >0 || - Number of bytes written.
+|}
+
+== Notes ==
+The character '\' will be put in front of every newline character, so that [[fgets]]() reads the lines like they were written.

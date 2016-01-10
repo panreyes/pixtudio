@@ -1,0 +1,19 @@
+[[Category:constantcategories]]
+
+== Description ==
+Readwrite modes are used to specify the mode of reading/writing of a file, by passing one of them to the [[function]] [[fopen]]() as the [[parameter]] ''flags''.
+
+== List ==
+{|
+| ''Constant'' || - ''Value'' || - ''Description''
+|-
+| O_READ || - 0 || - Read only.
+|-
+| O_READWRITE || - 1 || - Read and write. Also called O_RDWR.
+|-
+| O_WRITE || - 2 || - Write only.
+|-
+| O_ZREAD || - 3 || - Read using Z compression.
+|-
+| O_ZWRITE || - 4 || - Write using Z compression.
+|}

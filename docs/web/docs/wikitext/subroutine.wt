@@ -1,0 +1,4 @@
+[[Category:general]]
+
+== Definition ==
+A subroutine is a program segment that can be [[function call|called]] and used by any other bit of the program. So basically, if there's something that you want to to quite a lot in your program, then you can write a subroutine for it and then just call this subroutine every time you want to to that. In [[Bennu]] this is achieved by the use of [[function]]s and [[process]]es

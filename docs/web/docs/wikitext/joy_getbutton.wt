@@ -1,0 +1,27 @@
+[[Category:functions]]
+[[Category:Joystick]]
+[[Category:Mod_joy]]
+
+== Syntax ==
+'''INT''' joy_getbutton ( [ <'''INT''' joy>], <'''INT''' button>  )
+
+== Description ==
+Returns the selected joystick state for the given button.
+
+The JoyID is optional, if it is not present, the function uses the selected joystick. You can change the selected joystick with joy_select().
+
+The previous name [[get_joy_button]]() is deprecated.
+
+== Parameters ==
+{|
+| ['''INT''' JoyID] || - The [[JoyID]] of the [[joystick]].
+|- 
+| '''INT''' button || - The [[button]] on the [[joystick]].
+|}
+
+== Returns ==
+'''INT''' : state for the given button.
+
+{{Moduledocbox
+  | module = Mod_joy
+}}

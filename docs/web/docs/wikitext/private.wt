@@ -1,0 +1,28 @@
+[[category:reserved]]
+[[category:language]]
+[[category:basic statement]]
+
+[[Basic statements|'''Up to Basic Statements''']]
+----
+
+
+== Syntax ==
+{{Syntaxdocbox}}
+'''Private'''
+:[ <private variables> ]
+['''End''']
+
+
+== Description ==
+Private is a reserved word used to initiate the declaration of [[private variable]]s. Terminating the declaration block with an [[End]] is not necessary, but is possible. [[Parameters]] of a [[function]] or [[process]] will be considered a private variable with the initiated value of the passed [[argument]].
+
+== Example ==
+<pre>
+Process My_Process();
+Public
+Private // Declare private variables here
+Begin
+End
+</pre>
+
+{{Keywords}}

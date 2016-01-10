@@ -1,0 +1,22 @@
+[[Category:functions]]
+[[Category:drawing]]
+[[Category:mod_draw]]
+
+==Definition==
+'''INT''' drawing_alpha ( <'''INT''' alpha>  )
+
+Tells [[Bennu]] to draw the coming [[drawing]]s with a certain [[alpha]] value
+
+''Note: there currently is a 'bug' that makes drawing objects (draw commands with no map as target) have their alpha value altered too. This is to be changed.''
+
+== Parameters ==
+{|
+| '''INT''' alpha || - The alpha value to be drawn with.
+|}
+
+== Returns ==
+'''INT''' : [[true]]
+
+{{Funcbox
+  | category=Drawing
+}}

@@ -1,0 +1,15 @@
+[[Category:modules]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Directory module, adding control over the current working directory and the file system.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_dir
+}}
+
+{{modulebox}}

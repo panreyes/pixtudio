@@ -1,0 +1,20 @@
+[[Category:functions]]
+[[Category:Blendops]]
+[[Category:mod_blendop]]
+
+==Definition==
+'''INT''' blendop_free ( <'''INT''' blendTable> )
+
+Frees the given [[blend table]]. Before doing this, make sure it is not [[blendop_assign|assigned]] to a [[graphic]].
+
+== Parameters ==
+{|
+| '''INT''' blendTable || - The [[blend table]] to free.
+|}
+
+== Returns ==
+'''INT''' : [[true]]
+
+{{Funcbox
+  | category = Blendops
+}}

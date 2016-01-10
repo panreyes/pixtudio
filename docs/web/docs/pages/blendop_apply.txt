@@ -1,0 +1,27 @@
+Definition
+----------
+
+**INT** blendop\_apply ( &lt;**INT** fileID&gt; , &lt;**INT**
+graphID&gt; , &lt;**INT** blendTable&gt; )
+
+Applies a [blend operation](blend_operation "wikilink") to the pixels of
+a [graphic](graphic "wikilink"), as if it was rendered into a black
+(color 0) background.
+
+This function actually changes the pixeldata of the graphic.
+
+Parameters
+----------
+
+  -------------------- -----------------------------------------------------------------------------------------------------------------------------------------
+  **INT** fileID       - The [fileID](fileID "wikilink") of the [file](file "wikilink") holding the [graphic](graphic "wikilink").
+  **INT** graphID      - The [graphID](graphID "wikilink") of the [graphic](graphic "wikilink") to apply the [blend operation](blend_operation "wikilink") to.
+  **INT** blendTable   - The [blend table](blend_table "wikilink") to apply.
+  -------------------- -----------------------------------------------------------------------------------------------------------------------------------------
+
+Returns
+-------
+
+**INT** : [true](true "wikilink")
+
+<Category:functions> <Category:Blendops> <Category:mod_blendop>

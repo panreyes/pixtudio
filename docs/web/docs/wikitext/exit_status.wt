@@ -1,0 +1,24 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:global variables]]
+[[category:libwm]]
+
+[[Global variables|'''Up to Global Variables''']]
+
+----
+
+
+== Definition ==
+'''INT''' exit_status
+
+'''exit_status''' is a [[predefined]] [[global variable]], holding whether or not Bennu received a QUIT event this frame. A QUIT event is generated for example by pressing the X button of the window.
+
+{|
+| ''Value'' || - ''Description''
+|-
+| [[false]] || - There is no QUIT event.
+|-
+| [[true]] || - There is a QUIT event.
+|}
+
+{{Globals}}

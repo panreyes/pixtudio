@@ -1,0 +1,15 @@
+[[Category:modules]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Say (printf) module.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_say
+}}
+
+{{modulebox}}

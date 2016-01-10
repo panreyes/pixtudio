@@ -1,0 +1,17 @@
+[[Category:modules]]
+[[Category:librender]]
+[[Category:libkey]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Debug module. Adds the capacity to open the [[Bennu console]].
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_debug
+}}
+
+{{modulebox}}

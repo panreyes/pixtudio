@@ -1,0 +1,27 @@
+[[Category:constantcategories]]
+
+== Definition ==
+Restore modes are used to define the type of restoration, needed to be applied to the screen background, by assigning them to the [[global variable]] [[restore_type]]. This influences if and how the background is restored after each frame.
+
+== List ==
+{|
+| ''Constant'' || - ''Value'' || - ''Description''
+|-
+| NO_RESTORE || - -1 || - The background won't be restored (i.e. redrawn).
+|-
+| PARTIAL_RESTORE|| - 0 || - The background will be restored in areas where graphics have been painted or text written (default).
+|-
+| COMPLETE_RESTORE || - 1 || - The background will be completely restored.
+|}
+
+== Notes ==
+It is clear that completely restoring the background every frame is more expensive than updating only parts of it. However, detecting what parts need updating is no small thing either. So cost-wise both have their situations in which they are good.
+
+PARTIAL_RESTORE is useful if there is relatively not much changing to the background. COMPLETE_RESTORE is useful if many parts of the background need restoration, like in the case of screen-wide partially transparent scrolls.
+
+Be certain [[dump_type]] is compatible with the restore_type set, because some combinations can cause probably unwanted effects.
+
+== See also ==
+* [[restore_type]]
+* [[dump_type]]
+* [[dump_modes]]

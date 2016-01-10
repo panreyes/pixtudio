@@ -1,0 +1,86 @@
+[[Category:functions]]
+[[Category:fli]]
+[[Category:mod_flic]]
+
+==Definition==
+'''INT''' frame_fli ( )
+
+Advances to the next frame of the animation started by [[Start_fli]](). This function returns 0 when the animation is over. During the animation, it returns the current frame that is displayed. Because it is related [[Start_fli]](), there can only be one fli/flc animation beeing played at one given time.
+
+== Parameters ==
+
+This function has no arguments.
+
+== Notes ==
+
+There is also a similar function called [[Fli_frame]]() which can be used for independent animations created by [[Fli_start]]().
+
+== Returns ==
+'''INT''' : Success
+
+{|
+| 0 || - The animation is over.
+|-
+| >0 || - The current frame of the animation.
+|}
+
+== Example ==
+<pre>
+/ import modules
+IMPORT "mod_say";
+IMPORT "mod_debug";
+IMPORT "mod_proc";
+IMPORT "mod_grproc";
+IMPORT "mod_map";
+IMPORT "mod_key";
+IMPORT "mod_video";
+IMPORT "mod_screen";
+IMPORT "mod_flic";
+
+
+GLOBAL
+
+int fli_file1;
+
+
+PRIVATE
+
+
+PROCESS main ();
+
+PRIVATE
+int status;
+
+BEGIN
+
+   set_mode(640,480,16);
+   
+   // int start_fli (string filename, int x, int y);
+   fli_file1=start_fli("video.fli",0,0);
+   
+   say(fli_file1);
+   
+   WHILE (NOT key(_esc))
+    
+     status=frame_fli(); // We show the following frame
+     say("frame no.: "+status);
+  
+     FRAME;
+  END
+  
+  // stop the fli file
+  end_fli();
+  
+END
+</pre>
+
+Used in example: [[Start_fli]](), [[End_fli]](), [[Reset_fli]](), [[say]](), [[key]]()
+
+
+== See also ==
+
+[[Start_fli]](), [[End_fli]](), [[Reset_fli]]().
+
+{{Moduledocbox
+  | module = Mod_flic
+}}

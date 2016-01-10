@@ -1,0 +1,63 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:global variables]]
+[[category:libvideo]]
+
+[[Global variables|'''Up to Global Variables''']]
+
+----
+
+'''INT''' scale_resolution = WWWWHHHH
+
+Where WWWW is the Width and HHHH the Height. [[Resolution_modes]] can be used.
+
+== Description ==
+'''Scale_resolution''' is a [[global variable]] used to resize the screen without changing the real resolution. That means the game still uses the resolution indicated by [[set_mode]]() but it's displayed on the screen at the one assigned to scale_resolution. Unlike [[scale_mode]] can work with 32bits but doesn't use any filter. 
+
+Scale_resolution takes effect after [[set_mode]]() only and cannot be used togheter with [[scale_mode]].  Assigning NULL will cancel the use of scale_resolution. 
+
+== Example ==
+<pre>
+//This example is a modification of an example taken from Oscar's Manual
+Import "mod_video";
+Import "mod_text";
+Import "mod_key";
+Import "mod_map";
+Import "mod_proc";
+Import "mod_draw";
+
+Process Main()
+begin
+  set_mode(800,600,32);
+  write(0,100,80,0,"SCALE_RESOLUTION's value:");
+  write_var(0,300,80,0,scale_resolution);
+  proceso();
+  repeat
+    if(key(_a)) scale_resolution=03200240;end
+    if(key(_s)) scale_resolution=06400480;end
+    if(key(_d)) scale_resolution=08000600;end
+    if(key(_f)) scale_resolution=10240768;end
+    if(key(_c)) scale_resolution=NULL;end
+    set_mode(800,600,32);
+    frame;
+  until(key(_esc))
+  let_me_alone();
+end
+
+Process proceso()
+begin
+  x=180;y=150;
+  graph=map_new(60,60,32);
+  drawing_map(0,graph);
+  drawing_color(rgb(255,255,0));
+  draw_fcircle(25,25,25);
+  loop
+    frame;
+  end
+end
+</pre>
+Used in example: [[set_mode]](), [[write]](), [[write_var]](), [[map_new]](), [[drawing_map]](), [[drawing_color]](), [[draw_fcircle]]().
+
+== See also ==
+[[scale_resolution_orientation]], [[scale_resolution_aspectratio]].
+{{Globals}}

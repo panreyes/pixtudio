@@ -1,0 +1,40 @@
+[[Category:functions]]
+[[Category:fpg]]
+[[Category:mod_map]]
+
+==Definition==
+'''INT''' fpg_save( <'''INT''' fileID> , <'''STRING''' filename> )
+
+Saves a certain [[file]] to disk.
+
+The previous name [[save_fpg]]() is deprecated. 
+
+== Parameters ==
+{|
+| '''INT''' fileID || - The [[fileID]] of the [[file]] to save. 
+|-
+| '''STRING''' filename || - The name of the [[file]] to be saved, including a possible [[path]].
+|}
+
+== Returns ==
+'''INT''' : Success
+{|
+| [[false]] || - Invalid [[fileID]] or filename; The errors under [[#Errors|Errors]].
+|- 
+| [[true]] || - Success.
+|}
+
+== Errors ==
+{|
+| Insufficient memory || - There is insufficient memory available. This error doesn't occur often.
+|-
+| Empty library || - The specified [[file]] contains no [[graphic]]s.
+|-
+| Unsupported color depth || - A [[graphic]] in the specified [[file]] has an unsupported color depth.
+|-
+| Differing color depths || - An [[FPG]] can't hold [[graphic]]s of different color depths.
+|}
+
+{{Moduledocbox
+  | module = Mod_map
+}}

@@ -1,0 +1,54 @@
+[[Category:functions]]
+[[Category:mod_regex]]
+
+== Syntax ==
+'''INT''' split ( <'''STRING''' delimiter> , <'''STRING''' str> , <'''STRING POINTER''' array> , <'''INT''' max_number> )
+
+== Description ==
+Splits a [[string]] in several strings using a [[regular expression]] as delimiter.
+
+The first piece will go to ''array''[0], the second to ''array''[1], and so forth, until either there are no more pieces left or ''max_number'' pieces are returned into the array. The number of pieces returned this way is returned by the function.
+
+== Parameters ==
+{|
+| '''STRING''' delimiter || - The regular expression used as delimiter to split.
+|-
+| '''STRING''' str || - The input string to split into multiple string.
+|-
+| '''STRING POINTER''' array || - Pointer to the string array where the pieces will be returned to.
+|-
+| '''INT''' max_number|| - The maximum number of strings to return.
+|}
+
+== Returns ==
+'''INT''' : The number of pieces returned into the array.
+
+== Example ==
+<pre>
+import "mod_say"
+import "mod_regex"
+
+Process Main()
+Private
+	string str = "A,B,C,D,E";
+	string a[9];
+	int n;
+	int i;
+Begin
+
+	// Split
+	n = split(",",str,&a,10);
+
+	// Display result
+	say("Number of pieces: " + n);
+	for(i=0; i<n; i++)
+		say("[" + i + "] = " + a[i]);
+	end
+
+End
+</pre>
+Used in example: [[split]](), [[say]]()
+
+{{Moduledocbox
+  | module = Mod_regex
+}}

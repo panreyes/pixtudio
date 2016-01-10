@@ -1,0 +1,20 @@
+[[Category:modules]]
+[[Category:internal]]
+[[Category:libsdlhandler]]
+[[Category:libgrbase]]
+[[Category:libvideo]]
+[[Category:libblit]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Internal library for mouse.
+
+== Usage ==
+
+{{module_exports
+  | modulename = libmouse
+}}
+
+{{modulebox}}

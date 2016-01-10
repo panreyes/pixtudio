@@ -1,0 +1,52 @@
+[[Category:functions]]
+[[Category:programinteraction]]
+[[Category:mod_video]]
+
+== Definition ==
+'''INT''' mode_is_ok ( <'''INT''' width> , <'''INT''' height> , <'''INT''' depth>, <'''INT''' flags> )
+
+Returns 0 if the requested mode is not supported under any bit depth,or returns the bits-per-pixel of the closest available mode with the given width, height and requested flags.
+
+== Parameters ==
+{| 
+| '''INT''' width || - Width of the screen in [[pixel]]s.
+|- 
+| '''INT''' height || - Height of the screen in [[pixel]]s.
+|- 
+| '''INT''' depth || - [[Color depth]] of the screen. See [[color_depths]].
+|- 
+| '''INT''' flags || - Mode  of rendering. See [[render flags]].
+|}
+
+== Returns ==
+'''INT''' : Whether the specified mode can be used.
+{|
+| 0 || - The specified mode cannot be used.
+|-
+| >0 || - The bits-per-pixel of the closest available mode for the given width, height and flags.
+|}
+
+
+== Example ==
+<pre>
+import "mod_video"
+import "mod_key"
+import "mod_wm"
+
+Process Main()
+Begin
+    if (is_mode_ok(640,400,16,0))
+     set_mode(640,400,16);
+    else
+     set_mode(640,480,16);
+    end
+    Repeat
+        frame;
+    Until(key(_ESC)||exit_status)
+End
+</pre>
+Used in example: [[is_mode_ok]](),[[set_mode]](), [[key]](), [[exit_status]]
+
+{{Moduledocbox
+  | module = Mod_video
+}}

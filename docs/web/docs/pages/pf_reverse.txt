@@ -1,0 +1,3 @@
+1.  REDIRECT [pathfind\_flags](pathfind_flags "wikilink")
+
+<Category:constants> <Category:mod_path>

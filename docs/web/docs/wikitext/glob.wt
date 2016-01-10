@@ -1,0 +1,72 @@
+[[Category:functions]]
+[[Category:files]]
+[[Category:mod_dir]]
+
+==Definition==
+'''STRING''' glob ( <'''STRING''' criteria> )
+
+Gets a single filename or directoryname matching the criteria. If the same criteria is specified, it keeps returning new items on subsequent calls until it can't find any more, in which case it returns "". When different criteria are specified, the search is 'reset'. To reset the search without returning an item, use <code>""</code> as criteria.
+
+After a call to glob(), the global struct [[fileinfo]] is filled with information about the last file/directory entry returned.
+
+== Parameters ==
+{| 
+| '''STRING''' criteria || - The search criteria to which the returned filenames apply. <code>""</code> to reset search.
+|}
+
+== Returns ==
+'''STRING''' : Filename or directoryname
+{|
+| "" || - No (new) file/directory entries.
+|-
+| !"" || - The name of a file/directory entry matching the search criteria.
+|}
+
+== Notes ==
+The search criteria can hold many criteria: the folder in which you want to look, simple requirements for filenames, such as extensions, and directory names. A few examples:
+{|
+| <code>*</code> || - Returns the filename of any file/directory in the current directory.
+|-
+| <code>*.dat</code> || - Returns the filename of any file/directory with extension <code>.dat</code> in the current directory.
+|-
+| <code>MyDir/*</code> || - Returns the filename of any file/directory in <code>MyDir\</code> relative to the current directory.
+|-
+| <code>C:/Program Files/*</code> || - Returns the filename of any file/directory in <code>C:\Program Files\*</code>.
+|}
+
+== Example ==
+<pre>
+import "mod_dir"
+
+Process Main()
+Private
+    String filename;
+Begin
+
+    // method one:
+    Loop
+        filename = Glob("levels/*.tul"); // Looks for a file in the relative folder
+                                         // "levels" that has the file extension "tul".
+        if(filename!="")
+            load_level(filename); // load_level() would load the level file
+        else
+            break;
+        end
+
+    End
+
+    //Reset search
+    glob("");
+
+    // method two:
+    While( (filename = Glob("levels/*.tul")) != "" )
+        load_level(filename);
+    End
+
+End
+</pre>
+Both methods result in the same, but the second one is less code.
+
+{{Moduledocbox
+  | module = Mod_dir
+}}

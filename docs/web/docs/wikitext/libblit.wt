@@ -1,0 +1,16 @@
+[[Category:modules]]
+[[Category:internal]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Internal library for blitting.
+
+== Usage ==
+
+{{module_exports
+  | modulename = libblit
+}}
+
+{{modulebox}}

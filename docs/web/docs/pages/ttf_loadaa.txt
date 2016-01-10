@@ -1,0 +1,97 @@
+Syntax
+------
+
+**INT** ttf\_loadaa ( &lt;**STRING** filename&gt; , &lt;**INT**
+height&gt; , &lt;**INT** colordepth&gt; , &lt;**INT**
+backgroundcolor&gt; , &lt;**INT** textcolor&gt; )
+
+Description
+-----------
+
+Loads a [TTF](TTF "wikilink") file as a [font](font "wikilink") into
+memory.
+
+Also called **load\_ttf**().
+
+Parameters
+----------
+
+  ------------------------- -----------------------------------------------------------------------------------------------------------------
+  **STRING** filename       - The filename of the [TTF](TTF "wikilink") file that you wish to load (including extension and possible path).
+  **INT** height            - The height in pixels of the to be created font, a size indication.
+  **INT** colordepth        - The [colordepth](colordepth "wikilink") of the to be created font (1,8 or 16).
+  **INT** backgroundcolor   - The background color of the to be created font.
+  **INT** textcolor         - The text color of the to be created font.
+  ------------------------- -----------------------------------------------------------------------------------------------------------------
+
+Returns
+-------
+
+**INT** : [FontID](FontID "wikilink")
+
+  ------- ------------------------------------------------------------------------------------------------------------------------------------
+  -1      - Error: file does not exist; insufficient memory; failed to init freetype.dll; error while loading file; error creating new font.
+  0       - Invalid filename.
+  &gt;0   - The FontID.
+  ------- ------------------------------------------------------------------------------------------------------------------------------------
+
+Errors
+------
+
+  ----------------------------- ---------------------------------------------------------------------------
+  Insufficient memory           - There is insufficient memory available. This error doesn't occur often.
+  Failed to init freetype.dll   - There was an error initializing freetype.dll
+  Error loading file            - There occurred an error while trying to load the file.
+  Error creating new font       - There occurred an error while trying to create a new font.
+  ----------------------------- ---------------------------------------------------------------------------
+
+Notes
+-----
+
+This function gets a [TrueType](http://en.wikipedia.org/wiki/Truetype)
+font and creates a new [font](font "wikilink") with generated
+[glyphs](glyph "wikilink") based on the recovered font in the standard
+characters set (ISO-8859-1). These glyphs are generated with two
+colours, being the specified colours.
+
+It's possible to save the loaded font as [FNT](FNT "wikilink") with
+[save\_fnt](save_fnt "wikilink")(). This way the font can be reused on
+platforms not supporting [mod\_ttf](mod_ttf "wikilink"). Note that a FNT
+file only has information about the font for one size, while a TTF file
+has information for any size.
+
+The specified size is only an indication; some characters may be a
+little higher in fact.
+
+The parameters *backgroundcolor* and *textcolor* only matter for 8 and
+16 bit colordepths. If you specify a colordepth of 1, then the returned
+font will be black (background) and white (textcolour). The advantage of
+this, is that you can use change the colour any time, even after
+loading, with [set\_text\_color](set_text_color "wikilink")().
+
+Example
+-------
+
+    import "mod_key"
+    import "mod_map"
+    import "mod_video"
+    import "mod_ttf"
+    import "mod_text"
+    global
+      int id_ttf;
+    Begin
+        set_mode(320,240,16);
+        id_ttf = load_ttfaa("resources/presdntn.ttf",48,16,RGB(255,0,0),RGB(0,255,0)); 
+        write(id_ttf,20,10,0,"Hello World");
+        Repeat
+            frame;
+        Until(key(_ESC))
+        unload_fnt(id_ttf);
+    End
+
+Used in example:
+[set\_mode](set_mode "wikilink")(),[ttf\_loadaa](ttf_loadaa "wikilink")(),
+[rgb](rgb "wikilink")(), [write](write "wikilink")(),
+[key](key "wikilink")(), [unload\_fnt](unload_fnt "wikilink")()
+
+<Category:functions> <Category:ttfdll> <Category:mod_ttf>

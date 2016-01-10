@@ -1,0 +1,54 @@
+[[category:reserved]]
+[[category:language]]
+[[category:control flow statements]]
+
+== Syntax ==
+{{Syntaxdocbox}}
+'''call''' <label> ;
+
+
+
+
+
+
+== Description ==
+The [[call]] command jumps to the given [[label]] inside a [[function]] or [[process]] until it comes across a [[return]] statement. When this happens, it jumps back to call statement and resumes after it.
+
+== Example ==
+<pre>
+import "mod_say"
+
+Process Main()
+Begin
+
+    say(my_function(1));
+
+End
+
+Function my_function(int value)
+Private
+    int ret;
+Begin
+
+    Jmp real_begin;
+
+jumping:
+    ret = 300;
+    return;
+
+real_begin:
+    ret = 100;
+    if(value == 1)
+        Call jumping;
+    end
+    ret += 200;
+    return ret;
+
+End
+</pre>
+Used in example: [[process]], [[function]], [[jmp]], [[call]], [[return]]
+
+The output of this example is <code>500</code>, when <code>value</code> is 1.
+This example show 500 because the input value is a one and it causes that goes to the jumping label inserting a 300 and adding a 200 after.
+
+{{Keywords}}

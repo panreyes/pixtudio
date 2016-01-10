@@ -1,0 +1,30 @@
+[[Category:functions]]
+[[Category:maps]]
+[[Category:mod_map]]
+
+==Definition==
+'''INT''' map_info_get ( <'''INT''' fileID> , <'''INT''' graphID> , <'''INT''' infotype> )
+
+Gets some information about the [[graph]] specified. This function is also known as [[Graphic_info]]() and [[Map_info]](). 
+
+== Parameters ==
+{| 
+| '''INT''' fileID || - The [[file]] that holds the graph.
+|-
+| '''INT''' graphID || - The [[graph]] to get information from.
+|-
+| '''INT''' infotype || - What [[graphical infotypes|type of information]] you want.
+|}
+
+== Returns ==
+'''INT''' : Returns the information you want.<br />
+If the specified graph was invalid it returns 0.<br />
+If the specified infotype was not recognized it returns 1.
+
+== Example ==
+
+See [[Graphic_info]]() for example.
+
+{{Funcbox
+  | category = Maps
+}}

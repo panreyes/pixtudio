@@ -1,0 +1,20 @@
+[[category:variablecategories]]
+[[category:predefinedvariablecategories]]
+
+[[Variablecategories|'''Up to Variable Categories''']]
+
+----
+
+A list of [[predefined]] [[global  variable]]s.
+----
+<DPL>
+category        = global variables
+mode            = userformat
+columns         = 2
+listseparators  = ,\n* [[%PAGE%|%TITLE%]],,
+redirects       = include
+ordermethod     = titlewithoutnamespace
+noresultsheader = No global variables here yet.
+resultsfooter   = \n%PAGES% global variables
+replaceintitle  = /\\? /,&#95;
+</DPL>

@@ -1,0 +1,18 @@
+[[Category:modules]]
+[[Category:libgrbase]]
+[[Category:libvideo]]
+[[Category:librender]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+[[Mode7]] module.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_m7
+}}
+
+{{modulebox}}

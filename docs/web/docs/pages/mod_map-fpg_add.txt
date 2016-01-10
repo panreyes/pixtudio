@@ -1,0 +1,19 @@
+##fpg_add()
+###Definition
+**INT** fpg_add ( &lt;**INT** destFileID&gt; , &lt;**INT** destGraphID&gt; ,  &lt;**INT** origFileID&gt; , &lt;**INT** origGraphID&gt; )
+
+Copies a certain graphic in a certain file to a certain file with a certain graphID.
+
+###Parameters
+- **INT** destFileID - The fileID of the destination file.  
+- **INT** destGraphID - The graphID in the destination file where to add the graphic  
+- **INT** origFileID - The fileID of the original file where the graphic is located.  
+- **INT** origGraphID - The graphID of the graphic to add.  
+
+### Returns
+**INT** graphID  
+<table class="table table-bordered table-hover table-condensed table-striped">
+	<tr><td>-1<td>Invalid destination file or graphID.  
+	<tr><td>0<td>Invalid original file or graphID.  
+	<tr><td>&gt;0<td>The GraphID of the destination graphic.
+</table>

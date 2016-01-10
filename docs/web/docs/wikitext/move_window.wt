@@ -1,0 +1,24 @@
+[[Category:functions]]
+[[Category:programinteraction]]
+[[Category:mod_wm]]
+
+== Definition ==
+'''INT''' move_window ( <'''INT''' x> , <'''INT''' y> )
+
+Moves the [[Bennu]] window so that the top left of the window is on the specified (''x'',''y'').
+
+Also called [[Set window pos]]().
+
+== Parameters ==
+{| 
+| '''INT''' x || - The new X coordinate of the top left of the window.
+|- 
+| '''INT''' y || - The new Y coordinate of the top left of the window.
+|}
+
+== Returns ==
+'''INT''' : [[true]]
+
+{{Moduledocbox
+  | module = Mod_wm
+}}

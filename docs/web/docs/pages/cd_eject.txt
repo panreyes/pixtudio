@@ -1,0 +1,25 @@
+Definition
+----------
+
+**INT** cd\_eject ( &lt;**INT** cdID&gt; )
+
+Ejects the CD/DVD (tray) from the drive.
+
+Parameters
+----------
+
+  -------------- -----------------------------------------------------------------------------
+  **INT** cdID   - The cdID of the CD/DVD drive of which the CD/DVD (tray) is to be ejected.
+  -------------- -----------------------------------------------------------------------------
+
+Returns
+-------
+
+**INT**
+
+  --- ---------------------------------
+  0   - Invalid CD/DVD drive.
+  1   - The CD/DVD (tray) is ejected.
+  --- ---------------------------------
+
+<Category:functions> <Category:CD> <Category:mod_cd>

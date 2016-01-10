@@ -1,0 +1,100 @@
+Syntax
+------
+
+**INT** ttf\_load ( &lt;**STRING** filename&gt; , &lt;**INT** height&gt;
+)
+
+Description
+-----------
+
+Loads a [TTF](TTF "wikilink") file as a [font](font "wikilink") into
+memory.
+
+Also called **load\_ttf**().
+
+Parameters
+----------
+
+  --------------------- -----------------------------------------------------------------------------------------------------------------
+  **STRING** filename   - The filename of the [TTF](TTF "wikilink") file that you wish to load (including extension and possible path).
+  **INT** height        - The height in pixels of the to be created font, a size indication.
+  --------------------- -----------------------------------------------------------------------------------------------------------------
+
+Returns
+-------
+
+**INT** : [FontID](FontID "wikilink")
+
+  ------- ------------------------------------------------------------------------------------------------------------------------------------
+  -1      - Error: file does not exist; insufficient memory; failed to init freetype.dll; error while loading file; error creating new font.
+  0       - Invalid filename.
+  &gt;0   - The FontID.
+  ------- ------------------------------------------------------------------------------------------------------------------------------------
+
+Errors
+------
+
+  ----------------------------- ---------------------------------------------------------------------------
+  Insufficient memory           - There is insufficient memory available. This error doesn't occur often.
+  Failed to init freetype.dll   - There was an error initializing freetype.dll
+  Error loading file            - There occurred an error while trying to load the file.
+  Error creating new font       - There occurred an error while trying to create a new font.
+  ----------------------------- ---------------------------------------------------------------------------
+
+Notes
+-----
+
+This function gets a [TrueType](http://en.wikipedia.org/wiki/Truetype)
+font and creates a new [font](font "wikilink") with generated
+[glyphs](glyph "wikilink") based on the recovered font in the standard
+characters set (ISO-8859-1). These glyphs are generated with two
+colours, being colour 0 (transparent) and the color last set by
+[set\_text\_color](set_text_color "wikilink")(). The first one is the
+background colour and the last one is the colour of the characters self.
+
+It's possible to save the loaded font as [FNT](FNT "wikilink") with
+[save\_fnt](save_fnt "wikilink")(). This way the font can be reused on
+platforms not having [mod\_ttf](mod_ttf "wikilink"). Note that a FNT
+file only has information about the font for one size, while a TTF file
+has information for any size.
+
+The specified size is only an indication; some characters may be a
+little higher in fact.
+
+Example
+-------
+
+    import "mod_key"
+    import "mod_proc"
+    import "mod_map"
+    import "mod_video"
+    import "mod_ttf"
+    import "mod_text"
+    global
+      int id_ttfs[2];
+    Begin
+        set_mode(320,240,16);
+        id_ttfs[0] = load_ttf("resources/presdntn.ttf",48); 
+        id_ttfs[1] = load_ttfaa("resources/presdntn.ttf",48,16,RGB(255,0,0),RGB(0,255,0)); 
+        write(id_ttfs[0],20,10,0,"Hello");
+        set_text_color(RGB(255,0,255));
+        write(id_ttfs[0],150,10,0,"World");
+        write(id_ttfs[1],20,100,0,"Bye");
+        Repeat
+            frame;
+        Until(key(_ESC))
+
+        unload_fnt(id_ttfs[0]);
+        unload_fnt(id_ttfs[1]);
+
+        exit();
+    End
+
+Used in example:
+[set\_mode](set_mode "wikilink")(),[set\_text\_color](set_text_color "wikilink")(),
+[rgb](rgb "wikilink")(),
+[load\_ttf](load_ttf "wikilink")(),[load\_ttfaa](load_ttfaa "wikilink")(),
+[write](write "wikilink")(), [key](key "wikilink")(),
+[unload\_fnt](unload_fnt "wikilink")()
+
+<Category:functions> <Category:ttfdll> <Category:mod_ttf>

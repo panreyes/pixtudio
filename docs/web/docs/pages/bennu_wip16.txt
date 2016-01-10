@@ -1,0 +1,16 @@
+[Bennu](Bennu "wikilink") Work in Progress 16.
+
+Download
+--------
+
+-   No Windows version yet (see [Bennu\_WIP15](Bennu_WIP15 "wikilink")
+    for the latest Windows version)
+-   [Linux automated
+    installer](http://betatester.bennugd.org/betas/bgd-wip16-installer.sh)
+    (from [Beta site of BennuGD](http://betatester.bennugd.org/betas))
+
+Bugs
+----
+
+Changelog
+---------

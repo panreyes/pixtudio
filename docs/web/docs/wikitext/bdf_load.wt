@@ -1,0 +1,68 @@
+[[Category:functions]]
+[[Category:fonts]]
+[[Category:mod_map]]
+
+== Definition ==
+'''INT''' bdf_load ( <'''STRING''' filename>, [ <'''POINTER''' id>] )
+
+Loads a [http://en.wikipedia.org/wiki/Glyph_Bitmap_Distribution_Format BDF font] file into memory as a [[font]]. 
+
+The previous name [[load_bdf]]() is deprecated. 
+
+== Parameters ==
+{|
+| '''STRING''' filename || - The filename of the bdf file that you wish to load (including extension and possible path).
+|-
+|'''POINTER''' id || - Optional parameter, for loading a font in the background.
+|}
+
+== Returns ==
+
+'''INT''' : [[graphID]]
+{|
+| -2 || - Waiting for the file to be loaded, see notes.
+|-
+| -1 || - There was an error loading the file.
+|-
+| >=0 || - The graphID of the newly created font.
+|}
+
+
+''the following applies for versions prior rc282:''
+
+'''INT''' : [[FontID]]
+{|
+| -1 || - Error: file does not exist.
+|-
+| 0 || - Filename could not be obtained from the specified string (doesn't happen usually).
+|-
+| >0 || - The FontID.
+|}
+
+== Errors ==
+{|
+| Format not recognized || - The format of the specified file could not be recognized.
+|}
+
+== Notes ==
+
+The optional parameter '''id''' was introduced in version rc282 and allows you to load resources in the background.
+It used with the [[Offset]] operator. See example below:
+
+<pre>
+      load_bdf("archivo_gordo.bdf", &idbdf);
+      while(idbdf==-2)
+            say("Big File Loading ....");
+            frame;
+      end
+      if(idbdf==-1)
+          say("Something went wrong!!");
+          exit(); // o return
+      end
+
+      say("Big file loaded ok!!");
+</pre>
+
+{{Moduledocbox
+  | module = Mod_map
+}}

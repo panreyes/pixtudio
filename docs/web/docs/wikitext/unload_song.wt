@@ -1,0 +1,31 @@
+[[Category:functions]]
+[[Category:sound]]
+[[Category:mod_sound]]
+
+==Definition==
+'''INT''' unload_song ( <'''INT''' SongID> )
+
+
+Frees the memory occupied by the song file, previously loaded with [[load_song]]().
+
+== Parameters ==
+{| 
+| '''INT''' SongID || - The [[SongID]] of the song to unload.
+|}
+
+
+== Returns ==
+'''INT''' : Error.
+{|
+| -1 || - Error: sound inactive; invalid [[songID]].
+|-
+| 0 || - No error.
+|}
+
+== Notes ==
+
+Instead of an '''INT''' a '''POINTER''' may also be used in the SongID argument.
+
+{{Funcbox
+  | category=Sound
+}}

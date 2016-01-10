@@ -1,0 +1,17 @@
+[[Category:modules]]
+[[Category:internal]]
+[[Category:libsdlhandler]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Internal library for managing the window.
+
+== Usage ==
+
+{{module_exports
+  | modulename = libwm
+}}
+
+{{modulebox}}

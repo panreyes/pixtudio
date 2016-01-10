@@ -1,0 +1,19 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:local variables]]
+[[category:internal]]
+
+[[Local variables|'''Up to Local Variables''']]
+
+----
+
+
+== Definition ==
+'''INT''' son
+
+'''Son''' is a predefined [[local variable]]. '''Son''' holds the [[ProcessID]] of the [[process]]/[[function]] that was last called by the current [[process]]/[[function]]. There are several other local variables which refer to the ProcessID of a related process:
+*[[Father]]
+*[[Bigbro]]
+*[[Smallbro]]
+
+{{Locals}}

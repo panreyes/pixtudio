@@ -1,0 +1,15 @@
+[[Category:constantcategories]]
+
+== Definition ==
+Seek modes are used to specify the mode of seeking in a  file, by passing one of them to the [[function]] [[fseek]]() as the [[parameter]] ''relativeness''. The mode of seeking means to what position the seeking will be related to.
+
+== List ==
+{|
+| ''Constant'' || - ''Value'' || - ''Relative to''
+|-
+| SEEK_SET || - 0 || - The beginning of the file. This means just setting the position.
+|-
+| SEEK_CUR || - 1 || - The current position.
+|-
+| SEEK_END || - 2 || - The end of the file.
+|}

@@ -1,0 +1,22 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:global variables]]
+[[category:libvideo]]
+
+[[Global variables|'''Up to Global Variables''']]
+
+----
+
+
+'''INT''' full_screen = false
+
+== Description ==
+full_screen is a predefined [[global variable]]. It defines whether Bennu (libvideo to be more precise) will be rendered in windowed (default) or fullscreen mode.
+
+The value of full_screen can be changed. [[false]] for windowed mode and [[true]] for fullscreen mode. For the change to have effect, [[set_mode]]() needs to be called afterwards.
+
+== See also ==
+* [[graph_mode]]
+* [[scale_mode]]
+
+{{Globals}}

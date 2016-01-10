@@ -1,0 +1,26 @@
+[[Category:General]]
+
+== Definition ==
+
+An argument is the [[value]] passed on when calling a [[function]] or [[process]]. The [[variable]] and its value inside the definition of a [[function]] or [[process]] is called a [[parameter]].
+
+== Example ==
+<pre>
+Function int my_proc( int parameter )
+Begin
+    //statements
+    return 0;
+End
+
+Process Main()
+Private
+    int argument = 3;
+Begin
+    my_proc( argument );
+    my_proc( 4);
+End
+</pre>
+Used in example: [[Function]], [[Process]]
+
+== See also ==
+* [[Parameter]]

@@ -1,0 +1,77 @@
+[[Category:constantcategories]]
+
+== Description ==
+Signals are used to specify the signal to be sent to a [[process]] or all processes of a [[processType]], by passing one of them to the function [[signal]]() as the signal [[parameter]].
+The reaction a process has on an incoming signal can be influenced by [[signal_action]]().
+
+== List ==
+{|
+| ''Constant'' || - ''Value'' || - ''Description''
+|-
+| S_KILL || - 0 || - Kill the process.
+|-
+| S_WAKEUP || - 1 || - Wakeup the process.
+|-
+| S_SLEEP || - 2 || - Put the process to sleep.
+|-
+| S_FREEZE || - 3 || - Freeze the process.
+|-
+| S_KILL_FORCE || - 50 || - Kill the process forcefully.
+|-
+| S_WAKEUP_FORCE || - 51 || - Wakeup the process forcefully.
+|-
+| S_SLEEP_FORCE || - 52 || - Put the process to sleep forcefully.
+|-
+| S_FREEZE_FORCE || - 53 || - Freeze the process forcefully.
+|-
+| S_KILL_TREE || - 100 || - Kill the process and all its connected descendants.
+|-
+| S_WAKEUP_TREE || - 101 || - Wakeup the process and all its connected descendants.
+|-
+| S_SLEEP_TREE || - 102 || - Put the process and all its connected descendants to sleep.
+|-
+| S_FREEZE_TREE || - 103 || - Freeze the process and all its connected descendants.
+|-
+| S_KILL_TREE_FORCE || - 150 || - Kill the process and all its connected descendants forcefully.
+|-
+| S_WAKEUP_TREE_FORCE || - 151 || - Wakeup the process and all its connected descendants forcefully.
+|-
+| S_SLEEP_TREE_FORCE || - 152 || - Put the process and all its connected descendants to sleep forcefully.
+|-
+| S_FREEZE_TREE_FORCE || - 153 || - Freeze the process and all its connected descendants forcefully.
+|}
+A descendant is connected when all its ascendants up until the process are still alive.
+
+Note: The constants S_FORCE, S_TREE and ALL_PROCESS are for internal use only.
+
+== More info ==
+
+=== General ===
+* S_KILL - Order to kill the process. The process will not appear in the following [[frame]]s of the game any longer. If the process has an [[onexit]] part, it is executed in the same frame as the process was killed.
+* S_WAKEUP - Order to wake up the process. It returns a slept or frozen process to its normal state. The process will be executed and displayed again from the moment that it recieves theis signal normally. A process that has been killed cannot be returned to its normal state by this method (or at all).
+* S_SLEEP - Order to make the process dormant. The process will remain paralyzed, without executing its code and without being displayed on screen (nor being detected by other processes), as if it had been killed. But the process will continue to exist in the computer's memory.
+* S_FREEZE - Order to freeze the process. The process will remain motionless without running its code. But it will continue to be displayed on screen and it will be possible to detect it (in the collisions) by the rest of the processes. The process will continue to exist in the computers memory even if its code is not executed.
+
+=== Tree ===
+In addition to these there are the following signals that have the same effect, but affect a range of processes, not just a single process:
+
+* S_KILL_TREE
+* S_WAKEUP_TREE
+* S_SLEEP_TREE
+* S_FREEZE_TREE
+
+These will have the effect of their non-tree counterparts, but will affect the process indicated by the [[processID]]|[[processTypeID]] parameter and all of the processes created by those processes, either directly, or indirectly. So if an S_KILL_TREE signal is sent to a process, that process will die, all of the processes that it created will die, and all of the processes that they created will die, and so on. The exception to this is where there is an [[orphan process]], that is a process to whose [[father]] is already dead, because the grandfather process of the orphaned process cannot know the orphaned process is a descendant of his.
+
+=== Forcefully ===
+All normal (=non forced) signals have a forceful equivalent, meaning they get carried out ''whether the target process ignores it or not'':
+
+* S_KILL_FORCE
+* S_WAKEUP_FORCE
+* S_SLEEP_FORCE
+* S_FREEZE_FORCE
+* S_KILL_TREE_FORCE
+* S_WAKEUP_TREE_FORCE
+* S_SLEEP_TREE_FORCE
+* S_FREEZE_TREE_FORCE
+
+Normal incoming signals can be influenced by [[signal_action]](), but these signals cannot be influenced. This means that sending a process <code>S_KILL_FORCE</code> it ''will'' be killed.

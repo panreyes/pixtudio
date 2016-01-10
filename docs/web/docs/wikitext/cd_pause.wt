@@ -1,0 +1,25 @@
+[[Category:functions]]
+[[Category:CD]]
+[[Category:mod_cd]]
+
+==Definition==
+'''INT''' cd_pause ( <'''INT''' cdID> )
+
+Pauses playback of the specified CD/DVD drive.
+
+== Parameters ==
+{|
+| '''INT''' cdID || - The cdID of the CD/DVD drive to pause playback on.
+|}
+
+== Returns ==
+'''INT'''
+{|
+| 0 || - Invalid CD/DVD drive.
+|-
+| 1 || - Playback of the CD/DVD drive is paused.
+|}
+
+{{Moduledocbox
+  | module = Mod_cd
+}}

@@ -1,0 +1,14 @@
+[[Fenix]] 0.93 Preview 9.
+
+Note that there is ''no source available'', as this is a ''preview''. To use this version you'll first have to get [[0.92a]] and then overwrite the files with this version.
+
+There is also a [[Bennu]] 0.93 Compiler Preview available. This version is fully compatible with the Fenix 0.93 Interpreter, but has many fixes compared to the Fenix 0.93 Compiler, thanks to Juan. It is recommended that this one is used.
+
+== Download ==
+* [[Media:Fenix092a-win32-binary.zip‎|Fenix 0.92a Win32 Binaries]]
+* [[Media:0.93-preview9.zip|Fenix 0.93 Preview 9 Binaries]]
+* [[Media:Bgdc0.93.zip|Bennu 0.93 Compiler]]
+
+== Bugs ==
+
+== Changelog ==

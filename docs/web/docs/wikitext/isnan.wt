@@ -1,0 +1,26 @@
+[[Category:functions]]
+[[Category:math]]
+[[Category:mod_math]]
+
+== Syntax ==
+'''INT''' isnan ( <'''FLOAT''' number> )
+
+== Description ==
+Checks if a given value is a number. It does not check for infinties. Use the [[Isinf]]() function for that.
+
+== Parameters ==
+{| 
+| '''FLOAT''' number || - The value to check.
+|}
+
+== Returns ==
+{| 
+| '''INT''' FALSE || - The value is a number.
+|-
+| '''INT''' TRUE || - The value is NOT a number.
+|}
+
+
+{{Moduledocbox
+  | module = Mod_math
+}}

@@ -1,0 +1,20 @@
+[[Category:functions]]
+[[Category:CD]]
+[[Category:mod_cd]]
+
+==Definition==
+'''STRING''' cd_name ( <'''INT''' cdID> )
+
+Returns the current name of the specified CD/DVD drive.
+
+== Parameters ==
+{|
+| '''INT''' cdID || - The cdID of the CD/DVD drive of which the name is wanted.
+|}
+
+== Returns ==
+'''STRING''' : The current name of the specified CD/DVD drive.
+
+{{Moduledocbox
+  | module = Mod_cd
+}}

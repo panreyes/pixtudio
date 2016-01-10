@@ -1,0 +1,2 @@
+1.  REDIRECT [ALL TEXT](ALL_TEXT "wikilink")
+

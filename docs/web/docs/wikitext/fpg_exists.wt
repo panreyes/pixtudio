@@ -1,0 +1,25 @@
+[[Category:functions]]
+[[Category:fpg]]
+[[Category:mod_map]]
+
+==Definition==
+'''INT''' fpg_exists ( <'''INT''' FileID> )
+
+Checks if an FPG exists with the specified [[FileID]].
+
+== Parameters ==
+{| 
+| '''INT''' FileID || - The [[FileID]] of the [[File]] to check for existence.
+|}
+
+== Returns ==
+'''INT''' : Whether the [[File]] exists
+{|
+| [[false]] || - The specified [[File]] does not exist.
+|-
+| [[true]] || - The specified [[File]] exists.
+|}
+
+{{Moduledocbox
+  | module = Mod_map
+}}

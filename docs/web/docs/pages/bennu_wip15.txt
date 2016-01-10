@@ -1,0 +1,19 @@
+**Note:** *There is a [newer version](Latest_Bennu_version "wikilink")
+available*
+
+[Bennu](Bennu "wikilink") Work in Progress 15.
+
+Download
+--------
+
+-   [Windows
+    package](http://betatester.bennugd.org/betas/win32-wip15c.rar)
+-   [Windows package
+    update](http://betatester.bennugd.org/betas/win32-wip15c.2.rar)
+    (overwrite other files with these)
+
+Bugs
+----
+
+Changelog
+---------

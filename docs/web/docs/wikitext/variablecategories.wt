@@ -1,0 +1,14 @@
+[[Index|'''Up to Index''']]
+
+[[variables|'''List of Variables''']]
+
+----
+
+
+==Predefined variable categories==
+<DPL>
+category=predefinedvariablecategories
+mode=userformat
+listseparators = ,\n* [[%PAGE%|%TITLE%]],,
+redirects = include
+</DPL>

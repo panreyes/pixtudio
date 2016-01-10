@@ -1,0 +1,55 @@
+[[Category:functions]]
+[[Category:maps]]
+[[Category:mod_map]]
+
+==Definition==
+'''INT''' graphic_info ( <'''INT''' fileID> , <'''INT''' graphID> , <'''INT''' infotype> )
+
+Gets some information about the [[graph]] specified. This function is also known as [[Map_info]]() and [[Map_info_get]](). 
+
+== Parameters ==
+{| 
+| '''INT''' fileID || - The [[file]] that holds the graph.
+|-
+| '''INT''' graphID || - The [[graph]] to get information from.
+|-
+| '''INT''' infotype || - What [[graphical infotypes|type of information]] you want.
+|}
+
+== Returns ==
+'''INT''' : Returns the information you want.<br />
+If the specified graph was invalid it returns 0.<br />
+If the specified infotype was not recognized it returns 1.
+
+== Example ==
+<pre>
+Program keuken;
+Local
+    gxc;
+    gyc;
+
+Begin
+
+    set_mode(640,480,16);
+    
+    graph=new_map(rand(50,150),rand(50,150),16); //makes a randomly proportioned red rectangle
+    map_clear(0,graph,rgb(255,0,0));
+    x=320;
+    y=240;
+
+    gxc=graphic_info(0,graph,G_X_CENTER);
+    gyc=graphic_info(0,graph,G_Y_CENTER);  //finds the graphic's center coordinates
+
+    map_put_pixel(0,graph,gxc,gyc,rgb(255,255,255)); //puts a white pixel in the center of the graphic
+
+    Loop
+  
+        frame;
+    End
+End
+</pre>
+Used in example: [[set_mode]](), [[new_map]](), [[map_clear]](), [[map_put_pixel]]()
+
+{{Funcbox
+  | category = Maps
+}}

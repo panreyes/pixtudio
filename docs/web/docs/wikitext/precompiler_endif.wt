@@ -1,0 +1,11 @@
+[[category:precompiler]]
+
+== Definition ==
+'''#endif'''
+
+'''#endif''' is used to end the following [[precompiler]] statements:
+* [[precompiler_ifdef|#ifdef]]
+* [[precompiler_ifndef|#ifndef]]
+* [[precompiler_if|#if]]
+
+{{Precompiler_statements}}

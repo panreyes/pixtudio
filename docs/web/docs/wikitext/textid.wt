@@ -1,0 +1,15 @@
+[[category:general]]
+[[category:texts]]
+
+== Definition ==
+'''TextID'''
+
+TextID is an identifier associated with a certain [[text]]. It is returned by various [[Functioncategory:Texts|text functions]], like [[write]](), [[write_int]](), [[write_string]](), [[write_float]]() and [[move_text]]().
+
+When a dynamic text is created, it has the color last set by [[set_text_color]](). By default this is white ([[rgb]](255,255,255)). Its Z value is equal to [[text_z]] at the moment of creation, which is -256 by default. 
+
+To move the dynamic text associated with a TextID, use [[move_text]](). To delete the text, use [[delete_text]](). There can be a total of 512 dynamic texts on screen simultaneously.
+
+== See also ==
+* [[Text]]
+* [[Functioncategory:Texts|Text functions]]

@@ -1,0 +1,21 @@
+[[Index|'''Up to Index''']]
+
+[[functioncategories|'''Function Categories''']]
+
+----
+
+List of all documented functions regarding [[Bennu]]: native, [[DLL]] or otherwise.
+----
+<DPL>
+category=functions
+notnamespace = Template
+redirects = include
+
+mode=userformat
+ordermethod = titlewithoutnamespace
+
+columns = 5
+listseparators = ,\n* [[%PAGE%|%TITLE%]](),,
+resultsfooter = \n%PAGES% functions
+replaceintitle = /\\? /,&#95;
+</DPL>

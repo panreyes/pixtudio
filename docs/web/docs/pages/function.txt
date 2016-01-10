@@ -1,0 +1,73 @@
+[category:basic statement](category:basic_statement "wikilink")
+
+[**Up to Basic Statements**](Basic_statements "wikilink")
+
+[**List of Functions**](:Category:functions "wikilink")
+
+------------------------------------------------------------------------
+
+Syntax
+------
+
+**Function** <returntype> <name> **(** \[ <parameters> \] **)**\
+\[ **Public**
+
+:   \[ <public variables> \]
+
+**End** \]\
+\[ **Private**
+
+:   \[ <private variables> \]
+
+**End** \]\
+**Begin**
+
+:   \[ <function code> \]
+
+\[ **OnExit**
+
+:   \[ <exit code> \]
+
+\]\
+**End**
+
+Description
+-----------
+
+Function is a reserved word used to start the code of a function.
+
+A function is a [subroutine](subroutine "wikilink") to which one or more
+of the following apply:
+
+-   it receives [parameters](parameters "wikilink")
+-   it acts on the parameters
+-   it processes [data](data "wikilink") located elsewhere
+-   it [returns](return "wikilink") a [value](value "wikilink")
+
+The difference between a function and a [process](process "wikilink") is
+that the calling process or function waits until the function is
+completed. When a process or function calls a process, it doesn't wait.
+This means that, even when the called function contains
+[frame](frame "wikilink") statements, the calling function or process
+still waits for the function to finish. This is shown in [this
+tutorial](Tutorial:Textinput "wikilink").
+
+For a list of functions, see [this list of
+functions](:Category:functions "wikilink").
+
+Example
+-------
+
+    Function int addInts( int a , int b )
+    Private // Declare private variables here
+    Begin // Start the main functioncode
+        return a+b;
+    End // End the main functioncode
+
+addInts(3,6); will return 9. One can see that the function does indeed:
+
+-   receive parameters.
+-   act on the parameters.
+-   return a value.
+
+<Category:General> <Category:reserved> <Category:language>

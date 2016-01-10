@@ -1,0 +1,18 @@
+**Note:** *There is a [newer version](Latest_Bennu_version "wikilink")
+available*
+
+[Bennu](Bennu "wikilink") Work in Progress 17.
+
+Download
+--------
+
+-   No Windows.
+-   [Linux automated
+    installer](http://betatester.bennugd.org/betas/bgd-wip17-installer.sh)
+    (from [Beta site of BennuGD](http://betatester.bennugd.org/betas))
+
+Bugs
+----
+
+Changelog
+---------

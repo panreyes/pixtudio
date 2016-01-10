@@ -1,0 +1,18 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:global variables]]
+[[category:librender]]
+
+[[Global variables|'''Up to Global Variables''']]
+
+----
+
+
+== Definition ==
+'''INT''' restore_type = PARTIAL_RESTORE
+
+Restore_type is a [[global variable]], holding the current [[restore_modes|restore_mode]]. The mode can be changed by assigning a different mode to the variable. Default is [[PARTIAL_RESTORE]].
+
+See also [[dump_type]].
+
+{{Globals}}

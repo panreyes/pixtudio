@@ -1,0 +1,20 @@
+[[Index|'''Up to Index''']]
+
+[[projectcategories|'''Project Categories''']]
+
+----
+
+
+Projects! [[Add a project|Add]] to it if you please.
+
+----
+<DPL>
+category         = Projects
+notcategory      = projecttest
+mode             = userformat
+listseparators   = ,\n* [[%PAGE%|%TITLE%]] ,,
+redirects        = include
+resultsfooter    = \nCatering %PAGES% projects
+oneresultfooter  = \nCatering %PAGES% project
+noresultsfooter  = No projects yet.
+</DPL>

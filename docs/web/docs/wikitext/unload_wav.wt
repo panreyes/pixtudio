@@ -1,0 +1,29 @@
+[[Category:functions]]
+[[Category:sound]]
+[[Category:mod_sound]]
+
+==Definition==
+'''INT''' unload_wav ( <'''INT''' WaveID> )
+
+Frees the memory occupied by the wave file, previously loaded with [[load_wav]]().
+
+== Parameters ==
+{| 
+| '''INT''' WaveID || - The [[WaveID]] of the sound to unload.
+|}
+
+== Returns ==
+'''INT''' : Error.
+{|
+| -1 || - Error: sound inactive; invalid [[waveID]].
+|-
+| 0 || - No error.
+|}
+
+== Notes ==
+
+Instead of an '''INT''' a '''POINTER''' may also be used in the WaveID argument.
+
+{{Funcbox
+  | category=Sound
+}}

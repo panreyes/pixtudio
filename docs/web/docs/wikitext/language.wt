@@ -1,0 +1,16 @@
+[[Index|'''Up to Index''']]
+
+----
+
+List of pages about the language of Fenix/Bennu.
+
+The pages listed here are mostly about the syntax of the language. In the [[general|'general' category]] are pages describing how the language works, with all its different aspects.
+----
+<DPL>
+category=language
+mode=userformat
+columns=3
+listseparators = ,\n* [[%PAGE%|%TITLE%]],,
+redirects = include
+resultsfooter = \n%PAGES% articles
+</DPL>

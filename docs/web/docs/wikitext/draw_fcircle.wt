@@ -1,0 +1,31 @@
+[[Category:functions]]
+[[Category:drawing]]
+[[Category:mod_draw]]
+
+==Definition==
+'''INT''' draw_fcircle ( <'''INT''' x> , <'''INT''' y> , <'''INT''' radius> )
+
+Draws a filled circle with center ''(x0,y0)'' and radius ''radius''.
+
+== Parameters ==
+{|
+| '''INT''' x || - The x coordinate of one center of the filled circle.
+|- 
+| '''INT''' y || - The y coordinate of one center of the filled circle.
+|- 
+| '''INT''' radius || - The radius of the filled circle.
+|}
+
+== Returns ==
+'''INT''' : [[DrawID]]
+{|
+| -1 || - Error.
+|-
+| 1 || - If drawn after [[drawing_map]]().
+|-
+| !-1&&!1 || - The [[DrawID]] of the [[drawing]] created.
+|}
+
+{{Funcbox
+  | category=Drawing
+}}

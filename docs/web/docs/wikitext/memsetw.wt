@@ -1,0 +1,32 @@
+[[Category:functions]]
+[[Category:memory]]
+[[Category:mod_mem]]
+
+==Syntax==
+'''INT''' memsetw ( <'''VOID POINTER''' data> , <'''WORD''' value> , <'''INT''' words> )
+
+== Description ==
+Sets all words in the specified memory block to the specified value.
+
+Also called [[mem_setw]]().
+
+== Parameters ==
+{|
+| '''VOID POINTER''' data || - Pointer to the block of words in memory.
+|-
+| '''WORD''' value || - Value to set all words to.
+|-
+| '''INT''' words || - Number of words to change the value of.
+|}
+
+== Returns ==
+'''INT''' : [[true]]
+
+== Example ==
+See [[alloc]]().
+
+Also useful in conjunction with [[map_buffer]]() with 16bit [[map]]s. (''Example needed.'')
+
+{{Moduledocbox
+  | module = Mod_mem
+}}

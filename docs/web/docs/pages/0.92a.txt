@@ -1,0 +1,20 @@
+[Fenix](Fenix "wikilink") 0.92a.
+
+Note that there is a [newer preview](0.93 "wikilink") available.
+
+Download
+--------
+
+-   [Fenix 0.92a Source](Media:Fenix092a-src-release.zip "wikilink")
+-   [Fenix 0.92a Binaries](Media:Fenix092a-win32-binary.zip "wikilink")
+
+Bugs
+----
+
+-   The first [rand](rand "wikilink")() statement in a program returns
+    the same number every execution of the program if the difference
+    between lower and upper bound is relatively small, for example 20.
+    (fixed in [0.93](0.93 "wikilink"))
+
+Changelog
+---------

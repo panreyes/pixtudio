@@ -1,0 +1,47 @@
+Definition
+----------
+
+**INT** wpad\_is\_ready ( &lt;**INT** wpad\_number&gt; )
+
+Returns whether controller *wpad\_number* is ready to be used.
+
+Parameters
+----------
+
+  ---------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  **INT** wpad\_number   - The controller whose state you want to retrieve. *wpad\_number* must be a positive integer up to 8 (the maximum number of controllers supported by the Wii console).
+  ---------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Returns
+-------
+
+**INT** : Controller state; 1 means controller is ready and 0 means it's
+not.
+
+Example
+-------
+
+    Global
+        int i;
+    End
+
+    Process Main()
+    Begin
+        while(! mouse.left)
+            delete_text(ALL_TEXT)
+            for(i=1; i<=8; i++)
+                if(wpad_is_ready(i))
+                    write(0,0,10*i,0,"Controller "+i+" is ready");
+                else
+                    write(0,0,10*i,0,"Controller "+i+" is not ready")
+                end;
+            end;
+            frame;
+        end;
+    End
+
+Used in example: [write](write "wikilink")(),
+[wpad\_is\_ready](wpad_is_ready "wikilink")(),
+[mouse](mouse "wikilink"), [delete\_text](delete_text "wikilink")()
+
+<Category:functions> <Category:Joystick> <Category:mod_wpad>

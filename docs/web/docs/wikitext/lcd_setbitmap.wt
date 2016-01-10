@@ -1,0 +1,49 @@
+[[Category:functions]]
+[[Category:lcddll]]
+[[Category:dll]]
+
+[[Functioncategory:Lcddll|'''Up to LCD.DLL Functions''']]
+----
+
+
+==Definition==
+'''INT''' LCD_SetBitmap ( <'''INT''' device> , <'''INT''' priority> , <'''BYTE POINTER''' map> )
+
+Sets the bitmap of the device to a certain map with a certain priority.
+
+== Parameters ==
+{|
+| '''INT''' device || - Number of the device.
+|-
+| '''INT''' priority || - The priority of the bitmap (see [[#Notes|notes]]).
+|-
+| '''BYTE POINTER''' map || - Pointer to a 160x43 byte array.
+|}
+
+== Returns ==
+'''INT''' : [[LCD_ERRORCODES|LCD.DLL Errorcodes]]
+{|
+| LCD_ERROR_NONE || - 0 || - No error.
+|-
+| LCD_ERROR_SERVICEINACTIVE || - -14 || - The service is inactive.
+|-
+| LCD_ERROR_DEVICENOTCONNECTED || - -21 || - Device not connected.
+|-
+| LCD_ERROR_INVALIDPARAMETER || - -22 || - Invalid parameter.
+|}
+
+== Notes ==
+* Multiple priorities can be used:
+{|
+| LCD_PRIORITY_IDLE_NO_SHOW || - Lowest priority, disable displaying. Use this priority when you don’t have anything to show.
+|-
+| LCD_PRIORITY_BACKGROUND || - Priority used for low priority items.
+|-
+| LCD_PRIORITY_NORMAL || - Normal priority, to be used by most applications most of the time.
+|-
+| LCD_PRIORITY_ALERT || - Highest priority. To be used only for critical screens, such as "your CPU temperature is too high"
+|}
+
+* One can use [[map_buffer]]() to obtain a byte pointer to a map. Make sure this map is of size 160x43 and it has a color depth of 8.
+
+{{Lcdfuncbox}}

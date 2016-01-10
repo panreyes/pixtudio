@@ -1,0 +1,16 @@
+[[Category:modules]]
+[[Category:libscroll]]
+
+[[:Category:modules|'''Up to Modules''']]
+
+----
+
+Scroll module.
+
+== Usage ==
+
+{{module_exports
+  | modulename = mod_scroll
+}}
+
+{{modulebox}}

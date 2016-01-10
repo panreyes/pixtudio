@@ -1,0 +1,22 @@
+[Bennu](Bennu "wikilink") Work in Progress 18.
+
+Download
+--------
+
+-   This release is a source-only release, and is available at the [SVN
+    repository](http://bennugd.svn.sourceforge.net/viewvc/bennugd/).
+    Win32 builds following the SVN can be found
+    [here](http://forum.bennugd.org/index.php?topic=397.0).
+
+<!-- -->
+
+-   For Linux binaries, the latest release is [ BennuGD WIP
+    17](Bennu_WIP17 "wikilink")
+-   For Windows binaries, the latest release is [ BennuGD WIP
+    15](Bennu_WIP15 "wikilink")
+
+Bugs
+----
+
+Changelog
+---------

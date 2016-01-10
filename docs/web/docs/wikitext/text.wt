@@ -1,0 +1,70 @@
+[[category:general]]
+[[category:texts]]
+
+== Definition ==
+A text is a text written on screen with [[Functioncategory:texts|texts functions]], like [[write]]() or [[write_int]](). A text is addressed using the associated [[TextID]].
+
+There are two kinds of texts:
+* Static text is any text written with [[write]](); it is static, because the content of the text cannot be changed after writing, but the text can be moved and deleted.
+* Dynamic text is any text written with write_xxx() functions; it is dynamic because the content of the text always reflects the current value of the variable specified. Of course moving and deleting is also possible.
+
+== Writing texts ==
+There are multiple ways to write texts: the write() function, write_xxx() functions and the write_in_map() function. With the first two, some the [[global variable]] [[text_z]] is important and with all three of them, the following are important:
+* The functions [[set_text_color]]() and [[get_text_color]]()
+* The [[font]]
+* The [[alignment]]
+* The global variable [[text_flags]]
+
+Also the function [[move_text]]() can be handy, as it moves a previously written text to a different location.
+
+== Example ==
+<pre>
+Program texts;
+Const
+    maxtexts = 10;
+Private
+    int textid[maxtexts-1];
+    string str;
+    float flt;
+Begin
+
+    // Set FPS
+    set_fps(60,0);
+
+    // Init text settings:
+    text_z = 0;
+    text_flags = 0;
+    set_text_color(rgb(255,255,255));
+
+    // Write some texts
+    textid[0] = write(0,0,0,0,"FPS:");
+    textid[1] = write_int(0,30,0,0,&fps);
+    textid[2] = write_string(0,160,95,1,&str);
+    textid[3] = write_float(0,160,105,0,&flt);
+
+    // Show z workings
+    set_text_color(rgb(50,150,150));
+    textid[4] = write(0,20,20,0,"Underlying text");
+    text_z = -1;
+    set_text_color(rgb(255,255,255));
+    textid[5] = write(0,22,22,0,"On top text");
+
+    // Update the texts until ESC is pressed
+    Repeat
+        // Notice the texts get updated as the values of str and flt changes.
+        // The same goes for the value of fps.
+        str = "This program is running for " + time()/100 + " seconds.";
+        flt = (float)time()/100;
+        frame;
+    Until(key(_esc));
+
+    // Delete the texts (this section would be good for OnExit)
+    for(x=0; x<maxtexts; x++)
+        if(textid[x]!=0)
+            delete_text(textid[x]);
+        end
+    end
+
+End
+</pre>
+Used in example: [[set_fps]](), [[set_text_color]](), [[write]](), [[write_int]](), [[write_string]](), [[write_float]](), [[key]](), [[delete_text]](), [[text_z]], [[text_flags]], [[fps]]

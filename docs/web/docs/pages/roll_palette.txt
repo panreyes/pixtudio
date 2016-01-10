@@ -1,0 +1,4 @@
+1.  REDIRECT [palette\_roll](palette_roll "wikilink")
+
+\[!-- The original text is in palette\_roll. The only modification was
+renaming all the "roll\_palette" as "palette\_roll" --\]

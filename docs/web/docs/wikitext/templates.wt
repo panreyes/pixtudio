@@ -1,0 +1,6 @@
+Templates:
+<DPL>
+namespace=Template
+mode=userformat
+listseparators = ,\n* [[%PAGE%|%TITLE%]],,
+</DPL>

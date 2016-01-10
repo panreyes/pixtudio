@@ -1,0 +1,13 @@
+[[Category:constants]]
+[[Category:internal]]
+
+== Definition ==
+'''INT''' MIN_INT = -2147483648
+
+The minimum integer value reachable with an [[int]].
+
+See also [[MAX_INT]].
+
+{{Moduledocbox
+  | module = internal
+}}

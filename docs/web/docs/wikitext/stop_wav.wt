@@ -1,0 +1,23 @@
+[[Category:functions]]
+[[Category:sound]]
+[[Category:mod_sound]]
+
+==Definition==
+'''INT''' stop_wav ( '''INT''' <channel>)
+
+Stops a the playback of sound of the indicated wave [[sound channel]].
+
+
+== Parameters ==
+''' INT''' channel: the [[sound channel]].
+
+== Returns ==
+'''INT''' : Status
+{|
+| -1 || - There is an error.
+|}
+
+
+{{Funcbox
+  | category=Sound
+}}

@@ -1,0 +1,14 @@
+[[Category:general]]
+
+== Definition ==
+
+A ProcessTypeID is a unique identification code, for a [[processType]]. A ProcessTypeID is smaller than 65536 (2^16).
+
+== Example ==
+Kill all SpaceShip()s (see [[process]]):
+<pre>
+Begin
+    signal(type SpaceShip,s_kill);
+End
+</pre>
+[[signal]]() signals all [[process|processes]] of [[processType]] SpaceShip the [[signals|signal]] to [[die]]. This is done by using the [[constant]] [[s_kill]] as the signal.

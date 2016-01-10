@@ -1,0 +1,14 @@
+[[Category:global variables]]
+[[Category:lcddll]]
+[[Category:dll]]
+
+[[Lcddll|'''Up to LCD.DLL''']]
+----
+
+
+== Struct LCD ==
+{|
+|| '''BYTE''' consoleReports || - [[true]]/''[[false]]'': whether general messages should be displayed in the console. READ/WRITE
+|}
+
+{{Lcddocbox}}

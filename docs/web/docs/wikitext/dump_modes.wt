@@ -1,0 +1,25 @@
+[[Category:constantcategories]]
+
+== Definition ==
+Dump modes are used to define the type of dump, needed to be applied to the screen, by assigning them to the [[global variable]] [[dump_type]]. This influences when and if [[graphic]]s of processes are drawn to the screen.
+
+== List ==
+{|
+| ''Constant'' || - ''Value'' || - ''Description''
+|-
+| PARTIAL_DUMP || - 0 || - Only graphics of updated (changed) [[processes]] will be drawn (default).
+|-
+| COMPLETE_DUMP || - 1 || - Graphics of all [[processes]] will be drawn, whether they've changed or not.
+|}
+
+== Notes ==
+It is clear that completely drawing all processes every frame is more expensive then updating only some of them. This mode can be useful still, because partially drawing processes can cause probably unwanted effects in some situations, mostly in combination with a certain [[restore_modes]]. However, if you experience no such thing, you can use the partial drawing.
+
+PARTIAL_DUMP is useful if there is relatively not much changing to processes and when there are a lot of processes that don't need updating. COMPLETE_DUMP is useful if most processes need updating.
+
+Be certain [[restore_type]] is compatible with the dump_type set, because some combinations can cause probably unwanted effects.
+
+== See also ==
+* [[dump_type]]
+* [[restore_type]]
+* [[restore_modes]]

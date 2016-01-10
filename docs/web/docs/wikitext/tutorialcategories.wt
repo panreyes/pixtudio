@@ -1,0 +1,16 @@
+[[Index|'''Up to Index''']]
+
+[[Tutorials|'''List of Tutorials''']]
+
+----
+
+Tutorials about Bennu categorized. They range from beginner to advanced users.
+
+Not many on here as of yet, add if you please!
+----
+<DPL>
+category=tutorialcategories
+mode=userformat
+listseparators = ,\n* [[%PAGE%|%TITLE%]],,
+redirects = include
+</DPL>

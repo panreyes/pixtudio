@@ -1,0 +1,23 @@
+[[Category:functions]]
+[[Category:files]]
+[[Category:mod_file]]
+
+==Definition==
+'''INT''' fmove ( <'''STRING''' source_file>, <'''STRING''' target_file>  )
+
+Renames files, from the bennu source code: [http://bennugd.svn.sourceforge.net/viewvc/bennugd/core/common/files.c?revision=276&view=markup files.c].
+
+== Parameters ==
+{| 
+| '''STRING''' source_file || - The source file.
+|-
+| '''STRING''' target_file || - The target file.
+|}
+
+== Returns ==
+'''INT''' : [[true]]/[[false]]: the status result of the action.
+{|
+| [[true]] || - The action was a success.
+|-
+| [[false]] || - The action failed.
+|}

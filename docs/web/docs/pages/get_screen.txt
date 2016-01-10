@@ -1,0 +1,2 @@
+1.  REDIRECT [Screen get](Screen_get "wikilink")
+

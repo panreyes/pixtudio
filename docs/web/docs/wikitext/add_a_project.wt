@@ -1,0 +1,16 @@
+[[projects|'''Projects''']]
+
+----
+
+
+== How to add ==
+To add a project to the list, simply create a page in the <code>Project</code> namespace (create an article with name: <code>Project:<projectname></code>) and add it to the category <code>Projects</code>. That's all the work to add a project, but if you should want multiple pages, it might be a good idea to add all pages created for this project to the categories <code>Projects</code> and <code>Project<projectname></code> by putting the following lines in the article:
+<pre>
+[[Category:Projects]]
+[[Category:Project<projectname>]]
+</pre>
+
+Also it is advised to use [[Template:Project|this template]] for quick info about your project.
+
+== What to add ==
+All sorts of projects are welcome, from a simple space invaders to a full blown MMORPG. Other kinds are also welcome, like DLL's or other secondary system projects.

@@ -1,0 +1,139 @@
+[[category:variables]]
+[[category:predefined]]
+[[category:global variables]]
+[[category:libmouse]]
+
+[[Global variables|'''Up to Global Variables''']]
+
+----
+
+
+== Definition ==
+'''Struct''' Mouse
+
+Mouse is a [[global variable]] [[struct]], containing information about the current state of the mouse. Also graphical settings can be configured to display a [[graphic]] following the mouse in a certain way.
+
+== Members ==
+{|
+| ''Member name'' || - ''Description''
+|-
+| '''INT''' x || - The [[X]]-coordinate of the mouse.
+|-
+| '''INT''' y || - The [[Y]]-coordinate of the mouse.
+|-
+| '''INT''' graph || - The [[graphID]] of the [[graphic]] of the mouse.
+|-
+| '''INT''' file || - The [[fileID]] of the [[file]] in which the [[graphic]] of the mouse is located.
+|-
+| '''INT''' z || - The [[Z]]-coordinate of the mouse.
+|-
+| '''INT''' angle || - The [[angle]] of the mouse process.
+|-
+| '''INT''' size || - The [[size]] of the mouse process.
+|-
+| '''INT''' flags || - The [[render flags]] of the mouse process.
+|-
+| '''INT''' region || - The [[region]] of the mouse process.
+|-
+| '''INT''' left || - [[true]]/[[false]]: whether the left mouse button is pressed.
+|-
+| '''INT''' middle || - [[true]]/[[false]]: whether the middle mouse button is pressed.
+|-
+| '''INT''' right || - [[true]]/[[false]]: whether the right mouse button is pressed.
+|-
+| '''INT''' wheelup || - [[true]]/[[false]]: whether the mouse wheel is scrolled upwards.
+|-
+| '''INT''' wheeldown || - [[true]]/[[false]]: whether the mouse wheel is scrolled downwards.
+|}
+
+== Example ==
+<pre>
+import "mod_map"
+import "mod_mouse"
+import "mod_wm"
+
+Process Main()
+Private
+    int dmap;
+    int rmap;
+    int gmap;
+    int bmap;
+    int ymap;
+    int cmap;
+    int mmap;
+    int wmap;
+Begin
+
+    // Create a dark graph
+    dmap = new_map(100,100,8);
+    map_clear(0,dmap,rgb(50,50,50));
+
+    // Create a red graph
+    rmap = new_map(100,100,8);
+    map_clear(0,rmap,rgb(255,0,0));
+
+    // Create a green graph
+    gmap = new_map(100,100,8);
+    map_clear(0,gmap,rgb(0,255,0));
+
+    // Create a blue graph
+    bmap = new_map(100,100,8);
+    map_clear(0,bmap,rgb(0,0,255));
+
+    // Create a yellow graph
+    ymap = new_map(100,100,8);
+    map_clear(0,ymap,rgb(255,255,0));
+
+    // Create a cyan graph
+    cmap = new_map(100,100,8);
+    map_clear(0,cmap,rgb(0,255,255));
+
+    // Create a magenta graph
+    mmap = new_map(100,100,8);
+    map_clear(0,mmap,rgb(255,0,255));
+
+    // Create a white graph
+    wmap = new_map(100,100,8);
+    map_clear(0,wmap,rgb(255,255,255));
+
+    Repeat
+    	if(mouse.left) // +Red
+            if(mouse.right) // +Green
+                if(mouse.middle) // +Blue
+                    mouse.graph = wmap;
+                else
+                    mouse.graph = ymap;
+                end
+            else
+                if(mouse.middle) // +Blue
+                    mouse.graph = mmap;
+                else
+                    mouse.graph = rmap;
+                end
+            end
+        elseif(mouse.right) // +Green
+            if(mouse.middle) // +Blue
+                mouse.graph = cmap;
+            else
+                mouse.graph = gmap;
+            end
+        elseif(mouse.middle) // +Blue
+            mouse.graph = bmap;
+        else // Dark
+            mouse.graph = dmap;
+        end
+        frame;
+    Until(exit_status)
+
+End
+</pre>
+Used in example: [[Mouse]], [[new_map]](), [[map_clear]](), [[graph]], [[exit_status]]
+
+Shows some use of maps and the mouse.
+
+{{Image
+  | image = mouse.png
+  | caption = Here the right and middle mouse buttons are pressed
+}}
+
+{{Globals}}

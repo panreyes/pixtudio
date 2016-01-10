@@ -1,0 +1,2 @@
+1.  REDIRECT [map\_load](map_load "wikilink")
+

@@ -1,0 +1,38 @@
+[[category:reserved]]
+[[category:language]]
+[[category:basic statement]]
+
+[[Basic statements|'''Up to Basic Statements''']]
+----
+
+== Syntax ==
+{{Syntaxdocbox}}
+'''Begin'''<br>
+:[ <main code> ]<br>
+[ '''OnExit'''<br>
+:[ <exit code>]<br>
+]
+'''End'''
+
+== Description ==
+Begin is a reserved word to indicate the start of the code part of a [[program]], [[process]] or [[function]]. The end is indicated by [[End]]. The [[OnExit]] statement can be used in between.
+
+== Example ==
+<pre>
+Process Main
+Begin // Start the main code part of the main process
+    proc1(); // create new instance of proc1
+End
+
+Process proc1()
+Begin // Start the main code part of the process
+End
+
+Function int func1()
+Begin // Start the main code part of the function
+    return 0;
+End
+</pre>
+Used in example: [[end]], [[process]], [[function]]
+
+{{Keywords}}

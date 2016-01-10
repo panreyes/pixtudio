@@ -1,0 +1,8 @@
+[**Up to DLL's**](DLLs "wikilink")
+
+------------------------------------------------------------------------
+
+Page for explosion.dll. If someone knows how to use this and/or has some
+advice regarding it, be so kind as to write it here.
+
+<Category:dll> <Category:explosiondll>

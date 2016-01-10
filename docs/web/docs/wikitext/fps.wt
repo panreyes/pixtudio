@@ -1,0 +1,23 @@
+[[category:general]]
+[[category:variables]]
+[[category:predefined]]
+[[category:global variables]]
+[[category:librender]]
+
+[[Global variables|'''Up to Global Variables''']]
+
+----
+
+
+== Definition ==
+'''INT''' fps
+
+The [[global variable]] [[fps]] holds the current frames per second on which [[Bennu]] is running. This means how many times a frame is executed every second and how many times the screen is updated every second.
+
+If a different FPS is needed, the target FPS can be altered by use of [[set_fps]]().
+
+If a more accurate FPS is needed, use [[frame_time]] to calculate it.
+
+If you need to view the FPS in-game, please use the code (in a loop): write_int(0,0,0,0,&fps); 
+
+{{Globals}}
