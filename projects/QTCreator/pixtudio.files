@@ -717,6 +717,8 @@
 ../../modules/libscroll/libscroll_symbols.h
 ../../modules/libsdlhandler/libsdlhandler.c
 ../../modules/libsdlhandler/libsdlhandler_symbols.h
+../../modules/libsocket/libsocket.c
+../../modules/libsocket/libsocket.h
 ../../modules/libtext/libtext.c
 ../../modules/libtext/libtext.h
 ../../modules/libtext/libtext_symbols.h
@@ -773,8 +775,8 @@
 ../../modules/mod_effects/mod_effects_symbols.h
 ../../modules/mod_file/mod_file.c
 ../../modules/mod_file/mod_file_symbols.h
-../../modules/mod_fsock/fsock.c
-../../modules/mod_fsock/fsock_symbols.h
+../../modules/mod_fsock/mod_fsock.c
+../../modules/mod_fsock/mod_fsock_symbols.h
 ../../modules/mod_grproc/mod_grproc.c
 ../../modules/mod_grproc/mod_grproc_symbols.h
 ../../modules/mod_iap/mod_iap.c

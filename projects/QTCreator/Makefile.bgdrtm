@@ -94,7 +94,8 @@ INCLUDES	:=	../../core/include \
 	../../modules/mod_regex/ \
     ../../modules/mod_fsock/ \
     ../../modules/mod_effects/ \
-    ../../modules/mod_curl/
+    ../../modules/mod_curl/ \
+    ../../modules/libsocket/
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -214,7 +215,8 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 				../../../modules/mod_wm/mod_wm.c \
 				../../../modules/mod_sys/mod_sys.c \
 				../../../modules/mod_regex/mod_regex.c \
-				../../../modules/mod_fsock/fsock.c \
+				../../../modules/libsocket/libsocket.c \
+				../../../modules/mod_fsock/mod_fsock.c \
 				../../../modules/mod_effects/mod_effects.c \
 				../../../modules/mod_curl/mod_curl.c
 

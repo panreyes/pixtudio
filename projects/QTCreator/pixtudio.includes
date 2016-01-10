@@ -82,6 +82,7 @@
 ../../modules/librender
 ../../modules/libscroll
 ../../modules/libsdlhandler
+../../modules/libsocket
 ../../modules/libtext
 ../../modules/libvideo
 ../../modules/libwm
@@ -138,3 +139,11 @@
 ../../modules/mod_wm/locale
 ../../modules/mod_audio
 ../../modules/mod_audio/openal
+../../modules/unused/mod_wpad
+../../modules/unused/mod_blendop
+../../modules/libsocket
+../../modules/unused/mod_iap
+../../modules/unused/mod_image
+../../modules/unused/mod_sensor
+../../modules/unused/mod_fmodex
+../../modules/unused/mod_iconv

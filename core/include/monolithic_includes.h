@@ -78,7 +78,7 @@
 #ifndef NO_MODCURL
 #   include <mod_curl_symbols.h>
 #endif
-#include <fsock_symbols.h>
+#include <mod_fsock_symbols.h>
 #include <mod_theora_symbols.h>
 
 typedef struct
@@ -167,7 +167,7 @@ basic_symbols symbol_list[] = {
 #ifndef NO_MODCURL
     { "mod_curl.fakelib"     , NULL, mod_curl_constants_def, NULL, NULL, NULL, mod_curl_exported_functions },
 #endif
-    { "fsock.fakelib"        , NULL, NULL, NULL, NULL, NULL, fsock_exported_functions },
+    { "mod_fsock.fakelib"    , NULL, NULL, NULL, NULL, NULL, mod_fsock_exported_functions },
     { "mod_theora.fakelib"   , mod_theora_module_dependencies, NULL, NULL, NULL, NULL, mod_theora_exported_functions },
     { NULL                   , NULL, NULL, NULL, NULL, NULL, NULL }
 };
@@ -233,7 +233,7 @@ extra_symbols symbol_list_runtime[] = {
 #ifndef NO_MODCURL
     { NULL, NULL, mod_curl_module_initialize, mod_curl_module_finalize, NULL, NULL, NULL, NULL }, //mod_curl
 #endif
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //fsock
+    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_fsock
     { NULL, NULL, mod_theora_module_initialize, mod_theora_module_finalize, NULL, NULL, NULL, mod_theora_handler_hooks }, //mod_theora
 };
 #endif

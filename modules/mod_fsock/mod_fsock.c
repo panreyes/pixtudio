@@ -1,5 +1,29 @@
 /*
- * fsock library (aka tcpsock) by Titonus & SplinterGU
+ *  Copyright (C) 2014-2016 Joseba García Etxebarria <joseba.gar@gmail.com>
+ *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2006-2012 Titonus
+ *
+ *  This file is part of PixTudio
+ *
+ *  This software is provided 'as-is', without any express or implied
+ *  warranty. In no event will the authors be held liable for any damages
+ *  arising from the use of this software.
+ *
+ *  Permission is granted to anyone to use this software for any purpose,
+ *  including commercial applications, and to alter it and redistribute it
+ *  freely, subject to the following restrictions:
+ *
+ *     1. The origin of this software must not be misrepresented; you must not
+ *     claim that you wrote the original software. If you use this software
+ *     in a product, an acknowledgment in the product documentation would be
+ *     appreciated but is not required.
+ *
+ *     2. Altered source versions must be plainly marked as such, and must not be
+ *     misrepresented as being the original software.
+ *
+ *     3. This notice may not be removed or altered from any source
+ *     distribution.
+ *
  */
 
 /* ---------------------------------------------------------- */
@@ -7,120 +31,52 @@
 #include "bgddl.h"
 #include "xstrings.h"
 
-#include <unistd.h>
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <netinet/tcp.h>
-#include <sys/ipc.h>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#endif
-#include <fcntl.h>
+#include <libsocket.h>
 #include <errno.h>
-
-#define SOCKADDR struct sockaddr
-
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 
 /* ---------------------------------------------------------- */
-
-#pragma pack()
-
-/* ---------------------------------------------------------- */
-
-fd_set *socketsets  = NULL;
-int gnNumSocketSets = 32;
-#ifndef WIN32
-int *fd_count = NULL;
-#endif
-
-/* ---------------------------------------------------------- */
 // Inicializamos librería WinSock (version 2) - Devuelve 0 si no hubo error
-
-int fsock_init(INSTANCE *my, int *params) {
-    int nlRetorno = 0;
-
-#ifdef WIN32
-    WSADATA wsaData;
-    nlRetorno = (WSAStartup(MAKEWORD(2, 2), &wsaData));
-#endif
-
-    if ((params[0] > 0)) {
-        gnNumSocketSets = params[0];
-    }
-    socketsets = (fd_set *)malloc(sizeof(fd_set) * gnNumSocketSets);
-    if (socketsets == NULL) {
-        return -1;
-    }
-
-#ifndef WIN32
-    fd_count = (int *)malloc(sizeof(int) * gnNumSocketSets);
-    if (!fd_count) {
-        free(socketsets);
-        return -1;
-    }
-#endif
-
-    memset(socketsets, 0x0, sizeof(fd_set) * gnNumSocketSets);
-
-    return nlRetorno;
+int mod_fsock_init(INSTANCE *my, int *params) {
+    return libsocket_init(params[0]);
 }
 
 /* ---------------------------------------------------------- */
 // Apaga la librería WinSock (devuelve 0 si fue correcto)
 
-int fsock_quit(INSTANCE *my, int *params) {
-    if (socketsets != NULL) {
-        free(socketsets);
-        socketsets = NULL;
-    }
-
-#ifdef WIN32
-    return (WSACleanup());
-#else
-    if (fd_count) {
-        free(fd_count);
-        fd_count = NULL;
-    }
-    return 0;
-#endif
+int mod_fsock_quit(INSTANCE *my, int *params) {
+    return libsocket_quit();
 }
 
 /* ---------------------------------------------------------- */
 // Devuelve código error (ver doc. API correspondiente) de la última llamada fsock
 
-int fsock_geterror(INSTANCE *my, int *params) {
-#ifdef WIN32
-    return WSAGetLastError();
-#else
-    return errno;
-#endif
+int mod_fsock_geterror(INSTANCE *my, int *params) {
+    return libsocket_geterror();
 }
 
 /* ---------------------------------------------------------- */
 // Devuelve la cantidad maxima de fds posibles de crear
 
-int fsock_getfdsetsize(INSTANCE *my, int *params) {
-    return FD_SETSIZE;
+int mod_fsock_getfdsetsize(INSTANCE *my, int *params) {
+    return libsocket_getfdsetsize();
 }
 
 /* ---------------------------------------------------------- */
-// Crea un socket TCP y lo devuelve (-1 es error)
+// Create and return a TCP socket - Returns -1 on error
 
-int tcpsock_open(INSTANCE *my, int *params) {
-    return (socket(AF_INET, SOCK_STREAM, 0));
+int mod_fsock_tcpopen(INSTANCE *my, int *params) {
+    return libsocket_tcpopen();
 }
 
 /* ---------------------------------------------------------- */
-// Crea un socket UDP y lo devuelve (-1 es error)
+// Create and return a UDP socket - Returns -1 on error
 
-int udpsock_open(INSTANCE *my, int *params) {
-    return (socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP));
+int mod_fsock_udpopen(INSTANCE *my, int *params) {
+    return libsocket_udpopen();
 }
 
 /* ---------------------------------------------------------- */
@@ -128,46 +84,34 @@ int udpsock_open(INSTANCE *my, int *params) {
 // Las llamadas de conexión, aceptación, envío y recepción de un socket no bloqueante pueden
 // retornar sin haber completado la operación, asegurarse con select
 
-int fsock_setblock(INSTANCE *my, int *params) {
-    u_long ulVal = params[1];
-
-#ifdef WIN32
-    return (ioctlsocket(params[0], FIONBIO, &ulVal));
-#else
-    return (fcntl(params[0], O_NONBLOCK, ulVal));
-#endif
+int mod_fsock_setblock(INSTANCE *my, int *params) {
+    return libsocket_set(params[0], params[1]);
 }
 
 /* ---------------------------------------------------------- */
 // Cierra un socket TCP/UDP (si fue correcto devuelve 0)
 
-int fsock_close(INSTANCE *my, int *params) {
-    shutdown(params[0], 0);
-
-#ifdef WIN32
-    return (closesocket(params[0]));
-#else
-    return (close(params[0]));
-#endif
+int mod_fsock_close(INSTANCE *my, int *params) {
+    return libsocket_close(params[0]);
 }
 
 /* ---------------------------------------------------------- */
 // Asociamos el socket (TCP o UDP) dado con el puerto especificado (si fue correcto devuelve 0)
 
-int fsock_bind(INSTANCE *my, int *params) {
-    struct sockaddr_in info_conexion;
-    info_conexion.sin_family      = AF_INET;
-    info_conexion.sin_port        = htons(params[1]);
-    info_conexion.sin_addr.s_addr = INADDR_ANY;
+int mod_fsock_bind(INSTANCE *my, int *params) {
+    // Ensure that the given port number is in the range (1-65535)
+    if(params[1] < 1 || params[1] > UINT16_MAX) {
+        return -1;
+    }
 
-    return (bind(params[0], (SOCKADDR *)&info_conexion, sizeof(info_conexion)));
+    return libsocket_bind(params[0], (uint16_t)params[1]);
 }
 
 /* ---------------------------------------------------------- */
 // Fijamos el nº de peticiones que puede tener el socket anteriormente asociado (binded)
 
-int tcpsock_listen(INSTANCE *my, int *params) {
-    return (listen(params[0], params[1]));
+int mod_fsock_listen(INSTANCE *my, int *params) {
+    return libsocket_listen(params[0], params[1]);
 }
 
 /* ---------------------------------------------------------- */
@@ -204,34 +148,28 @@ int tcpsock_accept(INSTANCE *my, int *params) {
 // con el socket dado determinado y devuelve 0 si fue correcto
 
 int tcpsock_connect(INSTANCE *my, int *params) {
-    char *ip = (char *)string_get(params[1]);
-    struct sockaddr_in info_conexion;
-    info_conexion.sin_family      = AF_INET;
-    info_conexion.sin_port        = htons(params[2]);
-    info_conexion.sin_addr.s_addr = inet_addr(ip);
-
-    return (connect(params[0], (SOCKADDR *)&info_conexion, sizeof(info_conexion)));
+    return libsocket_connect(params[0], (char *)string_get(params[1]));
 }
 
 /* ---------------------------------------------------------- */
 // Realiza un select sobre el socket set indicado devolviendo
 // el número de sockets que tienen actividad
-// SÍ MODIFICA LOS SOCKETSETS PARA LUEGO COMPROBAR QUE SOCKETS TUVIERON ACTIVIDAD
+// SÍ MODIFICA LOS SOCKETSETS PARA LUEGO COMPROBAR QUÉ SOCKETS TUVIERON ACTIVIDAD
 
 int fsock_select(INSTANCE *my, int *params) {
     struct timeval timeout;
     int nlResultado     = -1;
     fd_set *fdTemporal1 = NULL, *fdTemporal2 = NULL, *fdTemporal3 = NULL;
 
-    if ((params[0] >= 0) && (params[0] < gnNumSocketSets)) {
+    if ((params[0] >= 0) && (params[0] < g_num_socket_sets)) {
         fdTemporal1 = &socketsets[params[0]];
     }
 
-    if ((params[1] >= 0) && (params[1] < gnNumSocketSets)) {
+    if ((params[1] >= 0) && (params[1] < g_num_socket_sets)) {
         fdTemporal2 = &socketsets[params[1]];
     }
 
-    if ((params[2] >= 0) && (params[2] < gnNumSocketSets)) {
+    if ((params[2] >= 0) && (params[2] < g_num_socket_sets)) {
         fdTemporal3 = &socketsets[params[2]];
     }
 
@@ -296,42 +234,29 @@ int udpsock_recv(INSTANCE *my, int *params) {
 /* ---------------------------------------------------------- */
 // Inicia o vacia el socket set indicado
 
-void fsock_fdzero(INSTANCE *my, int *params) {
-    FD_ZERO(&socketsets[params[0]]);
-#ifndef WIN32
-    fd_count[params[0]] = 0;
-#endif
+void mod_fsock_fdzero(INSTANCE *my, int *params) {
+    return libsocket_fdzero(params[0]);
 }
 
 /* ---------------------------------------------------------- */
 // Añade un socket al socket set indicado
 
-int fsock_fdset(INSTANCE *my, int *params) {
-    FD_SET(params[1], &socketsets[params[0]]);
-#ifdef WIN32
-    return socketsets[params[0]].fd_count;
-#else
-    return fd_count[params[0]]++;
-#endif
+int mod_fsock_fdset(INSTANCE *my, int *params) {
+    return libsocket_fdset(params[0], params[1]);
 }
 
 /* ---------------------------------------------------------- */
 // Elimina un socket del socket set indicado
 
-int fsock_fdclr(INSTANCE *my, int *params) {
-    FD_CLR(params[1], &socketsets[params[0]]);
-#ifdef WIN32
-    return socketsets[params[0]].fd_count;
-#else
-    return fd_count[params[0]]--;
-#endif
+int mod_fsock_fdclr(INSTANCE *my, int *params) {
+    return libsocket_fdclr(params[0], params[1]);
 }
 
 /* ---------------------------------------------------------- */
 // Chequea si un socket tiene evento disponible
 
-int fsock_fdisset(INSTANCE *my, int *params) {
-    return (FD_ISSET(params[1], &socketsets[params[0]]));
+int mod_fsock_fdisset(INSTANCE *my, int *params) {
+    return libsocket_fdisset(params[0], params[1]);
 }
 
 /* ---------------------------------------------------------- */
@@ -347,19 +272,19 @@ int fsock_socketset_check(INSTANCE *my, int *params) {
     timeout.tv_sec  = params[3] / 1000;
     timeout.tv_usec = params[3] % 1000;
 
-    if ((params[0] >= 0) && (params[0] < gnNumSocketSets)) {
+    if ((params[0] >= 0) && (params[0] < g_num_socket_sets)) {
         memcpy(&fdTemporal1, &socketsets[params[0]], sizeof(fdTemporal1));
     } else {
         FD_ZERO(&fdTemporal1);
     }
 
-    if ((params[1] >= 0) && (params[1] < gnNumSocketSets)) {
+    if ((params[1] >= 0) && (params[1] < g_num_socket_sets)) {
         memcpy(&fdTemporal2, &socketsets[params[1]], sizeof(fdTemporal2));
     } else {
         FD_ZERO(&fdTemporal2);
     }
 
-    if ((params[2] >= 0) && (params[2] < gnNumSocketSets)) {
+    if ((params[2] >= 0) && (params[2] < g_num_socket_sets)) {
         memcpy(&fdTemporal3, &socketsets[params[2]], sizeof(fdTemporal3));
     } else {
         FD_ZERO(&fdTemporal3);
@@ -371,11 +296,14 @@ int fsock_socketset_check(INSTANCE *my, int *params) {
 }
 
 /* ---------------------------------------------------------- */
-// Devuelve el nombre del host del PC o la dirección IP de la máquina
-// que lo ejecuta según se especifique (0 o 1 respectivamente)
+// Returns a string with with the hostname or IP address of the
+// machine running the code
+// If params[0] == 0 the hostname is returned
+// If params[0] != 0 (the documented value is 1) the host IP is
+//                   returned
 
-int fsock_get_iphost(INSTANCE *my, int *params) {
-    int texto;
+int mod_fsock_get_iphost(INSTANCE *my, int *params) {
+    int info_str_code;
     char host[80];
     struct hostent *phe;
     struct in_addr addr;
@@ -385,29 +313,29 @@ int fsock_get_iphost(INSTANCE *my, int *params) {
     memcpy(&addr, phe->h_addr_list[0], sizeof(struct in_addr));
 
     if (!params[0]) {
-        texto = string_new(host);
+        info_str_code = string_new(host);
     } else {
-        texto = string_new(inet_ntoa(addr));
+        info_str_code = string_new(inet_ntoa(addr));
     }
 
-    string_use(texto);
-    return texto;
+    string_use(info_str_code);
+    return info_str_code;
 }
 
 /* ---------------------------------------------------------- */
-// Devuelve la cadena con la dirección IP dada por el parámetro
-// dword * ip que algunas funciones usan
+// Return a string with the IP address given by the
+// dword * ip parameter that some functions use
 
-int fsock_get_ipstr(INSTANCE *my, int *params) {
-    int texto;
+int mod_fsock_get_ipstr(INSTANCE *my, int *params) {
+    int info_str_code;
     struct in_addr addr;
 
     addr.s_addr = *(int *)params[0];
 
-    texto = string_new(inet_ntoa(addr));
+    info_str_code = string_new(inet_ntoa(addr));
 
-    string_use(texto);
-    return texto;
+    string_use(info_str_code);
+    return info_str_code;
 }
 
 /* --------------------------------------------------------------------------- */
