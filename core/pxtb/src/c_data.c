@@ -145,32 +145,6 @@ int compile_array_data(VARSPACE *n, segment *data, int size, int subsize, BASETY
     return count;
 }
 
-static BASETYPE get_basetype(VARSPACE *v) {
-    TYPEDEF t;
-    BASETYPE type = TYPE_UNDEFINED, newtype;
-    int n;
-
-    for (n = 0; n < v->count; n++) {
-        t = v->vars[n].type;
-        while (typedef_is_array(t)) {
-            t = typedef_reduce(t);
-        }
-
-        if (typedef_is_struct(t)) {
-            newtype = get_basetype(typedef_members(t));
-        } else {
-            newtype = typedef_base(t);
-        }
-
-        if (type != TYPE_UNDEFINED && type != newtype) {
-            return TYPE_UNDEFINED;
-        }
-
-        type = newtype;
-    }
-    return type;
-}
-
 /*
  *  FUNCTION : compile_struct_data
  *
