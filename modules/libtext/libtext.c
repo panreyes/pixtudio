@@ -195,7 +195,9 @@ static const char *get_text(TEXT *text) {
  *
  */
 
-static int info_text(TEXT *text, REGION *bbox, int *z, int *drawme) {
+static int info_text(void *ptext, REGION *bbox, int *z, int *drawme) {
+    TEXT *text = (TEXT *)ptext;
+
     const char *str = get_text(text);
     REGION prev     = *bbox;
     FONT *font;
@@ -344,14 +346,16 @@ static int info_text(TEXT *text, REGION *bbox, int *z, int *drawme) {
  *
  */
 
-void draw_text(TEXT *text, REGION *clip) {
+void draw_text(void *ptext, REGION *clip) {
+    TEXT *text = (TEXT *)ptext;
     const char *str = get_text(text);
     int save8, save16, save32;
     FONT *font;
 
     // Splinter
-    if (!str)
+    if (!str) {
         return;
+    }
 
     font = gr_font_get(text->fontid);
     if (!font) {
