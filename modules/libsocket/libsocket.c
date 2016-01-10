@@ -52,8 +52,22 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "libsocket.h"
+
+/* ---------------------------------------------------------- */
+
+#define SOCKADDR struct sockaddr
+#pragma pack()
+
+/* ---------------------------------------------------------- */
+
+fd_set *socketsets  = NULL;
+int g_num_socket_sets = 32;
+#ifndef WIN32
+int *fd_count = NULL;
+#endif
 
 /* ---------------------------------------------------------- */
 // Initialize socket library - Returns 0 on success
@@ -194,10 +208,11 @@ int libsocket_listen(int socket, int backlog) {
 }
 
 /* ---------------------------------------------------------- */
-// Acepta una petición de conexión del socket dado y devuelve su socket a usar
+// Accept a connection request for the given socket and return
+// its associated socket
 
-int tcpsock_accept(INSTANCE *my, int *params) {
-    int socket;
+int libsocket_accept_tcp(int insock, int *ip, int *port) {
+    int outsock;
     struct timeval timeout;
     fd_set readfds;
     struct sockaddr_in addr;
@@ -208,119 +223,123 @@ int tcpsock_accept(INSTANCE *my, int *params) {
 #endif
 
     FD_ZERO(&readfds);
-    FD_SET(params[0], &readfds);
+    FD_SET(insock, &readfds);
     timeout.tv_sec  = 0;
     timeout.tv_usec = 0;
 
     if (select(FD_SETSIZE, &readfds, NULL, NULL, &timeout) > 0) {
         addrlen = sizeof(addr);
-        socket = accept(params[0], (struct sockaddr *)&addr, &addrlen);
-        if (socket != -1) {
-            *(int *)params[1] = addr.sin_addr.s_addr; // ip
-            *(int *)params[2] = ntohs(addr.sin_port); // puerto
+        outsock = accept(insock, (struct sockaddr *)&addr, &addrlen);
+        if (outsock != -1) {
+            *ip = addr.sin_addr.s_addr;
+            *port = ntohs(addr.sin_port);
         }
     } else {
-        socket = -1;
+        outsock = -1;
     }
 
-    return socket;
+    return outsock;
 }
 
 /* ---------------------------------------------------------- */
-// Realiza una petición de conexión a la dirección IP/Host y puerto dado
-// con el socket dado determinado y devuelve 0 si fue correcto
+// Try to connect to the given IP/Host on the given port and
+// socket.
+// Returns 0 on success
 
-int libsocket_connect(int socket, char *ip) {
+int libsocket_connect_tcp(int socket, char *ip, uint16_t port) {
     struct sockaddr_in connection_info;
     connection_info.sin_family      = AF_INET;
-    connection_info.sin_port        = htons(params[2]);
+    connection_info.sin_port        = htons(port);
     connection_info.sin_addr.s_addr = inet_addr(ip);
 
     return (connect(socket, (SOCKADDR *)&connection_info, sizeof(connection_info)));
 }
 
 /* ---------------------------------------------------------- */
-// Realiza un select sobre el socket set indicado devolviendo
-// el número de sockets que tienen actividad
-// SÍ MODIFICA LOS SOCKETSETS PARA LUEGO COMPROBAR QUE SOCKETS TUVIERON ACTIVIDAD
+// Call select on the given socket set and return the number
+// of active sockets
+// THIS FUNCTION MODIFIES THE SOCKETSETS TO CHECK WHICH ONES
+// WERE ACTIVE
 
-int fsock_select(INSTANCE *my, int *params) {
+int libsocket_select_socketset(int id_readss, int id_writess, int id_errorss, int wait_time) {
     struct timeval timeout;
-    int nlResultado     = -1;
-    fd_set *fdTemporal1 = NULL, *fdTemporal2 = NULL, *fdTemporal3 = NULL;
+    int retval = -1;
+    fd_set *read_socketset = NULL, *write_socketset = NULL, *error_socketset = NULL;
 
-    if ((params[0] >= 0) && (params[0] < g_num_socket_sets)) {
-        fdTemporal1 = &socketsets[params[0]];
+    if ((id_readss >= 0) && (id_readss < g_num_socket_sets)) {
+        read_socketset = &socketsets[id_readss];
     }
 
-    if ((params[1] >= 0) && (params[1] < g_num_socket_sets)) {
-        fdTemporal2 = &socketsets[params[1]];
+    if ((id_writess >= 0) && (id_writess < g_num_socket_sets)) {
+        write_socketset = &socketsets[id_writess];
     }
 
-    if ((params[2] >= 0) && (params[2] < g_num_socket_sets)) {
-        fdTemporal3 = &socketsets[params[2]];
+    if ((id_errorss >= 0) && (id_errorss < g_num_socket_sets)) {
+        error_socketset = &socketsets[id_errorss];
     }
 
-    timeout.tv_sec  = params[3] / 1000;
-    timeout.tv_usec = params[3] % 1000;
+    timeout.tv_sec  = wait_time / 1000;
+    timeout.tv_usec = wait_time % 1000;
 
-    nlResultado = select(FD_SETSIZE, fdTemporal1, fdTemporal2, fdTemporal3, &timeout);
+    retval = select(FD_SETSIZE, read_socketset, write_socketset,
+                    error_socketset, &timeout);
 
-    return (nlResultado);
+    return (retval);
 }
 
 /* ---------------------------------------------------------- */
-// Envía un puntero de un tamaño determinado a través del socket TCP dado
+// Send sized data from the given pointer over the given
+// TCP socket
 
-int tcpsock_send(INSTANCE *my, int *params) {
-    char *envio = (char *)params[1];
-    return (send(params[0], (void *)envio, params[2], 0));
+int libsocket_send_tcp(int socket, void *data, size_t len) {
+    return (send(socket, data, len, 0));
 }
 
 /* ---------------------------------------------------------- */
 // Envía un puntero de un tamaño determinado a través del socket UDP dado
 
-int udpsock_send(INSTANCE *my, int *params) {
-    char *envio = (char *)params[1];
-    char *ip    = (char *)string_get(params[3]);
-    struct sockaddr_in info_conexion;
-    info_conexion.sin_family      = AF_INET;
-    info_conexion.sin_port        = htons(params[4]);
-    info_conexion.sin_addr.s_addr = inet_addr(ip);
+int libsocket_send_udp(int socket, void *data, size_t len, char *ip, uint16_t port) {
+    struct sockaddr_in connection_info;
+    connection_info.sin_family      = AF_INET;
+    connection_info.sin_port        = htons(port);
+    connection_info.sin_addr.s_addr = inet_addr(ip);
 
-    return (sendto(params[0], (void *)envio, params[2], 0, (SOCKADDR *)&info_conexion,
-                   sizeof(info_conexion)));
+    return (sendto(socket, data, len, 0, (SOCKADDR *)&connection_info,
+                   sizeof(connection_info)));
 }
 
 /* ---------------------------------------------------------- */
-// Recibe un puntero de un tamaño determinado a través del socket TCP dado
+// Receive sized data from the given pointer over the given
+// TCP socket
 
-int tcpsock_recv(INSTANCE *my, int *params) {
-    return (recv(params[0], (void *)params[1], params[2], 0));
+int libsocket_recv_tcp(int socket, void *dest, size_t len) {
+    return (recv(socket, dest, len, 0));
 }
 
 /* ---------------------------------------------------------- */
-// Recibe un puntero de un tamaño determinado a través del socket UDP dado
+// Receive sized data from the given pointer over the given
+// UDP socket
+// TODO: Test this routine when socket != -1
 
-int udpsock_recv(INSTANCE *my, int *params) {
-
-    struct sockaddr_in info_conexion;
-    int bytesRecibidos;
+int libsocket_recv_udp(int socket, void *dest, size_t len, int *ip, int *port) {
+    struct sockaddr_in connection_info;
+    int received_bytes;
 #ifdef WIN32
-    int tamanoInfoConexion;
+    int connection_info_size;
 #else
-    unsigned int tamanoInfoConexion;
+    unsigned int connection_info_size;
 #endif
 
-    bytesRecibidos = recvfrom(params[0], (void *)params[1], params[2], 0,
-                              (SOCKADDR *)&info_conexion, &tamanoInfoConexion);
+    received_bytes = recvfrom(socket, dest, len, 0,
+                              (SOCKADDR *)&connection_info,
+                              &connection_info_size);
 
-    if (params[0] != -1) {
-        *(int *)params[3] = info_conexion.sin_addr.s_addr; // ip
-        *(int *)params[4] = ntohs(info_conexion.sin_port); // puerto
+    if (socket != -1) {
+        *ip = connection_info.sin_addr.s_addr; // ip
+        *port = ntohs(connection_info.sin_port); // puerto
     }
 
-    return bytesRecibidos;
+    return received_bytes;
 }
 
 /* ---------------------------------------------------------- */
@@ -365,39 +384,68 @@ int libsocket_fdisset(int n, int fd) {
 }
 
 /* ---------------------------------------------------------- */
-// Comprueba si hay actividad en el socket set indicado devolviendo
-// el número de sockets que tienen actividad
-// NO MODIFICA LOS SOCKETSETS PARA COMPROBAR LUEGO QUE SOCKETS TUVIERON ACTIVIDAD
+// Call select on the given socket set and return the number
+// of active sockets
+// THIS FUNCTION DOES NOT MODIFY THE SOCKETSETS TO CHECK WHICH
+// ONES WERE ACTIVE
 
-int fsock_socketset_check(INSTANCE *my, int *params) {
+int libsocket_check_socketset(int id_readss, int id_writess, int id_errorss, int wait_time) {
     int check;
     struct timeval timeout;
-    fd_set fdTemporal1, fdTemporal2, fdTemporal3;
+    fd_set read_socketset, write_socketset, error_socketset;
 
-    timeout.tv_sec  = params[3] / 1000;
-    timeout.tv_usec = params[3] % 1000;
-
-    if ((params[0] >= 0) && (params[0] < g_num_socket_sets)) {
-        memcpy(&fdTemporal1, &socketsets[params[0]], sizeof(fdTemporal1));
+    if ((id_readss >= 0) && (id_readss < g_num_socket_sets)) {
+        memcpy(&read_socketset, &socketsets[id_readss], sizeof(read_socketset));
     } else {
-        FD_ZERO(&fdTemporal1);
+        FD_ZERO(&read_socketset);
     }
 
-    if ((params[1] >= 0) && (params[1] < g_num_socket_sets)) {
-        memcpy(&fdTemporal2, &socketsets[params[1]], sizeof(fdTemporal2));
+    if ((id_writess >= 0) && (id_writess < g_num_socket_sets)) {
+        memcpy(&write_socketset, &socketsets[id_writess], sizeof(write_socketset));
     } else {
-        FD_ZERO(&fdTemporal2);
+        FD_ZERO(&write_socketset);
     }
 
-    if ((params[2] >= 0) && (params[2] < g_num_socket_sets)) {
-        memcpy(&fdTemporal3, &socketsets[params[2]], sizeof(fdTemporal3));
+    if ((id_errorss >= 0) && (id_errorss < g_num_socket_sets)) {
+        memcpy(&error_socketset, &socketsets[id_errorss], sizeof(error_socketset));
     } else {
-        FD_ZERO(&fdTemporal3);
+        FD_ZERO(&error_socketset);
     }
 
-    check = select(FD_SETSIZE, &fdTemporal1, &fdTemporal2, &fdTemporal3, &timeout);
+    timeout.tv_sec  = wait_time / 1000;
+    timeout.tv_usec = wait_time % 1000;
+
+    check = select(FD_SETSIZE, &read_socketset, &write_socketset, &error_socketset, &timeout);
 
     return check;
+}
+
+/* ---------------------------------------------------------- */
+
+char * libsocket_get_iphost(int flag) {
+    char host[80];
+    struct hostent *phe;
+    struct in_addr addr;
+
+    gethostname(host, sizeof(host));
+
+    if (!flag) {
+        return strndup(host, strlen(host));
+    } else {
+        phe = gethostbyname(host);
+        memcpy(&addr, phe->h_addr_list[0], sizeof(struct in_addr));
+        return inet_ntoa(addr);
+    }
+}
+
+/* ---------------------------------------------------------- */
+
+char * libsocket_get_ipstr(in_addr_t s_addr) {
+    struct in_addr addr;
+
+    addr.s_addr = s_addr;
+
+    return inet_ntoa(addr);
 }
 
 /* --------------------------------------------------------------------------- */
