@@ -122,8 +122,8 @@ int main(int argc, char *argv[]) {
     strncpy(appexepath, appexefullpath, ptr - appexefullpath);
 
     printf(PXTB_VERSION "\n"
-                        "Pixtudio comes with ABSOLUTELY NO WARRANTY;\n"
-                        "see COPYING for details\n\n");
+                        "Pixtudio comes with ABSOLUTELY NO WARRANTY\n"
+                        "See COPYING for copyright details\n\n");
 
     /* Default lang to EN */
     strcpy(langinfo, "EN");

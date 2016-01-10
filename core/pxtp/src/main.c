@@ -167,9 +167,8 @@ int main(int argc, char *argv[]) {
 
         if (!filename) {
             printf(PXTP_VERSION "\n"
-                                "Copyright (C) 2015 Joseba García Echebarria\n"
-                                "Pixtudio comes with ABSOLUTELY NO WARRANTY;\n"
-                                "see COPYING for details\n\n"
+                                "Pixtudio comes with ABSOLUTELY NO WARRANTY\n"
+                                "See COPYING for copyright details\n\n"
                                 "Usage: %s [options] <data code block file>[.dcb]\n\n"
                                 "   -d       Activate DEBUG mode\n"
                                 "   -i dir   Adds the directory to the PATH\n",
