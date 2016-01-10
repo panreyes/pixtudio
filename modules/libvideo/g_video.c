@@ -73,7 +73,11 @@ int waitvsync     = 0;
 int scale_resolution             = 0;
 int scale_resolution_aspectratio = 0;
 
-enum { GRAPH_MODE = 0, FULL_SCREEN, SCALE_RESOLUTION, SCALE_RESOLUTION_ASPECTRATIO, SCALE_QUALITY };
+enum { GRAPH_MODE = 0,
+       FULL_SCREEN,
+       SCALE_RESOLUTION,
+       SCALE_RESOLUTION_ASPECTRATIO,
+       SCALE_QUALITY };
 
 /* --------------------------------------------------------------------------- */
 
@@ -140,6 +144,7 @@ int gr_set_mode(int width, int height) {
     full_screen |= GLODWORD(libvideo, FULL_SCREEN);
 
     scale_resolution = GLODWORD(libvideo, SCALE_RESOLUTION);
+    scale_resolution_aspectratio = GLODWORD(libvideo, SCALE_RESOLUTION_ASPECTRATIO);
     scale_quality = GLOBYTE(libvideo, SCALE_QUALITY);
     if (scale_quality >= 1) {
         scale_quality = '1';
@@ -147,22 +152,25 @@ int gr_set_mode(int width, int height) {
         scale_quality = '0';
     }
 
-    if (GLOEXISTS(libvideo, SCALE_RESOLUTION_ASPECTRATIO))
-        scale_resolution_aspectratio = GLODWORD(libvideo, SCALE_RESOLUTION_ASPECTRATIO);
-
-    /* Overwrite all params */
+    // Overwrite all params with environment vars
     if ((e = getenv("SCALE_RESOLUTION")))
         scale_resolution = atol(e);
     if ((e = getenv("SCALE_RESOLUTION_ASPECTRATIO")))
         scale_resolution_aspectratio = atol(e);
+    if ((e = getenv("SCALE_QUALITY")))
+        scale_quality = e;
 
     format = SDL_PIXELFORMAT_ARGB8888;
-
-    /* Inicializa el modo gráfico */
 
     if (scrbitmap) {
         bitmap_destroy(scrbitmap);
         scrbitmap = NULL;
+    }
+
+    // If given a value for scale_resolution, use it
+    if ( scale_resolution != -1 ) {
+        surface_width  = scale_resolution / 10000 ;
+        surface_height = scale_resolution % 10000 ;
     }
 
     // Use the new & fancy SDL 2 routines
