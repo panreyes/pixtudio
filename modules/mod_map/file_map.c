@@ -108,18 +108,18 @@ static GRAPH *gr_read_map(file *fp) {
         uint8_t *line = (uint8_t *)gr->data + gr->pitch * y;
 
         switch (bpp) {
-        case 32:
-            st = file_readUint32A(fp, (uint32_t *)line, gr->width);
-            break;
+            case 32:
+                st = file_readUint32A(fp, (uint32_t *)line, gr->width);
+                break;
 
-        case 16:
-            st = file_readUint16A(fp, (uint16_t *)line, gr->width);
-            break;
+            case 16:
+                st = file_readUint16A(fp, (uint16_t *)line, gr->width);
+                break;
 
-        case 8:
-        case 1:
-            st = file_read(fp, line, gr->widthb);
-            break;
+            case 8:
+            case 1:
+                st = file_read(fp, line, gr->widthb);
+                break;
         }
 
         if (!st) {
@@ -156,21 +156,21 @@ int gr_save_map(GRAPH *gr, char *filename) {
         return 0;
 
     switch (gr->format->depth) {
-    case 8:
-        strcpy((char *)mh.magic, MAP_MAGIC);
-        break;
+        case 8:
+            strcpy((char *)mh.magic, MAP_MAGIC);
+            break;
 
-    case 32:
-        strcpy((char *)mh.magic, M32_MAGIC);
-        break;
+        case 32:
+            strcpy((char *)mh.magic, M32_MAGIC);
+            break;
 
-    case 16:
-        strcpy((char *)mh.magic, M16_MAGIC);
-        break;
+        case 16:
+            strcpy((char *)mh.magic, M16_MAGIC);
+            break;
 
-    case 1:
-        strcpy((char *)mh.magic, M01_MAGIC);
-        break;
+        case 1:
+            strcpy((char *)mh.magic, M01_MAGIC);
+            break;
     }
 
     mh.version = 0x00;
@@ -205,18 +205,18 @@ int gr_save_map(GRAPH *gr, char *filename) {
         uint8_t *line = (uint8_t *)gr->data + gr->pitch * c;
 
         switch (gr->format->depth) {
-        case 32:
-            st = file_writeUint32A(fp, (uint32_t *)line, gr->width);
-            break;
+            case 32:
+                st = file_writeUint32A(fp, (uint32_t *)line, gr->width);
+                break;
 
-        case 16:
-            st = file_writeUint16A(fp, (uint16_t *)line, gr->width);
-            break;
+            case 16:
+                st = file_writeUint16A(fp, (uint16_t *)line, gr->width);
+                break;
 
-        case 8:
-        case 1:
-            st = file_write(fp, line, gr->widthb);
-            break;
+            case 8:
+            case 1:
+                st = file_write(fp, line, gr->widthb);
+                break;
         }
 
         if (!st)

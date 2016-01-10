@@ -137,21 +137,21 @@ int gr_font_newfrombitmap(GRAPH *map, int charset, int width, int height, int fi
     charsize = map->pitch * height;
 
     switch (map->format->depth) {
-    case 1:
-        linesize = width / 8;
-        break;
+        case 1:
+            linesize = width / 8;
+            break;
 
-    case 8:
-        linesize = width;
-        break;
+        case 8:
+            linesize = width;
+            break;
 
-    case 16:
-        linesize = width * sizeof(uint16_t);
-        break;
+        case 16:
+            linesize = width * sizeof(uint16_t);
+            break;
 
-    case 32:
-        linesize = width * sizeof(uint32_t);
-        break;
+        case 32:
+            linesize = width * sizeof(uint32_t);
+            break;
     }
 
     ch = map->height / height;
@@ -276,41 +276,41 @@ static int align_bitmap_char_left(unsigned char *data, int width, int height, in
         int align = width;
 
         switch (bpp) {
-        case 8: {
-            uint8_t *p = (uint8_t *)data;
-            while (height--) {
-                p = (uint8_t *)(data + height * pitch);
-                for (x = 0; x < width && !*p++; x++)
-                    ;
-                if (align > x)
-                    align = x;
+            case 8: {
+                uint8_t *p = (uint8_t *)data;
+                while (height--) {
+                    p = (uint8_t *)(data + height * pitch);
+                    for (x = 0; x < width && !*p++; x++)
+                        ;
+                    if (align > x)
+                        align = x;
+                }
+                return (align == width) ? 0 : align;
             }
-            return (align == width) ? 0 : align;
-        }
 
-        case 16: {
-            uint16_t *p = (uint16_t *)data;
-            while (height--) {
-                p = (uint16_t *)(data + height * pitch);
-                for (x = 0; x < width && !*p++; x++)
-                    ;
-                if (align > x)
-                    align = x;
+            case 16: {
+                uint16_t *p = (uint16_t *)data;
+                while (height--) {
+                    p = (uint16_t *)(data + height * pitch);
+                    for (x = 0; x < width && !*p++; x++)
+                        ;
+                    if (align > x)
+                        align = x;
+                }
+                return (align == width) ? 0 : align;
             }
-            return (align == width) ? 0 : align;
-        }
 
-        case 32: {
-            uint32_t *p = (uint32_t *)data;
-            while (height--) {
-                p = (uint32_t *)(data + height * pitch);
-                for (x = 0; x < width && !*p++; x++)
-                    ;
-                if (align > x)
-                    align = x;
+            case 32: {
+                uint32_t *p = (uint32_t *)data;
+                while (height--) {
+                    p = (uint32_t *)(data + height * pitch);
+                    for (x = 0; x < width && !*p++; x++)
+                        ;
+                    if (align > x)
+                        align = x;
+                }
+                return (align == width) ? 0 : align;
             }
-            return (align == width) ? 0 : align;
-        }
         }
 
         return 0;
@@ -324,63 +324,63 @@ static int get_bitmap_char_width(unsigned char *data, int width, int height, int
     int x, c, d, max = 0, w;
 
     switch (bpp) {
-    case 1:
-        while (height--) {
-            for (x = 0; x < width; x += 8) {
-                c = *data++;
-                for (d = 8; d > 0; d--, c >>= 1)
-                    if (c & 0x01)
-                        break;
-                if (x * 8 + d > max)
-                    max = x * 8 + d;
+        case 1:
+            while (height--) {
+                for (x = 0; x < width; x += 8) {
+                    c = *data++;
+                    for (d = 8; d > 0; d--, c >>= 1)
+                        if (c & 0x01)
+                            break;
+                    if (x * 8 + d > max)
+                        max = x * 8 + d;
+                }
             }
-        }
-        return (max < 4) ? 4 : max;
+            return (max < 4) ? 4 : max;
 
-    case 8: {
-        uint8_t *p = (uint8_t *)data;
-        while (height--) {
-            w = 0;
-            p = (uint8_t *)(data + height * pitch);
-            for (x = 0; x < width; x++) {
-                if (*p++)
-                    w = x;
+        case 8: {
+            uint8_t *p = (uint8_t *)data;
+            while (height--) {
+                w = 0;
+                p = (uint8_t *)(data + height * pitch);
+                for (x = 0; x < width; x++) {
+                    if (*p++)
+                        w = x;
+                }
+                if (max < w)
+                    max = w;
             }
-            if (max < w)
-                max = w;
+            return (!max) ? width * 65 / 100 : max;
         }
-        return (!max) ? width * 65 / 100 : max;
-    }
 
-    case 16: {
-        uint16_t *p;
-        while (height--) {
-            w = 0;
-            p = (uint16_t *)(data + height * pitch);
-            for (x = 0; x < width; x++) {
-                if (*p++)
-                    w = x;
+        case 16: {
+            uint16_t *p;
+            while (height--) {
+                w = 0;
+                p = (uint16_t *)(data + height * pitch);
+                for (x = 0; x < width; x++) {
+                    if (*p++)
+                        w = x;
+                }
+                if (max < w)
+                    max = w;
             }
-            if (max < w)
-                max = w;
+            return (!max) ? width * 65 / 100 : max;
         }
-        return (!max) ? width * 65 / 100 : max;
-    }
 
-    case 32: {
-        uint32_t *p;
-        while (height--) {
-            w = 0;
-            p = (uint32_t *)(data + height * pitch);
-            for (x = 0; x < width; x++) {
-                if (*p++)
-                    w = x;
+        case 32: {
+            uint32_t *p;
+            while (height--) {
+                w = 0;
+                p = (uint32_t *)(data + height * pitch);
+                for (x = 0; x < width; x++) {
+                    if (*p++)
+                        w = x;
+                }
+                if (max < w)
+                    max = w;
             }
-            if (max < w)
-                max = w;
+            return (!max) ? width * 65 / 100 : max;
         }
-        return (!max) ? width * 65 / 100 : max;
-    }
     }
 
     return width;

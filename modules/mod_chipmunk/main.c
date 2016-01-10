@@ -610,45 +610,45 @@ static int modDefcpShape(INSTANCE *my, int *params) {
     cpShape *espacio = (cpShape *)params[0];
     int res = params[1];
     switch (res) {
-    case CP_C_BODY:
-        espacio->body = (cpBody *)params[2];
-        break;
-    case CP_C_BB:
-        bounding    = params[2];
-        espacio->bb = *bounding;
-        break;
-    case CP_C_E:
-        flo2       = *(float *)&params[2];
-        espacio->e = flo2;
-        break;
-    case CP_C_U:
-        flo2       = *(float *)&params[2];
-        espacio->u = flo2;
-        break;
-    case CP_C_SENSOR:
-        res             = (int)params[2];
-        espacio->sensor = res;
-        break;
-    case CP_C_SURFACE_V:
-        vAux               = params[2];
-        espacio->surface_v = *vAux;
-        break;
-    case CP_C_COLLISION_TYPE:
-        res                     = params[2];
-        espacio->collision_type = res;
-        break;
-    case CP_C_GROUP:
-        res            = (int)params[2];
-        espacio->group = res;
-        break;
-    case CP_C_LAYERS:
-        res             = (int)params[2];
-        espacio->layers = res;
-        break;
-    case CP_C_DATA:
-        dP            = (cpDataPointer *)params[2];
-        espacio->data = dP;
-        break;
+        case CP_C_BODY:
+            espacio->body = (cpBody *)params[2];
+            break;
+        case CP_C_BB:
+            bounding    = params[2];
+            espacio->bb = *bounding;
+            break;
+        case CP_C_E:
+            flo2       = *(float *)&params[2];
+            espacio->e = flo2;
+            break;
+        case CP_C_U:
+            flo2       = *(float *)&params[2];
+            espacio->u = flo2;
+            break;
+        case CP_C_SENSOR:
+            res             = (int)params[2];
+            espacio->sensor = res;
+            break;
+        case CP_C_SURFACE_V:
+            vAux               = params[2];
+            espacio->surface_v = *vAux;
+            break;
+        case CP_C_COLLISION_TYPE:
+            res                     = params[2];
+            espacio->collision_type = res;
+            break;
+        case CP_C_GROUP:
+            res            = (int)params[2];
+            espacio->group = res;
+            break;
+        case CP_C_LAYERS:
+            res             = (int)params[2];
+            espacio->layers = res;
+            break;
+        case CP_C_DATA:
+            dP            = (cpDataPointer *)params[2];
+            espacio->data = dP;
+            break;
     }
     return 0;
 }
@@ -660,42 +660,42 @@ static int modGetcpShape(INSTANCE *my, int *params) {
     cpBB *bb;
     float a;
     switch (res) {
-    case CP_C_BODY:
-        return (int)espacio->body;
-        break;
-    case CP_C_BB:
-        bb  = params[2];
-        *bb = espacio->bb;
-        return 0;
-        break;
-    case CP_C_E:
-        a = espacio->e;
-        return *(int *)&a;
-        break;
-    case CP_C_U:
-        a = espacio->u;
-        return *(int *)&a;
-        break;
-    case CP_C_SENSOR:
-        return (int)espacio->sensor;
-        break;
-    case CP_C_SURFACE_V:
-        vc  = params[2];
-        *vc = espacio->surface_v;
-        break;
-    case CP_C_COLLISION_TYPE:
-        return (espacio->collision_type);
+        case CP_C_BODY:
+            return (int)espacio->body;
+            break;
+        case CP_C_BB:
+            bb  = params[2];
+            *bb = espacio->bb;
+            return 0;
+            break;
+        case CP_C_E:
+            a = espacio->e;
+            return *(int *)&a;
+            break;
+        case CP_C_U:
+            a = espacio->u;
+            return *(int *)&a;
+            break;
+        case CP_C_SENSOR:
+            return (int)espacio->sensor;
+            break;
+        case CP_C_SURFACE_V:
+            vc  = params[2];
+            *vc = espacio->surface_v;
+            break;
+        case CP_C_COLLISION_TYPE:
+            return (espacio->collision_type);
 
-        break;
-    case CP_C_GROUP:
-        return (espacio->group);
-        break;
-    case CP_C_LAYERS:
-        return (espacio->layers);
-        break;
-    case CP_C_DATA:
-        return (int)espacio->data;
-        break;
+            break;
+        case CP_C_GROUP:
+            return (espacio->group);
+            break;
+        case CP_C_LAYERS:
+            return (espacio->layers);
+            break;
+        case CP_C_DATA:
+            return (int)espacio->data;
+            break;
     }
     return 0;
 }
@@ -1180,15 +1180,15 @@ static int modaddInanimateShape(INSTANCE *my, int *params) {
                              cpv(*(float *)&params[1], *(float *)&params[2]));
     } else {
         switch (params[0]) {
-        case TYPE_CIRCLE:
-            sha = cpCircleShapeNew(bod, *(float *)&params[3],
-                                   cpv(*(float *)&params[1], *(float *)&params[2]));
-            break;
-        case TYPE_LINE:
-            sha = cpSegmentShapeNew(bod, cpv(*(float *)&params[1], *(float *)&params[2]),
-                                    cpv(*(float *)&params[3], *(float *)&params[4]),
-                                    *(float *)&params[5]);
-            break;
+            case TYPE_CIRCLE:
+                sha = cpCircleShapeNew(bod, *(float *)&params[3],
+                                       cpv(*(float *)&params[1], *(float *)&params[2]));
+                break;
+            case TYPE_LINE:
+                sha = cpSegmentShapeNew(bod, cpv(*(float *)&params[1], *(float *)&params[2]),
+                                        cpv(*(float *)&params[3], *(float *)&params[4]),
+                                        *(float *)&params[5]);
+                break;
         }
     }
     sha->e = 1;
@@ -1223,14 +1223,14 @@ static int modGetOptimalInertia(INSTANCE *my, int *params) {
         sha = cpMomentForPoly(shape->body->m, cant, &ver, cpv(0, 0));
     } else {
         switch (params[0]) {
-        case TYPE_CIRCLE:
-            sha = cpMomentForCircle(shape->body->m, 0, cpCircleShapeGetRadius(shape),
-                                    cpCircleShapeGetOffset(shape));
-            break;
-        case TYPE_LINE:
-            sha = cpMomentForSegment(shape->body->m, cpSegmentShapeGetA(shape),
-                                     cpSegmentShapeGetB(shape));
-            break;
+            case TYPE_CIRCLE:
+                sha = cpMomentForCircle(shape->body->m, 0, cpCircleShapeGetRadius(shape),
+                                        cpCircleShapeGetOffset(shape));
+                break;
+            case TYPE_LINE:
+                sha = cpMomentForSegment(shape->body->m, cpSegmentShapeGetA(shape),
+                                         cpSegmentShapeGetB(shape));
+                break;
         }
     }
     return *(int *)&sha;

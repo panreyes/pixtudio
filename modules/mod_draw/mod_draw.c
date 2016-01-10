@@ -110,27 +110,27 @@ static int _moddraw_object_info(void *pdr, REGION *clip, int *z, int *drawme) {
     *drawme = 1;
 
     switch (dr->type) {
-    case DRAWOBJ_CIRCLE:
-    case DRAWOBJ_FCIRCLE:
-        newclip.x  = dr->x1 - dr->x2;
-        newclip.y  = dr->y1 - dr->x2;
-        newclip.x2 = dr->x1 + dr->x2;
-        newclip.y2 = dr->y1 + dr->x2;
-        break;
+        case DRAWOBJ_CIRCLE:
+        case DRAWOBJ_FCIRCLE:
+            newclip.x  = dr->x1 - dr->x2;
+            newclip.y  = dr->y1 - dr->x2;
+            newclip.x2 = dr->x1 + dr->x2;
+            newclip.y2 = dr->y1 + dr->x2;
+            break;
 
-    case DRAWOBJ_CURVE:
-        newclip.x  = dr->x1;
-        newclip.y  = dr->y1;
-        newclip.x2 = dr->x4;
-        newclip.y2 = dr->y4;
-        break;
+        case DRAWOBJ_CURVE:
+            newclip.x  = dr->x1;
+            newclip.y  = dr->y1;
+            newclip.x2 = dr->x4;
+            newclip.y2 = dr->y4;
+            break;
 
-    default:
-        newclip.x  = dr->x1;
-        newclip.y  = dr->y1;
-        newclip.x2 = dr->x2;
-        newclip.y2 = dr->y2;
-        break;
+        default:
+            newclip.x  = dr->x1;
+            newclip.y  = dr->y1;
+            newclip.x2 = dr->x2;
+            newclip.y2 = dr->y2;
+            break;
     }
 
     minx = newclip.x;
@@ -191,30 +191,30 @@ static void _moddraw_object_draw(void *pdr, REGION *clip) {
         gr_setalpha(pixel_alpha);
 
     switch (dr->type) {
-    case DRAWOBJ_LINE:
-        draw_line(scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1);
-        break;
+        case DRAWOBJ_LINE:
+            draw_line(scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1);
+            break;
 
-    case DRAWOBJ_RECT:
-        draw_rectangle(scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1);
-        break;
+        case DRAWOBJ_RECT:
+            draw_rectangle(scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1);
+            break;
 
-    case DRAWOBJ_BOX:
-        draw_box(scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1);
-        break;
+        case DRAWOBJ_BOX:
+            draw_box(scrbitmap, clip, dr->x1, dr->y1, dr->x2 - dr->x1, dr->y2 - dr->y1);
+            break;
 
-    case DRAWOBJ_CIRCLE:
-        draw_circle(scrbitmap, clip, dr->x1, dr->y1, dr->x2);
-        break;
+        case DRAWOBJ_CIRCLE:
+            draw_circle(scrbitmap, clip, dr->x1, dr->y1, dr->x2);
+            break;
 
-    case DRAWOBJ_FCIRCLE:
-        draw_fcircle(scrbitmap, clip, dr->x1, dr->y1, dr->x2);
-        break;
+        case DRAWOBJ_FCIRCLE:
+            draw_fcircle(scrbitmap, clip, dr->x1, dr->y1, dr->x2);
+            break;
 
-    case DRAWOBJ_CURVE:
-        draw_bezier(scrbitmap, clip, dr->x1, dr->y1, dr->x2, dr->y2, dr->x3, dr->y3, dr->x4, dr->y4,
-                    dr->level);
-        break;
+        case DRAWOBJ_CURVE:
+            draw_bezier(scrbitmap, clip, dr->x1, dr->y1, dr->x2, dr->y2, dr->x3, dr->y3, dr->x4,
+                        dr->y4, dr->level);
+            break;
     }
 
     pixel_color8  = b8;

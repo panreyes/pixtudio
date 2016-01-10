@@ -57,24 +57,24 @@ static int check_integer_type(expresion_result *exp) {
     if (typedef_is_integer(exp->type)) {
         BASETYPE t = typedef_base(exp->type);
         switch (t) {
-        case TYPE_SHORT:
-        case TYPE_WORD:
-            return MN_WORD;
+            case TYPE_SHORT:
+            case TYPE_WORD:
+                return MN_WORD;
 
-        case TYPE_SBYTE:
-        case TYPE_BYTE:
-            return MN_BYTE;
+            case TYPE_SBYTE:
+            case TYPE_BYTE:
+                return MN_BYTE;
 
-        case TYPE_UNDEFINED:
-        case TYPE_INT:
-        case TYPE_DWORD:
-        case TYPE_CHAR:
-        case TYPE_FLOAT:
-        case TYPE_STRING:
-        case TYPE_ARRAY:
-        case TYPE_STRUCT:
-        case TYPE_POINTER:
-            break;
+            case TYPE_UNDEFINED:
+            case TYPE_INT:
+            case TYPE_DWORD:
+            case TYPE_CHAR:
+            case TYPE_FLOAT:
+            case TYPE_STRING:
+            case TYPE_ARRAY:
+            case TYPE_STRUCT:
+            case TYPE_POINTER:
+                break;
         }
         return MN_DWORD;
     }
@@ -99,24 +99,24 @@ static int check_integer_types(expresion_result *left, expresion_result *right) 
             if (typedef_base(left->type) == typedef_base(right->type)) {
                 BASETYPE t = typedef_base(left->type);
                 switch (t) {
-                case TYPE_SHORT:
-                case TYPE_WORD:
-                    return MN_WORD;
+                    case TYPE_SHORT:
+                    case TYPE_WORD:
+                        return MN_WORD;
 
-                case TYPE_SBYTE:
-                case TYPE_BYTE:
-                    return MN_BYTE;
+                    case TYPE_SBYTE:
+                    case TYPE_BYTE:
+                        return MN_BYTE;
 
-                case TYPE_UNDEFINED:
-                case TYPE_INT:
-                case TYPE_DWORD:
-                case TYPE_CHAR:
-                case TYPE_FLOAT:
-                case TYPE_STRING:
-                case TYPE_ARRAY:
-                case TYPE_STRUCT:
-                case TYPE_POINTER:
-                    break;
+                    case TYPE_UNDEFINED:
+                    case TYPE_INT:
+                    case TYPE_DWORD:
+                    case TYPE_CHAR:
+                    case TYPE_FLOAT:
+                    case TYPE_STRING:
+                    case TYPE_ARRAY:
+                    case TYPE_STRUCT:
+                    case TYPE_POINTER:
+                        break;
                 }
             }
             return MN_DWORD;
@@ -245,30 +245,30 @@ int mntype(TYPEDEF type, int accept_structs) {
 
     t = typedef_base(type);
     switch (t) {
-    case TYPE_DWORD:
-        return MN_DWORD | MN_UNSIGNED;
-    case TYPE_INT:
-        return MN_DWORD;
-    case TYPE_WORD:
-        return MN_WORD | MN_UNSIGNED;
-    case TYPE_SHORT:
-        return MN_WORD;
-    case TYPE_BYTE:
-        return MN_BYTE | MN_UNSIGNED;
-    case TYPE_SBYTE:
-        return MN_BYTE;
-    case TYPE_CHAR:
-        return MN_BYTE;
-    case TYPE_FLOAT:
-        return MN_FLOAT;
-    case TYPE_STRING:
-        return MN_STRING;
-    case TYPE_POINTER:
-        return MN_DWORD;
-    case TYPE_UNDEFINED:
-    case TYPE_ARRAY:
-    case TYPE_STRUCT:
-        break;
+        case TYPE_DWORD:
+            return MN_DWORD | MN_UNSIGNED;
+        case TYPE_INT:
+            return MN_DWORD;
+        case TYPE_WORD:
+            return MN_WORD | MN_UNSIGNED;
+        case TYPE_SHORT:
+            return MN_WORD;
+        case TYPE_BYTE:
+            return MN_BYTE | MN_UNSIGNED;
+        case TYPE_SBYTE:
+            return MN_BYTE;
+        case TYPE_CHAR:
+            return MN_BYTE;
+        case TYPE_FLOAT:
+            return MN_FLOAT;
+        case TYPE_STRING:
+            return MN_STRING;
+        case TYPE_POINTER:
+            return MN_DWORD;
+        case TYPE_UNDEFINED:
+        case TYPE_ARRAY:
+        case TYPE_STRUCT:
+            break;
     }
 
     if (t == TYPE_STRUCT && accept_structs)
@@ -853,26 +853,26 @@ SYSPROC *compile_bestproc(SYSPROC **procs) {
                 }
             } else {
                 switch (validtypes[0]) {
-                case 'I':
-                    type = TYPE_DWORD;
-                    break;
-                case 'B':
-                    type = TYPE_BYTE;
-                    break;
-                case 'W':
-                    type = TYPE_WORD;
-                    break;
-                case 'S':
-                    type = TYPE_STRING;
-                    break;
-                case 'P':
-                    type = TYPE_POINTER;
-                    break;
-                case 'F':
-                    type = TYPE_FLOAT;
-                    break;
-                default:
-                    compile_error(MSG_INVALID_PARAMT);
+                    case 'I':
+                        type = TYPE_DWORD;
+                        break;
+                    case 'B':
+                        type = TYPE_BYTE;
+                        break;
+                    case 'W':
+                        type = TYPE_WORD;
+                        break;
+                    case 'S':
+                        type = TYPE_STRING;
+                        break;
+                    case 'P':
+                        type = TYPE_POINTER;
+                        break;
+                    case 'F':
+                        type = TYPE_FLOAT;
+                        break;
+                    default:
+                        compile_error(MSG_INVALID_PARAMT);
                 }
 
                 res = compile_expresion(0, 0, 0, (BASETYPE)type);
@@ -890,31 +890,31 @@ SYSPROC *compile_bestproc(SYSPROC **procs) {
              * conversions if no exact match is available */
 
             switch (typedef_base(res.type)) {
-            case TYPE_DWORD:
-            case TYPE_SHORT:
-            case TYPE_BYTE:
-            case TYPE_SBYTE:
-            case TYPE_WORD:
-            case TYPE_INT:
-                strdelchars(validtypes, "SFP");
-                break;
-            case TYPE_FLOAT:
-                if (strchr(validtypes, 'F'))
-                    strdelchars(validtypes, "SPIWB");
-                else
-                    strdelchars(validtypes, "SP");
-                break;
-            case TYPE_STRING:
-                if (strchr(validtypes, 'S'))
-                    strdelchars(validtypes, "FPIWB");
-                else
-                    strdelchars(validtypes, "P");
-                break;
-            case TYPE_POINTER:
-                strdelchars(validtypes, "SFIWB");
-                break;
-            default:
-                break;
+                case TYPE_DWORD:
+                case TYPE_SHORT:
+                case TYPE_BYTE:
+                case TYPE_SBYTE:
+                case TYPE_WORD:
+                case TYPE_INT:
+                    strdelchars(validtypes, "SFP");
+                    break;
+                case TYPE_FLOAT:
+                    if (strchr(validtypes, 'F'))
+                        strdelchars(validtypes, "SPIWB");
+                    else
+                        strdelchars(validtypes, "SP");
+                    break;
+                case TYPE_STRING:
+                    if (strchr(validtypes, 'S'))
+                        strdelchars(validtypes, "FPIWB");
+                    else
+                        strdelchars(validtypes, "P");
+                    break;
+                case TYPE_POINTER:
+                    strdelchars(validtypes, "SFIWB");
+                    break;
+                default:
+                    break;
             }
 
             if (strlen(validtypes) != 1)
@@ -936,26 +936,26 @@ SYSPROC *compile_bestproc(SYSPROC **procs) {
             /* Convert the result to the appropiate type, if needed */
 
             switch (validtypes[0]) {
-            case 'I':
-                type = TYPE_DWORD;
-                break;
-            case 'B':
-                type = TYPE_BYTE;
-                break;
-            case 'W':
-                type = TYPE_WORD;
-                break;
-            case 'S':
-                type = TYPE_STRING;
-                break;
-            case 'P':
-                type = TYPE_POINTER;
-                break;
-            case 'F':
-                type = TYPE_FLOAT;
-                break;
-            default:
-                compile_error(MSG_INVALID_PARAMT);
+                case 'I':
+                    type = TYPE_DWORD;
+                    break;
+                case 'B':
+                    type = TYPE_BYTE;
+                    break;
+                case 'W':
+                    type = TYPE_WORD;
+                    break;
+                case 'S':
+                    type = TYPE_STRING;
+                    break;
+                case 'P':
+                    type = TYPE_POINTER;
+                    break;
+                case 'F':
+                    type = TYPE_FLOAT;
+                    break;
+                default:
+                    compile_error(MSG_INVALID_PARAMT);
             }
             res = convert_result_type(res, (BASETYPE)type);
         }
@@ -997,26 +997,26 @@ int compile_paramlist(BASETYPE *types, const char *paramtypes) {
         type = types ? *types : TYPE_UNDEFINED;
         if (paramtypes) {
             switch (*paramtypes++) {
-            case 'I':
-                type = TYPE_DWORD;
-                break;
-            case 'B':
-                type = TYPE_BYTE;
-                break;
-            case 'W':
-                type = TYPE_WORD;
-                break;
-            case 'S':
-                type = TYPE_STRING;
-                break;
-            case 'P':
-                type = TYPE_POINTER;
-                break;
-            case 'F':
-                type = TYPE_FLOAT;
-                break;
-            default:
-                compile_error(MSG_INVALID_PARAMT);
+                case 'I':
+                    type = TYPE_DWORD;
+                    break;
+                case 'B':
+                    type = TYPE_BYTE;
+                    break;
+                case 'W':
+                    type = TYPE_WORD;
+                    break;
+                case 'S':
+                    type = TYPE_STRING;
+                    break;
+                case 'P':
+                    type = TYPE_POINTER;
+                    break;
+                case 'F':
+                    type = TYPE_FLOAT;
+                    break;
+                default:
+                    compile_error(MSG_INVALID_PARAMT);
             }
         }
 
@@ -1428,60 +1428,60 @@ expresion_result compile_value() {
     }
 
     switch (token.type) {
-    case NUMBER: /* Numbers */
-        codeblock_add(code, MN_PUSH, token.code);
-        res.fvalue     = 0.0;
-        res.lvalue     = 0;
-        res.asignation = 0;
-        res.constant   = 1;
-        res.call       = 0;
-        res.value      = token.code;
-        res.type       = typedef_new(TYPE_INT);
-        return res;
-
-    case FLOAT:
-        codeblock_add(code, MN_PUSH, *(int *)&token.value);
-        res.value      = 0;
-        res.lvalue     = 0;
-        res.asignation = 0;
-        res.constant   = 1;
-        res.call       = 0;
-        res.fvalue     = token.value;
-        res.type       = typedef_new(TYPE_FLOAT);
-        return res;
-
-    case STRING: /* Strings */
-        codeblock_add(code, MN_PUSH | MN_STRING, token.code);
-        res.fvalue     = 0.0;
-        res.lvalue     = 0;
-        res.asignation = 0;
-        res.constant   = 1;
-        res.call       = 0;
-        res.value      = token.code;
-        res.type       = typedef_new(TYPE_STRING);
-        return res;
-
-    case IDENTIFIER: /* Constants */
-        c = constants_search(token.code);
-        if (c) {
-            if (typedef_is_string(c->type))
-                codeblock_add(code, MN_PUSH | MN_STRING, c->value);
-            else
-                codeblock_add(code, MN_PUSH, c->value);
+        case NUMBER: /* Numbers */
+            codeblock_add(code, MN_PUSH, token.code);
+            res.fvalue     = 0.0;
             res.lvalue     = 0;
             res.asignation = 0;
             res.constant   = 1;
             res.call       = 0;
-            res.value      = c->value;
-            res.fvalue     = *(float *)&c->value;
-            res.type       = c->type;
+            res.value      = token.code;
+            res.type       = typedef_new(TYPE_INT);
             return res;
-        }
-        break;
 
-    default:
-        compile_error(MSG_UNKNOWN_IDENTIFIER);
-        break;
+        case FLOAT:
+            codeblock_add(code, MN_PUSH, *(int *)&token.value);
+            res.value      = 0;
+            res.lvalue     = 0;
+            res.asignation = 0;
+            res.constant   = 1;
+            res.call       = 0;
+            res.fvalue     = token.value;
+            res.type       = typedef_new(TYPE_FLOAT);
+            return res;
+
+        case STRING: /* Strings */
+            codeblock_add(code, MN_PUSH | MN_STRING, token.code);
+            res.fvalue     = 0.0;
+            res.lvalue     = 0;
+            res.asignation = 0;
+            res.constant   = 1;
+            res.call       = 0;
+            res.value      = token.code;
+            res.type       = typedef_new(TYPE_STRING);
+            return res;
+
+        case IDENTIFIER: /* Constants */
+            c = constants_search(token.code);
+            if (c) {
+                if (typedef_is_string(c->type))
+                    codeblock_add(code, MN_PUSH | MN_STRING, c->value);
+                else
+                    codeblock_add(code, MN_PUSH, c->value);
+                res.lvalue     = 0;
+                res.asignation = 0;
+                res.constant   = 1;
+                res.call       = 0;
+                res.value      = c->value;
+                res.fvalue     = *(float *)&c->value;
+                res.type       = c->type;
+                return res;
+            }
+            break;
+
+        default:
+            compile_error(MSG_UNKNOWN_IDENTIFIER);
+            break;
     }
 
     /* Llamada a un procedimiento o función del sistema */
@@ -3039,38 +3039,38 @@ expresion_result convert_result_type(expresion_result res, BASETYPE t) {
         if (res.constant) {
             char buffer[32];
             switch (res.type.chunk[0].type) {
-            case TYPE_INT:
-                sprintf(buffer, "%d", res.value);
-                break;
+                case TYPE_INT:
+                    sprintf(buffer, "%d", res.value);
+                    break;
 
-            case TYPE_WORD:
-                sprintf(buffer, "%d", (uint16_t)res.value);
-                break;
+                case TYPE_WORD:
+                    sprintf(buffer, "%d", (uint16_t)res.value);
+                    break;
 
-            case TYPE_BYTE:
-                sprintf(buffer, "%d", (uint8_t)res.value);
-                break;
+                case TYPE_BYTE:
+                    sprintf(buffer, "%d", (uint8_t)res.value);
+                    break;
 
-            case TYPE_SHORT:
-                sprintf(buffer, "%d", (int16_t)res.value);
-                break;
+                case TYPE_SHORT:
+                    sprintf(buffer, "%d", (int16_t)res.value);
+                    break;
 
-            case TYPE_SBYTE:
-                sprintf(buffer, "%d", (int8_t)res.value);
-                break;
+                case TYPE_SBYTE:
+                    sprintf(buffer, "%d", (int8_t)res.value);
+                    break;
 
-            case TYPE_DWORD:
-                sprintf(buffer, "%u", (int32_t)res.value);
-                break;
+                case TYPE_DWORD:
+                    sprintf(buffer, "%u", (int32_t)res.value);
+                    break;
 
-            case TYPE_UNDEFINED:
-            case TYPE_CHAR:
-            case TYPE_FLOAT:
-            case TYPE_STRING:
-            case TYPE_ARRAY:
-            case TYPE_STRUCT:
-            case TYPE_POINTER:
-                break;
+                case TYPE_UNDEFINED:
+                case TYPE_CHAR:
+                case TYPE_FLOAT:
+                case TYPE_STRING:
+                case TYPE_ARRAY:
+                case TYPE_STRUCT:
+                case TYPE_POINTER:
+                    break;
             }
             res.value = string_new(buffer);
         }
@@ -3086,72 +3086,74 @@ expresion_result convert_result_type(expresion_result res, BASETYPE t) {
         res.type = typedef_new(t);
     } else if (t != TYPE_UNDEFINED && typedef_base(res.type) != t) {
         switch (t) {
-        case TYPE_CHAR:
+            case TYPE_CHAR:
 
-            /* Allow string-to-char conversions */
+                /* Allow string-to-char conversions */
 
-            if (typedef_is_string(res.type)) {
-                codeblock_add(code, MN_STR2CHR, 0);
-                if (res.constant == 1)
-                    res.value = (unsigned char)*(string_get(res.value));
-            } else
-                compile_error(MSG_INTEGER_REQUIRED);
-            break;
+                if (typedef_is_string(res.type)) {
+                    codeblock_add(code, MN_STR2CHR, 0);
+                    if (res.constant == 1)
+                        res.value = (unsigned char)*(string_get(res.value));
+                } else
+                    compile_error(MSG_INTEGER_REQUIRED);
+                break;
 
-        case TYPE_DWORD:
-        case TYPE_INT:
-        case TYPE_WORD:
-        case TYPE_SHORT:
-        case TYPE_BYTE:
-        case TYPE_SBYTE:
-            if (typedef_is_array(res.type) && res.lvalue && res.type.chunk[1].type == TYPE_CHAR) {
-                codeblock_add(code, MN_A2STR, 0);
-                codeblock_add(code, MN_STR2INT, 0);
-                res.lvalue   = 0;
-                res.constant = 0;
-            } else if (typedef_is_string(res.type)) {
-                codeblock_add(code, MN_STR2INT, 0);
-                if (res.constant == 1)
-                    res.value = atoi(string_get(res.value));
-            } else if (typedef_base(res.type) == TYPE_CHAR) {
-                res.type = typedef_new(t);
-            } else
-                compile_error(MSG_INTEGER_REQUIRED);
-            break;
+            case TYPE_DWORD:
+            case TYPE_INT:
+            case TYPE_WORD:
+            case TYPE_SHORT:
+            case TYPE_BYTE:
+            case TYPE_SBYTE:
+                if (typedef_is_array(res.type) && res.lvalue &&
+                    res.type.chunk[1].type == TYPE_CHAR) {
+                    codeblock_add(code, MN_A2STR, 0);
+                    codeblock_add(code, MN_STR2INT, 0);
+                    res.lvalue   = 0;
+                    res.constant = 0;
+                } else if (typedef_is_string(res.type)) {
+                    codeblock_add(code, MN_STR2INT, 0);
+                    if (res.constant == 1)
+                        res.value = atoi(string_get(res.value));
+                } else if (typedef_base(res.type) == TYPE_CHAR) {
+                    res.type = typedef_new(t);
+                } else
+                    compile_error(MSG_INTEGER_REQUIRED);
+                break;
 
-        case TYPE_FLOAT:
-            if (typedef_is_string(res.type)) {
-                codeblock_add(code, MN_STR2FLOAT, 0);
-                if (res.constant == 1)
-                    res.fvalue = (float)atof(string_get(res.value));
-            } else
-                compile_error(MSG_NUMBER_REQUIRED);
-            break;
+            case TYPE_FLOAT:
+                if (typedef_is_string(res.type)) {
+                    codeblock_add(code, MN_STR2FLOAT, 0);
+                    if (res.constant == 1)
+                        res.fvalue = (float)atof(string_get(res.value));
+                } else
+                    compile_error(MSG_NUMBER_REQUIRED);
+                break;
 
-        case TYPE_STRING:
-            if (typedef_is_array(res.type) && res.lvalue && res.type.chunk[1].type == TYPE_CHAR) {
-                codeblock_add(code, MN_A2STR, 0);
-                res.lvalue = 0;
-            } else if (typedef_is_integer(res.type)) {
-                codeblock_add(code, MN_INT2STR | mntype(res.type, 0), 0);
-                if (res.constant) {
-                    char buffer[32];
-                    sprintf(buffer, "%d", res.value);
-                    res.value = string_new(buffer);
-                }
-            } else if (typedef_is_float(res.type)) {
-                codeblock_add(code, MN_FLOAT2STR, 0);
-                if (res.constant) {
-                    char buffer[32];
-                    sprintf(buffer, "%g", res.fvalue);
-                    res.value = string_new(buffer);
-                }
-            } else
-                compile_error(MSG_STRING_EXP);
-            break;
+            case TYPE_STRING:
+                if (typedef_is_array(res.type) && res.lvalue &&
+                    res.type.chunk[1].type == TYPE_CHAR) {
+                    codeblock_add(code, MN_A2STR, 0);
+                    res.lvalue = 0;
+                } else if (typedef_is_integer(res.type)) {
+                    codeblock_add(code, MN_INT2STR | mntype(res.type, 0), 0);
+                    if (res.constant) {
+                        char buffer[32];
+                        sprintf(buffer, "%d", res.value);
+                        res.value = string_new(buffer);
+                    }
+                } else if (typedef_is_float(res.type)) {
+                    codeblock_add(code, MN_FLOAT2STR, 0);
+                    if (res.constant) {
+                        char buffer[32];
+                        sprintf(buffer, "%g", res.fvalue);
+                        res.value = string_new(buffer);
+                    }
+                } else
+                    compile_error(MSG_STRING_EXP);
+                break;
 
-        default:
-            compile_error(MSG_INCOMP_TYPE);
+            default:
+                compile_error(MSG_INCOMP_TYPE);
         }
         res.type = typedef_new(t);
     }
@@ -3184,57 +3186,57 @@ extern int dcb_options;
 
 void basetype_describe(char *buffer, BASETYPE t) {
     switch (t) {
-    case TYPE_INT:
-        sprintf(buffer, "INT");
-        return;
+        case TYPE_INT:
+            sprintf(buffer, "INT");
+            return;
 
-    case TYPE_DWORD:
-        sprintf(buffer, "DWORD");
-        return;
+        case TYPE_DWORD:
+            sprintf(buffer, "DWORD");
+            return;
 
-    case TYPE_SHORT:
-        sprintf(buffer, "SHORT");
-        return;
+        case TYPE_SHORT:
+            sprintf(buffer, "SHORT");
+            return;
 
-    case TYPE_WORD:
-        sprintf(buffer, "WORD");
-        return;
+        case TYPE_WORD:
+            sprintf(buffer, "WORD");
+            return;
 
-    case TYPE_BYTE:
-        sprintf(buffer, "BYTE");
-        return;
+        case TYPE_BYTE:
+            sprintf(buffer, "BYTE");
+            return;
 
-    case TYPE_CHAR:
-        sprintf(buffer, "CHAR");
-        return;
+        case TYPE_CHAR:
+            sprintf(buffer, "CHAR");
+            return;
 
-    case TYPE_SBYTE:
-        sprintf(buffer, "SIGNED BYTE");
-        return;
+        case TYPE_SBYTE:
+            sprintf(buffer, "SIGNED BYTE");
+            return;
 
-    case TYPE_STRING:
-        sprintf(buffer, "STRING");
-        return;
+        case TYPE_STRING:
+            sprintf(buffer, "STRING");
+            return;
 
-    case TYPE_FLOAT:
-        sprintf(buffer, "FLOAT");
-        return;
+        case TYPE_FLOAT:
+            sprintf(buffer, "FLOAT");
+            return;
 
-    case TYPE_STRUCT:
-        sprintf(buffer, "STRUCT");
+        case TYPE_STRUCT:
+            sprintf(buffer, "STRUCT");
 
-    case TYPE_ARRAY:
-        sprintf(buffer, "ARRAY");
-        return;
+        case TYPE_ARRAY:
+            sprintf(buffer, "ARRAY");
+            return;
 
-    case TYPE_POINTER:
-        sprintf(buffer, "POINTER");
-        return;
+        case TYPE_POINTER:
+            sprintf(buffer, "POINTER");
+            return;
 
-    case TYPE_UNDEFINED:
-    default:
-        sprintf(buffer, "<UNDEFINED>");
-        return;
+        case TYPE_UNDEFINED:
+        default:
+            sprintf(buffer, "<UNDEFINED>");
+            return;
     }
 }
 

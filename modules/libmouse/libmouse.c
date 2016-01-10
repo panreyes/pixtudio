@@ -144,35 +144,37 @@ static void do_mouse_events() {
 
     while (SDL_PeepEvents(&e, 1, SDL_GETEVENT, SDL_MOUSEMOTION, SDL_MOUSEWHEEL) > 0) {
         switch (e.type) {
-        case SDL_MOUSEMOTION:
-            GLOINT32(libmouse, MOUSEX) = e.motion.x * ((float)scr_width / (float)renderer_width);
-            GLOINT32(libmouse, MOUSEY) = e.motion.y * ((float)scr_height / (float)renderer_height);
-            break;
+            case SDL_MOUSEMOTION:
+                GLOINT32(libmouse, MOUSEX) =
+                    e.motion.x * ((float)scr_width / (float)renderer_width);
+                GLOINT32(libmouse, MOUSEY) =
+                    e.motion.y * ((float)scr_height / (float)renderer_height);
+                break;
 
-        case SDL_MOUSEBUTTONDOWN:
-            if (e.button.button == SDL_BUTTON_LEFT)
-                GLODWORD(libmouse, MOUSELEFT) = 1;
-            if (e.button.button == SDL_BUTTON_MIDDLE)
-                GLODWORD(libmouse, MOUSEMIDDLE) = 1;
-            if (e.button.button == SDL_BUTTON_RIGHT)
-                GLODWORD(libmouse, MOUSERIGHT) = 1;
-            break;
+            case SDL_MOUSEBUTTONDOWN:
+                if (e.button.button == SDL_BUTTON_LEFT)
+                    GLODWORD(libmouse, MOUSELEFT) = 1;
+                if (e.button.button == SDL_BUTTON_MIDDLE)
+                    GLODWORD(libmouse, MOUSEMIDDLE) = 1;
+                if (e.button.button == SDL_BUTTON_RIGHT)
+                    GLODWORD(libmouse, MOUSERIGHT) = 1;
+                break;
 
-        case SDL_MOUSEBUTTONUP:
-            if (e.button.button == SDL_BUTTON_LEFT)
-                GLODWORD(libmouse, MOUSELEFT) = 0;
-            if (e.button.button == SDL_BUTTON_MIDDLE)
-                GLODWORD(libmouse, MOUSEMIDDLE) = 0;
-            if (e.button.button == SDL_BUTTON_RIGHT)
-                GLODWORD(libmouse, MOUSERIGHT) = 0;
-            break;
+            case SDL_MOUSEBUTTONUP:
+                if (e.button.button == SDL_BUTTON_LEFT)
+                    GLODWORD(libmouse, MOUSELEFT) = 0;
+                if (e.button.button == SDL_BUTTON_MIDDLE)
+                    GLODWORD(libmouse, MOUSEMIDDLE) = 0;
+                if (e.button.button == SDL_BUTTON_RIGHT)
+                    GLODWORD(libmouse, MOUSERIGHT) = 0;
+                break;
 
-        case SDL_MOUSEWHEEL:
-            if (e.wheel.y > 0)
-                GLODWORD(libmouse, MOUSEWHEELUP)++;
-            else if (e.wheel.y < 0)
-                GLODWORD(libmouse, MOUSEWHEELDOWN)++;
-            break;
+            case SDL_MOUSEWHEEL:
+                if (e.wheel.y > 0)
+                    GLODWORD(libmouse, MOUSEWHEELUP)++;
+                else if (e.wheel.y < 0)
+                    GLODWORD(libmouse, MOUSEWHEELDOWN)++;
+                break;
         }
     }
 

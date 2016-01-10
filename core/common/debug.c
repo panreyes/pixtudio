@@ -215,37 +215,37 @@ void mnemonic_dump(int i, int param) {
         if (debug > 1) {
 #endif
             switch (MN_TYPEOF(i)) {
-            case MN_UNSIGNED:
-                printf("UNSIGNED ");
-                break;
+                case MN_UNSIGNED:
+                    printf("UNSIGNED ");
+                    break;
 
-            case MN_WORD:
-                printf("SHORT    ");
-                break;
+                case MN_WORD:
+                    printf("SHORT    ");
+                    break;
 
-            case MN_WORD | MN_UNSIGNED:
-                printf("WORD     ");
-                break;
+                case MN_WORD | MN_UNSIGNED:
+                    printf("WORD     ");
+                    break;
 
-            case MN_BYTE:
-                printf("CHAR     ");
-                break;
+                case MN_BYTE:
+                    printf("CHAR     ");
+                    break;
 
-            case MN_BYTE | MN_UNSIGNED:
-                printf("BYTE     ");
-                break;
+                case MN_BYTE | MN_UNSIGNED:
+                    printf("BYTE     ");
+                    break;
 
-            case MN_FLOAT:
-                printf("FLOAT    ");
-                break;
+                case MN_FLOAT:
+                    printf("FLOAT    ");
+                    break;
 
-            case MN_STRING:
-                printf("STRING   ");
-                break;
+                case MN_STRING:
+                    printf("STRING   ");
+                    break;
 
-            default:
-                printf("         ");
-                break;
+                default:
+                    printf("         ");
+                    break;
             }
 
             printf("%s", mnemonics_sorted[n].name);
@@ -264,9 +264,9 @@ void mnemonic_dump(int i, int param) {
 #endif
             } else if (i != MN_SENTENCE) {
                 switch (MN_PARAMS(i)) {
-                case 1:
-                    printf("%d", param);
-                    break;
+                    case 1:
+                        printf("%d", param);
+                        break;
                 }
                 printf("\n");
             }

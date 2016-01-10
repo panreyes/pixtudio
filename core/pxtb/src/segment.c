@@ -121,25 +121,25 @@ void segment_alloc(segment *n, int count) {
 
 int segment_add_as(segment *n, int32_t value, BASETYPE t) {
     switch (t) {
-    case TYPE_DWORD:
-    case TYPE_INT:
-    case TYPE_FLOAT:
-    case TYPE_STRING:
-    case TYPE_POINTER:
-        return segment_add_dword(n, (int32_t)value);
+        case TYPE_DWORD:
+        case TYPE_INT:
+        case TYPE_FLOAT:
+        case TYPE_STRING:
+        case TYPE_POINTER:
+            return segment_add_dword(n, (int32_t)value);
 
-    case TYPE_WORD:
-    case TYPE_SHORT:
-        return segment_add_word(n, (int16_t)value);
+        case TYPE_WORD:
+        case TYPE_SHORT:
+            return segment_add_word(n, (int16_t)value);
 
-    case TYPE_BYTE:
-    case TYPE_SBYTE:
-    case TYPE_CHAR:
-        return segment_add_byte(n, (int8_t)value);
+        case TYPE_BYTE:
+        case TYPE_SBYTE:
+        case TYPE_CHAR:
+            return segment_add_byte(n, (int8_t)value);
 
-    default:
-        compile_error(MSG_INCOMP_TYPE);
-        return 0;
+        default:
+            compile_error(MSG_INCOMP_TYPE);
+            return 0;
     }
 }
 

@@ -67,15 +67,15 @@ int modmap_graphic_set(INSTANCE *my, int *params) {
         return 0;
 
     switch (params[2]) {
-    case 2: /* g_center_x */
-        bitmap_set_cpoint(map, 0, params[3],
-                          (map->ncpoints) ? (map->cpoints[0].y) : (map->height / 2));
-        return 1;
+        case 2: /* g_center_x */
+            bitmap_set_cpoint(map, 0, params[3],
+                              (map->ncpoints) ? (map->cpoints[0].y) : (map->height / 2));
+            return 1;
 
-    case 3: /* g_center_y */
-        bitmap_set_cpoint(map, 0, (map->ncpoints) ? (map->cpoints[0].x) : (map->width / 2),
-                          params[3]);
-        return 1;
+        case 3: /* g_center_y */
+            bitmap_set_cpoint(map, 0, (map->ncpoints) ? (map->cpoints[0].x) : (map->width / 2),
+                              params[3]);
+            return 1;
     }
     return 1;
 }
@@ -88,29 +88,29 @@ int modmap_graphic_info(INSTANCE *my, int *params) {
         return 0;
 
     switch (params[2]) {
-    case G_WIDTH: /* g_wide */
-        return map->width;
+        case G_WIDTH: /* g_wide */
+            return map->width;
 
-    case G_HEIGHT: /* g_height */
-        return map->height;
+        case G_HEIGHT: /* g_height */
+            return map->height;
 
-    case G_PITCH: /* g_pitch */
-        return map->pitch;
+        case G_PITCH: /* g_pitch */
+            return map->pitch;
 
-    case G_DEPTH: /* g_depth */
-        return map->format->depth;
+        case G_DEPTH: /* g_depth */
+            return map->format->depth;
 
-    case G_CENTER_X: /* g_center_x */
-        if (map->ncpoints > 0)
-            if (map->cpoints[0].x != CPOINT_UNDEFINED)
-                return map->cpoints[0].x;
-        return map->width / 2;
+        case G_CENTER_X: /* g_center_x */
+            if (map->ncpoints > 0)
+                if (map->cpoints[0].x != CPOINT_UNDEFINED)
+                    return map->cpoints[0].x;
+            return map->width / 2;
 
-    case G_CENTER_Y: /* g_center_y */
-        if (map->ncpoints > 0)
-            if (map->cpoints[0].y != CPOINT_UNDEFINED)
-                return map->cpoints[0].y;
-        return map->height / 2;
+        case G_CENTER_Y: /* g_center_y */
+            if (map->ncpoints > 0)
+                if (map->cpoints[0].y != CPOINT_UNDEFINED)
+                    return map->cpoints[0].y;
+            return map->height / 2;
     }
 
     return 1;

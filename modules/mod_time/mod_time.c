@@ -97,56 +97,56 @@ int modtime_ftime(INSTANCE *my, int *params) {
     pos = 0;
     while (*format && pos < 127) {
         switch (*format) {
-        case '%': /* MIGHT NEED CONVERSION... */
-            aux[pos] = *format;
-            pos++;
-            format++;
-            switch (*format) {
-            case 'e':
-                aux[pos++] = '#';
-                aux[pos]   = 'd';
-                break;
-            case 'l':
-                aux[pos++] = '#';
-                aux[pos]   = 'I';
-                break;
-            case 'k':
-                aux[pos++] = '#';
-                aux[pos]   = 'H';
-                break;
-            case 'P':
-                aux[pos] = 'p';
-                break;
+            case '%': /* MIGHT NEED CONVERSION... */
+                aux[pos] = *format;
+                pos++;
+                format++;
+                switch (*format) {
+                    case 'e':
+                        aux[pos++] = '#';
+                        aux[pos]   = 'd';
+                        break;
+                    case 'l':
+                        aux[pos++] = '#';
+                        aux[pos]   = 'I';
+                        break;
+                    case 'k':
+                        aux[pos++] = '#';
+                        aux[pos]   = 'H';
+                        break;
+                    case 'P':
+                        aux[pos] = 'p';
+                        break;
 
-            case 'C':
-                aux[pos++] = '%';
-                aux[pos++] = *format;
-                aux[pos++] = '%';
-                aux[pos]   = 'Y';
-                break;
+                    case 'C':
+                        aux[pos++] = '%';
+                        aux[pos++] = *format;
+                        aux[pos++] = '%';
+                        aux[pos]   = 'Y';
+                        break;
 
-            case 'u':
-                aux[pos++] = '%';
-                aux[pos++] = *format;
-                aux[pos++] = '%';
-                aux[pos]   = 'w';
-                break;
+                    case 'u':
+                        aux[pos++] = '%';
+                        aux[pos++] = *format;
+                        aux[pos++] = '%';
+                        aux[pos]   = 'w';
+                        break;
 
-            case '%': // MUST BE %%%% TO KEEP 2 IN POSTPROCESS
-                aux[pos++] = '%';
-                aux[pos++] = '%';
-                aux[pos]   = '%';
+                    case '%': // MUST BE %%%% TO KEEP 2 IN POSTPROCESS
+                        aux[pos++] = '%';
+                        aux[pos++] = '%';
+                        aux[pos]   = '%';
+                        break;
+
+                    default:
+                        aux[pos] = *format;
+                        break;
+                }
                 break;
 
             default:
                 aux[pos] = *format;
                 break;
-            }
-            break;
-
-        default:
-            aux[pos] = *format;
-            break;
         }
         format++;
         pos++;
@@ -166,34 +166,34 @@ int modtime_ftime(INSTANCE *my, int *params) {
     pos = 0;
     while (*format) {
         switch (*format) {
-        case '%':
-            format++;
-            switch (*format) {
-            case 'u':
+            case '%':
                 format++;
-                if (*format == '0')
-                    *format = '7';
-                aux[pos]    = *format;
-                break;
+                switch (*format) {
+                    case 'u':
+                        format++;
+                        if (*format == '0')
+                            *format = '7';
+                        aux[pos]    = *format;
+                        break;
 
-            case 'C':
-                format++;
-                aux[pos++] = *format;
-                format++;
-                aux[pos] = *format;
-                format++;
-                format++;
+                    case 'C':
+                        format++;
+                        aux[pos++] = *format;
+                        format++;
+                        aux[pos] = *format;
+                        format++;
+                        format++;
+                        break;
+
+                    default:
+                        aux[pos] = *format;
+                        break;
+                }
                 break;
 
             default:
                 aux[pos] = *format;
                 break;
-            }
-            break;
-
-        default:
-            aux[pos] = *format;
-            break;
         }
         format++;
         pos++;

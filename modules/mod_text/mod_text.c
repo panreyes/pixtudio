@@ -107,56 +107,56 @@ static int __modtext_write_var(int withz, INSTANCE *my, int *params) {
         var = (DCB_TYPEDEF *)params[5];
 
     switch (var->BaseType[0]) {
-    case TYPE_FLOAT:
-        t = TEXT_FLOAT;
-        break;
-
-    case TYPE_DWORD:
-        t = TEXT_DWORD;
-        break;
-
-    case TYPE_WORD:
-        t = TEXT_WORD;
-        break;
-
-    case TYPE_BYTE:
-        t = TEXT_BYTE;
-        break;
-
-    case TYPE_STRING:
-        t = TEXT_STRING;
-        break;
-
-    case TYPE_ARRAY:
-        if (var->BaseType[1] == TYPE_CHAR) {
-            t = TEXT_CHARARRAY;
+        case TYPE_FLOAT:
+            t = TEXT_FLOAT;
             break;
-        }
-        break;
 
-    case TYPE_SBYTE:
-        t = TEXT_SBYTE;
-        break;
+        case TYPE_DWORD:
+            t = TEXT_DWORD;
+            break;
 
-    case TYPE_CHAR:
-        t = TEXT_CHAR;
-        break;
+        case TYPE_WORD:
+            t = TEXT_WORD;
+            break;
 
-    case TYPE_SHORT:
-        t = TEXT_SHORT;
-        break;
+        case TYPE_BYTE:
+            t = TEXT_BYTE;
+            break;
 
-    case TYPE_INT:
-        t = TEXT_INT;
-        break;
+        case TYPE_STRING:
+            t = TEXT_STRING;
+            break;
 
-    case TYPE_POINTER:
-        t = TEXT_POINTER;
-        break;
+        case TYPE_ARRAY:
+            if (var->BaseType[1] == TYPE_CHAR) {
+                t = TEXT_CHARARRAY;
+                break;
+            }
+            break;
 
-    default:
-        return -1;
-        break;
+        case TYPE_SBYTE:
+            t = TEXT_SBYTE;
+            break;
+
+        case TYPE_CHAR:
+            t = TEXT_CHAR;
+            break;
+
+        case TYPE_SHORT:
+            t = TEXT_SHORT;
+            break;
+
+        case TYPE_INT:
+            t = TEXT_INT;
+            break;
+
+        case TYPE_POINTER:
+            t = TEXT_POINTER;
+            break;
+
+        default:
+            return -1;
+            break;
     }
 
     if (withz)

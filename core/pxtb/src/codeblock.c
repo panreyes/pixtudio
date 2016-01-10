@@ -330,40 +330,40 @@ void codeblock_add(CODEBLOCK *c, int code, int param) {
             }
         } else if (code == MN_POP) {
             switch (c->data[c->previous] & MN_MASK) {
-            case MN_LET:
-                c->data[c->previous] = MN_LETNP | (c->data[c->previous] & ~MN_MASK);
-                return;
-            case MN_CALL:
-                c->data[c->previous] = MN_PROC;
-                return;
-            case MN_SYSCALL:
-                c->data[c->previous] = MN_SYSPROC;
-                return;
+                case MN_LET:
+                    c->data[c->previous] = MN_LETNP | (c->data[c->previous] & ~MN_MASK);
+                    return;
+                case MN_CALL:
+                    c->data[c->previous] = MN_PROC;
+                    return;
+                case MN_SYSCALL:
+                    c->data[c->previous] = MN_SYSPROC;
+                    return;
             }
         } else if ((code & MN_MASK) == MN_PTR) {
             /* Mismo caso */
 
             switch (c->data[c->previous] & MN_MASK) {
-            case MN_PRIVATE:
-                c->data[c->previous] = MN_GET_PRIV | (code & ~MN_MASK);
-                return;
-            case MN_LOCAL:
-                c->data[c->previous] = MN_GET_LOCAL | (code & ~MN_MASK);
-                return;
-            case MN_PUBLIC:
-                c->data[c->previous] = MN_GET_PUBLIC | (code & ~MN_MASK);
-                return;
-            case MN_REMOTE_PUBLIC:
-                c->data[c->previous] = MN_GET_REMOTE_PUBLIC | (code & ~MN_MASK);
-                return;
-            case MN_GLOBAL:
-                c->data[c->previous] = MN_GET_GLOBAL | (code & ~MN_MASK);
-                return;
-            case MN_REMOTE:
-                c->data[c->previous] = MN_GET_REMOTE | (code & ~MN_MASK);
-                return;
-            case MN_PUSH:
-                return;
+                case MN_PRIVATE:
+                    c->data[c->previous] = MN_GET_PRIV | (code & ~MN_MASK);
+                    return;
+                case MN_LOCAL:
+                    c->data[c->previous] = MN_GET_LOCAL | (code & ~MN_MASK);
+                    return;
+                case MN_PUBLIC:
+                    c->data[c->previous] = MN_GET_PUBLIC | (code & ~MN_MASK);
+                    return;
+                case MN_REMOTE_PUBLIC:
+                    c->data[c->previous] = MN_GET_REMOTE_PUBLIC | (code & ~MN_MASK);
+                    return;
+                case MN_GLOBAL:
+                    c->data[c->previous] = MN_GET_GLOBAL | (code & ~MN_MASK);
+                    return;
+                case MN_REMOTE:
+                    c->data[c->previous] = MN_GET_REMOTE | (code & ~MN_MASK);
+                    return;
+                case MN_PUSH:
+                    return;
             }
         }
     }

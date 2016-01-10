@@ -633,9 +633,9 @@ void instance_destroy(INSTANCE *r) {
 
     father = instance_get(LOCDWORD(r, FATHER)); /* Tengo padre? */
     if (father && instance_get(LOCDWORD(father, SON)) == r)
-        LOCDWORD(
-            father, SON) = LOCDWORD(r, BIGBRO); /* Si tengo padre y soy el hijo menor, mi hermano
-                                                   mayor pasa a ser el menor hijo de mi padre */
+        LOCDWORD(father, SON) =
+            LOCDWORD(r, BIGBRO); /* Si tengo padre y soy el hijo menor, mi hermano
+                                    mayor pasa a ser el menor hijo de mi padre */
 
     /* Quita la instancia de la lista */
 

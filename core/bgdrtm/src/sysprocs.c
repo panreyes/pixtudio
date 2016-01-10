@@ -188,33 +188,33 @@ static int tsize(DCB_TYPEDEF orig) {
     unsigned int n, total;
 
     switch (orig.BaseType[0]) {
-    case TYPE_ARRAY:
-        return orig.Count[0] * tsize(treduce(orig));
+        case TYPE_ARRAY:
+            return orig.Count[0] * tsize(treduce(orig));
 
-    case TYPE_POINTER:
-    case TYPE_STRING:
-    case TYPE_DWORD:
-    case TYPE_FLOAT:
-    case TYPE_INT:
-        return 4;
+        case TYPE_POINTER:
+        case TYPE_STRING:
+        case TYPE_DWORD:
+        case TYPE_FLOAT:
+        case TYPE_INT:
+            return 4;
 
-    case TYPE_WORD:
-    case TYPE_SHORT:
-        return 2;
+        case TYPE_WORD:
+        case TYPE_SHORT:
+            return 2;
 
-    case TYPE_BYTE:
-    case TYPE_SBYTE:
-    case TYPE_CHAR:
-        return 1;
+        case TYPE_BYTE:
+        case TYPE_SBYTE:
+        case TYPE_CHAR:
+            return 1;
 
-    case TYPE_STRUCT:
-        total = 0;
-        for (n = 0; n < dcb.varspace[orig.Members].NVars; n++)
-            total += tsize(dcb.varspace_vars[orig.Members][n].Type);
-        return total;
+        case TYPE_STRUCT:
+            total = 0;
+            for (n = 0; n < dcb.varspace[orig.Members].NVars; n++)
+                total += tsize(dcb.varspace_vars[orig.Members][n].Type);
+            return total;
 
-    default:
-        return 0;
+        default:
+            return 0;
     }
 }
 

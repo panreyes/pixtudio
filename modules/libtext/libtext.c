@@ -122,59 +122,59 @@ static const char *get_text(TEXT *text) {
     static char buffer[64];
 
     switch (text->on) {
-    case TEXT_TEXT:
-        return text->text;
+        case TEXT_TEXT:
+            return text->text;
 
-    case TEXT_STRING:
-        return string_get(*(int *)text->var);
+        case TEXT_STRING:
+            return string_get(*(int *)text->var);
 
-    case TEXT_INT:
-        _string_ntoa(buffer, *(int *)text->var);
-        return buffer;
+        case TEXT_INT:
+            _string_ntoa(buffer, *(int *)text->var);
+            return buffer;
 
-    case TEXT_DWORD:
-        _string_utoa(buffer, *(int *)text->var);
-        return buffer;
+        case TEXT_DWORD:
+            _string_utoa(buffer, *(int *)text->var);
+            return buffer;
 
-    case TEXT_FLOAT: {
-        char *aux;
-        sprintf(buffer, "%f", *(float *)text->var);
-        aux = buffer + 1; // We know that buffer contain at least 2 chars, skip first
-        while (*(aux + 1))
-            aux++; // We can test for pointer + 1 because we know that buffer contain at least 2
-                   // chars
-        while (*aux == '0' && *(aux - 1) != '.')
-            *aux-- = '\0';
-        return buffer;
-    }
+        case TEXT_FLOAT: {
+            char *aux;
+            sprintf(buffer, "%f", *(float *)text->var);
+            aux = buffer + 1; // We know that buffer contain at least 2 chars, skip first
+            while (*(aux + 1))
+                aux++; // We can test for pointer + 1 because we know that buffer contain at least 2
+                       // chars
+            while (*aux == '0' && *(aux - 1) != '.')
+                *aux-- = '\0';
+            return buffer;
+        }
 
-    case TEXT_BYTE:
-        _string_utoa(buffer, *(uint8_t *)text->var);
-        return buffer;
+        case TEXT_BYTE:
+            _string_utoa(buffer, *(uint8_t *)text->var);
+            return buffer;
 
-    case TEXT_SBYTE:
-        _string_ntoa(buffer, *(int8_t *)text->var);
-        return buffer;
+        case TEXT_SBYTE:
+            _string_ntoa(buffer, *(int8_t *)text->var);
+            return buffer;
 
-    case TEXT_CHAR:
-        *buffer = *(uint8_t *)text->var;
-        *(buffer + 1) = '\0';
-        return buffer;
+        case TEXT_CHAR:
+            *buffer = *(uint8_t *)text->var;
+            *(buffer + 1) = '\0';
+            return buffer;
 
-    case TEXT_WORD:
-        _string_utoa(buffer, *(uint16_t *)text->var);
-        return buffer;
+        case TEXT_WORD:
+            _string_utoa(buffer, *(uint16_t *)text->var);
+            return buffer;
 
-    case TEXT_SHORT:
-        _string_ntoa(buffer, *(int16_t *)text->var);
-        return buffer;
+        case TEXT_SHORT:
+            _string_ntoa(buffer, *(int16_t *)text->var);
+            return buffer;
 
-    case TEXT_CHARARRAY:
-        return (const char *)(text->var);
+        case TEXT_CHARARRAY:
+            return (const char *)(text->var);
 
-    case TEXT_POINTER:
-        _string_ptoa(buffer, *(void **)text->var);
-        return buffer;
+        case TEXT_POINTER:
+            _string_ptoa(buffer, *(void **)text->var);
+            return buffer;
     }
 
     return NULL;
@@ -250,31 +250,31 @@ static int info_text(void *ptext, REGION *bbox, int *z, int *drawme) {
     /* Adjust top-left coordinates for text alignment */
 
     switch (text->alignment) {
-    case ALIGN_TOP:    // 1
-    case ALIGN_CENTER: // 4
-    case ALIGN_BOTTOM: // 7
-        text->_x -= text->_width / 2;
-        break;
+        case ALIGN_TOP:    // 1
+        case ALIGN_CENTER: // 4
+        case ALIGN_BOTTOM: // 7
+            text->_x -= text->_width / 2;
+            break;
 
-    case ALIGN_TOP_RIGHT:    // 2
-    case ALIGN_CENTER_RIGHT: // 5
-    case ALIGN_BOTTOM_RIGHT: // 8
-        text->_x -= text->_width - 1;
-        break;
+        case ALIGN_TOP_RIGHT:    // 2
+        case ALIGN_CENTER_RIGHT: // 5
+        case ALIGN_BOTTOM_RIGHT: // 8
+            text->_x -= text->_width - 1;
+            break;
     }
 
     switch (text->alignment) {
-    case ALIGN_CENTER_LEFT:  // 3
-    case ALIGN_CENTER:       // 4
-    case ALIGN_CENTER_RIGHT: // 5
-        text->_y -= font->maxheight / 2;
-        break;
+        case ALIGN_CENTER_LEFT:  // 3
+        case ALIGN_CENTER:       // 4
+        case ALIGN_CENTER_RIGHT: // 5
+            text->_y -= font->maxheight / 2;
+            break;
 
-    case ALIGN_BOTTOM_LEFT:  // 6
-    case ALIGN_BOTTOM:       // 7
-    case ALIGN_BOTTOM_RIGHT: // 8
-        text->_y -= font->maxheight - 1;
-        break;
+        case ALIGN_BOTTOM_LEFT:  // 6
+        case ALIGN_BOTTOM:       // 7
+        case ALIGN_BOTTOM_RIGHT: // 8
+            text->_y -= font->maxheight - 1;
+            break;
     }
 
     /* Fill the bounding box */
@@ -296,36 +296,36 @@ static int info_text(void *ptext, REGION *bbox, int *z, int *drawme) {
     text->last_color32 = text->color32;
 
     switch (text->on) {
-    case TEXT_TEXT:
-        return changed;
-
-    case TEXT_STRING:
-    case TEXT_FLOAT:
-    case TEXT_INT:
-    case TEXT_DWORD:
-    case TEXT_POINTER:
-        if (text->last_value == *(int *)text->var)
+        case TEXT_TEXT:
             return changed;
-        text->last_value = *(int *)text->var;
-        return 1;
 
-    case TEXT_BYTE:
-    case TEXT_SBYTE:
-    case TEXT_CHAR:
-        if (text->last_value == *(uint8_t *)text->var)
-            return changed;
-        text->last_value = *(uint8_t *)text->var;
-        return 1;
+        case TEXT_STRING:
+        case TEXT_FLOAT:
+        case TEXT_INT:
+        case TEXT_DWORD:
+        case TEXT_POINTER:
+            if (text->last_value == *(int *)text->var)
+                return changed;
+            text->last_value = *(int *)text->var;
+            return 1;
 
-    case TEXT_WORD:
-    case TEXT_SHORT:
-        if (text->last_value == *(uint16_t *)text->var)
-            return changed;
-        text->last_value = *(uint16_t *)text->var;
-        return 1;
+        case TEXT_BYTE:
+        case TEXT_SBYTE:
+        case TEXT_CHAR:
+            if (text->last_value == *(uint8_t *)text->var)
+                return changed;
+            text->last_value = *(uint8_t *)text->var;
+            return 1;
 
-    case TEXT_CHARARRAY:
-        return 1;
+        case TEXT_WORD:
+        case TEXT_SHORT:
+            if (text->last_value == *(uint16_t *)text->var)
+                return changed;
+            text->last_value = *(uint16_t *)text->var;
+            return 1;
+
+        case TEXT_CHARARRAY:
+            return 1;
     }
 
     return changed;
@@ -347,7 +347,7 @@ static int info_text(void *ptext, REGION *bbox, int *z, int *drawme) {
  */
 
 void draw_text(void *ptext, REGION *clip) {
-    TEXT *text = (TEXT *)ptext;
+    TEXT *text      = (TEXT *)ptext;
     const char *str = get_text(text);
     int save8, save16, save32;
     FONT *font;
@@ -548,13 +548,13 @@ int gr_text_widthn(int fontid, const unsigned char *text, int n) {
 
     while (*text && n--) {
         switch (f->charset) {
-        case CHARSET_ISO8859:
-            l += f->glyph[dos_to_win[*text]].xadvance;
-            break;
+            case CHARSET_ISO8859:
+                l += f->glyph[dos_to_win[*text]].xadvance;
+                break;
 
-        case CHARSET_CP850:
-            l += f->glyph[*text].xadvance;
-            break;
+            case CHARSET_CP850:
+                l += f->glyph[*text].xadvance;
+                break;
         }
         text++;
     }
@@ -576,15 +576,15 @@ int gr_text_margintop(int fontid, const unsigned char *text) {
 
     while (*text) {
         switch (f->charset) {
-        case CHARSET_ISO8859:
-            if (minyoffset > f->glyph[dos_to_win[*text]].yoffset)
-                minyoffset = f->glyph[dos_to_win[*text]].yoffset;
-            break;
+            case CHARSET_ISO8859:
+                if (minyoffset > f->glyph[dos_to_win[*text]].yoffset)
+                    minyoffset = f->glyph[dos_to_win[*text]].yoffset;
+                break;
 
-        case CHARSET_CP850:
-            if (minyoffset > f->glyph[*text].yoffset)
-                minyoffset = f->glyph[*text].yoffset;
-            break;
+            case CHARSET_CP850:
+                if (minyoffset > f->glyph[*text].yoffset)
+                    minyoffset = f->glyph[*text].yoffset;
+                break;
         }
         text++;
     }
@@ -607,19 +607,19 @@ int gr_text_height_no_margin(int fontid, const unsigned char *text) {
     while (*text) {
         if (f->glyph[*text].bitmap) {
             switch (f->charset) {
-            case CHARSET_ISO8859:
-                if (l < f->glyph[dos_to_win[*text]].yoffset +
-                            (int)f->glyph[dos_to_win[*text]].bitmap->height) {
-                    l = f->glyph[dos_to_win[*text]].yoffset +
-                        (int)f->glyph[dos_to_win[*text]].bitmap->height;
-                }
-                break;
+                case CHARSET_ISO8859:
+                    if (l < f->glyph[dos_to_win[*text]].yoffset +
+                                (int)f->glyph[dos_to_win[*text]].bitmap->height) {
+                        l = f->glyph[dos_to_win[*text]].yoffset +
+                            (int)f->glyph[dos_to_win[*text]].bitmap->height;
+                    }
+                    break;
 
-            case CHARSET_CP850:
-                if (l < f->glyph[*text].yoffset + (int)f->glyph[*text].bitmap->height) {
-                    l = f->glyph[*text].yoffset + (int)f->glyph[*text].bitmap->height;
-                }
-                break;
+                case CHARSET_CP850:
+                    if (l < f->glyph[*text].yoffset + (int)f->glyph[*text].bitmap->height) {
+                        l = f->glyph[*text].yoffset + (int)f->glyph[*text].bitmap->height;
+                    }
+                    break;
             }
         }
         text++;
@@ -672,17 +672,17 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
 
     while (*text) {
         switch (f->charset) {
-        case CHARSET_ISO8859:
-            current_char = dos_to_win[*text];
-            break;
+            case CHARSET_ISO8859:
+                current_char = dos_to_win[*text];
+                break;
 
-        case CHARSET_CP850:
-            current_char = *text;
-            break;
+            case CHARSET_CP850:
+                current_char = *text;
+                break;
 
-        default:
-            current_char = 0;
-            break;
+            default:
+                current_char = 0;
+                break;
         }
 
         ch = f->glyph[current_char].bitmap;
@@ -733,39 +733,39 @@ GRAPH *gr_text_bitmap(int fontid, const char *text, int alignment) {
     }
 
     switch (alignment) {
-    case ALIGN_TOP_LEFT:  // 0
-    case ALIGN_TOP:       // 1
-    case ALIGN_TOP_RIGHT: // 2
-        y = 0;
-        break;
+        case ALIGN_TOP_LEFT:  // 0
+        case ALIGN_TOP:       // 1
+        case ALIGN_TOP_RIGHT: // 2
+            y = 0;
+            break;
 
-    case ALIGN_CENTER_LEFT:  // 3
-    case ALIGN_CENTER:       // 4
-    case ALIGN_CENTER_RIGHT: // 5
-        y = gr->height / 2;
-        break;
+        case ALIGN_CENTER_LEFT:  // 3
+        case ALIGN_CENTER:       // 4
+        case ALIGN_CENTER_RIGHT: // 5
+            y = gr->height / 2;
+            break;
 
-    default:
-        y = gr->height - 1;
-        break;
+        default:
+            y = gr->height - 1;
+            break;
     }
 
     switch (alignment) {
-    case ALIGN_TOP_LEFT:    // 0
-    case ALIGN_CENTER_LEFT: // 3
-    case ALIGN_BOTTOM_LEFT: // 6
-        x = 0;
-        break;
+        case ALIGN_TOP_LEFT:    // 0
+        case ALIGN_CENTER_LEFT: // 3
+        case ALIGN_BOTTOM_LEFT: // 6
+            x = 0;
+            break;
 
-    case ALIGN_TOP:    // 1
-    case ALIGN_CENTER: // 4
-    case ALIGN_BOTTOM: // 7
-        x = gr->width / 2;
-        break;
+        case ALIGN_TOP:    // 1
+        case ALIGN_CENTER: // 4
+        case ALIGN_BOTTOM: // 7
+            x = gr->width / 2;
+            break;
 
-    default:
-        x = gr->width - 1;
-        break;
+        default:
+            x = gr->width - 1;
+            break;
     }
 
     bitmap_add_cpoint(gr, x, y);
@@ -783,23 +783,23 @@ void gr_text_setcolor(int c) {
         fntcolor32 = 0;
     } else {
         switch (sys_pixel_format->depth) {
-        case 8: {
-            fntcolor8 = c;
-            break;
-        }
+            case 8: {
+                fntcolor8 = c;
+                break;
+            }
 
-        case 16: {
-            gr_get_rgb(c, &r, &g, &b);
-            fntcolor8  = gr_find_nearest_color(r, g, b);
-            fntcolor16 = c;
-            break;
-        }
-        case 32: {
-            gr_get_rgb(c, &r, &g, &b);
-            fntcolor8  = gr_find_nearest_color(r, g, b);
-            fntcolor32 = c;
-            break;
-        }
+            case 16: {
+                gr_get_rgb(c, &r, &g, &b);
+                fntcolor8  = gr_find_nearest_color(r, g, b);
+                fntcolor16 = c;
+                break;
+            }
+            case 32: {
+                gr_get_rgb(c, &r, &g, &b);
+                fntcolor8  = gr_find_nearest_color(r, g, b);
+                fntcolor32 = c;
+                break;
+            }
         }
     }
 }
@@ -816,23 +816,23 @@ void gr_text_setcolor2(int textid, int c) {
             texts[textid].color32 = 0;
         } else {
             switch (sys_pixel_format->depth) {
-            case 8: {
-                texts[textid].color8 = c;
-                break;
-            }
+                case 8: {
+                    texts[textid].color8 = c;
+                    break;
+                }
 
-            case 16: {
-                gr_get_rgb(c, &r, &g, &b);
-                texts[textid].color8  = gr_find_nearest_color(r, g, b);
-                texts[textid].color16 = c;
-                break;
-            }
-            case 32: {
-                gr_get_rgb(c, &r, &g, &b);
-                texts[textid].color8  = gr_find_nearest_color(r, g, b);
-                texts[textid].color32 = c;
-                break;
-            }
+                case 16: {
+                    gr_get_rgb(c, &r, &g, &b);
+                    texts[textid].color8  = gr_find_nearest_color(r, g, b);
+                    texts[textid].color16 = c;
+                    break;
+                }
+                case 32: {
+                    gr_get_rgb(c, &r, &g, &b);
+                    texts[textid].color8  = gr_find_nearest_color(r, g, b);
+                    texts[textid].color32 = c;
+                    break;
+                }
             }
         }
     }
@@ -842,16 +842,16 @@ void gr_text_setcolor2(int textid, int c) {
 
 int gr_text_getcolor() {
     switch (sys_pixel_format->depth) {
-    case 8: {
-        return fntcolor8;
-    }
+        case 8: {
+            return fntcolor8;
+        }
 
-    case 16: {
-        return fntcolor16;
-    }
-    case 32: {
-        return fntcolor32;
-    }
+        case 16: {
+            return fntcolor16;
+        }
+        case 32: {
+            return fntcolor32;
+        }
     }
 
     return 0;
@@ -862,16 +862,16 @@ int gr_text_getcolor() {
 int gr_text_getcolor2(int textid) {
     if (textid > 0 && textid < text_nextid) {
         switch (sys_pixel_format->depth) {
-        case 8: {
-            return texts[textid].color8;
-        }
+            case 8: {
+                return texts[textid].color8;
+            }
 
-        case 16: {
-            return texts[textid].color16;
-        }
-        case 32: {
-            return texts[textid].color32;
-        }
+            case 16: {
+                return texts[textid].color16;
+            }
+            case 32: {
+                return texts[textid].color32;
+            }
         }
     }
 

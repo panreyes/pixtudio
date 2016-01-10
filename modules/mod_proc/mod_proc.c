@@ -170,71 +170,71 @@ int modproc_signal(INSTANCE *my, int *params) {
     if (i) {
         if ((LOCDWORD(mod_proc, i, STATUS) & ~STATUS_WAITING_MASK) > STATUS_KILLED) {
             switch (params[1]) {
-            case S_KILL:
-            case S_KILL_FORCE:
-                if (params[1] == S_KILL_FORCE ||
-                    !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_KILL))
-                    LOCDWORD(mod_proc, i, STATUS) = STATUS_KILLED;
-                break;
+                case S_KILL:
+                case S_KILL_FORCE:
+                    if (params[1] == S_KILL_FORCE ||
+                        !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_KILL))
+                        LOCDWORD(mod_proc, i, STATUS) = STATUS_KILLED;
+                    break;
 
-            case S_WAKEUP:
-            case S_WAKEUP_FORCE:
-                if (params[1] == S_WAKEUP_FORCE ||
-                    !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_WAKEUP))
-                    LOCDWORD(mod_proc, i, STATUS) =
-                        (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_RUNNING;
-                break;
+                case S_WAKEUP:
+                case S_WAKEUP_FORCE:
+                    if (params[1] == S_WAKEUP_FORCE ||
+                        !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_WAKEUP))
+                        LOCDWORD(mod_proc, i, STATUS) =
+                            (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_RUNNING;
+                    break;
 
-            case S_SLEEP:
-            case S_SLEEP_FORCE:
-                if (params[1] == S_SLEEP_FORCE ||
-                    !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_SLEEP))
-                    LOCDWORD(mod_proc, i, STATUS) =
-                        (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_SLEEPING;
-                break;
+                case S_SLEEP:
+                case S_SLEEP_FORCE:
+                    if (params[1] == S_SLEEP_FORCE ||
+                        !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_SLEEP))
+                        LOCDWORD(mod_proc, i, STATUS) =
+                            (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_SLEEPING;
+                    break;
 
-            case S_FREEZE:
-            case S_FREEZE_FORCE:
-                if (params[1] == S_FREEZE_FORCE ||
-                    !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_FREEZE))
-                    LOCDWORD(mod_proc, i, STATUS) =
-                        (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_FROZEN;
-                break;
+                case S_FREEZE:
+                case S_FREEZE_FORCE:
+                    if (params[1] == S_FREEZE_FORCE ||
+                        !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_FREEZE))
+                        LOCDWORD(mod_proc, i, STATUS) =
+                            (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_FROZEN;
+                    break;
 
-            case S_KILL_TREE:
-            case S_KILL_TREE_FORCE:
-                if (params[1] == S_KILL_TREE_FORCE ||
-                    !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_KILL_TREE))
-                    LOCDWORD(mod_proc, i, STATUS) =
-                        (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_KILLED;
-                break;
+                case S_KILL_TREE:
+                case S_KILL_TREE_FORCE:
+                    if (params[1] == S_KILL_TREE_FORCE ||
+                        !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_KILL_TREE))
+                        LOCDWORD(mod_proc, i, STATUS) =
+                            (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_KILLED;
+                    break;
 
-            case S_WAKEUP_TREE:
-            case S_WAKEUP_TREE_FORCE:
-                if (params[1] == S_WAKEUP_TREE_FORCE ||
-                    !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_WAKEUP_TREE))
-                    LOCDWORD(mod_proc, i, STATUS) =
-                        (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_RUNNING;
-                break;
+                case S_WAKEUP_TREE:
+                case S_WAKEUP_TREE_FORCE:
+                    if (params[1] == S_WAKEUP_TREE_FORCE ||
+                        !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_WAKEUP_TREE))
+                        LOCDWORD(mod_proc, i, STATUS) =
+                            (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_RUNNING;
+                    break;
 
-            case S_SLEEP_TREE:
-            case S_SLEEP_TREE_FORCE:
-                if (params[1] == S_SLEEP_TREE_FORCE ||
-                    !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_SLEEP_TREE))
-                    LOCDWORD(mod_proc, i, STATUS) =
-                        (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_SLEEPING;
-                break;
+                case S_SLEEP_TREE:
+                case S_SLEEP_TREE_FORCE:
+                    if (params[1] == S_SLEEP_TREE_FORCE ||
+                        !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_SLEEP_TREE))
+                        LOCDWORD(mod_proc, i, STATUS) =
+                            (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_SLEEPING;
+                    break;
 
-            case S_FREEZE_TREE:
-            case S_FREEZE_TREE_FORCE:
-                if (params[1] == S_FREEZE_TREE_FORCE ||
-                    !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_FREEZE_TREE))
-                    LOCDWORD(mod_proc, i, STATUS) =
-                        (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_FROZEN;
-                break;
+                case S_FREEZE_TREE:
+                case S_FREEZE_TREE_FORCE:
+                    if (params[1] == S_FREEZE_TREE_FORCE ||
+                        !(LOCDWORD(mod_proc, i, SIGNAL_ACTION) & SMASK_FREEZE_TREE))
+                        LOCDWORD(mod_proc, i, STATUS) =
+                            (LOCDWORD(mod_proc, i, STATUS) & STATUS_WAITING_MASK) | STATUS_FROZEN;
+                    break;
 
-            default:
-                return 1;
+                default:
+                    return 1;
             }
         }
 
@@ -258,101 +258,101 @@ int modproc_signal_action(INSTANCE *my, int *params) {
 
     if (my) {
         switch (params[0]) {
-        case S_KILL:
-            switch (action) {
-            case S_IGN:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_KILL;
+            case S_KILL:
+                switch (action) {
+                    case S_IGN:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_KILL;
+                        break;
+
+                    case S_DFL:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_KILL;
+                        break;
+                }
                 break;
 
-            case S_DFL:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_KILL;
-                break;
-            }
-            break;
+            case S_WAKEUP:
+                switch (action) {
+                    case S_IGN:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_WAKEUP;
+                        break;
 
-        case S_WAKEUP:
-            switch (action) {
-            case S_IGN:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_WAKEUP;
-                break;
-
-            case S_DFL:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_WAKEUP;
-                break;
-            }
-            break;
-
-        case S_SLEEP:
-            switch (action) {
-            case S_IGN:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_SLEEP;
+                    case S_DFL:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_WAKEUP;
+                        break;
+                }
                 break;
 
-            case S_DFL:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_SLEEP;
-                break;
-            }
-            break;
+            case S_SLEEP:
+                switch (action) {
+                    case S_IGN:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_SLEEP;
+                        break;
 
-        case S_FREEZE:
-            switch (action) {
-            case S_IGN:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_FREEZE;
-                break;
-
-            case S_DFL:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_FREEZE;
-                break;
-            }
-            break;
-
-        case S_KILL_TREE:
-            switch (action) {
-            case S_IGN:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_KILL_TREE;
+                    case S_DFL:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_SLEEP;
+                        break;
+                }
                 break;
 
-            case S_DFL:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_KILL_TREE;
-                break;
-            }
-            break;
+            case S_FREEZE:
+                switch (action) {
+                    case S_IGN:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_FREEZE;
+                        break;
 
-        case S_WAKEUP_TREE:
-            switch (action) {
-            case S_IGN:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_WAKEUP_TREE;
-                break;
-
-            case S_DFL:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_WAKEUP_TREE;
-                break;
-            }
-            break;
-
-        case S_SLEEP_TREE:
-            switch (action) {
-            case S_IGN:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_SLEEP_TREE;
+                    case S_DFL:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_FREEZE;
+                        break;
+                }
                 break;
 
-            case S_DFL:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_SLEEP_TREE;
-                break;
-            }
-            break;
+            case S_KILL_TREE:
+                switch (action) {
+                    case S_IGN:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_KILL_TREE;
+                        break;
 
-        case S_FREEZE_TREE:
-            switch (action) {
-            case S_IGN:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_FREEZE_TREE;
+                    case S_DFL:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_KILL_TREE;
+                        break;
+                }
                 break;
 
-            case S_DFL:
-                LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_FREEZE_TREE;
+            case S_WAKEUP_TREE:
+                switch (action) {
+                    case S_IGN:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_WAKEUP_TREE;
+                        break;
+
+                    case S_DFL:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_WAKEUP_TREE;
+                        break;
+                }
                 break;
-            }
-            break;
+
+            case S_SLEEP_TREE:
+                switch (action) {
+                    case S_IGN:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_SLEEP_TREE;
+                        break;
+
+                    case S_DFL:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_SLEEP_TREE;
+                        break;
+                }
+                break;
+
+            case S_FREEZE_TREE:
+                switch (action) {
+                    case S_IGN:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) |= SMASK_FREEZE_TREE;
+                        break;
+
+                    case S_DFL:
+                        LOCDWORD(mod_proc, my, SIGNAL_ACTION) &= ~SMASK_FREEZE_TREE;
+                        break;
+                }
+                break;
         }
     }
     return 1;

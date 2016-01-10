@@ -407,16 +407,16 @@ static int check_collision_with_mouse(INSTANCE *proc1, int colltype) {
     static GRAPH *bmp = NULL;
 
     switch (colltype) {
-    case COLLISION_BOX:
-    case COLLISION_CIRCLE:
-        if (!get_collision_bbox(&bbox2, proc1))
+        case COLLISION_BOX:
+        case COLLISION_CIRCLE:
+            if (!get_collision_bbox(&bbox2, proc1))
+                return 0;
+
+        case COLLISION_NORMAL:
+            break;
+
+        default:
             return 0;
-
-    case COLLISION_NORMAL:
-        break;
-
-    default:
-        return 0;
     }
 
     mx = GLOINT32(mod_grproc, MOUSEX);
@@ -427,30 +427,30 @@ static int check_collision_with_mouse(INSTANCE *proc1, int colltype) {
 
     if (LOCDWORD(mod_grproc, proc1, CTYPE) == C_SCREEN) {
         switch (colltype) {
-        case COLLISION_NORMAL:
-            if (!get_collision_bbox(&bbox2, proc1))
+            case COLLISION_NORMAL:
+                if (!get_collision_bbox(&bbox2, proc1))
+                    return 0;
+                if (bbox2.x > mx || bbox2.x2 < mx || bbox2.y > my || bbox2.y2 < my)
+                    return 0;
+                break;
+
+            case COLLISION_BOX:
+                if (bbox2.x <= mx && bbox2.x2 >= mx && bbox2.y <= my && bbox2.y2 >= my)
+                    return 1;
                 return 0;
-            if (bbox2.x > mx || bbox2.x2 < mx || bbox2.y > my || bbox2.y2 < my)
+                break;
+
+            case COLLISION_CIRCLE: {
+                int cx1, cy1, dx1, dy1;
+
+                cx1 = bbox2.x + (dx1 = (bbox2.x2 - bbox2.x + 1)) / 2;
+                cy1 = bbox2.y + (dy1 = (bbox2.y2 - bbox2.y + 1)) / 2;
+
+                if (get_distance(cx1, cy1, 0, mx, my, 0) < (dx1 + dy1) / 4)
+                    return 1;
                 return 0;
-            break;
-
-        case COLLISION_BOX:
-            if (bbox2.x <= mx && bbox2.x2 >= mx && bbox2.y <= my && bbox2.y2 >= my)
-                return 1;
-            return 0;
-            break;
-
-        case COLLISION_CIRCLE: {
-            int cx1, cy1, dx1, dy1;
-
-            cx1 = bbox2.x + (dx1 = (bbox2.x2 - bbox2.x + 1)) / 2;
-            cy1 = bbox2.y + (dy1 = (bbox2.y2 - bbox2.y + 1)) / 2;
-
-            if (get_distance(cx1, cy1, 0, mx, my, 0) < (dx1 + dy1) / 4)
-                return 1;
-            return 0;
-            break;
-        }
+                break;
+            }
         }
     }
 
@@ -502,49 +502,49 @@ static int check_collision_with_mouse(INSTANCE *proc1, int colltype) {
                     REGION *r = scroll->region;
 
                     switch (colltype) {
-                    case COLLISION_NORMAL:
-                        if (r->x > mx || r->x2 < mx || r->y > my || r->y2 < my)
-                            continue;
+                        case COLLISION_NORMAL:
+                            if (r->x > mx || r->x2 < mx || r->y > my || r->y2 < my)
+                                continue;
 
-                        draw_at(bmp, x + r->x - mx - scroll->posx0, y + r->y - my - scroll->posy0,
-                                &bbox1, proc1);
-                        switch (sys_pixel_format->depth) {
-                        case 8:
-                            if (*(uint8_t *)bmp->data)
+                            draw_at(bmp, x + r->x - mx - scroll->posx0,
+                                    y + r->y - my - scroll->posy0, &bbox1, proc1);
+                            switch (sys_pixel_format->depth) {
+                                case 8:
+                                    if (*(uint8_t *)bmp->data)
+                                        return 1;
+                                    break;
+
+                                case 16:
+                                    if (*(uint16_t *)bmp->data)
+                                        return 1;
+                                    break;
+
+                                case 32:
+                                    if (*(uint32_t *)bmp->data)
+                                        return 1;
+                                    break;
+                            }
+                            break;
+
+                        case COLLISION_BOX:
+                            if (bbox2.x <= scroll->posx0 + r->x + mx &&
+                                bbox2.x2 >= scroll->posx0 + r->x + mx &&
+                                bbox2.y <= scroll->posy0 + r->y + my &&
+                                bbox2.y2 >= scroll->posy0 + r->y + my)
                                 return 1;
                             break;
 
-                        case 16:
-                            if (*(uint16_t *)bmp->data)
-                                return 1;
-                            break;
+                        case COLLISION_CIRCLE: {
+                            int cx1, cy1, dx1, dy1;
 
-                        case 32:
-                            if (*(uint32_t *)bmp->data)
+                            cx1 = bbox2.x + (dx1 = (bbox2.x2 - bbox2.x + 1)) / 2;
+                            cy1 = bbox2.y + (dy1 = (bbox2.y2 - bbox2.y + 1)) / 2;
+
+                            if (get_distance(cx1, cy1, 0, r->x + mx + scroll->posx0,
+                                             r->y + my + scroll->posy0, 0) < (dx1 + dy1) / 4)
                                 return 1;
                             break;
                         }
-                        break;
-
-                    case COLLISION_BOX:
-                        if (bbox2.x <= scroll->posx0 + r->x + mx &&
-                            bbox2.x2 >= scroll->posx0 + r->x + mx &&
-                            bbox2.y <= scroll->posy0 + r->y + my &&
-                            bbox2.y2 >= scroll->posy0 + r->y + my)
-                            return 1;
-                        break;
-
-                    case COLLISION_CIRCLE: {
-                        int cx1, cy1, dx1, dy1;
-
-                        cx1 = bbox2.x + (dx1 = (bbox2.x2 - bbox2.x + 1)) / 2;
-                        cy1 = bbox2.y + (dy1 = (bbox2.y2 - bbox2.y + 1)) / 2;
-
-                        if (get_distance(cx1, cy1, 0, r->x + mx + scroll->posx0,
-                                         r->y + my + scroll->posy0, 0) < (dx1 + dy1) / 4)
-                            return 1;
-                        break;
-                    }
                     }
                 }
             }
@@ -554,43 +554,43 @@ static int check_collision_with_mouse(INSTANCE *proc1, int colltype) {
     }
 
     switch (colltype) {
-    case COLLISION_NORMAL:
-        /* Collision check (blits into temporary space and checks the resulting pixel) */
-        draw_at(bmp, x - mx, y - my, &bbox1, proc1);
+        case COLLISION_NORMAL:
+            /* Collision check (blits into temporary space and checks the resulting pixel) */
+            draw_at(bmp, x - mx, y - my, &bbox1, proc1);
 
-        switch (sys_pixel_format->depth) {
-        case 8:
-            if (*(uint8_t *)bmp->data)
+            switch (sys_pixel_format->depth) {
+                case 8:
+                    if (*(uint8_t *)bmp->data)
+                        return 1;
+                    break;
+
+                case 16:
+                    if (*(uint16_t *)bmp->data)
+                        return 1;
+                    break;
+
+                case 32:
+                    if (*(uint32_t *)bmp->data)
+                        return 1;
+                    break;
+            }
+            break;
+
+        case COLLISION_BOX:
+            if (bbox2.x <= mx && bbox2.x2 >= mx && bbox2.y <= my && bbox2.y2 >= my)
                 return 1;
             break;
 
-        case 16:
-            if (*(uint16_t *)bmp->data)
-                return 1;
-            break;
+        case COLLISION_CIRCLE: {
+            int cx1, cy1, dx1, dy1;
 
-        case 32:
-            if (*(uint32_t *)bmp->data)
+            cx1 = bbox2.x + (dx1 = (bbox2.x2 - bbox2.x + 1)) / 2;
+            cy1 = bbox2.y + (dy1 = (bbox2.y2 - bbox2.y + 1)) / 2;
+
+            if (get_distance(cx1, cy1, 0, mx, my, 0) < (dx1 + dy1) / 4)
                 return 1;
             break;
         }
-        break;
-
-    case COLLISION_BOX:
-        if (bbox2.x <= mx && bbox2.x2 >= mx && bbox2.y <= my && bbox2.y2 >= my)
-            return 1;
-        break;
-
-    case COLLISION_CIRCLE: {
-        int cx1, cy1, dx1, dy1;
-
-        cx1 = bbox2.x + (dx1 = (bbox2.x2 - bbox2.x + 1)) / 2;
-        cy1 = bbox2.y + (dy1 = (bbox2.y2 - bbox2.y + 1)) / 2;
-
-        if (get_distance(cx1, cy1, 0, mx, my, 0) < (dx1 + dy1) / 4)
-            return 1;
-        break;
-    }
     }
 
     return 0;
@@ -769,20 +769,20 @@ static int __collision(INSTANCE *my, int id, int colltype) {
         return (check_collision_with_mouse(my, colltype)) ? 1 : 0;
 
     switch (colltype) {
-    case COLLISION_NORMAL:
-        colfunc = check_collision;
-        break;
+        case COLLISION_NORMAL:
+            colfunc = check_collision;
+            break;
 
-    case COLLISION_BOX:
-        colfunc = check_collision_box;
-        break;
+        case COLLISION_BOX:
+            colfunc = check_collision_box;
+            break;
 
-    case COLLISION_CIRCLE:
-        colfunc = check_collision_circle;
-        break;
+        case COLLISION_CIRCLE:
+            colfunc = check_collision_circle;
+            break;
 
-    default:
-        return 0;
+        default:
+            return 0;
     }
 
     bmp1 = instance_collision_graph(my);

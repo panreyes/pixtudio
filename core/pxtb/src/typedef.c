@@ -73,93 +73,93 @@ TYPEDEF typedef_pointer(TYPEDEF base) {
 
 void typedef_describe(char *buffer, TYPEDEF t) {
     switch (t.chunk[0].type) {
-    case TYPE_INT:
-        sprintf(buffer, "INT");
-        return;
+        case TYPE_INT:
+            sprintf(buffer, "INT");
+            return;
 
-    case TYPE_DWORD:
-        sprintf(buffer, "DWORD");
-        return;
+        case TYPE_DWORD:
+            sprintf(buffer, "DWORD");
+            return;
 
-    case TYPE_SHORT:
-        sprintf(buffer, "SHORT");
-        return;
+        case TYPE_SHORT:
+            sprintf(buffer, "SHORT");
+            return;
 
-    case TYPE_WORD:
-        sprintf(buffer, "WORD");
-        return;
+        case TYPE_WORD:
+            sprintf(buffer, "WORD");
+            return;
 
-    case TYPE_BYTE:
-        sprintf(buffer, "BYTE");
-        return;
+        case TYPE_BYTE:
+            sprintf(buffer, "BYTE");
+            return;
 
-    case TYPE_CHAR:
-        sprintf(buffer, "CHAR");
-        return;
+        case TYPE_CHAR:
+            sprintf(buffer, "CHAR");
+            return;
 
-    case TYPE_SBYTE:
-        sprintf(buffer, "SIGNED BYTE");
-        return;
+        case TYPE_SBYTE:
+            sprintf(buffer, "SIGNED BYTE");
+            return;
 
-    case TYPE_STRING:
-        sprintf(buffer, "STRING");
-        return;
+        case TYPE_STRING:
+            sprintf(buffer, "STRING");
+            return;
 
-    case TYPE_FLOAT:
-        sprintf(buffer, "FLOAT");
-        return;
+        case TYPE_FLOAT:
+            sprintf(buffer, "FLOAT");
+            return;
 
-    case TYPE_STRUCT:
-        if (t.chunk[0].count > 1)
-            sprintf(buffer, "STRUCT [%d]", t.chunk[0].count);
-        else
-            sprintf(buffer, "STRUCT");
-        return;
+        case TYPE_STRUCT:
+            if (t.chunk[0].count > 1)
+                sprintf(buffer, "STRUCT [%d]", t.chunk[0].count);
+            else
+                sprintf(buffer, "STRUCT");
+            return;
 
-    case TYPE_ARRAY:
-        sprintf(buffer, "ARRAY [%d] OF ", t.chunk[0].count);
-        typedef_describe(buffer + strlen(buffer), typedef_reduce(t));
-        return;
+        case TYPE_ARRAY:
+            sprintf(buffer, "ARRAY [%d] OF ", t.chunk[0].count);
+            typedef_describe(buffer + strlen(buffer), typedef_reduce(t));
+            return;
 
-    case TYPE_POINTER:
-        sprintf(buffer, "POINTER TO ");
-        typedef_describe(buffer + strlen(buffer), typedef_reduce(t));
-        return;
+        case TYPE_POINTER:
+            sprintf(buffer, "POINTER TO ");
+            typedef_describe(buffer + strlen(buffer), typedef_reduce(t));
+            return;
 
-    case TYPE_UNDEFINED:
-    default:
-        sprintf(buffer, "<UNDEFINED>");
-        return;
+        case TYPE_UNDEFINED:
+        default:
+            sprintf(buffer, "<UNDEFINED>");
+            return;
     }
 }
 
 int typedef_subsize(TYPEDEF t, int c) {
     switch (t.chunk[c].type) {
-    case TYPE_BYTE:
-    case TYPE_SBYTE:
-    case TYPE_CHAR:
-        return 1;
+        case TYPE_BYTE:
+        case TYPE_SBYTE:
+        case TYPE_CHAR:
+            return 1;
 
-    case TYPE_WORD:
-    case TYPE_SHORT:
-        return 2;
+        case TYPE_WORD:
+        case TYPE_SHORT:
+            return 2;
 
-    case TYPE_DWORD:
-    case TYPE_INT:
-    case TYPE_FLOAT:
-    case TYPE_STRING:
-    case TYPE_POINTER:
-        return 4;
+        case TYPE_DWORD:
+        case TYPE_INT:
+        case TYPE_FLOAT:
+        case TYPE_STRING:
+        case TYPE_POINTER:
+            return 4;
 
-    case TYPE_ARRAY:
-        return t.chunk[c].count * typedef_subsize(t, c + 1);
+        case TYPE_ARRAY:
+            return t.chunk[c].count * typedef_subsize(t, c + 1);
 
-    case TYPE_STRUCT:
-        return t.varspace->size;
+        case TYPE_STRUCT:
+            return t.varspace->size;
 
-    default:
-        compile_error(MSG_INCOMP_TYPE);
-        return 0;
+        default:
+            compile_error(MSG_INCOMP_TYPE);
+            return 0;
     }
 }
 

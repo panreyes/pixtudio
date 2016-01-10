@@ -73,11 +73,7 @@ int waitvsync     = 0;
 int scale_resolution             = 0;
 int scale_resolution_aspectratio = 0;
 
-enum { GRAPH_MODE = 0,
-       FULL_SCREEN,
-       SCALE_RESOLUTION,
-       SCALE_RESOLUTION_ASPECTRATIO,
-       SCALE_QUALITY };
+enum { GRAPH_MODE = 0, FULL_SCREEN, SCALE_RESOLUTION, SCALE_RESOLUTION_ASPECTRATIO, SCALE_QUALITY };
 
 /* --------------------------------------------------------------------------- */
 
@@ -140,10 +136,10 @@ int gr_set_mode(int width, int height) {
     full_screen = (GLODWORD(libvideo, GRAPH_MODE) & MODE_FULLSCREEN) ? 1 : 0;
     grab_input  = (GLODWORD(libvideo, GRAPH_MODE) & MODE_MODAL) ? 1 : 0;
     frameless   = (GLODWORD(libvideo, GRAPH_MODE) & MODE_FRAMELESS) ? 1 : 0;
-    waitvsync   = (GLODWORD(libvideo, GRAPH_MODE) & MODE_WAITVSYNC) ? 1 : 0;
+    waitvsync = (GLODWORD(libvideo, GRAPH_MODE) & MODE_WAITVSYNC) ? 1 : 0;
     full_screen |= GLODWORD(libvideo, FULL_SCREEN);
 
-    scale_resolution = GLODWORD(libvideo, SCALE_RESOLUTION);
+    scale_resolution             = GLODWORD(libvideo, SCALE_RESOLUTION);
     scale_resolution_aspectratio = GLODWORD(libvideo, SCALE_RESOLUTION_ASPECTRATIO);
     scale_quality = GLOBYTE(libvideo, SCALE_QUALITY);
     if (scale_quality >= 1) {
@@ -156,11 +152,11 @@ int gr_set_mode(int width, int height) {
     if ((e = getenv("SCALE_RESOLUTION"))) {
         scale_resolution = atol(e);
     }
-    if ((e = getenv("SCALE_RESOLUTION_ASPECTRATIO"))){
+    if ((e = getenv("SCALE_RESOLUTION_ASPECTRATIO"))) {
         scale_resolution_aspectratio = atol(e);
     }
     if ((e = getenv("SCALE_QUALITY"))) {
-        if(strcmp(e, "0") == 0) {
+        if (strcmp(e, "0") == 0) {
             scale_quality = '0';
         } else {
             scale_quality = '1';
@@ -175,9 +171,9 @@ int gr_set_mode(int width, int height) {
     }
 
     // If given a value for scale_resolution, use it
-    if ( scale_resolution != -1 ) {
-        surface_width  = scale_resolution / 10000 ;
-        surface_height = scale_resolution % 10000 ;
+    if (scale_resolution != -1) {
+        surface_width  = scale_resolution / 10000;
+        surface_height = scale_resolution % 10000;
     }
 
     // Use the new & fancy SDL 2 routines

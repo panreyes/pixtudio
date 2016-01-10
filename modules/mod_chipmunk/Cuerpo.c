@@ -26,54 +26,54 @@ int modDefcpBody(INSTANCE *my, int *params) {
     cpBody *espacio = (cpBody *)params[0];
 
     switch (sel) {
-    case CP_C_M:
-        flo1 = *((float *)&params[2]);
-        // espacio->m=flo1;
-        cpBodySetMass(espacio, flo1);
-        break;
-    case CP_C_I:
-        flo1 = *((float *)&params[2]);
-        // espacio->i=flo1;
-        cpBodySetMoment(espacio, flo1);
-        break;
-    case CP_C_P:
-        flo2       = params[2];
-        espacio->p = *flo2;
-        break;
-    case CP_C_V:
-        flo2       = params[2];
-        espacio->v = *flo2;
-        break;
-    case CP_C_F:
-        flo2       = params[2];
-        espacio->f = *flo2;
-        break;
-    case CP_C_A:
-        flo1 = *((float *)&params[2]);
-        // espacio->a=flo1;
-        cpBodySetAngle(espacio, flo1);
+        case CP_C_M:
+            flo1 = *((float *)&params[2]);
+            // espacio->m=flo1;
+            cpBodySetMass(espacio, flo1);
+            break;
+        case CP_C_I:
+            flo1 = *((float *)&params[2]);
+            // espacio->i=flo1;
+            cpBodySetMoment(espacio, flo1);
+            break;
+        case CP_C_P:
+            flo2       = params[2];
+            espacio->p = *flo2;
+            break;
+        case CP_C_V:
+            flo2       = params[2];
+            espacio->v = *flo2;
+            break;
+        case CP_C_F:
+            flo2       = params[2];
+            espacio->f = *flo2;
+            break;
+        case CP_C_A:
+            flo1 = *((float *)&params[2]);
+            // espacio->a=flo1;
+            cpBodySetAngle(espacio, flo1);
 
-        break;
-    case CP_C_W:
-        flo1       = *((float *)&params[2]);
-        espacio->w = flo1;
-        break;
-    case CP_C_T:
-        flo1       = *((float *)&params[2]);
-        espacio->t = flo1;
-        break;
-    case CP_C_ROT:
-        flo2         = params[2];
-        espacio->rot = *flo2;
-        break;
-    case CP_C_V_LIMIT:
-        flo1             = *((float *)&params[2]);
-        espacio->v_limit = flo1;
-        break;
-    case CP_C_W_LIMIT:
-        flo1             = *((float *)&params[2]);
-        espacio->w_limit = flo1;
-        break;
+            break;
+        case CP_C_W:
+            flo1       = *((float *)&params[2]);
+            espacio->w = flo1;
+            break;
+        case CP_C_T:
+            flo1       = *((float *)&params[2]);
+            espacio->t = flo1;
+            break;
+        case CP_C_ROT:
+            flo2         = params[2];
+            espacio->rot = *flo2;
+            break;
+        case CP_C_V_LIMIT:
+            flo1             = *((float *)&params[2]);
+            espacio->v_limit = flo1;
+            break;
+        case CP_C_W_LIMIT:
+            flo1             = *((float *)&params[2]);
+            espacio->w_limit = flo1;
+            break;
     }
 
     return 0;
@@ -86,61 +86,61 @@ int modGetEcpBody(INSTANCE *my, int *params) {
     cpVect *vec;
     float a;
     switch (sel) {
-    case CP_C_M:
-        return *((int *)&espacioM->m);
-        break;
-    case CP_C_I:
-        return *((int *)&espacioM->i);
-        break;
-    case CP_C_P:
-        cp     = espacioM->p; // puntero
-        vec    = params[2];
-        vec->x = cp.x;
-        vec->y = cp.y;
-        return 0;
-        break;
-    case CP_C_V:
-        cp     = espacioM->v; // puntero
-        vec    = params[2];
-        vec->x = cp.x;
-        vec->y = cp.y;
-        return 0;
-        break;
-    case CP_C_F:
-        cp     = espacioM->f; // puntero
-        vec    = params[2];
-        vec->x = cp.x;
-        vec->y = cp.y;
-        return 0;
-        break;
-    case CP_C_A:
-        a = (float)espacioM->a;
-        return *((int *)&a);
-        break;
-    case CP_C_W:
-        a = (float)espacioM->w;
-        return *((int *)&a);
-        break;
-    case CP_C_T:
-        a = (float)espacioM->t;
-        return *((int *)&a);
-        break;
-    case CP_C_ROT:
-        cp     = espacioM->rot; // puntero
-        vec    = params[2];
-        vec->x = cp.x;
-        vec->y = cp.y;
-        return 0;
-        break;
-    case CP_C_V_LIMIT:
-        return *((int *)&espacioM->v_limit);
-        break;
-    case CP_C_W_LIMIT:
-        return *((int *)&espacioM->w_limit);
-        break;
-    case CP_C_DATA:
-        return espacioM->data;
-        break;
+        case CP_C_M:
+            return *((int *)&espacioM->m);
+            break;
+        case CP_C_I:
+            return *((int *)&espacioM->i);
+            break;
+        case CP_C_P:
+            cp     = espacioM->p; // puntero
+            vec    = params[2];
+            vec->x = cp.x;
+            vec->y = cp.y;
+            return 0;
+            break;
+        case CP_C_V:
+            cp     = espacioM->v; // puntero
+            vec    = params[2];
+            vec->x = cp.x;
+            vec->y = cp.y;
+            return 0;
+            break;
+        case CP_C_F:
+            cp     = espacioM->f; // puntero
+            vec    = params[2];
+            vec->x = cp.x;
+            vec->y = cp.y;
+            return 0;
+            break;
+        case CP_C_A:
+            a = (float)espacioM->a;
+            return *((int *)&a);
+            break;
+        case CP_C_W:
+            a = (float)espacioM->w;
+            return *((int *)&a);
+            break;
+        case CP_C_T:
+            a = (float)espacioM->t;
+            return *((int *)&a);
+            break;
+        case CP_C_ROT:
+            cp     = espacioM->rot; // puntero
+            vec    = params[2];
+            vec->x = cp.x;
+            vec->y = cp.y;
+            return 0;
+            break;
+        case CP_C_V_LIMIT:
+            return *((int *)&espacioM->v_limit);
+            break;
+        case CP_C_W_LIMIT:
+            return *((int *)&espacioM->w_limit);
+            break;
+        case CP_C_DATA:
+            return espacioM->data;
+            break;
     }
 
     return 0;
@@ -564,22 +564,22 @@ int creaBodyAndShapeAutomat(INSTANCE *my) {
         int *params = ((int *)LOCDWORD(mod_chipmunk, my, LOC_PARAMS));
 
         switch (LOCDWORD(mod_chipmunk, my, LOC_SHAPETYPE)) {
-        case TYPE_CIRCLE:
-            sha = cpCircleShapeNew(bod, params[2], cpv(params[0], params[1]));
-            break;
-        case TYPE_LINE:
-            // printf("%d %d %d %d %d\n",params[0],params[1],params[2],params[3],params[4]);
-            // fflush(stdout);
-            sha = cpSegmentShapeNew(bod, cpv(params[0], params[1]), cpv(params[2], params[3]),
-                                    params[4]);
-            break;
-        case TYPE_EMPTY:
-            return 0;
-            break;
-        case TYPE_CONVEX_POLYGON:
-        case TYPE_BOX:
-            sha = creaPoly(params, bod);
-            break;
+            case TYPE_CIRCLE:
+                sha = cpCircleShapeNew(bod, params[2], cpv(params[0], params[1]));
+                break;
+            case TYPE_LINE:
+                // printf("%d %d %d %d %d\n",params[0],params[1],params[2],params[3],params[4]);
+                // fflush(stdout);
+                sha = cpSegmentShapeNew(bod, cpv(params[0], params[1]), cpv(params[2], params[3]),
+                                        params[4]);
+                break;
+            case TYPE_EMPTY:
+                return 0;
+                break;
+            case TYPE_CONVEX_POLYGON:
+            case TYPE_BOX:
+                sha = creaPoly(params, bod);
+                break;
         }
 
     } else {
@@ -610,77 +610,77 @@ int creaBodyAndShapeAutomat(INSTANCE *my) {
         int params[5];
         cpVect arr[4];
         switch (LOCDWORD(mod_chipmunk, my, LOC_SHAPETYPE)) {
-        case TYPE_CIRCLE:
+            case TYPE_CIRCLE:
 
-            params[0] = -(px - (map->width / 2)) * c;
-            params[1] = -(py - (map->height / 2)) * c;
-            params[2] = ((map->height + map->width) / 4) * c;
-            sha       = cpCircleShapeNew(bod, params[2], cpv(params[0], params[1]));
-            break;
-        case TYPE_EMPTY:
+                params[0] = -(px - (map->width / 2)) * c;
+                params[1] = -(py - (map->height / 2)) * c;
+                params[2] = ((map->height + map->width) / 4) * c;
+                sha       = cpCircleShapeNew(bod, params[2], cpv(params[0], params[1]));
+                break;
+            case TYPE_EMPTY:
 
-            return 0;
-            break;
-        case TYPE_LINE:
+                return 0;
+                break;
+            case TYPE_LINE:
 
-            if (map->height > map->width) {
-                params[0] = (map->width / 2) - px;
-                params[1] = -1 * py;
-                params[2] = (map->width / 2) - px;
-                params[3] = -(map->height - py);
-                params[4] = map->width / 2;
-            } else {
-                params[0] = -1 * px;
-                params[1] = (map->height / 2) - py;
-                params[2] = map->width - px;
-                params[3] = (map->height / 2) - py;
-                params[4] = (map->height / 2);
+                if (map->height > map->width) {
+                    params[0] = (map->width / 2) - px;
+                    params[1] = -1 * py;
+                    params[2] = (map->width / 2) - px;
+                    params[3] = -(map->height - py);
+                    params[4] = map->width / 2;
+                } else {
+                    params[0] = -1 * px;
+                    params[1] = (map->height / 2) - py;
+                    params[2] = map->width - px;
+                    params[3] = (map->height / 2) - py;
+                    params[4] = (map->height / 2);
+                }
+                //    printf("%d %d %d %d %f\n",params[0],params[1],params[2],params[3],ajustaTam);
+                sha = cpSegmentShapeNew(bod, cpv(c * params[0], c * params[1]),
+                                        cpv(c * params[2], c * params[3]), c * params[4]);
+                break;
+            case TYPE_CONVEX_POLYGON: {
+                params[0] = -px * c;
+                params[1] = -py * c;
+                modChipmunkStruct_Point r[map->width * 2 + 2 * map->height];
+                int cant = calculaCuerpoConvexo(map, &r);
+                int z;
+
+                for (z = 0; z < cant; z++) {
+                    r[z].x *= c;
+                    r[z].y *= c;
+                }
+                sha = cpPolyShapeNew(bod, cant, &r, cpv(params[0], params[1]));
             }
-            //    printf("%d %d %d %d %f\n",params[0],params[1],params[2],params[3],ajustaTam);
-            sha = cpSegmentShapeNew(bod, cpv(c * params[0], c * params[1]),
-                                    cpv(c * params[2], c * params[3]), c * params[4]);
+
             break;
-        case TYPE_CONVEX_POLYGON: {
-            params[0] = -px * c;
-            params[1] = -py * c;
-            modChipmunkStruct_Point r[map->width * 2 + 2 * map->height];
-            int cant = calculaCuerpoConvexo(map, &r);
-            int z;
+            case TYPE_BOX:
+                params[0] = -px;
+                params[1] = -py;
 
-            for (z = 0; z < cant; z++) {
-                r[z].x *= c;
-                r[z].y *= c;
-            }
-            sha = cpPolyShapeNew(bod, cant, &r, cpv(params[0], params[1]));
-        }
+                /*arr[0].x=ajustaTam*((map->width / 2)*-1.0 );
+                arr[0].y=ajustaTam*((map->height / 2)*-1.0) ;
 
-        break;
-        case TYPE_BOX:
-            params[0] = -px;
-            params[1] = -py;
+                arr[1].x=ajustaTam*((map->width / 2)*-1.0);
+                arr[1].y=ajustaTam*((map->height / 2 ));
 
-            /*arr[0].x=ajustaTam*((map->width / 2)*-1.0 );
-            arr[0].y=ajustaTam*((map->height / 2)*-1.0) ;
+                arr[2].x=ajustaTam*((map->width / 2)) ;
+                arr[2].y=ajustaTam*((map->height / 2)) ;
 
-            arr[1].x=ajustaTam*((map->width / 2)*-1.0);
-            arr[1].y=ajustaTam*((map->height / 2 ));
-
-            arr[2].x=ajustaTam*((map->width / 2)) ;
-            arr[2].y=ajustaTam*((map->height / 2)) ;
-
-            arr[3].x=ajustaTam*((map->width / 2 ));
-            arr[3].y=ajustaTam*((map->height / 2)*-1.0);
-*/
-            arr[0].x = 0;
-            arr[0].y = 0;
-            arr[1].x = 0;
-            arr[1].y = map->height * c;
-            arr[2].x = map->width * c;
-            arr[2].y = map->height * c;
-            arr[3].x = map->width * c;
-            arr[3].y = 0;
-            sha      = cpPolyShapeNew(bod, 4, &arr, cpv(params[0], params[1]));
-            break;
+                arr[3].x=ajustaTam*((map->width / 2 ));
+                arr[3].y=ajustaTam*((map->height / 2)*-1.0);
+    */
+                arr[0].x = 0;
+                arr[0].y = 0;
+                arr[1].x = 0;
+                arr[1].y = map->height * c;
+                arr[2].x = map->width * c;
+                arr[2].y = map->height * c;
+                arr[3].x = map->width * c;
+                arr[3].y = 0;
+                sha      = cpPolyShapeNew(bod, 4, &arr, cpv(params[0], params[1]));
+                break;
         }
     }
 

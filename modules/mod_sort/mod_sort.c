@@ -163,44 +163,44 @@ static int dcb_typedef_size(const DCB_TYPEDEF *type) {
         i++;
     }
     switch (type->BaseType[i]) {
-    case TYPE_DWORD:
-    case TYPE_INT:
-    case TYPE_FLOAT:
-    case TYPE_STRING:
-    case TYPE_POINTER:
-        return 4 * count;
+        case TYPE_DWORD:
+        case TYPE_INT:
+        case TYPE_FLOAT:
+        case TYPE_STRING:
+        case TYPE_POINTER:
+            return 4 * count;
 
-    case TYPE_SHORT:
-    case TYPE_WORD:
-        return 2 * count;
+        case TYPE_SHORT:
+        case TYPE_WORD:
+            return 2 * count;
 
-    case TYPE_CHAR:
-    case TYPE_SBYTE:
-    case TYPE_BYTE:
-        return count;
+        case TYPE_CHAR:
+        case TYPE_SBYTE:
+        case TYPE_BYTE:
+            return count;
 
-    case TYPE_STRUCT: {
-        unsigned int maxoffset = 0;
-        unsigned int n;
-        DCB_TYPEDEF *maxvar = NULL;
+        case TYPE_STRUCT: {
+            unsigned int maxoffset = 0;
+            unsigned int n;
+            DCB_TYPEDEF *maxvar = NULL;
 
-        for (n = 0; n < dcb.varspace[type->Members].NVars; n++) {
-            if (dcb.varspace_vars[type->Members][n].Offset > maxoffset) {
-                maxoffset = dcb.varspace_vars[type->Members][n].Offset;
-                maxvar    = &dcb.varspace_vars[type->Members][n].Type;
+            for (n = 0; n < dcb.varspace[type->Members].NVars; n++) {
+                if (dcb.varspace_vars[type->Members][n].Offset > maxoffset) {
+                    maxoffset = dcb.varspace_vars[type->Members][n].Offset;
+                    maxvar    = &dcb.varspace_vars[type->Members][n].Type;
+                }
             }
+            if (maxvar == NULL) {
+                /* Void struct */
+                return 0;
+            }
+
+            return count * maxoffset + dcb_typedef_size(maxvar);
         }
-        if (maxvar == NULL) {
-            /* Void struct */
+
+        default:
+            /* Unknow datatype */
             return 0;
-        }
-
-        return count * maxoffset + dcb_typedef_size(maxvar);
-    }
-
-    default:
-        /* Unknow datatype */
-        return 0;
     }
 }
 
@@ -228,45 +228,45 @@ static int sort_variables(void *data, int key_offset, int key_type, int element_
     keyoffset = key_offset;
 
     switch (key_type) {
-    case TYPE_INT:
-        compare = (int (*)(const void *, const void *))compare_int;
-        break;
+        case TYPE_INT:
+            compare = (int (*)(const void *, const void *))compare_int;
+            break;
 
-    case TYPE_WORD:
-        compare = (int (*)(const void *, const void *))compare_word;
-        break;
+        case TYPE_WORD:
+            compare = (int (*)(const void *, const void *))compare_word;
+            break;
 
-    case TYPE_DWORD:
-        compare = (int (*)(const void *, const void *))compare_dword;
-        break;
+        case TYPE_DWORD:
+            compare = (int (*)(const void *, const void *))compare_dword;
+            break;
 
-    case TYPE_SHORT:
-        compare = (int (*)(const void *, const void *))compare_short;
-        break;
+        case TYPE_SHORT:
+            compare = (int (*)(const void *, const void *))compare_short;
+            break;
 
-    case TYPE_BYTE:
-        compare = (int (*)(const void *, const void *))compare_byte;
-        break;
+        case TYPE_BYTE:
+            compare = (int (*)(const void *, const void *))compare_byte;
+            break;
 
-    case TYPE_SBYTE:
-        compare = (int (*)(const void *, const void *))compare_sbyte;
-        break;
+        case TYPE_SBYTE:
+            compare = (int (*)(const void *, const void *))compare_sbyte;
+            break;
 
-    case TYPE_CHAR:
-        compare = (int (*)(const void *, const void *))compare_byte;
-        break;
+        case TYPE_CHAR:
+            compare = (int (*)(const void *, const void *))compare_byte;
+            break;
 
-    case TYPE_STRING:
-        compare = (int (*)(const void *, const void *))compare_string;
-        break;
+        case TYPE_STRING:
+            compare = (int (*)(const void *, const void *))compare_string;
+            break;
 
-    case TYPE_FLOAT:
-        compare = (int (*)(const void *, const void *))compare_float;
-        break;
+        case TYPE_FLOAT:
+            compare = (int (*)(const void *, const void *))compare_float;
+            break;
 
-    default:
-        /* key error, invalid datatype */
-        return 0;
+        default:
+            /* key error, invalid datatype */
+            return 0;
     }
 
     qsort(data, elements, element_size, compare);

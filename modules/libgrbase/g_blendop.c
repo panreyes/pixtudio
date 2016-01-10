@@ -240,50 +240,50 @@ void blend_grayscale(int16_t *blend, int method) {
         return;
 
     switch (method) {
-    case 1:
-        blend2 = blend + 65536;
+        case 1:
+            blend2 = blend + 65536;
 
-        for (i = 0; i < 65536; i++) {
-            r         = (int)(GETR(i) * 0.3);
-            g         = (int)(GETG(i) * 0.59);
-            b         = (int)(GETB(i) * 0.11);
-            r         = r + g + b;
-            *blend++  = MAKERGB(r, r, r);
-            *blend2++ = 0;
-        }
-        break;
+            for (i = 0; i < 65536; i++) {
+                r         = (int)(GETR(i) * 0.3);
+                g         = (int)(GETG(i) * 0.59);
+                b         = (int)(GETB(i) * 0.11);
+                r         = r + g + b;
+                *blend++  = MAKERGB(r, r, r);
+                *blend2++ = 0;
+            }
+            break;
 
-    case 2:
-        blend2 = blend + 65536;
+        case 2:
+            blend2 = blend + 65536;
 
-        for (i = 0; i < 65536; i++) {
-            r = GETR(i);
-            g = GETG(i);
-            b = GETB(i);
+            for (i = 0; i < 65536; i++) {
+                r = GETR(i);
+                g = GETG(i);
+                b = GETB(i);
 
-            max = (r > g) ? (r > b) ? r : g : (g > b) ? g : b;
-            min = (r < g) ? (r < b) ? r : g : (g < b) ? g : b;
+                max = (r > g) ? (r > b) ? r : g : (g > b) ? g : b;
+                min = (r < g) ? (r < b) ? r : g : (g < b) ? g : b;
 
-            r         = (max + min) / 2;
-            *blend++  = MAKERGB(r, r, r);
-            *blend2++ = 0;
-        }
-        break;
+                r         = (max + min) / 2;
+                *blend++  = MAKERGB(r, r, r);
+                *blend2++ = 0;
+            }
+            break;
 
-    case 3:
-        blend2 = blend + 65536;
+        case 3:
+            blend2 = blend + 65536;
 
-        for (i = 0; i < 65536; i++) {
-            r = GETR(i);
-            g = GETG(i);
-            b = GETB(i);
+            for (i = 0; i < 65536; i++) {
+                r = GETR(i);
+                g = GETG(i);
+                b = GETB(i);
 
-            max = (r > g) ? (r > b) ? r : g : (g > b) ? g : b;
+                max = (r > g) ? (r > b) ? r : g : (g > b) ? g : b;
 
-            *blend++  = MAKERGB(max, max, max);
-            *blend2++ = 0;
-        }
-        break;
+                *blend++  = MAKERGB(max, max, max);
+                *blend2++ = 0;
+            }
+            break;
     }
 }
 

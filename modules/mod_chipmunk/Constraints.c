@@ -305,15 +305,15 @@ int modaddPivotJoint(INSTANCE *my, int *params) {
 int modsetPinJointProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
-    case CP_C_ANCHR1:
-        cpPinJointSetAnchr1(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
-        break;
-    case CP_C_ANCHR2:
-        cpPinJointSetAnchr2(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
-        break;
-    case CP_C_DIST:
-        cpPinJointSetDist(constr, *(float *)&params[2]);
-        break;
+        case CP_C_ANCHR1:
+            cpPinJointSetAnchr1(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
+            break;
+        case CP_C_ANCHR2:
+            cpPinJointSetAnchr2(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
+            break;
+        case CP_C_DIST:
+            cpPinJointSetDist(constr, *(float *)&params[2]);
+            break;
     }
 
     return 1;
@@ -322,18 +322,18 @@ int modsetPinJointProperties(INSTANCE *my, int *params) {
 int modsetSlideJointProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
-    case CP_C_ANCHR1:
-        cpSlideJointSetAnchr1(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
-        break;
-    case CP_C_ANCHR2:
-        cpSlideJointSetAnchr2(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
-        break;
-    case CP_C_MIN:
-        cpSlideJointSetMin(constr, *(float *)&params[2]);
-        break;
-    case CP_C_MAX:
-        cpSlideJointSetMax(constr, *(float *)&params[2]);
-        break;
+        case CP_C_ANCHR1:
+            cpSlideJointSetAnchr1(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
+            break;
+        case CP_C_ANCHR2:
+            cpSlideJointSetAnchr2(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
+            break;
+        case CP_C_MIN:
+            cpSlideJointSetMin(constr, *(float *)&params[2]);
+            break;
+        case CP_C_MAX:
+            cpSlideJointSetMax(constr, *(float *)&params[2]);
+            break;
     }
 
     return 1;
@@ -342,12 +342,12 @@ int modsetSlideJointProperties(INSTANCE *my, int *params) {
 int modsetPivotJointProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
-    case CP_C_ANCHR1:
-        cpPivotJointSetAnchr1(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
-        break;
-    case CP_C_ANCHR2:
-        cpPivotJointSetAnchr2(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
-        break;
+        case CP_C_ANCHR1:
+            cpPivotJointSetAnchr1(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
+            break;
+        case CP_C_ANCHR2:
+            cpPivotJointSetAnchr2(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
+            break;
     }
 
     return 1;
@@ -356,15 +356,15 @@ int modsetPivotJointProperties(INSTANCE *my, int *params) {
 int modsetGrooveJointProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
-    case CP_C_GROOVEA:
-        cpGrooveJointSetGrooveA(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
-        break;
-    case CP_C_GROOVEB:
-        cpGrooveJointSetGrooveB(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
-        break;
-    case CP_C_ANCHR2:
-        cpGrooveJointSetAnchr2(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
-        break;
+        case CP_C_GROOVEA:
+            cpGrooveJointSetGrooveA(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
+            break;
+        case CP_C_GROOVEB:
+            cpGrooveJointSetGrooveB(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
+            break;
+        case CP_C_ANCHR2:
+            cpGrooveJointSetAnchr2(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
+            break;
     }
 
     return 1;
@@ -373,21 +373,21 @@ int modsetGrooveJointProperties(INSTANCE *my, int *params) {
 int modsetDampedSpringProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
-    case CP_C_ANCHR1:
-        cpDampedSpringSetAnchr1(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
-        break;
-    case CP_C_ANCHR2:
-        cpDampedSpringSetAnchr2(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
-        break;
-    case CP_C_RESTLENGTH:
-        cpDampedSpringSetRestLength(constr, *(float *)&params[2]);
-        break;
-    case CP_C_STIFFNESS:
-        cpDampedSpringSetStiffness(constr, *(float *)&params[2]);
-        break;
-    case CP_C_DAMPING:
-        cpDampedSpringSetDamping(constr, *(float *)&params[2]);
-        break;
+        case CP_C_ANCHR1:
+            cpDampedSpringSetAnchr1(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
+            break;
+        case CP_C_ANCHR2:
+            cpDampedSpringSetAnchr2(constr, cpv(*(float *)&params[2], *(float *)&params[3]));
+            break;
+        case CP_C_RESTLENGTH:
+            cpDampedSpringSetRestLength(constr, *(float *)&params[2]);
+            break;
+        case CP_C_STIFFNESS:
+            cpDampedSpringSetStiffness(constr, *(float *)&params[2]);
+            break;
+        case CP_C_DAMPING:
+            cpDampedSpringSetDamping(constr, *(float *)&params[2]);
+            break;
     }
 
     return 1;
@@ -396,15 +396,15 @@ int modsetDampedSpringProperties(INSTANCE *my, int *params) {
 int modsetDampedRotarySpringProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
-    case CP_C_RESTANGLE:
-        cpDampedRotarySpringSetRestAngle(constr, modChipmunkdeg2rad(*(float *)&params[2]));
-        break;
-    case CP_C_STIFFNESS:
-        cpDampedRotarySpringSetStiffness(constr, *(float *)&params[2]);
-        break;
-    case CP_C_DAMPING:
-        cpDampedRotarySpringSetDamping(constr, *(float *)&params[2]);
-        break;
+        case CP_C_RESTANGLE:
+            cpDampedRotarySpringSetRestAngle(constr, modChipmunkdeg2rad(*(float *)&params[2]));
+            break;
+        case CP_C_STIFFNESS:
+            cpDampedRotarySpringSetStiffness(constr, *(float *)&params[2]);
+            break;
+        case CP_C_DAMPING:
+            cpDampedRotarySpringSetDamping(constr, *(float *)&params[2]);
+            break;
     }
 
     return 1;
@@ -413,12 +413,12 @@ int modsetDampedRotarySpringProperties(INSTANCE *my, int *params) {
 int modsetRotaryLimitJointProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
-    case CP_C_MIN:
-        cpRotaryLimitJointSetMin(constr, modChipmunkdeg2rad(*(float *)&params[2]));
-        break;
-    case CP_C_MAX:
-        cpRotaryLimitJointSetMax(constr, modChipmunkdeg2rad(*(float *)&params[2]));
-        break;
+        case CP_C_MIN:
+            cpRotaryLimitJointSetMin(constr, modChipmunkdeg2rad(*(float *)&params[2]));
+            break;
+        case CP_C_MAX:
+            cpRotaryLimitJointSetMax(constr, modChipmunkdeg2rad(*(float *)&params[2]));
+            break;
     }
 
     return 1;
@@ -427,15 +427,15 @@ int modsetRotaryLimitJointProperties(INSTANCE *my, int *params) {
 int modsetRatchetJointProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
-    case CP_C_ANGLE:
-        cpRatchetJointSetAngle(constr, modChipmunkdeg2rad(*(float *)&params[2]));
-        break;
-    case CP_C_PHASE:
-        cpRatchetJointSetPhase(constr, modChipmunkdeg2rad(*(float *)&params[2]));
-        break;
-    case CP_C_RATCHET:
-        cpRatchetJointSetRatchet(constr, modChipmunkdeg2rad(*(float *)&params[2]));
-        break;
+        case CP_C_ANGLE:
+            cpRatchetJointSetAngle(constr, modChipmunkdeg2rad(*(float *)&params[2]));
+            break;
+        case CP_C_PHASE:
+            cpRatchetJointSetPhase(constr, modChipmunkdeg2rad(*(float *)&params[2]));
+            break;
+        case CP_C_RATCHET:
+            cpRatchetJointSetRatchet(constr, modChipmunkdeg2rad(*(float *)&params[2]));
+            break;
     }
 
     return 1;
@@ -444,12 +444,12 @@ int modsetRatchetJointProperties(INSTANCE *my, int *params) {
 int modsetGearJointProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
-    case CP_C_RATIO:
-        cpGearJointSetRatio(constr, modChipmunkdeg2rad(*(float *)&params[2]));
-        break;
-    case CP_C_PHASE:
-        cpGearJointSetPhase(constr, modChipmunkdeg2rad(*(float *)&params[2]));
-        break;
+        case CP_C_RATIO:
+            cpGearJointSetRatio(constr, modChipmunkdeg2rad(*(float *)&params[2]));
+            break;
+        case CP_C_PHASE:
+            cpGearJointSetPhase(constr, modChipmunkdeg2rad(*(float *)&params[2]));
+            break;
     }
 
     return 1;
@@ -458,10 +458,10 @@ int modsetGearJointProperties(INSTANCE *my, int *params) {
 int modsetSimpleMotorProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
-    case CP_C_RATIO:
+        case CP_C_RATIO:
 
-        cpSimpleMotorSetRate(constr, modChipmunkdeg2rad(*(float *)&params[2]));
-        break;
+            cpSimpleMotorSetRate(constr, modChipmunkdeg2rad(*(float *)&params[2]));
+            break;
     }
 
     return 1;
@@ -472,25 +472,25 @@ int modgetPinJointProperties(INSTANCE *my, int *params) {
     cpVect ar;
     float *a, *b, res;
     switch (params[1]) {
-    case CP_C_ANCHR1:
-        ar = cpPinJointGetAnchr1(constr);
-        a  = params[2];
-        b  = params[3];
-        *a = ar.x;
-        *b = ar.y;
+        case CP_C_ANCHR1:
+            ar = cpPinJointGetAnchr1(constr);
+            a  = params[2];
+            b  = params[3];
+            *a = ar.x;
+            *b = ar.y;
 
-        break;
-    case CP_C_ANCHR2:
-        ar = cpPinJointGetAnchr2(constr);
-        a  = params[2];
-        b  = params[3];
-        *a = ar.x;
-        *b = ar.y;
-        break;
-    case CP_C_DIST:
-        res = cpPinJointGetDist(constr);
-        return *(int *)&res;
-        break;
+            break;
+        case CP_C_ANCHR2:
+            ar = cpPinJointGetAnchr2(constr);
+            a  = params[2];
+            b  = params[3];
+            *a = ar.x;
+            *b = ar.y;
+            break;
+        case CP_C_DIST:
+            res = cpPinJointGetDist(constr);
+            return *(int *)&res;
+            break;
     }
 
     return 1;
@@ -501,28 +501,28 @@ int modgetSlideJointProperties(INSTANCE *my, int *params) {
     cpVect ar;
     float *a, *b, res;
     switch (params[1]) {
-    case CP_C_ANCHR1:
-        ar = cpSlideJointGetAnchr1(constr);
-        a  = params[2];
-        b  = params[3];
-        *a = ar.x;
-        *b = ar.y;
-        break;
-    case CP_C_ANCHR2:
-        ar = cpSlideJointGetAnchr2(constr);
-        a  = params[2];
-        b  = params[3];
-        *a = ar.x;
-        *b = ar.y;
-        break;
-    case CP_C_MIN:
-        res = cpSlideJointGetMin(constr);
-        return *(int *)&res;
-        break;
-    case CP_C_MAX:
-        res = cpSlideJointGetMax(constr);
-        return *(int *)&res;
-        break;
+        case CP_C_ANCHR1:
+            ar = cpSlideJointGetAnchr1(constr);
+            a  = params[2];
+            b  = params[3];
+            *a = ar.x;
+            *b = ar.y;
+            break;
+        case CP_C_ANCHR2:
+            ar = cpSlideJointGetAnchr2(constr);
+            a  = params[2];
+            b  = params[3];
+            *a = ar.x;
+            *b = ar.y;
+            break;
+        case CP_C_MIN:
+            res = cpSlideJointGetMin(constr);
+            return *(int *)&res;
+            break;
+        case CP_C_MAX:
+            res = cpSlideJointGetMax(constr);
+            return *(int *)&res;
+            break;
     }
 
     return 1;
@@ -533,20 +533,20 @@ int modgetPivotJointProperties(INSTANCE *my, int *params) {
     cpVect ar;
     float *a, *b, res;
     switch (params[1]) {
-    case CP_C_ANCHR1:
-        ar = cpPivotJointGetAnchr1(constr);
-        a  = params[2];
-        b  = params[3];
-        *a = ar.x;
-        *b = ar.y;
-        break;
-    case CP_C_ANCHR2:
-        ar = cpPivotJointGetAnchr2(constr);
-        a  = params[2];
-        b  = params[3];
-        *a = ar.x;
-        *b = ar.y;
-        break;
+        case CP_C_ANCHR1:
+            ar = cpPivotJointGetAnchr1(constr);
+            a  = params[2];
+            b  = params[3];
+            *a = ar.x;
+            *b = ar.y;
+            break;
+        case CP_C_ANCHR2:
+            ar = cpPivotJointGetAnchr2(constr);
+            a  = params[2];
+            b  = params[3];
+            *a = ar.x;
+            *b = ar.y;
+            break;
     }
 
     return 1;
@@ -557,27 +557,27 @@ int modgetGrooveJointProperties(INSTANCE *my, int *params) {
     cpVect ar;
     float *a, *b, res;
     switch (params[1]) {
-    case CP_C_GROOVEA:
-        ar = cpGrooveJointGetGrooveA(constr);
-        a  = params[2];
-        b  = params[3];
-        *a = ar.x;
-        *b = ar.y;
-        break;
-    case CP_C_GROOVEB:
-        ar = cpGrooveJointGetGrooveB(constr);
-        a  = params[2];
-        b  = params[3];
-        *a = ar.x;
-        *b = ar.y;
-        break;
-    case CP_C_ANCHR2:
-        cpGrooveJointGetAnchr2(constr);
-        a  = params[2];
-        b  = params[3];
-        *a = ar.x;
-        *b = ar.y;
-        break;
+        case CP_C_GROOVEA:
+            ar = cpGrooveJointGetGrooveA(constr);
+            a  = params[2];
+            b  = params[3];
+            *a = ar.x;
+            *b = ar.y;
+            break;
+        case CP_C_GROOVEB:
+            ar = cpGrooveJointGetGrooveB(constr);
+            a  = params[2];
+            b  = params[3];
+            *a = ar.x;
+            *b = ar.y;
+            break;
+        case CP_C_ANCHR2:
+            cpGrooveJointGetAnchr2(constr);
+            a  = params[2];
+            b  = params[3];
+            *a = ar.x;
+            *b = ar.y;
+            break;
     }
 
     return 1;
@@ -588,32 +588,32 @@ int modgetDampedSpringProperties(INSTANCE *my, int *params) {
     cpVect ar;
     float *a, *b, res;
     switch (params[1]) {
-    case CP_C_ANCHR1:
-        ar = cpDampedSpringGetAnchr1(constr);
-        a  = params[2];
-        b  = params[3];
-        *a = ar.x;
-        *b = ar.y;
-        break;
-    case CP_C_ANCHR2:
-        ar = cpDampedSpringGetAnchr2(constr);
-        a  = params[2];
-        b  = params[3];
-        *a = ar.x;
-        *b = ar.y;
-        break;
-    case CP_C_RESTLENGTH:
-        res = cpDampedSpringGetRestLength(constr);
-        return *(int *)&res;
-        break;
-    case CP_C_STIFFNESS:
-        res = cpDampedSpringGetStiffness(constr);
-        return *(int *)&res;
-        break;
-    case CP_C_DAMPING:
-        res = cpDampedSpringGetDamping(constr);
-        return *(int *)&res;
-        break;
+        case CP_C_ANCHR1:
+            ar = cpDampedSpringGetAnchr1(constr);
+            a  = params[2];
+            b  = params[3];
+            *a = ar.x;
+            *b = ar.y;
+            break;
+        case CP_C_ANCHR2:
+            ar = cpDampedSpringGetAnchr2(constr);
+            a  = params[2];
+            b  = params[3];
+            *a = ar.x;
+            *b = ar.y;
+            break;
+        case CP_C_RESTLENGTH:
+            res = cpDampedSpringGetRestLength(constr);
+            return *(int *)&res;
+            break;
+        case CP_C_STIFFNESS:
+            res = cpDampedSpringGetStiffness(constr);
+            return *(int *)&res;
+            break;
+        case CP_C_DAMPING:
+            res = cpDampedSpringGetDamping(constr);
+            return *(int *)&res;
+            break;
     }
 
     return 1;
@@ -623,19 +623,19 @@ int modgetDampedRotarySpringProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     float res;
     switch (params[1]) {
-    case CP_C_RESTANGLE:
-        res = cpDampedRotarySpringGetRestAngle(constr);
-        res = modChipmunkrad2deg(res);
-        return *(int *)&res;
-        break;
-    case CP_C_STIFFNESS:
-        res = cpDampedRotarySpringGetStiffness(constr);
-        return *(int *)&res;
-        break;
-    case CP_C_DAMPING:
-        res = cpDampedRotarySpringGetDamping(constr);
-        return *(int *)&res;
-        break;
+        case CP_C_RESTANGLE:
+            res = cpDampedRotarySpringGetRestAngle(constr);
+            res = modChipmunkrad2deg(res);
+            return *(int *)&res;
+            break;
+        case CP_C_STIFFNESS:
+            res = cpDampedRotarySpringGetStiffness(constr);
+            return *(int *)&res;
+            break;
+        case CP_C_DAMPING:
+            res = cpDampedRotarySpringGetDamping(constr);
+            return *(int *)&res;
+            break;
     }
 
     return 1;
@@ -645,16 +645,16 @@ int modgetRotaryLimitJointProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     float res;
     switch (params[1]) {
-    case CP_C_MIN:
-        res = cpRotaryLimitJointGetMin(constr);
-        res = modChipmunkrad2deg(res);
-        return *(int *)&res;
-        break;
-    case CP_C_MAX:
-        res = cpRotaryLimitJointGetMax(constr);
-        res = modChipmunkrad2deg(res);
-        return *(int *)&res;
-        break;
+        case CP_C_MIN:
+            res = cpRotaryLimitJointGetMin(constr);
+            res = modChipmunkrad2deg(res);
+            return *(int *)&res;
+            break;
+        case CP_C_MAX:
+            res = cpRotaryLimitJointGetMax(constr);
+            res = modChipmunkrad2deg(res);
+            return *(int *)&res;
+            break;
     }
 
     return 1;
@@ -664,21 +664,21 @@ int modgetRatchetJointProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     float res;
     switch (params[1]) {
-    case CP_C_ANGLE:
-        res = cpRatchetJointGetAngle(constr);
-        res = modChipmunkrad2deg(res);
-        return *(int *)&res;
-        break;
-    case CP_C_PHASE:
-        res = cpRatchetJointGetPhase(constr);
-        res = modChipmunkrad2deg(res);
-        return *(int *)&res;
-        break;
-    case CP_C_RATCHET:
-        res = cpRatchetJointGetRatchet(constr);
-        res = modChipmunkrad2deg(res);
-        return *(int *)&res;
-        break;
+        case CP_C_ANGLE:
+            res = cpRatchetJointGetAngle(constr);
+            res = modChipmunkrad2deg(res);
+            return *(int *)&res;
+            break;
+        case CP_C_PHASE:
+            res = cpRatchetJointGetPhase(constr);
+            res = modChipmunkrad2deg(res);
+            return *(int *)&res;
+            break;
+        case CP_C_RATCHET:
+            res = cpRatchetJointGetRatchet(constr);
+            res = modChipmunkrad2deg(res);
+            return *(int *)&res;
+            break;
     }
 
     return 1;
@@ -688,16 +688,16 @@ int modgetGearJointProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     float res;
     switch (params[1]) {
-    case CP_C_RATIO:
-        res = cpGearJointGetRatio(constr);
-        res = modChipmunkrad2deg(res);
-        return *(int *)&res;
-        break;
-    case CP_C_PHASE:
-        res = cpGearJointGetPhase(constr);
-        res = modChipmunkrad2deg(res);
-        return *(int *)&res;
-        break;
+        case CP_C_RATIO:
+            res = cpGearJointGetRatio(constr);
+            res = modChipmunkrad2deg(res);
+            return *(int *)&res;
+            break;
+        case CP_C_PHASE:
+            res = cpGearJointGetPhase(constr);
+            res = modChipmunkrad2deg(res);
+            return *(int *)&res;
+            break;
     }
 
     return 1;
@@ -707,11 +707,11 @@ int modgetSimpleMotorProperties(INSTANCE *my, int *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     float res;
     switch (params[1]) {
-    case CP_C_RATIO:
-        res = cpSimpleMotorGetRate(constr);
-        res = modChipmunkrad2deg(res);
-        return *(int *)&res;
-        break;
+        case CP_C_RATIO:
+            res = cpSimpleMotorGetRate(constr);
+            res = modChipmunkrad2deg(res);
+            return *(int *)&res;
+            break;
     }
 
     return 1;
@@ -727,21 +727,21 @@ int modDefcpConstraint(INSTANCE *my, int *params) {
     int res               = params[1];
 
     switch (res) {
-    case CP_C_MAXFORCE:
-        espacio->maxForce = *(float *)&params[2];
-        break;
-    case CP_C_BIASCOEF:
-        espacio->errorBias = *(float *)&params[2];
-        break;
-    case CP_C_MAXBIAS:
-        espacio->maxBias = *(float *)&params[2];
-        break;
-    case CP_C_CA:
-        espacio->a = (cpBody *)params[2];
-        break;
-    case CP_C_CB:
-        espacio->b = (cpBody *)params[2];
-        break;
+        case CP_C_MAXFORCE:
+            espacio->maxForce = *(float *)&params[2];
+            break;
+        case CP_C_BIASCOEF:
+            espacio->errorBias = *(float *)&params[2];
+            break;
+        case CP_C_MAXBIAS:
+            espacio->maxBias = *(float *)&params[2];
+            break;
+        case CP_C_CA:
+            espacio->a = (cpBody *)params[2];
+            break;
+        case CP_C_CB:
+            espacio->b = (cpBody *)params[2];
+            break;
     }
     return 0;
 }
@@ -749,21 +749,21 @@ int modDefcpConstraint(INSTANCE *my, int *params) {
 int modGetcpConstraint(INSTANCE *my, int *params) {
     cpConstraint *espacio = (cpConstraint *)params[0];
     switch (params[1]) {
-    case CP_C_MAXFORCE:
-        return (*(int *)&espacio->maxForce);
-        break;
-    case CP_C_BIASCOEF:
-        return (*(int *)&espacio->errorBias);
-        break;
-    case CP_C_MAXBIAS:
-        return (*(int *)&espacio->maxBias);
-        break;
-    case CP_C_CA:
-        return ((int)espacio->a);
-        break;
-    case CP_C_CB:
-        return ((int)espacio->b);
-        break;
+        case CP_C_MAXFORCE:
+            return (*(int *)&espacio->maxForce);
+            break;
+        case CP_C_BIASCOEF:
+            return (*(int *)&espacio->errorBias);
+            break;
+        case CP_C_MAXBIAS:
+            return (*(int *)&espacio->maxBias);
+            break;
+        case CP_C_CA:
+            return ((int)espacio->a);
+            break;
+        case CP_C_CB:
+            return ((int)espacio->b);
+            break;
     }
     return 0;
 }

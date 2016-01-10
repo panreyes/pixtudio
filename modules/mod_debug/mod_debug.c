@@ -295,58 +295,58 @@ static char *describe_type(DCB_TYPEDEF type, int from) {
     }
 
     switch (type.BaseType[from]) {
-    case TYPE_ARRAY:
-        for (i = from; type.BaseType[i] == TYPE_ARRAY; i++)
-            ;
-        describe_type(type, i);
-        for (i = from; type.BaseType[i] == TYPE_ARRAY; i++)
-            _snprintf(buffer + strlen(buffer), 512 - strlen(buffer), "[%d]", type.Count[i] - 1);
-        break;
+        case TYPE_ARRAY:
+            for (i = from; type.BaseType[i] == TYPE_ARRAY; i++)
+                ;
+            describe_type(type, i);
+            for (i = from; type.BaseType[i] == TYPE_ARRAY; i++)
+                _snprintf(buffer + strlen(buffer), 512 - strlen(buffer), "[%d]", type.Count[i] - 1);
+            break;
 
-    case TYPE_STRUCT:
-        strcat(buffer, "STRUCT");
-        break;
+        case TYPE_STRUCT:
+            strcat(buffer, "STRUCT");
+            break;
 
-    case TYPE_DWORD:
-        strcat(buffer, "DWORD");
-        break;
+        case TYPE_DWORD:
+            strcat(buffer, "DWORD");
+            break;
 
-    case TYPE_INT:
-        strcat(buffer, "INT");
-        break;
+        case TYPE_INT:
+            strcat(buffer, "INT");
+            break;
 
-    case TYPE_SHORT:
-        strcat(buffer, "SHORT");
-        break;
+        case TYPE_SHORT:
+            strcat(buffer, "SHORT");
+            break;
 
-    case TYPE_WORD:
-        strcat(buffer, "WORD");
-        break;
+        case TYPE_WORD:
+            strcat(buffer, "WORD");
+            break;
 
-    case TYPE_BYTE:
-        strcat(buffer, "BYTE");
-        break;
+        case TYPE_BYTE:
+            strcat(buffer, "BYTE");
+            break;
 
-    case TYPE_SBYTE:
-        strcat(buffer, "SIGNED BYTE");
-        break;
+        case TYPE_SBYTE:
+            strcat(buffer, "SIGNED BYTE");
+            break;
 
-    case TYPE_CHAR:
-        strcat(buffer, "CHAR");
-        break;
+        case TYPE_CHAR:
+            strcat(buffer, "CHAR");
+            break;
 
-    case TYPE_STRING:
-        strcat(buffer, "STRING");
-        break;
+        case TYPE_STRING:
+            strcat(buffer, "STRING");
+            break;
 
-    case TYPE_FLOAT:
-        strcat(buffer, "FLOAT");
-        break;
+        case TYPE_FLOAT:
+            strcat(buffer, "FLOAT");
+            break;
 
-    case TYPE_POINTER:
-        describe_type(type, from + 1);
-        strcat(buffer, " POINTER");
-        break;
+        case TYPE_POINTER:
+            describe_type(type, from + 1);
+            strcat(buffer, " POINTER");
+            break;
     }
 
     return buffer;
@@ -362,82 +362,82 @@ static char *show_value(DCB_TYPEDEF type, void *data) {
     unsigned int count;
 
     switch (type.BaseType[0]) {
-    case TYPE_ARRAY:
-        count = type.Count[0];
+        case TYPE_ARRAY:
+            count = type.Count[0];
 
-        type    = reduce_type(type);
-        subsize = type_size(type);
-        if (type.BaseType[0] == TYPE_STRUCT) {
+            type    = reduce_type(type);
+            subsize = type_size(type);
+            if (type.BaseType[0] == TYPE_STRUCT) {
+                return "";
+            }
+            newbuffer = (char *)malloc(512);
+            strcpy(newbuffer, "= (");
+            for (n = 0; n < count; n++) {
+                if (n) {
+                    strcat(newbuffer, ", ");
+                }
+                show_value(type, data);
+                if (strlen(newbuffer) + strlen(buffer) > 30) {
+                    strcat(newbuffer, "...");
+                    break;
+                }
+                strcat(newbuffer, buffer + 2);
+                data = (uint8_t *)data + subsize;
+            }
+            strcat(newbuffer, ")");
+            strcpy(buffer, newbuffer);
+            free(newbuffer);
+            return buffer;
+
+        case TYPE_STRUCT:
             return "";
-        }
-        newbuffer = (char *)malloc(512);
-        strcpy(newbuffer, "= (");
-        for (n = 0; n < count; n++) {
-            if (n) {
-                strcat(newbuffer, ", ");
-            }
-            show_value(type, data);
-            if (strlen(newbuffer) + strlen(buffer) > 30) {
-                strcat(newbuffer, "...");
-                break;
-            }
-            strcat(newbuffer, buffer + 2);
-            data = (uint8_t *)data + subsize;
-        }
-        strcat(newbuffer, ")");
-        strcpy(buffer, newbuffer);
-        free(newbuffer);
-        return buffer;
 
-    case TYPE_STRUCT:
-        return "";
+        case TYPE_STRING:
+            _snprintf(buffer, 512, "= \"%s\"", string_get(*(uint32_t *)data));
+            string_discard(*(uint32_t *)data);
+            return buffer;
 
-    case TYPE_STRING:
-        _snprintf(buffer, 512, "= \"%s\"", string_get(*(uint32_t *)data));
-        string_discard(*(uint32_t *)data);
-        return buffer;
+        case TYPE_BYTE:
+            _snprintf(buffer, 512, "= %d", *(uint8_t *)data);
+            return buffer;
 
-    case TYPE_BYTE:
-        _snprintf(buffer, 512, "= %d", *(uint8_t *)data);
-        return buffer;
+        case TYPE_SBYTE:
+            _snprintf(buffer, 512, "= %d", *(int8_t *)data);
+            return buffer;
 
-    case TYPE_SBYTE:
-        _snprintf(buffer, 512, "= %d", *(int8_t *)data);
-        return buffer;
+        case TYPE_CHAR:
+            if (*(uint8_t *)data >= 32)
+                _snprintf(buffer, 512, "= '%c'", *(uint8_t *)data);
+            else
+                _snprintf(buffer, 512, "= '\\x%02X'", *(uint8_t *)data);
+            return buffer;
 
-    case TYPE_CHAR:
-        if (*(uint8_t *)data >= 32)
-            _snprintf(buffer, 512, "= '%c'", *(uint8_t *)data);
-        else
-            _snprintf(buffer, 512, "= '\\x%02X'", *(uint8_t *)data);
-        return buffer;
+        case TYPE_FLOAT:
+            _snprintf(buffer, 512, "= %g", *(float *)data);
+            return buffer;
 
-    case TYPE_FLOAT:
-        _snprintf(buffer, 512, "= %g", *(float *)data);
-        return buffer;
+        case TYPE_WORD:
+            _snprintf(buffer, 512, "= %d", *(uint16_t *)data);
+            return buffer;
 
-    case TYPE_WORD:
-        _snprintf(buffer, 512, "= %d", *(uint16_t *)data);
-        return buffer;
+        case TYPE_DWORD:
+            _snprintf(buffer, 512, "= %ud", *(uint32_t *)data);
+            return buffer;
 
-    case TYPE_DWORD:
-        _snprintf(buffer, 512, "= %ud", *(uint32_t *)data);
-        return buffer;
+        case TYPE_SHORT:
+            _snprintf(buffer, 512, "= %d", *(int16_t *)data);
+            return buffer;
 
-    case TYPE_SHORT:
-        _snprintf(buffer, 512, "= %d", *(int16_t *)data);
-        return buffer;
+        case TYPE_INT:
+            _snprintf(buffer, 512, "= %d", *(int *)data);
+            return buffer;
 
-    case TYPE_INT:
-        _snprintf(buffer, 512, "= %d", *(int *)data);
-        return buffer;
+        case TYPE_POINTER:
+            _snprintf(buffer, 512, "= 0x%08X", *(uint32_t *)data);
+            return buffer;
 
-    case TYPE_POINTER:
-        _snprintf(buffer, 512, "= 0x%08X", *(uint32_t *)data);
-        return buffer;
-
-    default:
-        return "?";
+        default:
+            return "?";
     }
 }
 
@@ -707,34 +707,34 @@ static int type_size(DCB_TYPEDEF orig) {
     unsigned int n, total;
 
     switch (orig.BaseType[0]) {
-    case TYPE_ARRAY:
-        return orig.Count[0] * type_size(reduce_type(orig));
+        case TYPE_ARRAY:
+            return orig.Count[0] * type_size(reduce_type(orig));
 
-    case TYPE_POINTER:
-    case TYPE_STRING:
-    case TYPE_DWORD:
-    case TYPE_FLOAT:
-    case TYPE_INT:
-        return 4;
+        case TYPE_POINTER:
+        case TYPE_STRING:
+        case TYPE_DWORD:
+        case TYPE_FLOAT:
+        case TYPE_INT:
+            return 4;
 
-    case TYPE_WORD:
-    case TYPE_SHORT:
-        return 2;
+        case TYPE_WORD:
+        case TYPE_SHORT:
+            return 2;
 
-    case TYPE_BYTE:
-    case TYPE_SBYTE:
-    case TYPE_CHAR:
-        return 1;
+        case TYPE_BYTE:
+        case TYPE_SBYTE:
+        case TYPE_CHAR:
+            return 1;
 
-    case TYPE_STRUCT:
-        total = 0;
-        for (n = 0; n < dcb.varspace[orig.Members].NVars; n++) {
-            total += type_size(dcb.varspace_vars[orig.Members][n].Type);
-        }
-        return total;
+        case TYPE_STRUCT:
+            total = 0;
+            for (n = 0; n < dcb.varspace[orig.Members].NVars; n++) {
+                total += type_size(dcb.varspace_vars[orig.Members][n].Type);
+            }
+            return total;
 
-    default:
-        return 0;
+        default:
+            return 0;
     }
 }
 
@@ -1228,21 +1228,21 @@ static void console_instance_dump(INSTANCE *father, int indent) {
         strcat(line, "[W]");
     }
     switch (LOCDWORD(mod_debug, i, STATUS) & ~STATUS_WAITING_MASK) {
-    case STATUS_DEAD:
-        strcat(line, "[D]");
-        break;
-    case STATUS_KILLED:
-        strcat(line, "[K]");
-        break;
-    case STATUS_RUNNING:
-        strcat(line, "   ");
-        break;
-    case STATUS_SLEEPING:
-        strcat(line, "[S]");
-        break;
-    case STATUS_FROZEN:
-        strcat(line, "[F]");
-        break;
+        case STATUS_DEAD:
+            strcat(line, "[D]");
+            break;
+        case STATUS_KILLED:
+            strcat(line, "[K]");
+            break;
+        case STATUS_RUNNING:
+            strcat(line, "   ");
+            break;
+        case STATUS_SLEEPING:
+            strcat(line, "[S]");
+            break;
+        case STATUS_FROZEN:
+            strcat(line, "[F]");
+            break;
     }
 
     console_printf("\033[0m%s", line);
@@ -1289,21 +1289,21 @@ static void console_instance_dump(INSTANCE *father, int indent) {
                 strcat(line, "[W]");
             }
             switch (LOCDWORD(mod_debug, i, STATUS) & ~STATUS_WAITING_MASK) {
-            case STATUS_DEAD:
-                strcat(line, "[D]");
-                break;
-            case STATUS_KILLED:
-                strcat(line, "[K]");
-                break;
-            case STATUS_RUNNING:
-                strcat(line, "   ");
-                break;
-            case STATUS_SLEEPING:
-                strcat(line, "[S]");
-                break;
-            case STATUS_FROZEN:
-                strcat(line, "[F]");
-                break;
+                case STATUS_DEAD:
+                    strcat(line, "[D]");
+                    break;
+                case STATUS_KILLED:
+                    strcat(line, "[K]");
+                    break;
+                case STATUS_RUNNING:
+                    strcat(line, "   ");
+                    break;
+                case STATUS_SLEEPING:
+                    strcat(line, "[S]");
+                    break;
+                case STATUS_FROZEN:
+                    strcat(line, "[F]");
+                    break;
             }
             console_printf("\033[0m%s", line);
         }
@@ -1355,21 +1355,21 @@ static void console_instance_dump_all_brief() {
             strcpy(status, "\033[38;2;128;128;128mwait\033[0m+");
 
         switch (LOCDWORD(mod_debug, i, STATUS) & ~STATUS_WAITING_MASK) {
-        case STATUS_DEAD:
-            strcat(status, "\033[38;2;192;192;0mdead\033[0m    ");
-            break;
-        case STATUS_KILLED:
-            strcat(status, "\033[38;2;192;0;0mkilled\033[0m  ");
-            break;
-        case STATUS_SLEEPING:
-            strcat(status, "\033[38;2;0;0;255msleeping\033[0m");
-            break;
-        case STATUS_FROZEN:
-            strcat(status, "\033[38;2;0;192;192mfrozen\033[0m  ");
-            break;
-        case STATUS_RUNNING:
-            strcat(status, "\033[38;2;0;255;0mrunning\033[0m ");
-            break;
+            case STATUS_DEAD:
+                strcat(status, "\033[38;2;192;192;0mdead\033[0m    ");
+                break;
+            case STATUS_KILLED:
+                strcat(status, "\033[38;2;192;0;0mkilled\033[0m  ");
+                break;
+            case STATUS_SLEEPING:
+                strcat(status, "\033[38;2;0;0;255msleeping\033[0m");
+                break;
+            case STATUS_FROZEN:
+                strcat(status, "\033[38;2;0;192;192mfrozen\033[0m  ");
+                break;
+            case STATUS_RUNNING:
+                strcat(status, "\033[38;2;0;255;0mrunning\033[0m ");
+                break;
         }
 
         if (!(LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK))
@@ -1795,15 +1795,15 @@ static void console_do(const char *command) {
     if (strcmp(action, "VARS") == 0) {
         for (var = 0; var < N_CONSOLE_VARS; var++) {
             switch (console_vars[var].type) {
-            case CON_DWORD:
-                console_printf("\033[0m%s = %d\n", console_vars[var].name,
-                               *(int *)console_vars[var].value);
-                break;
+                case CON_DWORD:
+                    console_printf("\033[0m%s = %d\n", console_vars[var].name,
+                                   *(int *)console_vars[var].value);
+                    break;
 
-            case CON_DWORD_HEX:
-                console_printf("\033[0m%s = %08Xh\n", console_vars[var].name,
-                               *(int *)console_vars[var].value);
-                break;
+                case CON_DWORD_HEX:
+                    console_printf("\033[0m%s = %08Xh\n", console_vars[var].name,
+                                   *(int *)console_vars[var].value);
+                    break;
             }
         }
         console_printf("\n");
@@ -1838,41 +1838,42 @@ static void console_do(const char *command) {
                         }
 
                         switch (result.type) {
-                        case T_CONSTANT:
-                            switch (type) {
-                            case TYPE_FLOAT:
-                                PRIDWORD(inst, 4 * i) = *(int *)&result.value;
+                            case T_CONSTANT:
+                                switch (type) {
+                                    case TYPE_FLOAT:
+                                        PRIDWORD(inst, 4 * i) = *(int *)&result.value;
+                                        break;
+
+                                    case TYPE_INT:
+                                    case TYPE_DWORD:
+                                    case TYPE_POINTER:
+                                    case TYPE_SHORT:
+                                    case TYPE_WORD:
+                                    case TYPE_BYTE:
+                                    case TYPE_SBYTE:
+                                    case TYPE_CHAR:
+                                        PRIDWORD(inst, 4 * i) = (int)result.value;
+                                        break;
+
+                                    case TYPE_STRING:
+                                    default:
+                                        instance_destroy(inst);
+                                        console_printf(
+                                            "\033[38;2;192;0;0mInvalid argument %d\033[0m", i);
+                                        return;
+                                }
                                 break;
 
-                            case TYPE_INT:
-                            case TYPE_DWORD:
-                            case TYPE_POINTER:
-                            case TYPE_SHORT:
-                            case TYPE_WORD:
-                            case TYPE_BYTE:
-                            case TYPE_SBYTE:
-                            case TYPE_CHAR:
-                                PRIDWORD(inst, 4 * i) = (int)result.value;
+                            case T_STRING:
+                                PRIDWORD(inst, 4 * i) = (int)string_new(result.name);
+                                string_use(PRIDWORD(inst, 4 * i));
                                 break;
 
-                            case TYPE_STRING:
+                            case T_VARIABLE:
                             default:
                                 instance_destroy(inst);
                                 console_printf("\033[38;2;192;0;0mInvalid argument %d\033[0m", i);
                                 return;
-                            }
-                            break;
-
-                        case T_STRING:
-                            PRIDWORD(inst, 4 * i) = (int)string_new(result.name);
-                            string_use(PRIDWORD(inst, 4 * i));
-                            break;
-
-                        case T_VARIABLE:
-                        default:
-                            instance_destroy(inst);
-                            console_printf("\033[38;2;192;0;0mInvalid argument %d\033[0m", i);
-                            return;
                         }
                     }
                     console_printf("\033[0mProcess %s is executed", p->name);
@@ -1895,25 +1896,25 @@ static void console_do(const char *command) {
         while ((i = findproc(i, action, ptr))) {
             found = 1;
             switch (act) {
-            case 'K':
-                LOCDWORD(mod_debug, i, STATUS) =
-                    (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_KILLED;
-                break;
+                case 'K':
+                    LOCDWORD(mod_debug, i, STATUS) =
+                        (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_KILLED;
+                    break;
 
-            case 'W':
-                LOCDWORD(mod_debug, i, STATUS) =
-                    (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_RUNNING;
-                break;
+                case 'W':
+                    LOCDWORD(mod_debug, i, STATUS) =
+                        (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_RUNNING;
+                    break;
 
-            case 'S':
-                LOCDWORD(mod_debug, i, STATUS) =
-                    (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_SLEEPING;
-                break;
+                case 'S':
+                    LOCDWORD(mod_debug, i, STATUS) =
+                        (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_SLEEPING;
+                    break;
 
-            case 'F':
-                LOCDWORD(mod_debug, i, STATUS) =
-                    (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_FROZEN;
-                break;
+                case 'F':
+                    LOCDWORD(mod_debug, i, STATUS) =
+                        (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_FROZEN;
+                    break;
             }
             strcpy(action, oaction);
             ptr = optr;
@@ -1937,25 +1938,25 @@ static void console_do(const char *command) {
         }
 
         switch (act) {
-        case 'K':
-            LOCDWORD(mod_debug, i, STATUS) =
-                (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_KILLED;
-            break;
+            case 'K':
+                LOCDWORD(mod_debug, i, STATUS) =
+                    (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_KILLED;
+                break;
 
-        case 'W':
-            LOCDWORD(mod_debug, i, STATUS) =
-                (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_RUNNING;
-            break;
+            case 'W':
+                LOCDWORD(mod_debug, i, STATUS) =
+                    (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_RUNNING;
+                break;
 
-        case 'S':
-            LOCDWORD(mod_debug, i, STATUS) =
-                (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_SLEEPING;
-            break;
+            case 'S':
+                LOCDWORD(mod_debug, i, STATUS) =
+                    (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_SLEEPING;
+                break;
 
-        case 'F':
-            LOCDWORD(mod_debug, i, STATUS) =
-                (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_FROZEN;
-            break;
+            case 'F':
+                LOCDWORD(mod_debug, i, STATUS) =
+                    (LOCDWORD(mod_debug, i, STATUS) & STATUS_WAITING_MASK) | STATUS_FROZEN;
+                break;
         }
         console_printf("\033[0mOK");
         return;
@@ -1971,33 +1972,33 @@ static void console_do(const char *command) {
     for (var = 0; var < N_CONSOLE_VARS; var++) {
         if (strcmp(console_vars[var].name, action) == 0) {
             switch (console_vars[var].type) {
-            case CON_DWORD:
-                if (*ptr) {
-                    while (*ptr == '=' || *ptr == ' ') {
-                        ptr++;
+                case CON_DWORD:
+                    if (*ptr) {
+                        while (*ptr == '=' || *ptr == ' ') {
+                            ptr++;
+                        }
+                        eval_expression(ptr, 0);
+                        if (result.type != T_ERROR) {
+                            *(int *)console_vars[var].value = (int)result.value;
+                        }
                     }
-                    eval_expression(ptr, 0);
-                    if (result.type != T_ERROR) {
-                        *(int *)console_vars[var].value = (int)result.value;
-                    }
-                }
-                console_printf("\033[0m%s = %d", console_vars[var].name,
-                               *(int *)console_vars[var].value);
-                return;
+                    console_printf("\033[0m%s = %d", console_vars[var].name,
+                                   *(int *)console_vars[var].value);
+                    return;
 
-            case CON_DWORD_HEX:
-                if (*ptr) {
-                    while (*ptr == '=' || *ptr == ' ') {
-                        ptr++;
+                case CON_DWORD_HEX:
+                    if (*ptr) {
+                        while (*ptr == '=' || *ptr == ' ') {
+                            ptr++;
+                        }
+                        eval_expression(ptr, 0);
+                        if (result.type != T_ERROR) {
+                            *(int *)console_vars[var].value = (int)result.value;
+                        }
                     }
-                    eval_expression(ptr, 0);
-                    if (result.type != T_ERROR) {
-                        *(int *)console_vars[var].value = (int)result.value;
-                    }
-                }
-                console_printf("\033[0m%s = %08Xh\n", console_vars[var].name,
-                               *(int *)console_vars[var].value);
-                return;
+                    console_printf("\033[0m%s = %08Xh\n", console_vars[var].name,
+                                   *(int *)console_vars[var].value);
+                    return;
             }
         }
     }

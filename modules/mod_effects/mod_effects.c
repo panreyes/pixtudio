@@ -63,17 +63,17 @@ static int _get_pixel(GRAPH *dest, int x, int y) {
         return -1;
 
     switch (dest->format->depth) {
-    case 8:
-        return *(((uint8_t *)dest->data) + x + dest->pitch * y);
+        case 8:
+            return *(((uint8_t *)dest->data) + x + dest->pitch * y);
 
-    case 16:
-        return *(uint16_t *)(((uint8_t *)dest->data) + (x << 1) + dest->pitch * y);
+        case 16:
+            return *(uint16_t *)(((uint8_t *)dest->data) + (x << 1) + dest->pitch * y);
 
-    case 32:
-        return *(uint32_t *)(((uint8_t *)dest->data) + (x << 2) + dest->pitch * y);
+        case 32:
+            return *(uint32_t *)(((uint8_t *)dest->data) + (x << 2) + dest->pitch * y);
 
-    case 1:
-        return (((uint8_t *)dest->data)[x / 8 + dest->pitch * y] & (0x80 >> (x & 7))) ? 1 : 0;
+        case 1:
+            return (((uint8_t *)dest->data)[x / 8 + dest->pitch * y] & (0x80 >> (x & 7))) ? 1 : 0;
     }
     return -1;
 }
@@ -101,24 +101,24 @@ static void _put_pixel(GRAPH *dest, int x, int y, int color) {
     dest->modified = 2;
 
     switch (dest->format->depth) {
-    case 8:
-        *(((uint8_t *)dest->data) + x + dest->pitch * y) = color;
-        break;
+        case 8:
+            *(((uint8_t *)dest->data) + x + dest->pitch * y) = color;
+            break;
 
-    case 16:
-        *(uint16_t *)(((uint8_t *)dest->data) + (x << 1) + dest->pitch * y) = color;
-        break;
+        case 16:
+            *(uint16_t *)(((uint8_t *)dest->data) + (x << 1) + dest->pitch * y) = color;
+            break;
 
-    case 32:
-        *(uint32_t *)(((uint8_t *)dest->data) + (x << 2) + dest->pitch * y) = color;
-        break;
+        case 32:
+            *(uint32_t *)(((uint8_t *)dest->data) + (x << 2) + dest->pitch * y) = color;
+            break;
 
-    case 1:
-        if (color)
-            (((uint8_t *)dest->data)[x / 8 + dest->pitch * y]) |= (0x80 >> (x & 7));
-        else
-            (((uint8_t *)dest->data)[x / 8 + dest->pitch * y]) &= ~(0x80 >> (x & 7));
-        break;
+        case 1:
+            if (color)
+                (((uint8_t *)dest->data)[x / 8 + dest->pitch * y]) |= (0x80 >> (x & 7));
+            else
+                (((uint8_t *)dest->data)[x / 8 + dest->pitch * y]) &= ~(0x80 >> (x & 7));
+            break;
     }
 }
 
@@ -225,163 +225,163 @@ int modeffects_blur(INSTANCE *my, int *params) {
         return 0;
 
     switch (params[2]) {
-    case BLUR_NORMAL:
-        // METODO 1 "RAPIDO" izq y arriba
-        for (i = 0; i < map->width; i++) {
-            for (j = 0; j < map->height; j++) {
-                color = _get_pixel(map, i, j);
-                if (!color)
-                    continue;
-                gr_get_rgba_depth(map->format->depth, color, &r, &g, &b, &a);
-                if (i > 0) {
-                    gr_get_rgba_depth(map->format->depth, _get_pixel(map, i - 1, j), &r2, &g2, &b2,
-                                      &a2);
-                } else {
-                    gr_get_rgba_depth(map->format->depth, _get_pixel(map, i + 1, j), &r2, &g2, &b2,
-                                      &a2);
-                }
-                r += r2;
-                g += g2;
-                b += b2;
-                if (j > 0) {
-                    gr_get_rgba_depth(map->format->depth, _get_pixel(map, i, j - 1), &r2, &g2, &b2,
-                                      &a2);
-                } else {
-                    gr_get_rgba_depth(map->format->depth, _get_pixel(map, i, j + 1), &r2, &g2, &b2,
-                                      &a2);
-                }
-                r += r2;
-                g += g2;
-                b += b2;
-                r /= 3;
-                g /= 3;
-                b /= 3;
-                _put_pixel(map, i, j, gr_rgba_depth(map->format->depth, r, g, b, a));
-            }
-        }
-        break;
-
-    case BLUR_3x3:
-        // METODO2 LENTO 3x3
-        r = 0;
-        g = 0;
-        b = 0;
-        c = 0;
-        for (i = 0; i < map->width; i++) {
-            for (j = 0; j < map->height; j++) {
-                color = _get_pixel(map, i, j);
-                if (!color)
-                    continue;
-                gr_get_rgba_depth(map->format->depth, color, &r, &g, &b, &a);
-                c++;
-                for (x = i - 1; x < i + 2; x++) {
-                    for (y = j - 1; y < j + 2; y++) {
-                        if (x < 0 || x > map->width - 1 || y < 0 || y > map->height - 1)
-                            continue;
-                        gr_get_rgba_depth(map->format->depth, _get_pixel(map, x, y), &r2, &g2, &b2,
-                                          &a2);
-                        r += r2;
-                        g += g2;
-                        b += b2;
-                        c++;
+        case BLUR_NORMAL:
+            // METODO 1 "RAPIDO" izq y arriba
+            for (i = 0; i < map->width; i++) {
+                for (j = 0; j < map->height; j++) {
+                    color = _get_pixel(map, i, j);
+                    if (!color)
+                        continue;
+                    gr_get_rgba_depth(map->format->depth, color, &r, &g, &b, &a);
+                    if (i > 0) {
+                        gr_get_rgba_depth(map->format->depth, _get_pixel(map, i - 1, j), &r2, &g2,
+                                          &b2, &a2);
+                    } else {
+                        gr_get_rgba_depth(map->format->depth, _get_pixel(map, i + 1, j), &r2, &g2,
+                                          &b2, &a2);
                     }
-                }
-                if (!c)
-                    continue;
-                r /= c;
-                g /= c;
-                b /= c;
-                _put_pixel(map, i, j, gr_rgba_depth(map->format->depth, r, g, b, a));
-                r = 0;
-                g = 0;
-                b = 0;
-                c = 0;
-            }
-        }
-        break;
-
-    case BLUR_5x5:
-        // METODO3 aun mas LENTO 5x5
-        r = 0;
-        g = 0;
-        b = 0;
-        c = 0;
-        for (i = 0; i < map->width; i++) {
-            for (j = 0; j < map->height; j++) {
-                color = _get_pixel(map, i, j);
-                if (!color)
-                    continue;
-                gr_get_rgba_depth(map->format->depth, color, &r, &g, &b, &a);
-                c++;
-                for (x = i - 2; x < i + 3; x++) {
-                    for (y = j - 2; y < j + 3; y++) {
-                        if (x < 0 || x > map->width - 1 || y < 0 || y > map->height - 1)
-                            continue;
-                        gr_get_rgba_depth(map->format->depth, _get_pixel(map, x, y), &r2, &g2, &b2,
-                                          &a2);
-                        r += r2;
-                        g += g2;
-                        b += b2;
-                        c++;
+                    r += r2;
+                    g += g2;
+                    b += b2;
+                    if (j > 0) {
+                        gr_get_rgba_depth(map->format->depth, _get_pixel(map, i, j - 1), &r2, &g2,
+                                          &b2, &a2);
+                    } else {
+                        gr_get_rgba_depth(map->format->depth, _get_pixel(map, i, j + 1), &r2, &g2,
+                                          &b2, &a2);
                     }
+                    r += r2;
+                    g += g2;
+                    b += b2;
+                    r /= 3;
+                    g /= 3;
+                    b /= 3;
+                    _put_pixel(map, i, j, gr_rgba_depth(map->format->depth, r, g, b, a));
                 }
-                if (!c)
-                    continue;
-                r /= c;
-                g /= c;
-                b /= c;
-                _put_pixel(map, i, j, gr_rgba_depth(map->format->depth, r, g, b, a));
-                r = 0;
-                g = 0;
-                b = 0;
-                c = 0;
             }
-        }
-        break;
+            break;
 
-    case BLUR_5x5_MAP:
-        // METODO4 5x5 mapa adicional
-        map2 = bitmap_clone(map);
-        r    = 0;
-        g    = 0;
-        b    = 0;
-        c = 0;
-        for (i = 0; i < map->width; i++) {
-            for (j = 0; j < map->height; j++) {
-                color = _get_pixel(map, i, j);
-                if (!color)
-                    continue;
-                gr_get_rgba_depth(map->format->depth, color, &r, &g, &b, &a);
-                c++;
-                for (x = i - 2; x < i + 3; x++) {
-                    for (y = j - 2; y < j + 3; y++) {
-                        if (x < 0 || x > map->width - 1 || y < 0 || y > map->height - 1)
-                            continue;
-                        gr_get_rgba_depth(map->format->depth, _get_pixel(map, x, y), &r2, &g2, &b2,
-                                          &a2);
-                        r += r2;
-                        g += g2;
-                        b += b2;
-                        c++;
+        case BLUR_3x3:
+            // METODO2 LENTO 3x3
+            r = 0;
+            g = 0;
+            b = 0;
+            c = 0;
+            for (i = 0; i < map->width; i++) {
+                for (j = 0; j < map->height; j++) {
+                    color = _get_pixel(map, i, j);
+                    if (!color)
+                        continue;
+                    gr_get_rgba_depth(map->format->depth, color, &r, &g, &b, &a);
+                    c++;
+                    for (x = i - 1; x < i + 2; x++) {
+                        for (y = j - 1; y < j + 2; y++) {
+                            if (x < 0 || x > map->width - 1 || y < 0 || y > map->height - 1)
+                                continue;
+                            gr_get_rgba_depth(map->format->depth, _get_pixel(map, x, y), &r2, &g2,
+                                              &b2, &a2);
+                            r += r2;
+                            g += g2;
+                            b += b2;
+                            c++;
+                        }
                     }
+                    if (!c)
+                        continue;
+                    r /= c;
+                    g /= c;
+                    b /= c;
+                    _put_pixel(map, i, j, gr_rgba_depth(map->format->depth, r, g, b, a));
+                    r = 0;
+                    g = 0;
+                    b = 0;
+                    c = 0;
                 }
-                if (!c)
-                    continue;
-                r /= c;
-                g /= c;
-                b /= c;
-                _put_pixel(map2, i, j, gr_rgba_depth(map->format->depth, r, g, b, a));
-                r = 0;
-                g = 0;
-                b = 0;
-                c = 0;
             }
-        }
-        memcpy(map->data, map2->data, map->height * map->pitch);
-        bitmap_destroy(map2);
-        break;
-    default:
-        break;
+            break;
+
+        case BLUR_5x5:
+            // METODO3 aun mas LENTO 5x5
+            r = 0;
+            g = 0;
+            b = 0;
+            c = 0;
+            for (i = 0; i < map->width; i++) {
+                for (j = 0; j < map->height; j++) {
+                    color = _get_pixel(map, i, j);
+                    if (!color)
+                        continue;
+                    gr_get_rgba_depth(map->format->depth, color, &r, &g, &b, &a);
+                    c++;
+                    for (x = i - 2; x < i + 3; x++) {
+                        for (y = j - 2; y < j + 3; y++) {
+                            if (x < 0 || x > map->width - 1 || y < 0 || y > map->height - 1)
+                                continue;
+                            gr_get_rgba_depth(map->format->depth, _get_pixel(map, x, y), &r2, &g2,
+                                              &b2, &a2);
+                            r += r2;
+                            g += g2;
+                            b += b2;
+                            c++;
+                        }
+                    }
+                    if (!c)
+                        continue;
+                    r /= c;
+                    g /= c;
+                    b /= c;
+                    _put_pixel(map, i, j, gr_rgba_depth(map->format->depth, r, g, b, a));
+                    r = 0;
+                    g = 0;
+                    b = 0;
+                    c = 0;
+                }
+            }
+            break;
+
+        case BLUR_5x5_MAP:
+            // METODO4 5x5 mapa adicional
+            map2 = bitmap_clone(map);
+            r    = 0;
+            g    = 0;
+            b    = 0;
+            c = 0;
+            for (i = 0; i < map->width; i++) {
+                for (j = 0; j < map->height; j++) {
+                    color = _get_pixel(map, i, j);
+                    if (!color)
+                        continue;
+                    gr_get_rgba_depth(map->format->depth, color, &r, &g, &b, &a);
+                    c++;
+                    for (x = i - 2; x < i + 3; x++) {
+                        for (y = j - 2; y < j + 3; y++) {
+                            if (x < 0 || x > map->width - 1 || y < 0 || y > map->height - 1)
+                                continue;
+                            gr_get_rgba_depth(map->format->depth, _get_pixel(map, x, y), &r2, &g2,
+                                              &b2, &a2);
+                            r += r2;
+                            g += g2;
+                            b += b2;
+                            c++;
+                        }
+                    }
+                    if (!c)
+                        continue;
+                    r /= c;
+                    g /= c;
+                    b /= c;
+                    _put_pixel(map2, i, j, gr_rgba_depth(map->format->depth, r, g, b, a));
+                    r = 0;
+                    g = 0;
+                    b = 0;
+                    c = 0;
+                }
+            }
+            memcpy(map->data, map2->data, map->height * map->pitch);
+            bitmap_destroy(map2);
+            break;
+        default:
+            break;
     }
 
     // Update the GRAPH texture
@@ -409,37 +409,37 @@ int modeffects_grayscale(INSTANCE *my, int *params) { // fpg,map,tipo
                 continue;
             c = (int)(0.3 * r + 0.59 * g + 0.11 * b);
             switch (params[2]) {
-            case GSCALE_RGB: // RGB
-                c = gr_rgba_depth(map->format->depth, c, c, c, a);
-                break;
+                case GSCALE_RGB: // RGB
+                    c = gr_rgba_depth(map->format->depth, c, c, c, a);
+                    break;
 
-            case GSCALE_R: // R
-                c = gr_rgba_depth(map->format->depth, c, 0, 0, a);
-                break;
+                case GSCALE_R: // R
+                    c = gr_rgba_depth(map->format->depth, c, 0, 0, a);
+                    break;
 
-            case GSCALE_G: // G
-                c = gr_rgba_depth(map->format->depth, 0, c, 0, a);
-                break;
+                case GSCALE_G: // G
+                    c = gr_rgba_depth(map->format->depth, 0, c, 0, a);
+                    break;
 
-            case GSCALE_B: // B
-                c = gr_rgba_depth(map->format->depth, 0, 0, c, a);
-                break;
+                case GSCALE_B: // B
+                    c = gr_rgba_depth(map->format->depth, 0, 0, c, a);
+                    break;
 
-            case GSCALE_RG: // RG
-                c = gr_rgba_depth(map->format->depth, c, c, 0, a);
-                break;
+                case GSCALE_RG: // RG
+                    c = gr_rgba_depth(map->format->depth, c, c, 0, a);
+                    break;
 
-            case GSCALE_RB: // RB
-                c = gr_rgba_depth(map->format->depth, c, 0, c, a);
-                break;
+                case GSCALE_RB: // RB
+                    c = gr_rgba_depth(map->format->depth, c, 0, c, a);
+                    break;
 
-            case GSCALE_GB: // GB
-                c = gr_rgba_depth(map->format->depth, 0, c, c, a);
-                break;
+                case GSCALE_GB: // GB
+                    c = gr_rgba_depth(map->format->depth, 0, c, c, a);
+                    break;
 
-            case GSCALE_OFF:
-            default:
-                c = gr_rgba_depth(map->format->depth, r, g, b, a);
+                case GSCALE_OFF:
+                default:
+                    c = gr_rgba_depth(map->format->depth, r, g, b, a);
             }
             _put_pixel(map, j, i, c);
         }

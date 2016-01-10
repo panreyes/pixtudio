@@ -83,46 +83,46 @@ void gr_clear_as(GRAPH *dest, int color) {
     }
 
     switch (dest->format->depth) {
-    case 8: {
-        memset(dest->data, color, dest->pitch * dest->height);
-        break;
-    }
-
-    case 16: {
-        uint8_t *data = dest->data;
-        int16_t *ptr;
-        int n;
-        y = dest->height;
-        while (y--) {
-            ptr = (int16_t *)data;
-            n = dest->width;
-            while (n--)
-                *ptr++ = color;
-            data += dest->pitch;
+        case 8: {
+            memset(dest->data, color, dest->pitch * dest->height);
+            break;
         }
-        break;
-    }
 
-    case 32: {
-        uint8_t *data = dest->data;
-        uint32_t *ptr;
-        int n;
-        y = dest->height;
-        while (y--) {
-            ptr = (uint32_t *)data;
-            n = dest->width;
-            while (n--)
-                *ptr++ = color;
-            data += dest->pitch;
+        case 16: {
+            uint8_t *data = dest->data;
+            int16_t *ptr;
+            int n;
+            y = dest->height;
+            while (y--) {
+                ptr = (int16_t *)data;
+                n = dest->width;
+                while (n--)
+                    *ptr++ = color;
+                data += dest->pitch;
+            }
+            break;
         }
-        break;
-    }
 
-    case 1: {
-        int c = color ? 0xFF : 0;
-        memset(dest->data, c, dest->pitch * dest->height);
-        break;
-    }
+        case 32: {
+            uint8_t *data = dest->data;
+            uint32_t *ptr;
+            int n;
+            y = dest->height;
+            while (y--) {
+                ptr = (uint32_t *)data;
+                n = dest->width;
+                while (n--)
+                    *ptr++ = color;
+                data += dest->pitch;
+            }
+            break;
+        }
+
+        case 1: {
+            int c = color ? 0xFF : 0;
+            memset(dest->data, c, dest->pitch * dest->height);
+            break;
+        }
     }
 
     dest->needs_texture_update = 1;
@@ -172,32 +172,32 @@ void gr_clear_region(GRAPH *dest, REGION *region) {
     }
 
     switch (dest->format->depth) {
-    case 8:
-    case 16:
-    case 32: {
-        uint8_t *data =
-            ((uint8_t *)dest->data) + dest->pitch * region->y + region->x * dest->format->depthb;
-        l = (region->x2 - region->x + 1) * dest->format->depthb;
-        for (y = region->y; y <= region->y2; y++) {
-            memset(data, 0, l);
-            data += dest->pitch;
+        case 8:
+        case 16:
+        case 32: {
+            uint8_t *data = ((uint8_t *)dest->data) + dest->pitch * region->y +
+                            region->x * dest->format->depthb;
+            l = (region->x2 - region->x + 1) * dest->format->depthb;
+            for (y = region->y; y <= region->y2; y++) {
+                memset(data, 0, l);
+                data += dest->pitch;
+            }
+            break;
         }
-        break;
-    }
 
-    case 1: {
-        uint8_t *data = ((uint8_t *)dest->data) + region->x / 8;
-        l = (region->x2 - region->x - 1) / 8 + 1;
-        for (y = region->y; y <= region->y2; y++) {
-            /* Esta debe ser cambiada, por bits */
-            memset(data, 0, l);
-            data += dest->pitch;
+        case 1: {
+            uint8_t *data = ((uint8_t *)dest->data) + region->x / 8;
+            l = (region->x2 - region->x - 1) / 8 + 1;
+            for (y = region->y; y <= region->y2; y++) {
+                /* Esta debe ser cambiada, por bits */
+                memset(data, 0, l);
+                data += dest->pitch;
+            }
+            break;
         }
-        break;
-    }
 
-    default:
-        return;
+        default:
+            return;
     }
 
     dest->modified = 1; /* Doesn't need analysis */

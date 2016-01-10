@@ -627,24 +627,24 @@ void file_rewind(file *fp) {
     fp->error = 0;
 
     switch (fp->type) {
-    case F_XFILE:
-        fp->pos = x_file[fp->n].offset;
-        break;
+        case F_XFILE:
+            fp->pos = x_file[fp->n].offset;
+            break;
 
 #ifndef NO_ZLIB
-    case F_GZFILE:
-        gzrewind(fp->gz);
-        break;
+        case F_GZFILE:
+            gzrewind(fp->gz);
+            break;
 #endif
 
 #ifdef WITH_SDLRWOPS
-    case F_RWOPS:
-        SDL_RWseek(fp->rwops, 0, SEEK_END);
-        break;
+        case F_RWOPS:
+            SDL_RWseek(fp->rwops, 0, SEEK_END);
+            break;
 #endif
 
-    default:
-        rewind(fp->fp);
+        default:
+            rewind(fp->fp);
     }
 }
 

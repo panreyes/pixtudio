@@ -63,7 +63,7 @@
 
 /* ---------------------------------------------------------- */
 
-fd_set *socketsets  = NULL;
+fd_set *socketsets    = NULL;
 int g_num_socket_sets = 32;
 #ifndef WIN32
 int *fd_count = NULL;
@@ -231,7 +231,7 @@ int libsocket_accept_tcp(int insock, int *ip, int *port) {
         addrlen = sizeof(addr);
         outsock = accept(insock, (struct sockaddr *)&addr, &addrlen);
         if (outsock != -1) {
-            *ip = addr.sin_addr.s_addr;
+            *ip   = addr.sin_addr.s_addr;
             *port = ntohs(addr.sin_port);
         }
     } else {
@@ -263,7 +263,7 @@ int libsocket_connect_tcp(int socket, char *ip, uint16_t port) {
 
 int libsocket_select_socketset(int id_readss, int id_writess, int id_errorss, int wait_time) {
     struct timeval timeout;
-    int retval = -1;
+    int retval             = -1;
     fd_set *read_socketset = NULL, *write_socketset = NULL, *error_socketset = NULL;
 
     if ((id_readss >= 0) && (id_readss < g_num_socket_sets)) {
@@ -281,8 +281,7 @@ int libsocket_select_socketset(int id_readss, int id_writess, int id_errorss, in
     timeout.tv_sec  = wait_time / 1000;
     timeout.tv_usec = wait_time % 1000;
 
-    retval = select(FD_SETSIZE, read_socketset, write_socketset,
-                    error_socketset, &timeout);
+    retval = select(FD_SETSIZE, read_socketset, write_socketset, error_socketset, &timeout);
 
     return (retval);
 }
@@ -304,8 +303,7 @@ int libsocket_send_udp(int socket, void *data, size_t len, char *ip, uint16_t po
     connection_info.sin_port        = htons(port);
     connection_info.sin_addr.s_addr = inet_addr(ip);
 
-    return (sendto(socket, data, len, 0, (SOCKADDR *)&connection_info,
-                   sizeof(connection_info)));
+    return (sendto(socket, data, len, 0, (SOCKADDR *)&connection_info, sizeof(connection_info)));
 }
 
 /* ---------------------------------------------------------- */
@@ -330,12 +328,11 @@ int libsocket_recv_udp(int socket, void *dest, size_t len, int *ip, int *port) {
     unsigned int connection_info_size;
 #endif
 
-    received_bytes = recvfrom(socket, dest, len, 0,
-                              (SOCKADDR *)&connection_info,
-                              &connection_info_size);
+    received_bytes =
+        recvfrom(socket, dest, len, 0, (SOCKADDR *)&connection_info, &connection_info_size);
 
     if (socket != -1) {
-        *ip = connection_info.sin_addr.s_addr; // ip
+        *ip   = connection_info.sin_addr.s_addr; // ip
         *port = ntohs(connection_info.sin_port); // puerto
     }
 
@@ -422,7 +419,7 @@ int libsocket_check_socketset(int id_readss, int id_writess, int id_errorss, int
 
 /* ---------------------------------------------------------- */
 
-char * libsocket_get_iphost(int flag) {
+char *libsocket_get_iphost(int flag) {
     char host[80];
     struct hostent *phe;
     struct in_addr addr;
@@ -440,7 +437,7 @@ char * libsocket_get_iphost(int flag) {
 
 /* ---------------------------------------------------------- */
 
-char * libsocket_get_ipstr(in_addr_t s_addr) {
+char *libsocket_get_ipstr(in_addr_t s_addr) {
     struct in_addr addr;
 
     addr.s_addr = s_addr;

@@ -111,16 +111,16 @@ int modsys_exec(INSTANCE *my, int *params) {
     } else {
         /* father */
         switch (mode) {
-        case _P_WAIT:
-            if (waitpid(child, &status, WUNTRACED) != child)
-                status = -1;
-            else
-                status = (int)(char)WEXITSTATUS(status);
-            break;
+            case _P_WAIT:
+                if (waitpid(child, &status, WUNTRACED) != child)
+                    status = -1;
+                else
+                    status = (int)(char)WEXITSTATUS(status);
+                break;
 
-        case _P_NOWAIT:
-            status = child;
-            break;
+            case _P_NOWAIT:
+                status = child;
+                break;
         }
     }
 #endif

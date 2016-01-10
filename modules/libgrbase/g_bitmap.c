@@ -604,36 +604,36 @@ void bitmap_analyze(GRAPH *bitmap) {
      * If none found, set the flag GI_NOCOLORKEY */
 
     switch (bitmap->format->depth) {
-    case 8: {
-        uint8_t *ptr = (uint8_t *)bitmap->data;
+        case 8: {
+            uint8_t *ptr = (uint8_t *)bitmap->data;
 
-        for (y = bitmap->height; y--; ptr += bitmap->pitch) {
-            if (memchr(ptr, 0, bitmap->width))
+            for (y = bitmap->height; y--; ptr += bitmap->pitch) {
+                if (memchr(ptr, 0, bitmap->width))
+                    break;
+            }
+        } break;
+        case 16: {
+            int16_t *ptr = (int16_t *)bitmap->data;
+            int inc      = bitmap->pitch - bitmap->widthb;
+
+            for (y = bitmap->height; y--; ptr = (int16_t *)(((uint8_t *)ptr) + inc)) {
+                for (x = bitmap->width; x--;)
+                    if (!*ptr++)
+                        break;
                 break;
-        }
-    } break;
-    case 16: {
-        int16_t *ptr = (int16_t *)bitmap->data;
-        int inc      = bitmap->pitch - bitmap->widthb;
+            }
+        } break;
+        case 32: {
+            int32_t *ptr = (int32_t *)bitmap->data;
+            int inc      = bitmap->pitch - bitmap->widthb;
 
-        for (y = bitmap->height; y--; ptr = (int16_t *)(((uint8_t *)ptr) + inc)) {
-            for (x = bitmap->width; x--;)
-                if (!*ptr++)
-                    break;
-            break;
+            for (y = bitmap->height; y--; ptr = (int32_t *)(((uint8_t *)ptr) + inc)) {
+                for (x = bitmap->width; x--;)
+                    if (!*ptr++)
+                        break;
+                break;
+            }
         }
-    } break;
-    case 32: {
-        int32_t *ptr = (int32_t *)bitmap->data;
-        int inc      = bitmap->pitch - bitmap->widthb;
-
-        for (y = bitmap->height; y--; ptr = (int32_t *)(((uint8_t *)ptr) + inc)) {
-            for (x = bitmap->width; x--;)
-                if (!*ptr++)
-                    break;
-            break;
-        }
-    }
     }
 }
 

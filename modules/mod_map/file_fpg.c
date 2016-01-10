@@ -145,16 +145,16 @@ static int gr_read_lib(file *fp) {
             uint8_t *line = (uint8_t *)gr->data + gr->pitch * y;
 
             switch (bpp) {
-            case 32:
-                st = file_readUint32A(fp, (uint32_t *)line, gr->width);
-                break;
-            case 16:
-                st = file_readUint16A(fp, (uint16_t *)line, gr->width);
-                break;
-            case 8:
-            case 1:
-                st = file_read(fp, line, gr->widthb);
-                break;
+                case 32:
+                    st = file_readUint32A(fp, (uint32_t *)line, gr->width);
+                    break;
+                case 16:
+                    st = file_readUint16A(fp, (uint16_t *)line, gr->width);
+                    break;
+                case 8:
+                case 1:
+                    st = file_read(fp, line, gr->widthb);
+                    break;
             }
 
             if (!st) {

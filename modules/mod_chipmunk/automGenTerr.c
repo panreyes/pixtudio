@@ -148,9 +148,9 @@ modChipmunkStruct_Arreglo *aproxP(modChipmunkStruct_Arreglo *coord, float umb) {
         res[fin] = 1;
 
         recursApro(inic, fin, coord, res, umb); // llama recursividad para dividir por cuerpos
-                                                // poligonales usando la linea del índice inc al fin
-                                                // que son los índices del principio y final de la
-                                                // primer linea
+        // poligonales usando la linea del índice inc al fin
+        // que son los índices del principio y final de la
+        // primer linea
         recursApro(fin, inic, coord, res, umb);
     } else {
         cerrado   = 0;
@@ -174,7 +174,7 @@ modChipmunkStruct_Arreglo *aproxP(modChipmunkStruct_Arreglo *coord, float umb) {
     for (z = 0; z < cant; z++) {
         if (res[z] == 1) {
             modChipmunk_ArregloPush(resArr, mCh_AAt(coord, z)); // lo copia al resultado
-            mCh_AAtS(coord, z, 0); // y lo borra de la lista original
+            mCh_AAtS(coord, z, 0);                              // y lo borra de la lista original
         }
     }
 

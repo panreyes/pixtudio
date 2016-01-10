@@ -63,18 +63,19 @@ int gr_get_pixel(GRAPH *dest, int x, int y) {
         return -1;
 
     switch (dest->format->depth) {
-    case 1:
-        return ((*(uint8_t *)(dest->data + dest->pitch * y + (x >> 3))) & (0x80 >> (x & 7))) ? 1
-                                                                                             : 0;
+        case 1:
+            return ((*(uint8_t *)(dest->data + dest->pitch * y + (x >> 3))) & (0x80 >> (x & 7)))
+                       ? 1
+                       : 0;
 
-    case 8:
-        return *((uint8_t *)dest->data + dest->pitch * y + x);
+        case 8:
+            return *((uint8_t *)dest->data + dest->pitch * y + x);
 
-    case 16:
-        return *(uint16_t *)((uint8_t *)dest->data + dest->pitch * y + (x << 1));
+        case 16:
+            return *(uint16_t *)((uint8_t *)dest->data + dest->pitch * y + (x << 1));
 
-    case 32:
-        return *(uint32_t *)((uint8_t *)dest->data + dest->pitch * y + (x << 2));
+        case 32:
+            return *(uint32_t *)((uint8_t *)dest->data + dest->pitch * y + (x << 2));
     }
     return -1;
 }
@@ -101,75 +102,75 @@ void gr_put_pixel(GRAPH *dest, int x, int y, int color) {
         return;
 
     switch (dest->format->depth) {
-    case 1:
-        if (color)
-            *((uint8_t *)dest->data + dest->pitch * y + (x >> 3)) |= (0x80 >> (x & 7));
-        else
-            *((uint8_t *)dest->data + dest->pitch * y + (x >> 3)) &= ~(0x80 >> (x & 7));
-        break;
+        case 1:
+            if (color)
+                *((uint8_t *)dest->data + dest->pitch * y + (x >> 3)) |= (0x80 >> (x & 7));
+            else
+                *((uint8_t *)dest->data + dest->pitch * y + (x >> 3)) &= ~(0x80 >> (x & 7));
+            break;
 
-    case 8:
-        _Pixel8((uint8_t *)dest->data + dest->pitch * y + x, color);
-        break;
+        case 8:
+            _Pixel8((uint8_t *)dest->data + dest->pitch * y + x, color);
+            break;
 
-    case 16:
-        _Pixel16((uint8_t *)dest->data + dest->pitch * y + (x << 1), color,
-                 gr_alpha16(pixel_alpha)[color]);
-        break;
+        case 16:
+            _Pixel16((uint8_t *)dest->data + dest->pitch * y + (x << 1), color,
+                     gr_alpha16(pixel_alpha)[color]);
+            break;
 
-    case 32: {
-        uint32_t *ptr = (uint32_t *)((uint8_t *)dest->data + dest->pitch * y + (x << 2));
+        case 32: {
+            uint32_t *ptr = (uint32_t *)((uint8_t *)dest->data + dest->pitch * y + (x << 2));
 
-        if (pixel_alpha == 255 && (color & 0xff000000) == 0xff000000) {
-            *ptr = color;
-        } else {
-            unsigned int _f = color & 0xff000000, _f2;
-            unsigned int r, g, b;
-
-            _f  = (_f >> 24) * pixel_alpha / 255;
-            _f2 = 255 - _f;
-
-            if (_f != 0x000000ff) {
-                r = ((color & 0x00ff0000) * _f + ((*ptr & 0x00ff0000) * _f2)) >> 8;
-                g = ((color & 0x0000ff00) * _f + ((*ptr & 0x0000ff00) * _f2)) >> 8;
-                b = ((color & 0x000000ff) * _f + ((*ptr & 0x000000ff) * _f2)) >> 8;
-
-                if (r > 0x00ff0000)
-                    r = 0x00ff0000;
-                else
-                    r &= 0x00ff0000;
-                if (g > 0x0000ff00)
-                    g = 0x0000ff00;
-                else
-                    g &= 0x0000ff00;
-                if (b > 0x000000ff)
-                    b = 0x000000ff;
-                else
-                    b &= 0x000000ff;
-
-                *ptr = (_f << 24) | r | g | b;
+            if (pixel_alpha == 255 && (color & 0xff000000) == 0xff000000) {
+                *ptr = color;
             } else {
-                r = ((color & 0x00ff0000) * pixel_alpha + ((*ptr & 0x00ff0000) * _f2)) >> 8;
-                g = ((color & 0x0000ff00) * pixel_alpha + ((*ptr & 0x0000ff00) * _f2)) >> 8;
-                b = ((color & 0x000000ff) * pixel_alpha + ((*ptr & 0x000000ff) * _f2)) >> 8;
+                unsigned int _f = color & 0xff000000, _f2;
+                unsigned int r, g, b;
 
-                if (r > 0x00ff0000)
-                    r = 0x00ff0000;
-                else
-                    r &= 0x00ff0000;
-                if (g > 0x0000ff00)
-                    g = 0x0000ff00;
-                else
-                    g &= 0x0000ff00;
-                if (b > 0x000000ff)
-                    b = 0x000000ff;
-                else
-                    b &= 0x000000ff;
+                _f  = (_f >> 24) * pixel_alpha / 255;
+                _f2 = 255 - _f;
 
-                *ptr = 0xff000000 | r | g | b;
+                if (_f != 0x000000ff) {
+                    r = ((color & 0x00ff0000) * _f + ((*ptr & 0x00ff0000) * _f2)) >> 8;
+                    g = ((color & 0x0000ff00) * _f + ((*ptr & 0x0000ff00) * _f2)) >> 8;
+                    b = ((color & 0x000000ff) * _f + ((*ptr & 0x000000ff) * _f2)) >> 8;
+
+                    if (r > 0x00ff0000)
+                        r = 0x00ff0000;
+                    else
+                        r &= 0x00ff0000;
+                    if (g > 0x0000ff00)
+                        g = 0x0000ff00;
+                    else
+                        g &= 0x0000ff00;
+                    if (b > 0x000000ff)
+                        b = 0x000000ff;
+                    else
+                        b &= 0x000000ff;
+
+                    *ptr = (_f << 24) | r | g | b;
+                } else {
+                    r = ((color & 0x00ff0000) * pixel_alpha + ((*ptr & 0x00ff0000) * _f2)) >> 8;
+                    g = ((color & 0x0000ff00) * pixel_alpha + ((*ptr & 0x0000ff00) * _f2)) >> 8;
+                    b = ((color & 0x000000ff) * pixel_alpha + ((*ptr & 0x000000ff) * _f2)) >> 8;
+
+                    if (r > 0x00ff0000)
+                        r = 0x00ff0000;
+                    else
+                        r &= 0x00ff0000;
+                    if (g > 0x0000ff00)
+                        g = 0x0000ff00;
+                    else
+                        g &= 0x0000ff00;
+                    if (b > 0x000000ff)
+                        b = 0x000000ff;
+                    else
+                        b &= 0x000000ff;
+
+                    *ptr = 0xff000000 | r | g | b;
+                }
             }
-        }
-    } break;
+        } break;
     }
 
     if (color) {

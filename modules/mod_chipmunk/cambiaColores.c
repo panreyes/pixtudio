@@ -357,15 +357,15 @@ static int modconversor_campal(INSTANCE *my, int *params) {
 int modconversor_8(INSTANCE *my, int *params) {
     GRAPH *map = bitmap_get(params[0], params[1]);
     switch (map->format->depth) {
-    case 8:
-        return (convert_8_8(params[0], params[1], (PALETTE *)params[2]));
-        break;
-    case 16:
-        return (convert_16_8(params[0], params[1], (PALETTE *)params[2]));
-        break;
-    case 32:
-        return (convert_32_8(params[0], params[1], (PALETTE *)params[2]));
-        break;
+        case 8:
+            return (convert_8_8(params[0], params[1], (PALETTE *)params[2]));
+            break;
+        case 16:
+            return (convert_16_8(params[0], params[1], (PALETTE *)params[2]));
+            break;
+        case 32:
+            return (convert_32_8(params[0], params[1], (PALETTE *)params[2]));
+            break;
     }
     return (0);
 }
@@ -373,12 +373,12 @@ int modconversor_8(INSTANCE *my, int *params) {
 int modconversor_16(INSTANCE *my, int *params) {
     GRAPH *map = bitmap_get(params[0], params[1]);
     switch (map->format->depth) {
-    case 8:
-        return (convert_8_16(params[0], params[1]));
-        break;
-    case 32:
-        return (convert_32_16(params[0], params[1]));
-        break;
+        case 8:
+            return (convert_8_16(params[0], params[1]));
+            break;
+        case 32:
+            return (convert_32_16(params[0], params[1]));
+            break;
     }
     return (0);
 }
@@ -386,12 +386,12 @@ int modconversor_16(INSTANCE *my, int *params) {
 int modconversor_32(INSTANCE *my, int *params) {
     GRAPH *map = bitmap_get(params[0], params[1]);
     switch (map->format->depth) {
-    case 8:
-        return (convert_8_32(params[0], params[1]));
-        break;
-    case 16:
-        return (convert_16_32(params[0], params[1]));
-        break;
+        case 8:
+            return (convert_8_32(params[0], params[1]));
+            break;
+        case 16:
+            return (convert_16_32(params[0], params[1]));
+            break;
     }
     return (0);
 }

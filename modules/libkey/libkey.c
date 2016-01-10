@@ -214,63 +214,63 @@ static void process_key_events() {
 
     while (SDL_PeepEvents(&e, 1, SDL_GETEVENT, SDL_KEYDOWN, SDL_KEYUP) > 0) {
         switch (e.type) {
-        case SDL_KEYDOWN:
-            ignore_key = 0;
-            /* KeyDown HotKey */
-            if (hotkey_count)
-                for (n = 0; n < hotkey_count; n++) {
-                    if (((hotkey_list[n].mod & e.key.keysym.mod) == hotkey_list[n].mod) &&
-                        (!hotkey_list[n].sym || (hotkey_list[n].sym == e.key.keysym.sym))) {
-                        ignore_key = hotkey_list[n].callback(e.key.keysym);
+            case SDL_KEYDOWN:
+                ignore_key = 0;
+                /* KeyDown HotKey */
+                if (hotkey_count)
+                    for (n = 0; n < hotkey_count; n++) {
+                        if (((hotkey_list[n].mod & e.key.keysym.mod) == hotkey_list[n].mod) &&
+                            (!hotkey_list[n].sym || (hotkey_list[n].sym == e.key.keysym.sym))) {
+                            ignore_key = hotkey_list[n].callback(e.key.keysym);
+                        }
                     }
-                }
-            /* KeyDown HotKey */
+                /* KeyDown HotKey */
 
-            if (ignore_key)
+                if (ignore_key)
+                    break;
+
+                /* Almacena la pulsación de la tecla */
+                k = sdl_equiv[e.key.keysym.scancode];
+
+                m = e.key.keysym.mod;
+
+                if (!keypress) {
+                    GLODWORD(libkey, SCANCODE) = k;
+                    if (e.key.keysym.scancode) {
+                        asc = win_to_dos[e.key.keysym.scancode & 0xFF];
+
+                        /* ascii mayusculas */
+                        if (asc >= 'a' && asc <= 'z' &&
+                            (m & KMOD_LSHIFT || m & KMOD_RSHIFT || keystate[SDL_SCANCODE_CAPSLOCK]))
+                            asc -= 0x20;
+                    } else {
+                        asc = 0; /* NON PRINTABLE */
+                    }
+
+                    GLODWORD(libkey, ASCII) = asc;
+                    keypress = 1;
+                } else {
+                    keyring[keyring_tail].scancode = k;
+                    if (e.key.keysym.scancode) {
+                        asc = win_to_dos[e.key.keysym.scancode & 0x7F];
+
+                        /*ascii mayusculas */
+                        if (asc >= 'a' && asc <= 'z' &&
+                            (m & KMOD_LSHIFT || m & KMOD_RSHIFT || keystate[SDL_SCANCODE_CAPSLOCK]))
+                            asc -= 0x20;
+                    } else {
+                        asc = 0; /* NON PRINTABLE */
+                    }
+                    keyring[keyring_tail].ascii = asc;
+                    if (++keyring_tail == 64)
+                        keyring_tail = 0;
+                }
+
                 break;
 
-            /* Almacena la pulsación de la tecla */
-            k = sdl_equiv[e.key.keysym.scancode];
-
-            m = e.key.keysym.mod;
-
-            if (!keypress) {
-                GLODWORD(libkey, SCANCODE) = k;
-                if (e.key.keysym.scancode) {
-                    asc = win_to_dos[e.key.keysym.scancode & 0xFF];
-
-                    /* ascii mayusculas */
-                    if (asc >= 'a' && asc <= 'z' &&
-                        (m & KMOD_LSHIFT || m & KMOD_RSHIFT || keystate[SDL_SCANCODE_CAPSLOCK]))
-                        asc -= 0x20;
-                } else {
-                    asc = 0; /* NON PRINTABLE */
-                }
-
-                GLODWORD(libkey, ASCII) = asc;
-                keypress = 1;
-            } else {
-                keyring[keyring_tail].scancode = k;
-                if (e.key.keysym.scancode) {
-                    asc = win_to_dos[e.key.keysym.scancode & 0x7F];
-
-                    /*ascii mayusculas */
-                    if (asc >= 'a' && asc <= 'z' &&
-                        (m & KMOD_LSHIFT || m & KMOD_RSHIFT || keystate[SDL_SCANCODE_CAPSLOCK]))
-                        asc -= 0x20;
-                } else {
-                    asc = 0; /* NON PRINTABLE */
-                }
-                keyring[keyring_tail].ascii = asc;
-                if (++keyring_tail == 64)
-                    keyring_tail = 0;
-            }
-
-            break;
-
-        case SDL_KEYUP:
-            /* Do nothing, Bennu is key_up insensitive */
-            break;
+            case SDL_KEYUP:
+                /* Do nothing, Bennu is key_up insensitive */
+                break;
         }
     }
 

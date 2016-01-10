@@ -329,15 +329,15 @@ int main(int argc, char *argv[]) {
                     }
 
                     switch (r) {
-                    case 0:
-                        printf("ERROR: %s doesn't exist or isn't version DCB compatible\n", f);
-                        exit(-1);
+                        case 0:
+                            printf("ERROR: %s doesn't exist or isn't version DCB compatible\n", f);
+                            exit(-1);
 
-                    case -1:
-                        printf("ERROR: %s isn't 7.10 DCB version, you need a 7.10 version or "
-                               "greater for use this feature\n",
-                               f);
-                        exit(-1);
+                        case -1:
+                            printf("ERROR: %s isn't 7.10 DCB version, you need a 7.10 version or "
+                                   "greater for use this feature\n",
+                                   f);
+                            exit(-1);
                     }
                     break;
                 }

@@ -85,7 +85,7 @@ int mod_fsock_close(INSTANCE *my, int *params) {
 
 int mod_fsock_bind(INSTANCE *my, int *params) {
     // Ensure that the given port number is in the range (1-65535)
-    if(params[1] < 1 || params[1] > UINT16_MAX) {
+    if (params[1] < 1 || params[1] > UINT16_MAX) {
         return -1;
     }
 
@@ -108,13 +108,11 @@ int mod_fsock_accept_tcp(INSTANCE *my, int *params) {
 
 int mod_fsock_connect_tcp(INSTANCE *my, int *params) {
     // Ensure that the given port number is in the range (1-65535)
-    if(params[2] < 1 || params[2] > UINT16_MAX) {
+    if (params[2] < 1 || params[2] > UINT16_MAX) {
         return -1;
     }
 
-    return libsocket_connect_tcp(params[0],
-                                 (char *)string_get(params[1]),
-                                 (uint16_t)params[2]);
+    return libsocket_connect_tcp(params[0], (char *)string_get(params[1]), (uint16_t)params[2]);
 }
 
 /* ---------------------------------------------------------- */
@@ -126,22 +124,19 @@ int mod_fsock_select_socketset(INSTANCE *my, int *params) {
 /* ---------------------------------------------------------- */
 
 int mod_fsock_send_tcp(INSTANCE *my, int *params) {
-    return libsocket_send_tcp(params[0], (void *)params[1],
-                              (size_t)params[2]);
+    return libsocket_send_tcp(params[0], (void *)params[1], (size_t)params[2]);
 }
 
 /* ---------------------------------------------------------- */
 
 int mod_fsock_send_udp(INSTANCE *my, int *params) {
     char *data = (char *)params[1];
-    char *ip   = (char *)string_get(params[3]);
-    if(params[4] < 1 || params[4] > UINT16_MAX) {
+    char *ip = (char *)string_get(params[3]);
+    if (params[4] < 1 || params[4] > UINT16_MAX) {
         return -1;
     }
 
-    return libsocket_send_udp(params[0], (void *)data,
-                              (size_t)params[2], ip,
-                              params[4]);
+    return libsocket_send_udp(params[0], (void *)data, (size_t)params[2], ip, params[4]);
 }
 
 /* ---------------------------------------------------------- */
@@ -153,8 +148,8 @@ int mod_fsock_recv_tcp(INSTANCE *my, int *params) {
 /* ---------------------------------------------------------- */
 
 int mod_fsock_recv_udp(INSTANCE *my, int *params) {
-    return libsocket_recv_udp(params[0], (void *)params[1], params[2],
-                              (int *)params[3], (int *)params[4]);
+    return libsocket_recv_udp(params[0], (void *)params[1], params[2], (int *)params[3],
+                              (int *)params[4]);
 }
 
 /* ---------------------------------------------------------- */
@@ -184,8 +179,7 @@ int mod_fsock_fdisset(INSTANCE *my, int *params) {
 /* ---------------------------------------------------------- */
 
 int mod_fsock_check_socketset(INSTANCE *my, int *params) {
-    return libsocket_check_socketset(params[0], params[1],
-                                     params[2], params[3]);
+    return libsocket_check_socketset(params[0], params[1], params[2], params[3]);
 }
 
 /* ---------------------------------------------------------- */

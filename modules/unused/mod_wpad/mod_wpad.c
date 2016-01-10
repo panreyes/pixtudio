@@ -103,40 +103,40 @@ int modwpad_info(INSTANCE *my, int *params) {
     // Return the info the user asked for
     wd = WPAD_Data(params[0]);
     switch (params[1]) {
-    case WPAD_BATT: // Battery level (0<level<256)
-        return (int)WPAD_BatteryLevel(params[0]);
-    case WPAD_X: // X position
-        return wd->ir.x;
-    case WPAD_Y: // Y position
-        return wd->ir.y;
-    case WPAD_Z: // Z position (distance from screen in m)
-        return wd->ir.z;
-    case WPAD_ANGLE: // Angle, BennuGD likes 1/1000th of degrees
-        return -(int)(wd->ir.angle * 1000.);
-    case WPAD_PITCH: // Pitch angle, BennuGD likes 1/1000th of degrees
-        return (int)(wd->orient.pitch * 1000.);
-    case WPAD_ROLL:                            // Roll angle,  BennuGD likes 1/1000th of degrees
-        return (int)(wd->orient.roll * 1000.); // Uses accelerometer
-    case WPAD_ACCELX:                          // Acceleration in (local) x axis
-        return wd->accel.x;
-    case WPAD_ACCELY: // Acceleration in (local) y axis
-        return wd->accel.y;
-    case WPAD_ACCELZ: // Acceleration in (local) z axis
-        return wd->accel.z;
-    case WPAD_GX: // Gravity in the (local) X axis
-        return wd->gforce.x;
-    case WPAD_GY: // Gravity in the (local) Y axis
-        return wd->gforce.y;
-    case WPAD_GZ: // Gravity in the (local) Z axis
-        return wd->gforce.z;
-    case WPAD_IS_BB: // Check wether controller is a balance board
-        return is_bb(params[0]);
-    case WPAD_HAS_NUNCHUK: // Nunchuk attached to this controller?
-        return has_nunchuk(params[0]);
-    case WPAD_HAS_CLASSIC: // Classic attached to this controller?
-        return has_classic(params[0]);
-    case WPAD_HAS_GUITAR: // Guitar Hero 3 attached to this controller?
-        return has_guitar(params[0]);
+        case WPAD_BATT: // Battery level (0<level<256)
+            return (int)WPAD_BatteryLevel(params[0]);
+        case WPAD_X: // X position
+            return wd->ir.x;
+        case WPAD_Y: // Y position
+            return wd->ir.y;
+        case WPAD_Z: // Z position (distance from screen in m)
+            return wd->ir.z;
+        case WPAD_ANGLE: // Angle, BennuGD likes 1/1000th of degrees
+            return -(int)(wd->ir.angle * 1000.);
+        case WPAD_PITCH: // Pitch angle, BennuGD likes 1/1000th of degrees
+            return (int)(wd->orient.pitch * 1000.);
+        case WPAD_ROLL:                            // Roll angle,  BennuGD likes 1/1000th of degrees
+            return (int)(wd->orient.roll * 1000.); // Uses accelerometer
+        case WPAD_ACCELX:                          // Acceleration in (local) x axis
+            return wd->accel.x;
+        case WPAD_ACCELY: // Acceleration in (local) y axis
+            return wd->accel.y;
+        case WPAD_ACCELZ: // Acceleration in (local) z axis
+            return wd->accel.z;
+        case WPAD_GX: // Gravity in the (local) X axis
+            return wd->gforce.x;
+        case WPAD_GY: // Gravity in the (local) Y axis
+            return wd->gforce.y;
+        case WPAD_GZ: // Gravity in the (local) Z axis
+            return wd->gforce.z;
+        case WPAD_IS_BB: // Check wether controller is a balance board
+            return is_bb(params[0]);
+        case WPAD_HAS_NUNCHUK: // Nunchuk attached to this controller?
+            return has_nunchuk(params[0]);
+        case WPAD_HAS_CLASSIC: // Classic attached to this controller?
+            return has_classic(params[0]);
+        case WPAD_HAS_GUITAR: // Guitar Hero 3 attached to this controller?
+            return has_guitar(params[0]);
     }
 
     return 0;
@@ -158,26 +158,26 @@ int modwpad_info_nunchuk(INSTANCE *my, int *params) {
     // Return the info the user asked for
     WPAD_Expansion(params[0], &exp);
     switch (params[1]) {
-    case WPAD_BATT: // Battery level (0<level<256)
-        return (int)WPAD_BatteryLevel(params[0]);
-    case WPAD_ANGLE:                                   // Angle, BennuGD likes 1/1000th of degrees
-        return -(int)(exp.nunchuk.orient.yaw * 1000.); // Cehck this is correct
-    case WPAD_PITCH: // Pitch angle, BennuGD likes 1/1000th of degrees
-        return (int)(exp.nunchuk.orient.pitch * 1000.);
-    case WPAD_ROLL: // Roll angle,  BennuGD likes 1/1000th of degrees
-        return (int)(exp.nunchuk.orient.roll * 1000.); // Uses accelerometer
-    case WPAD_ACCELX:                                  // Acceleration in x axis
-        return exp.nunchuk.accel.x;
-    case WPAD_ACCELY: // Acceleration in y axis
-        return exp.nunchuk.accel.y;
-    case WPAD_ACCELZ: // Acceleration in z axis
-        return exp.nunchuk.accel.z;
-    case WPAD_GX: // Gravity in the (local) X axis
-        return exp.nunchuk.gforce.x;
-    case WPAD_GY: // Gravity in the (local) Y axis
-        return exp.nunchuk.gforce.y;
-    case WPAD_GZ: // Gravity in the (local) Z axis
-        return exp.nunchuk.gforce.z;
+        case WPAD_BATT: // Battery level (0<level<256)
+            return (int)WPAD_BatteryLevel(params[0]);
+        case WPAD_ANGLE: // Angle, BennuGD likes 1/1000th of degrees
+            return -(int)(exp.nunchuk.orient.yaw * 1000.); // Cehck this is correct
+        case WPAD_PITCH: // Pitch angle, BennuGD likes 1/1000th of degrees
+            return (int)(exp.nunchuk.orient.pitch * 1000.);
+        case WPAD_ROLL: // Roll angle,  BennuGD likes 1/1000th of degrees
+            return (int)(exp.nunchuk.orient.roll * 1000.); // Uses accelerometer
+        case WPAD_ACCELX:                                  // Acceleration in x axis
+            return exp.nunchuk.accel.x;
+        case WPAD_ACCELY: // Acceleration in y axis
+            return exp.nunchuk.accel.y;
+        case WPAD_ACCELZ: // Acceleration in z axis
+            return exp.nunchuk.accel.z;
+        case WPAD_GX: // Gravity in the (local) X axis
+            return exp.nunchuk.gforce.x;
+        case WPAD_GY: // Gravity in the (local) Y axis
+            return exp.nunchuk.gforce.y;
+        case WPAD_GZ: // Gravity in the (local) Z axis
+            return exp.nunchuk.gforce.z;
     }
 
     return 0;
@@ -199,20 +199,20 @@ int modwpad_info_bb(INSTANCE *my, int *params) {
     // Return the info the user asked for
     WPAD_Expansion(params[0], &exp);
     switch (params[1]) {
-    case WPAD_BATT: // Battery level (0<level<256)
-        return (int)WPAD_BatteryLevel(params[0]);
-    case WPAD_X: // X position
-        return (int)exp.wb.x;
-    case WPAD_Y: // Y position
-        return (int)exp.wb.y;
-    case WPAD_WTL: // Weight measured on the TOP-LEFT base (Balance Board)
-        return (int)exp.wb.tl;
-    case WPAD_WTR: // Weight in TOP-RIGHT
-        return (int)exp.wb.tr;
-    case WPAD_WBL: // Weight in BOTTOM-LEFT
-        return (int)exp.wb.bl;
-    case WPAD_WBR: // Weight in BOTTOM-RIGHT
-        return (int)exp.wb.br;
+        case WPAD_BATT: // Battery level (0<level<256)
+            return (int)WPAD_BatteryLevel(params[0]);
+        case WPAD_X: // X position
+            return (int)exp.wb.x;
+        case WPAD_Y: // Y position
+            return (int)exp.wb.y;
+        case WPAD_WTL: // Weight measured on the TOP-LEFT base (Balance Board)
+            return (int)exp.wb.tl;
+        case WPAD_WTR: // Weight in TOP-RIGHT
+            return (int)exp.wb.tr;
+        case WPAD_WBL: // Weight in BOTTOM-LEFT
+            return (int)exp.wb.bl;
+        case WPAD_WBR: // Weight in BOTTOM-RIGHT
+            return (int)exp.wb.br;
     }
 
     return 0;
@@ -234,8 +234,8 @@ int modwpad_info_classic(INSTANCE *my, int *params) {
     // Return the info the user asked for
     WPAD_Expansion(params[0], &exp);
     switch (params[1]) {
-    case WPAD_BATT: // Battery level (0<level<256)
-        return (int)WPAD_BatteryLevel(params[0]);
+        case WPAD_BATT: // Battery level (0<level<256)
+            return (int)WPAD_BatteryLevel(params[0]);
     }
 
     return 0;
@@ -257,8 +257,8 @@ int modwpad_info_guitar(INSTANCE *my, int *params) {
     // Return the info the user asked for
     WPAD_Expansion(params[0], &exp);
     switch (params[1]) {
-    case WPAD_BATT: // Battery level (0<level<256)
-        return (int)WPAD_BatteryLevel(params[0]);
+        case WPAD_BATT: // Battery level (0<level<256)
+            return (int)WPAD_BatteryLevel(params[0]);
     }
 
     return 0;

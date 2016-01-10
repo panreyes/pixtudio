@@ -133,54 +133,54 @@ static int copytype(void *dst, void *src, DCB_TYPEDEF *var) {
 
     for (;;) {
         switch (var->BaseType[n]) {
-        case TYPE_FLOAT:
-        case TYPE_INT:
-        case TYPE_DWORD:
-        case TYPE_POINTER:
-            memcpy(dst, src, 4 * count);
-            return 4 * count;
+            case TYPE_FLOAT:
+            case TYPE_INT:
+            case TYPE_DWORD:
+            case TYPE_POINTER:
+                memcpy(dst, src, 4 * count);
+                return 4 * count;
 
-        case TYPE_WORD:
-        case TYPE_SHORT:
-            memcpy(dst, src, 2 * count);
-            return 2 * count;
+            case TYPE_WORD:
+            case TYPE_SHORT:
+                memcpy(dst, src, 2 * count);
+                return 2 * count;
 
-        case TYPE_BYTE:
-        case TYPE_SBYTE:
-        case TYPE_CHAR:
-            memcpy(dst, src, count);
-            return count;
+            case TYPE_BYTE:
+            case TYPE_SBYTE:
+            case TYPE_CHAR:
+                memcpy(dst, src, count);
+                return count;
 
-        case TYPE_STRING:
-            while (count--) {
-                string_discard(*(int *)dst);
-                string_use(*(int *)src);
-                *((int *)dst) = *((int *)src);
-                dst = ((int *)dst) + 1;
-                src = ((int *)src) + 1;
-                result += 4;
-            }
-            return result;
+            case TYPE_STRING:
+                while (count--) {
+                    string_discard(*(int *)dst);
+                    string_use(*(int *)src);
+                    *((int *)dst) = *((int *)src);
+                    dst = ((int *)dst) + 1;
+                    src = ((int *)src) + 1;
+                    result += 4;
+                }
+                return result;
 
-        case TYPE_ARRAY:
-            count *= var->Count[n];
-            n++;
-            continue;
+            case TYPE_ARRAY:
+                count *= var->Count[n];
+                n++;
+                continue;
 
-        case TYPE_STRUCT:
-            for (; count; count--) {
-                int partial = copyvars(dst, src, dcb.varspace_vars[var->Members],
-                                       dcb.varspace[var->Members].NVars);
-                src = ((uint8_t *)src) + partial;
-                dst = ((uint8_t *)dst) + partial;
-                result += partial;
-            }
-            break;
+            case TYPE_STRUCT:
+                for (; count; count--) {
+                    int partial = copyvars(dst, src, dcb.varspace_vars[var->Members],
+                                           dcb.varspace[var->Members].NVars);
+                    src = ((uint8_t *)src) + partial;
+                    dst = ((uint8_t *)dst) + partial;
+                    result += partial;
+                }
+                break;
 
-        default:
-            fprintf(stderr, "ERROR: Runtime error - Could not copy datatype\n");
-            exit(1);
-            break;
+            default:
+                fprintf(stderr, "ERROR: Runtime error - Could not copy datatype\n");
+                exit(1);
+                break;
         }
         break;
     }

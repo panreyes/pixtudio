@@ -203,14 +203,14 @@ int bgd_curl_easy_setopt(INSTANCE *my, int *params) {
 
     // Actually perform curl_easy_setopt
     switch (params[1]) {
-    case CURLOPT_HTTPPOST:
-        retval = curl_easy_setopt(download_info[params[0]].curl, CURLOPT_HTTPPOST,
-                                  download_info[params[0]].formpost);
-        break;
+        case CURLOPT_HTTPPOST:
+            retval = curl_easy_setopt(download_info[params[0]].curl, CURLOPT_HTTPPOST,
+                                      download_info[params[0]].formpost);
+            break;
 
-    default:
-        retval = curl_easy_setopt(download_info[params[0]].curl, params[1], params[2]);
-        break;
+        default:
+            retval = curl_easy_setopt(download_info[params[0]].curl, params[1], params[2]);
+            break;
     }
 
     return (int)retval;
@@ -225,22 +225,23 @@ int bgd_curl_easy_setopt2(INSTANCE *my, int *params) {
 
     // Actually perform curl_easy_setopt
     switch (params[1]) {
-    // Handle some special cases
-    case CURLOPT_WRITEDATA:
-        // Point the output file pointer to the given location
-        download_info[params[0]].outfd = fopen(string_get(params[2]), "wb");
-        string_discard(params[2]);
-        if (download_info[params[0]].outfd == NULL)
-            return -1;
+        // Handle some special cases
+        case CURLOPT_WRITEDATA:
+            // Point the output file pointer to the given location
+            download_info[params[0]].outfd = fopen(string_get(params[2]), "wb");
+            string_discard(params[2]);
+            if (download_info[params[0]].outfd == NULL)
+                return -1;
 
-        retval = curl_easy_setopt(download_info[params[0]].curl, CURLOPT_WRITEDATA,
-                                  download_info[params[0]].outfd);
-        break;
+            retval = curl_easy_setopt(download_info[params[0]].curl, CURLOPT_WRITEDATA,
+                                      download_info[params[0]].outfd);
+            break;
 
-    default:
-        retval = curl_easy_setopt(download_info[params[0]].curl, params[1], string_get(params[2]));
-        string_discard(params[2]);
-        break;
+        default:
+            retval =
+                curl_easy_setopt(download_info[params[0]].curl, params[1], string_get(params[2]));
+            string_discard(params[2]);
+            break;
     }
 
     return (int)retval;
@@ -255,21 +256,22 @@ int bgd_curl_easy_setopt3(INSTANCE *my, int *params) {
 
     // Actually perform curl_easy_setopt
     switch (params[1]) {
-    // When called with an integer, download to a string
-    case CURLOPT_WRITEDATA:
-        // Initialization
-        download_info[params[0]].chunk.memory = malloc(1);
+        // When called with an integer, download to a string
+        case CURLOPT_WRITEDATA:
+            // Initialization
+            download_info[params[0]].chunk.memory = malloc(1);
 
-        // Set writefunction and writedata to the appropriate values
-        curl_easy_setopt(download_info[params[0]].curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
-        download_info[params[0]].chunk.strid = (int *)params[2];
-        retval = curl_easy_setopt(download_info[params[0]].curl, CURLOPT_WRITEDATA,
-                                  (void *)&(download_info[params[0]].chunk));
-        break;
+            // Set writefunction and writedata to the appropriate values
+            curl_easy_setopt(download_info[params[0]].curl, CURLOPT_WRITEFUNCTION,
+                             WriteMemoryCallback);
+            download_info[params[0]].chunk.strid = (int *)params[2];
+            retval = curl_easy_setopt(download_info[params[0]].curl, CURLOPT_WRITEDATA,
+                                      (void *)&(download_info[params[0]].chunk));
+            break;
 
-    default:
-        retval = -1;
-        break;
+        default:
+            retval = -1;
+            break;
     }
 
     return (int)retval;
