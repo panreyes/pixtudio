@@ -766,7 +766,6 @@
 ../../modules/mod_curl/mod_curl_symbols.h
 ../../modules/mod_debug/mod_debug.c
 ../../modules/mod_debug/mod_debug_symbols.h
-../../modules/mod_debug/systexts.c
 ../../modules/mod_dir/mod_dir.c
 ../../modules/mod_dir/mod_dir_symbols.h
 ../../modules/mod_draw/mod_draw.c
