@@ -256,10 +256,9 @@ int SetSocketBlockingEnabled(int fd, int blocking);
 
 /* --------------------------------------------------------------------------- */
 
-static int console_printf(const char *fmt, ...) {
+static void console_printf(const char *fmt, ...) {
     char text[MAXTEXT];
     char server_reply[2000];
-    int retval = 0;
 
     va_list ap;
     va_start(ap, fmt);
@@ -277,14 +276,12 @@ static int console_printf(const char *fmt, ...) {
             if (recv(console_sock, server_reply, 2000, 0) < 0) {
                 fprintf(stderr, "recv failed\n");
             } else {
-                if (strncmp(server_reply, "ACK", 3) == 0) {
-                    retval = 1;
+                if (strncmp(server_reply, "ACK", 3) != 0) {
+                    fprintf(stderr, "server reply incorrect\n");
                 }
             }
         }
     }
-
-    return retval;
 }
 
 /* --------------------------------------------------------------------------- */
