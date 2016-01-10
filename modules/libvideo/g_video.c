@@ -140,7 +140,7 @@ int gr_set_mode(int width, int height) {
     full_screen = (GLODWORD(libvideo, GRAPH_MODE) & MODE_FULLSCREEN) ? 1 : 0;
     grab_input  = (GLODWORD(libvideo, GRAPH_MODE) & MODE_MODAL) ? 1 : 0;
     frameless   = (GLODWORD(libvideo, GRAPH_MODE) & MODE_FRAMELESS) ? 1 : 0;
-    waitvsync = (GLODWORD(libvideo, GRAPH_MODE) & MODE_WAITVSYNC) ? 1 : 0;
+    waitvsync   = (GLODWORD(libvideo, GRAPH_MODE) & MODE_WAITVSYNC) ? 1 : 0;
     full_screen |= GLODWORD(libvideo, FULL_SCREEN);
 
     scale_resolution = GLODWORD(libvideo, SCALE_RESOLUTION);
@@ -153,12 +153,19 @@ int gr_set_mode(int width, int height) {
     }
 
     // Overwrite all params with environment vars
-    if ((e = getenv("SCALE_RESOLUTION")))
+    if ((e = getenv("SCALE_RESOLUTION"))) {
         scale_resolution = atol(e);
-    if ((e = getenv("SCALE_RESOLUTION_ASPECTRATIO")))
+    }
+    if ((e = getenv("SCALE_RESOLUTION_ASPECTRATIO"))){
         scale_resolution_aspectratio = atol(e);
-    if ((e = getenv("SCALE_QUALITY")))
-        scale_quality = e;
+    }
+    if ((e = getenv("SCALE_QUALITY"))) {
+        if(strcmp(e, "0") == 0) {
+            scale_quality = '0';
+        } else {
+            scale_quality = '1';
+        }
+    }
 
     format = SDL_PIXELFORMAT_ARGB8888;
 
