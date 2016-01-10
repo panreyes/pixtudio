@@ -209,12 +209,6 @@ static const char *token_ptr;
 /* --------------------------------------------------------------------------- */
 
 /* Console contents */
-static char *command[COMMAND_HISTORY];
-static int command_initialized = 0;
-static int command_head        = 0;
-static int command_tail        = 0;
-static int command_count       = 0;
-
 static char *show_expression[MAX_EXPRESSIONS] = {NULL};
 static int show_expression_count              = 0;
 static int console_showcolor                  = 0xffffff;
@@ -235,10 +229,6 @@ static struct {
     {"FILES", &opened_files, CON_DWORD},
     {"DEBUG_LEVEL", &debug, CON_DWORD},
 };
-
-/* --------------------------------------------------------------------------- */
-
-static char console_input[128];
 
 /* --------------------------------------------------------------------------- */
 
@@ -295,45 +285,6 @@ static int console_printf(const char *fmt, ...) {
     }
 
     return retval;
-}
-
-/* --------------------------------------------------------------------------- */
-
-static void console_putcommand(const char *commandline) {
-    if (!command_initialized) {
-        memset(command, 0, sizeof(command));
-        command_initialized = 1;
-    }
-
-    if (command[command_tail]) {
-        free(command[command_tail]);
-    }
-    command[command_tail++] = strdup(commandline);
-    if (command_tail == COMMAND_HISTORY) {
-        command_tail = 0;
-    }
-    if (command_tail == command_head) {
-        if (++command_head == COMMAND_HISTORY) {
-            command_head = 0;
-        }
-    } else {
-        command_count++;
-    }
-}
-
-/* --------------------------------------------------------------------------- */
-
-static const char *console_getcommand(int offset) {
-    if (offset >= 0 || offset < -command_count) {
-        return NULL;
-    }
-
-    offset = command_tail + offset;
-    while (offset < 0) {
-        offset = COMMAND_HISTORY + offset;
-    }
-
-    return command[offset];
 }
 
 /* --------------------------------------------------------------------------- */
@@ -2127,6 +2078,7 @@ static int debug_mode_handler_cb(SDL_Keysym k) {
 
         return retval;
 
+        // We should handle all these commands over the network
         //        if ( debug_mode ) {
         //            // Get command from network
         //            SetSocketBlockingEnabled(console_sock, 1);

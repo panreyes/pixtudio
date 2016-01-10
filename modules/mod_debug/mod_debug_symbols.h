@@ -53,8 +53,7 @@ extern void __bgdexport( mod_debug, module_initialize )();
 extern void __bgdexport( mod_debug, module_finalize )();
 #endif
 
-char * __bgdexport( mod_debug, module_dependencies )[] =
-{
+char * __bgdexport( mod_debug, module_dependencies )[] = {
     "libkey",
     "librender",
     NULL
