@@ -201,7 +201,11 @@ int tcpsock_accept(INSTANCE *my, int *params) {
     struct timeval timeout;
     fd_set readfds;
     struct sockaddr_in addr;
+#ifdef WIN32
+    int addrlen;
+#else
     unsigned int addrlen;
+#endif
 
     FD_ZERO(&readfds);
     FD_SET(params[0], &readfds);
@@ -302,7 +306,11 @@ int udpsock_recv(INSTANCE *my, int *params) {
 
     struct sockaddr_in info_conexion;
     int bytesRecibidos;
+#ifdef WIN32
+    int tamanoInfoConexion;
+#else
     unsigned int tamanoInfoConexion;
+#endif
 
     bytesRecibidos = recvfrom(params[0], (void *)params[1], params[2], 0,
                               (SOCKADDR *)&info_conexion, &tamanoInfoConexion);
