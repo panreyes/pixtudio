@@ -361,7 +361,7 @@ int compile_varspace(VARSPACE *n, segment *data, int additive, int copies, int p
     int i, j, total_count, last_count = 0;
     int base_offset                   = data->current;
     int total_length;
-    int size, count;
+    int count;
     int code;
     expresion_result res;
     VARIABLE *var;
@@ -480,7 +480,7 @@ int compile_varspace(VARSPACE *n, segment *data, int additive, int copies, int p
             } else {
                 if (token.type == IDENTIFIER && token.code >= reserved_words &&
                     !segment_by_name(token.code)) {
-                    int code = token.code;
+                    code = token.code;
                     token_next();
                     if (token.type == IDENTIFIER && token.code >= reserved_words) {
                         proc     = procdef_new(procdef_getid(), code);
@@ -638,7 +638,7 @@ int compile_varspace(VARSPACE *n, segment *data, int additive, int copies, int p
             }
             varspace_init(members);
 
-            size = compile_varspace(members, data, 0, count, 0, NULL, 0, duplicateignore);
+            compile_varspace(members, data, 0, count, 0, NULL, 0, duplicateignore);
 
             type.varspace = members;
 
