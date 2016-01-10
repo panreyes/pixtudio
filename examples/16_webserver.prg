@@ -1,7 +1,7 @@
-/* fsock example
-Mini BennuGD WebServer by SplinterGU
+/* mod_fsock example
+Mini PixTudio WebServer by SplinterGU
 */
-import "fsock";
+import "mod_fsock";
 import "mod_screen";
 import "mod_key";
 import "mod_timers";
@@ -24,7 +24,7 @@ End;
 PROCESS main();
 Begin
 	full_screen=false;
-	set_title("Mini BennuGD WebServer");
+	set_title("Mini PixTudio WebServer");
 	fsock_init( 0 ); // init fsock library
 	write(0,5,5,0,"Clients:");
 	write_var(0,5+text_width(0,"Clients:"),5,0,clients);
@@ -53,7 +53,7 @@ private
     int informacion; // we'll send the client random numbers between 0 & 32768
 begin
 
-    log("BennuGD Web Server, Started!");
+    log("PixTudio Web Server, Started!");
 
     socket_listen=tcpsock_open(); // new socket
     fsock_bind(socket_listen,8080); // we'll listen @ port 8080
@@ -70,7 +70,7 @@ begin
                 process_client(connection, ipaddr, portaddr);
             end
         end
-        
+
         fsock_fdset (0, socket_listen); // We must reinclude after using select
     	frame;
 	end;
@@ -90,7 +90,7 @@ private
     string lang;
 begin
     clients++;
-	
+
     //log("Connection from ip "+((ipaddr)&0ffh)+"."+((ipaddr>>8)&0ffh)+"."+
     //((ipaddr>>16)&0ffh)+"."+((ipaddr>>24)&0ffh));
 	log("Connection from ip "+ fsock_get_ipstr(&ipaddr) + ":" + portaddr);
@@ -209,7 +209,7 @@ begin
             fclose(fp);
             break;
         end
-        
+
         fsock_fdset(1,sock); // We must reinclude the socket after the select
 
         frame;

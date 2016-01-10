@@ -1,7 +1,7 @@
-/* fsock example
-Mini BennuGD WebServer by SplinterGU
+/* mod_fsock example
+Mini PixTudio WebServer by SplinterGU
 */
-import "fsock"
+import "mod_fsock"
 import "mod_screen"
 import "mod_video"
 import "mod_map"
@@ -31,7 +31,7 @@ Begin
     width = graphic_info(0, 0, G_WIDTH);
     height = graphic_info(0, 0, G_HEIGHT);
     set_mode(width, height, 32);
-	set_title("Mini BennuGD Client");
+	set_title("Mini PixTudio Client");
 	fsock_init( 0 ); // init fsock library
     write(0, 0, 0, 0, "Touch the screen to send a message to the server");
     while(focus_status == 1)
@@ -40,7 +40,7 @@ Begin
         end
         FRAME;
     end;
-    
+
     say("Quitting!");
 end;
 
@@ -59,7 +59,7 @@ begin
 
     //say("Sending: "+dat);
     tcpsock_send(socket, &dat, len(dat));
-    
+
     // Wait for the server's answer
     while(focus_status == 1)
       	// In the real world, you'd loop here until you got the full package

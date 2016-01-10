@@ -1,7 +1,7 @@
 /* fsock example
-Mini BennuGD WebServer by SplinterGU
+Mini PixTudio WebServer by SplinterGU
 */
-import "fsock"
+import "mod_fsock"
 import "mod_screen"
 import "mod_video"
 import "mod_map"
@@ -28,8 +28,8 @@ Begin
     // Get the real screen resolution we're running at
     width = graphic_info(0, 0, G_WIDTH);
     height = graphic_info(0, 0, G_HEIGHT);
-    set_mode(640, 480, 32);
-	set_title("Mini BennuGD Server");
+    set_mode(640, 480);
+	set_title("Mini PixTudio Server");
 	fsock_init( 0 ); // init fsock library
 	server_thread();
 end;
@@ -41,7 +41,7 @@ private
     int ipaddr, portaddr;
     int i;
 begin
-    say("BennuGD Test Server, Started!");
+    say("PixTudio Test Server, Started!");
 
     socket_listen=tcpsock_open(); // new socket
     fsock_bind(socket_listen, 8080); // we'll listen @ port 8080
@@ -57,7 +57,7 @@ begin
                 process_client(connection, ipaddr, portaddr);
             end
         end
-        
+
         fsock_fdset (0, socket_listen); // We must reinclude after using select
     	frame;
 	end;
@@ -97,7 +97,7 @@ begin
 
             break;
         end
-        
+
         fsock_fdset(1,sock); // We must reinclude the socket after the select
 
         frame;
