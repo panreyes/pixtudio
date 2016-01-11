@@ -27,37 +27,81 @@
  *
  */
 
-#ifndef __RENDER_H
-#define __RENDER_H
+#ifndef __RENDER_CONSTANTS_H
+#define __RENDER_CONSTANTS_H
+
+/* --------------------------------------------------------------------------- */
+
+#define C_SCREEN 0
 
 /* --------------------------------------------------------------------------- */
 
 #ifdef __LIB_RENDER
-#include "bgdrtm.h"
 
-#include "dlvaracc.h"
-#include "bgddl.h"
+/* Globals */
 
-#include "libgrbase.h"
-#include "libvideo.h"
-#include "libblit.h"
-#endif
+enum {
+    FPS = 0,
+    SPEED_GAUGE,
+    FRAME_TIME,
 
-#include "g_fade.h"
-#include "g_frame.h"
-#include "g_instance.h"
-#include "g_object.h"
-#include "g_rects.h"
-#include "g_screen.h"
+    SCALE_MODE,
+    RESTORETYPE,
+    DUMPTYPE,
 
-#include "librender_constants.h"
+    FADING,
+    ALPHA_STEPS
+};
 
-/* --------------------------------------------------------------------------- */
+/* Locals */
 
-extern DLVARFIXUP __bgdexport(librender, globals_fixup)[];
-extern DLVARFIXUP __bgdexport(librender, locals_fixup)[];
+enum {
+    CTYPE = 0,
+    CNUMBER,
 
-/* --------------------------------------------------------------------------- */
+    COORDX,
+    COORDY,
+    COORDZ,
+    FILEID,
+    GRAPHID,
+    GRAPHSIZE,
+    ANGLE,
+    FLAGS,
+    ALPHA,
+    PALETTEID,
+    REGIONID,
+    RESOLUTION,
+    GRAPHSIZEX,
+    GRAPHSIZEY,
+    BLENDOP,
+    COLLISIONGRAPHID,
+
+    OBJECTID,
+    GRAPHPTR,
+
+    SAVED_COORDX,
+    SAVED_COORDY,
+    SAVED_COORDZ,
+    SAVED_FILEID,
+    SAVED_GRAPHID,
+    SAVED_GRAPHSIZE,
+    SAVED_ANGLE,
+    SAVED_FLAGS,
+    SAVED_ALPHA,
+    SAVED_PALETTE,
+    SAVED_GRAPHSIZEX,
+    SAVED_GRAPHSIZEY,
+    SAVED_BLENDOP,
+    SAVED_CENTERX,
+    SAVED_CENTERY,
+
+    STATUS,
+
+    MODR,
+    MODG,
+    MODB
+};
+
 #endif
 
 #endif

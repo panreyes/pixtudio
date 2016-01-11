@@ -31,7 +31,7 @@
 #define __VIDEO_SYMBOLS_H
 
 #include <bgddl.h>
-#include "g_video.h"
+#include "g_video_constants.h"
 
 /* --------------------------------------------------------------------------- */
 /* Global vars (compile time) */

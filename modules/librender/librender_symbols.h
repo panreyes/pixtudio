@@ -31,7 +31,7 @@
 #define __RENDER_SYMBOLS_H
 
 #include <bgddl.h>
-#include "librender.h"
+#include "librender_constants.h"
 
 #ifndef __PXTB__
 extern DLVARFIXUP __bgdexport( librender, globals_fixup )[];

@@ -31,7 +31,7 @@
 #define __SCROLL_SYMBOLS_H
 
 #include <bgddl.h>
-#include "libscroll.h"
+#include "libscroll_constants.h"
 
 DLCONSTANT __bgdexport( libscroll, constants_def )[] =
 {

@@ -27,37 +27,29 @@
  *
  */
 
-#ifndef __RENDER_H
-#define __RENDER_H
+#ifndef __G_VIDEO_CONSTANTS_H
+#define __G_VIDEO_CONSTANTS_H
 
-/* --------------------------------------------------------------------------- */
+/* Graph Mode */
+#define MODE_WINDOW 0x0000
+#define MODE_2XSCALE 0x0100
+#define MODE_FULLSCREEN 0x0200
+#define MODE_MODAL 0x1000
+#define MODE_FRAMELESS 0x2000
+#define MODE_WAITVSYNC 0x4000
 
-#ifdef __LIB_RENDER
-#include "bgdrtm.h"
+/* Scaler */
+#define SCALE_NONE 0x0000
+#define SCALE_SCALE2X 0x0001
 
-#include "dlvaracc.h"
-#include "bgddl.h"
+/* Scale resolution orientation */
+#define SRO_NORMAL 0
+#define SRO_LEFT 1
+#define SRO_DOWN 2
+#define SRO_RIGHT 3
 
-#include "libgrbase.h"
-#include "libvideo.h"
-#include "libblit.h"
-#endif
-
-#include "g_fade.h"
-#include "g_frame.h"
-#include "g_instance.h"
-#include "g_object.h"
-#include "g_rects.h"
-#include "g_screen.h"
-
-#include "librender_constants.h"
-
-/* --------------------------------------------------------------------------- */
-
-extern DLVARFIXUP __bgdexport(librender, globals_fixup)[];
-extern DLVARFIXUP __bgdexport(librender, locals_fixup)[];
-
-/* --------------------------------------------------------------------------- */
-#endif
+/* Scale resolution aspectratio */
+#define SRA_STRETCH 0
+#define SRA_PRESERVE 1
 
 #endif

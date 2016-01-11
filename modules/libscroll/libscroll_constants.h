@@ -27,37 +27,13 @@
  *
  */
 
-#ifndef __RENDER_H
-#define __RENDER_H
+#ifndef __SCROLL_CONSTANTS_H
+#define __SCROLL_CONSTANTS_H
 
 /* --------------------------------------------------------------------------- */
 
-#ifdef __LIB_RENDER
-#include "bgdrtm.h"
-
-#include "dlvaracc.h"
-#include "bgddl.h"
-
-#include "libgrbase.h"
-#include "libvideo.h"
-#include "libblit.h"
-#endif
-
-#include "g_fade.h"
-#include "g_frame.h"
-#include "g_instance.h"
-#include "g_object.h"
-#include "g_rects.h"
-#include "g_screen.h"
-
-#include "librender_constants.h"
+#define C_SCROLL 1
 
 /* --------------------------------------------------------------------------- */
-
-extern DLVARFIXUP __bgdexport(librender, globals_fixup)[];
-extern DLVARFIXUP __bgdexport(librender, locals_fixup)[];
-
-/* --------------------------------------------------------------------------- */
-#endif
 
 #endif
