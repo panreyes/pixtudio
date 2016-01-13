@@ -1,4 +1,0 @@
-== Description ==
-The system file is like a regular [[file#Filetype|file]], but it contains on the fly created [[graphic]]s. These graphics are for example created by [[map_new]](), [[map_clone]]() or [[write_in_map]]().
-
-The system file can be accessed using ''0'' as the [[fileID]]. While this file can also be a file loaded from disc, the graphics in that file all have a [[graphID]] below ''1000''. Graphics created on the fly have graphID's ''1000'' or above.

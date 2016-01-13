@@ -1,6 +1,0 @@
-[[Category:general]]
-
-== Definition ==
-'''SongID'''
-
-A SongID is an identifier associated with a certain song loaded by [[load_song]](). The identifier can be used in various [[Functioncategory:Sound|other functions]], like [[unload_song]]() to unload the song.

@@ -1,6 +1,0 @@
-[[Category:general]]
-
-== Definition ==
-'''WaveID'''
-
-A WaveID is an identifier associated with a certain wave-sound loaded by [[load_wav]](). The identifier can be used in various [[Functioncategory:Sound|other functions]], like [[unload_wav]]() to unload the wave-sound.
