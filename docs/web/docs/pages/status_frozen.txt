@@ -1,3 +1,0 @@
-1.  REDIRECT [Process\_statuscodes](Process_statuscodes "wikilink")
-
-<Category:constants> <Category:internal>

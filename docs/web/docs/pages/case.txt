@@ -1,4 +1,0 @@
-1.  REDIRECT [switch](switch "wikilink")
-
-<category:language> <category:reserved> [category:control flow
-statements](category:control_flow_statements "wikilink")

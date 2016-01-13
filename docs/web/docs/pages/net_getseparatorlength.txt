@@ -1,3 +1,0 @@
-1.  REDIRECT
-    [NET\_GetSeparatorLength](NET_GetSeparatorLength "wikilink")
-

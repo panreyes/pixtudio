@@ -1,2 +1,0 @@
-1.  REDIRECT [pal\_new](pal_new "wikilink")
-

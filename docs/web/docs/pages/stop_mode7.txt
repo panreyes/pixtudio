@@ -1,2 +1,0 @@
-1.  REDIRECT [mode7\_stop](mode7_stop "wikilink")
-

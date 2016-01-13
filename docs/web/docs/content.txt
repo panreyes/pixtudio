@@ -1,6 +1,6 @@
-BennuGD documentation
+PixTudio documentation
 t Index
-* What is BennuGD? ||| what_is_bennugd
+* What is PixTudio? ||| what_is_pixtudio
 * General
 ** Porting to your chosen system ||| porting
 * Language ||| language
@@ -59,24 +59,18 @@ c3
 - Void
 - While
 - Word
-- Yield
 * Modules ||| modules
 ** Official Modules
 c3
-- mod_blendop
-- mod_cd
 - mod_crypt
 - mod_debug
 - mod_dir
 - mod_draw
 - mod_effects
-- mod_ffi
 - mod_file
-- mod_flic
 - mod_grproc
 - mod_joy
 - mod_key
-- mod_m7
 - mod_map
 - mod_math
 - mod_mem
@@ -97,11 +91,6 @@ c3
 - mod_timers
 - mod_video
 - mod_wm
-** 3rd party modules
-- mod_ttf
-- mod_wpad
-- pango.dll
-- tinyXML.dll
 ** List of Functions
 c3
 - Abs()
@@ -115,16 +104,6 @@ c3
 - Atof()
 - Atoi()
 - Bdf_load()
-- Blendop_apply()
-- Blendop_assign()
-- Blendop_free()
-- Blendop_grayscale()
-- Blendop_identity()
-- Blendop_intensity()
-- Blendop_new()
-- Blendop_swap()
-- Blendop_tint()
-- Blendop_translucency()
 - Blur()
 - Calloc()
 - Cd()
@@ -188,17 +167,6 @@ c3
 - Find()
 - Finite()
 - Flength()
-- Fli_angle()
-- Fli_end()
-- Fli_flags()
-- Fli_frame()
-- Fli_getinfo()
-- Fli_move()
-- Fli_params()
-- Fli_reset()
-- Fli_size()
-- Fli_start()
-- Fli_z()
 - Fmove()
 - Fnt_load()
 - Fnt_new()
@@ -214,7 +182,6 @@ c3
 - Fpg_save()
 - Fpg_unload()
 - Fputs()
-- Frame_fli()
 - Fread()
 - Free()
 - Fremove()
@@ -268,21 +235,6 @@ c3
 - Joy_select()
 - Key()
 - Ksort()
-- LCD_About()
-- LCD_Close()
-- LCD_Devices()
-- LCD_GetDepth()
-- LCD_GetHeight()
-- LCD_GetNumButtons()
-- LCD_GetWidth()
-- LCD_Init()
-- LCD_IntVersion()
-- LCD_Open()
-- LCD_Quit()
-- LCD_ReadButton()
-- LCD_ReadButtons()
-- LCD_SetBitmap()
-- LCD_Version()
 - Lcase()
 - Len()
 - Let_me_alone()
@@ -335,44 +287,11 @@ c3
 - Memsetw()
 - Minimize()
 - Mkdir()
-- Mode7_start()
-- Mode7_stop()
 - Mode_is_ok()
 - Move_draw()
 - Move_scroll()
 - Move_text()
 - Move_window()
-- NET_About()
-- NET_Accept()
-- NET_Connect()
-- NET_Disconnect()
-- NET_DisconnectAll()
-- NET_GetError()
-- NET_GetSeparator()
-- NET_GetSeparatorLength()
-- NET_Hostname()
-- NET_IPAddress()
-- NET_IPToInt()
-- NET_Incoming_Accept()
-- NET_Init()
-- NET_IntToIP()
-- NET_IntVersion()
-- NET_Listen()
-- NET_Port()
-- NET_Quit()
-- NET_Recv()
-- NET_RecvFile()
-- NET_RecvGraph()
-- NET_RecvVar()
-- NET_Resolve()
-- NET_Send()
-- NET_SendFile()
-- NET_SendGraph()
-- NET_SendRN()
-- NET_SendVar()
-- NET_Separator()
-- NET_Stat_Buffer()
-- NET_Version()
 - Near_angle()
 - Pal_clone()
 - Pal_del()
@@ -452,7 +371,6 @@ c3
 - Sound_init()
 - Split()
 - Sqrt()
-- Start_fli()
 - Start_scroll()
 - Stop_scroll()
 - Stop_song()
@@ -472,10 +390,6 @@ c3
 - Ucase()
 - Unload_song()
 - Unload_wav()
-- Wpad_info()
-- Wpad_info_bb()
-- Wpad_is_ready()
-- Wpad_rumble()
 - Write()
 - Write_float()
 - Write_in_map()
@@ -793,11 +707,8 @@ c3
 - Frame_time
 - Full_screen
 - Graph_mode
-- LCD_Globals
-- M7
 - Mouse
 - Mouse_status
-- NET_Globals
 - Os_id
 - Regex_reg
 - Restore_type
@@ -841,27 +752,6 @@ c3
 - Y
 - Z
 * Functions ||| functions
-** Blendops
-- blendop_apply()
-- blendop_assign()
-- blendop_free()
-- blendop_grayscale()
-- blendop_identity()
-- blendop_intensity()
-- blendop_new()
-- blendop_swap()
-- blendop_tint()
-- blendop_translucency()
-** CD
-- cd_drives()
-- cd_eject()
-- cd_getinfo()
-- cd_name()
-- cd_pause()
-- cd_play()
-- cd_resume()
-- cd_status()
-- cd_stop()
 ** Crypt
 - crypt_decrypt()
 - crypt_del()
@@ -912,22 +802,6 @@ c3
 - rm()
 - rmdir()
 - save()
-** Fli animations
-- end_fli()
-- fli_angle()
-- fli_end()
-- fli_flags()
-- fli_frame()
-- fli_getinfo()
-- fli_move()
-- fli_params()
-- fli_reset()
-- fli_size()
-- fli_start()
-- fli_z()
-- frame_fli()
-- reset_fli()
-- start_fli()
 ** Fonts
 - bdf_load()
 - fnt_load()
@@ -960,10 +834,6 @@ c3
 - joy_numbuttons()
 - joy_numhats()
 - joy_select()
-- wpad_info()
-- wpad_info_bb()
-- wpad_is_ready()
-- wpad_rumble()
 ** Maps
 - get_pixel()
 - graphic_info()
@@ -1027,9 +897,6 @@ c3
 - memseti()
 - memsetw()
 - realloc()
-** Mode7
-- mode7_start()
-- mode7_stop()
 ** Palettes
 - color_find()
 - fade()
@@ -1172,7 +1039,6 @@ c3
 - Argc
 - Argv
 - Ascii
-- Cdinfo
 - Dump_type
 - Exit_status
 - Fading
@@ -1182,11 +1048,8 @@ c3
 - Frame_time
 - Full_screen
 - Graph_mode
-- LCD_Globals
-- M7
 - Mouse
 - Mouse_status
-- NET_Globals
 - Os_id
 - Regex_reg
 - Restore_type
@@ -1232,7 +1095,6 @@ c3
 - Alignment modes ||| constants-alignment
 - Blit flags ||| constants-blit_flags
 - Blur modes ||| constants-blur_modes
-- CD statuscodes
 - Color depths
 - Coordinatenumber flags
 - Coordinatetype modes
@@ -1258,4 +1120,3 @@ c3
 - Signal actions
 - Signals
 - Sound modes
-- Wpad infotypes

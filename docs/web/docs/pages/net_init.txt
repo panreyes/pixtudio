@@ -1,2 +1,0 @@
-1.  REDIRECT [NET\_Init](NET_Init "wikilink")
-

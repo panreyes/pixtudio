@@ -1,2 +1,0 @@
-1.  REDIRECT [Glyph get](Glyph_get "wikilink")
-

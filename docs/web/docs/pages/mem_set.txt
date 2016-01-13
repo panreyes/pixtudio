@@ -1,3 +1,0 @@
-1.  REDIRECT [memset](memset "wikilink")
-
-<Category:functions> <Category:memory> <Category:mod_mem>

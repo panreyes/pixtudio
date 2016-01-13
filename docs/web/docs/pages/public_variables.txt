@@ -1,2 +1,0 @@
-1.  REDIRECT [public variable](public_variable "wikilink")
-

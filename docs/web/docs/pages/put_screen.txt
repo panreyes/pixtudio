@@ -1,2 +1,0 @@
-1.  REDIRECT [Screen put](Screen_put "wikilink")
-

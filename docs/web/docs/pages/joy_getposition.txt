@@ -1,2 +1,0 @@
-1.  REDIRECT [joy\_getaxis](joy_getaxis "wikilink")
-

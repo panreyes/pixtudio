@@ -1,2 +1,0 @@
-1.  REDIRECT [delete\_draw](delete_draw "wikilink")
-

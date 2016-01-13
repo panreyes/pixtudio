@@ -1,2 +1,0 @@
-1.  REDIRECT [NET\_Version](NET_Version "wikilink")
-

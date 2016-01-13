@@ -1,2 +1,0 @@
-1.  REDIRECT [Ttf load](Ttf_load "wikilink")
-

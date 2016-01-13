@@ -1,3 +1,0 @@
-1.  REDIRECT [Scancodes](Scancodes "wikilink")
-
-<Category:constants> <Category:libkey>

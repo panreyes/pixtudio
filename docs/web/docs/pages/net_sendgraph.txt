@@ -1,2 +1,0 @@
-1.  REDIRECT [NET\_SendGraph](NET_SendGraph "wikilink")
-

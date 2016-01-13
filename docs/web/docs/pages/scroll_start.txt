@@ -1,2 +1,0 @@
-1.  REDIRECT [start\_scroll](start_scroll "wikilink")
-

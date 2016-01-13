@@ -1,2 +1,0 @@
-1.  REDIRECT [blend\_table](blend_table "wikilink")
-

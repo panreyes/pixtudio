@@ -1,3 +1,0 @@
-1.  REDIRECT [memcopy](memcopy "wikilink")
-
-<Category:functions> <Category:memory> <Category:mod_mem>

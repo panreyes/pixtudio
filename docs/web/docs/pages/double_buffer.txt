@@ -1,3 +1,0 @@
-1.  REDIRECT [render\_flags](render_flags "wikilink")
-
-<Category:constants> <Category:libvideo>

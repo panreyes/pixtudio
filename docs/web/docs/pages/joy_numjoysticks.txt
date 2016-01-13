@@ -1,3 +1,0 @@
-1.  REDIRECT [joy\_number](joy_number "wikilink")
-
-<Category:functions> <Category:Joystick> <Category:Mod_joy>

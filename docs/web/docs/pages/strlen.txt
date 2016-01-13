@@ -1,3 +1,0 @@
-1.  REDIRECT [Len](Len "wikilink")
-
-<Category:functions> <Category:strings> <Category:mod_string>

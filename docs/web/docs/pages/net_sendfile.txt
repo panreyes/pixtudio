@@ -1,2 +1,0 @@
-1.  REDIRECT [NET\_SendFile](NET_SendFile "wikilink")
-

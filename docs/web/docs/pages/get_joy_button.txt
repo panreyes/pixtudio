@@ -1,2 +1,0 @@
-1.  REDIRECT [joy\_getbutton](joy_getbutton "wikilink")
-

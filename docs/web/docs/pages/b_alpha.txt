@@ -1,3 +1,0 @@
-1.  REDIRECT [blit\_flags](blit_flags "wikilink")
-
-<Category:constants> <Category:libblit>

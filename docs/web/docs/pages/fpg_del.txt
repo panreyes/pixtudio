@@ -1,3 +1,0 @@
-1.  REDIRECT [Fpg unload](Fpg_unload "wikilink")
-
-<Category:functions> <Category:fpg> <Category:mod_map>

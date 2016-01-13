@@ -1,2 +1,0 @@
-1.  REDIRECT [sound\_modes](sound_modes "wikilink")
-

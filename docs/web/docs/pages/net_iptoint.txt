@@ -1,2 +1,0 @@
-1.  REDIRECT [NET\_IPToInt](NET_IPToInt "wikilink")
-

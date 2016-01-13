@@ -1,2 +1,0 @@
-1.  REDIRECT [map\_save](map_save "wikilink")
-

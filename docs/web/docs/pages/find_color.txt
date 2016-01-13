@@ -1,2 +1,0 @@
-1.  REDIRECT [color\_find](color_find "wikilink")
-

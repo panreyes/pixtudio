@@ -1,3 +1,0 @@
-1.  REDIRECT [graphical\_infotypes](graphical_infotypes "wikilink")
-
-<Category:constants> <Category:mod_map>

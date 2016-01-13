@@ -1,2 +1,0 @@
-1.  REDIRECT [rgba\_get](rgba_get "wikilink")
-

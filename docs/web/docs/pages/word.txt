@@ -1,3 +1,0 @@
-1.  REDIRECT [Short](Short "wikilink")
-
-<Category:language> <Category:datatypes>

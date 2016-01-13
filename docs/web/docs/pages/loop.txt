@@ -1,4 +1,0 @@
-1.  REDIRECT [Loops\#Loop ... End](Loops#Loop_..._End "wikilink")
-
-<category:language> <category:reserved> [category:control flow
-statements](category:control_flow_statements "wikilink")

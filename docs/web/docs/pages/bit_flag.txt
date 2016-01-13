@@ -1,2 +1,0 @@
-1.  REDIRECT [bit flags](bit_flags "wikilink")
-

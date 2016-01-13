@@ -1,3 +1,0 @@
-1.  REDIRECT [joy\_getposition](joy_getposition "wikilink")
-
-<Category:functions> <Category:Joystick> <Category:Mod_joy>

@@ -1,3 +1,0 @@
-1.  REDIRECT [alloc](alloc "wikilink")
-
-<Category:functions> <Category:memory> <Category:mod_mem>

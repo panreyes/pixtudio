@@ -1,3 +1,0 @@
-1.  REDIRECT [scale\_modes](scale_modes "wikilink")
-
-<Category:constants> <Category:librender>

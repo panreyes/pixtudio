@@ -1,3 +1,0 @@
-1.  REDIRECT [resolution\_modes](resolution_modes "wikilink")
-
-<Category:constants> <Category:libvideo>

@@ -1,3 +1,0 @@
-1.  REDIRECT [Tutorial:Setting up Bennu on 64 bit
-    linux](Tutorial:Setting_up_Bennu_on_64_bit_linux "wikilink")
-

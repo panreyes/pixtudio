@@ -1,2 +1,0 @@
-1.  REDIRECT [dump\_modes](dump_modes "wikilink")
-

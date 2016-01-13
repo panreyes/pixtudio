@@ -1,2 +1,0 @@
-1.  REDIRECT [NET\_Resolve](NET_Resolve "wikilink")
-

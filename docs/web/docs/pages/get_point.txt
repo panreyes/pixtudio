@@ -1,2 +1,0 @@
-1.  REDIRECT [Point get](Point_get "wikilink")
-

@@ -1,3 +1,0 @@
-1.  REDIRECT [pal\_get](pal_get "wikilink")
-
-<Category:functions> <Category:palettes> <Category:mod_map>

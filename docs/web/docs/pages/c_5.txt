@@ -1,3 +1,0 @@
-1.  REDIRECT [Coordinatenumber flags](Coordinatenumber_flags "wikilink")
-
-<Category:constants> <Category:libscroll>

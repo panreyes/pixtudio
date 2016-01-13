@@ -1,5 +1,0 @@
-1.  REDIRECT [loops\#Repeat ...
-    Until](loops#Repeat_..._Until "wikilink")
-
-<category:language> <category:reserved> [category:control flow
-statements](category:control_flow_statements "wikilink")

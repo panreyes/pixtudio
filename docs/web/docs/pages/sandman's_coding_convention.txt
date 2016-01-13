@@ -1,3 +1,0 @@
-1.  REDIRECT [Sandman's code
-    convention](Sandman's_code_convention "wikilink")
-

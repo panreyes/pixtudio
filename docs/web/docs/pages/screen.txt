@@ -1,3 +1,0 @@
-1.  REDIRECT [Predefined\_graphcodes](Predefined_graphcodes "wikilink")
-
-<Category:constants> <Category:librender>

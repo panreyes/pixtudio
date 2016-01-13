@@ -1,2 +1,0 @@
-1.  REDIRECT [NET\_GetSeparator](NET_GetSeparator "wikilink")
-

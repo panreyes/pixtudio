@@ -1,2 +1,0 @@
-1.  REDIRECT [Setting up Bennu](Setting_up_Bennu "wikilink")
-

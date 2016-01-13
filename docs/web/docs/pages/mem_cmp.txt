@@ -1,3 +1,0 @@
-1.  REDIRECT [memcmp](memcmp "wikilink")
-
-<Category:functions> <Category:memory> <Category:mod_mem>
