@@ -138,9 +138,6 @@ function docs_read_content($file){
 
         <!-- Page Content -->
         <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
 ';
 
     //PONEMOS ÍNDICE
@@ -241,7 +238,11 @@ function docs_read_content($file){
                 $page=$temp[1];
             }
             //echo '<a href="#" onclick="show_content('.$content_number.');">'.$content_name.'</a><br />'."\n";
-            echo '<button type="button" class="btn btn-default" onclick="show_content('.$content_number.');">'.$content_name.'</button><br />';
+            if($page!=""){
+                echo '<button type="button" class="btn btn-default" onclick="show_content('.$content_number.');">'.$content_name.'</button><br />';
+            } else {
+                echo '<button type="button" class="btn btn-default">'.$content_name.' (NO EXISTE)</button><br />';
+            }
             if($page!=""){
                 echo '<div class="bs-callout bs-callout-info" id="content'.$content_number.'" style="display:none">';
                 parsedown($page);
@@ -291,10 +292,7 @@ function load_section(id,page){
 </script>
     ';
 
-    echo '                    </div>
-                </div>
-            </div>
-        </div>
+    echo '        </div>
         <!-- /#page-content-wrapper -->
 
     </div>
@@ -334,7 +332,7 @@ function add_section($name, $level, $page){
 
     $last_section_internal_number++;
 
-    echo '<a href="#section'.$last_section_internal_number.'" onclick="show('.$last_section_internal_number.');">'.$spacing.$full_section.' '.$name.'</a><br />';
+    echo $spacing.'<a href="#section'.$last_section_internal_number.'" onclick="show('.$last_section_internal_number.');">'.$full_section.' '.$name.'</a><br />';
 
     $sections[]=[$full_section.' '.$name,$page];
 }
