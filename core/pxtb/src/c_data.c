@@ -212,9 +212,8 @@ int compile_struct_data(VARSPACE *n, segment *data, int size, int sub) {
                 if (!res.constant)
                     compile_error(MSG_INCORRECT_PTR_INIT);
                 segment_add_as(data, 0, TYPE_POINTER);
-            } else if (typedef_is_array(next_type)) /* Next variable is an array */
-            {
-                int elements = typedef_tcount(next_type);
+            } else if (typedef_is_array(next_type)) {  /* Next variable is an array */
+                int elems = typedef_tcount(next_type);
                 BASETYPE base;
 
                 /* Get the array base type */
@@ -227,7 +226,7 @@ int compile_struct_data(VARSPACE *n, segment *data, int size, int sub) {
                 /* Special case: array of structs */
 
                 if (base == TYPE_STRUCT) {
-                    compile_struct_data(next_type.varspace, data, elements, 1);
+                    compile_struct_data(next_type.varspace, data, elems, 1);
 
                 } else {
                     token_next();
@@ -249,8 +248,7 @@ int compile_struct_data(VARSPACE *n, segment *data, int size, int sub) {
                         while (subcount++ < typedef_count(next_type))
                             segment_add_as(data, 0, TYPE_CHAR);
 
-                    } else /* Initializing normal arrays */
-                    {
+                    } else { /* Initializing normal arrays */
                         int has_parents = 1;
 
                         if (token.type != IDENTIFIER || token.code != identifier_leftp) {
@@ -258,7 +256,7 @@ int compile_struct_data(VARSPACE *n, segment *data, int size, int sub) {
                             token_back();
                         }
 
-                        compile_array_data(n, data, elements, elements, &base);
+                        compile_array_data(n, data, elems, elems, &base);
 
                         if (has_parents) {
                             token_next();
@@ -267,11 +265,9 @@ int compile_struct_data(VARSPACE *n, segment *data, int size, int sub) {
                         }
                     }
                 }
-            } else if (typedef_is_struct(next_type)) /* Next variable is another struct */
-            {
+            } else if (typedef_is_struct(next_type)) {  /* Next variable is another struct */
                 compile_struct_data(next_type.varspace, data, 1, 1);
-            } else /* Next variable is a single type */
-            {
+            } else { /* Next variable is a single type */
                 res = compile_expresion(1, 0, 0, typedef_base(next_type));
                 if (!res.constant)
                     compile_error(MSG_CONSTANT_EXP);
@@ -734,15 +730,15 @@ int compile_varspace(VARSPACE *n, segment *data, int additive, int copies, int p
                     }
                 }
             } else if (segm) {
-                int string_offset = 0, j;
+                int string_offset = 0, k;
 
                 if (total_count == 0)
                     compile_error(MSG_EXPECTED, "=");
 
                 for (i = 0; i < total_count; i++) {
                     segment_add_from(data, segm);
-                    for (j = 0; j < type.varspace->stringvar_count; j++)
-                        varspace_varstring(n, type.varspace->stringvars[j] + string_offset);
+                    for (k = 0; k < type.varspace->stringvar_count; k++)
+                        varspace_varstring(n, type.varspace->stringvars[k] + string_offset);
                     string_offset += type.varspace->size;
                 }
                 token_back();
@@ -852,11 +848,11 @@ int compile_varspace(VARSPACE *n, segment *data, int additive, int copies, int p
 
     /* n->size *= copies ; */
     while (copies-- > 1) {
-        int i;
+        int k;
 
-        for (i = 0; i < n->stringvar_count; i++) {
-            if (n->stringvars[i] >= base_offset && n->stringvars[i] < base_offset + total_length) {
-                varspace_varstring(n, n->stringvars[i] - base_offset + data->current);
+        for (k = 0; k < n->stringvar_count; k++) {
+            if (n->stringvars[k] >= base_offset && n->stringvars[k] < base_offset + total_length) {
+                varspace_varstring(n, n->stringvars[k] - base_offset + data->current);
             }
         }
 

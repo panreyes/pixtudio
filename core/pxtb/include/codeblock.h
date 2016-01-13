@@ -70,10 +70,10 @@ extern void codeblock_add_block(CODEBLOCK *c, CODEBLOCK_POS from, CODEBLOCK_POS 
 extern void codeblock_loop_start(CODEBLOCK *c, int loop, int begin);
 extern void codeblock_loop_end(CODEBLOCK *c, int loop, int end);
 extern int codeblock_loop_add(CODEBLOCK *c);
-extern int codeblock_label_add(CODEBLOCK *c, int identifier);
+extern int codeblock_label_add(CODEBLOCK *c, int id);
 extern void codeblock_label_set(CODEBLOCK *c, int label, int offset);
 extern int codeblock_label_get(CODEBLOCK *c, int label);
-extern int codeblock_label_get_id_by_name(CODEBLOCK *c, int name);
+extern int codeblock_label_get_id_by_name(CODEBLOCK *c, int id);
 extern void codeblock_postprocess(CODEBLOCK *c);
 extern void codeblock_dump(CODEBLOCK *c);
 extern void mnemonic_dump(int i, int param);

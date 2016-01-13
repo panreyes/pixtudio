@@ -928,7 +928,7 @@ char *getfullpath(char *rel_path) {
 #define ENV_PATH_SEP ':'
 #endif
 
-char *whereis(char *file) {
+char *whereis(char *fname) {
     char *path = getenv("PATH"), *pact = path, *p;
     char fullname[__MAX_PATH];
 
@@ -938,7 +938,7 @@ char *whereis(char *file) {
         if ((p = strchr(pact, ENV_PATH_SEP)))
             *p = '\0';
         sprintf(fullname, "%s%s%s", pact, (pact[strlen(pact) - 1] == ENV_PATH_SEP) ? "" : PATH_SEP,
-                file);
+                fname);
 
         if (!stat(fullname, &st) && S_ISREG(st.st_mode)) {
             pact = strdup(pact);

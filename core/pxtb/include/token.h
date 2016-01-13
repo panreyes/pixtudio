@@ -63,7 +63,7 @@ typedef struct _tok_pos {
     char *source_ptr;
 } tok_pos;
 
-extern void token_init(const char *source, int file);
+extern void token_init(const char *source, int fileid);
 extern void token_next();
 extern void token_back();
 extern void token_dump();

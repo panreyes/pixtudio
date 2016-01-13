@@ -223,11 +223,11 @@ void codeblock_loop_end(CODEBLOCK *c, int loop, int end) {
     c->loops[loop * 2 + 1] = end;
 }
 
-int codeblock_label_add(CODEBLOCK *c, int identifier) {
+int codeblock_label_add(CODEBLOCK *c, int id) {
     if (c->label_count == c->label_reserved)
         codeblock_label_alloc(c, c->label_count + 16);
     c->labels[c->label_count]           = -1;
-    c->labelsextra[c->label_count].name = identifier;
+    c->labelsextra[c->label_count].name = id;
     c->labelsextra[c->label_count].file = current_file;
     c->labelsextra[c->label_count].line = line_count;
     c->label_count++;
@@ -242,10 +242,10 @@ int codeblock_label_get(CODEBLOCK *c, int label) {
     return c->labels[label];
 }
 
-int codeblock_label_get_id_by_name(CODEBLOCK *c, int identifier) {
+int codeblock_label_get_id_by_name(CODEBLOCK *c, int id) {
     int i;
     for (i = 0; i < c->label_count; i++)
-        if (c->labelsextra[i].name != -1 && c->labelsextra[i].name == identifier)
+        if (c->labelsextra[i].name != -1 && c->labelsextra[i].name == id)
             return i;
     return -1;
 }

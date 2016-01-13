@@ -832,20 +832,20 @@ SYSPROC *compile_bestproc(SYSPROC **procs) {
                     segment_alloc(globaldata, size);
                     codeblock_add(code, MN_GLOBAL, globaldata->current);
                     for (nvar = 0; nvar < res.type.varspace->count; nvar++) {
-                        DCB_TYPEDEF type;
-                        dcb_settype(&type, &res.type.varspace->vars[nvar].type);
-                        memcpy((uint8_t *)globaldata->bytes + globaldata->current, &type,
+                        DCB_TYPEDEF t;
+                        dcb_settype(&t, &res.type.varspace->vars[nvar].type);
+                        memcpy((uint8_t *)globaldata->bytes + globaldata->current, &t,
                                sizeof(DCB_TYPEDEF));
                         globaldata->current += sizeof(DCB_TYPEDEF);
                     }
                     codeblock_add(code, MN_PUSH, res.type.varspace->count);
                     count += 2;
                 } else {
-                    DCB_TYPEDEF type;
-                    dcb_settype(&type, &res.type);
+                    DCB_TYPEDEF t;
+                    dcb_settype(&t, &res.type);
                     segment_alloc(globaldata, sizeof(TYPEDEF));
                     codeblock_add(code, MN_GLOBAL, globaldata->current);
-                    memcpy((uint8_t *)globaldata->bytes + globaldata->current, &type,
+                    memcpy((uint8_t *)globaldata->bytes + globaldata->current, &t,
                            sizeof(DCB_TYPEDEF));
                     globaldata->current += sizeof(DCB_TYPEDEF);
                     codeblock_add(code, MN_PUSH, 1);
@@ -2175,8 +2175,6 @@ expresion_result compile_comparison_2() {
         if (token.type == IDENTIFIER && (token.code == identifier_eq || /* "==" */
                                          token.code == identifier_ne))  /* "!=" or "<>" */
         {
-            int is_unsigned = 0;
-
             op = token.code;
             if (left.lvalue &&
                 (left.type.chunk[0].type != TYPE_ARRAY || left.type.chunk[1].type != TYPE_CHAR))
@@ -2191,13 +2189,9 @@ expresion_result compile_comparison_2() {
             if (t != MN_FLOAT && t != MN_STRING)
                 t = MN_DWORD;
 
-            if (typedef_is_unsigned(left.type) && typedef_is_unsigned(right.type))
-                is_unsigned = MN_UNSIGNED;
-
             res.value = 0;
 
-            if (op == identifier_eq) /* "==" */
-            {
+            if (op == identifier_eq) {  /* "==" */
                 codeblock_add(code, t | MN_EQ, 0);
                 if (left.constant && right.constant) {
                     if (t == MN_DWORD)
@@ -2207,8 +2201,7 @@ expresion_result compile_comparison_2() {
                     else
                         res.value = strcmp(string_get(left.value), string_get(right.value)) == 0;
                 }
-            } else if (op == identifier_ne) /* "!=" or "<>" */
-            {
+            } else if (op == identifier_ne) {  /* "!=" or "<>" */
                 codeblock_add(code, t | MN_NE, 0);
                 if (left.constant && right.constant) {
                     if (t == MN_DWORD)
@@ -2821,9 +2814,9 @@ expresion_result compile_subexpresion() {
                             segment_alloc(globaldata, size);
                             codeblock_add(code, MN_GLOBAL, globaldata->current);
                             for (nvar = 0; nvar < right.type.varspace->count; nvar++) {
-                                DCB_TYPEDEF type;
-                                dcb_settype(&type, &right.type.varspace->vars[nvar].type);
-                                memcpy((uint8_t *)globaldata->bytes + globaldata->current, &type,
+                                DCB_TYPEDEF t;
+                                dcb_settype(&t, &right.type.varspace->vars[nvar].type);
+                                memcpy((uint8_t *)globaldata->bytes + globaldata->current, &t,
                                        sizeof(DCB_TYPEDEF));
                                 globaldata->current += sizeof(DCB_TYPEDEF);
                             }
@@ -2855,12 +2848,12 @@ expresion_result compile_subexpresion() {
             /* Array copy */
             if (op == identifier_equal && typedef_is_array(base.type) &&
                 typedef_is_array(right.type)) {
-                int size;
+                int type_size;
 
                 if (!typedef_is_equal(base.type, right.type))
                     compile_error(MSG_TYPES_NOT_THE_SAME);
 
-                size = typedef_size(base.type);
+                type_size = typedef_size(base.type);
 
                 while (typedef_is_array(base.type)) {
                     base.type  = typedef_reduce(base.type);
@@ -2869,10 +2862,10 @@ expresion_result compile_subexpresion() {
 
                 /* Optimized fast memcopy version */
                 if (typedef_is_string(base.type)) {
-                    codeblock_add(code, MN_PUSH, size / sizeof(int));
+                    codeblock_add(code, MN_PUSH, type_size / sizeof(int));
                     codeblock_add(code, MN_SYSCALL, proc_copy_string_array->code);
                 } else {
-                    codeblock_add(code, MN_PUSH, size);
+                    codeblock_add(code, MN_PUSH, type_size);
                     codeblock_add(code, MN_SYSCALL, proc_memcopy->code);
                 }
 
@@ -3693,9 +3686,8 @@ void compile_block(PROCDEF *p) {
                 to = compile_expresion(0, 0, 0, res_type);
 
                 token_next();
-                if (token.type == IDENTIFIER && token.code == identifier_step) /* "STEP" */
-                {
-                    CODEBLOCK_POS p    = codeblock_pos(code);
+                if (token.type == IDENTIFIER && token.code == identifier_step) {/* "STEP" */
+                    CODEBLOCK_POS pos  = codeblock_pos(code);
                     expresion_result r = compile_expresion(1, 0, 0, res_type);
                     if (!r.constant)
                         compile_error(MSG_CONSTANT_EXP);
@@ -3712,7 +3704,7 @@ void compile_block(PROCDEF *p) {
                         inc = r.value;
                     }
 
-                    codeblock_setpos(code, p);
+                    codeblock_setpos(code, pos);
                     if ((res_type == TYPE_FLOAT && r.fvalue > 0) ||
                         (res_type != TYPE_FLOAT && r.value > 0))
                         codeblock_add(code, MN_LTE | is_float | is_unsigned, 0);

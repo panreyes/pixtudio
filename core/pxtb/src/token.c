@@ -911,7 +911,7 @@ void preprocessor() {
     compile_error(MSG_UNKNOWN_PREP);
 }
 
-void token_init(const char *source, int file) {
+void token_init(const char *source, int fileid) {
     char *ptr;
     char *clean_source;
 
@@ -949,7 +949,7 @@ void token_init(const char *source, int file) {
     /* Use the new source */
 
     line_count   = 0;
-    current_file = file;
+    current_file = fileid;
     source_ptr   = clean_source;
     source_start = clean_source;
 

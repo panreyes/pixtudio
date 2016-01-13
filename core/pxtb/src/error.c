@@ -47,7 +47,6 @@ void err_buildErrorTable() {
     file *fp;
     char fname[64];
     char line[1024];
-    char *token;
     int code;
     int size;
     char *msg           = NULL;
@@ -85,17 +84,17 @@ void err_buildErrorTable() {
                 }
             } else {
                 /* Check for comment */
-                token = strtok(line, "#");
+                char *next_token = strtok(line, "#");
                 code = 0;
-                while (token != NULL) {
+                while (next_token != NULL) {
                     /* don't process comments */
-                    if (strlen(token) == 0)
+                    if (strlen(next_token) == 0)
                         break;
                     if (!code)
-                        code = atoi(token);
+                        code = atoi(next_token);
                     else
-                        msg = token;
-                    token   = strtok(NULL, "#");
+                        msg = next_token;
+                    next_token   = strtok(NULL, "#");
                 }
                 if (code)
                     err = err_addError(code, msg);

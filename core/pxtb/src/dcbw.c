@@ -668,16 +668,16 @@ int dcb_save(const char *filename, int options, const char *stubname) {
     /* Write the stub signature */
 
     if (stubname != NULL) {
-        dcb_signature dcb_signature;
+        dcb_signature signature;
 
-        /* Voy al final del archivo */
+        /* Move to the end of the file */
 
-        strcpy(dcb_signature.magic, DCB_STUB_MAGIC);
-        dcb_signature.dcb_offset = (int)stubsize;
+        strcpy(signature.magic, DCB_STUB_MAGIC);
+        signature.dcb_offset = (int)stubsize;
 
-        ARRANGE_DWORD(&dcb_signature.dcb_offset);
+        ARRANGE_DWORD(&signature.dcb_offset);
 
-        file_write(fp, &dcb_signature, sizeof(dcb_signature));
+        file_write(fp, &signature, sizeof(signature));
     }
 
     file_close(fp);
@@ -1056,7 +1056,7 @@ int dcb_load_lib(const char *filename) {
     /* Load sources */
 
     if (dcb.data.NSourceFiles) {
-        char filename[__MAX_PATH];
+        char fname[__MAX_PATH];
 
         fileid = calloc(dcb.data.NSourceFiles, sizeof(int));
 
@@ -1068,13 +1068,13 @@ int dcb_load_lib(const char *filename) {
             int m;
             uint32_t size;
             file_readUint32(fp, &size);
-            file_read(fp, filename, size);
+            file_read(fp, fname, size);
             fileid[n] = -1;
             for (m = 0; m < n_files; m++)
-                if (!strcmp(filename, files[m]))
+                if (!strcmp(fname, files[m]))
                     fileid[n] = m;
             if (fileid[n] == -1) {
-                strcpy(files[n_files], filename);
+                strcpy(files[n_files], fname);
                 fileid[n] = n_files++;
             }
         }

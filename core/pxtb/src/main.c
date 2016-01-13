@@ -49,9 +49,9 @@
 
 #define REMOVE_EXT(s)                                                                              \
     {                                                                                              \
-        char *p;                                                                                   \
-        if ((p = strrchr(s, '.')) && (p > strrchr(s, '\\') && p > strrchr(s, '/')))                \
-            *p = '\0';                                                                             \
+        char *c;                                                                                   \
+        if ((c = strrchr(s, '.')) && (c > strrchr(s, '\\') && c > strrchr(s, '/')))                \
+            *c = '\0';                                                                             \
     }
 
 extern int load_file(char *filename);
@@ -421,7 +421,7 @@ int main(int argc, char *argv[]) {
             memmove(stubname + strlen(exepath), stubname, strlen(stubname) + 1);
             memcpy(stubname, exepath, strlen(exepath));
 #else
-            const char *ptr = argv[0] + strlen(argv[0]);
+            ptr = argv[0] + strlen(argv[0]);
             while (ptr > argv[0] && *ptr != '\\' && *ptr != '/')
                 ptr--;
             if (*ptr == '\\' || *ptr == '/')
