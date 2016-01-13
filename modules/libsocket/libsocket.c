@@ -437,7 +437,7 @@ char *libsocket_get_iphost(int flag) {
 
 /* ---------------------------------------------------------- */
 
-char *libsocket_get_ipstr(in_addr_t s_addr) {
+char *libsocket_get_ipstr(uint32_t s_addr) {
     struct in_addr addr;
 
     addr.s_addr = s_addr;

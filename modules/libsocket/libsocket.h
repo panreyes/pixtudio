@@ -31,11 +31,11 @@
 
 #include <stdlib.h>
 #include <stdint.h>
-#include <sys/select.h>
 #ifdef WIN32
 #include <winsock.h>
 #else
 #include <arpa/inet.h>
+#include <sys/select.h>
 #endif
 
 /* ---------------------------------------------------------- */
@@ -63,6 +63,6 @@ int libsocket_fdisset(int n, int fd);
 int libsocket_select_socketset(int id_readss, int id_writess, int id_errorss, int wait_time);
 int libsocket_check_socketset(int id_readss, int id_writess, int id_errorss, int wait_time);
 char *libsocket_get_iphost(int flag);
-char *libsocket_get_ipstr(in_addr_t s_addr);
+char *libsocket_get_ipstr(uint32_t s_addr);
 
 #endif
