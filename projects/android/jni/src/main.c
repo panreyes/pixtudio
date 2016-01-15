@@ -74,7 +74,7 @@ int main( int argc, char *argv[] ) {
     }
 
     // Remember to compile DCB with debug (bgdc -g) info!
-    debug = 1;
+    debug_DCB = 1;
 
     /* Initialization (modules needed before dcb_load) */
 
@@ -105,7 +105,7 @@ int main( int argc, char *argv[] ) {
 
     /* If the dcb is not in debug mode */
 
-    if ( dcb.data.NSourceFiles == 0 ) debug = 0;
+    if ( dcb.data.NSourceFiles == 0 ) debug_DCB = 0;
 
     /* Initialization (modules needed after dcb_load) */
 

@@ -130,12 +130,13 @@ int main(int argc, char *argv[]) {
 
         filename = appname;
     } else {
-        /* Calling PXTP.EXE so we must get all command line params */
+        /* Calling PXTP binary so we must get all command line params */
         for (i = 1; i < argc; i++) {
             if (argv[i][0] == '-') {
                 j = 1;
                 while (argv[i][j]) {
                     if (argv[i][j] == 'd') {
+                        debug_DCB = 1;
                         debug = 1;
                     }
 
@@ -215,10 +216,9 @@ int main(int argc, char *argv[]) {
         dcb_load_from(fp, dcbname, dcb_signature.dcb_offset);
     }
 
-    /* If the dcb is not in debug mode */
-
+    /* If the dcb is not in debug mode, deactivate it */
     if (dcb.data.NSourceFiles == 0) {
-        debug = 0;
+        debug_DCB = 0;
     }
 
     /* Initialization (modules needed after dcb_load) */

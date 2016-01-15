@@ -425,7 +425,7 @@ void sysproc_init() {
 
         /* Load library */
 
-        if (debug)
+        if (debug_DCB)
             printf("Loading... %s\n", filename);
 
         fullsoname[0] = '\0';
@@ -515,7 +515,7 @@ void sysproc_init() {
         }
     }
 
-    if (debug)
+    if (debug_DCB)
         printf("\n");
 
     /* System Procs FixUp */

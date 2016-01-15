@@ -55,7 +55,8 @@ char *appexefullpath = NULL;
 
 /* --------------------------------------------------------------------------- */
 
-int debug = 0; /* 1 if running in debug mode      */
+int debug_DCB = 0; /* 1 if running in debug mode      */
+int debug = 0;
 
 /* --------------------------------------------------------------------------- */
 

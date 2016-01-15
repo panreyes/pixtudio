@@ -36,13 +36,13 @@
 #include "bgdrtm.h"
 
 #include "dlvaracc.h"
-#include "bgddl.h"
 
 #include "libgrbase.h"
 #include "libvideo.h"
 #include "libblit.h"
 #endif
 
+#include "bgddl.h"
 #include "g_fade.h"
 #include "g_frame.h"
 #include "g_instance.h"
@@ -58,6 +58,5 @@ extern DLVARFIXUP __bgdexport(librender, globals_fixup)[];
 extern DLVARFIXUP __bgdexport(librender, locals_fixup)[];
 
 /* --------------------------------------------------------------------------- */
-#endif
 
 #endif

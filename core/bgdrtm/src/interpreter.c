@@ -215,7 +215,7 @@ int instance_go(INSTANCE *r) {
     /* ------------------------------------------------------------------------------- */
     /* Restore if exit by debug                                                        */
 
-    if (debug > 0) {
+    if (debug_DCB > 0) {
         printf("\n>>> Instance:%s ProcID:%d StackUsed:%u/%d\n", r->proc->name,
                LOCDWORD(r, PROCESS_ID), (r->stack_ptr - r->stack) / sizeof(r->stack[0]),
                (r->stack[0] & ~STACK_RETURN_VALUE));
@@ -250,12 +250,12 @@ int instance_go(INSTANCE *r) {
         }
 
         /* debug output */
-        if (debug > 0) {
-            if (debug > 2) {
+        if (debug_DCB > 0) {
+            if (debug_DCB > 2) {
                 int c = 45 - stack_dump(r) * 9;
-                if (debug > 1)
+                if (debug_DCB > 1)
                     printf("%*.*s[%4u] ", c, c, "", (ptr - r->code));
-            } else if (debug > 1)
+            } else if (debug_DCB > 1)
                 printf("[%4u] ", (ptr - r->code));
             mnemonic_dump(*ptr, ptr[1]);
         }
@@ -2060,7 +2060,7 @@ int instance_go(INSTANCE *r) {
 
             case MN_DEBUG:
                 if (dcb.data.NSourceFiles) {
-                    if (debug > 0)
+                    if (debug_DCB > 0)
                         printf("\n::: DEBUG from %s(%d)\n", r->proc->name, LOCDWORD(r, PROCESS_ID));
                     debug_next = 1;
                 }

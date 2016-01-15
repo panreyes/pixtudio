@@ -960,3 +960,4 @@
 ../../modules/mod_audio/openal/Pool.h
 ../../modules/mod_audio/openal/Source.cpp
 ../../modules/mod_audio/openal/Source.h
+../../modules/librender/librender_constants.h

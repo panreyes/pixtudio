@@ -58,7 +58,8 @@ extern char *appexename;
 extern char *appexepath;
 extern char *appexefullpath;
 
-extern int debug; /* 1 if running in debug mode                    */
+extern int debug_DCB;  /* 1 if running in debug mode to dump DCB output */
+extern int debug;
 
 /* Trace */
 extern int debug_mode;

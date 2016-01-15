@@ -227,7 +227,7 @@ static struct {
 } console_vars[] = {
     {"SHOW_COLOR", &console_showcolor, CON_DWORD_HEX},
     {"FILES", &opened_files, CON_DWORD},
-    {"DEBUG_LEVEL", &debug, CON_DWORD},
+    {"DEBUG_LEVEL", &debug_DCB, CON_DWORD},
 };
 
 /* --------------------------------------------------------------------------- */
@@ -2194,7 +2194,7 @@ static int debug_mode_handler_cb(SDL_Keysym k) {
 /* --------------------------------------------------------------------------- */
 
 static int moddebug_trace(INSTANCE *my, int *params) {
-    debug = params[0];
+    debug_DCB = params[0];
     return 0;
 }
 

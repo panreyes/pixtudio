@@ -249,11 +249,16 @@ int gr_set_mode(int width, int height) {
     // Store the renderer resolution
     SDL_GetRendererOutputSize(renderer, &renderer_width, &renderer_height);
 
-    // SDL_Log("Renderer info:");
-    // SDL_Log("Accelerated rendering: %d", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
-    // SDL_Log("Render to texture:     %d", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
-    // SDL_Log("Rendering driver:      %s", SDL_GetHint(SDL_HINT_RENDER_DRIVER));
-    // SDL_Log("Renderer size:         %dx%d", renderer_width, renderer_height);
+    // Print some debugging info on the renderer
+    if(debug) {
+        printf("Renderer info:\n");
+        printf("==============\n");
+        printf("Accelerated rendering: %d\n", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
+        printf("Render to texture:     %d\n", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
+        printf("Rendering driver:      %s\n", renderer_info.name);
+        printf("Max texture size:      %dx%d\n", renderer_info.max_texture_width, renderer_info.max_texture_height);
+        printf("Renderer size:         %dx%d\n", renderer_width, renderer_height);
+    }
 
     // Clear the screen
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

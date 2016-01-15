@@ -42,6 +42,7 @@
 
 /* PixTudio stuff */
 #include <bgddl.h>
+#include <bgdrtm.h>
 #include <xstrings.h>
 #include <libgrbase.h>
 #include <g_video.h>
@@ -390,13 +391,15 @@ void __bgdexport(mod_theora, module_initialize)() {
     }
     alcMakeContextCurrent(audio_context); // set active context
 
-    printf("OpenAL info:\n");
-    printf("============\n");
-    printf("\tVersion: %s\n", alGetString(AL_VERSION));
-    printf("\tVendor: %s\n", alGetString(AL_VENDOR));
-    printf("\tRenderer: %s\n", alGetString(AL_RENDERER));
-    /*printf("\tAL Extensions: %s\n", alGetString(AL_EXTENSIONS));
-    printf("\tALC Extensions: %s\n", alcGetString(audio_device, ALC_EXTENSIONS));*/
+    if(debug) {
+        printf("OpenAL info:\n");
+        printf("============\n");
+        printf("\tVersion: %s\n", alGetString(AL_VERSION));
+        printf("\tVendor: %s\n", alGetString(AL_VENDOR));
+        printf("\tRenderer: %s\n", alGetString(AL_RENDERER));
+        printf("\tAL Extensions: %s\n", alGetString(AL_EXTENSIONS));
+        printf("\tALC Extensions: %s\n", alcGetString(audio_device, ALC_EXTENSIONS));
+    }
 
     // Since audio in the Theora videos is float32, load that extension
     // TODO: This'll fail, since we're doing nothing to prevent
