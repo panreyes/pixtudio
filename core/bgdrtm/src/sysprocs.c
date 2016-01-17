@@ -425,8 +425,9 @@ void sysproc_init() {
 
         /* Load library */
 
-        if (debug_DCB)
-            printf("Loading... %s\n", filename);
+        if (debug_DCB) {
+            BGDRTM_LOG("Loading... %s\n", filename);
+        }
 
         fullsoname[0] = '\0';
 
@@ -443,7 +444,7 @@ void sysproc_init() {
             library = dlibopen(filename);
 
         if (!library) {
-            SDL_Log("FATAL ERROR: Couldn't open library \"%s\", quitting. \"%s\"\n", filename,
+            BGDRTM_LOGERROR("FATAL ERROR: Couldn't open library \"%s\", quitting. \"%s\"\n", filename,
                     dliberror());
             exit(0);
         }

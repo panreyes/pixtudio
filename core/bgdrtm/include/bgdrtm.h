@@ -43,6 +43,18 @@
 
 /* --------------------------------------------------------------------------- */
 
+#ifdef __ANDROID__
+#include <SDL_log.h>
+
+#define BGDRTM_LOG(...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, __VA_ARGS__)
+#define BGDRTM_LOGERROR(...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, __VA_ARGS__)
+#else
+#define BGDRTM_LOG(...) fprintf(stdout, __VA_ARGS__)
+#define BGDRTM_LOGERROR(...) fprintf(stderr, __VA_ARGS__)
+#endif
+
+/* --------------------------------------------------------------------------- */
+
 extern void *globaldata;
 extern void *localdata;
 extern int local_size;
