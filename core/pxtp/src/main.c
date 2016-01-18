@@ -135,6 +135,36 @@ int main(int argc, char *argv[]) {
             if (argv[i][0] == '-') {
                 j = 1;
                 while (argv[i][j]) {
+                    if (argv[i][j] == 'c') {
+                        printf(PXTP_VERSION "\n\n"
+                               "PixTudio is OSS brought to you thanks to the work of many people\n"
+                               "Its main contributors are listed below:\n"
+                               "  Copyright (C) 2009-2016 Joseba García Etxebarria (PixTudio/BennuGD)\n"
+                               "  Copyright (C) 2006-2012 SplinterGU (Fenix/BennuGD)\n"
+                               "  Copyright (C) 2002-2006 Fenix Team (Fenix)\n"
+                               "  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)\n\n"
+                               "PixTudio comes with ABSOLUTELY NO WARRANTY\n\n"
+                               "This software is provided 'as-is', without any express or implied\n"
+                               "warranty. In no event will the authors be held liable for any damages\n"
+                               "arising from the use of this software.\n"
+                               "\n"
+                               "Permission is granted to anyone to use this software for any purpose,\n"
+                               "including commercial applications, and to alter it and redistribute it\n"
+                               "freely, subject to the following restrictions:\n"
+                               "\n"
+                               "   1. The origin of this software must not be misrepresented; you must not\n"
+                               "   claim that you wrote the original software. If you use this software\n"
+                               "   in a product, an acknowledgment in the product documentation would be\n"
+                               "   appreciated but is not required.\n"
+                               "\n"
+                               "   2. Altered source versions must be plainly marked as such, and must not be\n"
+                               "   misrepresented as being the original software.\n"
+                               "\n"
+                               "   3. This notice may not be removed or altered from any source\n"
+                               "   distribution.\n");
+                        exit(0);
+                    }
+
                     if (argv[i][j] == 'd') {
                         debug_DCB = 1;
                         debug = 1;
@@ -144,7 +174,7 @@ int main(int argc, char *argv[]) {
                         if (argv[i][j + 1] == 0) {
                             if (i == argc - 1) {
                                 fprintf(stderr, "You must provide a directory");
-                                exit(0);
+                                exit(1);
                             }
                             file_addp(argv[i + 1]);
                             i++;
@@ -168,11 +198,12 @@ int main(int argc, char *argv[]) {
 
         if (!filename) {
             printf(PXTP_VERSION "\n"
-                                "Pixtudio comes with ABSOLUTELY NO WARRANTY\n"
-                                "See COPYING for copyright details\n\n"
-                                "Usage: %s [options] <data code block file>[.dcb]\n\n"
-                                "   -d       Activate DEBUG mode\n"
-                                "   -i dir   Adds the directory to the PATH\n",
+                   "Pixtudio comes with ABSOLUTELY NO WARRANTY\n"
+                   "See COPYING for copyright details\n\n"
+                   "Usage: %s [options] <data code block file>[.dcb]\n\n"
+                   "   -c       Shows credit information and quit\n"
+                   "   -d       Activate DEBUG mode\n"
+                   "   -i dir   Adds the directory to the PATH\n",
                    argv[0]);
             return -1;
         }
