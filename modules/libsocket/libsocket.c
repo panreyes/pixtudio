@@ -51,6 +51,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -437,10 +438,10 @@ char *libsocket_get_iphost(int flag) {
 
 /* ---------------------------------------------------------- */
 
-char *libsocket_get_ipstr(uint32_t s_addr) {
+char *libsocket_get_ipstr(uint32_t _s_addr) {
     struct in_addr addr;
 
-    addr.s_addr = s_addr;
+    addr.s_addr = _s_addr;
 
     return inet_ntoa(addr);
 }
