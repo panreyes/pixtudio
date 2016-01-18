@@ -50,6 +50,7 @@
 #include "dlvaracc.h"
 
 #include "bgload.h"
+#include "bgdrtm.h"
 
 #ifndef __MONOLITHIC__
 #include "mod_sound_symbols.h"
@@ -231,7 +232,7 @@ int sound_init() {
         }
     }
 
-    fprintf(stderr, "[SOUND] Couldn't initialize sound: %s\n", SDL_GetError());
+    BGDRTM_LOGERROR("[SOUND] Couldn't initialize sound: %s\n", SDL_GetError());
     audio_initialized = 0;
     return -1;
 }
@@ -297,7 +298,7 @@ static int32_t load_song(const char *filename) {
 
     if (!(music = Mix_LoadMUS_RW(SDL_RWFromBGDFP(fp), 0))) {
         file_close(fp);
-        fprintf(stderr, "Couldn't load %s: %s\n", filename, SDL_GetError());
+        BGDRTM_LOGERROR("Couldn't load %s: %s\n", filename, SDL_GetError());
         return (0);
     }
 
@@ -335,13 +336,13 @@ static int play_song(int32_t id, int loops) {
         if (id >= 0 && id < sb_count(loaded_songs) && loaded_songs[id]) {
             int result = Mix_PlayMusic(loaded_songs[id], loops);
             if (result == -1) {
-                fprintf(stderr, "%s", Mix_GetError());
+                BGDRTM_LOGERROR("%s", Mix_GetError());
             }
             return result;
         }
     }
 
-    fprintf(stderr, "Play song called with invalid handle\n");
+    BGDRTM_LOGERROR("Play song called with invalid handle\n");
     return (-1);
 }
 
@@ -590,7 +591,7 @@ static int32_t load_wav(const char *filename) {
 
     if (!(sound = Mix_LoadWAV_RW(SDL_RWFromBGDFP(fp), 1))) {
         file_close(fp);
-        fprintf(stderr, "Couldn't load %s: %s\n", filename, SDL_GetError());
+        BGDRTM_LOGERROR("Couldn't load %s: %s\n", filename, SDL_GetError());
         return (0);
     }
 

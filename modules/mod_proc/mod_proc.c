@@ -85,7 +85,7 @@ int modproc_exit_0(INSTANCE *my, int *params) {
 /* ----------------------------------------------------------------- */
 
 int modproc_exit_1(INSTANCE *my, int *params) {
-    printf("%s\n", string_get(params[0]));
+    BGDRTM_LOG("%s\n", string_get(params[0]));
     fflush(stdout);
     string_discard(params[0]);
 
@@ -100,7 +100,7 @@ int modproc_exit_1(INSTANCE *my, int *params) {
 int modproc_exit(INSTANCE *my, int *params) {
     _modproc_kill_all();
 
-    printf("%s\n", string_get(params[0]));
+    BGDRTM_LOG("%s\n", string_get(params[0]));
     fflush(stdout);
     string_discard(params[0]);
 

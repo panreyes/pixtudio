@@ -327,15 +327,15 @@ void __bgdexport(libjoy, module_initialize)() {
 
     /* Open all joysticks */
     if ((_max_joys = SDL_NumJoysticks()) > MAX_JOYS) {
-        fprintf(stderr, "[JOY] Warning: maximum number of joysticks exceeded (%i>%i)", _max_joys,
-                MAX_JOYS);
+        BGDRTM_LOGERROR("[JOY] Warning: maximum number of joysticks exceeded (%i>%i)", _max_joys,
+                        MAX_JOYS);
         _max_joys = MAX_JOYS;
     }
 
     for (i = 0; i < _max_joys; i++) {
         _joysticks[i] = SDL_JoystickOpen(i);
         if (!_joysticks[i])
-            printf("[JOY] Failed to open joystick '%i'", i);
+            BGDRTM_LOG("[JOY] Failed to open joystick '%i'", i);
     }
 
     SDL_JoystickUpdate();
@@ -350,8 +350,9 @@ void __bgdexport(libjoy, module_finalize)() {
         if (_joysticks[i])
             SDL_JoystickClose(_joysticks[i]);
 
-    if (SDL_WasInit(SDL_INIT_JOYSTICK))
+    if (SDL_WasInit(SDL_INIT_JOYSTICK)) {
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+    }
 }
 
 /* ----------------------------------------------------------------- */

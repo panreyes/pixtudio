@@ -270,14 +270,14 @@ static void console_printf(const char *fmt, ...) {
         // Print the line to the command line while we make the console
         // work again
         if (send(console_sock, text, strlen(text), 0) < 0) {
-            fprintf(stderr, "Send failed for %s\n", text);
+            BGDRTM_LOGERROR("Send failed for %s\n", text);
         } else {
             // Receive a reply from the server
             if (recv(console_sock, server_reply, 2000, 0) < 0) {
-                fprintf(stderr, "recv failed\n");
+                BGDRTM_LOGERROR("recv failed\n");
             } else {
                 if (strncmp(server_reply, "ACK", 3) != 0) {
-                    fprintf(stderr, "server reply incorrect\n");
+                    BGDRTM_LOGERROR("server reply incorrect\n");
                 }
             }
         }
@@ -2029,7 +2029,7 @@ static int handle_network_commands() {
         debug_mode         = 0;
         force_debug        = 0;
         break_on_next_proc = 0;
-        fprintf(stderr, "Debug mode cannot activate since "
+        BGDRTM_LOGERROR("Debug mode cannot activate since "
                         "debugger is not connected\n");
         return -1;
     } else {
@@ -2038,7 +2038,7 @@ static int handle_network_commands() {
 
         retval = recv(console_sock, server_msg, 2000, 0);
         while (retval > 0) {
-            printf("server_msg: '%s'\n", server_msg);
+            BGDRTM_LOG("server_msg: '%s'\n", server_msg);
             console_do(server_msg);
             // TODO: Handle all the rest processes
             if (strcmp(server_msg, "GO") == 0) {
@@ -2048,7 +2048,7 @@ static int handle_network_commands() {
         }
 
         if (retval == 0) {
-            printf("Debug server disconnected\n");
+            BGDRTM_LOG("Debug server disconnected\n");
         }
     }
 
@@ -2081,7 +2081,7 @@ static int debug_mode_handler_cb(SDL_Keysym k) {
         //            // Get command from network
         //            SetSocketBlockingEnabled(console_sock, 1);
         //            if(recv(console_sock, network_cmd, 2000, 0) > 0) {
-        //                printf("Got command: '%s'\n", network_cmd);
+        //                BGDRTM_LOG("Got command: '%s'\n", network_cmd);
         //            }
         //            SetSocketBlockingEnabled(console_sock, 0);
         //            if ( k.sym == SDLK_F1 ) {
@@ -2238,9 +2238,9 @@ void __bgdexport(mod_debug, module_initialize)() {
         // Create socket
         console_sock = socket(AF_INET, SOCK_STREAM, 0);
         if (console_sock == -1) {
-            fprintf(stderr, "Could not create socket\n");
+            BGDRTM_LOGERROR("Could not create socket\n");
         }
-        printf("Socket created\n");
+        BGDRTM_LOG("Socket created\n");
 
         struct sockaddr_in server;
 
@@ -2250,11 +2250,11 @@ void __bgdexport(mod_debug, module_initialize)() {
 
         // Connect to remote server
         if (connect(console_sock, (struct sockaddr *)&server, sizeof(server)) < 0) {
-            fprintf(stderr, "connect failed. Error\n");
+            BGDRTM_LOGERROR("connect failed. Error\n");
             return;
         }
 
-        printf("Connected\n");
+        BGDRTM_LOG("Connected\n");
         sleep(1);
 
         // Make the socket nonblocking so that we can read all the info
@@ -2264,7 +2264,7 @@ void __bgdexport(mod_debug, module_initialize)() {
         int retval;
         char server_reply[2000];
         while ((retval = recv(console_sock, server_reply, 2000, 0)) > 0) {
-            printf("%s\n", server_reply);
+            BGDRTM_LOG("%s\n", server_reply);
         }
 
         SetSocketBlockingEnabled(console_sock, 1);

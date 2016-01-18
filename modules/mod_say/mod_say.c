@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "bgdrtm.h"
 #include "bgddl.h"
 #include "xstrings.h"
 

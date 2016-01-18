@@ -35,6 +35,7 @@
 
 #include <SDL.h>
 
+#include "bgdrtm.h"
 #include "xctype.h"
 #include "bgddl.h"
 #include "dlvaracc.h"
@@ -149,7 +150,7 @@ void hotkey_add(int mod, int sym, HOTKEY_CALLBACK callback) {
     }
 
     if (!hotkey_list) {
-        fprintf(stderr, "No memory for hotkey\n");
+        BGDRTM_LOGERROR("No memory for hotkey\n");
         exit(-1);
     }
 

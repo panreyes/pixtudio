@@ -256,13 +256,13 @@ int gr_set_mode(int width, int height) {
 
     // Print some debugging info on the renderer
     if(debug) {
-        printf("Renderer info:\n");
-        printf("==============\n");
-        printf("Accelerated rendering: %d\n", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
-        printf("Render to texture:     %d\n", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
-        printf("Rendering driver:      %s\n", renderer_info.name);
-        printf("Max texture size:      %dx%d\n", renderer_info.max_texture_width, renderer_info.max_texture_height);
-        printf("Renderer size:         %dx%d\n", renderer_width, renderer_height);
+        BGDRTM_LOG("Renderer info:\n");
+        BGDRTM_LOG("==============\n");
+        BGDRTM_LOG("Accelerated rendering: %d\n", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
+        BGDRTM_LOG("Render to texture:     %d\n", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
+        BGDRTM_LOG("Rendering driver:      %s\n", renderer_info.name);
+        BGDRTM_LOG("Max texture size:      %dx%d\n", renderer_info.max_texture_width, renderer_info.max_texture_height);
+        BGDRTM_LOG("Renderer size:         %dx%d\n", renderer_width, renderer_height);
     }
 
     // Clear the screen
@@ -276,7 +276,7 @@ int gr_set_mode(int width, int height) {
     // Enable SDL scaling, if needed
     if (renderer_width != width || renderer_height != height) {
         SDL_RenderSetLogicalSize(renderer, width, height);
-        SDL_Log("Set logical size to: %dx%d", width, height);
+        BGDRTM_LOG("Set logical size to: %dx%d", width, height);
     }
 
     // This way we can force only one of the sizes (or both) to be native

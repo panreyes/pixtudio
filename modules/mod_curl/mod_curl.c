@@ -95,7 +95,7 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
     mem->memory = realloc(mem->memory, mem->size + realsize + 1);
     if (mem->memory == NULL) {
         /* out of memory! */
-        fprintf(stderr, "not enough memory (realloc returned NULL)\n");
+        BGDRTM_LOGERROR("not enough memory (realloc returned NULL)\n");
         exit(EXIT_FAILURE);
     }
 
@@ -293,7 +293,7 @@ int curl_perform(int id) {
         fclose(download_info[id].outfd);
     } else if (download_info[id].chunk.size > 0) {
         // Create the string for the user
-        // printf("Output from CURL:\n%s\n", download_info[id].chunk.memory);
+        // BGDRTM_LOG("Output from CURL:\n%s\n", download_info[id].chunk.memory);
         *(download_info[id].chunk.strid) = string_new(download_info[id].chunk.memory);
         string_use(*(download_info[id].chunk.strid));
 

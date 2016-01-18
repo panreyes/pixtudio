@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <sqlite3.h>
+#include "bgdrtm.h"
 #include "bgddl.h"
 #include "xstrings.h"
 
@@ -39,9 +40,9 @@ typedef struct {
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) { /*
    int i;
    for(i=0; i<argc; i++){
-     printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+     BGDRTM_LOG("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
    }
-   printf("\n");
+   BGRTM_LOG("\n");
  */
     return 0;
 }
@@ -79,7 +80,7 @@ int modsqlite3_execDb(INSTANCE *my, int *params) {
     int rc = sqlite3_exec((sqlite3 *)params[0], text, callback, 0, &zErrMsg);
 
     if (rc != SQLITE_OK) {
-        fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        BGDRTM_LOGERROR("SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
     string_discard(params[1]);
@@ -95,7 +96,7 @@ int modsqlite3_openTable(INSTANCE *my, int *params) {
                                &resultado->cols, &zErrMsg);
 
     if (rc != SQLITE_OK) {
-        fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        BGDRTM_LOGERROR("SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
     resultado->CurrentRow = 1;
