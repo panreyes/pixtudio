@@ -235,7 +235,12 @@ int gr_set_mode(int width, int height) {
         // If we didn't set the hint, SDL would use DirectX on Windows
         // and the behaviour of the DirectX renderer is not exactly like
         // that of the OpenGL one
-        SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+        // Let the user override this default via a environment var
+        if ((e = getenv("SDL_HINT_RENDER_DRIVER"))) {
+            SDL_SetHint(SDL_HINT_RENDER_DRIVER, e);
+        } else {
+            SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+        }
         renderer = SDL_CreateRenderer(window, -1, sdl_flags);
         if (!renderer) {
             SDL_Log("Error creating renderer (%s)", SDL_GetError());
