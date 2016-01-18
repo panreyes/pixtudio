@@ -427,7 +427,7 @@ char *libsocket_get_iphost(int flag) {
     gethostname(host, sizeof(host));
 
     if (!flag) {
-        return strndup(host, strlen(host));
+        return strdup(host);
     } else {
         phe = gethostbyname(host);
         memcpy(&addr, phe->h_addr_list[0], sizeof(struct in_addr));
