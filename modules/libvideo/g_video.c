@@ -191,7 +191,7 @@ int gr_set_mode(int width, int height) {
         window = SDL_CreateWindow(apptitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                   surface_width, surface_height, sdl_flags);
         if (!window) {
-            SDL_Log("Error creating window (%s)", SDL_GetError());
+            BGDRTM_LOGERROR("Error creating window (%s)", SDL_GetError());
             return -1;
         }
     } else {
@@ -243,7 +243,7 @@ int gr_set_mode(int width, int height) {
         }
         renderer = SDL_CreateRenderer(window, -1, sdl_flags);
         if (!renderer) {
-            SDL_Log("Error creating renderer (%s)", SDL_GetError());
+            BGDRTM_LOGERROR("Error creating renderer (%s)", SDL_GetError());
             SDL_DestroyWindow(window);
             return -1;
         }

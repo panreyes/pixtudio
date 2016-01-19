@@ -178,7 +178,7 @@ static int copytype(void *dst, void *src, DCB_TYPEDEF *var) {
                 break;
 
             default:
-                fprintf(stderr, "ERROR: Runtime error - Could not copy datatype\n");
+                BGDRTM_LOGERROR("ERROR: Runtime error - Could not copy datatype\n");
                 exit(1);
                 break;
         }
