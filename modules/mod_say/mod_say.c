@@ -35,9 +35,8 @@
 #include "bgddl.h"
 #include "xstrings.h"
 
+#if defined(__ANDROID__)
 #include <SDL_log.h>
-#if defined(__ANDROID__) || (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
-#include <SDL_stdinc.h>
 #endif
 
 #ifndef __MONOLITHIC__
@@ -47,13 +46,8 @@
 /* ---------------------------------------------------------------------- */
 
 int modsay_say(INSTANCE *my, int *params) {
-#if defined(__ANDROID__) || (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
-    char *converted;
-    const char *msg = string_get(params[0]);
-
-    converted = SDL_iconv_string("UTF-8", "ISO-8859-1", msg, SDL_strlen(msg) + 1);
-    /* Show debugging info also in stdout */
-    SDL_Log("%s\n", converted);
+#if defined(__ANDROID__)
+    SDL_Log("%s\n", string_get(params[0]));
     string_discard(params[0]);
     SDL_free(converted);
 #else
@@ -67,13 +61,8 @@ int modsay_say(INSTANCE *my, int *params) {
 /* ---------------------------------------------------------------------- */
 
 int modsay_say_fast(INSTANCE *my, int *params) {
-#if defined(__ANDROID__) || (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
-    char *converted;
-    const char *msg = string_get(params[0]);
-
-    converted = SDL_iconv_string("UTF-8", "ISO-8859-1", msg, SDL_strlen(msg) + 1);
-    /* Show debugging info also in stdout */
-    SDL_Log("%s\n", converted);
+#if defined(__ANDROID__)
+    SDL_Log("%s\n", string_get(params[0]));
     string_discard(params[0]);
     SDL_free(converted);
 #else
