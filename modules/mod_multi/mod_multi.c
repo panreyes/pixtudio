@@ -27,6 +27,7 @@
 #include <libvideo.h>
 #include <g_video.h>
 #include <SDL.h>
+#include "bgdrtm.h"
 #include "bgddl.h"
 #include "dlvaracc.h"
 #include "xstrings.h"
@@ -94,7 +95,7 @@ void parse_input_events() {
         height = screen->h;
     } else {
         // This'll avoid division-by-zero below
-        SDL_Log("Unexpected condition getting resolution, refusing to parse events");
+        BGDRTM_LOGERROR("Unexpected condition getting resolution, refusing to parse events");
         return;
     }
 

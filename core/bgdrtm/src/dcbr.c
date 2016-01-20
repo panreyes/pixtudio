@@ -174,7 +174,7 @@ int dcb_load(const char *filename) {
 
     fp = file_open(filename, "rb0");
     if (!fp) {
-        fprintf(stderr, "ERROR: Runtime error - Could not open file (%s)\n", filename);
+        BGDRTM_LOGERROR("ERROR: Runtime error - Could not open file (%s)\n", filename);
         exit(1);
     }
 
@@ -397,7 +397,7 @@ int dcb_load_from(file *fp, const char *filename, int offset) {
             file_readUint32(fp, &size);
             file_read(fp, fname, size);
             if (!load_file(fname, n))
-                fprintf(stdout, "WARNING: Runtime warning - file not found (%s)\n", fname);
+                BGDRTM_LOGERROR("WARNING: Runtime warning - file not found (%s)\n", fname);
         }
     }
 

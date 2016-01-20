@@ -94,7 +94,7 @@ int module_finalize_count     = 0;
         }                                                                                          \
                                                                                                    \
         if (!(hook_list)) {                                                                        \
-            fprintf(stderr, "No memory for alloc hook\n");                                         \
+            BGDRTM_LOGERROR("No memory for alloc hook\n");                                         \
             exit(-1);                                                                              \
         }                                                                                          \
         (hook_list)[hook_count] = (new_hook);                                                      \
@@ -308,7 +308,7 @@ static void get_var_info(DLVARFIXUP *varfixup, DCB_VAR *basevar, int nvars, char
         varfixup->elements    = rvar.Type.BaseType[0] == TYPE_ARRAY ? rvar.Type.Count[0] : 1;
         varfixup->size        = tsize(rvar.Type) / varfixup->elements;
         /*
-                printf ("varfixup: %p var: %s offset: %p elements: %d size: %d\n", varfixup,
+                BGDRTM_LOG("varfixup: %p var: %s offset: %p elements: %d size: %d\n", varfixup,
            varfixup->var, varfixup->data_offset, varfixup->elements, varfixup->size);
         */
         break;
@@ -336,7 +336,7 @@ int sysproc_add(char *name, char *paramtypes, int type, void *func) {
     }
 
     if (sysproc_count >= MAX_SYSPROCS) {
-        fprintf(stderr, "ERROR: Runtime error - too many system functions\n");
+        BGDRTM_LOGERROR("ERROR: Runtime error - too many system functions\n");
         return -1;
     }
 
@@ -516,8 +516,9 @@ void sysproc_init() {
         }
     }
 
-    if (debug_DCB)
-        printf("\n");
+    if (debug_DCB) {
+        BGDRTM_LOG("\n");
+    }
 
     /* System Procs FixUp */
 
