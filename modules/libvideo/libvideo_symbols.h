@@ -51,19 +51,6 @@ char *__bgdexport( libvideo, module_dependencies )[] = {
 };
 
 DLCONSTANT  __bgdexport( libvideo, constants_def )[] = {
-    { "M320X200"            , TYPE_DWORD    , 3200200               },
-    { "M320X240"            , TYPE_DWORD    , 3200240               },
-    { "M320X400"            , TYPE_DWORD    , 3200400               },
-    { "M360X240"            , TYPE_DWORD    , 3600240               },
-    { "M376X282"            , TYPE_DWORD    , 3760282               },
-    { "M400X300"            , TYPE_DWORD    , 4000300               },
-    { "M512X384"            , TYPE_DWORD    , 5120384               },
-    { "M640X400"            , TYPE_DWORD    , 6400400               },
-    { "M640X480"            , TYPE_DWORD    , 6400480               },
-    { "M800X600"            , TYPE_DWORD    , 8000600               },
-    { "M1024X768"           , TYPE_DWORD    , 10240768              },
-    { "M1280X1024"          , TYPE_DWORD    , 12801024              },
-
     { "MODE_WINDOW"         , TYPE_DWORD    , MODE_WINDOW           },
     { "MODE_FULLSCREEN"     , TYPE_DWORD    , MODE_FULLSCREEN       },
 

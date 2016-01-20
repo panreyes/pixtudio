@@ -54,22 +54,17 @@ enum { GRAPH_MODE = 0 };
 
 /* --------------------------------------------------------------------------- */
 
-/* Funciones de inicialización y carga */
-
 int modvideo_set_mode(INSTANCE *my, int *params) {
-    return gr_set_mode(params[0] / 10000, params[0] % 10000);
-}
-
-/* --------------------------------------------------------------------------- */
-
-int modvideo_set_mode_2(INSTANCE *my, int *params) {
     return gr_set_mode(params[0], params[1]);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modvideo_set_mode_3(INSTANCE *my, int *params) {
+int modvideo_set_mode_2(INSTANCE *my, int *params) {
     GLODWORD(mod_video, GRAPH_MODE) = params[2];
+    if(params[2] > 0 && params[2] <= 32) {
+        BGDRTM_LOG("DEPRECATION WARNING: Setting the bit depth in set_mode is no longer valid\n");
+    }
     return gr_set_mode(params[0], params[1]);
 }
 

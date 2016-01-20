@@ -35,7 +35,6 @@
 #ifndef __PXTB__
 extern int modvideo_set_mode( INSTANCE * my, int * params );
 extern int modvideo_set_mode_2( INSTANCE * my, int * params );
-extern int modvideo_set_mode_3( INSTANCE * my, int * params );
 extern int modvideo_set_fps( INSTANCE * my, int * params );
 extern int modvideo_list_modes( INSTANCE * my, int * params );
 extern int modvideo_mode_is_ok( INSTANCE * my, int * params );
@@ -47,9 +46,8 @@ DLVARFIXUP __bgdexport( mod_video, globals_fixup )[] = {
 #endif
 
 DLSYSFUNCS  __bgdexport( mod_video, exported_functions )[] = {
-    FUNC( "SET_MODE"        , "I"     , TYPE_INT        , modvideo_set_mode   ),
-    FUNC( "SET_MODE"        , "II"    , TYPE_INT        , modvideo_set_mode_2 ),
-    FUNC( "SET_MODE"        , "III"   , TYPE_INT        , modvideo_set_mode_3 ),
+    FUNC( "SET_MODE"        , "II"    , TYPE_INT        , modvideo_set_mode   ),
+    FUNC( "SET_MODE"        , "III"   , TYPE_INT        , modvideo_set_mode_2 ),
     FUNC( "SET_FPS"         , "II"    , TYPE_INT        , modvideo_set_fps    ),
 
     FUNC( "GET_MODES"       , "II"    , TYPE_POINTER    , modvideo_list_modes ),
