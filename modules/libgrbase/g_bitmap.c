@@ -460,7 +460,7 @@ void bitmap_update_texture(GRAPH *map) {
     }
 
     if (SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch) < 0) {
-        BGDRTM_LOGERROR("Error updating texture: %s", SDL_GetError());
+        BGDRTM_LOGERROR("Error updating texture: %s\n", SDL_GetError());
     }
 
     if (map->width > renderer_info.max_texture_width ||
