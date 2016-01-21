@@ -276,7 +276,9 @@ int gr_set_mode(int width, int height) {
     // Enable SDL scaling, if needed
     if (renderer_width != width || renderer_height != height) {
         SDL_RenderSetLogicalSize(renderer, width, height);
-        BGDRTM_LOG("Set logical size to: %dx%d", width, height);
+        if(debug) {
+            BGDRTM_LOG("Set logical size to: %dx%d", width, height);
+        }
     }
 
     // This way we can force only one of the sizes (or both) to be native
