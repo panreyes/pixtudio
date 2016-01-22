@@ -64,6 +64,7 @@
 #include <ctype.h>
 #endif
 
+#include "bgdrtm.h"
 #include "bgddl.h"
 
 #ifndef __MONOLITHIC__

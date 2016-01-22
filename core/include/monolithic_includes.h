@@ -80,6 +80,7 @@
 #endif
 #include <mod_fsock_symbols.h>
 #include <mod_theora_symbols.h>
+#include <mod_ttf_symbols.h>
 
 typedef struct
 {
@@ -169,6 +170,7 @@ basic_symbols symbol_list[] = {
 #endif
     { "mod_fsock.fakelib"    , NULL, NULL, NULL, NULL, NULL, mod_fsock_exported_functions },
     { "mod_theora.fakelib"   , mod_theora_module_dependencies, NULL, NULL, NULL, NULL, mod_theora_exported_functions },
+    { "mod_ttf.fakelib"      , mod_ttf_module_dependencies, NULL, NULL, NULL, NULL, mod_ttf_exported_functions },
     { NULL                   , NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
@@ -235,6 +237,7 @@ extra_symbols symbol_list_runtime[] = {
 #endif
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_fsock
     { NULL, NULL, mod_theora_module_initialize, mod_theora_module_finalize, NULL, NULL, NULL, mod_theora_handler_hooks }, //mod_theora
+    { NULL, NULL, mod_ttf_module_initialize, mod_ttf_module_finalize, NULL, NULL, NULL, NULL }, //mod_theora
 };
 #endif
 

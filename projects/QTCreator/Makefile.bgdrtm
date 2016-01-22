@@ -95,7 +95,8 @@ INCLUDES	:=	../../core/include \
 	../../modules/mod_fsock/ \
 	../../modules/mod_effects/ \
 	../../modules/mod_curl/ \
-	../../modules/libsocket/
+	../../modules/libsocket/ \
+	../../modules/mod_ttf/
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -218,7 +219,8 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 				../../../modules/libsocket/libsocket.c \
 				../../../modules/mod_fsock/mod_fsock.c \
 				../../../modules/mod_effects/mod_effects.c \
-				../../../modules/mod_curl/mod_curl.c
+				../../../modules/mod_curl/mod_curl.c \
+				../../../modules/mod_ttf/mod_ttf.c
 
 ifeq ($(OS),Windows_NT)
 	CFILES += ../../../modules/mod_wm/locale/win32.c
@@ -250,7 +252,9 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 					-I/usr/include \
 					-I/usr/include/tre \
 					-I/usr/include/SDL2 \
-					-I/mingw32/include/SDL2
+					-I/mingw32/include/SDL2 \
+					-I/opt/local/include/freetype2 \
+					-I/opt/local/include/libpng16
 
 #---------------------------------------------------------------------------------
 # build a list of library paths

@@ -108,7 +108,8 @@ INCLUDES	:=	../../core/pxtb/include \
 				../../modules/mod_regex/ \
 				../../modules/mod_fsock/ \
 				../../modules/mod_effects/ \
-				../../modules/mod_curl/
+				../../modules/mod_curl/ \
+				../../modules/mod_ttf/
 
 #---------------------------------------------------------------------------------
 # options for code generation
