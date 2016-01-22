@@ -201,8 +201,9 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
     /* Create and fill the struct */
 
     gr = (GRAPH *)malloc(sizeof(GRAPH));
-    if (!gr)
-        return NULL; // sin memoria
+    if (!gr) {
+        return NULL; // No memory
+    }
 
     /* Calculate the row size (dword-aligned) */
 
@@ -215,9 +216,8 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
         bytesPerRow = (bytesPerRow & ~3) + 4;
 
     gr->data = (char *)malloc(h * bytesPerRow);
-    if (!gr->data) // Sin memoria
-    {
-        BGDRTM_LOGERROR("bitmap_new: Could not allocate graphic data");
+    if (!gr->data) { // No memory left
+        BGDRTM_LOGERROR("bitmap_new: Could not allocate graphic data\n");
         free(gr);
         return NULL;
     }
@@ -240,7 +240,7 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
                 if (gr->data)
                     free(gr->data);
                 free(gr);
-                BGDRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)", SDL_GetError());
+                BGDRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)\n", SDL_GetError());
                 return NULL;
             }
             gr->next_piece = NULL;
@@ -257,7 +257,7 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
                 if (gr->data)
                     free(gr->data);
                 free(gr);
-                BGDRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)", SDL_GetError());
+                BGDRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)\n", SDL_GetError());
                 return NULL;
             }
 
@@ -269,7 +269,7 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
                         piece = gr->next_piece = (TEXTURE_PIECE *)malloc(sizeof(TEXTURE_PIECE));
                         if (!piece) {
                             // TODO: Should probably unload the GRAPH, here
-                            BGDRTM_LOGERROR("bitmap_new: Could not create texture piece");
+                            BGDRTM_LOGERROR("bitmap_new: Could not create texture piece\n");
                         } else {
                             piece->x = _w * i;
                             piece->y = _h * j;
@@ -278,7 +278,7 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
                         piece->next = (TEXTURE_PIECE *)malloc(sizeof(TEXTURE_PIECE));
                         if (!piece) {
                             // TODO: Should probably unload the GRAPH, here
-                            BGDRTM_LOGERROR("bitmap_new: Could not create texture piece");
+                            BGDRTM_LOGERROR("bitmap_new: Could not create texture piece\n");
                         } else {
                             piece->next->x = i * renderer_info.max_texture_width;
                             piece->next->y = j * renderer_info.max_texture_height;
@@ -296,7 +296,7 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
                         renderer, format, SDL_TEXTUREACCESS_STATIC | SDL_RENDERER_TARGETTEXTURE, _w,
                         _h);
                     if (!piece->texture) {
-                        BGDRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)", SDL_GetError());
+                        BGDRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)\n", SDL_GetError());
                     }
                 }
                 i_0 = 0;
