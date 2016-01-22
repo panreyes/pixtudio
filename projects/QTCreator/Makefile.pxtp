@@ -75,7 +75,7 @@ LDFLAGS		=	-m32 -g $(MACHDEP)
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
 ifeq ($(OS),Windows_NT)
-	EXTRA_LIBS = -lmingw32 -mwindows -lwsock32 -Wl,-subsystem,console
+	EXTRA_LIBS = -mwindows -lwsock32 -Wl,-subsystem,console
 	OPENAL = $(shell pkg-config --libs openal)
 	TRE = $(shell pkg-config --libs tre)
 else

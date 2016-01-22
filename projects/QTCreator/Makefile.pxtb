@@ -124,7 +124,7 @@ LDFLAGS		=	-m32 -g $(MACHDEP)
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
 ifeq ($(OS),Windows_NT)
-	EXTRA_LIBS = -lmingw32 -mwindows -lshlwapi -Wl,-subsystem,console
+	EXTRA_LIBS = -mwindows -lshlwapi -Wl,-subsystem,console
 else
 	EXTRA_LIBS = -lc
 endif

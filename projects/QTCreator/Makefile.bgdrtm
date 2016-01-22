@@ -92,10 +92,10 @@ INCLUDES	:=	../../core/include \
 	../../modules/mod_wm/ \
 	../../modules/mod_sys/ \
 	../../modules/mod_regex/ \
-    ../../modules/mod_fsock/ \
-    ../../modules/mod_effects/ \
-    ../../modules/mod_curl/ \
-    ../../modules/libsocket/
+	../../modules/mod_fsock/ \
+	../../modules/mod_effects/ \
+	../../modules/mod_curl/ \
+	../../modules/libsocket/
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -249,7 +249,8 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 					-I/opt/local/include/SDL2 \
 					-I/usr/include \
 					-I/usr/include/tre \
-					-I/usr/include/SDL2
+					-I/usr/include/SDL2 \
+					-I/mingw32/include/SDL2
 
 #---------------------------------------------------------------------------------
 # build a list of library paths
