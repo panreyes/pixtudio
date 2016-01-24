@@ -46,6 +46,9 @@
 #include "mod_ttf_symbols.h"
 #endif
 
+// HACK, HACK, HAAAACK!
+extern int fntcolor32;
+
 #define MAX_GLYPHS 32
 FT_UInt       glyph_index;
 FT_Bool       use_kerning;
@@ -132,6 +135,14 @@ int ttf_load(INSTANCE *my, int *params) {
         return -1;
     }
 
+    if(!FT_IS_SCALABLE(face)) {
+        if(debug) {
+            BGDRTM_LOGERROR("ERROR: Non-scallable font faces are not supported\n");
+        }
+        FT_Done_Face(face);
+        return -1;
+    }
+
     // Try to determine the DPI of the display the PixTudio window is at
     float hdpi = 100., vdpi = 100.;
     if(window) {
@@ -145,7 +156,7 @@ int ttf_load(INSTANCE *my, int *params) {
     }
 
     // Set the character size to 16pt
-    error = FT_Set_Char_Size(face, 0, 16*64, (int)hdpi, (int)vdpi);
+    error = FT_Set_Char_Size(face, 0, 30*64, (int)hdpi, (int)vdpi);
     if(error) {
         FT_Done_Face(face);
         return -1;
@@ -170,8 +181,7 @@ int ttf_load(INSTANCE *my, int *params) {
         if (use_kerning && previous && glyph_index) {
             FT_Vector  delta;
 
-            FT_Get_Kerning(face, previous, glyph_index,
-                           FT_KERNING_DEFAULT, &delta);
+            FT_Get_Kerning(face, previous, glyph_index, FT_KERNING_DEFAULT, &delta);
 
             pen_x += delta.x >> 6;
         }
@@ -214,7 +224,7 @@ int ttf_load(INSTANCE *my, int *params) {
     // Create the graph holding the text
     GRAPH *alpha_graph = NULL;
 
-    double baseline_y = abs(face->descender) * 16 / face->units_per_EM;
+    double baseline_y = FT_MulFix(abs(face->descender), face->size->metrics.y_scale) >> 6;
 
     // Draw the text into the GRAPH
     for (int16_t n = num_glyphs-1; n >= 0; n-- ) {
@@ -251,12 +261,6 @@ int ttf_load(INSTANCE *my, int *params) {
                 GRAPH *glyph_graph = bitmap_new_ex(0,
                                                    bit->bitmap.width, bit->bitmap.rows, 8,
                                                    bit->bitmap.buffer, bit->bitmap.pitch);
-
-                printf("Char: '%c':\n", text[n]);
-                printf("\t%ld, %d, %d\n",
-                       pen.y, bit->bitmap.rows, bit->top);
-                printf("\t%ld, %d, %d\n",
-                       pen.x, bit->bitmap.width, bit->left);
                 gr_blit(alpha_graph, NULL,
                         pen.x + bit->left + glyph_graph->width/2.0,
                         pen.y + alpha_graph->height - bit->top + glyph_graph->height/2.0 - baseline_y,
@@ -273,7 +277,7 @@ int ttf_load(INSTANCE *my, int *params) {
 
     // Finally, create the destination 32bpp GRAPH with the same size as alpha_graph
     GRAPH *graph = bitmap_new(0, alpha_graph->width, alpha_graph->height, 32);
-    gr_clear_as(graph, 0xFFFFFFFF);     // Call gr_clear_as(fntcolor32)
+    gr_clear_as(graph, fntcolor32);
 
     // Set the contents of alpha_graph as the alpha channel for graph
     uint8_t *pos = graph->data;
