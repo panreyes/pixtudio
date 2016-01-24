@@ -212,23 +212,12 @@ int ttf_load(INSTANCE *my, int *params) {
     printf("Size: %ldx%ld\n", string_bbox.xMax - string_bbox.xMin, string_bbox.yMax - string_bbox.yMin);
 
     // Create the graph holding the text
-    int graphid  = bitmap_next_code();
-    GRAPH *graph = bitmap_new(graphid,
-                              string_bbox.xMax - string_bbox.xMin,
-                              string_bbox.yMax - string_bbox.yMin,
-                              8);
-    if (!graph) {
-        if(debug) {
-            BGDRTM_LOGERROR("ERROR: Could not create GRAPH\n");
-        }
-        FT_Done_Face(face);
-        return -1;
-    }
-    // Clear the graph (make all the points transparent)
-    gr_clear(graph);
+    GRAPH *alpha_graph = NULL;
+
+    double baseline_y = abs(face->descender) * 16 / face->units_per_EM;
 
     // Draw the text into the GRAPH
-    for (uint8_t n = 0; n < num_glyphs; n++ ) {
+    for (int16_t n = num_glyphs-1; n >= 0; n-- ) {
         FT_Glyph   image;
         FT_Vector  pen;
 
@@ -241,16 +230,37 @@ int ttf_load(INSTANCE *my, int *params) {
         if ( !error ) {
             FT_BitmapGlyph bit = (FT_BitmapGlyph)image;
             if( bit->bitmap.width > 0) {
-                GRAPH *glyph_graph = bitmap_new_ex(-1,
+                if(alpha_graph == NULL) {
+                    alpha_graph = bitmap_new(0,
+                                             pen.x + bit->bitmap.width + bit->left,
+                                             string_bbox.yMax - string_bbox.yMin,
+                                             8);
+                    if (!alpha_graph) {
+                        if(debug) {
+                            BGDRTM_LOGERROR("ERROR: Could not create GRAPH\n");
+                        }
+                        FT_Done_Face(face);
+                        return -1;
+                    }
+
+                    // Clear the graph (make all the points transparent)
+                    gr_clear(alpha_graph);
+                }
+
+                // Create a 8bpp graph for the glyph
+                GRAPH *glyph_graph = bitmap_new_ex(0,
                                                    bit->bitmap.width, bit->bitmap.rows, 8,
                                                    bit->bitmap.buffer, bit->bitmap.pitch);
 
-                printf("Char: '%c', (%f, %f)\n", text[n], pen.x + bit->left + glyph_graph->width / 2.0, bit->bitmap.rows + bit->top + glyph_graph->height / 2.0);
-                gr_blit(graph, NULL, pen.x + bit->left + glyph_graph->width / 2.0, bit->bitmap.rows - bit->top + glyph_graph->height / 2.0,     0,  255,  255,  255, glyph_graph);
-
-                /*my_draw_bitmap( bit->bitmap,
-                                bit->left,
-                                my_target_height - bit->top );*/
+                printf("Char: '%c':\n", text[n]);
+                printf("\t%ld, %d, %d\n",
+                       pen.y, bit->bitmap.rows, bit->top);
+                printf("\t%ld, %d, %d\n",
+                       pen.x, bit->bitmap.width, bit->left);
+                gr_blit(alpha_graph, NULL,
+                        pen.x + bit->left + glyph_graph->width/2.0,
+                        pen.y + alpha_graph->height - bit->top + glyph_graph->height/2.0 - baseline_y,
+                        0,  255,  255,  255, glyph_graph);
 
                 bitmap_destroy(glyph_graph);
             }
@@ -261,13 +271,31 @@ int ttf_load(INSTANCE *my, int *params) {
 
     string_discard(params[1]);
 
-    // Eeverything correct -> Add the graph to the system library
+    // Finally, create the destination 32bpp GRAPH with the same size as alpha_graph
+    GRAPH *graph = bitmap_new(0, alpha_graph->width, alpha_graph->height, 32);
+    gr_clear_as(graph, 0xFFFFFFFF);     // Call gr_clear_as(fntcolor32)
+
+    // Set the contents of alpha_graph as the alpha channel for graph
+    uint8_t *pos = graph->data;
+    uint8_t *alpha_pos = graph->data;
+
+    for(uint32_t y = 0; y < graph->height; y++) {
+        for(uint32_t x = 0; x < graph->width; x++) {
+            pos = ((uint8_t *)graph->data) + graph->pitch * y + x * graph->format->depthb + 3;
+            alpha_pos = ((uint8_t *)alpha_graph->data) + alpha_graph->pitch * y + x * alpha_graph->format->depthb;
+            *pos = *alpha_pos;
+        }
+    }
+
+    // Everything correct -> Add the graph to the system library
+    graph->code = bitmap_next_code();
+    bitmap_destroy(alpha_graph);
     grlib_add_map(0, graph);
 
-    // We're done with the font face
+    // We're done with the font face, unload it
     FT_Done_Face(face);
 
-    return graphid;
+    return graph->code;
 }
 
 void __bgdexport(mod_ttf, module_initialize)() {
