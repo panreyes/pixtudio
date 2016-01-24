@@ -52,9 +52,9 @@ extern DLVARFIXUP __bgdexport(libtext, globals_fixup)[];
 
 /* --------------------------------------------------------------------------- */
 
-int fntcolor8  = -1;
-int fntcolor16 = 0xFFFF;
-int fntcolor32 = 0xFFFFFFFF;
+int8_t fntcolor8  = -1;
+int16_t fntcolor16 = 0xFFFF;
+int32_t fntcolor32 = 0xFFFFFFFF;
 
 /* --------------------------------------------------------------------------- */
 

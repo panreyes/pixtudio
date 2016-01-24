@@ -67,7 +67,10 @@
 
 /* --------------------------------------------------------------------------- */
 
-extern int fntcolor; /* Color for drawing bitmap text    */
+/* Colors for drawing text at different pixel depths */
+extern int8_t fntcolor8;
+extern int16_t fntcolor16;
+extern int32_t fntcolor32;
 
 /* --------------------------------------------------------------------------- */
 
