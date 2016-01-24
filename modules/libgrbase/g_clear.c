@@ -91,7 +91,7 @@ void gr_clear_as(GRAPH *dest, int color) {
         case 16: {
             uint8_t *data = dest->data;
             int16_t *ptr;
-            int n;
+            uint32_t n;
             y = dest->height;
             while (y--) {
                 ptr = (int16_t *)data;
@@ -106,7 +106,7 @@ void gr_clear_as(GRAPH *dest, int color) {
         case 32: {
             uint8_t *data = dest->data;
             uint32_t *ptr;
-            int n;
+            uint32_t n;
             y = dest->height;
             while (y--) {
                 ptr = (uint32_t *)data;
