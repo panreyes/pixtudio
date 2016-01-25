@@ -252,7 +252,9 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 					-I/usr/include \
 					-I/usr/include/tre \
 					-I/usr/include/SDL2 \
+                                        -I/usr/include/freetype2 \
 					-I/mingw32/include/SDL2 \
+                                        -I/mingw32/include/freetype2 \
 					-I/opt/local/include/freetype2 \
 					-I/opt/local/include/libpng16
 
