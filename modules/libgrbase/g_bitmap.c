@@ -595,11 +595,13 @@ void bitmap_destroy(GRAPH *map) {
 
 void bitmap_analyze(GRAPH *bitmap) {
     uint32_t x, y;
+    int color_present = 0, tranparent_present = 0;
 
-    if (bitmap->modified > 1)
+    if (bitmap->modified > 1) {
         bitmap->modified = 1;
+    }
 
-    bitmap->info_flags &= ~GI_ANALIZE_MASK;
+    bitmap->info_flags &= ~( GI_CLEAN | GI_NOCOLORKEY );
 
     /* Search for transparent pixels (value 0).
      * If none found, set the flag GI_NOCOLORKEY */
@@ -607,10 +609,20 @@ void bitmap_analyze(GRAPH *bitmap) {
     switch (bitmap->format->depth) {
         case 8: {
             uint8_t *ptr = (uint8_t *)bitmap->data;
+            int inc = bitmap->pitch - bitmap->widthb;
 
-            for (y = bitmap->height; y--; ptr += bitmap->pitch) {
-                if (memchr(ptr, 0, bitmap->width))
+            for (y = bitmap->height; y--; ptr = ((( uint8_t *)ptr) + inc)) {
+                for (x = bitmap->width; x--;) {
+                    if (*ptr) {
+                        color_present = 1;
+                    }
+                    if (!*ptr++) {
+                        tranparent_present = 1;
+                    }
+                }
+                if (color_present && tranparent_present) {
                     break;
+                }
             }
         } break;
         case 16: {
@@ -618,10 +630,17 @@ void bitmap_analyze(GRAPH *bitmap) {
             int inc      = bitmap->pitch - bitmap->widthb;
 
             for (y = bitmap->height; y--; ptr = (int16_t *)(((uint8_t *)ptr) + inc)) {
-                for (x = bitmap->width; x--;)
-                    if (!*ptr++)
-                        break;
-                break;
+                for (x = bitmap->width; x--;){
+                    if (*ptr) {
+                        color_present = 1;
+                    }
+                    if (!*ptr++) {
+                        tranparent_present = 1;
+                    }
+                }
+                if (color_present && tranparent_present) {
+                    break;
+                }
             }
         } break;
         case 32: {
@@ -629,12 +648,26 @@ void bitmap_analyze(GRAPH *bitmap) {
             int inc      = bitmap->pitch - bitmap->widthb;
 
             for (y = bitmap->height; y--; ptr = (int32_t *)(((uint8_t *)ptr) + inc)) {
-                for (x = bitmap->width; x--;)
-                    if (!*ptr++)
-                        break;
-                break;
+                for (x = bitmap->width; x--;){
+                    if ((*ptr & 0xff000000) != 0x00000000) {
+                        color_present = 1;
+                    }
+                    if (!*ptr) {
+                        tranparent_present = 1;
+                    }
+                    ptr++;
+                }
+                if (color_present && tranparent_present) {
+                    break;
+                }
             }
         }
+    }
+
+    if ( color_present && !tranparent_present ) {
+        bitmap->info_flags |= GI_NOCOLORKEY ;
+    } else if ( !color_present && tranparent_present ) {
+        bitmap->info_flags |= GI_CLEAN ;
     }
 }
 
@@ -686,8 +719,8 @@ int bitmap_next_code() {
     map_code_allocated += 256;
     map_code_bmp = (uint32_t *)realloc(map_code_bmp, sizeof(uint32_t) * (map_code_allocated >> 5));
 
-    memset(&map_code_bmp[(map_code_last >> 5)], 0,
-           32); /* 256 >> 5 = 8 * sizeof ( uint32_t ) = 8 * 4 = 32 */
+    /* 256 >> 5 = 8 * sizeof ( uint32_t ) = 8 * 4 = 32 */
+    memset(&map_code_bmp[(map_code_last >> 5)], 0, 32);
 
     // Devuelvo map_code_last e incremento en 1, ya que ahora tengo BLOCK_INCR mas que antes
     bit_set(map_code_bmp, map_code_last);
