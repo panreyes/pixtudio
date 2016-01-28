@@ -1,7 +1,7 @@
 # Locate Tre
 # This module defines XXX_FOUND, XXX_INCLUDE_DIRS and XXX_LIBRARIES standard variables
 #
-# $TRESDIR is an environment variable that would
+# $TREDIR is an environment variable that would
 # correspond to the ./configure --prefix=$TREDIR
 # used in building tre.
 
