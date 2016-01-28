@@ -219,12 +219,11 @@ int ttf_load(INSTANCE *my, int *params) {
     FT_BBox string_bbox;
     compute_string_bbox(&string_bbox);
 
-    printf("Size: %ldx%ld\n", string_bbox.xMax - string_bbox.xMin, string_bbox.yMax - string_bbox.yMin);
-
     // Create the graph holding the text
     GRAPH *alpha_graph = NULL;
 
-    double baseline_y = FT_MulFix(abs(face->descender), face->size->metrics.y_scale) >> 6;
+    uint32_t highest_y = FT_MulFix(abs(face->ascender), face->size->metrics.y_scale) >> 6;
+    uint32_t baseline_y = FT_MulFix(abs(face->descender), face->size->metrics.y_scale) >> 6;
 
     // Draw the text into the GRAPH
     for (int16_t n = num_glyphs-1; n >= 0; n-- ) {
@@ -243,11 +242,11 @@ int ttf_load(INSTANCE *my, int *params) {
                 if(alpha_graph == NULL) {
                     alpha_graph = bitmap_new(0,
                                              pen.x + bit->bitmap.width + bit->left,
-                                             string_bbox.yMax - string_bbox.yMin,
+                                             highest_y + baseline_y,
                                              8);
                     if (!alpha_graph) {
                         if(debug) {
-                            BGDRTM_LOGERROR("ERROR: Could not create GRAPH\n");
+                            BGDRTM_LOGERROR("ERROR: Could not create alpha GRAPH\n");
                         }
                         FT_Done_Face(face);
                         return -1;
