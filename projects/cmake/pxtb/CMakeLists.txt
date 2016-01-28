@@ -1,15 +1,12 @@
 project(pxtb C)
 cmake_minimum_required(VERSION 2.8)
 # Required stuff
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${pxtb_SOURCE_DIR}/../cmake")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${pxtb_SOURCE_DIR}/../include")
 find_package(SDL2 REQUIRED)     # We need the SDL_gamecontroller symbols, but we don't link against SDL2
 find_package(ZLIB REQUIRED)
 # Preprocessor macros
 add_definitions(-D__PXTB__)
-add_definitions(-D__MONOLITHIC__)
-add_definitions(-DNO_MODCHIPMUNK)
-add_definitions(-DNO_MODICONV)
-add_definitions(-DVERSION="1.0.0")
+include(common_defs)
 # Source files
 file(GLOB SOURCE_FILES
   ${pxtb_SOURCE_DIR}/../../../core/pxtb/src/*.c
@@ -81,6 +78,7 @@ include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_fsock/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_effects/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_curl/
+                    ${pxtb_SOURCE_DIR}/../../../modules/mod_ttf/
                     ${SDL2_INCLUDE_DIR}
                     ${ZLIB_INCLUDE_DIRS})
 # Main executable
@@ -90,21 +88,9 @@ if(WIN32)
 else()
     set(EXTRA_LIBS)
 endif()
-# Bump up warning levels appropriately for clang, gcc & msvc
-# Also set debug/optimization flags depending on the build type. IDE users choose this when
-# selecting the build mode in their IDE
-if (${CMAKE_C_COMPILER_ID} STREQUAL "GNU" OR
-    ${CMAKE_C_COMPILER_ID} STREQUAL "Clang" OR
-    ${CMAKE_C_COMPILER_ID} STREQUAL "AppleClang")
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wshadow")
-        set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG} -g")
-        set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -O2")
-elseif (${CMAKE_C_COMPILER_ID} STREQUAL "MSVC")
-        if (CMAKE_C_FLAGS MATCHES "/W[0-4]")
-                string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
-        else()
-                set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /W4")
-        endif()
-endif()
-set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
+
+# Include the compiler flags from the external include file
+include(compiler_flags)
+
+# Link the executable to the libraries
 target_link_libraries(${PROJECT_NAME} ${ZLIB_LIBRARIES} ${EXTRA_LIBS})
