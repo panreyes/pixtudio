@@ -10,6 +10,7 @@ find_package(Vorbis REQUIRED)
 find_package(Theora REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(OpenAL REQUIRED)
+find_package(OpenAL REQUIRED)
 # Preprocessor macros
 add_definitions(-D__BGDRTM__)
 include(common_defs)
@@ -170,7 +171,8 @@ include_directories(${bgdrtm_SOURCE_DIR}/../../../../core/bgdrtm/include
                     ${VORBIS_INCLUDE_DIR}
                     ${THEORA_INCLUDE_DIR}
                     ${FREETYPE_INCLUDE_DIRS}
-                    ${OPENAL_INCLUDE_DIR})
+                    ${OPENAL_INCLUDE_DIR}
+                    ${TRE_INCLUDE_DIR})
 # Main executable
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
