@@ -25,14 +25,12 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <stdbool.h>
 
 /* Freetype 2 */
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
-
-/* SDL2 (to try to get screen DPI) */
-#include <SDL.h>
 
 /* PixTudio stuff */
 #include <bgddl.h>
@@ -46,142 +44,91 @@
 #include "mod_ttf_symbols.h"
 #endif
 
-// HACK, HACK, HAAAACK!
-extern int fntcolor32;
-
 #define MAX_GLYPHS 32
-FT_UInt       glyph_index;
-FT_Bool       use_kerning;
-FT_UInt       previous;
 
-FT_Glyph      glyphs[MAX_GLYPHS];   /* glyph image    */
-FT_Vector     pos   [MAX_GLYPHS];   /* glyph position */
-FT_UInt       num_glyphs;
+typedef struct {
+    FT_Face   face;
+    FT_Glyph  glyphs[255];
+    GRAPH    *gr[255];
+} FONTFACE;
+
+FONTFACE faces[255];
 
 /* ---------------------- */
 FT_Library library;
 /* ---------------------- */
 
-void compute_string_bbox(FT_BBox *abbox) {
-    FT_BBox  bbox;
-    FT_BBox  glyph_bbox;
-
-
-    /* initialize string bbox to "empty" values */
-    bbox.xMin = bbox.yMin =  32000;
-    bbox.xMax = bbox.yMax = -32000;
-
-    /* for each glyph image, compute its bounding box, */
-    /* translate it, and grow the string bbox          */
-    for (uint8_t n = 0; n < num_glyphs; n++) {
-        FT_Glyph_Get_CBox(glyphs[n], ft_glyph_bbox_pixels, &glyph_bbox);
-
-        glyph_bbox.xMin += pos[n].x;
-        glyph_bbox.xMax += pos[n].x;
-        glyph_bbox.yMin += pos[n].y;
-        glyph_bbox.yMax += pos[n].y;
-
-        if (glyph_bbox.xMin < bbox.xMin) {
-            bbox.xMin = glyph_bbox.xMin;
+bool load_face(const char *path, uint16_t size, uint8_t n) {
+    int error = FT_New_Face(library, path, 0, &faces[n].face);
+    if(error) {
+        if(debug) {
+            BGDRTM_LOGERROR("ERROR: Could not load font face %s\n", path);
         }
-
-        if (glyph_bbox.yMin < bbox.yMin) {
-            bbox.yMin = glyph_bbox.yMin;
-        }
-
-        if (glyph_bbox.xMax > bbox.xMax) {
-            bbox.xMax = glyph_bbox.xMax;
-        }
-
-        if (glyph_bbox.yMax > bbox.yMax) {
-            bbox.yMax = glyph_bbox.yMax;
-        }
+        return false;
     }
 
-    /* check that we really grew the string bbox */
-    if (bbox.xMin > bbox.xMax) {
-        bbox.xMin = 0;
-        bbox.yMin = 0;
-        bbox.xMax = 0;
-        bbox.yMax = 0;
+    if(FT_HAS_VERTICAL(faces[n].face)) {
+        if(debug) {
+            BGDRTM_LOGERROR("ERROR: Vertical font faces are not supported\n");
+        }
+        FT_Done_Face(faces[n].face);
+        return false;
     }
 
-    /* return string bbox */
-    *abbox = bbox;
+    if(!FT_IS_SCALABLE(faces[n].face)) {
+        if(debug) {
+            BGDRTM_LOGERROR("ERROR: Non-scallable font faces are not supported\n");
+        }
+        FT_Done_Face(faces[n].face);
+        return false;
+    }
+
+    // Set the character size in px
+    error = FT_Set_Pixel_Sizes(faces[n].face, size, size);
+    if(error) {
+        FT_Done_Face(faces[n].face);
+        return false;
+    }
+
+    return true;
 }
 
 int ttf_load(INSTANCE *my, int *params) {
+    int error;
+    // HACK, HACK, HAAAACK!
+    extern int fntcolor32;
+
     if (!scr_initialized) {
         return (-1);
     }
 
     // Load the given path
-    FT_Face face;
-    const char *path = string_get(params[0]);
-    int error = FT_New_Face( library, path, 0, &face );
-    string_discard(params[0]);
-    if(error) {
-        if(debug) {
-            BGDRTM_LOGERROR("ERROR: Could not load font face %s\n", path);
-        }
+    if(load_face(string_get(params[0]), 40, 0) == false) {
         return -1;
     }
 
-    if(FT_HAS_VERTICAL(face)) {
-        if(debug) {
-            BGDRTM_LOGERROR("ERROR: Vertical font faces are not supported\n");
-        }
-        FT_Done_Face(face);
-        return -1;
-    }
-
-    if(!FT_IS_SCALABLE(face)) {
-        if(debug) {
-            BGDRTM_LOGERROR("ERROR: Non-scallable font faces are not supported\n");
-        }
-        FT_Done_Face(face);
-        return -1;
-    }
-
-    // Try to determine the DPI of the display the PixTudio window is at
-    float hdpi = 100., vdpi = 100.;
-    if(window) {
-        int nDisplay = SDL_GetWindowDisplayIndex(window);
-        if(nDisplay >= 0) {
-            if(SDL_GetDisplayDPI(nDisplay, NULL, &hdpi, &vdpi) < 0) {
-                // Could not get DPI info, use a default value
-                hdpi = vdpi = 100.;
-            }
-        }
-    }
-
-    // Set the character size to 16pt
-    error = FT_Set_Char_Size(face, 0, 30*64, (int)hdpi, (int)vdpi);
-    if(error) {
-        FT_Done_Face(face);
-        return -1;
-    }
-
-    ////////////////////////////////////////////
-    uint16_t pen_x = 0;   /* start at (0,0) */
+    uint16_t pen_x = 0;
     uint16_t pen_y = 0;
 
-    num_glyphs  = 0;
-    use_kerning = FT_HAS_KERNING(face);
-    previous    = 0;
+    FT_UInt num_glyphs  = 0;
+    FT_Bool use_kerning = FT_HAS_KERNING(faces[0].face);
+    FT_UInt previous    = 0;
+
+    FT_Glyph      glyphs[MAX_GLYPHS];   /* glyph image    */
+    FT_Vector     pos   [MAX_GLYPHS];   /* glyph position */
 
     const char *text = string_get(params[1]);
     uint16_t num_chars = strlen(text);
 
     for (uint8_t n = 0; n < num_chars; n++) {
         /* convert character code to glyph index */
-        glyph_index = FT_Get_Char_Index(face, text[n]);
+        FT_UInt glyph_index = FT_Get_Char_Index(faces[0].face, text[n]);
 
         /* retrieve kerning distance and move pen position */
         if (use_kerning && previous && glyph_index) {
             FT_Vector  delta;
 
-            FT_Get_Kerning(face, previous, glyph_index, FT_KERNING_DEFAULT, &delta);
+            FT_Get_Kerning(faces[0].face, previous, glyph_index, FT_KERNING_DEFAULT, &delta);
 
             pen_x += delta.x >> 6;
         }
@@ -191,19 +138,19 @@ int ttf_load(INSTANCE *my, int *params) {
         pos[num_glyphs].y = pen_y;
 
         /* load glyph image into the slot without rendering */
-        error = FT_Load_Glyph(face, glyph_index, FT_LOAD_DEFAULT);
+        error = FT_Load_Glyph(faces[0].face, glyph_index, FT_LOAD_DEFAULT);
         if (error) {
             continue;  /* ignore errors, jump to next glyph */
         }
 
         /* extract glyph image and store it in our table */
-        error = FT_Get_Glyph(face->glyph, &glyphs[num_glyphs]);
+        error = FT_Get_Glyph(faces[0].face->glyph, &glyphs[num_glyphs]);
         if (error) {
             continue;  /* ignore errors, jump to next glyph */
         }
 
         /* increment pen position */
-        pen_x += face->glyph->advance.x >> 6;
+        pen_x += faces[0].face->glyph->advance.x >> 6;
 
         /* record current glyph index */
         previous = glyph_index;
@@ -213,17 +160,14 @@ int ttf_load(INSTANCE *my, int *params) {
     }
 
     // Decrease reference count, now that we're done with it
-    //string_discard(params[1]);
-
-    // Get the bounding box size
-    FT_BBox string_bbox;
-    compute_string_bbox(&string_bbox);
+    string_discard(params[1]);
 
     // Create the graph holding the text
     GRAPH *alpha_graph = NULL;
 
-    uint32_t highest_y = FT_MulFix(abs(face->ascender), face->size->metrics.y_scale) >> 6;
-    uint32_t baseline_y = FT_MulFix(abs(face->descender), face->size->metrics.y_scale) >> 6;
+    // Make the box as high as needed so that any text fits in
+    uint32_t highest_y = FT_MulFix(abs(faces[0].face->ascender), faces[0].face->size->metrics.y_scale) >> 6;
+    uint32_t baseline_y = FT_MulFix(abs(faces[0].face->descender), faces[0].face->size->metrics.y_scale) >> 6;
 
     // Draw the text into the GRAPH
     for (int16_t n = num_glyphs-1; n >= 0; n-- ) {
@@ -248,7 +192,7 @@ int ttf_load(INSTANCE *my, int *params) {
                         if(debug) {
                             BGDRTM_LOGERROR("ERROR: Could not create alpha GRAPH\n");
                         }
-                        FT_Done_Face(face);
+                        FT_Done_Face(faces[0].face);
                         return -1;
                     }
 
@@ -272,21 +216,19 @@ int ttf_load(INSTANCE *my, int *params) {
         }
     }
 
-    string_discard(params[1]);
-
     // Finally, create the destination 32bpp GRAPH with the same size as alpha_graph
     GRAPH *graph = bitmap_new(0, alpha_graph->width, alpha_graph->height, 32);
     gr_clear_as(graph, fntcolor32);
 
     // Set the contents of alpha_graph as the alpha channel for graph
-    uint8_t *pos = graph->data;
+    uint8_t *graph_pos = graph->data;
     uint8_t *alpha_pos = graph->data;
 
     for(uint32_t y = 0; y < graph->height; y++) {
         for(uint32_t x = 0; x < graph->width; x++) {
-            pos = ((uint8_t *)graph->data) + graph->pitch * y + x * graph->format->depthb + 3;
+            graph_pos = ((uint8_t *)graph->data) + graph->pitch * y + x * graph->format->depthb + 3;
             alpha_pos = ((uint8_t *)alpha_graph->data) + alpha_graph->pitch * y + x * alpha_graph->format->depthb;
-            *pos = *alpha_pos;
+            *graph_pos = *alpha_pos;
         }
     }
 
@@ -296,7 +238,7 @@ int ttf_load(INSTANCE *my, int *params) {
     grlib_add_map(0, graph);
 
     // We're done with the font face, unload it
-    FT_Done_Face(face);
+    FT_Done_Face(faces[0].face);
 
     return graph->code;
 }
