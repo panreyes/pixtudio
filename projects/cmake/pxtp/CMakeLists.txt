@@ -44,7 +44,7 @@ target_link_libraries(${PROJECT_NAME}
                       ${PNG_LIBRARIES}
                       ${OGG_LIBRARY}
                       ${VORBIS_LIBRARY}
-                      ${THEORA_LIBRARY}
+                      ${THEORA_LIBRARIES}
                       ${FREETYPE_LIBRARIES}
                       ${OPENAL_LIBRARY}
                       ${TRE_LIBRARY}

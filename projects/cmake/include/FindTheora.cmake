@@ -38,6 +38,7 @@ FIND_PATH(THEORA_INCLUDE_DIR
     PATHS ${THEORA_SEARCH_PATHS}
 )
 
+# Find libtheora
 FIND_LIBRARY(THEORA_LIBRARY
     NAMES theora libtheora
     HINTS
@@ -69,12 +70,43 @@ IF(NOT THEORA_LIBRARY_DEBUG)
     )
 ENDIF()
 
+# If libtheoradec is found, link against it, too
+FIND_LIBRARY(THEORADEC_LIBRARY
+    NAMES theoradec libtheoradec
+    HINTS
+    $ENV{THEORADIR}
+    $ENV{THEORA_PATH}
+    PATH_SUFFIXES lib lib64 win32/Theoradec_Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
+    PATHS ${THEORA_SEARCH_PATHS}
+)
+
+# First search for d-suffixed libs
+FIND_LIBRARY(THEORADEC_LIBRARY_DEBUG
+    NAMES theoradec theoradec_d libtheoradecd libtheoradec_d
+    HINTS
+    $ENV{THEORADIR}
+    $ENV{THEORA_PATH}
+    PATH_SUFFIXES lib lib64 win32/Theoradec_Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
+    PATHS ${THEORA_SEARCH_PATHS}
+)
+
+IF(NOT THEORADEC_LIBRARY_DEBUG)
+    # Then search for non suffixed libs if necessary, but only in debug dirs
+    FIND_LIBRARY(THEORADEC_LIBRARY_DEBUG
+        NAMES theoradec libtheoradec
+        HINTS
+        $ENV{THEORADIR}
+        $ENV{THEORA_PATH}
+        PATH_SUFFIXES win32/Theoradec_Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
+        PATHS ${THEORA_SEARCH_PATHS}
+    )
+ENDIF()
 
 IF(THEORA_LIBRARY)
     IF(THEORA_LIBRARY_DEBUG)
-        SET(THEORA_LIBRARIES optimized "${THEORA_LIBRARY}" debug "${THEORA_LIBRARY_DEBUG}")
+        SET(THEORA_LIBRARIES optimized "${THEORA_LIBRARY}" "${THEORADEC_LIBRARY}" debug "${THEORA_LIBRARY_DEBUG}" "${THEORADEC_LIBRARY_DEBUG}")
     ELSE()
-        SET(THEORA_LIBRARIES "${THEORA_LIBRARY}")       # Could add "general" keyword, but it is optional
+        SET(THEORA_LIBRARIES "${THEORA_LIBRARY}" "${THEORADEC_LIBRARY}")       # Could add "general" keyword, but it is optional
     ENDIF()
 ENDIF()
 
