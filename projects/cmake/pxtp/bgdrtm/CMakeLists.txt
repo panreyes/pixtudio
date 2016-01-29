@@ -10,7 +10,7 @@ find_package(Vorbis REQUIRED)
 find_package(Theora REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(OpenAL REQUIRED)
-find_package(OpenAL REQUIRED)
+find_package(TRE REQUIRED)
 # Preprocessor macros
 add_definitions(-D__BGDRTM__)
 include(common_defs)
