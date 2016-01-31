@@ -103,7 +103,7 @@ INCLUDES	:=	../../core/include \
 #---------------------------------------------------------------------------------
 
 CFLAGS		=	-m32 -g -Wall -D__BGDRTM__ -D__MONOLITHIC__ -DNO_MODIMAGE \
-        -DNO_MODICONV -DNO_MODCHIPMUNK \
+        -DNO_MODICONV -DNO_MODCHIPMUNK -DNO_MODCURL\
 	-DNO_MODSENSOR -DVERSION='"1.0.0"' $(MACHDEP) $(INCLUDE) \
 	-fno-strict-aliasing $(pkg-config --cflags tre)
 CXXFLAGS	=	-m32 -save-temps -Xassembler -aln=$@.lst $(CFLAGS)
@@ -219,7 +219,6 @@ CFILES		:=	../../../core/bgdrtm/src/copy.c \
 				../../../modules/libsocket/libsocket.c \
 				../../../modules/mod_fsock/mod_fsock.c \
 				../../../modules/mod_effects/mod_effects.c \
-				../../../modules/mod_curl/mod_curl.c \
 				../../../modules/mod_ttf/mod_ttf.c
 
 ifeq ($(OS),Windows_NT)
@@ -252,9 +251,9 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 					-I/usr/include \
 					-I/usr/include/tre \
 					-I/usr/include/SDL2 \
-                                        -I/usr/include/freetype2 \
+					-I/usr/include/freetype2 \
 					-I/mingw32/include/SDL2 \
-                                        -I/mingw32/include/freetype2 \
+					-I/mingw32/include/freetype2 \
 					-I/opt/local/include/freetype2 \
 					-I/opt/local/include/libpng16
 
