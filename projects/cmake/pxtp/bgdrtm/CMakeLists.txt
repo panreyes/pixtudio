@@ -96,7 +96,6 @@ set(SOURCE_FILES
   ${bgdrtm_SOURCE_DIR}/../../../../modules/libsocket/libsocket.c
   ${bgdrtm_SOURCE_DIR}/../../../../modules/mod_fsock/mod_fsock.c
   ${bgdrtm_SOURCE_DIR}/../../../../modules/mod_effects/mod_effects.c
-  ${bgdrtm_SOURCE_DIR}/../../../../modules/mod_curl/mod_curl.c
   ${bgdrtm_SOURCE_DIR}/../../../../modules/mod_ttf/mod_ttf.c)
 
 # OS-specific files
