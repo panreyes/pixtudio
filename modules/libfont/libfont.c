@@ -64,6 +64,7 @@ static int get_bitmap_char_width(unsigned char *data, int width, int height, int
  *  PARAMS :
  *      charset
  *      bpp
+ *      type
  *
  *  RETURN VALUE :
  *      Code of the new font or -1 if error
@@ -71,23 +72,23 @@ static int get_bitmap_char_width(unsigned char *data, int width, int height, int
  *
  */
 
-int gr_font_new(int charset, uint32_t bpp) {
+int gr_font_new(int charset, uint8_t bpp, uint8_t type) {
     FONT *f = (FONT *)malloc(sizeof(FONT));
 
     if (f == NULL)
         return -1; // No memory
 
-    if (font_count == MAX_FONTS - 1) // Too much fonts
-    {
+    if (font_count == MAX_FONTS - 1) {  // Too many fonts
         free(f);
         return -1;
     }
 
     memset(f, 0, sizeof(FONT));
-    f->charset   = charset; // CHARSET_CP850
-    f->bpp       = bpp;     // 8
-    f->maxwidth  = 0;
-    f->maxheight = 0;
+    f->bitmap.charset   = charset; // CHARSET_CP850
+    f->bpp              = bpp;     // 8
+    f->type             = type;
+    f->bitmap.maxwidth  = 0;
+    f->bitmap.maxheight = 0;
 
     fonts[font_count] = f;
     return font_count++;
@@ -128,7 +129,7 @@ int gr_font_newfrombitmap(GRAPH *map, int charset, int width, int height, int fi
     int w, h, cw, ch;
     GRAPH *bitmap;
 
-    id = gr_font_new(charset, map->format->depth);
+    id = gr_font_new(charset, map->format->depth, TYPE_BITMAP);
     if (id == -1)
         return -1;
 
@@ -179,9 +180,9 @@ int gr_font_newfrombitmap(GRAPH *map, int charset, int width, int height, int fi
                 return -1; // No memory
             }
 
-            f->glyph[i].bitmap  = bitmap;
-            f->glyph[i].xoffset = 0;
-            f->glyph[i].yoffset = 0;
+            f->bitmap.glyph[i].bitmap  = bitmap;
+            f->bitmap.glyph[i].xoffset = 0;
+            f->bitmap.glyph[i].yoffset = 0;
 
             bitmap_add_cpoint(bitmap, 0, 0);
 
@@ -193,17 +194,17 @@ int gr_font_newfrombitmap(GRAPH *map, int charset, int width, int height, int fi
 
             if (options != NFB_FIXEDWIDTH) {
                 if (map->format->depth == 1)
-                    f->glyph[i].xadvance =
+                    f->bitmap.glyph[i].xadvance =
                         get_bitmap_char_width((unsigned char *)charptr, width, height, map->pitch,
                                               map->format->depth) +
                         1;
                 else
-                    f->glyph[i].xadvance =
+                    f->bitmap.glyph[i].xadvance =
                         get_bitmap_char_width(bitmap->data, width, height, bitmap->pitch,
                                               bitmap->format->depth) +
                         1;
             } else
-                f->glyph[i].xadvance = width + 1;
+                f->bitmap.glyph[i].xadvance = width + 1;
 
             bitmap->modified   = 0;
             bitmap->info_flags = 0;
@@ -213,9 +214,9 @@ int gr_font_newfrombitmap(GRAPH *map, int charset, int width, int height, int fi
 
     /* Set a reasonable size for the space */
 
-    f->glyph[32].xadvance = width * 65 / 100;
-    f->maxwidth           = width;
-    f->maxheight          = height;
+    f->bitmap.glyph[32].xadvance = width * 65 / 100;
+    f->bitmap.maxwidth           = width;
+    f->bitmap.maxheight          = height;
 
     return id;
 }
@@ -441,8 +442,8 @@ void gr_font_destroy(int fontid) {
             return;
 
         for (n = 0; n < MAX_FONTS; n++)
-            if (fonts[fontid]->glyph[n].bitmap)
-                bitmap_destroy(fonts[fontid]->glyph[n].bitmap);
+            if (fonts[fontid]->bitmap.glyph[n].bitmap)
+                bitmap_destroy(fonts[fontid]->bitmap.glyph[n].bitmap);
 
         free(fonts[fontid]);
         fonts[fontid] = NULL;

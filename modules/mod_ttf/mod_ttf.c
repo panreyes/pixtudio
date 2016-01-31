@@ -44,26 +44,154 @@
 #include "mod_ttf_symbols.h"
 #endif
 
-#define MAX_GLYPHS 32
+#define MAX_GLYPHS 256
 #define MAX_FACES 255
 
 /* Correspondance between CP850 character codes (given by PixTudio)
  * and UTF-8 character codes (expected by FreeType)
  */
-uint16_t utf8codes[] = {199,      /* Ç */
-                        220,      /* ü */
-                        201,      /* é */
-                        194,      /* â */
-                        196,      /* ä */
-                        192,      /* à */
-                        197,      /* å */
-                        199,      /* ç */
+uint16_t utf8codes[] = {0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16,
+                        17,
+                        18,
+                        19,
+                        20,
+                        21,
+                        22,
+                        23,
+                        24,
+                        25,
+                        26,
+                        27,
+                        28,
+                        29,
+                        30,
+                        31,
+                        32,
+                        33,
+                        34,
+                        35,
+                        36,
+                        37,
+                        38,
+                        39,
+                        40,
+                        41,
+                        42,
+                        43,
+                        44,
+                        45,
+                        46,
+                        47,
+                        48,
+                        49,
+                        50,
+                        51,
+                        52,
+                        53,
+                        54,
+                        55,
+                        56,
+                        57,
+                        58,
+                        59,
+                        60,
+                        61,
+                        62,
+                        63,
+                        64,
+                        65,
+                        66,
+                        67,
+                        68,
+                        69,
+                        70,
+                        71,
+                        72,
+                        73,
+                        74,
+                        75,
+                        76,
+                        77,
+                        78,
+                        79,
+                        80,
+                        81,
+                        82,
+                        83,
+                        84,
+                        85,
+                        86,
+                        87,
+                        88,
+                        89,
+                        90,
+                        91,
+                        92,
+                        93,
+                        94,
+                        95,
+                        96,
+                        97,
+                        98,
+                        99,
+                        100,
+                        101,
+                        102,
+                        103,
+                        104,
+                        105,
+                        106,
+                        107,
+                        108,
+                        109,
+                        110,
+                        111,
+                        112,
+                        113,
+                        114,
+                        115,
+                        116,
+                        117,
+                        118,
+                        119,
+                        120,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        169,
+                        199,      /* Ç */
+                        252,      /* ü */
+                        233,      /* é */
+                        226,      /* â */
+                        228,      /* ä */
+                        224,      /* à */
+                        229,      /* å */
+                        231,      /* ç */
                         234,      /* ê */
-                        203,      /* ë */
-                        200,      /* è */
-                        207,      /* ï */
-                        206,      /* î */
-                        204,      /* ì */
+                        235,      /* ë */
+                        232,      /* è */
+                        239,      /* ï */
+                        238,      /* î */
+                        236,      /* ì */
                         196,      /* Ä */
                         197,      /* Å */
                         201,      /* É */
@@ -190,15 +318,8 @@ FONTFACE faces[MAX_FACES];
 FT_Library library;
 /* ---------------------- */
 
-uint16_t cp850_to_utf8(const unsigned char code) {
-    if(code < 128) {
-        return (uint16_t)code;
-    } else {
-        return utf8codes[code-128];
-    }
-}
-
 bool load_face(const char *path, uint16_t size, uint8_t n) {
+    // TODO: switch to using FT_New_Memory_Face so that we can read from APKs
     int error = FT_New_Face(library, path, 0, &faces[n].face);
     if(error) {
         if(debug) {
@@ -274,7 +395,7 @@ int ttf_draw(INSTANCE *my, int *params) {
          * (We want the "Decimal" column)
          * https://msdn.microsoft.com/en-us/library/cc195064.aspx
          */
-        FT_UInt glyph_index = FT_Get_Char_Index(faces[0].face, cp850_to_utf8(text[n]));
+        FT_UInt glyph_index = FT_Get_Char_Index(faces[0].face, utf8codes[(unsigned char)text[n]]);
 
         /* retrieve kerning distance and move pen position */
         if (use_kerning && previous && glyph_index) {

@@ -44,20 +44,32 @@ enum { CHARSET_ISO8859 = 0, CHARSET_CP850 = 1 };
 
 /* -------------------------------------------------------------------------- */
 
+enum { TYPE_BITMAP = 0, TYPE_VECTOR = 1 };
+
+/* -------------------------------------------------------------------------- */
+
 typedef struct _font {
-    int charset;
+    uint8_t type;
     uint32_t bpp;
 
-    struct _glyph {
-        GRAPH *bitmap;
-        int xoffset;
-        int yoffset;
-        int xadvance;
-        int yadvance;
-    } glyph[256];
+    struct {
+        struct _glyph {
+            GRAPH *bitmap;
+            int xoffset;
+            int yoffset;
+            int xadvance;
+            int yadvance;
+        } glyph[256];
 
-    int maxheight;
-    int maxwidth;
+        int maxheight;
+        int maxwidth;
+
+        int32_t charset;
+    } bitmap;
+
+    struct {
+        int32_t n;
+    } vector;
 } FONT;
 
 /* -------------------------------------------------------------------------- */
@@ -73,7 +85,7 @@ extern int font_count;
 
 extern void gr_font_destroy(int fontid);
 extern FONT *gr_font_get(int id);
-extern int gr_font_new(int charset, uint32_t bpp);
+extern int gr_font_new(int charset, uint8_t bpp, uint8_t type);
 extern int gr_font_newfrombitmap(GRAPH *map, int charset, int width, int height, int first,
                                  int last, int options);
 extern int gr_font_systemfont(char *chardata);
