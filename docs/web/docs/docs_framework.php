@@ -241,7 +241,7 @@ function docs_read_content($file){
             if($page!=""){
                 echo '<button type="button" class="btn btn-default" onclick="show_content('.$content_number.');">'.$content_name.'</button><br />';
             } else {
-                echo '<button type="button" class="btn btn-default">'.$content_name.' (NO EXISTE)</button><br />';
+                echo '<button type="button" class="btn btn-default">'.$content_name.' (MISSING)</button><br />';
             }
             if($page!=""){
                 echo '<div class="bs-callout bs-callout-info" id="content'.$content_number.'" style="display:none">';
