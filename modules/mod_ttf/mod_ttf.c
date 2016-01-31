@@ -45,18 +45,158 @@
 #endif
 
 #define MAX_GLYPHS 32
+#define MAX_FACES 255
+
+/* Correspondance between CP850 character codes (given by PixTudio)
+ * and UTF-8 character codes (expected by FreeType)
+ */
+uint16_t utf8codes = {199,      /* Ç */
+                      220,      /* ü */
+                      201,      /* é */
+                      194,      /* â */
+                      196,      /* ä */
+                      192,      /* à */
+                      197,      /* å */
+                      199,      /* ç */
+                      234,      /* ê */
+                      203,      /* ë */
+                      200,      /* è */
+                      207,      /* ï */
+                      206,      /* î */
+                      204,      /* ì */
+                      196,      /* Ä */
+                      197,      /* Å */
+                      201,      /* É */
+                      198,      /* æ */
+                      198,      /* Æ */
+                      212,      /* ô */
+                      214,      /* ö */
+                      210,      /* ò */
+                      219,      /* û */
+                      217,      /* ù */
+                      255,      /* ÿ */
+                      214,      /* Ö */
+                      220,      /* Ü */
+                      216,      /* ø */
+                      163,      /* £ */
+                      216,      /* Ø */
+                      215,      /* × */
+                      401,      /* ƒ */
+                      193,      /* á */
+                      205,      /* í */
+                      211,      /* ó */
+                      218,      /* ú */
+                      209,      /* ñ */
+                      209,      /* Ñ */
+                      65,       /* ª */
+                      79,       /* º */
+                      191,      /* ¿ */
+                      174,      /* ® */
+                      172,      /* ¬ */
+                      189,      /* ½ */
+                      188,      /* ¼ */
+                      161,      /* ¡ */
+                      171,      /* « */
+                      187,      /* » */
+                      9617,     /* ░ */
+                      9618,     /* ▒ */
+                      9619,     /* ▓ */
+                      9474,     /* │ */
+                      9508,     /* ┤ */
+                      193,      /* Á */
+                      194,      /* Â */
+                      192,      /* À */
+                      169,      /* © */
+                      9571,     /* ╣ */
+                      9553,     /* ║ */
+                      9559,     /* ╗ */
+                      9565,     /* ╝ */
+                      162,      /* ¢ */
+                      165,      /* ¥ */
+                      9488,     /* ┐ */
+                      9492,     /* └ */
+                      9524,     /* ┴ */
+                      9516,     /* ┬ */
+                      9500,     /* ├ */
+                      9472,     /* ─ */
+                      9532,     /* ┼ */
+                      195,      /* ã */
+                      195,      /* Ã */
+                      9562,     /* ╚ */
+                      9556,     /* ╔ */
+                      9577,     /* ╩ */
+                      9574,     /* ╦ */
+                      9568,     /* ╠ */
+                      9552,     /* ═ */
+                      9580,     /* ╬ */
+                      164,      /* ¤ */
+                      208,      /* ð */
+                      208,      /* Ð */
+                      234,      /* Ê */
+                      203,      /* Ë */
+                      200,      /* È */
+                      305,      /* ı */
+                      205,      /* Í */
+                      206,      /* Î */
+                      207,      /* Ï */
+                      9496,     /* ┘ */
+                      9484,     /* ┌ */
+                      9608,     /* █ */
+                      9604,     /* ▄ */
+                      166,      /* ¦ */
+                      204,      /* Ì */
+                      9600,     /* ▀ */
+                      211,      /* Ó */
+                      223,      /* ß */
+                      212,      /* Ô */
+                      210,      /* Ò */
+                      213,      /* õ */
+                      213,      /* Õ */
+                      181,      /* µ */
+                      222,      /* þ */
+                      222,      /* Þ */
+                      218,      /* Ú */
+                      219,      /* Û */
+                      217,      /* Ù */
+                      221,      /* ý */
+                      221,      /* Ý */
+                      175,      /* ¯ */
+                      180,      /* ´ */
+                      173,      /* SHY (soft hyphen) */
+                      177,      /* ± */
+                      906,      /* ‗ */
+                      190,      /* ¾ */
+                      182,      /* ¶ */
+                      167,      /* § */
+                      247,      /* ÷ */
+                      184,      /* ¸ */
+                      176,      /* ° */
+                      168,      /* ¨ */
+                      183,      /* · */
+                      185,      /* ¹ */
+                      179,      /* ³ */
+                      178,      /* ² */
+                      9632,     /* ■ */
+                      160       /* NBSP */};
 
 typedef struct {
     FT_Face   face;
-    FT_Glyph  glyphs[255];
-    GRAPH    *gr[255];
+    bool      loaded;
 } FONTFACE;
 
-FONTFACE faces[255];
+FONTFACE faces[MAX_FACES];
 
 /* ---------------------- */
 FT_Library library;
 /* ---------------------- */
+
+uint16_t cp850_to_utf8(cont char code) {
+    if(code < 128 || code > sizeof(utf8codes)/sizeof(uint16_t) + 128) {
+        return (uint16_t)code;
+    } else if(code < ) {
+        return utf8codes[code-128];
+    }
+}
 
 bool load_face(const char *path, uint16_t size, uint8_t n) {
     int error = FT_New_Face(library, path, 0, &faces[n].face);
@@ -90,10 +230,13 @@ bool load_face(const char *path, uint16_t size, uint8_t n) {
         return false;
     }
 
+    // Mark the font face as loaded
+    faces[n].loaded = true;
+
     return true;
 }
 
-int ttf_load(INSTANCE *my, int *params) {
+int ttf_draw(INSTANCE *my, int *params) {
     int error;
     // HACK, HACK, HAAAACK!
     extern int fntcolor32;
@@ -103,7 +246,7 @@ int ttf_load(INSTANCE *my, int *params) {
     }
 
     // Load the given path
-    if(load_face(string_get(params[0]), 40, 0) == false) {
+    if(load_face(string_get(params[0]), params[2], 0) == false) {
         return -1;
     }
 
@@ -118,10 +261,19 @@ int ttf_load(INSTANCE *my, int *params) {
     FT_Vector     pos   [MAX_GLYPHS];   /* glyph position */
 
     const char *text = string_get(params[1]);
-    uint16_t num_chars = strlen(text);
+    uint32_t num_chars = strlen(text);
 
-    for (uint8_t n = 0; n < num_chars; n++) {
-        /* convert character code to glyph index */
+    for (uint32_t n = 0; n < num_chars; n++) {
+        /*
+         * convert character code to glyph index
+         * FreeType expects Unicode char codes by default
+         * and we'll be receiving DOS-Latin-1 (CP850) codes here,
+         * so we need a correspondance table.
+         * Wikipedia has a list of unicode character codes here:
+         * https://en.wikipedia.org/wiki/List_of_Unicode_characters
+         * (We want the "Decimal" column)
+         * https://msdn.microsoft.com/en-us/library/cc195064.aspx
+         */
         FT_UInt glyph_index = FT_Get_Char_Index(faces[0].face, text[n]);
 
         /* retrieve kerning distance and move pen position */
@@ -243,10 +395,27 @@ int ttf_load(INSTANCE *my, int *params) {
     return graph->code;
 }
 
+int print_code(INSTANCE *my, int * params) {
+    const char *text = string_get(params[0]);
+
+    printf("Got '%s'\n", text);
+    printf("Length: %lu\n\n", strlen(text));
+    for(int n=0; n<strlen(text); n++) {
+        printf("%c ; %d\n", text[n], (unsigned char)text[n]);
+    }
+    string_discard(params[0]);
+
+    return 0;
+}
+
 void __bgdexport(mod_ttf, module_initialize)() {
     int error = FT_Init_FreeType(&library);
     if (error) {
         BGDRTM_LOGERROR("ERROR: Could not start Freetype library\n");
+    }
+
+    for(int32_t i=0; i<MAX_FACES; i++) {
+        faces[i].loaded = false;
     }
 }
 
