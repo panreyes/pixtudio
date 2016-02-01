@@ -195,6 +195,35 @@
             Android Studio, only its SDK parts, but you might want to install the full Android Studio if
             you're planning to develop other Android apps.
         </p>
+        <p>
+            Install the Android 4.4.2 (API 19) SDK platform and -optionally- an emulator image from the
+            Android SDK manager.
+        </p>
+        <p>
+            Download the PixTudio source code, either with Git (see instructions in the native compilation
+            section) or from <a href="https://bitbucket.org/josebagar/pixtudio/downloads">here</a>.
+        </p>
+        <p>
+            Edit projects/android/local.properties and change the sdk.dir property to point to your
+            Android SDK installation dir.
+        </p>
+        <p>
+            Open a command line in the main PixTudio source code folder. Then do:
+        </p>
+        <ul>
+            <li>
+                Go to the Android project folder:
+                <code>cd projects/android</code>
+            </li>
+            <li>
+                Compile the C source code:
+                <code>ndk-build</code>
+            </li>
+            <li>
+                Compile the Java source code:
+                <code>ant debug build</code>
+            </li>
+        </ul>
 
         <h3>iOS</h3>
         <p>
