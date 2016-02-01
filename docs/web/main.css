@@ -45,12 +45,7 @@ samp {
     display: none;
 }
 
-img {
-    -webkit-animation: colorize 2s cubic-bezier(0, 0, .78, .36) 1;
-    animation: colorize 2s cubic-bezier(0, 0, .78, .36) 1;
-    background: transparent;
-    border: 10px solid rgba(0, 0, 0, 0.12);
-    border-radius: 4px;
+img { border-radius: 4px;
     display: block;
     margin: 1.3em auto;
     max-width: 95%;
@@ -72,6 +67,15 @@ img {
     100% {
         filter: grayscale(0%);
     }
+}
+
+.logo { float:left;
+    border: none;
+    margin: 5px;
+    margin-top: 0px;
+    margin-right: 2em;
+    width: 40px;
+    height: 40px;
 }
 
 .nav { position: fixed;
