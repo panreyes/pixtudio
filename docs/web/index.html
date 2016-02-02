@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>PixTudio</title>
         <meta name="description" content="PixTudio game engine description page.">
+        <meta name="author" content="Joseba García Etxebarria"/>
         <link rel="stylesheet" href="main.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <script>
@@ -54,6 +55,20 @@
             The game engine is licensed under the very permissive
             <a href="http://opensource.org/licenses/Zlib">zlib license</a>, which means that you're free to
             use it in both open-source and closed-source projects.
+        </p>
+        <p>
+            It is also very easy to use. The main execution units in PixTudio are called processes.
+            Processes are like functions with properties you can set freely.<br/>
+            The following example shows the code for a simple process named "enemy" whose graphic
+            is loaded from a PNG file and is positioned at coordinates (x, y) = (100, 200).
+            <code style="white-space: pre;"><b>Process</b> enemy()
+<b>Begin</b>
+    graph = png_load("img/enemy.png");
+    x = 100; y = 200;
+    <b>LOOP</b>
+        <b>FRAME;</b>
+    <b>End</b>
+<b>End</b></code>
         </p>
 
         <h2 id="showcase">Games showcase</h2>
