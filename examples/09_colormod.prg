@@ -25,9 +25,9 @@ BEGIN
     set_mode(1600, 1200);
     set_fps(60, 0);
 
-    mouse.graph = png_load("ball_opaque.png");
+    mouse.graph = png_load("png/ball_opaque.png");
 
-    graphid = png_load("image.png");
+    graphid = png_load("png/image.png");
 
     pid = collisioner(graphid, 255, 255, 255);
     pid.x = 1600/2;

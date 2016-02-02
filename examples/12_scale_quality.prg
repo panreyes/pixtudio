@@ -27,7 +27,7 @@ begin
     drawing_color(rgb(255, 255, 255));
     draw_box(0, 0, 640, 480);
 
-    graph = png_load("inventoman.png");
+    graph = png_load("png/inventoman.png");
 
     escalado();
 

@@ -17,7 +17,7 @@ Private
     int vx=3, vy=3;
 
 Begin
-    graph = png_load("Icon.png");
+    graph = png_load("png/Icon.png");
     // Position the graphic onscreen
     x = 10+graphic_info(0, GRAPH, G_WIDTH);
     y = 10+graphic_info(0, GRAPH, G_HEIGHT);
@@ -43,8 +43,8 @@ Begin
     set_mode(width, height);
 
     // Remove Google logo, if it exists already
-    if(file_exists("classicplus.png"))
-        fremove("classicplus.png");
+    if(file_exists("png/classicplus.png"))
+        fremove("png/classicplus.png");
         say("Removed existing logo");
     end;
 
@@ -81,7 +81,7 @@ Begin
     if(tostring == 0)
         // Replace the bouncer image by the google logo we just downloaded
         map_unload(0, son.graph);
-        son.graph = png_load("classicplus.png");
+        son.graph = png_load("png/classicplus.png");
     else
         write(0, 0, 0, 0, output);
     end

@@ -23,7 +23,7 @@ Private
     int v = 2;
     string collided;
 BEGIN
-    graph = png_load("image.png");
+    graph = png_load("png/image.png");
     collision_graph = mouse.graph;
     x = 400; y = 300;
     write_var(font, 800, 0, 2, collided);
@@ -45,8 +45,8 @@ BEGIN
     flags=B_HMIRROR;
 
     // load the PNG file with the graphics
-    mouse.graph = png_load("ball_opaque.png");
-    graphic = png_load("longbg_x.png");
+    mouse.graph = png_load("png/ball_opaque.png");
+    graphic = png_load("png/longbg_x.png");
     font = fnt_load("font.fnt");
     songid = load_song("1.ogg");
     say("Song ID: "+songid);
