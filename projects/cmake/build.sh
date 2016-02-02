@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# Does not work on OS X
-OS=$(uname -o)
+if [ $(uname) = "Darwin" ]; then
+    OS=Darwin
+else
+    OS=$(uname -o)
+fi
 
 # Set some variables we'll be using
 if [ "$OS" = "Msys" ]; then
@@ -12,6 +15,10 @@ elif [ "$OS" = "GNU/Linux" ]; then
     PROJECTTYPE="Unix Makefiles"
     EXT=""
     BINDIR="bin/gnulinux32"
+elif [ "$OS" = "Darwin" ]; then
+    PROJECTTYPE="Unix Makefiles"
+    EXT=""
+    BINDIR="bin/osx32"
 fi
 
 # Compile PXTB and PXTP
