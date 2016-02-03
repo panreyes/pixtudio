@@ -73,12 +73,11 @@ int waitvsync     = 0;
 int scale_resolution             = 0;
 int scale_resolution_aspectratio = 0;
 
-enum { GRAPH_MODE = 0, FULL_SCREEN, SCALE_RESOLUTION, SCALE_RESOLUTION_ASPECTRATIO, SCALE_QUALITY };
-
-/* --------------------------------------------------------------------------- */
-
-void gr_wait_vsync() {
-}
+enum { GRAPH_MODE = 0,
+       FULL_SCREEN,
+       SCALE_RESOLUTION,
+       SCALE_RESOLUTION_ASPECTRATIO,
+       SCALE_QUALITY };
 
 /* --------------------------------------------------------------------------- */
 
@@ -136,12 +135,12 @@ int gr_set_mode(int width, int height) {
     full_screen = (GLODWORD(libvideo, GRAPH_MODE) & MODE_FULLSCREEN) ? 1 : 0;
     grab_input  = (GLODWORD(libvideo, GRAPH_MODE) & MODE_MODAL) ? 1 : 0;
     frameless   = (GLODWORD(libvideo, GRAPH_MODE) & MODE_FRAMELESS) ? 1 : 0;
-    waitvsync = (GLODWORD(libvideo, GRAPH_MODE) & MODE_WAITVSYNC) ? 1 : 0;
+    waitvsync   = (GLODWORD(libvideo, GRAPH_MODE) & MODE_WAITVSYNC) ? 1 : 0;
     full_screen |= GLODWORD(libvideo, FULL_SCREEN);
 
     scale_resolution             = GLODWORD(libvideo, SCALE_RESOLUTION);
     scale_resolution_aspectratio = GLODWORD(libvideo, SCALE_RESOLUTION_ASPECTRATIO);
-    scale_quality = GLOBYTE(libvideo, SCALE_QUALITY);
+    scale_quality                = GLOBYTE(libvideo, SCALE_QUALITY);
     if (scale_quality >= 1) {
         scale_quality = '1';
     } else {
@@ -261,6 +260,7 @@ int gr_set_mode(int width, int height) {
         BGDRTM_LOG("Accelerated rendering: %d\n", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
         BGDRTM_LOG("Render to texture:     %d\n", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
         BGDRTM_LOG("Rendering driver:      %s\n", renderer_info.name);
+        BGDRTM_LOG("VSYNC:                 %d\n", renderer_info.flags & SDL_RENDERER_PRESENTVSYNC);
         BGDRTM_LOG("Max texture size:      %dx%d\n", renderer_info.max_texture_width, renderer_info.max_texture_height);
         BGDRTM_LOG("Renderer size:         %dx%d\n", renderer_width, renderer_height);
     }
@@ -277,7 +277,7 @@ int gr_set_mode(int width, int height) {
     if (renderer_width != width || renderer_height != height) {
         SDL_RenderSetLogicalSize(renderer, width, height);
         if(debug) {
-            BGDRTM_LOG("Set logical size to: %dx%d", width, height);
+            BGDRTM_LOG("Set logical size to: %dx%d\n", width, height);
         }
     }
 
@@ -369,8 +369,9 @@ int gr_init(int width, int height) {
 void __bgdexport(libvideo, module_initialize)() {
     char *e;
 
-    if (!SDL_WasInit(SDL_INIT_VIDEO))
+    if (!SDL_WasInit(SDL_INIT_VIDEO)) {
         SDL_InitSubSystem(SDL_INIT_VIDEO);
+    }
 
     // Disable screensaver/screen-lock. According to SDL docs it'll reenable after SDL quits
     SDL_DisableScreenSaver();
