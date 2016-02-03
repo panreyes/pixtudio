@@ -56,7 +56,6 @@ DLVARFIXUP __bgdexport( mod_grproc, locals_fixup )[]  = {
 
     { "region"                          , NULL, -1, -1 },
     { "resolution"                      , NULL, -1, -1 },
-    { "xgraph"                          , NULL, -1, -1 },
 
     { NULL                              , NULL, -1, -1 }
 };

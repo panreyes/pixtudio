@@ -77,8 +77,7 @@ enum {
     GRAPHSIZEY,
     FLAGS,
     REGIONID,
-    RESOLUTION,
-    XGRAPH
+    RESOLUTION
 };
 
 /* Globals */
@@ -244,7 +243,7 @@ int grproc_get_real_point(INSTANCE *my, int *params) {
         centery = b->height / 2;
     }
 
-    if (LOCINT32(mod_grproc, my, ANGLE) != 0 && !LOCDWORD(mod_grproc, my, XGRAPH)) {
+    if (LOCINT32(mod_grproc, my, ANGLE) != 0) {
         _angle = angle = LOCINT32(mod_grproc, my, ANGLE);
     }
 
@@ -349,22 +348,10 @@ static void draw_at(GRAPH *dest, int x, int y, REGION *r, INSTANCE *i) {
     if (!map)
         return;
 
-    // PATCH - XGRAPH DOES NOT ROTATE DESTINATION GRAPHIC
     if (LOCINT32(mod_grproc, i, ANGLE) || scaley != 100 || scalex != 100) {
-        if (LOCDWORD(mod_grproc, i, XGRAPH) && scalex == 100 && scaley == 100) {
-            gr_blit(dest, r, x, y, LOCDWORD(mod_grproc, i, FLAGS) & (B_HMIRROR | B_VMIRROR), 255,
-                    255, 255, map);
-        } else {
-            if (LOCDWORD(mod_grproc, i, XGRAPH)) {
-                gr_rotated_blit(dest, r, x, y,
-                                LOCDWORD(mod_grproc, i, FLAGS) & (B_HMIRROR | B_VMIRROR), 0, scalex,
-                                scaley, 255, 255, 255, map);
-            } else {
-                gr_rotated_blit(dest, r, x, y,
-                                LOCDWORD(mod_grproc, i, FLAGS) & (B_HMIRROR | B_VMIRROR),
-                                LOCINT32(mod_grproc, i, ANGLE), scalex, scaley, 255, 255, 255, map);
-            }
-        }
+        gr_rotated_blit(dest, r, x, y,
+                        LOCDWORD(mod_grproc, i, FLAGS) & (B_HMIRROR | B_VMIRROR),
+                        LOCINT32(mod_grproc, i, ANGLE), scalex, scaley, 255, 255, 255, map);
     } else {
         gr_blit(dest, r, x, y, LOCDWORD(mod_grproc, i, FLAGS) & (B_HMIRROR | B_VMIRROR), 255, 255,
                 255, map);
