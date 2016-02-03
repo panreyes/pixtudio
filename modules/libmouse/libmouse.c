@@ -145,10 +145,8 @@ static void do_mouse_events() {
     while (SDL_PeepEvents(&e, 1, SDL_GETEVENT, SDL_MOUSEMOTION, SDL_MOUSEWHEEL) > 0) {
         switch (e.type) {
             case SDL_MOUSEMOTION:
-                GLOINT32(libmouse, MOUSEX) =
-                    e.motion.x * ((float)scr_width / (float)renderer_width);
-                GLOINT32(libmouse, MOUSEY) =
-                    e.motion.y * ((float)scr_height / (float)renderer_height);
+                GLOINT32(libmouse, MOUSEX) = e.motion.x;
+                GLOINT32(libmouse, MOUSEY) = e.motion.y;
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
