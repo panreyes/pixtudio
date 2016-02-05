@@ -42,7 +42,7 @@
 #include <time.h>
 
 #include "xstrings.h"
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
 static int copytype(void *dst, void *src, DCB_TYPEDEF *var);
 
@@ -178,7 +178,7 @@ static int copytype(void *dst, void *src, DCB_TYPEDEF *var) {
                 break;
 
             default:
-                BGDRTM_LOGERROR("ERROR: Runtime error - Could not copy datatype\n");
+                PXTRTM_LOGERROR("ERROR: Runtime error - Could not copy datatype\n");
                 exit(1);
                 break;
         }

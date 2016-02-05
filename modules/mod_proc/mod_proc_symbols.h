@@ -30,7 +30,7 @@
 #ifndef __MODPROC_SYMBOLS_H
 #define __MODPROC_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 #include "mod_proc.h"
 
 #ifndef __PXTB__
@@ -50,7 +50,7 @@ extern int modproc_exit_1( INSTANCE * my, int * params );
 extern int modproc_exit_0( INSTANCE * my, int * params );
 extern int modproc_running( INSTANCE * my, int * params );
 
-DLVARFIXUP __bgdexport( mod_proc, locals_fixup )[] = {
+DLVARFIXUP __pxtexport( mod_proc, locals_fixup )[] = {
     { "id", NULL, -1, -1 },
     { "reserved.process_type", NULL, -1, -1 },
     { "reserved.status", NULL, -1, -1 },
@@ -61,10 +61,10 @@ DLVARFIXUP __bgdexport( mod_proc, locals_fixup )[] = {
     { NULL, NULL, -1, -1 }
 };
 
-extern void __bgdexport( mod_proc, process_exec_hook )( INSTANCE * r );
+extern void __pxtexport( mod_proc, process_exec_hook )( INSTANCE * r );
 #endif
 
-DLCONSTANT __bgdexport( mod_proc, constants_def )[] = {
+DLCONSTANT __pxtexport( mod_proc, constants_def )[] = {
     { "S_KILL"              , TYPE_INT, S_KILL              },
     { "S_WAKEUP"            , TYPE_INT, S_WAKEUP            },
     { "S_SLEEP"             , TYPE_INT, S_SLEEP             },
@@ -95,7 +95,7 @@ DLCONSTANT __bgdexport( mod_proc, constants_def )[] = {
     { NULL                  , 0       , 0                   }
 } ;
 
-char __bgdexport( mod_proc, locals_def )[] =
+char __pxtexport( mod_proc, locals_def )[] =
     "STRUCT mod_proc_reserved\n"
     "   int type_scan;\n"
     "   int id_scan;\n"
@@ -103,7 +103,7 @@ char __bgdexport( mod_proc, locals_def )[] =
     "   dword signal_action;\n"
     "END\n";
 
-DLSYSFUNCS __bgdexport( mod_proc, exported_functions )[] = {
+DLSYSFUNCS __pxtexport( mod_proc, exported_functions )[] = {
     FUNC( "GET_ID"          , "I"   , TYPE_INT , modproc_get_id          ),
     FUNC( "GET_STATUS"      , "I"   , TYPE_INT , modproc_get_status      ),
     FUNC( "SIGNAL"          , "II"  , TYPE_INT , modproc_signal          ),
@@ -117,8 +117,8 @@ DLSYSFUNCS __bgdexport( mod_proc, exported_functions )[] = {
     FUNC( 0                 , 0     , 0        , 0                       )
 };
 
-extern DLCONSTANT __bgdexport( mod_proc, constants_def )[];
-extern char __bgdexport( mod_proc, locals_def )[];
-extern DLVARFIXUP __bgdexport( mod_proc, locals_fixup )[];
+extern DLCONSTANT __pxtexport( mod_proc, constants_def )[];
+extern char __pxtexport( mod_proc, locals_def )[];
+extern DLVARFIXUP __pxtexport( mod_proc, locals_fixup )[];
 
 #endif

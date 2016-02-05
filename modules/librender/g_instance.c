@@ -373,7 +373,7 @@ int draw_instance_info(void *pi, REGION *region, int *z, int *drawme) {
  *      None
  */
 
-void __bgdexport(librender, instance_create_hook)(INSTANCE *r) {
+void __pxtexport(librender, instance_create_hook)(INSTANCE *r) {
     /* COORZ is 0 when a new instance is created */
     LOCDWORD(librender, r, OBJECTID) = gr_new_object(/* LOCINT32( librender, r, COORDZ ) */ 0,
                                                      draw_instance_info, draw_instance, r);
@@ -389,7 +389,7 @@ void __bgdexport(librender, instance_create_hook)(INSTANCE *r) {
  *      None
  */
 
-void __bgdexport(librender, instance_destroy_hook)(INSTANCE *r) {
+void __pxtexport(librender, instance_destroy_hook)(INSTANCE *r) {
     if (LOCDWORD(librender, r, OBJECTID))
         gr_destroy_object(LOCDWORD(librender, r, OBJECTID));
 }

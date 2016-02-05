@@ -31,7 +31,7 @@
 #define __MODEFFECTS_SYMBOLS_H
 
 #include "mod_effects.h"
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modeffects_grayscale( INSTANCE *my, int *params );
@@ -40,7 +40,7 @@ extern int modeffects_blur( INSTANCE *my, int *params );
 extern int modeffects_filter( INSTANCE *my, int *params );
 #endif
 
-DLCONSTANT __bgdexport( mod_effects, constants_def )[] = {
+DLCONSTANT __pxtexport( mod_effects, constants_def )[] = {
     { "BLUR_NORMAL" , TYPE_INT, BLUR_NORMAL     },
     { "BLUR_3x3"    , TYPE_INT, BLUR_3x3        },
     { "BLUR_5x5"    , TYPE_INT, BLUR_5x5        },
@@ -57,7 +57,7 @@ DLCONSTANT __bgdexport( mod_effects, constants_def )[] = {
     { NULL          , 0       , 0               }
 } ;
 
-DLSYSFUNCS  __bgdexport( mod_effects, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_effects, exported_functions )[] = {
     FUNC( "GRAYSCALE"   , "IIB"   , TYPE_INT    , modeffects_grayscale ),
     FUNC( "RGBSCALE"    , "IIFFF" , TYPE_INT    , modeffects_rgbscale  ),
     FUNC( "BLUR"        , "IIB"   , TYPE_INT    , modeffects_blur      ),
@@ -65,7 +65,7 @@ DLSYSFUNCS  __bgdexport( mod_effects, exported_functions )[] = {
     FUNC( NULL          , NULL    , 0           , NULL                 )
 };
 
-char * __bgdexport( mod_effects, module_dependencies )[] = {
+char * __pxtexport( mod_effects, module_dependencies )[] = {
     "libgrbase",
     NULL
 };

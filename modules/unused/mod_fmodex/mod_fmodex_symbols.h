@@ -28,12 +28,12 @@
 #define __MODFMODEX_SYMBOLS_H
 
 #ifdef __PXTB__
-char __bgdexport( mod_fmodex, globals_def )[] =
+char __pxtexport( mod_fmodex, globals_def )[] =
 "float fmodex_spectrum[256];\n"
 "int   sound_freq = 48000;\n"
 "int   fmodex_spectrumsize = 0;\n";
 
-DLSYSFUNCS __bgdexport( mod_fmodex, exported_functions )[] =
+DLSYSFUNCS __pxtexport( mod_fmodex, exported_functions )[] =
 {
     {"FMODEX_SONG_LOAD",         "S", TYPE_INT,       0 },
     {"FMODEX_SONG_PLAY",         "I", TYPE_INT,       0 },
@@ -49,12 +49,12 @@ DLSYSFUNCS __bgdexport( mod_fmodex, exported_functions )[] =
 	{0, 0, 0, 0}
 };
 #else
-extern char __bgdexport( mod_fmodex, globals_def )[];
-extern DLVARFIXUP __bgdexport( mod_fmodex, globals_fixup )[];
-extern DLSYSFUNCS __bgdexport( mod_fmodex, exported_functions )[];
-extern void __bgdexport( mod_fmodex, module_initialize )();
-extern void __bgdexport( mod_fmodex, module_finalize )();
-extern HOOK __bgdexport( mod_fmodex, handler_hooks )[];
+extern char __pxtexport( mod_fmodex, globals_def )[];
+extern DLVARFIXUP __pxtexport( mod_fmodex, globals_fixup )[];
+extern DLSYSFUNCS __pxtexport( mod_fmodex, exported_functions )[];
+extern void __pxtexport( mod_fmodex, module_initialize )();
+extern void __pxtexport( mod_fmodex, module_finalize )();
+extern HOOK __pxtexport( mod_fmodex, handler_hooks )[];
 #endif
 
 #endif

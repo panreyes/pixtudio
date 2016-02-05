@@ -20,7 +20,7 @@
 #ifndef __MODSQLITE3_SYMBOLS_H
 #define __MODSQLITE3_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modsqlite3_enableCache(INSTANCE * my, int * params);
@@ -39,7 +39,7 @@ extern int modsqlite3_errMsg (INSTANCE * my, int * params);
 /* ----------------------------------------------------------------- */
 /*                   Constant definitions                            */
 
-DLCONSTANT  __bgdexport( mod_sqlite3, constants_def )[] = {
+DLCONSTANT  __pxtexport( mod_sqlite3, constants_def )[] = {
     {"SQLITE_OK"             , TYPE_INT,  0 }, /* Successful result */
     {"SQLITE_ERROR"          , TYPE_INT,  1 }, /* SQL error or missing database */
     {"SQLITE_INTERNAL"       , TYPE_INT,  2 }, /* Internal logic error in SQLite */
@@ -67,7 +67,7 @@ DLCONSTANT  __bgdexport( mod_sqlite3, constants_def )[] = {
 
 
 /* ----------------------------------------------------------------- */
-char __bgdexport( mod_sqlite3, types_def )[] =
+char __pxtexport( mod_sqlite3, types_def )[] =
    "TYPE SqlResult\n"
    "    int cols;\n"
    "    int rows;\n"
@@ -76,7 +76,7 @@ char __bgdexport( mod_sqlite3, types_def )[] =
    "END\n"
    ;
 
-DLSYSFUNCS  __bgdexport( mod_sqlite3, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_sqlite3, exported_functions )[] = {
   FUNC("SQLITE3_ENABLECACHE"  , "I"  , TYPE_DWORD , modsqlite3_enableCache   ),
   FUNC("SQLITE3_OPEN"         , "SI" , TYPE_DWORD , modsqlite3_openDb        ),
   FUNC("SQLITE3_CLOSE"        , "I"  , TYPE_DWORD , modsqlite3_closeDb       ),

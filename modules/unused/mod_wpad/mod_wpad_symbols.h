@@ -27,12 +27,12 @@
 #ifndef __MODWPAD_SYMBOLS_H
 #define __MODWPAD_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 #include <instance_st.h>
 #include "mod_wpad.h"
 
 #ifdef __PXTB__
-DLSYSFUNCS  __bgdexport( mod_wpad, exported_functions )[] =
+DLSYSFUNCS  __pxtexport( mod_wpad, exported_functions )[] =
 {
     { "WPAD_IS_READY"          , "I" , TYPE_INT      , 0 },
     { "WPAD_INFO"              , "II", TYPE_INT      , 0 },
@@ -44,7 +44,7 @@ DLSYSFUNCS  __bgdexport( mod_wpad, exported_functions )[] =
     { 0                        , 0   , 0             , 0 }
 };
 #else
-extern DLSYSFUNCS  __bgdexport( mod_wpad, exported_functions )[];
+extern DLSYSFUNCS  __pxtexport( mod_wpad, exported_functions )[];
 #endif
 
 #ifndef __PXTB__
@@ -59,7 +59,7 @@ extern int modwpad_rumble( INSTANCE * my, int * params);
 #endif
 
 
-DLCONSTANT __bgdexport( mod_wpad, constants_def )[] =
+DLCONSTANT __pxtexport( mod_wpad, constants_def )[] =
 {
     { "WPAD_BATT",       TYPE_INT,   WPAD_BATT         },
     { "WPAD_X",          TYPE_INT,   WPAD_X            },
@@ -88,7 +88,7 @@ DLCONSTANT __bgdexport( mod_wpad, constants_def )[] =
 
 /* ----------------------------------------------------------------- */
 
-char * __bgdexport( mod_wpad, module_dependencies )[] =
+char * __pxtexport( mod_wpad, module_dependencies )[] =
 {
     "mod_joy",
     NULL

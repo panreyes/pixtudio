@@ -32,7 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 #include "libgrbase.h"
 #include "bitwise_map.h"
 #include "g_video.h"
@@ -149,12 +149,12 @@ GRAPH *bitmap_new_ex(int code, int w, int h, int depth, void *data, int pitch) {
             renderer, format, SDL_TEXTUREACCESS_STATIC | SDL_RENDERER_TARGETTEXTURE, w, h);
         if (!gr->texture) {
             free(gr);
-            BGDRTM_LOGERROR("bitmap_new_ex: Could not create GRAPH texture (%s)", SDL_GetError());
+            PXTRTM_LOGERROR("bitmap_new_ex: Could not create GRAPH texture (%s)", SDL_GetError());
             return NULL;
         }
 
         if (SDL_UpdateTexture(gr->texture, NULL, data, pitch) < 0) {
-            BGDRTM_LOGERROR("Error updating texture: %s", SDL_GetError());
+            PXTRTM_LOGERROR("Error updating texture: %s", SDL_GetError());
             SDL_DestroyTexture(gr->texture);
             free(gr);
             return NULL;
@@ -217,7 +217,7 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
 
     gr->data = (char *)malloc(h * bytesPerRow);
     if (!gr->data) { // No memory left
-        BGDRTM_LOGERROR("bitmap_new: Could not allocate graphic data\n");
+        PXTRTM_LOGERROR("bitmap_new: Could not allocate graphic data\n");
         free(gr);
         return NULL;
     }
@@ -240,7 +240,7 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
                 if (gr->data)
                     free(gr->data);
                 free(gr);
-                BGDRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)\n", SDL_GetError());
+                PXTRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)\n", SDL_GetError());
                 return NULL;
             }
             gr->next_piece = NULL;
@@ -257,7 +257,7 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
                 if (gr->data)
                     free(gr->data);
                 free(gr);
-                BGDRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)\n", SDL_GetError());
+                PXTRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)\n", SDL_GetError());
                 return NULL;
             }
 
@@ -269,7 +269,7 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
                         piece = gr->next_piece = (TEXTURE_PIECE *)malloc(sizeof(TEXTURE_PIECE));
                         if (!piece) {
                             // TODO: Should probably unload the GRAPH, here
-                            BGDRTM_LOGERROR("bitmap_new: Could not create texture piece\n");
+                            PXTRTM_LOGERROR("bitmap_new: Could not create texture piece\n");
                         } else {
                             piece->x = _w * i;
                             piece->y = _h * j;
@@ -278,7 +278,7 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
                         piece->next = (TEXTURE_PIECE *)malloc(sizeof(TEXTURE_PIECE));
                         if (!piece) {
                             // TODO: Should probably unload the GRAPH, here
-                            BGDRTM_LOGERROR("bitmap_new: Could not create texture piece\n");
+                            PXTRTM_LOGERROR("bitmap_new: Could not create texture piece\n");
                         } else {
                             piece->next->x = i * renderer_info.max_texture_width;
                             piece->next->y = j * renderer_info.max_texture_height;
@@ -296,7 +296,7 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
                         renderer, format, SDL_TEXTUREACCESS_STATIC | SDL_RENDERER_TARGETTEXTURE, _w,
                         _h);
                     if (!piece->texture) {
-                        BGDRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)\n", SDL_GetError());
+                        PXTRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)\n", SDL_GetError());
                     }
                 }
                 i_0 = 0;
@@ -369,7 +369,7 @@ GRAPH *bitmap_new_streaming(int code, int w, int h, int depth) {
         gr->texture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STREAMING, w, h);
         if (!gr->texture) {
             free(gr);
-            BGDRTM_LOGERROR("bitmap_new_streaming: Could not create GRAPH texture (%s)", SDL_GetError());
+            PXTRTM_LOGERROR("bitmap_new_streaming: Could not create GRAPH texture (%s)", SDL_GetError());
             return NULL;
         }
     }
@@ -418,7 +418,7 @@ GRAPH *bitmap_clone(GRAPH *map) {
         }
 
         if (SDL_RenderReadPixels(renderer, NULL, format, gr->data, gr->pitch) < 0) {
-            BGDRTM_LOGERROR("Could not clone screen data (%s)", SDL_GetError());
+            PXTRTM_LOGERROR("Could not clone screen data (%s)", SDL_GetError());
         }
     } else {
         for (y = 0; y < map->height; y++) {
@@ -460,7 +460,7 @@ void bitmap_update_texture(GRAPH *map) {
     }
 
     if (SDL_UpdateTexture(map->texture, NULL, map->data, map->pitch) < 0) {
-        BGDRTM_LOGERROR("Error updating texture: %s\n", SDL_GetError());
+        PXTRTM_LOGERROR("Error updating texture: %s\n", SDL_GetError());
     }
 
     if (map->width > renderer_info.max_texture_width ||
@@ -498,7 +498,7 @@ void bitmap_update_texture(GRAPH *map) {
                         centery - j * renderer_info.max_texture_height, B_NOCOLORKEY, 255, 255, 255,
                         map);
                 if (SDL_UpdateTexture(piece->texture, NULL, aux->data, aux->pitch) < 0) {
-                    BGDRTM_LOGERROR("Error updating texture: %s", SDL_GetError());
+                    PXTRTM_LOGERROR("Error updating texture: %s", SDL_GetError());
                 }
                 bitmap_destroy(aux);
 

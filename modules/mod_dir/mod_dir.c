@@ -49,7 +49,7 @@
 // I need this for prefpath and basepath
 #include <SDL_filesystem.h>
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 #include "files.h"
 #include "xstrings.h"
@@ -57,7 +57,7 @@
 #ifndef __MONOLITHIC__
 #include "mod_dir_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport(mod_dir, globals_fixup)[];
+extern DLVARFIXUP __pxtexport(mod_dir, globals_fixup)[];
 #endif
 
 /* ----------------------------------------------------------------- */

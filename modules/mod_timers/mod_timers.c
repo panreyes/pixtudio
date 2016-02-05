@@ -32,7 +32,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "bgddl.h"
+#include "pxtdl.h"
 
 #include <SDL.h>
 
@@ -41,7 +41,7 @@
 #ifndef __MONOLITHIC__
 #include "mod_timers_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport(mod_timers, globals_fixup)[];
+extern DLVARFIXUP __pxtexport(mod_timers, globals_fixup)[];
 #endif
 
 /* ----------------------------------------------------------------- */

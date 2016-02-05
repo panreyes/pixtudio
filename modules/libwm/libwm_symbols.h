@@ -30,17 +30,17 @@
 #ifndef __WM_SYMBOLS_H
 #define __WM_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 /* --------------------------------------------------------------------------- */
-char __bgdexport( libwm, globals_def )[] =
+char __pxtexport( libwm, globals_def )[] =
     "exit_status = 0;\n"                /* SDL_QUIT status */
     "window_status = 1;\n"              /* MINIMIZED:0 VISIBLE:1 */
     "focus_status = 1;\n"               /* FOCUS status */
     "mouse_status = 1;\n";              /* MOUSE status (INSIDE WINDOW:1) */
 
 /* --------------------------------------------------------------------------- */
-char * __bgdexport( libwm, module_dependencies )[] = {
+char * __pxtexport( libwm, module_dependencies )[] = {
     "libsdlhandler",
     NULL
 };
@@ -49,7 +49,7 @@ char * __bgdexport( libwm, module_dependencies )[] = {
 #ifndef __PXTB__
 extern void wm_events();
 
-DLVARFIXUP  __bgdexport( libwm, globals_fixup )[] = {
+DLVARFIXUP  __pxtexport( libwm, globals_fixup )[] = {
     { "exit_status"     , NULL, -1, -1 },
     { "window_status"   , NULL, -1, -1 },
     { "focus_status"    , NULL, -1, -1 },
@@ -60,7 +60,7 @@ DLVARFIXUP  __bgdexport( libwm, globals_fixup )[] = {
 /* Bigest priority first execute
    Lowest priority last execute */
 
-HOOK __bgdexport( libwm, handler_hooks )[] = {
+HOOK __pxtexport( libwm, handler_hooks )[] = {
     { 4700, wm_events   },
     {    0, NULL        }
 } ;

@@ -32,7 +32,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "files.h"
 #include "xstrings.h"
 #include "mod_sys.h"

@@ -112,7 +112,7 @@ int main( int argc, char *argv[] ) {
     sysproc_init() ;
 
     argv[0] = filename;
-    bgdrtm_entry( argc, argv );
+    pxtrtm_entry( argc, argv );
 
     if ( mainproc )
     {
@@ -120,7 +120,7 @@ int main( int argc, char *argv[] ) {
         ret = instance_go_all() ;
     }
 
-    bgdrtm_exit( ret );
+    pxtrtm_exit( ret );
 
     free( appexename        );
     free( appexepath        );

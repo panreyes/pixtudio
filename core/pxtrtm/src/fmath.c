@@ -31,7 +31,7 @@
 
 #include "fmath.h"
 
-#include "bgdcore.h"
+#include "pxtcore.h"
 
 /* --------------------------------------------------------------------------- */
 /* Fixed-point math routines, based on Allegro */

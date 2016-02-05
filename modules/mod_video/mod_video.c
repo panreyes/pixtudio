@@ -33,19 +33,19 @@
 
 #include <stdlib.h>
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
 #include "libgrbase.h"
 #include "libvideo.h"
 #include "librender.h"
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 
 #ifndef __MONOLITHIC__
 #include "mod_video_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport(mod_video, globals_fixup)[];
+extern DLVARFIXUP __pxtexport(mod_video, globals_fixup)[];
 #endif
 
 /* --------------------------------------------------------------------------- */
@@ -63,7 +63,7 @@ int modvideo_set_mode(INSTANCE *my, int *params) {
 int modvideo_set_mode_2(INSTANCE *my, int *params) {
     GLODWORD(mod_video, GRAPH_MODE) = params[2];
     if(params[2] > 0 && params[2] <= 32) {
-        BGDRTM_LOG("DEPRECATION WARNING: Setting the bit depth in set_mode is no longer valid\n");
+        PXTRTM_LOG("DEPRECATION WARNING: Setting the bit depth in set_mode is no longer valid\n");
     }
     return gr_set_mode(params[0], params[1]);
 }

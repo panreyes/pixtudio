@@ -30,19 +30,19 @@
 #ifndef __KEY_SYMBOLS_H
 #define __KEY_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 #include "key_stats.h"
 
 #ifndef __PXTB__
-extern DLVARFIXUP  __bgdexport( libkey, globals_fixup )[];
-extern HOOK __bgdexport( libkey, handler_hooks )[];
-extern void __bgdexport( libkey, module_initialize )();
-extern void __bgdexport( libkey, module_finalize )();
+extern DLVARFIXUP  __pxtexport( libkey, globals_fixup )[];
+extern HOOK __pxtexport( libkey, handler_hooks )[];
+extern void __pxtexport( libkey, module_initialize )();
+extern void __pxtexport( libkey, module_finalize )();
 #endif
 
 /* ----------------------------------------------------------------- */
 
-DLCONSTANT  __bgdexport( libkey, constants_def )[] =
+DLCONSTANT  __pxtexport( libkey, constants_def )[] =
 {
     { "_ESC",         TYPE_DWORD,  1 },
     { "_1",           TYPE_DWORD,  2 },
@@ -172,14 +172,14 @@ DLCONSTANT  __bgdexport( libkey, constants_def )[] =
 /* ----------------------------------------------------------------- */
 /* Global var definition (compile-time) */
 
-char __bgdexport( libkey, globals_def )[] =
+char __pxtexport( libkey, globals_def )[] =
     "shift_status;\n"
     "ascii;\n"
     "scan_code;\n";
 
 /* ----------------------------------------------------------------- */
 
-char * __bgdexport( libkey, module_dependencies )[] =
+char * __pxtexport( libkey, module_dependencies )[] =
 {
     "libsdlhandler",
     NULL

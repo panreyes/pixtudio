@@ -31,7 +31,7 @@
 #ifndef __FSOCK_SYMBOLS_H
 #define __FSOCK_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int mod_fsock_init( INSTANCE * my, int * params );
@@ -60,7 +60,7 @@ extern int mod_fsock_quit( INSTANCE * my, int * params );
 extern int mod_fsock_fdisset( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_fsock, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_fsock, exported_functions )[] = {
     FUNC( "FSOCK_INIT"           , "I"    , TYPE_DWORD , mod_fsock_init             ),
     FUNC( "FSOCK_GETERROR"       , ""     , TYPE_DWORD , mod_fsock_geterror         ),
     FUNC( "FSOCK_GETFDSETSIZE"   , ""     , TYPE_DWORD , mod_fsock_getfdsetsize     ),

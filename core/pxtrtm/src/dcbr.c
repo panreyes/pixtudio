@@ -35,7 +35,7 @@
 #else
 #include <direct.h>
 #endif
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 #include "dcb.h"
 #include "dirs.h"
 #include "files.h"
@@ -174,7 +174,7 @@ int dcb_load(const char *filename) {
 
     fp = file_open(filename, "rb0");
     if (!fp) {
-        BGDRTM_LOGERROR("ERROR: Runtime error - Could not open file (%s)\n", filename);
+        PXTRTM_LOGERROR("ERROR: Runtime error - Could not open file (%s)\n", filename);
         exit(1);
     }
 
@@ -397,7 +397,7 @@ int dcb_load_from(file *fp, const char *filename, int offset) {
             file_readUint32(fp, &size);
             file_read(fp, fname, size);
             if (!load_file(fname, n))
-                BGDRTM_LOGERROR("WARNING: Runtime warning - file not found (%s)\n", fname);
+                PXTRTM_LOGERROR("WARNING: Runtime warning - file not found (%s)\n", fname);
         }
     }
 

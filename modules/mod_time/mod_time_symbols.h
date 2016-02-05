@@ -22,26 +22,23 @@
  *
  */
 
-#ifndef __MODTIME_H
-#define __MODTIME_H
+#pragma once
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modtime_get_timer( INSTANCE * my, int * params );
 extern int modtime_time( INSTANCE * my, int * params );
 extern int modtime_ftime( INSTANCE * my, int * params );
 
-extern void __bgdexport( mod_time, module_initialize )();
-extern void __bgdexport( mod_time, module_finalize )();
+extern void __pxtexport( mod_time, module_initialize )();
+extern void __pxtexport( mod_time, module_finalize )();
 #endif
 
-DLSYSFUNCS __bgdexport( mod_time, exported_functions )[] = {
+DLSYSFUNCS __pxtexport( mod_time, exported_functions )[] = {
     FUNC( "GET_TIMER"   , ""    , TYPE_INT      , modtime_get_timer ),
     FUNC( "TIME"        , ""    , TYPE_INT      , modtime_time      ),
     FUNC( "FTIME"       , "SI"  , TYPE_STRING   , modtime_ftime     ),
 
     FUNC( 0             , 0     , 0             , 0                 )
 };
-
-#endif

@@ -30,7 +30,7 @@
 
 #include <SDL.h>
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "xstrings.h"
 
 #ifndef MAX_SENSORS
@@ -45,7 +45,7 @@ static SDL_Sensor *sensor[MAX_SENSORS];
 
 /* ---------------------------------------------------------------------- */
 
-DLCONSTANT __bgdexport(mod_sensor, constants_def)[] = {
+DLCONSTANT __pxtexport(mod_sensor, constants_def)[] = {
     {"SENSOR_UNKNOWN", TYPE_DWORD, 0},    {"SENSOR_ACCEL", TYPE_DWORD, 1},
     {"SENSOR_MAGNET", TYPE_DWORD, 2},     {"SENSOR_ORIENTATION", TYPE_DWORD, 3},
     {"SENSOR_GYRO", TYPE_DWORD, 4},       {"SENSOR_LIGHT", TYPE_DWORD, 5},
@@ -178,7 +178,7 @@ void modsensor_log(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(mod_sensor, module_initialize)() {
+void __pxtexport(mod_sensor, module_initialize)() {
     int i;
 
     if (!SDL_WasInit(SDL_INIT_SENSOR)) {
@@ -193,7 +193,7 @@ void __bgdexport(mod_sensor, module_initialize)() {
 
 /* ----------------------------------------------------------------- */
 
-void __bgdexport(mod_sensor, module_finalize)() {
+void __pxtexport(mod_sensor, module_finalize)() {
     int i;
 
     // Close all open sensors

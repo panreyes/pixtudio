@@ -30,20 +30,20 @@
 #ifndef __MODKEY_SYMBOLS_H
 #define __MODKEY_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modkey_key( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_key, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_key, exported_functions )[] = {
     FUNC( "KEY" , "I"   , TYPE_INT  , modkey_key   ),
     FUNC( 0     , 0     , 0         , 0            )
 };
 
 /* ----------------------------------------------------------------- */
 
-char * __bgdexport( mod_key, module_dependencies )[] =
+char * __pxtexport( mod_key, module_dependencies )[] =
 {
     "libkey",
     NULL

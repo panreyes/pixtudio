@@ -35,7 +35,7 @@
  *
  */
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 #include "dirs.h"
 #include "xstrings.h"
 

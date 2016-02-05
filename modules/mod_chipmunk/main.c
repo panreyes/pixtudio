@@ -34,8 +34,8 @@
 #include <math.h>
 
 #include "chipmunk.h"
-#include "bgddl.h"
-#include "bgdrtm.h"
+#include "pxtdl.h"
+#include "pxtrtm.h"
 #include "xstrings.h"
 #include <math.h>
 #include "dlvaracc.h"
@@ -76,7 +76,7 @@ int modChipmunk_Crear                = 1;
 int modChipmunk_numLista = 0;
 cpBool modChipmunk_elim  = 0;
 
-char __bgdexport(mod_chipmunk, globals_def)[] =
+char __pxtexport(mod_chipmunk, globals_def)[] =
     "STRUCT gphysics\n"
     "int space;\n"
     "float gravity_X;\n" /* Access and set with *(FLOAT *)GLOADDR(mod_chipmunk,GLO_GRAVITY_X)) */
@@ -98,7 +98,7 @@ char __bgdexport(mod_chipmunk, globals_def)[] =
 
     ;
 
-DLVARFIXUP __bgdexport(mod_chipmunk,
+DLVARFIXUP __pxtexport(mod_chipmunk,
                        globals_fixup)[] = {{"gphysics.space", NULL, -1, -1},
                                            {"gphysics.gravity_X", NULL, -1, -1},
                                            {"gphysics.gravity_Y", NULL, -1, -1},
@@ -114,7 +114,7 @@ DLVARFIXUP __bgdexport(mod_chipmunk,
                                            {"gphysics.distPercent", NULL, -1, -1},
                                            {NULL, NULL, -1, -1}};
 
-char __bgdexport(mod_chipmunk, locals_def)[] =
+char __pxtexport(mod_chipmunk, locals_def)[] =
     "STRUCT lphysics\n"
     "int body=0;\n"   /* Access and set with GLODWORD(mod_chipmunk,GLO_SPACE) */
     "int shape=0;\n"  /* Access and set with GLODWORD(mod_chipmunk,GLO_SPACE) */
@@ -135,7 +135,7 @@ char __bgdexport(mod_chipmunk, locals_def)[] =
 
     ;
 
-DLVARFIXUP __bgdexport(mod_chipmunk, locals_fixup)[] = {{"lphysics.body", NULL, -1, -1},
+DLVARFIXUP __pxtexport(mod_chipmunk, locals_fixup)[] = {{"lphysics.body", NULL, -1, -1},
                                                         {"lphysics.shape", NULL, -1, -1},
                                                         {"x", NULL, -1, -1},
                                                         {"y", NULL, -1, -1},
@@ -161,7 +161,7 @@ DLVARFIXUP __bgdexport(mod_chipmunk, locals_fixup)[] = {{"lphysics.body", NULL, 
                                                         {"lphysics.sensor", NULL, -1, -1},
                                                         {NULL, NULL, -1, -1}};
 
-char __bgdexport(mod_chipmunk, types_def)[] = "TYPE cpVect\n"
+char __pxtexport(mod_chipmunk, types_def)[] = "TYPE cpVect\n"
                                               " float x;\n"
                                               " float y;\n"
                                               "END\n"
@@ -204,7 +204,7 @@ char __bgdexport(mod_chipmunk, types_def)[] = "TYPE cpVect\n"
     //"TYPE cpSegmentQueryInfo\n" " cpShape *shape;\n " " float t;\n " "cpVect n;\n""END\n"
     ;
 
-DLCONSTANT __bgdexport(mod_chipmunk, constants_def)[] = {
+DLCONSTANT __pxtexport(mod_chipmunk, constants_def)[] = {
     {"CP_C_ITERATIONS", TYPE_INT, CP_C_ITERATIONS},
     {"CP_C_GRAVITY", TYPE_INT, CP_C_GRAVITY},
     {"CP_C_DAMPING", TYPE_INT, CP_C_DAMPING},
@@ -1616,9 +1616,9 @@ static int updatePhisc() // actualiza cada frame la física en general
     return 0;
 }
 
-HOOK __bgdexport(mod_chipmunk, handler_hooks)[] = {{4700, updatePhisc}, {0, NULL}};
+HOOK __pxtexport(mod_chipmunk, handler_hooks)[] = {{4700, updatePhisc}, {0, NULL}};
 
-void __bgdexport(mod_chipmunk, module_initialize)() {
+void __pxtexport(mod_chipmunk, module_initialize)() {
     cpInitChipmunk();
     modChipmunk_cpEspacio = (int)cpSpaceNew();
     inicializaListaProcesos();
@@ -1701,7 +1701,7 @@ void ChipmunkDemoFreeSpaceChildren(cpSpace *space) {
     cpSpaceEachBody(space, (cpSpaceBodyIteratorFunc)postBodyFree, space);
 }
 
-void __bgdexport(mod_chipmunk, module_finalize)() {
+void __pxtexport(mod_chipmunk, module_finalize)() {
     LLeliminaTodo(&modChipmunk_ListaHandlers, funcionElmHand, 1);
     eliminaListaProcesos();
     //    LLeliminaTodo(&modChipmunk_ListaEstaticosFondo,cpShapeFree,1);
@@ -1761,7 +1761,7 @@ static int modForceCreateBodyI(INSTANCE *i, int *params) {
     return 1;
 }
 
-char *__bgdexport(mod_chipmunk, module_dependencies)[] = {"librender", "libgrbase", "libdraw",
+char *__pxtexport(mod_chipmunk, module_dependencies)[] = {"librender", "libgrbase", "libdraw",
                                                           "libblit", NULL};
 
 static int modEQ(INSTANCE *my, int *params) {
@@ -1777,7 +1777,7 @@ static int modIntersectsBB(INSTANCE *my, int *params) {
     return cpBBIntersects(v1, v2);
 }
 
-DLSYSFUNCS __bgdexport(mod_chipmunk, exported_functions)[] = {
+DLSYSFUNCS __pxtexport(mod_chipmunk, exported_functions)[] = {
 
     {"INFINITYF", "", TYPE_FLOAT, modInfinity},
 

@@ -25,9 +25,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <bgddl.h>
+#include <pxtdl.h>
 #include <xstrings.h>
-#include <bgdrtm.h>
+#include <pxtrtm.h>
 #include <curl/curl.h>
 #include <SDL_thread.h>
 
@@ -95,7 +95,7 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
     mem->memory = realloc(mem->memory, mem->size + realsize + 1);
     if (mem->memory == NULL) {
         /* out of memory! */
-        BGDRTM_LOGERROR("not enough memory (realloc returned NULL)\n");
+        PXTRTM_LOGERROR("not enough memory (realloc returned NULL)\n");
         exit(EXIT_FAILURE);
     }
 
@@ -293,7 +293,7 @@ int curl_perform(int id) {
         fclose(download_info[id].outfd);
     } else if (download_info[id].chunk.size > 0) {
         // Create the string for the user
-        // BGDRTM_LOG("Output from CURL:\n%s\n", download_info[id].chunk.memory);
+        // PXTRTM_LOG("Output from CURL:\n%s\n", download_info[id].chunk.memory);
         *(download_info[id].chunk.strid) = string_new(download_info[id].chunk.memory);
         string_use(*(download_info[id].chunk.strid));
 
@@ -315,11 +315,11 @@ int bgd_curl_easy_perform(INSTANCE *my, int *params) {
 }
 
 // Initialize libcurl
-void __bgdexport(mod_curl, module_initialize)() {
+void __pxtexport(mod_curl, module_initialize)() {
     curl_global_init(CURL_GLOBAL_ALL);
 }
 
 // Finalize libcurl
-void __bgdexport(mod_curl, module_finalize)() {
+void __pxtexport(mod_curl, module_finalize)() {
     curl_global_cleanup();
 }

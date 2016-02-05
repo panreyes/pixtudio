@@ -38,7 +38,7 @@
 #include <time.h>
 #include <ctype.h>
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 #include "offsets.h"
 #include "dcb.h"
 #include "sysprocs_p.h"
@@ -147,7 +147,7 @@ int debug = 0;
 
 /* --------------------------------------------------------------------------- */
 /*
- *  FUNCTION : bgdrtm_strncmpi
+ *  FUNCTION : pxtrtm_strncmpi
  *
  *  Compare two strings (case-insensitive version)
  *
@@ -159,7 +159,7 @@ int debug = 0;
  *      Result of the comparison
  */
 
-int bgdrtm_strncmpi(char *str1, char *str2, int sz) {
+int pxtrtm_strncmpi(char *str1, char *str2, int sz) {
     while ((*str1 || *str2) && sz) {
 #ifdef _WIN32
         if (toupper(*str1) != toupper(*str2))
@@ -178,7 +178,7 @@ int bgdrtm_strncmpi(char *str1, char *str2, int sz) {
 
 /* --------------------------------------------------------------------------- */
 
-void bgdrtm_entry(int argc, char *argv[]) {
+void pxtrtm_entry(int argc, char *argv[]) {
     int i;
     int *args = (int *)&GLODWORD(ARGV_TABLE);
     char *os_id;
@@ -200,7 +200,7 @@ void bgdrtm_entry(int argc, char *argv[]) {
 
 /* --------------------------------------------------------------------------- */
 /*
- *  FUNCTION : bgdrtm_exit
+ *  FUNCTION : pxtrtm_exit
  *
  *  Exits from the program cleanly ending operations
  *
@@ -212,7 +212,7 @@ void bgdrtm_entry(int argc, char *argv[]) {
  *
  */
 
-void bgdrtm_exit(int exit_value) {
+void pxtrtm_exit(int exit_value) {
     int n;
     /* Finalize all modules */
     if (module_finalize_count)

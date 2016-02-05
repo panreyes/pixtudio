@@ -33,7 +33,7 @@
 
 /* --------------------------------------------------------------------------- */
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 
 #define __LIB_RENDER
@@ -48,7 +48,7 @@
 /* El interprete completa esta estructura, si la variable existe.    */
 /* (usada en tiempo de ejecucion)                                    */
 
-DLVARFIXUP __bgdexport(librender, globals_fixup)[] = {
+DLVARFIXUP __pxtexport(librender, globals_fixup)[] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
     {"fps", NULL, -1, -1},        {"speed_gauge", NULL, -1, -1},  {"frame_time", NULL, -1, -1},
 
@@ -58,7 +58,7 @@ DLVARFIXUP __bgdexport(librender, globals_fixup)[] = {
 
     {NULL, NULL, -1, -1}};
 
-DLVARFIXUP __bgdexport(librender, locals_fixup)[] = {
+DLVARFIXUP __pxtexport(librender, locals_fixup)[] = {
     {"ctype", NULL, -1, -1},   // 0            CTYPE               0
     {"cnumber", NULL, -1, -1}, // 1            CNUMBER             1
 
@@ -111,7 +111,7 @@ DLVARFIXUP __bgdexport(librender, locals_fixup)[] = {
 /* Bigest priority first execute
    Lowest priority last execute */
 
-HOOK __bgdexport(librender,
+HOOK __pxtexport(librender,
                  handler_hooks)[] = {{9500, gr_wait_frame}, {9000, gr_draw_frame}, {0, NULL}};
 
 /* --------------------------------------------------------------------------- */

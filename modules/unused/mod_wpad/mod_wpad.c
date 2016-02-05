@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "libvideo.h"
 #ifdef TARGET_WII
 #include "wiiuse/wpad.h"
@@ -276,7 +276,7 @@ int modwpad_rumble(INSTANCE *my, int *params) {
 
 /* ----------------------------------------------------------------- */
 /* Function declarations                                             */
-DLSYSFUNCS __bgdexport(mod_wpad, exported_functions)[] = {
+DLSYSFUNCS __pxtexport(mod_wpad, exported_functions)[] = {
     {"WPAD_IS_READY", "I", TYPE_INT, modwpad_is_ready},
     {"WPAD_INFO", "II", TYPE_INT, modwpad_info},
     {"WPAD_INFO_NUNCHUK", "II", TYPE_INT, modwpad_info_nunchuk},

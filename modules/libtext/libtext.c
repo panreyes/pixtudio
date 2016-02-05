@@ -32,9 +32,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 
 #include "xstrings.h"
@@ -47,7 +47,7 @@
 #ifndef __MONOLITHIC__
 #include "libtext_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport(libtext, globals_fixup)[];
+extern DLVARFIXUP __pxtexport(libtext, globals_fixup)[];
 #endif
 
 /* --------------------------------------------------------------------------- */

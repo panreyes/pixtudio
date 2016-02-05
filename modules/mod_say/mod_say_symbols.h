@@ -30,14 +30,14 @@
 #ifndef __MODSAY_SYMBOLS_H
 #define __MODSAY_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modsay_say( INSTANCE * my, int * params );
 extern int modsay_say_fast( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_say, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_say, exported_functions )[] = {
     FUNC( "SAY"     , "S", TYPE_UNDEFINED, modsay_say      ),
     FUNC( "SAY_FAST", "S", TYPE_UNDEFINED, modsay_say_fast ),
     FUNC( 0         , 0  , 0             , 0               )

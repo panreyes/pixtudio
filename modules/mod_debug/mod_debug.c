@@ -37,9 +37,9 @@
 
 #include <SDL.h>
 
-#include "bgdcore.h"
-#include "bgdrtm.h"
-#include "bgddl.h"
+#include "pxtcore.h"
+#include "pxtrtm.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 
 #include "dcb.h"
@@ -64,7 +64,7 @@
 #ifndef __MONOLITHIC__
 #include "mod_debug_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport(mod_debug, locals_fixup)[];
+extern DLVARFIXUP __pxtexport(mod_debug, locals_fixup)[];
 #endif
 
 /* --------------------------------------------------------------------------- */
@@ -270,14 +270,14 @@ static void console_printf(const char *fmt, ...) {
         // Print the line to the command line while we make the console
         // work again
         if (send(console_sock, text, strlen(text), 0) < 0) {
-            BGDRTM_LOGERROR("Send failed for %s\n", text);
+            PXTRTM_LOGERROR("Send failed for %s\n", text);
         } else {
             // Receive a reply from the server
             if (recv(console_sock, server_reply, 2000, 0) < 0) {
-                BGDRTM_LOGERROR("recv failed\n");
+                PXTRTM_LOGERROR("recv failed\n");
             } else {
                 if (strncmp(server_reply, "ACK", 3) != 0) {
-                    BGDRTM_LOGERROR("server reply incorrect\n");
+                    PXTRTM_LOGERROR("server reply incorrect\n");
                 }
             }
         }
@@ -1963,7 +1963,7 @@ static void console_do(const char *command) {
     }
 
     if (strcmp(action, "QUIT") == 0) {
-        bgdrtm_exit(1);
+        pxtrtm_exit(1);
         return;
     }
 
@@ -2029,7 +2029,7 @@ static int handle_network_commands() {
         debug_mode         = 0;
         force_debug        = 0;
         break_on_next_proc = 0;
-        BGDRTM_LOGERROR("Debug mode cannot activate since "
+        PXTRTM_LOGERROR("Debug mode cannot activate since "
                         "debugger is not connected\n");
         return -1;
     } else {
@@ -2038,7 +2038,7 @@ static int handle_network_commands() {
 
         retval = recv(console_sock, server_msg, 2000, 0);
         while (retval > 0) {
-            BGDRTM_LOG("server_msg: '%s'\n", server_msg);
+            PXTRTM_LOG("server_msg: '%s'\n", server_msg);
             console_do(server_msg);
             // TODO: Handle all the rest processes
             if (strcmp(server_msg, "GO") == 0) {
@@ -2048,7 +2048,7 @@ static int handle_network_commands() {
         }
 
         if (retval == 0) {
-            BGDRTM_LOG("Debug server disconnected\n");
+            PXTRTM_LOG("Debug server disconnected\n");
         }
     }
 
@@ -2081,7 +2081,7 @@ static int debug_mode_handler_cb(SDL_Keysym k) {
         //            // Get command from network
         //            SetSocketBlockingEnabled(console_sock, 1);
         //            if(recv(console_sock, network_cmd, 2000, 0) > 0) {
-        //                BGDRTM_LOG("Got command: '%s'\n", network_cmd);
+        //                PXTRTM_LOG("Got command: '%s'\n", network_cmd);
         //            }
         //            SetSocketBlockingEnabled(console_sock, 0);
         //            if ( k.sym == SDLK_F1 ) {
@@ -2221,7 +2221,7 @@ int SetSocketBlockingEnabled(int fd, int blocking) {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(mod_debug, process_exec_hook)(INSTANCE *r) {
+void __pxtexport(mod_debug, process_exec_hook)(INSTANCE *r) {
     if (break_on_next_proc) {
         debug_next         = 1;
         break_on_next_proc = 0;
@@ -2230,7 +2230,7 @@ void __bgdexport(mod_debug, process_exec_hook)(INSTANCE *r) {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(mod_debug, module_initialize)() {
+void __pxtexport(mod_debug, module_initialize)() {
     if (dcb.data.NSourceFiles) {
         hotkey_add(KMOD_LALT, SDLK_x, force_exit_cb);
         hotkey_add(KMOD_LALT, SDLK_c, debug_mode_handler_cb);
@@ -2238,9 +2238,9 @@ void __bgdexport(mod_debug, module_initialize)() {
         // Create socket
         console_sock = socket(AF_INET, SOCK_STREAM, 0);
         if (console_sock == -1) {
-            BGDRTM_LOGERROR("Could not create socket\n");
+            PXTRTM_LOGERROR("Could not create socket\n");
         }
-        BGDRTM_LOG("Socket created\n");
+        PXTRTM_LOG("Socket created\n");
 
         struct sockaddr_in server;
 
@@ -2250,11 +2250,11 @@ void __bgdexport(mod_debug, module_initialize)() {
 
         // Connect to remote server
         if (connect(console_sock, (struct sockaddr *)&server, sizeof(server)) < 0) {
-            BGDRTM_LOGERROR("connect failed. Error\n");
+            PXTRTM_LOGERROR("connect failed. Error\n");
             return;
         }
 
-        BGDRTM_LOG("Connected\n");
+        PXTRTM_LOG("Connected\n");
         sleep(1);
 
         // Make the socket nonblocking so that we can read all the info
@@ -2264,7 +2264,7 @@ void __bgdexport(mod_debug, module_initialize)() {
         int retval;
         char server_reply[2000];
         while ((retval = recv(console_sock, server_reply, 2000, 0)) > 0) {
-            BGDRTM_LOG("%s\n", server_reply);
+            PXTRTM_LOG("%s\n", server_reply);
         }
 
         SetSocketBlockingEnabled(console_sock, 1);
@@ -2273,7 +2273,7 @@ void __bgdexport(mod_debug, module_initialize)() {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(mod_debug, module_finalize)() {
+void __pxtexport(mod_debug, module_finalize)() {
     if (console_sock > -1) {
 #ifdef WIN32
         closesocket(console_sock);

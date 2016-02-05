@@ -30,21 +30,21 @@
 #ifndef __TEXT_SYMBOLS_H
 #define __TEXT_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
-DLVARFIXUP __bgdexport( libtext, globals_fixup )[] = {
+DLVARFIXUP __pxtexport( libtext, globals_fixup )[] = {
     { "text_z"      , NULL, -1, -1 },
     { "text_flags"  , NULL, -1, -1 },
     { NULL          , NULL, -1, -1 }
 };
 #endif
 
-char __bgdexport( libtext, globals_def )[] =
+char __pxtexport( libtext, globals_def )[] =
     "text_z = -256;\n"
     "text_flags;\n" ;
 
-char * __bgdexport( libtext, module_dependencies )[] = {
+char * __pxtexport( libtext, module_dependencies )[] = {
     "libgrbase",
     "libblit",
     "librender",

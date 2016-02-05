@@ -30,7 +30,7 @@
 #ifndef __MODSORT_SYMBOLS_H
 #define __MODSORT_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modsort_quicksort( INSTANCE *my, int *params );
@@ -40,7 +40,7 @@ extern int modsort_sort_n( INSTANCE * my, int * params );
 extern int modsort_sort( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_sort, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_sort, exported_functions )[] = {
     FUNC( "QUICKSORT"   , "PIIIBB" , TYPE_INT    , modsort_quicksort ),
     FUNC( "KSORT"       , "V++V++" , TYPE_INT    , modsort_ksort     ),
     FUNC( "KSORT"       , "V++V++I", TYPE_INT    , modsort_ksort_n   ),

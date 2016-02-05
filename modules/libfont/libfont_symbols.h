@@ -30,16 +30,15 @@
 #ifndef __FONT_SYMBOLS_H
 #define __FONT_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
-extern void __bgdexport( libfont, module_initialize )();
+extern void __pxtexport( libfont, module_initialize )();
 #endif
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( libfont, module_dependencies )[] =
-{
+char * __pxtexport( libfont, module_dependencies )[] = {
     "libgrbase",
     NULL
 };

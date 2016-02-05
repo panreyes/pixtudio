@@ -32,8 +32,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "bgddl.h"
-#include "bgdrtm.h"
+#include "pxtdl.h"
+#include "pxtrtm.h"
 
 #include "libgrbase.h"
 

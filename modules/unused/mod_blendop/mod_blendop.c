@@ -29,8 +29,8 @@
 
 /* ----------------------------------------------------------------- */
 
-#include "bgdrtm.h"
-#include "bgddl.h"
+#include "pxtrtm.h"
+#include "pxtdl.h"
 
 #include "libgrbase.h"
 
@@ -266,7 +266,7 @@ static int modblendop_tint(INSTANCE *my, int *params) {
 
 /* ---------------------------------------------------------------------- */
 
-DLSYSFUNCS __bgdexport(mod_blendop, exported_functions)[] = {
+DLSYSFUNCS __pxtexport(mod_blendop, exported_functions)[] = {
     /* Blendops */
     {"BLENDOP_NEW", "", TYPE_INT, modblendop_create_blendop},
     {"BLENDOP_IDENTITY", "I", TYPE_INT, modblendop_identity},
@@ -283,6 +283,6 @@ DLSYSFUNCS __bgdexport(mod_blendop, exported_functions)[] = {
 
 /* --------------------------------------------------------------------------- */
 
-char *__bgdexport(mod_blendop, module_dependencies)[] = {"libgrbase", NULL};
+char *__pxtexport(mod_blendop, module_dependencies)[] = {"libgrbase", NULL};
 
 /* --------------------------------------------------------------------------- */

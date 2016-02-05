@@ -30,7 +30,7 @@
 #ifndef __MODWM_SYMBOLS_H
 #define __MODWM_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 #include <SDL_messagebox.h>
 
 #ifndef __PXTB__
@@ -47,14 +47,14 @@ extern int bgd_get_locale( INSTANCE * my, int * params );
 extern void bgd_show_messagebox( INSTANCE * my, int * params );
 #endif
 
-DLCONSTANT __bgdexport( mod_wm, constants_def)[] = {
+DLCONSTANT __pxtexport( mod_wm, constants_def)[] = {
     { "MESSAGEBOX_ERROR"       , TYPE_INT , SDL_MESSAGEBOX_ERROR       },
     { "MESSAGEBOX_WARNING"     , TYPE_INT , SDL_MESSAGEBOX_WARNING     },
     { "MESSAGEBOX_INFORMATION" , TYPE_INT , SDL_MESSAGEBOX_INFORMATION },
     { NULL                     , 0        , 0                          }
 } ;
 
-DLSYSFUNCS __bgdexport( mod_wm, exported_functions )[] = {
+DLSYSFUNCS __pxtexport( mod_wm, exported_functions )[] = {
     FUNC( "SET_TITLE"           , "S"   , TYPE_INT      , bgd_set_title           ),
     FUNC( "SET_ICON"            , "II"  , TYPE_INT      , bgd_set_icon            ),
     FUNC( "MINIMIZE"            , ""    , TYPE_INT      , bgd_minimize            ),
@@ -71,7 +71,7 @@ DLSYSFUNCS __bgdexport( mod_wm, exported_functions )[] = {
     FUNC( 0                     , 0     , 0           , 0                       )
 };
 
-char * __bgdexport( mod_wm, module_dependencies )[] = {
+char * __pxtexport( mod_wm, module_dependencies )[] = {
     "libgrbase",
     "libvideo",
     "libwm",

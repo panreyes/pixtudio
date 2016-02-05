@@ -34,7 +34,7 @@
  * supported.
  */
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "xstrings.h"
 
 #ifdef WIN32

@@ -30,7 +30,7 @@
 #ifndef __MODREGEX_SYMBOLS_H
 #define __MODREGEX_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modregex_regex (INSTANCE * my, int * params);
@@ -39,15 +39,15 @@ extern int modregex_regex_replace (INSTANCE * my, int * params);
 extern int modregex_split (INSTANCE * my, int * params);
 extern int modregex_join (INSTANCE * my, int * params);
 
-DLVARFIXUP __bgdexport( mod_regex, globals_fixup) [] = {
+DLVARFIXUP __pxtexport( mod_regex, globals_fixup) [] = {
     { "regex_reg", NULL, -1, -1 },
     { NULL, NULL, -1, -1 }
 };
 #endif
 
 
-char __bgdexport( mod_regex, globals_def )[] = "STRING regex_reg[15];\n";
-DLSYSFUNCS __bgdexport( mod_regex, exported_functions) [] = {
+char __pxtexport( mod_regex, globals_def )[] = "STRING regex_reg[15];\n";
+DLSYSFUNCS __pxtexport( mod_regex, exported_functions) [] = {
     /* Regex */
     FUNC( "REGEX"                , "SS"    , TYPE_INT    , modregex_regex           ),
     FUNC( "STRING_REPLACE"       , "SSS"   , TYPE_STRING , modregex_string_replace  ),

@@ -30,7 +30,7 @@
 #ifndef __MODSTRING_H
 #define __MODSTRING_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modstring_strlen( INSTANCE * my, int * params );
@@ -60,7 +60,7 @@ extern int modstring_formatFI( INSTANCE * my, int * params );
 extern int modstring_formatFI( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_string, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_string, exported_functions )[] = {
     FUNC( "STRLEN"     , "S"   , TYPE_INT   , modstring_strlen     ),
     FUNC( "LEN"        , "S"   , TYPE_INT   , modstring_strlen     ),
     FUNC( "UCASE"      , "S"   , TYPE_STRING, modstring_strupper   ),

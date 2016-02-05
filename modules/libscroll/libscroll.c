@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 
 #include "libgrbase.h"
@@ -71,7 +71,7 @@ enum { CTYPE = 0, CNUMBER, PROCESS_ID, STATUS, COORDX, COORDY, COORDZ, RESOLUTIO
 
 enum { SCROLLS = 0 };
 
-DLVARFIXUP __bgdexport(libscroll, locals_fixup)[] = {
+DLVARFIXUP __pxtexport(libscroll, locals_fixup)[] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
     {"ctype", NULL, -1, -1}, {"cnumber", NULL, -1, -1},
     {"id", NULL, -1, -1},    {"reserved.status", NULL, -1, -1},
@@ -81,7 +81,7 @@ DLVARFIXUP __bgdexport(libscroll, locals_fixup)[] = {
 
 /* --------------------------------------------------------------------------- */
 
-DLVARFIXUP __bgdexport(libscroll, globals_fixup)[] = {
+DLVARFIXUP __pxtexport(libscroll, globals_fixup)[] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
     {"scroll", NULL, -1, -1},
     {NULL, NULL, -1, -1}};

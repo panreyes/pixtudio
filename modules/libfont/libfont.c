@@ -32,9 +32,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
-#include "bgddl.h"
+#include "pxtdl.h"
 
 #define __LIB_FONT
 #include "libfont.h"
@@ -474,7 +474,7 @@ FONT *gr_font_get(int id) {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(libfont, module_initialize)() {
+void __pxtexport(libfont, module_initialize)() {
     gr_font_systemfont((char *)default_font);
 }
 

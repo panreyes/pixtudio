@@ -28,12 +28,12 @@
 #define __MODGAMECONTROLLER_SYMBOLS_H
 
 #include <SDL_gamecontroller.h>
-#include <bgddl.h>
+#include <pxtdl.h>
 #include "mod_gamecontroller.h"
 
 #ifndef __PXTB__
-extern void  __bgdexport( mod_gamecontroller, module_initialize )();
-extern void __bgdexport( mod_gamecontroller, module_finalize )();
+extern void  __pxtexport( mod_gamecontroller, module_initialize )();
+extern void __pxtexport( mod_gamecontroller, module_finalize )();
 
 extern int modgamecontroller_num( INSTANCE * my, int * params );
 extern int modgamecontroller_open( INSTANCE * my, int * params );
@@ -43,7 +43,7 @@ extern int modgamecontroller_getaxis( INSTANCE * my, int * params );
 extern int modgamecontroller_getname( INSTANCE * my, int * params );
 #endif
 
-DLCONSTANT  __bgdexport( mod_gamecontroller, constants_def )[] = {
+DLCONSTANT  __pxtexport( mod_gamecontroller, constants_def )[] = {
     { "CONTROLLER_INVALID"               , TYPE_DWORD, CONTROLLER_INVALID                  },
     { "CONTROLLER_BUTTON_INVALID"        , TYPE_DWORD, SDL_CONTROLLER_BUTTON_INVALID       },
     { "CONTROLLER_BUTTON_A"              , TYPE_DWORD, SDL_CONTROLLER_BUTTON_A             },
@@ -73,7 +73,7 @@ DLCONSTANT  __bgdexport( mod_gamecontroller, constants_def )[] = {
     { NULL          , 0       , 0  }
 };
 
-DLSYSFUNCS  __bgdexport( mod_gamecontroller, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_gamecontroller, exported_functions )[] = {
     FUNC( "CONTROLLER_NUM"       , ""      , TYPE_INT    , modgamecontroller_num       ),
     FUNC( "CONTROLLER_OPEN"      , "I"     , TYPE_INT    , modgamecontroller_open      ),
     FUNC( "CONTROLLER_CLOSE"     , "I"     , TYPE_INT    , modgamecontroller_close     ),

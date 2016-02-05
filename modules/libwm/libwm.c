@@ -35,15 +35,15 @@
 #include <g_video.h>
 #include <librender.h>
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 
 #ifndef __MONOLITHIC__
 #include "libwm_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport(libwm, globals_fixup)[];
+extern DLVARFIXUP __pxtexport(libwm, globals_fixup)[];
 #endif
 
 /* --------------------------------------------------------------------------- */

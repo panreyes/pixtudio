@@ -33,7 +33,7 @@
 /* --------------------------------------------------------------------------- */
 
 #ifdef __LIB_RENDER
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
 #include "dlvaracc.h"
 
@@ -42,7 +42,7 @@
 #include "libblit.h"
 #endif
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "g_fade.h"
 #include "g_frame.h"
 #include "g_instance.h"
@@ -54,8 +54,8 @@
 
 /* --------------------------------------------------------------------------- */
 
-extern DLVARFIXUP __bgdexport(librender, globals_fixup)[];
-extern DLVARFIXUP __bgdexport(librender, locals_fixup)[];
+extern DLVARFIXUP __pxtexport(librender, globals_fixup)[];
+extern DLVARFIXUP __pxtexport(librender, locals_fixup)[];
 
 /* --------------------------------------------------------------------------- */
 

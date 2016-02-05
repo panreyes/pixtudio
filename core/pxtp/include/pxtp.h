@@ -55,7 +55,7 @@
 
 #include "files.h"
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
 /* Save/load with type information */
 

@@ -25,7 +25,7 @@
 #ifndef __MODTHEORA_SYMBOLS_H
 #define __MODTHEORA_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int video_play(INSTANCE *my, int * params);
@@ -35,16 +35,16 @@ extern int video_is_playing();
 extern int video_set_volume(INSTANCE *my, int * params);
 extern void refresh_video();
 
-HOOK __bgdexport( mod_theora, handler_hooks )[] = {
+HOOK __pxtexport( mod_theora, handler_hooks )[] = {
     { 3000, refresh_video                     },
     {    0, NULL                              }
 } ;
 
-extern void __bgdexport( mod_theora, module_initialize )();
-extern void __bgdexport( mod_theora, module_finalize )();
+extern void __pxtexport( mod_theora, module_initialize )();
+extern void __pxtexport( mod_theora, module_finalize )();
 #endif
 
-DLSYSFUNCS __bgdexport( mod_theora, exported_functions )[] = {
+DLSYSFUNCS __pxtexport( mod_theora, exported_functions )[] = {
     FUNC( "VIDEO_PLAY"                 , "S"    , TYPE_DWORD , video_play       ),
     FUNC( "VIDEO_STOP"                 , ""     , TYPE_DWORD , video_stop       ),
     FUNC( "VIDEO_PAUSE"                , ""     , TYPE_DWORD , video_pause      ),
@@ -53,7 +53,7 @@ DLSYSFUNCS __bgdexport( mod_theora, exported_functions )[] = {
     FUNC( NULL                         , NULL   , 0          , NULL             )
 };
 
-char * __bgdexport( mod_theora, module_dependencies )[] = {
+char * __pxtexport( mod_theora, module_dependencies )[] = {
     "libgrbase",
     "libvideo",
     NULL

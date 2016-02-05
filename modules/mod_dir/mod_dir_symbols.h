@@ -30,7 +30,7 @@
 #ifndef __MODDIR_SYMBOLS_H
 #define __MODDIR_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int moddir_cd( INSTANCE * my, int * params );
@@ -45,7 +45,7 @@ extern int moddir_read( INSTANCE * my, int * params );
 extern int moddir_get_basepath( INSTANCE * my, int * params );
 extern int moddir_get_prefpath( INSTANCE * my, int * params );
 
-DLVARFIXUP __bgdexport( mod_dir, globals_fixup)[] = {
+DLVARFIXUP __pxtexport( mod_dir, globals_fixup)[] = {
     /* varname, pointer (NULL), size, # elements */
     { "fileinfo.path" , NULL, -1, -1 },
     { "fileinfo.name" , NULL, -1, -1 },
@@ -61,7 +61,7 @@ DLVARFIXUP __bgdexport( mod_dir, globals_fixup)[] = {
 };
 #endif
 
-char __bgdexport( mod_dir, globals_def )[] =
+char __pxtexport( mod_dir, globals_def )[] =
     "STRUCT fileinfo\n"
     "    STRING path;\n"
     "    STRING name;\n"
@@ -75,7 +75,7 @@ char __bgdexport( mod_dir, globals_def )[] =
     "    STRING statechg;\n"
     "END\n";
 
-DLSYSFUNCS __bgdexport( mod_dir, exported_functions)[] = {
+DLSYSFUNCS __pxtexport( mod_dir, exported_functions)[] = {
     FUNC( "CD"      , ""  , TYPE_STRING , moddir_cd     ),
     FUNC( "CD"      , "S" , TYPE_STRING , moddir_chdir  ),
     FUNC( "CHDIR"   , "S" , TYPE_INT    , moddir_chdir  ),

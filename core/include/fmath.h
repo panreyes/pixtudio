@@ -32,7 +32,7 @@
 
 #include <math.h>
 
-#include "bgdcore.h"
+#include "pxtcore.h"
 
 /* Rutinas matemáticas de punto fijo, basadas en Allegro */
 

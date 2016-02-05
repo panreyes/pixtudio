@@ -27,8 +27,7 @@
  *
  */
 
-#ifndef __BGDRTM_H
-#define __BGDRTM_H
+#pragma once
 
 #include <stdint.h>
 
@@ -46,11 +45,11 @@
 #ifdef __ANDROID__
 #include <SDL_log.h>
 
-#define BGDRTM_LOG(...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, __VA_ARGS__)
-#define BGDRTM_LOGERROR(...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, __VA_ARGS__)
+#define PXTRTM_LOG(...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, __VA_ARGS__)
+#define PXTRTM_LOGERROR(...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, __VA_ARGS__)
 #else
-#define BGDRTM_LOG(...) fprintf(stdout, __VA_ARGS__)
-#define BGDRTM_LOGERROR(...) fprintf(stderr, __VA_ARGS__)
+#define PXTRTM_LOG(...) fprintf(stdout, __VA_ARGS__)
+#define PXTRTM_LOGERROR(...) fprintf(stderr, __VA_ARGS__)
 #endif
 
 /* --------------------------------------------------------------------------- */
@@ -86,7 +85,7 @@ extern int trace_sentence;
 extern INSTANCE *trace_instance;
 
 /* --------------------------------------------------------------------------- */
-extern int bgdrtm_strncmpi(char *str1, char *str2, int sz);
+extern int pxtrtm_strncmpi(char *str1, char *str2, int sz);
 
 extern int dcb_load(const char *filename);
 extern int dcb_load_from(file *fp, const char *dcbname, int offset);
@@ -97,9 +96,8 @@ extern void mnemonic_dump(int i, int param);
 
 /* --------------------------------------------------------------------------- */
 
-extern void bgdrtm_entry(int argc, char *argv[]);
-extern void bgdrtm_exit(int n);
+extern void pxtrtm_entry(int argc, char *argv[]);
+extern void pxtrtm_exit(int n);
 
 /* --------------------------------------------------------------------------- */
 
-#endif

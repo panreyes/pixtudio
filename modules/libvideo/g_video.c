@@ -32,9 +32,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 
 #include "libvideo.h"
@@ -42,7 +42,7 @@
 #ifndef __MONOLITHIC__
 #include "libvideo_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport(libvideo, globals_fixup)[];
+extern DLVARFIXUP __pxtexport(libvideo, globals_fixup)[];
 #endif
 
 /* --------------------------------------------------------------------------- */
@@ -190,7 +190,7 @@ int gr_set_mode(int width, int height) {
         window = SDL_CreateWindow(apptitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                   surface_width, surface_height, sdl_flags);
         if (!window) {
-            BGDRTM_LOGERROR("Error creating window (%s)", SDL_GetError());
+            PXTRTM_LOGERROR("Error creating window (%s)", SDL_GetError());
             return -1;
         }
     } else {
@@ -242,7 +242,7 @@ int gr_set_mode(int width, int height) {
         }
         renderer = SDL_CreateRenderer(window, -1, sdl_flags);
         if (!renderer) {
-            BGDRTM_LOGERROR("Error creating renderer (%s)", SDL_GetError());
+            PXTRTM_LOGERROR("Error creating renderer (%s)", SDL_GetError());
             SDL_DestroyWindow(window);
             return -1;
         }
@@ -255,14 +255,14 @@ int gr_set_mode(int width, int height) {
 
     // Print some debugging info on the renderer
     if(debug) {
-        BGDRTM_LOG("Renderer info:\n");
-        BGDRTM_LOG("==============\n");
-        BGDRTM_LOG("Accelerated rendering: %d\n", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
-        BGDRTM_LOG("Render to texture:     %d\n", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
-        BGDRTM_LOG("Rendering driver:      %s\n", renderer_info.name);
-        BGDRTM_LOG("VSYNC:                 %d\n", renderer_info.flags & SDL_RENDERER_PRESENTVSYNC);
-        BGDRTM_LOG("Max texture size:      %dx%d\n", renderer_info.max_texture_width, renderer_info.max_texture_height);
-        BGDRTM_LOG("Renderer size:         %dx%d\n", renderer_width, renderer_height);
+        PXTRTM_LOG("Renderer info:\n");
+        PXTRTM_LOG("==============\n");
+        PXTRTM_LOG("Accelerated rendering: %d\n", (renderer_info.flags & SDL_RENDERER_ACCELERATED) > 0);
+        PXTRTM_LOG("Render to texture:     %d\n", (renderer_info.flags & SDL_RENDERER_TARGETTEXTURE) > 0);
+        PXTRTM_LOG("Rendering driver:      %s\n", renderer_info.name);
+        PXTRTM_LOG("VSYNC:                 %d\n", renderer_info.flags & SDL_RENDERER_PRESENTVSYNC);
+        PXTRTM_LOG("Max texture size:      %dx%d\n", renderer_info.max_texture_width, renderer_info.max_texture_height);
+        PXTRTM_LOG("Renderer size:         %dx%d\n", renderer_width, renderer_height);
     }
 
     // Clear the screen
@@ -277,7 +277,7 @@ int gr_set_mode(int width, int height) {
     if (renderer_width != width || renderer_height != height) {
         SDL_RenderSetLogicalSize(renderer, width, height);
         if(debug) {
-            BGDRTM_LOG("Set logical size to: %dx%d\n", width, height);
+            PXTRTM_LOG("Set logical size to: %dx%d\n", width, height);
         }
     }
 
@@ -366,7 +366,7 @@ int gr_init(int width, int height) {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(libvideo, module_initialize)() {
+void __pxtexport(libvideo, module_initialize)() {
     char *e;
 
     if (!SDL_WasInit(SDL_INIT_VIDEO)) {
@@ -390,7 +390,7 @@ void __bgdexport(libvideo, module_initialize)() {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(libvideo, module_finalize)() {
+void __pxtexport(libvideo, module_finalize)() {
     if (renderer) {
         SDL_DestroyRenderer(renderer);
     }

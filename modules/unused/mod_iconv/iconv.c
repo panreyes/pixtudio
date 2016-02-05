@@ -23,7 +23,7 @@
 #include <SDL_stdinc.h>
 
 #include <xstrings.h>
-#include <bgddl.h>
+#include <pxtdl.h>
 #include <errno.h>
 #include <sysprocs_st.h>
 

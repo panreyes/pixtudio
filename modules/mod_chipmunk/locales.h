@@ -27,7 +27,7 @@
 #define LOC_SIZE 22
 #define LOC_SENSOR 23
 
-extern char __bgdexport(mod_chipmunk, locals_def)[];
-extern DLVARFIXUP __bgdexport(mod_chipmunk, locals_fixup)[];
+extern char __pxtexport(mod_chipmunk, locals_def)[];
+extern DLVARFIXUP __pxtexport(mod_chipmunk, locals_fixup)[];
 
 #endif

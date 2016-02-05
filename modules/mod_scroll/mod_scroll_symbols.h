@@ -30,7 +30,7 @@
 #ifndef __MODSCROLL_SYMBOLS_H
 #define __MODSCROLL_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int mod_scroll_start( INSTANCE * my, int * params );
@@ -39,7 +39,7 @@ extern int mod_scroll_stop( INSTANCE * my, int * params );
 extern int mod_scroll_move( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS __bgdexport( mod_scroll, exported_functions )[] = {
+DLSYSFUNCS __pxtexport( mod_scroll, exported_functions )[] = {
     FUNC( "SCROLL_START"    , "IIIIIIII", TYPE_INT   , mod_scroll_start2  ),
     FUNC( "SCROLL_START"    , "IIIIII"  , TYPE_INT   , mod_scroll_start   ),
     FUNC( "SCROLL_STOP"     , "I"       , TYPE_INT   , mod_scroll_stop    ),
@@ -49,7 +49,7 @@ DLSYSFUNCS __bgdexport( mod_scroll, exported_functions )[] = {
     
 };
 
-char * __bgdexport( mod_scroll, module_dependencies )[] = {
+char * __pxtexport( mod_scroll, module_dependencies )[] = {
     "libscroll",
     NULL
 };

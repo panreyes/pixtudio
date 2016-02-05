@@ -34,15 +34,14 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 #include "dcb.h"
 #include "xstrings.h"
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 /* ---------------------------------------------------------------------- */
 
-/* Debe existir un header bgdrtm.h */
 extern int bgd_copy_struct(INSTANCE *my, int *params);
 extern int bgd_internal_memcopy(INSTANCE *my, int *params);
 extern int bgd_internal_copy_string_array(INSTANCE *my, int *params);
@@ -94,7 +93,7 @@ int module_finalize_count     = 0;
         }                                                                                          \
                                                                                                    \
         if (!(hook_list)) {                                                                        \
-            BGDRTM_LOGERROR("No memory for alloc hook\n");                                         \
+            PXTRTM_LOGERROR("No memory for alloc hook\n");                                         \
             exit(-1);                                                                              \
         }                                                                                          \
         (hook_list)[hook_count] = (new_hook);                                                      \
@@ -308,7 +307,7 @@ static void get_var_info(DLVARFIXUP *varfixup, DCB_VAR *basevar, int nvars, char
         varfixup->elements    = rvar.Type.BaseType[0] == TYPE_ARRAY ? rvar.Type.Count[0] : 1;
         varfixup->size        = tsize(rvar.Type) / varfixup->elements;
         /*
-                BGDRTM_LOG("varfixup: %p var: %s offset: %p elements: %d size: %d\n", varfixup,
+                PXTRTM_LOG("varfixup: %p var: %s offset: %p elements: %d size: %d\n", varfixup,
            varfixup->var, varfixup->data_offset, varfixup->elements, varfixup->size);
         */
         break;
@@ -336,7 +335,7 @@ int sysproc_add(char *name, char *paramtypes, int type, void *func) {
     }
 
     if (sysproc_count >= MAX_SYSPROCS) {
-        BGDRTM_LOGERROR("ERROR: Runtime error - too many system functions\n");
+        PXTRTM_LOGERROR("ERROR: Runtime error - too many system functions\n");
         return -1;
     }
 
@@ -426,7 +425,7 @@ void sysproc_init() {
         /* Load library */
 
         if (debug_DCB) {
-            BGDRTM_LOG("Loading... %s\n", filename);
+            PXTRTM_LOG("Loading... %s\n", filename);
         }
 
         fullsoname[0] = '\0';
@@ -444,7 +443,7 @@ void sysproc_init() {
             library = dlibopen(filename);
 
         if (!library) {
-            BGDRTM_LOGERROR("FATAL ERROR: Couldn't open library \"%s\", quitting. \"%s\"\n", filename,
+            PXTRTM_LOGERROR("FATAL ERROR: Couldn't open library \"%s\", quitting. \"%s\"\n", filename,
                     dliberror());
             exit(0);
         }
@@ -517,7 +516,7 @@ void sysproc_init() {
     }
 
     if (debug_DCB) {
-        BGDRTM_LOG("\n");
+        PXTRTM_LOG("\n");
     }
 
     /* System Procs FixUp */

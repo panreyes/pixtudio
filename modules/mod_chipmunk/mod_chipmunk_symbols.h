@@ -32,10 +32,10 @@
 #define __MODCHIPMUNK_SYMBOLS_H
 
 #include <chipmunk.h>
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifdef __PXTB__
-char __bgdexport( mod_chipmunk, globals_def )[] =
+char __pxtexport( mod_chipmunk, globals_def )[] =
     "STRUCT gphysics\n"
     "int space;\n"
     "float gravity_X;\n"                                                  /* Access and set with *(FLOAT *)GLOADDR(mod_chipmunk,GLO_GRAVITY_X)) */
@@ -55,7 +55,7 @@ char __bgdexport( mod_chipmunk, globals_def )[] =
 
     ;
 
-char __bgdexport( mod_chipmunk, locals_def )[] =
+char __pxtexport( mod_chipmunk, locals_def )[] =
     "STRUCT lphysics\n"
     "int body=0;\n"                                                        /* Access and set with GLODWORD(mod_chipmunk,GLO_SPACE) */
     "int shape=0;\n"                                                        /* Access and set with GLODWORD(mod_chipmunk,GLO_SPACE) */
@@ -76,7 +76,7 @@ char __bgdexport( mod_chipmunk, locals_def )[] =
 
     ;
 
-char __bgdexport( mod_chipmunk, types_def )[] =
+char __pxtexport( mod_chipmunk, types_def )[] =
     "TYPE cpVect\n"
         " float x;\n"
         " float y;\n"
@@ -120,7 +120,7 @@ char __bgdexport( mod_chipmunk, types_def )[] =
 //"TYPE cpSegmentQueryInfo\n" " cpShape *shape;\n " " float t;\n " "cpVect n;\n""END\n"
     ;
 
-DLCONSTANT __bgdexport( mod_chipmunk, constants_def )[] =
+DLCONSTANT __pxtexport( mod_chipmunk, constants_def )[] =
 {
     { "CP_C_ITERATIONS", TYPE_INT, CP_C_ITERATIONS },
     { "CP_C_GRAVITY", TYPE_INT, CP_C_GRAVITY },
@@ -193,7 +193,7 @@ DLCONSTANT __bgdexport( mod_chipmunk, constants_def )[] =
     { NULL , 0 , 0 }
 } ;
 
-char * __bgdexport( mod_chipmunk, module_dependencies )[] =
+char * __pxtexport( mod_chipmunk, module_dependencies )[] =
 {
     "librender",
     "libgrbase",
@@ -202,7 +202,7 @@ char * __bgdexport( mod_chipmunk, module_dependencies )[] =
     NULL
 };
 
-DLSYSFUNCS __bgdexport( mod_chipmunk, exported_functions) [] =
+DLSYSFUNCS __pxtexport( mod_chipmunk, exported_functions) [] =
 {
     {"INFINITYF"                            , ""             , TYPE_FLOAT     , 0},
     {"modChipmunkdeg2rad"                   , "F"            , TYPE_FLOAT     , 0},
@@ -439,17 +439,17 @@ DLSYSFUNCS __bgdexport( mod_chipmunk, exported_functions) [] =
     {0, 0, 0, 0}//TYPE_POINTER
 };
 #else
-extern char __bgdexport( mod_chipmunk, globals_def )[];
-extern DLVARFIXUP __bgdexport( mod_chipmunk, globals_fixup )[];
-extern char __bgdexport( mod_chipmunk, locals_def )[];
-extern DLVARFIXUP __bgdexport( mod_chipmunk, locals_fixup )[];
-extern char __bgdexport( mod_chipmunk, types_def )[];
-extern DLCONSTANT __bgdexport( mod_chipmunk, constants_def )[];
-extern HOOK __bgdexport (mod_chipmunk , handler_hooks ) [];
-extern void __bgdexport( mod_chipmunk, module_initialize )();
-extern void __bgdexport( mod_chipmunk, module_finalize )();
-extern char * __bgdexport( mod_chipmunk, module_dependencies )[];
-extern DLSYSFUNCS __bgdexport( mod_chipmunk, exported_functions) [];
+extern char __pxtexport( mod_chipmunk, globals_def )[];
+extern DLVARFIXUP __pxtexport( mod_chipmunk, globals_fixup )[];
+extern char __pxtexport( mod_chipmunk, locals_def )[];
+extern DLVARFIXUP __pxtexport( mod_chipmunk, locals_fixup )[];
+extern char __pxtexport( mod_chipmunk, types_def )[];
+extern DLCONSTANT __pxtexport( mod_chipmunk, constants_def )[];
+extern HOOK __pxtexport (mod_chipmunk , handler_hooks ) [];
+extern void __pxtexport( mod_chipmunk, module_initialize )();
+extern void __pxtexport( mod_chipmunk, module_finalize )();
+extern char * __pxtexport( mod_chipmunk, module_dependencies )[];
+extern DLSYSFUNCS __pxtexport( mod_chipmunk, exported_functions) [];
 #endif
 
 #endif

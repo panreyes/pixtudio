@@ -30,7 +30,7 @@
 #ifndef __MODSCREEN_SYMBOLS_H
 #define __MODSCREEN_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modscreen_define_region( INSTANCE * my, int * params );
@@ -41,21 +41,21 @@ extern int modscreen_put_screen( INSTANCE * my, int * params );
 extern int modscreen_clear_screen( INSTANCE * my, int * params );
 extern int modscreen_get_screen( INSTANCE * my, int * params );
 
-DLVARFIXUP __bgdexport( mod_screen, locals_fixup )[] = {
+DLVARFIXUP __pxtexport( mod_screen, locals_fixup )[] = {
     { "ctype"       , NULL, -1, -1 },
     { "cnumber"     , NULL, -1, -1 },
 
     { NULL          , NULL, -1, -1 }
 };
 
-DLVARFIXUP __bgdexport( mod_screen, globals_fixup )[] = {
+DLVARFIXUP __pxtexport( mod_screen, globals_fixup )[] = {
     { "scroll"      , NULL, -1, -1 },
 
     { NULL          , NULL, -1, -1 }
 };
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_screen, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_screen, exported_functions )[] = {
     FUNC( "REGION_DEFINE" , "IIIII"    , TYPE_INT , modscreen_define_region ),
     FUNC( "REGION_OUT"    , "II"       , TYPE_INT , modscreen_out_region    ),
 
@@ -70,7 +70,7 @@ DLSYSFUNCS  __bgdexport( mod_screen, exported_functions )[] = {
 
 };
 
-char * __bgdexport( mod_screen, module_dependencies )[] = {
+char * __pxtexport( mod_screen, module_dependencies )[] = {
     "libgrbase",
     "libvideo",
     "libblit",

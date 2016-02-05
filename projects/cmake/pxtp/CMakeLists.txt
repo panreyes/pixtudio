@@ -1,7 +1,7 @@
 project(pxtp C)
 cmake_minimum_required(VERSION 2.8)
-# Require bgdrtm
-add_subdirectory(bgdrtm)
+# Require pxtrtm
+add_subdirectory(pxtrtm)
 # Required stuff
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${pxtp_SOURCE_DIR}/../include")
 find_package(SDL2 2.0.4 REQUIRED)
@@ -19,11 +19,12 @@ add_definitions(-D__PXTP__)
 include(common_defs)
 # Source files
 set(SOURCE_FILES
+  ${pxtp_SOURCE_DIR}/../../../core/pxtp/include/pxtp.h
   ${pxtp_SOURCE_DIR}/../../../core/pxtp/src/main.c)
 # Include dirs
 include_directories(${pxtp_SOURCE_DIR}/../../../core/pxtp/include
                     ${pxtp_SOURCE_DIR}/../../../core/include
-                    ${pxtp_SOURCE_DIR}/../../../core/bgdrtm/include/)
+                    ${pxtp_SOURCE_DIR}/../../../core/pxtrtm/include/)
 # Main executable
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 if(WIN32)
@@ -37,7 +38,7 @@ include(compiler_flags)
 
 # Link the executable to the libraries
 target_link_libraries(${PROJECT_NAME}
-                      bgdrtm
+                      pxtrtm
                       ${SDL2_LIBRARY}
                       ${SDL2_MIXER_LIBRARIES}
                       ${ZLIB_LIBRARIES}

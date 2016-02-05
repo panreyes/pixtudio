@@ -41,7 +41,7 @@
 #include <assert.h>
 #include "files.h"
 #include "xctype.h"
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
 /****************************************************************************/
 
@@ -176,7 +176,7 @@ static void string_alloc(int count) {
     string_bmp = (uint32_t *)realloc(string_bmp, (string_allocated >> 5) * sizeof(uint32_t));
 
     if (!string_ptr || !string_uct || !string_bmp) {
-        BGDRTM_LOGERROR("ERROR: Runtime error - string_alloc: out of memory\n");
+        PXTRTM_LOGERROR("ERROR: Runtime error - string_alloc: out of memory\n");
         exit(0);
     }
 
@@ -216,7 +216,7 @@ void string_dump(void (*wlog)(const char *fmt, ...)) {
     if (wlog)
         wlog("[STRING] ---- Dumping MaxID=%d strings ----\n", string_allocated);
     else
-        BGDRTM_LOG("[STRING] ---- Dumping MaxID=%d strings ----\n", string_allocated);
+        PXTRTM_LOG("[STRING] ---- Dumping MaxID=%d strings ----\n", string_allocated);
 
     for (i = 0; i < string_allocated; i++) {
         if (string_ptr[i]) {
@@ -233,7 +233,7 @@ void string_dump(void (*wlog)(const char *fmt, ...)) {
                 wlog("[STRING] %4d [%4d]%s: {%s}\n", i, string_uct[i],
                      (i >= string_reserved) ? "" : " STATIC", string_ptr[i]);
             else
-                BGDRTM_LOG("[STRING] %4d [%4d]%s: {%s}\n", i, string_uct[i],
+                PXTRTM_LOG("[STRING] %4d [%4d]%s: {%s}\n", i, string_uct[i],
                            (i >= string_reserved) ? "" : " STATIC", string_ptr[i]);
         } else {
             continue;
@@ -242,7 +242,7 @@ void string_dump(void (*wlog)(const char *fmt, ...)) {
     if (wlog)
         wlog("[STRING] ---- Dumping Used=%d End ----\n", used);
     else
-        BGDRTM_LOG("[STRING] ---- Dumping Used=%d End ----\n", used);
+        PXTRTM_LOG("[STRING] ---- Dumping Used=%d End ----\n", used);
 }
 
 /****************************************************************************/

@@ -22,10 +22,9 @@
  *
  */
 
-#ifndef __MODFILE_H
-#define __MODFILE_H
+#pragma once
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modfile_save( INSTANCE * my, int * params );
@@ -52,7 +51,7 @@ extern int modfile_dirname( INSTANCE * my, int * params );
 extern int modfile_basename( INSTANCE * my, int * params );
 #endif
 
-DLCONSTANT  __bgdexport( mod_file, constants_def)[] = {
+DLCONSTANT __pxtexport(mod_file, constants_def)[] = {
     { "O_READ"      , TYPE_INT, 0  },
     { "O_READWRITE" , TYPE_INT, 1  },
     { "O_RDWR"      , TYPE_INT, 1  },
@@ -67,7 +66,7 @@ DLCONSTANT  __bgdexport( mod_file, constants_def)[] = {
     { NULL          , 0       , 0  }
 } ;
 
-DLSYSFUNCS  __bgdexport( mod_file, exported_functions)[] = {
+DLSYSFUNCS __pxtexport(mod_file, exported_functions)[] = {
     FUNC( "SAVE"        , "SV++" , TYPE_INT         , modfile_save        ),
     FUNC( "LOAD"        , "SV++" , TYPE_INT         , modfile_load        ),
     FUNC( "FOPEN"       , "SI"   , TYPE_INT         , modfile_fopen       ),
@@ -96,5 +95,3 @@ DLSYSFUNCS  __bgdexport( mod_file, exported_functions)[] = {
 
     FUNC( 0             , 0      , 0                , 0                   )
 };
-
-#endif

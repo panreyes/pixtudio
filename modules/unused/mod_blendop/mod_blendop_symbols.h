@@ -30,12 +30,12 @@
 #ifndef __MODBLENDOP_SYMBOLS_H
 #define __MODBLENDOP_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifdef __PXTB__
 /* ---------------------------------------------------------------------- */
 
-DLSYSFUNCS __bgdexport( mod_blendop, exported_functions)[] =
+DLSYSFUNCS __pxtexport( mod_blendop, exported_functions)[] =
 {
     /* Blendops */
     { "BLENDOP_NEW"          , ""      , TYPE_INT   , 0 },
@@ -54,14 +54,14 @@ DLSYSFUNCS __bgdexport( mod_blendop, exported_functions)[] =
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( mod_blendop, module_dependencies )[] =
+char * __pxtexport( mod_blendop, module_dependencies )[] =
 {
     "libgrbase",
     NULL
 };
 #else
-extern DLSYSFUNCS __bgdexport( mod_blendop, exported_functions)[];
-extern char __bgdexport( mod_blendop, module_dependencies )[];
+extern DLSYSFUNCS __pxtexport( mod_blendop, exported_functions)[];
+extern char __pxtexport( mod_blendop, module_dependencies )[];
 #endif
 
 #endif

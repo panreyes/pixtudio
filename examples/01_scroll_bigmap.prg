@@ -53,7 +53,7 @@ BEGIN
     play_song(songid, 0);
 
     // (standard version)
-    // int start_scroll (int scrollnumber,
+    // int scroll_start (int scrollnumber,
     //                   int file,
     //                   int graph,
     //                   int backgroundgraph,
@@ -61,8 +61,8 @@ BEGIN
     //                   int lockindicator);
 
     // create an extended scroll, drawn on the "scroll_blit_graph".
-    scroll_window=start_scroll(0,0,graphic,0,0,3);
-    scroll_window2=start_scroll(1,0,graphic,0,0,3);
+    scroll_window=scroll_start(0,0,graphic,0,0,3);
+    scroll_window2=scroll_start(1,0,graphic,0,0,3);
     write_var(font, 10, 10, 0, fps);
 
     collisioner();
@@ -86,7 +86,7 @@ BEGIN
     END
 
     // stop scroll window.
-    stop_scroll(0);
+    scroll_stop(0);
 
     // Stop the music
     stop_song();

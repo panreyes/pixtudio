@@ -32,7 +32,7 @@
 #include <stdlib.h>
 #include "libgrbase.h"
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 
 /* --------------------------------------------------------------------------- */
@@ -61,7 +61,7 @@ enum { ALPHA_STEPS = 0 };
 /* El interprete completa esta estructura, si la variable existe.              */
 /* (usada en tiempo de ejecucion)                                              */
 
-DLVARFIXUP __bgdexport(libgrbase, globals_fixup)[] = {
+DLVARFIXUP __pxtexport(libgrbase, globals_fixup)[] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
     {"alpha_steps", NULL, -1, -1},
     {NULL, NULL, -1, -1}};

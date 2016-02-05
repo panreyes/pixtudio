@@ -33,8 +33,8 @@
 #include FT_GLYPH_H
 
 /* PixTudio stuff */
-#include <bgddl.h>
-#include <bgdrtm.h>
+#include <pxtdl.h>
+#include <pxtrtm.h>
 #include <libgrbase.h>
 #include <g_video.h>
 #include <xstrings.h>
@@ -323,14 +323,14 @@ bool load_face(const char *path, uint16_t size, uint8_t n) {
     int error = FT_New_Face(library, path, 0, &faces[n].face);
     if(error) {
         if(debug) {
-            BGDRTM_LOGERROR("ERROR: Could not load font face %s\n", path);
+            PXTRTM_LOGERROR("ERROR: Could not load font face %s\n", path);
         }
         return false;
     }
 
     if(FT_HAS_VERTICAL(faces[n].face)) {
         if(debug) {
-            BGDRTM_LOGERROR("ERROR: Vertical font faces are not supported\n");
+            PXTRTM_LOGERROR("ERROR: Vertical font faces are not supported\n");
         }
         FT_Done_Face(faces[n].face);
         return false;
@@ -338,7 +338,7 @@ bool load_face(const char *path, uint16_t size, uint8_t n) {
 
     if(!FT_IS_SCALABLE(faces[n].face)) {
         if(debug) {
-            BGDRTM_LOGERROR("ERROR: Non-scallable font faces are not supported\n");
+            PXTRTM_LOGERROR("ERROR: Non-scallable font faces are not supported\n");
         }
         FT_Done_Face(faces[n].face);
         return false;
@@ -357,7 +357,7 @@ bool load_face(const char *path, uint16_t size, uint8_t n) {
     return true;
 }
 
-int ttf_draw(INSTANCE *my, int *params) {
+int ttf_draw_2(INSTANCE *my, int *params) {
     int error;
     // HACK, HACK, HAAAACK!
     extern int fntcolor32;
@@ -463,7 +463,7 @@ int ttf_draw(INSTANCE *my, int *params) {
                                              8);
                     if (!alpha_graph) {
                         if(debug) {
-                            BGDRTM_LOGERROR("ERROR: Could not create alpha GRAPH\n");
+                            PXTRTM_LOGERROR("ERROR: Could not create alpha GRAPH\n");
                         }
                         FT_Done_Face(faces[0].face);
                         return -1;
@@ -529,10 +529,10 @@ int print_code(INSTANCE *my, int * params) {
     return 0;
 }
 
-void __bgdexport(mod_ttf, module_initialize)() {
+void __pxtexport(mod_ttf, module_initialize)() {
     int error = FT_Init_FreeType(&library);
     if (error) {
-        BGDRTM_LOGERROR("ERROR: Could not start Freetype library\n");
+        PXTRTM_LOGERROR("ERROR: Could not start Freetype library\n");
     }
 
     for(int32_t i=0; i<MAX_FACES; i++) {
@@ -540,6 +540,6 @@ void __bgdexport(mod_ttf, module_initialize)() {
     }
 }
 
-void __bgdexport(mod_ttf, module_finalize)() {
+void __pxtexport(mod_ttf, module_finalize)() {
     FT_Done_FreeType(library);
 }

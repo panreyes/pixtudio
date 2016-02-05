@@ -1,6 +1,6 @@
 #include "automGenTerr.h"
-#include "bgddl.h"
-#include "bgdrtm.h"
+#include "pxtdl.h"
+#include "pxtrtm.h"
 #include "stdio.h"
 #include "libdraw.h"
 #include "mod_map.h"

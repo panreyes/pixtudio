@@ -64,8 +64,8 @@
 #include <ctype.h>
 #endif
 
-#include "bgdrtm.h"
-#include "bgddl.h"
+#include "pxtrtm.h"
+#include "pxtdl.h"
 
 #ifndef __MONOLITHIC__
 #include "mod_mem_symbols.h"
@@ -185,7 +185,7 @@ int modmem_memory_total(INSTANCE *my, int *params) {
     if (!sysctlbyname("hw.memsize", &total, &size, NULL, 0)) {
         if (total > INT_MAX) {
             // We overflowed here
-            BGDRTM_LOGERROR("Warning: MEMORY_TOTAL returning %dB of memory, real total is %lluB\n",
+            PXTRTM_LOGERROR("Warning: MEMORY_TOTAL returning %dB of memory, real total is %lluB\n",
                             INT_MAX, total);
             return INT_MAX;
         } else {

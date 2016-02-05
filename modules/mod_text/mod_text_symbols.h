@@ -30,7 +30,7 @@
 #ifndef __MODTEXT_SYMBOLS_H
 #define __MODTEXT_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modtext_write( INSTANCE * my, int * params );
@@ -65,7 +65,7 @@ extern int modtext_write_string2( INSTANCE * my, int * params );
 #define ALIGN_BOTTOM        7
 #define ALIGN_BOTTOM_RIGHT  8
 
-DLCONSTANT __bgdexport( mod_text, constants_def)[] = {
+DLCONSTANT __pxtexport( mod_text, constants_def)[] = {
     { "ALL_TEXT"            , TYPE_INT  , 0                     },
     { "ALIGN_TOP_LEFT"      , TYPE_INT  , ALIGN_TOP_LEFT        },
     { "ALIGN_TOP"           , TYPE_INT  , ALIGN_TOP             },
@@ -79,7 +79,7 @@ DLCONSTANT __bgdexport( mod_text, constants_def)[] = {
     { NULL                  , 0         , 0                     }
 } ;
 
-DLSYSFUNCS  __bgdexport( mod_text, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_text, exported_functions )[] = {
     FUNC( "WRITE"               , "IIIIS"   , TYPE_INT  , modtext_write             ),
     FUNC( "WRITE"               , "IIIIIS"  , TYPE_INT  , modtext_write2            ),
     FUNC( "WRITE_INT"           , "IIIIP"   , TYPE_INT  , modtext_write_int         ),
@@ -104,7 +104,7 @@ DLSYSFUNCS  __bgdexport( mod_text, exported_functions )[] = {
     FUNC( 0                     , 0         , 0         , 0                         )
 };
 
-char * __bgdexport( mod_text, module_dependencies)[] =
+char * __pxtexport( mod_text, module_dependencies)[] =
 {
     "libgrbase",
     "libblit",

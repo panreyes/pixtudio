@@ -37,7 +37,7 @@
 /* Instancias. Una instancia se crea a partir de un proceso, pero en
  * realidad es independiente del proceso original */
 
-#ifdef __BGDRTM__
+#ifdef __PXTRTM__
 extern void *globaldata;
 extern void *localdata;
 #endif

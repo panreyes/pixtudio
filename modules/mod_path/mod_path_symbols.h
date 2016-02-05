@@ -30,7 +30,7 @@
 #ifndef __MODPATH_SYMBOLS_H
 #define __MODPATH_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #define PF_NODIAG       1
 #define PF_REVERSE      2
@@ -41,20 +41,20 @@ extern int modpathfind_path_getxy( INSTANCE * my, int * params );
 extern int modpathfind_path_wall( INSTANCE * my, int * params );
 #endif
 
-DLCONSTANT __bgdexport( mod_path, constants_def )[] = {
+DLCONSTANT __pxtexport( mod_path, constants_def )[] = {
     { "PF_NODIAG"   , TYPE_INT, PF_NODIAG   },
     { "PF_REVERSE"  , TYPE_INT, PF_REVERSE  },
     { NULL          , 0       , 0           }
 } ;
 
-DLSYSFUNCS __bgdexport( mod_path, exported_functions )[] = {
+DLSYSFUNCS __pxtexport( mod_path, exported_functions )[] = {
     FUNC( "PATH_FIND"   , "IIIIIII", TYPE_INT   , modpathfind_path_find  ),
     FUNC( "PATH_GETXY"  , "PP"     , TYPE_INT   , modpathfind_path_getxy ),
     FUNC( "PATH_WALL"   , "I"      , TYPE_INT   , modpathfind_path_wall  ),
     FUNC( 0             , 0        , 0          , 0                      )
 };
 
-char * __bgdexport( mod_path, module_dependencies )[] =
+char * __pxtexport( mod_path, module_dependencies )[] =
 {
     "libgrbase",
     NULL

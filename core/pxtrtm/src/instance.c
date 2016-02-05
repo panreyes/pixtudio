@@ -32,7 +32,7 @@
 #include <string.h>
 #include <assert.h>
 #include "offsets.h"
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 #include "sysprocs_p.h"
 #include "instance.h"
 #include "xstrings.h"

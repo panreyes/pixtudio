@@ -34,7 +34,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "files.h"
 #include "xstrings.h"
 
@@ -212,7 +212,7 @@ int modtime_ftime(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(mod_time, module_initialize)() {
+void __pxtexport(mod_time, module_initialize)() {
     if (!SDL_WasInit(SDL_INIT_TIMER)) {
         SDL_InitSubSystem(SDL_INIT_TIMER);
     }
@@ -220,7 +220,7 @@ void __bgdexport(mod_time, module_initialize)() {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(mod_time, module_finalize)() {
+void __pxtexport(mod_time, module_finalize)() {
     if (SDL_WasInit(SDL_INIT_TIMER)) {
         SDL_QuitSubSystem(SDL_INIT_TIMER);
     }

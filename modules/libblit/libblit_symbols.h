@@ -30,10 +30,10 @@
 #ifndef __BLIT_SYMBOLS_H
 #define __BLIT_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 #include "g_blitflags.h"
 
-DLCONSTANT __bgdexport( libblit, constants_def )[] =
+DLCONSTANT __pxtexport( libblit, constants_def )[] =
 {
     /* gr_blit flags */
     { "B_HMIRROR"           , TYPE_DWORD, B_HMIRROR     },

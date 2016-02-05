@@ -33,7 +33,7 @@
 
 #include <stdint.h>
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 #include "files.h"
 #include "varspace_file.h"
 #include "xstrings.h"
@@ -294,7 +294,7 @@ int loadtype(file *fp, void *data, DCB_TYPEDEF *var, int dcbformat) {
                         file_readUint32(fp, (uint32_t *)&len);
                         str = malloc(len + 1);
                         if (!str) {
-                            BGDRTM_LOGERROR("loadtype: out of memory\n");
+                            PXTRTM_LOGERROR("loadtype: out of memory\n");
                             return -1;
                         }
 

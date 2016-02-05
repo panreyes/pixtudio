@@ -41,9 +41,9 @@
 
 /* --------------------------------------------------------------------------- */
 
-#include "bgddl.h"
+#include "pxtdl.h"
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
 #include "files.h"
 #include "xstrings.h"
@@ -317,7 +317,7 @@ int libjoy_get_accel_specific(int joy, int *x, int *y, int *z) {
 /* Funciones de inicializacion del modulo/plugin                               */
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(libjoy, module_initialize)() {
+void __pxtexport(libjoy, module_initialize)() {
     int i;
 
     if (!SDL_WasInit(SDL_INIT_JOYSTICK)) {
@@ -327,7 +327,7 @@ void __bgdexport(libjoy, module_initialize)() {
 
     /* Open all joysticks */
     if ((_max_joys = SDL_NumJoysticks()) > MAX_JOYS) {
-        BGDRTM_LOGERROR("[JOY] Warning: maximum number of joysticks exceeded (%i>%i)", _max_joys,
+        PXTRTM_LOGERROR("[JOY] Warning: maximum number of joysticks exceeded (%i>%i)", _max_joys,
                         MAX_JOYS);
         _max_joys = MAX_JOYS;
     }
@@ -335,7 +335,7 @@ void __bgdexport(libjoy, module_initialize)() {
     for (i = 0; i < _max_joys; i++) {
         _joysticks[i] = SDL_JoystickOpen(i);
         if (!_joysticks[i])
-            BGDRTM_LOG("[JOY] Failed to open joystick '%i'", i);
+            PXTRTM_LOG("[JOY] Failed to open joystick '%i'", i);
     }
 
     SDL_JoystickUpdate();
@@ -343,7 +343,7 @@ void __bgdexport(libjoy, module_initialize)() {
 
 /* ----------------------------------------------------------------- */
 
-void __bgdexport(libjoy, module_finalize)() {
+void __pxtexport(libjoy, module_finalize)() {
     int i;
 
     for (i = 0; i < _max_joys; i++)

@@ -30,21 +30,21 @@
 #ifndef __RENDER_SYMBOLS_H
 #define __RENDER_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 #include "librender_constants.h"
 
 #ifndef __PXTB__
-extern DLVARFIXUP __bgdexport( librender, globals_fixup )[];
-extern DLVARFIXUP __bgdexport( librender, locals_fixup )[];
-extern HOOK __bgdexport( librender, handler_hooks )[];
-extern void __bgdexport( librender, module_initialize )();
-extern void __bgdexport( librender, module_finalize )();
-extern void __bgdexport( librender, instance_create_hook )( INSTANCE * r );
-extern void __bgdexport( librender, instance_destroy_hook )( INSTANCE * r );
+extern DLVARFIXUP __pxtexport( librender, globals_fixup )[];
+extern DLVARFIXUP __pxtexport( librender, locals_fixup )[];
+extern HOOK __pxtexport( librender, handler_hooks )[];
+extern void __pxtexport( librender, module_initialize )();
+extern void __pxtexport( librender, module_finalize )();
+extern void __pxtexport( librender, instance_create_hook )( INSTANCE * r );
+extern void __pxtexport( librender, instance_destroy_hook )( INSTANCE * r );
 #endif
 /* --------------------------------------------------------------------------- */
 
-DLCONSTANT __bgdexport( librender, constants_def )[] =
+DLCONSTANT __pxtexport( librender, constants_def )[] =
 {
     { "C_SCREEN",           TYPE_DWORD, C_SCREEN },
     { "PARTIAL_DUMP",       TYPE_DWORD, 0 },
@@ -60,7 +60,7 @@ DLCONSTANT __bgdexport( librender, constants_def )[] =
 /* --------------------------------------------------------------------------- */
 /* Global variables (compile-time) */
 
-char __bgdexport( librender, globals_def )[] =
+char __pxtexport( librender, globals_def )[] =
     /* Frame */
     "fps;\n"
     "speed_gauge = 0;\n"
@@ -77,7 +77,7 @@ char __bgdexport( librender, globals_def )[] =
 
 /* --------------------------------------------------------------------------- */
 
-char __bgdexport( librender, locals_def )[] =
+char __pxtexport( librender, locals_def )[] =
 
     /* Render */
 
@@ -128,7 +128,7 @@ char __bgdexport( librender, locals_def )[] =
     "BYTE modb=255;\n"
     ;
 
-char * __bgdexport( librender, module_dependencies )[] =
+char * __pxtexport( librender, module_dependencies )[] =
 {
     "libgrbase",
     "libvideo",

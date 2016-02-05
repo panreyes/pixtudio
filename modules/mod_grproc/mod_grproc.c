@@ -32,8 +32,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgdrtm.h"
-#include "bgddl.h"
+#include "pxtrtm.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 #include "fmath.h"
 
@@ -48,8 +48,8 @@
 #ifndef __MONOLITHIC__
 #include "mod_grproc_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport(mod_grproc, locals_fixup)[];
-extern DLVARFIXUP __bgdexport(mod_grproc, globals_fixup)[];
+extern DLVARFIXUP __pxtexport(mod_grproc, locals_fixup)[];
+extern DLVARFIXUP __pxtexport(mod_grproc, globals_fixup)[];
 #endif
 
 /* --------------------------------------------------------------------------- */
@@ -852,7 +852,7 @@ int grproc_collision_circle(INSTANCE *my, int *params) {
 
 /* ----------------------------------------------------------------- */
 
-void __bgdexport(mod_grproc, process_exec_hook)(INSTANCE *r) {
+void __pxtexport(mod_grproc, process_exec_hook)(INSTANCE *r) {
     LOCDWORD(mod_grproc, r, GRPROC_ID_SCAN) = 0;
     LOCDWORD(mod_grproc, r, GRPROC_TYPE_SCAN) = 0;
     LOCDWORD(mod_grproc, r, GRPROC_CONTEXT) = 0;

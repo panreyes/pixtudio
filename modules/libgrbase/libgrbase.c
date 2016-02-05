@@ -29,7 +29,7 @@
 
 /* --------------------------------------------------------------------------- */
 
-#include "bgddl.h"
+#include "pxtdl.h"
 
 #include "libgrbase.h"
 
@@ -47,7 +47,7 @@ GRAPH *scrbitmap  = NULL;
 /* --------------------------------------------------------------------------- */
 /* Module initialization                                                       */
 
-void __bgdexport(libgrbase, module_initialize)() {
+void __pxtexport(libgrbase, module_initialize)() {
     std_pixel_format8  = bitmap_create_format(8);
     std_pixel_format16 = bitmap_create_format(16);
     std_pixel_format32 = bitmap_create_format(32);

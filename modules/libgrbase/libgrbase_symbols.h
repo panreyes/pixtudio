@@ -30,16 +30,16 @@
 #ifndef __GRBASE_SYMBOLS_H
 #define __GRBASE_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
-extern DLVARFIXUP __bgdexport( libgrbase, globals_fixup )[];
-extern void __bgdexport( libgrbase, module_initialize )();
+extern DLVARFIXUP __pxtexport( libgrbase, globals_fixup )[];
+extern void __pxtexport( libgrbase, module_initialize )();
 #endif
 
 /* Global vars */
 
-char __bgdexport( libgrbase, globals_def )[] =
+char __pxtexport( libgrbase, globals_def )[] =
     "alpha_steps = 16;\n"
     ;
 #endif

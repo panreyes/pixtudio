@@ -42,7 +42,7 @@
 #include <SDL_image.h>
 /* BennuGD stuff */
 #include <files.h>
-#include <bgddl.h>
+#include <pxtdl.h>
 #include <xstrings.h>
 #include <libgrbase.h>
 #include <g_video.h>

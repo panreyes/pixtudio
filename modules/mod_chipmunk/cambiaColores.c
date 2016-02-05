@@ -2,8 +2,8 @@
 /*         transormador de modos de color            */
 /*         Prg,   05/09/2010 p.m.                    */
 /*****************************************************/
-#include "bgddl.h"
-#include "bgdrtm.h"
+#include "pxtdl.h"
+#include "pxtrtm.h"
 #include "stdio.h"
 #include "libdraw.h"
 #include "mod_map.h"
@@ -396,7 +396,7 @@ int modconversor_32(INSTANCE *my, int *params) {
     return (0);
 }
 
-DLSYSFUNCS __bgdexport(mod_conversor, exported_functions)[] = {
+DLSYSFUNCS __pxtexport(mod_conversor, exported_functions)[] = {
     //{ "NOMBRE_FUNCION" , "" , TYPE_INT , modnombre_funcion },
     {"CONV_32_8", "III", TYPE_INT, modconversor_32_8},
     {"CONV_32_16", "II", TYPE_INT, modconversor_32_16},

@@ -20,8 +20,8 @@
 
 #include <stdio.h>
 #include <sqlite3.h>
-#include "bgdrtm.h"
-#include "bgddl.h"
+#include "pxtrtm.h"
+#include "pxtdl.h"
 #include "xstrings.h"
 
 #ifndef __MONOLITHIC__
@@ -40,7 +40,7 @@ typedef struct {
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) { /*
    int i;
    for(i=0; i<argc; i++){
-     BGDRTM_LOG("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+     PXTRTM_LOG("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
    }
    BGRTM_LOG("\n");
  */
@@ -80,7 +80,7 @@ int modsqlite3_execDb(INSTANCE *my, int *params) {
     int rc = sqlite3_exec((sqlite3 *)params[0], text, callback, 0, &zErrMsg);
 
     if (rc != SQLITE_OK) {
-        BGDRTM_LOGERROR("SQL error: %s\n", zErrMsg);
+        PXTRTM_LOGERROR("SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
     string_discard(params[1]);
@@ -96,7 +96,7 @@ int modsqlite3_openTable(INSTANCE *my, int *params) {
                                &resultado->cols, &zErrMsg);
 
     if (rc != SQLITE_OK) {
-        BGDRTM_LOGERROR("SQL error: %s\n", zErrMsg);
+        PXTRTM_LOGERROR("SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
     }
     resultado->CurrentRow = 1;

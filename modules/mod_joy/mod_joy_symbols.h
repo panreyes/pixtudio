@@ -30,7 +30,7 @@
 #ifndef __MODJOY_SYMBOLS_H
 #define __MODJOY_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modjoy_axes( INSTANCE * my, int * params );
@@ -56,7 +56,7 @@ extern int modjoy_get_accel( INSTANCE * my, int * params );
 extern int modjoy_get_accel_specific( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_joy, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_joy, exported_functions )[] = {
     FUNC( "JOY_AXES"         , ""     , TYPE_INT    , modjoy_axes                  ),
     FUNC( "JOY_AXES"         , "I"    , TYPE_INT    , modjoy_axes_specific         ),
     FUNC( "JOY_NUM_AXES"     , ""     , TYPE_INT    , modjoy_axes                  ),
@@ -96,7 +96,7 @@ DLSYSFUNCS  __bgdexport( mod_joy, exported_functions )[] = {
     FUNC( 0                  , 0      , 0           , 0                            )
 };
 
-char * __bgdexport( mod_joy, module_dependencies )[] =
+char * __pxtexport( mod_joy, module_dependencies )[] =
 {
     "libjoy",
     NULL

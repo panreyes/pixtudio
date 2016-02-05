@@ -31,8 +31,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgddl.h"
-#include "bgdrtm.h"
+#include "pxtdl.h"
+#include "pxtrtm.h"
 #include "xstrings.h"
 
 #include "libgrbase.h"
@@ -167,7 +167,7 @@ void bgd_show_messagebox(INSTANCE *my, int *params) {
 
     if (SDL_ShowSimpleMessageBox(flags, title, msg, window) != 0) {
         // Showing the dialog failed -> print to stderr
-        BGDRTM_LOGERROR("%s\n", msg);
+        PXTRTM_LOGERROR("%s\n", msg);
     }
 }
 

@@ -23,9 +23,9 @@
  */
 
 #include <stdio.h>
-#include <bgddl.h>
+#include <pxtdl.h>
 #include <xstrings.h>
-#include <bgdrtm.h>
+#include <pxtrtm.h>
 #include <jni.h>
 #include <pthread.h>
 #include <android/log.h>
@@ -176,14 +176,14 @@ void Java_org_bennugd_iap_iap_updatePurchaseStatus(JNIEnv *env, jclass cls, jint
 }
 
 // Finalize iap
-void __bgdexport(mod_iap, module_finalize)() {
+void __pxtexport(mod_iap, module_finalize)() {
     bgd_iap_shutdown();
 
     JNIEnv *mEnv = BGD_JNI_GetEnv();
     (*mEnv)->DeleteGlobalRef(mEnv, mActivityClass);
 }
 
-DLSYSFUNCS __bgdexport(mod_iap, exported_functions)[] = {
+DLSYSFUNCS __pxtexport(mod_iap, exported_functions)[] = {
     {"IAP_INIT", "S", TYPE_INT, bgd_iap_init},
     {"IAP_RECEIPTS_READY", "", TYPE_INT, bgd_iap_receipts_ready},
     {"IAP_SHUTDOWN", "", TYPE_UNDEFINED, bgd_iap_shutdown},

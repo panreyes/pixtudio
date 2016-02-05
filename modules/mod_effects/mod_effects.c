@@ -34,7 +34,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include "bgddl.h"
+#include "pxtdl.h"
 
 #include "libgrbase.h"
 #include "mod_effects.h"

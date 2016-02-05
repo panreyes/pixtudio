@@ -30,17 +30,17 @@
 #ifndef __JOY_H
 #define __JOY_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 #include <SDL_joystick.h>
 
 #ifndef __PXTB__
-extern void __bgdexport( libjoy, module_initialize )();
-extern void __bgdexport( libjoy, module_finalize )();
+extern void __pxtexport( libjoy, module_initialize )();
+extern void __pxtexport( libjoy, module_finalize )();
 #endif
 /* --------------------------------------------------------------------------- */
 /* Funciones de inicializacion del modulo/plugin                               */
 
-DLCONSTANT __bgdexport( libjoy, constants_def )[] =
+DLCONSTANT __pxtexport( libjoy, constants_def )[] =
 {
     { "JOY_HAT_CENTERED"    , TYPE_DWORD, SDL_HAT_CENTERED  },
     { "JOY_HAT_UP"          , TYPE_DWORD, SDL_HAT_UP        },
@@ -56,7 +56,7 @@ DLCONSTANT __bgdexport( libjoy, constants_def )[] =
 
 /* ----------------------------------------------------------------- */
 
-char *__bgdexport( libjoy, module_dependencies )[] =
+char *__pxtexport( libjoy, module_dependencies )[] =
 {
     "libsdlhandler",
     NULL

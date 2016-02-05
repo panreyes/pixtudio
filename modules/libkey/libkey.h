@@ -31,7 +31,7 @@
 #define _LIBKEY_H
 
 #include <SDL.h>
-#include <bgddl.h>
+#include <pxtdl.h>
 
 typedef struct _keyequiv {
     int sdlk_equiv;

@@ -30,7 +30,7 @@
 #ifndef __MODMAP_SYMBOLS_H
 #define __MODMAP_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modmap_map_block_copy( INSTANCE * my, int * params );
@@ -123,7 +123,7 @@ extern int modmap_save_png( INSTANCE * my, int * params );
 #define CHARSET_CP850   1
 #define NFB_FIXEDWIDTH  1
 
-DLCONSTANT __bgdexport( mod_map, constants_def )[] = {
+DLCONSTANT __pxtexport( mod_map, constants_def )[] = {
     { "G_WIDTH"          , TYPE_INT, G_WIDTH             },
     { "G_HEIGHT"         , TYPE_INT, G_HEIGHT            },
     { "G_CENTER_X"       , TYPE_INT, G_CENTER_X          },
@@ -144,7 +144,7 @@ DLCONSTANT __bgdexport( mod_map, constants_def )[] = {
     { NULL               , 0       , 0                   }
 } ;
 
-DLSYSFUNCS  __bgdexport( mod_map, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_map, exported_functions )[] = {
     /* Bitmaps */
     FUNC( "MAP_BLOCK_COPY"      , "IIIIIIIIII"  , TYPE_INT      , modmap_map_block_copy     ),
     FUNC( "MAP_PUT"             , "IIIII"       , TYPE_INT      , modmap_map_put            ),
@@ -233,7 +233,7 @@ DLSYSFUNCS  __bgdexport( mod_map, exported_functions )[] = {
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( mod_map, module_dependencies )[] = {
+char * __pxtexport( mod_map, module_dependencies )[] = {
     "libgrbase",
     "libvideo",
     "libblit",

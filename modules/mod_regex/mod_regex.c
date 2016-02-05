@@ -31,9 +31,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgddl.h"
+#include "pxtdl.h"
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
 #include "files.h"
 #include "xstrings.h"
@@ -44,7 +44,7 @@
 #ifndef __MONOLITHIC__
 #include "mod_regex_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport(mod_regex, globals_fixup)[];
+extern DLVARFIXUP __pxtexport(mod_regex, globals_fixup)[];
 #endif
 
 /* ----------------------------------------------------------------- */

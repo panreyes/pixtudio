@@ -30,9 +30,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 #include "instance.h"
 
@@ -42,7 +42,7 @@
 #ifndef __MONOLITHIC__
 #include "mod_proc_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport(mod_proc, locals_fixup)[];
+extern DLVARFIXUP __pxtexport(mod_proc, locals_fixup)[];
 #endif
 
 /* ----------------------------------------------------------------- */
@@ -51,7 +51,7 @@ enum { PROCESS_ID = 0, PROCESS_TYPE, STATUS, ID_SCAN, TYPE_SCAN, CONTEXT, SIGNAL
 
 /* ----------------------------------------------------------------- */
 
-void __bgdexport(mod_proc, process_exec_hook)(INSTANCE *r) {
+void __pxtexport(mod_proc, process_exec_hook)(INSTANCE *r) {
     LOCDWORD(mod_proc, r, TYPE_SCAN) = 0;
     LOCDWORD(mod_proc, r, ID_SCAN) = 0;
     LOCDWORD(mod_proc, r, CONTEXT) = 0;
@@ -85,7 +85,7 @@ int modproc_exit_0(INSTANCE *my, int *params) {
 /* ----------------------------------------------------------------- */
 
 int modproc_exit_1(INSTANCE *my, int *params) {
-    BGDRTM_LOG("%s\n", string_get(params[0]));
+    PXTRTM_LOG("%s\n", string_get(params[0]));
     fflush(stdout);
     string_discard(params[0]);
 
@@ -100,7 +100,7 @@ int modproc_exit_1(INSTANCE *my, int *params) {
 int modproc_exit(INSTANCE *my, int *params) {
     _modproc_kill_all();
 
-    BGDRTM_LOG("%s\n", string_get(params[0]));
+    PXTRTM_LOG("%s\n", string_get(params[0]));
     fflush(stdout);
     string_discard(params[0]);
 

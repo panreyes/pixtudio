@@ -26,7 +26,7 @@
 #define __MODCURL_SYMBOLS_H
 
 #include <curl/curl.h>
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int bgd_curl_easy_init(INSTANCE * my, int * params);
@@ -38,11 +38,11 @@ extern int bgd_curl_easy_setopt2(INSTANCE * my, int * params);
 extern int bgd_curl_easy_setopt3(INSTANCE * my, int * params);
 extern int bgd_curl_easy_perform(INSTANCE * my, int * params);
 
-extern void __bgdexport( mod_curl, module_initialize )();
-extern void __bgdexport( mod_curl, module_finalize )();
+extern void __pxtexport( mod_curl, module_initialize )();
+extern void __pxtexport( mod_curl, module_finalize )();
 #endif
 
-DLCONSTANT  __bgdexport( mod_curl, constants_def )[] = {
+DLCONSTANT  __pxtexport( mod_curl, constants_def )[] = {
     { "CURLOPT_VERBOSE"               , TYPE_DWORD, CURLOPT_VERBOSE                },
     { "CURLOPT_HEADER"                , TYPE_DWORD, CURLOPT_HEADER                 },
     { "CURLOPT_NOPROGRESS"            , TYPE_DWORD, CURLOPT_NOPROGRESS             },
@@ -124,7 +124,7 @@ DLCONSTANT  __bgdexport( mod_curl, constants_def )[] = {
     { NULL          , 0       , 0  }
 };
 
-DLSYSFUNCS __bgdexport( mod_curl, exported_functions )[] = {
+DLSYSFUNCS __pxtexport( mod_curl, exported_functions )[] = {
     FUNC( "CURL_INIT"           , ""      , TYPE_INT    , bgd_curl_easy_init      ),
     FUNC( "CURL_CLEANUP"        , "I"     , TYPE_INT    , bgd_curl_easy_cleanup   ),
     FUNC( "CURL_FORMADD"        , "IISIS" , TYPE_INT    , bgd_curl_formadd        ),

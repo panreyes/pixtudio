@@ -30,7 +30,7 @@
 #ifndef __MODMEM_SYMBOLS_H
 #define __MODMEM_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modmem_calloc( INSTANCE * my, int * params );
@@ -63,7 +63,7 @@ extern int modmem_memory_free( INSTANCE * my, int * params );
 extern int modmem_memory_total( INSTANCE * my, int * params );
 #endif
 
-DLSYSFUNCS __bgdexport( mod_mem, exported_functions )[] = {
+DLSYSFUNCS __pxtexport( mod_mem, exported_functions )[] = {
     FUNC( "MEM_CALLOC"      , "II"    , TYPE_POINTER, modmem_calloc         ),
     FUNC( "MEM_ALLOC"       , "I"     , TYPE_POINTER, modmem_alloc          ),
     FUNC( "MEM_FREE"        , "P"     , TYPE_INT    , modmem_free           ),

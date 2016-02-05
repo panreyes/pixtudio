@@ -30,10 +30,10 @@
 #ifndef __MODGRPROC_SYMBOLS_H
 #define __MODGRPROC_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
-DLVARFIXUP __bgdexport( mod_grproc, locals_fixup )[]  = {
+DLVARFIXUP __pxtexport( mod_grproc, locals_fixup )[]  = {
     { "_mod_grproc_reserved.type_scan"  , NULL, -1, -1 },
     { "_mod_grproc_reserved.id_scan"    , NULL, -1, -1 },
     { "_mod_grproc_reserved.context"    , NULL, -1, -1 },
@@ -60,7 +60,7 @@ DLVARFIXUP __bgdexport( mod_grproc, locals_fixup )[]  = {
     { NULL                              , NULL, -1, -1 }
 };
 
-DLVARFIXUP __bgdexport( mod_grproc, globals_fixup )[] = {
+DLVARFIXUP __pxtexport( mod_grproc, globals_fixup )[] = {
     { "mouse.x"                         , NULL, -1, -1 },
     { "mouse.y"                         , NULL, -1, -1 },
     { "scroll"                          , NULL, -1, -1 },
@@ -68,7 +68,7 @@ DLVARFIXUP __bgdexport( mod_grproc, globals_fixup )[] = {
     { NULL                              , NULL, -1, -1 }
 };
 
-extern void __bgdexport( mod_grproc, process_exec_hook )( INSTANCE * r );
+extern void __pxtexport( mod_grproc, process_exec_hook )( INSTANCE * r );
 
 extern int grproc_advance( INSTANCE * my, int * params );
 extern int grproc_xadvance( INSTANCE * my, int * params );
@@ -80,14 +80,14 @@ extern int grproc_collision_circle( INSTANCE * my, int * params );
 extern int grproc_get_real_point( INSTANCE * my, int * params );
 #endif
 
-char __bgdexport( mod_grproc, locals_def )[] =
+char __pxtexport( mod_grproc, locals_def )[] =
     "STRUCT _mod_grproc_reserved\n"
     "int type_scan;\n"
     "int id_scan;\n"
     "int context;\n"
     "END\n";
 
-DLSYSFUNCS  __bgdexport( mod_grproc, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_grproc, exported_functions )[] = {
     FUNC( "ADVANCE"             , "I"   , TYPE_INT  , grproc_advance            ),
     FUNC( "XADVANCE"            , "II"  , TYPE_INT  , grproc_xadvance           ),
 
@@ -104,7 +104,7 @@ DLSYSFUNCS  __bgdexport( mod_grproc, exported_functions )[] = {
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( mod_grproc, module_dependencies )[] = {
+char * __pxtexport( mod_grproc, module_dependencies )[] = {
     "libmouse",
     "libgrbase",
     "libvideo",

@@ -30,7 +30,7 @@
 #ifndef __MODVIDEO_H
 #define __MODVIDEO_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modvideo_set_mode( INSTANCE * my, int * params );
@@ -39,13 +39,13 @@ extern int modvideo_set_fps( INSTANCE * my, int * params );
 extern int modvideo_list_modes( INSTANCE * my, int * params );
 extern int modvideo_mode_is_ok( INSTANCE * my, int * params );
 
-DLVARFIXUP __bgdexport( mod_video, globals_fixup )[] = {
+DLVARFIXUP __pxtexport( mod_video, globals_fixup )[] = {
     { "graph_mode" , NULL, -1, -1 },
     { NULL , NULL, -1, -1 }
 };
 #endif
 
-DLSYSFUNCS  __bgdexport( mod_video, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_video, exported_functions )[] = {
     FUNC( "SET_MODE"        , "II"    , TYPE_INT        , modvideo_set_mode   ),
     FUNC( "SET_MODE"        , "III"   , TYPE_INT        , modvideo_set_mode_2 ),
     FUNC( "SET_FPS"         , "II"    , TYPE_INT        , modvideo_set_fps    ),
@@ -56,13 +56,13 @@ DLSYSFUNCS  __bgdexport( mod_video, exported_functions )[] = {
     FUNC( 0                 , 0       , 0               , 0                   )
 };
 
-char * __bgdexport( mod_video, module_dependencies )[] = {
+char * __pxtexport( mod_video, module_dependencies )[] = {
     "libgrbase",
     "libvideo",
     "librender",
     NULL
 };
 
-extern DLVARFIXUP __bgdexport( mod_video, globals_fixup )[];
+extern DLVARFIXUP __pxtexport( mod_video, globals_fixup )[];
 
 #endif

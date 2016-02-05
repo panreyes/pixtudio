@@ -31,8 +31,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgdrtm.h"
-#include "bgddl.h"
+#include "pxtrtm.h"
+#include "pxtdl.h"
 #include "xstrings.h"
 
 #if defined(__ANDROID__)

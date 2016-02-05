@@ -35,9 +35,9 @@
 
 #include <SDL.h>
 
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 #include "xctype.h"
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 #include "libkey.h"
 
@@ -116,7 +116,7 @@ static int equivs[] = {
 /* The runtime completes this structure (if the variable exists)     */
 /* (run-time)                                                        */
 
-DLVARFIXUP __bgdexport(libkey, globals_fixup)[] = {
+DLVARFIXUP __pxtexport(libkey, globals_fixup)[] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
     {"shift_status", NULL, -1, -1},
     {"ascii", NULL, -1, -1},
@@ -150,7 +150,7 @@ void hotkey_add(int mod, int sym, HOTKEY_CALLBACK callback) {
     }
 
     if (!hotkey_list) {
-        BGDRTM_LOGERROR("No memory for hotkey\n");
+        PXTRTM_LOGERROR("No memory for hotkey\n");
         exit(-1);
     }
 
@@ -301,12 +301,12 @@ static void process_key_events() {
 /* Biggest priority first execute
    Lowest priority last execute */
 
-HOOK __bgdexport(libkey, handler_hooks)[] = {{4900, process_key_events}, {0, NULL}};
+HOOK __pxtexport(libkey, handler_hooks)[] = {{4900, process_key_events}, {0, NULL}};
 
 /* ---------------------------------------------------------------------- */
 /* Funciones de inicializacion del modulo/plugin                     */
 
-void __bgdexport(libkey, module_initialize)() {
+void __pxtexport(libkey, module_initialize)() {
     int *ptr = equivs;
 
     if (!SDL_WasInit(SDL_INIT_VIDEO))
@@ -327,7 +327,7 @@ void __bgdexport(libkey, module_initialize)() {
 
 /* ---------------------------------------------------------------------- */
 
-void __bgdexport(libkey, module_finalize)() {
+void __pxtexport(libkey, module_finalize)() {
     /* FREE used key_equivs... */
     key_equiv *aux;
     key_equiv *curr = key_table;

@@ -30,7 +30,7 @@
 #ifndef __MODSYS_SYMBOLS_H
 #define __MODSYS_SYMBOLS_H
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "mod_sys.h"
 
 #ifndef __PXTB__
@@ -38,13 +38,13 @@ extern int modsys_getenv( INSTANCE * my, int * params );
 extern int modsys_exec( INSTANCE * my, int * params );
 #endif
 
-DLCONSTANT __bgdexport( mod_sys, constants_def )[] = {
+DLCONSTANT __pxtexport( mod_sys, constants_def )[] = {
     { "_P_WAIT"     , TYPE_DWORD,  _P_WAIT   },
     { "_P_NOWAIT"   , TYPE_DWORD,  _P_NOWAIT },
     { NULL          , 0         ,  0         }
 } ;
 
-DLSYSFUNCS __bgdexport( mod_sys, exported_functions )[] = {
+DLSYSFUNCS __pxtexport( mod_sys, exported_functions )[] = {
     FUNC( "GETENV"  , "S"    , TYPE_STRING, modsys_getenv ),
     FUNC( "EXEC"    , "ISIP" , TYPE_INT   , modsys_exec   ),
     FUNC( 0         , 0      , 0          , 0             )

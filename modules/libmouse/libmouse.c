@@ -31,7 +31,7 @@
 
 #include <SDL.h>
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 
 #include "libgrbase.h"
@@ -85,7 +85,7 @@ enum {
 
 /* --------------------------------------------------------------------------- */
 
-DLVARFIXUP __bgdexport(libmouse, globals_fixup)[] = {
+DLVARFIXUP __pxtexport(libmouse, globals_fixup)[] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
 
     {"mouse.x", NULL, -1, -1},
@@ -310,11 +310,11 @@ static void mouse_draw(void *i, REGION *clip) {
 /* Bigest priority first execute
    Lowest priority last execute */
 
-HOOK __bgdexport(libmouse, handler_hooks)[] = {{4800, do_mouse_events}, {0, NULL}};
+HOOK __pxtexport(libmouse, handler_hooks)[] = {{4800, do_mouse_events}, {0, NULL}};
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(libmouse, module_initialize)() {
+void __pxtexport(libmouse, module_initialize)() {
     gr_new_object(GLOINT32(libmouse, MOUSEZ), mouse_info, mouse_draw, 0);
 }
 

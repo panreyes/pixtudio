@@ -30,10 +30,10 @@
 #ifndef __SCROLL_SYMBOLS_H
 #define __SCROLL_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 #include "libscroll_constants.h"
 
-DLCONSTANT __bgdexport( libscroll, constants_def )[] =
+DLCONSTANT __pxtexport( libscroll, constants_def )[] =
 {
     { "C_SCROLL",   TYPE_DWORD,     C_SCROLL    },
 
@@ -51,11 +51,11 @@ DLCONSTANT __bgdexport( libscroll, constants_def )[] =
     { NULL,         0,              0           }
 };
 
-char __bgdexport( libscroll, locals_def )[] =
+char __pxtexport( libscroll, locals_def )[] =
     "ctype;\n"
     "cnumber;\n";
 
-char __bgdexport( libscroll, globals_def )[] =
+char __pxtexport( libscroll, globals_def )[] =
     "STRUCT scroll[9]\n"
     "x0, y0;\n"
     "x1, y1;\n"
@@ -71,7 +71,7 @@ char __bgdexport( libscroll, globals_def )[] =
     "reserved[6];\n"  /* size: 20 dwords */
     "END \n";
 
-char * __bgdexport( libscroll, module_dependencies )[] =
+char * __pxtexport( libscroll, module_dependencies )[] =
 {
     "libgrbase",
     "libblit",
@@ -81,8 +81,8 @@ char * __bgdexport( libscroll, module_dependencies )[] =
 };
 
 #ifndef __PXTB__
-extern DLVARFIXUP __bgdexport( libscroll, locals_fixup )[];
-extern DLVARFIXUP __bgdexport( libscroll, globals_fixup )[];
+extern DLVARFIXUP __pxtexport( libscroll, locals_fixup )[];
+extern DLVARFIXUP __pxtexport( libscroll, globals_fixup )[];
 #endif
 
 #endif

@@ -30,7 +30,7 @@
 #ifndef __MODSOUND_H
 #define __MODSOUND_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modsound_init( INSTANCE * my, int * params );
@@ -69,30 +69,30 @@ extern int modsound_set_distance( INSTANCE * my, int * params );
 extern int modsound_reverse_stereo( INSTANCE * my, int * params );
 extern int modsound_set_music_position( INSTANCE * my, int * params );
 
-DLVARFIXUP  __bgdexport( mod_sound, globals_fixup )[] = {
+DLVARFIXUP  __pxtexport( mod_sound, globals_fixup )[] = {
     { "sound_freq",     NULL, -1, -1 },
     { "sound_mode",     NULL, -1, -1 },
     { "sound_channels", NULL, -1, -1 },
     { NULL,             NULL, -1, -1 }
 };
 
-extern void  __bgdexport( mod_sound, module_initialize )();
-extern void __bgdexport( mod_sound, module_finalize )();
+extern void  __pxtexport( mod_sound, module_initialize )();
+extern void __pxtexport( mod_sound, module_finalize )();
 #endif
 
-DLCONSTANT  __bgdexport( mod_sound, constants_def )[] = {
+DLCONSTANT  __pxtexport( mod_sound, constants_def )[] = {
     { "MODE_MONO"   , TYPE_INT,  0 },
     { "MODE_STEREO" , TYPE_INT,  1 },
     { "ALL_SOUND"   , TYPE_INT, -1 },
     { NULL          , 0       ,  0 }
 } ;
 
-char __bgdexport( mod_sound, globals_def )[] =
+char __pxtexport( mod_sound, globals_def )[] =
     "   sound_freq = 44100 ;\n"
     "   sound_mode = MODE_STEREO ;\n"
     "   sound_channels = 8 ;\n";
 
-DLSYSFUNCS  __bgdexport( mod_sound, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_sound, exported_functions )[] = {
     FUNC( "SOUND_INIT"          , ""     , TYPE_INT , modsound_init               ),
     FUNC( "SOUND_CLOSE"         , ""     , TYPE_INT , modsound_close              ),
 
@@ -144,8 +144,8 @@ DLSYSFUNCS  __bgdexport( mod_sound, exported_functions )[] = {
 
 
 
-extern DLSYSFUNCS  __bgdexport( mod_sound, exported_functions )[];
-extern void  __bgdexport( mod_sound, module_initialize )();
-extern void __bgdexport( mod_sound, module_finalize )();
+extern DLSYSFUNCS  __pxtexport( mod_sound, exported_functions )[];
+extern void  __pxtexport( mod_sound, module_initialize )();
+extern void __pxtexport( mod_sound, module_finalize )();
 
 #endif

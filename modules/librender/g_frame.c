@@ -259,7 +259,7 @@ void gr_draw_frame() {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(librender, module_initialize)() {
+void __pxtexport(librender, module_initialize)() {
     if (!SDL_WasInit(SDL_INIT_TIMER)) {
         SDL_InitSubSystem(SDL_INIT_TIMER);
     }
@@ -267,7 +267,7 @@ void __bgdexport(librender, module_initialize)() {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(librender, module_finalize)() {
+void __pxtexport(librender, module_finalize)() {
     if (SDL_WasInit(SDL_INIT_TIMER)) {
         SDL_QuitSubSystem(SDL_INIT_TIMER);
     }

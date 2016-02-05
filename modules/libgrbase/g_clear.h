@@ -30,7 +30,7 @@
 #ifndef __CLEAR_H
 #define __CLEAR_H
 
-#include "bgdcore.h"
+#include "pxtcore.h"
 #include "g_region.h"
 
 extern void gr_clear(GRAPH *dest);

@@ -30,13 +30,13 @@
 #ifndef __VIDEO_SYMBOLS_H
 #define __VIDEO_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 #include "g_video_constants.h"
 
 /* --------------------------------------------------------------------------- */
 /* Global vars (compile time) */
 
-char __bgdexport( libvideo, globals_def )[] =
+char __pxtexport( libvideo, globals_def )[] =
     "graph_mode = 0;\n"
     "full_screen = 0;\n"
     "scale_resolution = -1;\n"
@@ -45,12 +45,12 @@ char __bgdexport( libvideo, globals_def )[] =
 
 /* --------------------------------------------------------------------------- */
 
-char *__bgdexport( libvideo, module_dependencies )[] = {
+char *__pxtexport( libvideo, module_dependencies )[] = {
     "libgrbase",
     NULL
 };
 
-DLCONSTANT  __bgdexport( libvideo, constants_def )[] = {
+DLCONSTANT  __pxtexport( libvideo, constants_def )[] = {
     { "MODE_WINDOW"         , TYPE_DWORD    , MODE_WINDOW           },
     { "MODE_FULLSCREEN"     , TYPE_DWORD    , MODE_FULLSCREEN       },
 
@@ -85,7 +85,7 @@ DLCONSTANT  __bgdexport( libvideo, constants_def )[] = {
 } ;
 
 #ifndef __PXTB__
-DLVARFIXUP __bgdexport( libvideo, globals_fixup )[] = {
+DLVARFIXUP __pxtexport( libvideo, globals_fixup )[] = {
     /* The compiler will fill in the gaps */
     { "graph_mode" , NULL, -1, -1 },
     { "full_screen" , NULL, -1, -1 },
@@ -96,8 +96,8 @@ DLVARFIXUP __bgdexport( libvideo, globals_fixup )[] = {
     { NULL , NULL, -1, -1 }
 };
 
-extern void __bgdexport( libvideo, module_initialize )();
-extern void __bgdexport( libvideo, module_finalize )();
+extern void __pxtexport( libvideo, module_initialize )();
+extern void __pxtexport( libvideo, module_finalize )();
 #endif
 
 #endif

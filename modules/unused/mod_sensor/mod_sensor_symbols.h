@@ -27,7 +27,7 @@
 #ifndef __MODSENSOR_SYMBOLS_H
 #define __MODSENSOR_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int modsensor_number( INSTANCE * my, int * params );
@@ -39,11 +39,11 @@ extern float modsensor_getaxis( INSTANCE * my, int * params );
 extern int modsensor_type( INSTANCE * my, int * params );
 extern void modsensor_log( INSTANCE * my, int * params );
 
-extern void  __bgdexport( mod_sensor, module_initialize )();
-extern void  __bgdexport( mod_sensor, module_finalize )();
+extern void  __pxtexport( mod_sensor, module_initialize )();
+extern void  __pxtexport( mod_sensor, module_finalize )();
 #endif
 
-DLCONSTANT  __bgdexport( mod_sensor, constants_def )[] = {
+DLCONSTANT  __pxtexport( mod_sensor, constants_def )[] = {
     { "SENSOR_UNKNOWN"              , TYPE_DWORD    , 0               },
     { "SENSOR_ACCEL"                , TYPE_DWORD    , 1               },
     { "SENSOR_MAGNET"               , TYPE_DWORD    , 2               },
@@ -59,7 +59,7 @@ DLCONSTANT  __bgdexport( mod_sensor, constants_def )[] = {
     { "SENSOR_RHUMIDITY"            , TYPE_DWORD    , 12              },
 };
 
-DLSYSFUNCS  __bgdexport( mod_sensor, exported_functions )[] = {
+DLSYSFUNCS  __pxtexport( mod_sensor, exported_functions )[] = {
     FUNC( "SENSOR_NUMBER",  "",    TYPE_INT,       modsensor_number     ),
     FUNC( "SENSOR_OPEN",    "I",   TYPE_INT,       modsensor_open       ),
     FUNC( "SENSOR_CLOSE",   "I",   TYPE_UNDEFINED, modsensor_close      ),

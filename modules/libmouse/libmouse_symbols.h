@@ -30,17 +30,17 @@
 #ifndef __MOUSE_H
 #define __MOUSE_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
-extern DLVARFIXUP __bgdexport( libmouse, globals_fixup )[];
-extern HOOK __bgdexport( libmouse, handler_hooks )[];
-extern void __bgdexport( libmouse, module_initialize )();
+extern DLVARFIXUP __pxtexport( libmouse, globals_fixup )[];
+extern HOOK __pxtexport( libmouse, handler_hooks )[];
+extern void __pxtexport( libmouse, module_initialize )();
 #endif
 
 /* --------------------------------------------------------------------------- */
 
-char __bgdexport( libmouse, globals_def )[] =
+char __pxtexport( libmouse, globals_def )[] =
     "STRUCT mouse\n"
     "x = 99999, y = 99999;\n"
     "z = -512;\n"
@@ -58,7 +58,7 @@ char __bgdexport( libmouse, globals_def )[] =
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( libmouse, module_dependencies )[] =
+char * __pxtexport( libmouse, module_dependencies )[] =
 {
     "libsdlhandler",
     "libgrbase",

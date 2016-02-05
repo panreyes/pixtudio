@@ -39,8 +39,8 @@
 
 /* --------------------------------------------------------------------------- */
 
-#include "bgddl.h"
-#include "bgdrtm.h"
+#include "pxtdl.h"
+#include "pxtrtm.h"
 
 #include "libjoy.h"
 

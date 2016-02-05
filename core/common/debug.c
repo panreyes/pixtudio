@@ -33,7 +33,7 @@
 #include "dcb.h"
 #include "xstrings.h"
 
-#ifndef __BGDRTM__
+#ifndef __PXTRTM__
 #include "pxtb.h"
 #include "identifiers.h"
 #else
@@ -172,7 +172,7 @@ struct {
 
 /* ---------------------------------------------------------------------- */
 
-#ifdef __BGDRTM__
+#ifdef __PXTRTM__
 extern int debug;
 #endif
 
@@ -199,19 +199,19 @@ void mnemonic_dump(int i, int param) {
 
     n = i & MN_MASK;
 
-#ifdef __BGDRTM__
+#ifdef __PXTRTM__
     if (debug > 1) {
 #endif
         if (MN_PARAMS(i))
             printf("%08X %08X ", i, param);
         else
             printf("%08X          ", i);
-#ifdef __BGDRTM__
+#ifdef __PXTRTM__
     }
 #endif
 
     if (mnemonics_sorted[n].name) {
-#ifdef __BGDRTM__
+#ifdef __PXTRTM__
         if (debug > 1) {
 #endif
             switch (MN_TYPEOF(i)) {
@@ -253,7 +253,7 @@ void mnemonic_dump(int i, int param) {
             if (i == MN_SYSCALL || i == MN_SYSPROC) {
                 printf("%s (%d)\n", sysproc_name(param), param);
             } else if (i == MN_CALL || i == MN_PROC || i == MN_TYPE) {
-#ifndef __BGDRTM__
+#ifndef __PXTRTM__
                 if (libmode)
                     printf("%s (%d)\n", identifier_name((procdef_search(param))->identifier),
                            param);
@@ -271,12 +271,12 @@ void mnemonic_dump(int i, int param) {
                 printf("\n");
             }
 
-#ifdef __BGDRTM__
+#ifdef __PXTRTM__
         }
 #endif
 
         if (i == MN_SENTENCE) {
-#ifdef __BGDRTM__
+#ifdef __PXTRTM__
             if (dcb.sourcecount[param >> 24]) {
                 if (dcb.data.Version == 0x0700)
                     printf("%s:%-10d %s\n", dcb.sourcefiles[param >> 24], param & 0xFFFFFF,
@@ -290,7 +290,7 @@ void mnemonic_dump(int i, int param) {
 #endif
         }
     }
-#ifdef __BGDRTM__
+#ifdef __PXTRTM__
     else if (debug > 1)
 #endif
         printf("\n");

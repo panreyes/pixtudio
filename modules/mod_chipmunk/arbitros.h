@@ -2,8 +2,8 @@
 #define ARBITROS_H
 
 #include "chipmunk.h"
-#include "bgddl.h"
-#include "bgdrtm.h"
+#include "pxtdl.h"
+#include "pxtrtm.h"
 #include "xstrings.h"
 #include <math.h>
 #include "dlvaracc.h"

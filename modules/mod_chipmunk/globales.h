@@ -17,6 +17,6 @@
 
 // globales del programa
 extern int modChipmunk_espacioHash;
-extern DLVARFIXUP __bgdexport(mod_chipmunk, globals_fixup)[];
+extern DLVARFIXUP __pxtexport(mod_chipmunk, globals_fixup)[];
 
 #endif

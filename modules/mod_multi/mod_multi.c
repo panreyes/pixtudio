@@ -27,8 +27,8 @@
 #include <libvideo.h>
 #include <g_video.h>
 #include <SDL.h>
-#include "bgdrtm.h"
-#include "bgddl.h"
+#include "pxtrtm.h"
+#include "pxtdl.h"
 #include "dlvaracc.h"
 #include "xstrings.h"
 
@@ -95,7 +95,7 @@ void parse_input_events() {
         height = screen->h;
     } else {
         // This'll avoid division-by-zero below
-        BGDRTM_LOGERROR("Unexpected condition getting resolution, refusing to parse events");
+        PXTRTM_LOGERROR("Unexpected condition getting resolution, refusing to parse events");
         return;
     }
 
@@ -225,7 +225,7 @@ int modmulti_info(INSTANCE *my, int *params) {
 
 /* ----------------------------------------------------------------- */
 
-void __bgdexport(mod_multi, module_initialize)() {
+void __pxtexport(mod_multi, module_initialize)() {
     SDL_SetHint("SDL_ANDROID_SEPARATE_MOUSE_AND_TOUCH", "1");
 }
 

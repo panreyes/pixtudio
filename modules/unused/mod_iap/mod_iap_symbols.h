@@ -25,10 +25,10 @@
 #ifndef __MODIAP_SYMBOLS_H
 #define __MODIAP_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifdef __PXTB__
-DLSYSFUNCS __bgdexport( mod_iap, exported_functions )[] =
+DLSYSFUNCS __pxtexport( mod_iap, exported_functions )[] =
 {
     { "IAP_INIT"            , "S"     , TYPE_INT       , 0 },
     { "IAP_RECEIPTS_READY"  , ""      , TYPE_INT       , 0 },
@@ -39,8 +39,8 @@ DLSYSFUNCS __bgdexport( mod_iap, exported_functions )[] =
     { 0                     , 0       , 0              , 0 }
 };
 #else
-extern DLSYSFUNCS __bgdexport( mod_iap, exported_functions )[];
-extern void __bgdexport( mod_iap, module_finalize )();
+extern DLSYSFUNCS __pxtexport( mod_iap, exported_functions )[];
+extern void __pxtexport( mod_iap, module_finalize )();
 #endif
 
 #endif

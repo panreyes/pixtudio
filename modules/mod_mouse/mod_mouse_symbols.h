@@ -27,11 +27,13 @@
  *
  */
 
-#include "bgddl.h"
+#pragma once
+
+#include "pxtdl.h"
 
 /* --------------------------------------------------------------------------- */
 
-char * __bgdexport( mod_mouse, module_dependencies )[] = {
+char * __pxtexport( mod_mouse, module_dependencies )[] = {
     "libmouse",
     0
 };

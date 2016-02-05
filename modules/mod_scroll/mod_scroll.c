@@ -29,7 +29,7 @@
 
 /* --------------------------------------------------------------------------- */
 
-#include "bgddl.h"
+#include "pxtdl.h"
 #include "libvideo.h"
 #include "libscroll.h"
 

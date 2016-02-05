@@ -30,7 +30,7 @@
 #ifndef __MODMATH_H
 #define __MODMATH_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int math_abs( INSTANCE * my, int * params );
@@ -57,12 +57,12 @@ extern int math_floor( INSTANCE * my, int * params );
 extern int math_ceil( INSTANCE * my, int * params );
 #endif
 
-DLCONSTANT __bgdexport( mod_math, constants_def )[] = {
+DLCONSTANT __pxtexport( mod_math, constants_def )[] = {
     { "PI"  , TYPE_INT  , 180000    },
     { NULL  , 0         , 0         }
 } ;
 
-DLSYSFUNCS __bgdexport( mod_math, exported_functions )[] = {
+DLSYSFUNCS __pxtexport( mod_math, exported_functions )[] = {
     FUNC( "ABS"         , "F"       , TYPE_FLOAT    , math_abs          ),
     FUNC( "POW"         , "FF"      , TYPE_FLOAT    , math_pow          ),
     FUNC( "SQRT"        , "F"       , TYPE_FLOAT    , math_sqrt         ),

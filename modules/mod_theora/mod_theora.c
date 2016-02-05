@@ -41,8 +41,8 @@
 #endif
 
 /* PixTudio stuff */
-#include <bgddl.h>
-#include <bgdrtm.h>
+#include <pxtdl.h>
+#include <pxtrtm.h>
 #include <xstrings.h>
 #include <libgrbase.h>
 #include <g_video.h>
@@ -102,12 +102,12 @@ static void queue_audio(const THEORAPLAY_AudioPacket *audio) {
                 // HACK, HACK, HACK!!
                 format = alGetEnumValue("AL_FORMAT_MONO_FLOAT32");
                 freq = (ALsizei)audio->freq * audio->channels;
-                BGDRTM_LOGERROR("Cannot play audio with %d channels, expect weirdness\n",
+                PXTRTM_LOGERROR("Cannot play audio with %d channels, expect weirdness\n",
                                 audio->channels);
             }
             alBufferData(audio_buffer, format, audio->samples, size, freq);
             if ((error = alGetError()) != AL_NO_ERROR) {
-                BGDRTM_LOGERROR("Audio buffer data copying failed: %s\n", alGetString(error));
+                PXTRTM_LOGERROR("Audio buffer data copying failed: %s\n", alGetString(error));
             } else {
                 // Queue the audio buffer for playback
                 alSourceQueueBuffers(video.audio_source, 1, &audio_buffer);
@@ -176,11 +176,11 @@ void refresh_video() {
             static int warned = 0;
             if (!warned) {
                 warned = 1;
-                BGDRTM_LOG("WARNING: Video playback can't keep up, skipping frames!\n");
+                PXTRTM_LOG("WARNING: Video playback can't keep up, skipping frames!\n");
             } // if
         } else {
             if (SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
-                BGDRTM_LOG("Error updating texture: %s", SDL_GetError());
+                PXTRTM_LOG("Error updating texture: %s", SDL_GetError());
             } else {
                 memcpy(pixels, video.frame->pixels, video.graph->height * pitch * 1.5);
                 SDL_UnlockTexture(video.graph->texture);
@@ -231,7 +231,7 @@ int video_play(INSTANCE *my, int *params) {
     string_discard(params[0]);
 
     if (!video.decoder) {
-        BGDRTM_LOGERROR("Failed to start decoding '%s'!\n", string_get(params[0]));
+        PXTRTM_LOGERROR("Failed to start decoding '%s'!\n", string_get(params[0]));
         string_discard(params[0]);
         return -1;
     }
@@ -266,7 +266,7 @@ int video_play(INSTANCE *my, int *params) {
     // Generate the audio source
     alGenSources((ALuint)1, &video.audio_source);
     if (alGetError() != AL_NO_ERROR) {
-        BGDRTM_LOGERROR("Audio source creation failed\n");
+        PXTRTM_LOGERROR("Audio source creation failed\n");
         alcCloseDevice(audio_device);
         THEORAPLAY_stopDecode(video.decoder);
         return -1;
@@ -297,7 +297,7 @@ int video_play(INSTANCE *my, int *params) {
 
     // Blank the GRAPH texture before showing it, otherwise junk will be shown
     if (SDL_LockTexture(video.graph->texture, NULL, &pixels, &pitch) < 0) {
-        BGDRTM_LOGERROR("Error updating texture: %s", SDL_GetError());
+        PXTRTM_LOGERROR("Error updating texture: %s", SDL_GetError());
     } else {
         memcpy(pixels, video.frame->pixels, video.graph->height * pitch * 1.5);
         SDL_UnlockTexture(video.graph->texture);
@@ -348,7 +348,7 @@ int video_stop(INSTANCE *my, int *params) {
     // Once the source has no more queued buffers, it can be deleted
     alDeleteSources(1, &video.audio_source);
     if ((error = alGetError()) != AL_NO_ERROR) {
-        BGDRTM_LOGERROR("OpenAL error deleting source: %x, %s\n", error, alGetString(error));
+        PXTRTM_LOGERROR("OpenAL error deleting source: %x, %s\n", error, alGetString(error));
     }
 
     return 0;
@@ -369,54 +369,54 @@ int video_set_volume(INSTANCE *my, int *params) {
     float new_volume = (float)params[0] / 255.0;
     alSourcef(video.audio_source, AL_GAIN, new_volume);
     if ((error = alGetError()) != AL_NO_ERROR) {
-        BGDRTM_LOGERROR("OpenAL error setting volume: %x, %s\n", error, alGetString(error));
+        PXTRTM_LOGERROR("OpenAL error setting volume: %x, %s\n", error, alGetString(error));
         return -1;
     }
 
     return 0;
 }
 
-void __bgdexport(mod_theora, module_initialize)() {
+void __pxtexport(mod_theora, module_initialize)() {
     // Initialize OpenAL
     alGetError();                       // clear error stack
     audio_device = alcOpenDevice(NULL); // open default device
     if (audio_device == NULL) {
-        BGDRTM_LOGERROR("Audio initialization failed!\n");
+        PXTRTM_LOGERROR("Audio initialization failed!\n");
     }
 
     audio_context = alcCreateContext(audio_device, NULL); // create context
     if (audio_context == NULL) {
-        BGDRTM_LOGERROR("Audio context creation failed\n");
+        PXTRTM_LOGERROR("Audio context creation failed\n");
         alcCloseDevice(audio_device);
     }
     alcMakeContextCurrent(audio_context); // set active context
 
     if(debug) {
-        BGDRTM_LOG("OpenAL info:\n");
-        BGDRTM_LOG("============\n");
-        BGDRTM_LOG("\tVersion: %s\n", alGetString(AL_VERSION));
-        BGDRTM_LOG("\tVendor: %s\n", alGetString(AL_VENDOR));
-        BGDRTM_LOG("\tRenderer: %s\n", alGetString(AL_RENDERER));
-        BGDRTM_LOG("\tAL Extensions: %s\n", alGetString(AL_EXTENSIONS));
-        BGDRTM_LOG("\tALC Extensions: %s\n", alcGetString(audio_device, ALC_EXTENSIONS));
+        PXTRTM_LOG("OpenAL info:\n");
+        PXTRTM_LOG("============\n");
+        PXTRTM_LOG("\tVersion: %s\n", alGetString(AL_VERSION));
+        PXTRTM_LOG("\tVendor: %s\n", alGetString(AL_VENDOR));
+        PXTRTM_LOG("\tRenderer: %s\n", alGetString(AL_RENDERER));
+        PXTRTM_LOG("\tAL Extensions: %s\n", alGetString(AL_EXTENSIONS));
+        PXTRTM_LOG("\tALC Extensions: %s\n", alcGetString(audio_device, ALC_EXTENSIONS));
     }
 
     // Since audio in the Theora videos is float32, load that extension
     // TODO: This'll fail, since we're doing nothing to prevent
     if (!alIsExtensionPresent("AL_EXT_FLOAT32")) {
-        BGDRTM_LOGERROR("OpenAL Extension AL_EXT_FLOAT32 not present, refusing to initialise\n");
+        PXTRTM_LOGERROR("OpenAL Extension AL_EXT_FLOAT32 not present, refusing to initialise\n");
         alcMakeContextCurrent(NULL);
         alcDestroyContext(audio_context);
         audio_context = NULL;
     }
 }
 
-void __bgdexport(mod_theora, module_finalize)() {
+void __pxtexport(mod_theora, module_finalize)() {
     video_stop(NULL, NULL);
 
     if (audio_context) {
         if (alcMakeContextCurrent(NULL) == ALC_FALSE) {
-            BGDRTM_LOGERROR("OpenAL error resetting default context\n");
+            PXTRTM_LOGERROR("OpenAL error resetting default context\n");
         }
         alcDestroyContext(audio_context);
     }
@@ -424,7 +424,7 @@ void __bgdexport(mod_theora, module_finalize)() {
 
     if (audio_device) {
         if (alcCloseDevice(audio_device) == ALC_FALSE) {
-            BGDRTM_LOGERROR("OpenAL error closing audio device\n");
+            PXTRTM_LOGERROR("OpenAL error closing audio device\n");
         }
     }
     audio_device = NULL;

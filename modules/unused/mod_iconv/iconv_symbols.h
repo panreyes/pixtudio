@@ -30,13 +30,13 @@
 #ifndef __MODICONV_SYMBOLS_H
 #define __MODICONV_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int bgd_iconv(INSTANCE * my, int * params);
 #endif
 
-DLSYSFUNCS __bgdexport( mod_iconv, exported_functions )[] =
+DLSYSFUNCS __pxtexport( mod_iconv, exported_functions )[] =
 {
     FUNC( "ICONV"            , "SSS"  , TYPE_STRING, bgd_iconv ),
     FUNC( 0                  , 0      , 0          , 0         )

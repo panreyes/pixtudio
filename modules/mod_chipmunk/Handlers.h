@@ -5,8 +5,8 @@
 #include <math.h>
 
 #include "chipmunk.h"
-#include "bgddl.h"
-#include "bgdrtm.h"
+#include "pxtdl.h"
+#include "pxtrtm.h"
 #include "xstrings.h"
 #include "dlvaracc.h"
 #include "libdraw.h"

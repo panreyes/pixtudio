@@ -42,7 +42,7 @@
 #include <time.h>
 
 #include "pxtp.h"
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 #include "xstrings.h"
 #include "dirs.h"
 
@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
     appname = strdup(appexename);
 #endif
 
-    standalone = (bgdrtm_strncmpi(appexename, "pxtp", 4) == 0);
+    standalone = (pxtrtm_strncmpi(appexename, "pxtp", 4) == 0);
 
     /* add binary path */
     file_addp(appexepath);
@@ -136,7 +136,7 @@ int main(int argc, char *argv[]) {
                 j = 1;
                 while (argv[i][j]) {
                     if (argv[i][j] == 'c') {
-                        BGDRTM_LOG(PXTP_VERSION "\n\n"
+                        PXTRTM_LOG(PXTP_VERSION "\n\n"
                                    "PixTudio is OSS brought to you thanks to the work of many people\n"
                                    "Its main contributors are listed below:\n"
                                    "  Copyright (C) 2009-2016 Joseba García Etxebarria (PixTudio/BennuGD)\n"
@@ -173,7 +173,7 @@ int main(int argc, char *argv[]) {
                     if (argv[i][j] == 'i') {
                         if (argv[i][j + 1] == 0) {
                             if (i == argc - 1) {
-                                BGDRTM_LOGERROR("You must provide a directory");
+                                PXTRTM_LOGERROR("You must provide a directory");
                                 exit(1);
                             }
                             file_addp(argv[i + 1]);
@@ -197,7 +197,7 @@ int main(int argc, char *argv[]) {
         }
 
         if (!filename) {
-            BGDRTM_LOG(PXTP_VERSION "\n"
+            PXTRTM_LOG(PXTP_VERSION "\n"
                        "Pixtudio comes with ABSOLUTELY NO WARRANTY\n"
                        "See COPYING for copyright details\n\n"
                        "Usage: %s [options] <data code block file>[.dcb]\n\n"
@@ -238,7 +238,7 @@ int main(int argc, char *argv[]) {
             }
 
             if (!dcbloaded) {
-                BGDRTM_LOGERROR("%s: doesn't exist or isn't version %d DCB compatible\n", filename,
+                PXTRTM_LOGERROR("%s: doesn't exist or isn't version %d DCB compatible\n", filename,
                                 DCB_VERSION >> 8);
                 return -1;
             }
@@ -265,14 +265,14 @@ int main(int argc, char *argv[]) {
 #endif
 
     argv[0] = filename;
-    bgdrtm_entry(argc, argv);
+    pxtrtm_entry(argc, argv);
 
     if (mainproc) {
         instance_new(mainproc, NULL);
         ret = instance_go_all();
     }
 
-    bgdrtm_exit(ret);
+    pxtrtm_exit(ret);
 
     free(appexename);
     free(appexepath);

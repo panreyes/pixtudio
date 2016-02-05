@@ -25,7 +25,7 @@
  *
  */
 
-#include "bgddl.h"
+#include "pxtdl.h"
 
 #include <SDL.h>
 

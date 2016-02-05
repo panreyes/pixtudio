@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bgddl.h"
+#include "pxtdl.h"
 
 #include <SDL.h>
 #include <stretchy_buffer.h>
@@ -50,12 +50,12 @@
 #include "dlvaracc.h"
 
 #include "bgload.h"
-#include "bgdrtm.h"
+#include "pxtrtm.h"
 
 #ifndef __MONOLITHIC__
 #include "mod_sound_symbols.h"
 #else
-extern DLVARFIXUP __bgdexport(mod_sound, globals_fixup)[];
+extern DLVARFIXUP __pxtexport(mod_sound, globals_fixup)[];
 #endif
 
 /* --------------------------------------------------------------------------- */
@@ -232,7 +232,7 @@ int sound_init() {
         }
     }
 
-    BGDRTM_LOGERROR("[SOUND] Couldn't initialize sound: %s\n", SDL_GetError());
+    PXTRTM_LOGERROR("[SOUND] Couldn't initialize sound: %s\n", SDL_GetError());
     audio_initialized = 0;
     return -1;
 }
@@ -298,7 +298,7 @@ static int32_t load_song(const char *filename) {
 
     if (!(music = Mix_LoadMUS_RW(SDL_RWFromBGDFP(fp), 0))) {
         file_close(fp);
-        BGDRTM_LOGERROR("Couldn't load %s: %s\n", filename, SDL_GetError());
+        PXTRTM_LOGERROR("Couldn't load %s: %s\n", filename, SDL_GetError());
         return (0);
     }
 
@@ -336,13 +336,13 @@ static int play_song(int32_t id, int loops) {
         if (id >= 0 && id < sb_count(loaded_songs) && loaded_songs[id]) {
             int result = Mix_PlayMusic(loaded_songs[id], loops);
             if (result == -1) {
-                BGDRTM_LOGERROR("%s", Mix_GetError());
+                PXTRTM_LOGERROR("%s", Mix_GetError());
             }
             return result;
         }
     }
 
-    BGDRTM_LOGERROR("Play song called with invalid handle\n");
+    PXTRTM_LOGERROR("Play song called with invalid handle\n");
     return (-1);
 }
 
@@ -591,7 +591,7 @@ static int32_t load_wav(const char *filename) {
 
     if (!(sound = Mix_LoadWAV_RW(SDL_RWFromBGDFP(fp), 1))) {
         file_close(fp);
-        BGDRTM_LOGERROR("Couldn't load %s: %s\n", filename, SDL_GetError());
+        PXTRTM_LOGERROR("Couldn't load %s: %s\n", filename, SDL_GetError());
         return (0);
     }
 
@@ -1636,7 +1636,7 @@ int modsound_close(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(mod_sound, module_initialize)() {
+void __pxtexport(mod_sound, module_initialize)() {
     if (!SDL_WasInit(SDL_INIT_AUDIO)) {
         SDL_InitSubSystem(SDL_INIT_AUDIO);
     }
@@ -1644,7 +1644,7 @@ void __bgdexport(mod_sound, module_initialize)() {
 
 /* --------------------------------------------------------------------------- */
 
-void __bgdexport(mod_sound, module_finalize)() {
+void __pxtexport(mod_sound, module_finalize)() {
     if (audio_initialized) {
         sound_close();
     }

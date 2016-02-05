@@ -30,7 +30,7 @@
 #ifndef __IMAGE_SYMBOLS_H
 #define __IMAGE_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern int bgd_load_image (INSTANCE * i, int * params);
@@ -46,7 +46,7 @@ extern int bgd_is_LBM (INSTANCE * i, int * params);
 extern int bgd_is_XCF (INSTANCE * i, int * params);
 #endif
 
-DLSYSFUNCS __bgdexport( image, exported_functions )[] =
+DLSYSFUNCS __pxtexport( image, exported_functions )[] =
 {
 	{"LOAD_IMAGE", "S", TYPE_DWORD, SYSMACRO(bgd_load_image) },
 	{"IS_BMP", "S", TYPE_DWORD, SYSMACRO(bgd_is_BMP)},
@@ -62,7 +62,7 @@ DLSYSFUNCS __bgdexport( image, exported_functions )[] =
 	{0, 0, 0, 0}
 };
 
-char * __bgdexport( image, module_dependencies )[] =
+char * __pxtexport( image, module_dependencies )[] =
 {
 	"libgrbase",
 	"libvideo",

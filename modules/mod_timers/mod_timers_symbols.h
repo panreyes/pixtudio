@@ -30,22 +30,22 @@
 #ifndef __MODTIMERS_SYMBOLS_H
 #define __MODTIMERS_SYMBOLS_H
 
-#include <bgddl.h>
+#include <pxtdl.h>
 
 #ifndef __PXTB__
 extern void _advance_timers( void );
 
-DLVARFIXUP __bgdexport( mod_timers, globals_fixup )[] = {
+DLVARFIXUP __pxtexport( mod_timers, globals_fixup )[] = {
     { "timer"   , NULL, -1, -1 },
     { NULL, NULL, -1, -1 }
 };
 
-HOOK __bgdexport( mod_timers, handler_hooks )[] = {
+HOOK __pxtexport( mod_timers, handler_hooks )[] = {
     { 100, _advance_timers },
     {   0, NULL            }
 } ;
 #endif
 
-char __bgdexport( mod_timers, globals_def )[] = "timer[9];\n";
+char __pxtexport( mod_timers, globals_def )[] = "timer[9];\n";
 
 #endif

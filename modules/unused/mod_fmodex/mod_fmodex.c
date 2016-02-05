@@ -37,7 +37,7 @@
 #include <fmod_errors.h>
 
 /* BennuGD stuff */
-#include <bgddl.h>
+#include <pxtdl.h>
 #include <xstrings.h>
 #include <dlvaracc.h>
 
@@ -73,12 +73,12 @@ static FMOD_CHANNEL *spectrum_channel = 0;
 static int analyzing_spectrum;
 
 /* Global info (where spectrum is stored) */
-char __bgdexport(mod_fmodex, globals_def)[] = "float fmodex_spectrum[256];\n"
+char __pxtexport(mod_fmodex, globals_def)[] = "float fmodex_spectrum[256];\n"
                                               "int   sound_freq = 48000;\n"
                                               "int   fmodex_spectrumsize = 0;\n";
 
 /* Globals fixup (so that the interpreter knows where to look for vars) */
-DLVARFIXUP __bgdexport(mod_fmodex, globals_fixup)[] = {{"fmodex_spectrum", NULL, -1, -1},
+DLVARFIXUP __pxtexport(mod_fmodex, globals_fixup)[] = {{"fmodex_spectrum", NULL, -1, -1},
                                                        {"sound_freq", NULL, -1, -1},
                                                        {"fmodex_spectrumsize", NULL, -1, -1},
                                                        {NULL, NULL, -1, -1}};
@@ -365,7 +365,7 @@ int mod_fmodex_stop_spectrum(INSTANCE *i, int *params) {
 }
 
 /* Function declaration */
-DLSYSFUNCS __bgdexport(mod_fmodex, exported_functions)[] = {
+DLSYSFUNCS __pxtexport(mod_fmodex, exported_functions)[] = {
     {"FMODEX_SONG_LOAD", "S", TYPE_INT, mod_fmodex_load_song},
     {"FMODEX_SONG_PLAY", "I", TYPE_INT, mod_fmodex_pause_song},
     {"FMODEX_SONG_PAUSE", "I", TYPE_INT, mod_fmodex_pause_song},
@@ -380,12 +380,12 @@ DLSYSFUNCS __bgdexport(mod_fmodex, exported_functions)[] = {
     {0, 0, 0, 0}};
 
 /* Routines to be run when the library is imported */
-void __bgdexport(mod_fmodex, module_initialize)() {
+void __pxtexport(mod_fmodex, module_initialize)() {
     fmodex_init();
 }
 
 /* Routines to be run when the library is closed */
-void __bgdexport(mod_fmodex, module_finalize)() {
+void __pxtexport(mod_fmodex, module_finalize)() {
     fmodex_stop_spectrum_analysis();
     FMOD_System_Release(fsystem);
 }
@@ -393,4 +393,4 @@ void __bgdexport(mod_fmodex, module_finalize)() {
 /* Bigest priority first execute
    Lowest priority last execute */
 
-HOOK __bgdexport(mod_fmodex, handler_hooks)[] = {{1000, spectrum_update}, {0, NULL}};
+HOOK __pxtexport(mod_fmodex, handler_hooks)[] = {{1000, spectrum_update}, {0, NULL}};
