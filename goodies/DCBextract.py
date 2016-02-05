@@ -4,7 +4,7 @@ import os
 import sys
 from struct import *
 
-# From core/bgdrtm/src/dcbr.c
+# From core/pxtrtm/src/dcbr.c
 
 files = []
 

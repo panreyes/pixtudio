@@ -29,8 +29,7 @@
 
 /* --------------------------------------------------------------------------- */
 
-#ifndef __COMMONS_DEFS_H
-#define __COMMONS_DEFS_H
+#pragma once
 
 /* Instances Status, used in local STATUS var */
 
@@ -41,7 +40,7 @@
 #define STATUS_FROZEN 4
 #define STATUS_WAITING_MASK 0x8000
 
-/* New OS_* must be updated in bgdc/src/main_core.c and bgdrtm/src/misc.c */
+/* New OS_* must be updated in pxtb/src/main_core.c and pxtrtm/src/misc.c */
 
 #define OS_WIN32 0
 #define OS_LINUX 1
@@ -58,7 +57,5 @@
 #define OS_PSP 1001
 #define OS_IOS 1002
 #define OS_ANDROID 1003
-
-#endif
 
 /* --------------------------------------------------------------------------- */

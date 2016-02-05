@@ -25,7 +25,7 @@ file(GLOB SOURCE_FILES
   ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/segment.h
   ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/token.h
   ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/varspace.h
-  ${pxtb_SOURCE_DIR}/../../../core/include/bgddl.h
+  ${pxtb_SOURCE_DIR}/../../../core/include/pxtdl.h
   ${pxtb_SOURCE_DIR}/../../../core/include/loadlib.h
   ${pxtb_SOURCE_DIR}/../../../core/include/monolithic_includes.h)
 # Include dirs

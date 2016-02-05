@@ -42,9 +42,9 @@
 
 /* ---------------------------------------------------------------------- */
 
-extern int bgd_copy_struct(INSTANCE *my, int *params);
-extern int bgd_internal_memcopy(INSTANCE *my, int *params);
-extern int bgd_internal_copy_string_array(INSTANCE *my, int *params);
+extern int pxt_copy_struct(INSTANCE *my, int *params);
+extern int pxt_internal_memcopy(INSTANCE *my, int *params);
+extern int pxt_internal_copy_string_array(INSTANCE *my, int *params);
 
 #include "sysprocs.h"
 #include "sysprocs_p.h"

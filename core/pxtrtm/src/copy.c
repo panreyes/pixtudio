@@ -193,17 +193,17 @@ static int copytype(void *dst, void *src, DCB_TYPEDEF *var) {
  *  Copy struct data from src to dst, using the information varspace given
  **/
 
-int bgd_copy_struct(INSTANCE *my, int *params) {
+int pxt_copy_struct(INSTANCE *my, int *params) {
     return (int)copytypes((void *)params[0], (void *)params[1], (DCB_TYPEDEF *)params[2], params[3],
                           params[4]);
 }
 
-int bgd_internal_memcopy(INSTANCE *my, int *params) {
+int pxt_internal_memcopy(INSTANCE *my, int *params) {
     memmove((void *)params[0], (void *)params[1], params[2]);
     return 1;
 }
 
-int bgd_internal_copy_string_array(INSTANCE *my, int *params) {
+int pxt_internal_copy_string_array(INSTANCE *my, int *params) {
     int n = params[2];
     while (n--) {
         ((int *)(params[0]))[n] = ((int *)(params[1]))[n];
