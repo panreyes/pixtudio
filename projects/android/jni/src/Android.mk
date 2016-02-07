@@ -9,7 +9,7 @@ SDL_PATH := $(LOCAL_PATH)/../../../../3rdparty/SDL
 
 LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/include \
-	$(CORE_PATH)/bgdrtm/include/ \
+	$(CORE_PATH)/pxtrtm/include/ \
 	$(CORE_PATH)/include \
 	$(LOCAL_PATH)/../../../3rdparty/libglob-bsd/include/ \
 	$(SDL_PATH)/include
@@ -25,7 +25,7 @@ LOCAL_CFLAGS := \
 LOCAL_SRC_FILES := ../../../../3rdparty/SDL/src/main/android/SDL_android_main.c \
 	main.c
 
-LOCAL_SHARED_LIBRARIES  += bgdrtm SDL2
+LOCAL_SHARED_LIBRARIES  += pxtrtm SDL2
 LOCAL_STATIC_LIBRARY    +=
 LOCAL_LDLIBS := -llog
 

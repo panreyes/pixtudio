@@ -32,7 +32,7 @@
 #include "SDL.h"
 #include <stdio.h>
 
-#include <bgdrtm.h>
+#include <pxtrtm.h>
 #include <xstrings.h>
 
 /* ---------------------------------------------------------------------- */

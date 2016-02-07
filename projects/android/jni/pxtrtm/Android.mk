@@ -4,10 +4,10 @@ MODULES_PATH := $(LOCAL_PATH)/../../../../modules/
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := bgdrtm
+LOCAL_MODULE := pxtrtm
 
 LOCAL_C_INCLUDES := $(CORE_PATH)/include \
-	$(CORE_PATH)/bgdrtm/include/ \
+	$(CORE_PATH)/pxtrtm/include/ \
 	$(LOCAL_PATH)/../../../../3rdparty/SDL/include/ \
 	$(LOCAL_PATH)/../../../../3rdparty/SDL_mixer/ \
 	$(LOCAL_PATH)/../../../../3rdparty/libpng/ \
@@ -64,34 +64,32 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/libjoy/ \
 	$(MODULES_PATH)/mod_theora/ \
 	$(MODULES_PATH)/mod_fsock/ \
-	$(MODULES_PATH)/mod_effects/
+	$(MODULES_PATH)/mod_effects/ \
+	$(MODULES_PATH)/libsocket/ \
+	$(MODULES_PATH)/mod_debug/
 
 LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
-	-D__BGDRTM__ \
+	-D__PXTRTM__ \
 	-D__MONOLITHIC__ \
-	-DNO_MODMATHI \
-	-DNO_MODIMAGE \
-	-DNO_MODICONV \
-	-DNO_MODFMODEX \
-	-DNO_MODSENSOR \
 	-DNO_MODCHIPMUNK \
-	-DNO_MODDEBUG \
-	-DNO_MODBLENDOP \
+	-DNO_MODICONV \
+	-DNO_MODCURL \
+	-DNO_MODTTF \
 	-DWITH_SDLRWOPS \
 	-ffast-math \
 	-O3
 
 LOCAL_SRC_FILES := \
-	../../../../core/bgdrtm/src/copy.c \
-	../../../../core/bgdrtm/src/dcbr.c \
-	../../../../core/bgdrtm/src/dirs.c \
-	../../../../core/bgdrtm/src/instance.c \
-	../../../../core/bgdrtm/src/interpreter.c \
-	../../../../core/bgdrtm/src/misc.c \
-	../../../../core/bgdrtm/src/strings.c \
-	../../../../core/bgdrtm/src/sysprocs.c \
-	../../../../core/bgdrtm/src/varspace_file.c \
-	../../../../core/bgdrtm/src/fmath.c \
+	../../../../core/pxtrtm/src/copy.c \
+	../../../../core/pxtrtm/src/dcbr.c \
+	../../../../core/pxtrtm/src/dirs.c \
+	../../../../core/pxtrtm/src/instance.c \
+	../../../../core/pxtrtm/src/interpreter.c \
+	../../../../core/pxtrtm/src/misc.c \
+	../../../../core/pxtrtm/src/strings.c \
+	../../../../core/pxtrtm/src/sysprocs.c \
+	../../../../core/pxtrtm/src/varspace_file.c \
+	../../../../core/pxtrtm/src/fmath.c \
 	../../../../core/common/debug.c \
 	../../../../core/common/files.c \
 	../../../../core/common/xctype.c \
@@ -156,17 +154,18 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_sys/mod_sys.c \
 	../../../../modules/mod_regex/mod_regex.c \
 	../../../../modules/mod_multi/mod_multi.c \
-	../../../../modules/mod_curl/mod_curl.c \
 	../../../../modules/mod_gamecontroller/mod_gamecontroller.c \
 	../../../../modules/libjoy/libjoy.c \
 	../../../../modules/mod_joy/mod_joy.c \
 	../../../../modules/mod_effects/mod_effects.c \
+	../../../../modules/mod_debug/mod_debug.c \
 	../../../../modules/mod_theora/mod_theora.c \
-	../../../../modules/mod_fsock/fsock.c \
+	../../../../modules/libsocket/libsocket.c \
+	../../../../modules/mod_fsock/mod_fsock.c \
 	../../../../3rdparty/theoraplay/theoraplay.c
 
 LOCAL_LDLIBS := -llog -ldl -lz
 LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png theora libopenal
-LOCAL_STATIC_LIBRARIES += curl tre
+LOCAL_STATIC_LIBRARIES += tre
 
 include $(BUILD_SHARED_LIBRARY)
