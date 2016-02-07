@@ -5,64 +5,58 @@ t Index
 ** Porting to your chosen system ||| porting
 * Language ||| language
 c3
+** Processes and functions
+- subroutine
+- function
+- process
+- argument
+- parameter
+** Control structures
+- if
+- for
+- from
+- repeat
+- until
+- while
+- break
+- switch
+- loop
+- frame
+- jmp
+- call
+- clone
+** Unclassified
 - Array
-- Begin
-- Break
 - Byte
-- Call
-- Case
-- Clone
 - Const
 - Continue
 - Debug
 - Declare
-- Default
 - Dup
-- Elif
-- Else
-- Elseif
-- Elsif
-- End
 - Float
-- For
-- Frame
-- From
-- Function
 - Global
 - Goto
-- If
 - Import
 - Include
 - Int
-- Jmp
 - Local
-- Loop
 - Offset
 - OnExit
 - Pointer
 - Private
-- Process
 - Program
 - Public
-- Repeat
 - Return
-- Short
+- Word or Short ||| short
 - Sizeof
-- Step
 - String
 - Struct
-- Switch
-- To
 - Type
-- Until
 - Varspace
 - Void
-- While
-- Word
 * Modules ||| modules
 ** Official Modules
 c3
-- mod_crypt
 - mod_debug
 - mod_dir
 - mod_draw
@@ -688,29 +682,29 @@ c3
 - Window_status
 ** List of Locals
 c3
-- Angle
-- Bigbro
-- C_number
-- Ctype
-- Father
-- File
-- Flags
-- Graph
-- Height
-- Id
-- Priority
-- Region
-- Reserved
-- Resolution
-- Size
-- Size_x
-- Size_y
-- Smallbro
-- Son
-- X
-- Xgraph
-- Y
-- Z
+- angle
+- bigbro
+- c_number
+- ctype
+- father
+- file
+- flags
+- graph
+- height
+- id
+- priority
+- region
+- reserved
+- resolution
+- size
+- size_x
+- size_y
+- smallbro
+- son
+- x
+- xgraph
+- y
+- z
 * Functions ||| functions
 ** Crypt
 - crypt_decrypt()
@@ -883,7 +877,7 @@ c3
 - path_find()
 - path_getxy()
 - path_wall()
-** Processinteraction
+** Process interaction
 - advance()
 - collision()
 - collision_box()
@@ -898,7 +892,7 @@ c3
 - signal()
 - signal_action()
 - xadvance()
-** Programinteraction
+** Program interaction
 - exec()
 - exit()
 - get_desktop_size()

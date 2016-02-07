@@ -39,7 +39,7 @@ function parsedown($page){
             return;
         }
         $ready=1;
-        @$page_content=file_get_contents("pages/".$page.".txt");
+        @$page_content=file_get_contents("pages/".$page.".md");
         if($page_content=="") {
             $page_content = "Page $page not found!";
             return;
@@ -48,7 +48,7 @@ function parsedown($page){
             $ready=0;
             preg_match('/\[(.*?)\]/', $page_content, $output);
             $page=convert_page_name($output[1]);
-            if(!file_exists("pages/".$page.".txt")){
+            if(!file_exists("pages/".$page.".md")){
                 echo "Failed redirection, missing page: ".$page;
             }
         }
@@ -59,7 +59,7 @@ function parsedown($page){
     $page_content=preg_replace('%\[category(.*?)wikilink\"\)%si', "", $page_content);
     $page_content=preg_replace('%\]\((.*)wikilink\"\)%i', "\]", $page_content);
     $page_content=preg_replace('%\<DPL\>%i', "", $page_content);
-    $page_content=htmlentities($page_content);
+    //$page_content=htmlentities($page_content);
 
     $Parsedown = new Parsedown();
     echo $Parsedown->text($page_content);
@@ -114,19 +114,21 @@ function docs_read_content($file){
     $section_number=0;
     while(!feof($fp)) {
         $line=fgets($fp);
-        $line=preg_replace( "/\r|\n/", "", $line ); //quitamos los saltos de línea
-        if($line[0]=="*") {
-            $section_number++;
-            if($line[1]==" ") {
-                $section_name=substr($line,2);
-                //falta comprobar si hay que explotar y hacer dos partes
-                if(strpos($section_name," ||| ") === FALSE){
-                } else {
-                    $temp=explode(" ||| ",$section_name);
-                    $page=$temp[1];
-                    $section_name=$temp[0];
+        if(trim($line) !== '') {
+            $line=preg_replace( "/\r|\n/", "", $line ); //quitamos los saltos de línea
+            if($line[0]=="*") {
+                $section_number++;
+                if($line[1]==" ") {
+                    $section_name=substr($line,2);
+                    //falta comprobar si hay que explotar y hacer dos partes
+                    if(strpos($section_name," ||| ") === FALSE){
+                    } else {
+                        $temp=explode(" ||| ",$section_name);
+                        $page=$temp[1];
+                        $section_name=$temp[0];
+                    }
+                    echo '<li><a href="#section'.$section_number.'" onclick="show('.$section_number.');">'.$section_name.'</a></li>'."\n";
                 }
-                echo '<li><a href="#section'.$section_number.'" onclick="show('.$section_number.');">'.$section_name.'</a></li>'."\n";
             }
         }
     }
@@ -144,31 +146,33 @@ function docs_read_content($file){
     $fp=fopen($file,"r"); //round 2
     while(!feof($fp)) {
         $line=fgets($fp);
-        $line=preg_replace( "/\r|\n/", "", $line ); //quitamos los saltos de línea
-        $level=-1;
-        $page="";
-        if($line[0]=="*"){
-            for($i=0;$i<=10;$i++){
-                if($line[$i]=="*"){
-                    $level++;
-                } else {
-                    break;
+        if(trim($line) !== '') {
+            $line=preg_replace( "/\r|\n/", "", $line ); //quitamos los saltos de línea
+            $level=-1;
+            $page="";
+            if($line[0]=="*"){
+                for($i=0;$i<=10;$i++){
+                    if($line[$i]=="*"){
+                        $level++;
+                    } else {
+                        break;
+                    }
                 }
+                $section_name=substr($line,$level+1);
+                //falta comprobar si hay que explotar y hacer dos partes
+                if(strpos($section_name," ||| ") === FALSE){
+                    add_section($section_name,$level,"");
+                } else {
+                    $temp=explode(" ||| ",$section_name);
+                    $section_name=$temp[0];
+                    $page=$temp[1];
+                    add_section($section_name,$level,$page);
+                }
+                echo "\n";
             }
-            $section_name=substr($line,$level+1);
-            //falta comprobar si hay que explotar y hacer dos partes
-            if(strpos($section_name," ||| ") === FALSE){
-                add_section($section_name,$level,"");
-            } else {
-                $temp=explode(" ||| ",$section_name);
-                $section_name=$temp[0];
-                $page=$temp[1];
-                add_section($section_name,$level,$page);
+            if($line[0]=="t"){
+                title(substr($line,2));
             }
-            echo "\n";
-        }
-        if($line[0]=="t"){
-            title(substr($line,2));
         }
     }
     fclose($fp);
@@ -184,73 +188,75 @@ function docs_read_content($file){
     while(!feof($fp)) {
         $page="";
         $line=fgets($fp);
-        $line=preg_replace( "/\r|\n/", "", $line ); //quitamos los saltos de línea
-        $level=-1;
-        if($line[0]=="c"){
-            echo '<div class="cols'.$line[1].'">';
-            $columns=1;
-        }
-        if($line[0]=="*"){
-            $section_number++;
-            for($i=0;$i<=10;$i++){
-                if($line[$i]=="*"){
-                    $level++;
-                } else {
-                    break;
-                }
+        if(trim($line) !== '') {
+            $line=preg_replace( "/\r|\n/", "", $line ); //quitamos los saltos de línea
+            $level=-1;
+            if($line[0]=="c"){
+                echo '<div class="cols'.$line[1].'">';
+                $columns=1;
             }
+            if($line[0]=="*"){
+                $section_number++;
+                for($i=0;$i<=10;$i++){
+                    if($line[$i]=="*"){
+                        $level++;
+                    } else {
+                        break;
+                    }
+                }
 
-            if($level<=$anterior_level){
-                for($i=$level;$i<=$anterior_level;$i++){
+                if($level<=$anterior_level){
+                    for($i=$level;$i<=$anterior_level;$i++){
+                        echo "</div>\n";
+                    }
+                }
+
+                if($columns) {
+                    $columns=0;
+                    echo "</div>\n";
+                }
+
+                $section_name=substr($line,$level+1);
+
+                //falta comprobar si hay que explotar y hacer dos partes
+                if(strpos($section_name," ||| ") === FALSE){
+                } else {
+                    $temp=explode(" ||| ",$section_name);
+                    $section_name=$temp[0];
+                    $page=$temp[1];
+                }
+                echo '<hr id="section'.$section_number.'"><h2>'.$section_name.'</h2>
+                <div class="docssection">';
+                parsedown($page);
+            }
+            if($line[0]=="-"){
+                $content_number++;
+                $content_name=substr($line,2);
+
+                if(strpos($content_name," ||| ") === FALSE){
+                    if(file_exists("pages/".convert_page_name($content_name).".md")){
+                        $page=convert_page_name($content_name);
+                    }
+                } else {
+                    $temp=explode(" ||| ",$content_name);
+                    $content_name=$temp[0];
+                    $page=$temp[1];
+                }
+                //echo '<a href="#" onclick="show_content('.$content_name.');">'.$content_name.'</a><br />'."\n";
+                if($page!=""){
+                    echo "<h3>$content_name</h3>\n";
+                } else {
+                    echo "<h3>$content_name (MISSING)</h3>\n";
+                }
+                if($page!=""){
+                    echo '<div class="bs-callout bs-callout-info" id="'.$content_name.'" style="/*display:none*/">';
+                    parsedown($page);
                     echo "</div>\n";
                 }
             }
-
-            if($columns) {
-                $columns=0;
-                echo "</div>\n";
+            if($line[0]=="*") {
+                $anterior_level=$level;
             }
-
-            $section_name=substr($line,$level+1);
-
-            //falta comprobar si hay que explotar y hacer dos partes
-            if(strpos($section_name," ||| ") === FALSE){
-            } else {
-                $temp=explode(" ||| ",$section_name);
-                $section_name=$temp[0];
-                $page=$temp[1];
-            }
-            echo '<hr id="section'.$section_number.'"><h2>'.$section_name.'</h2>
-            <div class="docssection">';
-            parsedown($page);
-        }
-        if($line[0]=="-"){
-            $content_number++;
-            $content_name=substr($line,2);
-
-            if(strpos($content_name," ||| ") === FALSE){
-                if(file_exists("pages/".convert_page_name($content_name).".txt")){
-                    $page=convert_page_name($content_name);
-                }
-            } else {
-                $temp=explode(" ||| ",$content_name);
-                $content_name=$temp[0];
-                $page=$temp[1];
-            }
-            //echo '<a href="#" onclick="show_content('.$content_number.');">'.$content_name.'</a><br />'."\n";
-            if($page!=""){
-                echo '<button type="button" class="btn btn-default" onclick="show_content('.$content_number.');">'.$content_name.'</button><br />';
-            } else {
-                echo '<button type="button" class="btn btn-default">'.$content_name.' (MISSING)</button><br />';
-            }
-            if($page!=""){
-                echo '<div class="bs-callout bs-callout-info" id="content'.$content_number.'" style="display:none">';
-                parsedown($page);
-                echo "</div>\n";
-            }
-        }
-        if($line[0]=="*") {
-            $anterior_level=$level;
         }
     }
 
@@ -273,9 +279,6 @@ function load_content(id,page){
         document.getElementById("content"+id).innerHTML=msg;
         $("#content"+id).show("slow");
     });
-}
-function show_content(id){
-    $("#content"+id).toggle("swing");
 }
 function load_section(id,page){
     return;
