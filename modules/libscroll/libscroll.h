@@ -85,6 +85,12 @@ typedef struct _scroll_Extra_data {
     int32_t region2;
     int32_t flags1;
     int32_t flags2;
+    uint8_t modr1;
+    uint8_t modg1;
+    uint8_t modb1;
+    uint8_t modr2;
+    uint8_t modg2;
+    uint8_t modb2;
     int32_t follows;
     int32_t reserved[7]; /* First reserved dword point to internal scrolldata struct */
 } __PACKED SCROLL_EXTRA_DATA;

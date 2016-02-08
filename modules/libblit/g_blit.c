@@ -38,6 +38,7 @@
 
 #include "libblit.h"
 #include "g_video.h"
+#include "pxtrtm.h"
 
 /* --------------------------------------------------------------------------- */
 
@@ -1485,6 +1486,10 @@ void gr_rotated_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, i
 
         SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, flip_factor * angle / -1000.,
                          &rcenter, flip);
+        if(gr->next_piece){
+            PXTRTM_LOGERROR("WARNING: GRAPH %d is larger than supported by your graphics card.\n", gr->code);
+            PXTRTM_LOGERROR("         Such graphics can only be displayed correctly if not rotated\n");
+        }
     } else {
         // Software blit
         if (!dest->data || !gr->data) {
@@ -1881,8 +1886,8 @@ void gr_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, uint8_t m
         flip      = SDL_FLIP_NONE;
         dstRect.x = scrx - center.x;
         dstRect.y = scry - center.y;
-        dstRect.w = gr->width;
-        dstRect.h = gr->height;
+        dstRect.w = MIN(gr->width, renderer_info.max_texture_width);
+        dstRect.h = MIN(gr->height, renderer_info.max_texture_height);
         if (flags & B_HMIRROR) {
             flip |= SDL_FLIP_HORIZONTAL;
             dstRect.x = scrx - gr->width + center.x;
@@ -1920,6 +1925,8 @@ void gr_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, uint8_t m
             dstRect.x = scrx - center.x + piece->x;
             dstRect.y = scry - center.y + piece->y;
             if (piece->texture) {
+                SDL_SetTextureAlphaMod(piece->texture, alpha);
+                SDL_SetTextureColorMod(piece->texture, modr, modg, modb);
                 SDL_SetTextureBlendMode(piece->texture, mode);
                 SDL_QueryTexture(piece->texture, NULL, NULL, &dstRect.w, &dstRect.h);
                 SDL_RenderCopyEx(renderer, piece->texture, NULL, &dstRect, 0., NULL, flip);

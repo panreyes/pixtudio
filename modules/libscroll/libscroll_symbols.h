@@ -67,6 +67,12 @@ char __pxtexport( libscroll, globals_def )[] =
     "region2 = -1;\n"
     "flags1;\n"
     "flags2;\n"
+    "BYTE modr1 = 255;\n"
+    "BYTE modg1 = 255;\n"
+    "BYTE modb1 = 255;\n"
+    "BYTE modr2 = 255;\n"
+    "BYTE modg2 = 255;\n"
+    "BYTE modb2 = 255;\n"
     "follow = -1;\n"
     "reserved[6];\n"  /* size: 20 dwords */
     "END \n";
