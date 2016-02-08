@@ -6,7 +6,7 @@ LOCAL_MODULE := theora
 
 common_C_INCLUDES := $(LOCAL_PATH)/../../../../3rdparty/libtheora/ \
     $(LOCAL_PATH)/../../../../3rdparty/libtheora/include/ \
-    $(LOCAL_PATH)/../../../../3rdparty/SDL_mixer/external/libogg-1.3.1/include
+    $(LOCAL_PATH)/../../../../3rdparty/SDL2_mixer/external/libogg-1.3.1/include
 
 common_SRC_FILES := \
     ../../../../3rdparty/libtheora/lib/apiwrapper.c \
