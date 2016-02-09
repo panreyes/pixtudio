@@ -319,8 +319,37 @@ FT_Library library;
 /* ---------------------- */
 
 bool load_face(const char *path, uint16_t size, uint8_t n) {
-    // TODO: switch to using FT_New_Memory_Face so that we can read from APKs
-    int error = FT_New_Face(library, path, 0, &faces[n].face);
+    // First of all, read the whole file into memory
+    file *fd = file_open(path, "rb");
+    if(!fd) {
+        if(debug) {
+            PXTRTM_LOGERROR("ERROR: Could not load font face %s\n", path);
+        }
+        return false;
+    }
+
+    // Read the file size
+    int fsize = file_size(fd);
+    if(fsize <= 0) {
+        file_close(fd);
+        if(debug) {
+            PXTRTM_LOGERROR("ERROR: font face size is 0\n");
+        }
+        return false;
+    }
+
+    // Read the file into memory
+    void *data[fsize];
+    int read = 0;
+    if((read = file_read (fd, data, fsize)) < size) {
+        if(debug) {
+            PXTRTM_LOGERROR("You should not be here\n");
+        }
+    }
+    file_close(fd);
+
+    // Create the font face and perform some basic checks
+    int error = FT_New_Memory_Face (library, data, read, 0, &faces[n].face);
     if(error) {
         if(debug) {
             PXTRTM_LOGERROR("ERROR: Could not load font face %s\n", path);
