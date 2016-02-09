@@ -85,6 +85,8 @@ typedef struct _scroll_Extra_data {
     int32_t region2;
     int32_t flags1;
     int32_t flags2;
+    uint8_t alpha1;
+    uint8_t alpha2;
     uint8_t modr1;
     uint8_t modg1;
     uint8_t modb1;

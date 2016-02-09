@@ -67,6 +67,8 @@ char __pxtexport( libscroll, globals_def )[] =
     "region2 = -1;\n"
     "flags1;\n"
     "flags2;\n"
+    "BYTE alpha1 = 255;\n"
+    "BYTE alpha2 = 255;\n"
     "BYTE modr1 = 255;\n"
     "BYTE modg1 = 255;\n"
     "BYTE modb1 = 255;\n"
