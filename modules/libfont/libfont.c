@@ -40,6 +40,10 @@
 #include "libfont.h"
 #include "systemfont.h"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include FT_GLYPH_H
+
 #ifndef __MONOLITHIC__
 #include "libfont_symbols.h"
 #endif
@@ -47,7 +51,8 @@
 /* --------------------------------------------------------------------------- */
 
 FONT *fonts[MAX_FONTS] = {0};
-int font_count         = 0; /* Fuente 0 reservada para sistema */
+int font_count         = 0;   /* System font */
+FT_Library font_library;      /* For FreeType-rendered fonts */
 
 /* --------------------------------------------------------------------------- */
 
@@ -129,7 +134,7 @@ int gr_font_newfrombitmap(GRAPH *map, int charset, int width, int height, int fi
     int w, h, cw, ch;
     GRAPH *bitmap;
 
-    id = gr_font_new(charset, map->format->depth, TYPE_BITMAP);
+    id = gr_font_new(charset, map->format->depth, FONT_TYPE_BITMAP);
     if (id == -1)
         return -1;
 
@@ -438,17 +443,25 @@ void gr_font_destroy(int fontid) {
     int n;
 
     if (fontid >= 0 && fontid < font_count) {
-        if (!fonts[fontid])
+        if (!fonts[fontid]) {
             return;
+        }
 
-        for (n = 0; n < MAX_FONTS; n++)
-            if (fonts[fontid]->bitmap.glyph[n].bitmap)
-                bitmap_destroy(fonts[fontid]->bitmap.glyph[n].bitmap);
+        if(fonts[fontid]->type == FONT_TYPE_BITMAP) {
+            for (n = 0; n < MAX_FONTS; n++) {
+                if (fonts[fontid]->bitmap.glyph[n].bitmap) {
+                    bitmap_destroy(fonts[fontid]->bitmap.glyph[n].bitmap);
+                }
+            }
+        } else {
+            FT_Done_Face(fonts[fontid]->vector.face);
+        }
 
         free(fonts[fontid]);
         fonts[fontid] = NULL;
-        while (font_count > 0 && fonts[font_count - 1] == 0)
+        while (font_count > 0 && fonts[font_count - 1] == 0) {
             font_count--;
+        }
     }
 }
 
@@ -467,8 +480,10 @@ void gr_font_destroy(int fontid) {
  */
 
 FONT *gr_font_get(int id) {
-    if (id >= 0 && id < MAX_FONTS)
+    if (id >= 0 && id < MAX_FONTS) {
         return fonts[id];
+    }
+
     return NULL;
 }
 

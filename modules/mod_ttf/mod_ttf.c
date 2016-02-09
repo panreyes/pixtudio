@@ -320,8 +320,8 @@ FT_Library library;
 
 bool load_face(const char *path, uint16_t size, uint8_t n) {
     // First of all, read the whole file into memory
-    file *fd = file_open(path, "rb");
-    if(!fd) {
+    file *fp = file_open(path, "rb");
+    if(!fp) {
         if(debug) {
             PXTRTM_LOGERROR("ERROR: Could not load font face %s\n", path);
         }
@@ -329,9 +329,9 @@ bool load_face(const char *path, uint16_t size, uint8_t n) {
     }
 
     // Read the file size
-    int fsize = file_size(fd);
+    int fsize = file_size(fp);
     if(fsize <= 0) {
-        file_close(fd);
+        file_close(fp);
         if(debug) {
             PXTRTM_LOGERROR("ERROR: font face size is 0\n");
         }
@@ -341,15 +341,15 @@ bool load_face(const char *path, uint16_t size, uint8_t n) {
     // Read the file into memory
     void *data[fsize];
     int read = 0;
-    if((read = file_read (fd, data, fsize)) < size) {
+    if((read = file_read (fp, data, fsize)) < size) {
         if(debug) {
             PXTRTM_LOGERROR("You should not be here\n");
         }
     }
-    file_close(fd);
+    file_close(fp);
 
     // Create the font face and perform some basic checks
-    int error = FT_New_Memory_Face (library, data, read, 0, &faces[n].face);
+    int error = FT_New_Memory_Face (library, (const FT_Byte*)data, read, 0, &faces[n].face);
     if(error) {
         if(debug) {
             PXTRTM_LOGERROR("ERROR: Could not load font face %s\n", path);
@@ -374,7 +374,7 @@ bool load_face(const char *path, uint16_t size, uint8_t n) {
     }
 
     // Set the character size in px
-    error = FT_Set_Pixel_Sizes(faces[n].face, size, size);
+    error = FT_Set_Pixel_Sizes(faces[n].face, 15, 15);
     if(error) {
         FT_Done_Face(faces[n].face);
         return false;

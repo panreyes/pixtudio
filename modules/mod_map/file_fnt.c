@@ -32,6 +32,7 @@
 #include <string.h>
 #include "libfont.h"
 #include "mod_map.h"
+#include "pxtrtm.h"
 
 /* --------------------------------------------------------------------------- */
 
@@ -46,6 +47,7 @@ typedef struct _chardata {
 } _chardata;
 
 static int gr_font_loadfrom(file *fp);
+static int gr_font_vector_loadfrom(file *fp);
 
 /* --------------------------------------------------------------------------- */
 /*
@@ -98,138 +100,251 @@ static int gr_font_loadfrom(file *fp) {
 
     _chardata chardata[256];
 
-    if (font_count == MAX_FONTS)
+    if (font_count == MAX_FONTS) {
+        if(debug) {
+            PXTRTM_LOGERROR("Too many fonts loaded, refusing to load anymore\n");
+        }
         return -1;
+    }
 
     /* Read the file header */
 
-    if (!file_read(fp, header, 8))
-        return -1;
-
-    if (memcmp(header, FNT_MAGIC, 7) != 0 && memcmp(header, FNX_MAGIC, 7) != 0) {
+    if (!file_read(fp, header, 8)) {
         return -1;
     }
 
-    bpp = header[7];
-    if (bpp == 0)
-        bpp = 8;
+    if (memcmp(header, FNT_MAGIC, 7) == 0 || memcmp(header, FNX_MAGIC, 7) == 0) {
+        bpp = header[7];
+        if (bpp == 0) {
+            bpp = 8;
+        }
 
-    /* Read or ignore the palette */
+        /* Read or ignore the palette */
 
-    if (bpp == 8 && !(pal = gr_read_pal_with_gamma(fp)))
-        return -1;
+        if (bpp == 8 && !(pal = gr_read_pal_with_gamma(fp))) {
+            return -1;
+        }
 
-    /* Read the character data (detect old format) */
+        /* Read the character data (detect old format) */
 
-    if (header[2] == 'x') {
-        if (!file_readSint32(fp, &types)) {
+        if (header[2] == 'x') {
+            if (!file_readSint32(fp, &types)) {
+                pal_destroy(pal);
+                return -1;
+            }
+            if (!file_read(fp, chardata, sizeof(chardata))) {
+                pal_destroy(pal);
+                return -1;
+            }
+            for (i = 0; i < 256; i++) {
+                ARRANGE_DWORD(&chardata[i].width);
+                ARRANGE_DWORD(&chardata[i].height);
+                ARRANGE_DWORD(&chardata[i].xadvance);
+                ARRANGE_DWORD(&chardata[i].yadvance);
+                ARRANGE_DWORD(&chardata[i].xoffset);
+                ARRANGE_DWORD(&chardata[i].yoffset);
+                ARRANGE_DWORD(&chardata[i].fileoffset);
+            }
+        } else {
+            if (!file_readSint32(fp, &types)) {
+                pal_destroy(pal);
+                return -1;
+            }
+            if (!file_read(fp, oldchardata, sizeof(oldchardata))) {
+                pal_destroy(pal);
+                return -1;
+            }
+            for (i = 0; i < 256; i++) {
+                ARRANGE_DWORD(&oldchardata[i].width);
+                ARRANGE_DWORD(&oldchardata[i].height);
+                ARRANGE_DWORD(&oldchardata[i].yoffset);
+                ARRANGE_DWORD(&oldchardata[i].fileoffset);
+
+                chardata[i].width      = oldchardata[i].width;
+                chardata[i].height     = oldchardata[i].height;
+                chardata[i].xoffset    = 0;
+                chardata[i].yoffset    = oldchardata[i].yoffset;
+                chardata[i].xadvance   = oldchardata[i].width;
+                chardata[i].yadvance   = oldchardata[i].height + oldchardata[i].yoffset;
+                chardata[i].fileoffset = oldchardata[i].fileoffset;
+            }
+        }
+
+        /* Create the font */
+
+        if (header[2] == 'x') {
+            id = gr_font_new(types, header[7], FONT_TYPE_BITMAP);
+        } else {
+            id = gr_font_new(CHARSET_CP850, 8, FONT_TYPE_BITMAP);
+        }
+
+        if (id == -1) {
             pal_destroy(pal);
             return -1;
         }
-        if (!file_read(fp, chardata, sizeof(chardata))) {
-            pal_destroy(pal);
-            return -1;
-        }
-        for (i = 0; i < 256; i++) {
-            ARRANGE_DWORD(&chardata[i].width);
-            ARRANGE_DWORD(&chardata[i].height);
-            ARRANGE_DWORD(&chardata[i].xadvance);
-            ARRANGE_DWORD(&chardata[i].yadvance);
-            ARRANGE_DWORD(&chardata[i].xoffset);
-            ARRANGE_DWORD(&chardata[i].yoffset);
-            ARRANGE_DWORD(&chardata[i].fileoffset);
-        }
-    } else {
-        if (!file_readSint32(fp, &types)) {
-            pal_destroy(pal);
-            return -1;
-        }
-        if (!file_read(fp, oldchardata, sizeof(oldchardata))) {
-            pal_destroy(pal);
-            return -1;
-        }
-        for (i = 0; i < 256; i++) {
-            ARRANGE_DWORD(&oldchardata[i].width);
-            ARRANGE_DWORD(&oldchardata[i].height);
-            ARRANGE_DWORD(&oldchardata[i].yoffset);
-            ARRANGE_DWORD(&oldchardata[i].fileoffset);
 
-            chardata[i].width      = oldchardata[i].width;
-            chardata[i].height     = oldchardata[i].height;
-            chardata[i].xoffset    = 0;
-            chardata[i].yoffset    = oldchardata[i].yoffset;
-            chardata[i].xadvance   = oldchardata[i].width;
-            chardata[i].yadvance   = oldchardata[i].height + oldchardata[i].yoffset;
-            chardata[i].fileoffset = oldchardata[i].fileoffset;
-        }
-    }
-
-    /* Create the font */
-
-    if (header[2] == 'x')
-        id = gr_font_new(types, header[7], TYPE_BITMAP);
-    else
-        id = gr_font_new(CHARSET_CP850, 8, TYPE_BITMAP);
-
-    if (id == -1) {
-        pal_destroy(pal);
-        return -1;
-    }
-
-    f = fonts[id];
-    if (!f) {
-        gr_font_destroy(id);
-        pal_destroy(pal);
-        return -1;
-    }
-
-    /* Load the character bitmaps */
-
-    for (i = 0; i < 256; i++) {
-        GRAPH *gr;
-        uint8_t *ptr;
-
-        f->bitmap.glyph[i].xadvance = chardata[i].xadvance;
-        f->bitmap.glyph[i].yadvance = chardata[i].yadvance;
-
-        if (chardata[i].fileoffset == 0 || chardata[i].width == 0 || chardata[i].height == 0)
-            continue;
-
-        f->bitmap.glyph[i].xoffset = chardata[i].xoffset;
-        f->bitmap.glyph[i].yoffset = chardata[i].yoffset;
-
-        file_seek(fp, chardata[i].fileoffset, SEEK_SET);
-        f->bitmap.glyph[i].bitmap = gr = bitmap_new(i, chardata[i].width, chardata[i].height, f->bpp);
-        if (!gr) {
+        f = fonts[id];
+        if (!f) {
             gr_font_destroy(id);
             pal_destroy(pal);
             return -1;
         }
-        bitmap_add_cpoint(gr, 0, 0);
-        gr->format->palette = pal;
-        pal_use(pal);
 
-        for (y = 0, ptr = gr->data; y < gr->height; y++, ptr += gr->pitch) {
-            if (!file_read(fp, ptr, gr->widthb))
-                break;
+        /* Load the character bitmaps */
 
-            if (gr->format->depth == 16) {
-                ARRANGE_WORDS(ptr, (int)gr->width);
-            } else if (gr->format->depth == 32) {
-                ARRANGE_DWORDS(ptr, (int)gr->width);
+        for (i = 0; i < 256; i++) {
+            GRAPH *gr;
+            uint8_t *ptr;
+
+            f->bitmap.glyph[i].xadvance = chardata[i].xadvance;
+            f->bitmap.glyph[i].yadvance = chardata[i].yadvance;
+
+            if (chardata[i].fileoffset == 0 || chardata[i].width == 0 || chardata[i].height == 0)
+                continue;
+
+            f->bitmap.glyph[i].xoffset = chardata[i].xoffset;
+            f->bitmap.glyph[i].yoffset = chardata[i].yoffset;
+
+            file_seek(fp, chardata[i].fileoffset, SEEK_SET);
+            f->bitmap.glyph[i].bitmap = gr = bitmap_new(i, chardata[i].width, chardata[i].height, f->bpp);
+            if (!gr) {
+                gr_font_destroy(id);
+                pal_destroy(pal);
+                return -1;
             }
+            bitmap_add_cpoint(gr, 0, 0);
+            gr->format->palette = pal;
+            pal_use(pal);
+
+            for (y = 0, ptr = gr->data; y < gr->height; y++, ptr += gr->pitch) {
+                if (!file_read(fp, ptr, gr->widthb)) {
+                    break;
+                }
+
+                if (gr->format->depth == 16) {
+                    ARRANGE_WORDS(ptr, (int)gr->width);
+                } else if (gr->format->depth == 32) {
+                    ARRANGE_DWORDS(ptr, (int)gr->width);
+                }
+            }
+
+            gr->needs_texture_update = 1;
+
+            f->bitmap.glyph[i].yoffset = chardata[i].yoffset;
+        }
+        if (f->bitmap.glyph[32].xadvance == 0) {
+            f->bitmap.glyph[32].xadvance = f->bitmap.glyph['j'].xadvance;
         }
 
-        gr->needs_texture_update = 1;
+        pal_destroy(pal); // Remove the initial instance
 
-        f->bitmap.glyph[i].yoffset = chardata[i].yoffset;
+        return id;
     }
-    if (f->bitmap.glyph[32].xadvance == 0)
-        f->bitmap.glyph[32].xadvance = f->bitmap.glyph['j'].xadvance;
 
-    pal_destroy(pal); // Elimino la instancia inicial
+    return -1;
+}
 
-    return id;
+
+/* --------------------------------------------------------------------------- */
+/*
+ *  FUNCTION : gr_font_vector_load
+ *
+ *  Load a vector font from a given file, in a format FreeType understands
+ *
+ *  PARAMS :
+ *  filename  Name of the file
+ *
+ *  RETURN VALUE :
+ *      ID of the new font, or -1 if error
+ *
+ */
+
+int gr_font_vector_load(char *filename) {
+    file *fp;
+    int result;
+
+    if (!filename) {
+        return -1;
+    }
+
+    fp = file_open(filename, "rb");
+    if (!fp) {
+        return -1;
+    }
+
+    result = gr_font_vector_loadfrom(fp);
+
+    file_close(fp);
+
+    return result;
+}
+
+/* --------------------------------------------------------------------------- */
+
+static int gr_font_vector_loadfrom(file *fp) {
+    // Read the file size
+    int fsize = file_size(fp);
+    if(fsize <= 0) {
+        file_close(fp);
+        if(debug) {
+            PXTRTM_LOGERROR("ERROR: font face size is 0\n");
+        }
+        return -1;
+    }
+
+    // Read the file into memory
+    FT_Byte *data[fsize];
+    int read = 0;
+    if((read = file_read(fp, data, fsize)) < fsize) {
+        if(debug) {
+            PXTRTM_LOGERROR("You should not be here\n");
+        }
+    }
+    file_close(fp);
+
+    // Create the font face and perform some basic checks
+    int fontid = gr_font_new(CHARSET_CP850, 32, FONT_TYPE_VECTOR);
+    FT_Face face = gr_font_get(fontid)->vector.face;
+    int error = FT_New_Memory_Face(font_library, (const FT_Byte*)data, read, 0, &face);
+    if(error) {
+        if(debug) {
+            PXTRTM_LOGERROR("ERROR: Could not load font face\n");
+        }
+
+        FT_Done_Face(face);
+        gr_font_destroy(fontid);
+        return -1;
+    }
+
+    if(FT_HAS_VERTICAL(face)) {
+        if(debug) {
+            PXTRTM_LOGERROR("ERROR: Vertical font faces are not supported\n");
+        }
+
+        FT_Done_Face(face);
+        gr_font_destroy(fontid);
+        return -1;
+    }
+
+    if(!FT_IS_SCALABLE(face)) {
+        if(debug) {
+            PXTRTM_LOGERROR("ERROR: Non-scallable font faces are not supported\n");
+        }
+
+        FT_Done_Face(face);
+        gr_font_destroy(fontid);
+        return -1;
+    }
+
+    // Set the character size in px
+    error = FT_Set_Pixel_Sizes(face, 20, 20);
+    if(error) {
+        FT_Done_Face(face);
+        gr_font_destroy(fontid);
+        return -1;
+    }
+
+    return fontid;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -248,8 +363,9 @@ static int gr_font_loadfrom(file *fp) {
  */
 
 int gr_font_save(int fontid, const char *filename) {
-    if (!filename)
+    if (!filename) {
         return 0;
+    }
 
     file *file;
     int n;
@@ -263,16 +379,18 @@ int gr_font_save(int fontid, const char *filename) {
     _chardata chardata[256];
     int palette_saved = 0;
 
-    if (fontid < 0 || fontid > MAX_FONTS || !fonts[fontid])
+    if (fontid < 0 || fontid > MAX_FONTS || !fonts[fontid] || fonts[fontid]->type != FONT_TYPE_BITMAP) {
         return 0;
+    }
 
     font = fonts[fontid];
 
     /* Open the file */
 
     file = file_open(filename, "wb0");
-    if (!file)
+    if (!file) {
         return 0;
+    }
 
     /* Write the header */
 
@@ -452,7 +570,7 @@ int gr_load_bdf(const char *filename) {
     if (!fp)
         return -1;
 
-    id = gr_font_new(CHARSET_ISO8859, 1, TYPE_BITMAP);
+    id = gr_font_new(CHARSET_ISO8859, 1, FONT_TYPE_BITMAP);
     if (id < 0)
         return -1;
     font                   = fonts[id];

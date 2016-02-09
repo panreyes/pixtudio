@@ -99,15 +99,20 @@ extern int modmap_fnt_new_charset( INSTANCE * my, int * params );
 extern int modmap_fnt_new_from_bitmap( INSTANCE * my, int * params );
 extern int modmap_fnt_new_charset( INSTANCE * my, int * params );
 extern int modmap_fnt_new_from_bitmap( INSTANCE * my, int * params );
+extern int modmap_load_ttf(INSTANCE *my, int *params);
 extern int modmap_load_bdf( INSTANCE * my, int * params );
 extern int modmap_bgload_bdf( INSTANCE * my, int * params );
 extern int modmap_get_glyph( INSTANCE * my, int * params );
 extern int modmap_set_glyph( INSTANCE * my, int * params );
+extern int modmap_set_fnt_size( INSTANCE * my, int * params );
 extern int modmap_load_png( INSTANCE * my, int * params );
 extern int modmap_bgload_png( INSTANCE * my, int * params );
 extern int modmap_load_pcx( INSTANCE * my, int * params );
 extern int modmap_bgload_pcx( INSTANCE * my, int * params );
 extern int modmap_save_png( INSTANCE * my, int * params );
+
+extern void __pxtexport( mod_map, module_initialize )();
+extern void __pxtexport( mod_map, module_finalize )();
 #endif
 
 #define G_WIDTH         0
@@ -213,11 +218,15 @@ DLSYSFUNCS  __pxtexport( mod_map, exported_functions )[] = {
     FUNC( "FNT_NEW"             , "II"          , TYPE_INT      , modmap_fnt_new_charset    ),
     FUNC( "FNT_NEW"             , "IIIIIIII"    , TYPE_INT      , modmap_fnt_new_from_bitmap),
 
+    FUNC( "TTF_LOAD"            , "S"           , TYPE_INT      , modmap_load_ttf           ),
+
     FUNC( "BDF_LOAD"            , "S"           , TYPE_INT      , modmap_load_bdf           ),
     FUNC( "BDF_LOAD"            , "SP"          , TYPE_INT      , modmap_bgload_bdf         ),
 
     FUNC( "GLYPH_GET"           , "II"          , TYPE_INT      , modmap_get_glyph          ),
     FUNC( "GLYPH_SET"           , "IIII"        , TYPE_INT      , modmap_set_glyph          ),
+
+    FUNC( "FNT_SET_SIZE"        , "II"          , TYPE_INT      , modmap_set_fnt_size       ),
 
     /* Image loading */
     FUNC( "PNG_LOAD"            , "S"           , TYPE_INT      , modmap_load_png           ),

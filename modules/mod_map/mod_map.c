@@ -603,6 +603,21 @@ int modmap_load_fnt(INSTANCE *my, int *params) {
 /* --------------------------------------------------------------------------- */
 
 /* --------------------------------------------------------------------------- */
+/** LOAD_TTF (STRING FILENAME)
+ *  Load a .TTF font from disk (returns the font ID)
+ */
+
+int modmap_load_ttf(INSTANCE *my, int *params) {
+    int r = gr_font_vector_load((char *)string_get(params[0]));
+    string_discard(params[0]);
+    return r;
+}
+
+/* --------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------- */
 /** LOAD_BDF (STRING FILENAME)
  *  Load a .BDF font from disk (returns the font ID)
  */
@@ -619,8 +634,10 @@ int modmap_load_bdf(INSTANCE *my, int *params) {
  */
 
 int modmap_unload_fnt(INSTANCE *my, int *params) {
-    if (params[0] > 0)
+    if (params[0] > 0) {
         gr_font_destroy(params[0]);
+    }
+
     return 0;
 }
 
@@ -630,7 +647,7 @@ int modmap_unload_fnt(INSTANCE *my, int *params) {
  */
 
 int modmap_fnt_new(INSTANCE *my, int *params) {
-    return gr_font_new(CHARSET_CP850, params[0], TYPE_BITMAP);
+    return gr_font_new(CHARSET_CP850, params[0], FONT_TYPE_BITMAP);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -640,7 +657,7 @@ int modmap_fnt_new(INSTANCE *my, int *params) {
  */
 
 int modmap_fnt_new_charset(INSTANCE *my, int *params) {
-    return gr_font_new(params[0], params[1], TYPE_BITMAP);
+    return gr_font_new(params[0], params[1], FONT_TYPE_BITMAP);
 }
 
 /* --------------------------------------------------------------------------- */
@@ -667,21 +684,30 @@ int modmap_get_glyph(INSTANCE *my, int *params) {
     GRAPH *map;
     unsigned char c = params[1];
 
-    if (font->bitmap.charset == /*CHARSET_CP850*/ CHARSET_ISO8859)
+    if(font->type != FONT_TYPE_BITMAP) {
+        return 0;
+    }
+
+    if (font->bitmap.charset == /*CHARSET_CP850*/ CHARSET_ISO8859) {
         c = win_to_dos[c];
-    if (!font)
+    }
+    if (!font) {
         return 0;
-    if (!font->bitmap.glyph[c].bitmap)
+    }
+    if (!font->bitmap.glyph[c].bitmap) {
         return 0;
+    }
 
     map = bitmap_clone(font->bitmap.glyph[c].bitmap);
-    if (!map)
+    if (!map) {
         return 0;
+    }
 
     map->code = bitmap_next_code();
 
-    if (!map->ncpoints)
+    if (!map->ncpoints) {
         bitmap_add_cpoint(map, map->width / 2, map->height / 2);
+    }
     bitmap_add_cpoint(map, font->bitmap.glyph[c].xoffset, font->bitmap.glyph[c].yoffset);
     bitmap_add_cpoint(map, font->bitmap.glyph[c].xadvance, font->bitmap.glyph[c].yadvance);
 
@@ -700,12 +726,22 @@ int modmap_set_glyph(INSTANCE *my, int *params) {
     GRAPH *map      = bitmap_get(params[2], params[3]);
     unsigned char c = params[1];
 
-    if (font->bitmap.charset == /*CHARSET_CP850*/ CHARSET_ISO8859)
-        c = win_to_dos[c];
+    if(!font) {
+        return 0;
+    }
 
-    if (font && map) {
-        if (font->bitmap.glyph[c].bitmap)
+    if(font->type != FONT_TYPE_BITMAP) {
+        return 0;
+    }
+
+    if (font->bitmap.charset == CHARSET_ISO8859) {
+        c = win_to_dos[c];
+    }
+
+    if (map) {
+        if (font->bitmap.glyph[c].bitmap) {
             grlib_unload_map(0, font->bitmap.glyph[c].bitmap->code);
+        }
         font->bitmap.glyph[c].bitmap = bitmap_clone(map);
         if (font->bitmap.glyph[c].bitmap) {
             font->bitmap.glyph[c].bitmap->code = bitmap_next_code();
@@ -725,6 +761,27 @@ int modmap_set_glyph(INSTANCE *my, int *params) {
             grlib_add_map(0, font->bitmap.glyph[c].bitmap);
         }
     }
+
+    return 0;
+}
+
+/* --------------------------------------------------------------------------- */
+/** FNT_SET_SIZE (FONT, SIZE)
+ *  Set the size of a vector font (in pixels)
+ */
+
+int modmap_set_fnt_size(INSTANCE *my, int *params) {
+    FONT *font = gr_font_get(params[0]);
+
+    if(!font || font->type != FONT_TYPE_VECTOR) {
+        return -1;
+    }
+
+    int error = FT_Set_Pixel_Sizes(font->vector.face, params[1], params[1]);
+    if(error) {
+        return -1;
+    }
+
     return 0;
 }
 
@@ -777,3 +834,19 @@ int modmap_bgload_bdf(INSTANCE *my, int *params) {
 }
 
 /* --------------------------------------------------------------------------- */
+
+void __pxtexport(mod_map, module_initialize)() {
+    int error = FT_Init_FreeType(&font_library);
+    if (error) {
+        PXTRTM_LOGERROR("ERROR: Could not start Freetype library\n");
+    }
+}
+
+void __pxtexport(mod_map, module_finalize)() {
+    // Unload all the fonts
+    for(int32_t i=0; i<MAX_FONTS; i++) {
+        gr_font_destroy(i);
+    }
+
+    FT_Done_FreeType(font_library);
+}

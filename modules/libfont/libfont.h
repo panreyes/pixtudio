@@ -31,6 +31,8 @@
 #define __FONT_H
 
 #include "libgrbase.h"
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 /* -------------------------------------------------------------------------- */
 
@@ -40,11 +42,13 @@
 
 /* -------------------------------------------------------------------------- */
 
-enum { CHARSET_ISO8859 = 0, CHARSET_CP850 = 1 };
+enum { CHARSET_ISO8859 = 0,
+       CHARSET_CP850 = 1 };
 
 /* -------------------------------------------------------------------------- */
 
-enum { TYPE_BITMAP = 0, TYPE_VECTOR = 1 };
+enum { FONT_TYPE_BITMAP = 0,
+       FONT_TYPE_VECTOR = 1 };
 
 /* -------------------------------------------------------------------------- */
 
@@ -68,7 +72,7 @@ typedef struct _font {
     } bitmap;
 
     struct {
-        int32_t n;
+        FT_Face face;
     } vector;
 } FONT;
 
@@ -80,6 +84,7 @@ extern unsigned char default_font[8 * 32 * 256];
 
 extern FONT *fonts[MAX_FONTS];
 extern int font_count;
+extern FT_Library font_library;
 
 /* -------------------------------------------------------------------------- */
 
