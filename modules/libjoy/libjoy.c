@@ -320,6 +320,8 @@ int libjoy_get_accel_specific(int joy, int *x, int *y, int *z) {
 void __pxtexport(libjoy, module_initialize)() {
     int i;
 
+	SDL_SetHint(SDL_HINT_XINPUT_ENABLED, "0");
+	
     if (!SDL_WasInit(SDL_INIT_JOYSTICK)) {
         SDL_InitSubSystem(SDL_INIT_JOYSTICK);
         SDL_JoystickEventState(SDL_ENABLE);
