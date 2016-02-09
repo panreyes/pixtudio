@@ -101,9 +101,6 @@ static int gr_font_loadfrom(file *fp) {
     _chardata chardata[256];
 
     if (font_count == MAX_FONTS) {
-        if(debug) {
-            PXTRTM_LOGERROR("Too many fonts loaded, refusing to load anymore\n");
-        }
         return -1;
     }
 
@@ -113,135 +110,136 @@ static int gr_font_loadfrom(file *fp) {
         return -1;
     }
 
-    if (memcmp(header, FNT_MAGIC, 7) == 0 || memcmp(header, FNX_MAGIC, 7) == 0) {
-        bpp = header[7];
-        if (bpp == 0) {
-            bpp = 8;
-        }
+    if (memcmp(header, FNT_MAGIC, 7) != 0 && memcmp(header, FNX_MAGIC, 7) != 0) {
+        return -1;
+    }
 
-        /* Read or ignore the palette */
+    bpp = header[7];
+    if (bpp == 0) {
+        bpp = 8;
+    }
 
-        if (bpp == 8 && !(pal = gr_read_pal_with_gamma(fp))) {
-            return -1;
-        }
+    /* Read or ignore the palette */
 
-        /* Read the character data (detect old format) */
+    if (bpp == 8 && !(pal = gr_read_pal_with_gamma(fp))) {
+        return -1;
+    }
 
-        if (header[2] == 'x') {
-            if (!file_readSint32(fp, &types)) {
-                pal_destroy(pal);
-                return -1;
-            }
-            if (!file_read(fp, chardata, sizeof(chardata))) {
-                pal_destroy(pal);
-                return -1;
-            }
-            for (i = 0; i < 256; i++) {
-                ARRANGE_DWORD(&chardata[i].width);
-                ARRANGE_DWORD(&chardata[i].height);
-                ARRANGE_DWORD(&chardata[i].xadvance);
-                ARRANGE_DWORD(&chardata[i].yadvance);
-                ARRANGE_DWORD(&chardata[i].xoffset);
-                ARRANGE_DWORD(&chardata[i].yoffset);
-                ARRANGE_DWORD(&chardata[i].fileoffset);
-            }
-        } else {
-            if (!file_readSint32(fp, &types)) {
-                pal_destroy(pal);
-                return -1;
-            }
-            if (!file_read(fp, oldchardata, sizeof(oldchardata))) {
-                pal_destroy(pal);
-                return -1;
-            }
-            for (i = 0; i < 256; i++) {
-                ARRANGE_DWORD(&oldchardata[i].width);
-                ARRANGE_DWORD(&oldchardata[i].height);
-                ARRANGE_DWORD(&oldchardata[i].yoffset);
-                ARRANGE_DWORD(&oldchardata[i].fileoffset);
+    /* Read the character data (detect old format) */
 
-                chardata[i].width      = oldchardata[i].width;
-                chardata[i].height     = oldchardata[i].height;
-                chardata[i].xoffset    = 0;
-                chardata[i].yoffset    = oldchardata[i].yoffset;
-                chardata[i].xadvance   = oldchardata[i].width;
-                chardata[i].yadvance   = oldchardata[i].height + oldchardata[i].yoffset;
-                chardata[i].fileoffset = oldchardata[i].fileoffset;
-            }
-        }
-
-        /* Create the font */
-
-        if (header[2] == 'x') {
-            id = gr_font_new(types, header[7], FONT_TYPE_BITMAP);
-        } else {
-            id = gr_font_new(CHARSET_CP850, 8, FONT_TYPE_BITMAP);
-        }
-
-        if (id == -1) {
+    if (header[2] == 'x') {
+        if (!file_readSint32(fp, &types)) {
             pal_destroy(pal);
             return -1;
         }
+        if (!file_read(fp, chardata, sizeof(chardata))) {
+            pal_destroy(pal);
+            return -1;
+        }
+        for (i = 0; i < 256; i++) {
+            ARRANGE_DWORD(&chardata[i].width);
+            ARRANGE_DWORD(&chardata[i].height);
+            ARRANGE_DWORD(&chardata[i].xadvance);
+            ARRANGE_DWORD(&chardata[i].yadvance);
+            ARRANGE_DWORD(&chardata[i].xoffset);
+            ARRANGE_DWORD(&chardata[i].yoffset);
+            ARRANGE_DWORD(&chardata[i].fileoffset);
+        }
+    } else {
+        if (!file_readSint32(fp, &types)) {
+            pal_destroy(pal);
+            return -1;
+        }
+        if (!file_read(fp, oldchardata, sizeof(oldchardata))) {
+            pal_destroy(pal);
+            return -1;
+        }
+        for (i = 0; i < 256; i++) {
+            ARRANGE_DWORD(&oldchardata[i].width);
+            ARRANGE_DWORD(&oldchardata[i].height);
+            ARRANGE_DWORD(&oldchardata[i].yoffset);
+            ARRANGE_DWORD(&oldchardata[i].fileoffset);
 
-        f = fonts[id];
-        if (!f) {
+            chardata[i].width      = oldchardata[i].width;
+            chardata[i].height     = oldchardata[i].height;
+            chardata[i].xoffset    = 0;
+            chardata[i].yoffset    = oldchardata[i].yoffset;
+            chardata[i].xadvance   = oldchardata[i].width;
+            chardata[i].yadvance   = oldchardata[i].height + oldchardata[i].yoffset;
+            chardata[i].fileoffset = oldchardata[i].fileoffset;
+        }
+    }
+
+    /* Create the font */
+
+    if (header[2] == 'x') {
+        id = gr_font_new(types, header[7], FONT_TYPE_BITMAP);
+    } else {
+        id = gr_font_new(CHARSET_CP850, 8, FONT_TYPE_BITMAP);
+    }
+
+    if (id == -1) {
+        pal_destroy(pal);
+        return -1;
+    }
+
+    f = fonts[id];
+    if (!f) {
+        gr_font_destroy(id);
+        pal_destroy(pal);
+        return -1;
+    }
+
+    /* Load the character bitmaps */
+
+    for (i = 0; i < 256; i++) {
+        GRAPH *gr;
+        uint8_t *ptr;
+
+        f->bitmap.glyph[i].xadvance = chardata[i].xadvance;
+        f->bitmap.glyph[i].yadvance = chardata[i].yadvance;
+
+        if (chardata[i].fileoffset == 0 || chardata[i].width == 0 || chardata[i].height == 0) {
+            continue;
+        }
+
+        f->bitmap.glyph[i].xoffset = chardata[i].xoffset;
+        f->bitmap.glyph[i].yoffset = chardata[i].yoffset;
+
+        file_seek(fp, chardata[i].fileoffset, SEEK_SET);
+        f->bitmap.glyph[i].bitmap = gr = bitmap_new(i, chardata[i].width, chardata[i].height, f->bpp);
+        if (!gr) {
             gr_font_destroy(id);
             pal_destroy(pal);
             return -1;
         }
+        bitmap_add_cpoint(gr, 0, 0);
+        gr->format->palette = pal;
+        pal_use(pal);
 
-        /* Load the character bitmaps */
-
-        for (i = 0; i < 256; i++) {
-            GRAPH *gr;
-            uint8_t *ptr;
-
-            f->bitmap.glyph[i].xadvance = chardata[i].xadvance;
-            f->bitmap.glyph[i].yadvance = chardata[i].yadvance;
-
-            if (chardata[i].fileoffset == 0 || chardata[i].width == 0 || chardata[i].height == 0)
-                continue;
-
-            f->bitmap.glyph[i].xoffset = chardata[i].xoffset;
-            f->bitmap.glyph[i].yoffset = chardata[i].yoffset;
-
-            file_seek(fp, chardata[i].fileoffset, SEEK_SET);
-            f->bitmap.glyph[i].bitmap = gr = bitmap_new(i, chardata[i].width, chardata[i].height, f->bpp);
-            if (!gr) {
-                gr_font_destroy(id);
-                pal_destroy(pal);
-                return -1;
-            }
-            bitmap_add_cpoint(gr, 0, 0);
-            gr->format->palette = pal;
-            pal_use(pal);
-
-            for (y = 0, ptr = gr->data; y < gr->height; y++, ptr += gr->pitch) {
-                if (!file_read(fp, ptr, gr->widthb)) {
-                    break;
-                }
-
-                if (gr->format->depth == 16) {
-                    ARRANGE_WORDS(ptr, (int)gr->width);
-                } else if (gr->format->depth == 32) {
-                    ARRANGE_DWORDS(ptr, (int)gr->width);
-                }
+        for (y = 0, ptr = gr->data; y < gr->height; y++, ptr += gr->pitch) {
+            if (!file_read(fp, ptr, gr->widthb)) {
+                break;
             }
 
-            gr->needs_texture_update = 1;
-
-            f->bitmap.glyph[i].yoffset = chardata[i].yoffset;
+            if (gr->format->depth == 16) {
+                ARRANGE_WORDS(ptr, (int)gr->width);
+            } else if (gr->format->depth == 32) {
+                ARRANGE_DWORDS(ptr, (int)gr->width);
+            }
         }
-        if (f->bitmap.glyph[32].xadvance == 0) {
-            f->bitmap.glyph[32].xadvance = f->bitmap.glyph['j'].xadvance;
-        }
 
-        pal_destroy(pal); // Remove the initial instance
+        gr->needs_texture_update = 1;
 
-        return id;
+        f->bitmap.glyph[i].yoffset = chardata[i].yoffset;
+    }
+    if (f->bitmap.glyph[32].xadvance == 0) {
+        f->bitmap.glyph[32].xadvance = f->bitmap.glyph['j'].xadvance;
     }
 
-    return -1;
+    pal_destroy(pal); // Elimino la instancia inicial
+
+    return id;
 }
 
 
