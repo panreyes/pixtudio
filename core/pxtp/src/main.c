@@ -201,7 +201,7 @@ int main(int argc, char *argv[]) {
                        "Pixtudio comes with ABSOLUTELY NO WARRANTY\n"
                        "See COPYING for copyright details\n\n"
                        "Usage: %s [options] <data code block file>[.dcb]\n\n"
-                       "   -c       Shows credit information and quit\n"
+                       "   -c       Show credit information and quit\n"
                        "   -d       Activate DEBUG mode\n"
                        "   -i dir   Adds the directory to the PATH\n",
                        argv[0]);
