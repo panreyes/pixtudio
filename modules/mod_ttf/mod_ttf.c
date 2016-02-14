@@ -50,7 +50,7 @@
 /* Correspondance between CP850 character codes (given by PixTudio)
  * and UTF-8 character codes (expected by FreeType)
  */
-uint16_t utf8codes[] = {0,
+uint16_t utf8codes[256] = {0,
                         1,
                         2,
                         3,

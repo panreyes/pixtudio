@@ -34,11 +34,10 @@
 
 #include "xctype.h"
 
-/* Tabla de conversión de caracteres MS-DOS a Windows */
-
 int dos_chars = 0;
 
-unsigned char dos_to_win[256] = {
+/* CP850 to ISO8859-1 character conversion table */
+unsigned char cp850_to_iso88591[256] = {
     0,   1,   2,   3,   4,   5,   6,   7,   8,   9,   10,  11,  12,  13,  14,  15,  16,  17,  18,
     19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,
     38,  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  52,  53,  54,  55,  56,
@@ -54,9 +53,8 @@ unsigned char dos_to_win[256] = {
     245, 213, 181, 254, 222, 218, 219, 217, 253, 221, 175, 180, 173, 177, 61,  190, 182, 167, 247,
     184, 176, 168, 183, 185, 179, 178, 166, 160};
 
-/* Tabla de conversión de caracteres Windows a MS-DOS */
-
-unsigned char win_to_dos[256] = {
+/* ISO 8859-1 to CP850 character conversion table */
+unsigned char iso88591_to_cp850[256] = {
     0,   1,   2,   3,   4,   5,   6,   7,   8,   9,   10,  11,  12,  13,  14,  15,  16,  17,  18,
     19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,
     38,  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  52,  53,  54,  55,  56,
@@ -72,6 +70,37 @@ unsigned char win_to_dos[256] = {
     132, 134, 145, 135, 138, 130, 136, 137, 141, 161, 140, 139, 208, 164, 149, 162, 147, 228, 148,
     246, 155, 151, 163, 150, 129, 236, 231, 152};
 
+/*
+ * Convert character code to glyph index
+ * PixTudio uses DOS-Latin-1 (CP850) codes internally,
+ * If we want to convert those to UTF-8 code, we need a
+ * correspondance table.
+ * Wikipedia has a list of unicode character codes here:
+ * https://en.wikipedia.org/wiki/List_of_Unicode_characters
+ * (We want the "Decimal" column)
+ * https://msdn.microsoft.com/en-us/library/cc195064.aspx
+ */
+uint16_t cp850_to_utf8[256] = {0,    1,    2,    3,    4,    5,    6,    7,    8,    9,   10,   11,   12,
+                               13,   14,   15,   16,   17,   18,   19,   20,   21,   22,   23,   24,   25,
+                               26,   27,   28,   29,   30,   31,   32,   33,   34,   35,   36,   37,   38,
+                               39,   40,   41,   42,   43,   44,   45,   46,   47,   48,   49,   50,   51,
+                               52,   53,   54,   55,   56,   57,   58,   59,   60,   61,   62,   63,   64,
+                               65,   66,   67,   68,   69,   70,   71,   72,   73,   74,   75,   76,   77,
+                               78,   79,   80,   81,   82,   83,   84,   85,   86,   87,   88,   89,   90,
+                               91,   92,   93,   94,   95,   96,   97,   98,   99,   100,  101,  102,  103,
+                               104,  105,  106,  107,  108,  109,  110,  111,  112,  113,  114,  115,  116,
+                               117,  118,  119,  120,  121,  122,  123,  124,  125,  126,  169,  199,  252,
+                               233,  226,  228,  224,  229,  231,  234,  235,  232,  239,  238,  236,  196,
+                               197,  201,  198,  198,  212,  214,  210,  219,  217,  255,  214,  220,  216,
+                               163,  216,  215,  401,  193,  205,  211,  218,  241,  209,  65,   79,   191,
+                               174,  172,  189,  188,  161,  171,  187,  9617, 9618, 9619, 9474, 9508, 193,
+                               194,  192,  169,  9571, 9553, 9559, 9565, 162,  165,  9488, 9492, 9524, 9516,
+                               9500, 9472, 9532, 195,  195,  9562, 9556, 9577, 9574, 9568, 9552, 9580, 164,
+                               208,  208,  234,  203,  200,  305,  205,  206,  207,  9496, 9484, 9608, 9604,
+                               166,  204,  9600, 211,  223,  212,  210,  213,  213,  181,  222,  222,  218,
+                               219,  217,  221,  221,  175,  180,  173,  177,  906,  190,  182,  167,  247,
+                               184,  176,  168,  183,  185,  179,  178, 9632,  160};
+
 /* Tipos de caracter */
 
 char c_type[256];
@@ -81,7 +110,7 @@ unsigned char c_lower[256];
 int c_type_initialized = 0;
 
 unsigned char convert(unsigned char c) {
-    return dos_chars ? c : win_to_dos[c];
+    return dos_chars ? c : iso88591_to_cp850[c];
 }
 
 static void set_c_range(int first, int last, int type) {
@@ -92,7 +121,7 @@ static void set_c_range(int first, int last, int type) {
 static void set_c_from(const unsigned char *chars, int type) {
     if (dos_chars)
         while (*chars)
-            c_type[win_to_dos[*chars++]] |= type;
+            c_type[iso88591_to_cp850[*chars++]] |= type;
     else
         while (*chars)
             c_type[*chars++] |= type;
@@ -110,7 +139,7 @@ static void set_c_as(int prev_type, int type) {
 static void set_c_upper(const unsigned char *from, const unsigned char *to) {
     if (dos_chars)
         while (*from)
-            c_upper[win_to_dos[*from++]] = win_to_dos[*to++];
+            c_upper[iso88591_to_cp850[*from++]] = iso88591_to_cp850[*to++];
     else
         while (*from)
             c_upper[*from++] = *to++;
@@ -119,7 +148,7 @@ static void set_c_upper(const unsigned char *from, const unsigned char *to) {
 static void set_c_lower(const unsigned char *from, const unsigned char *to) {
     if (dos_chars)
         while (*from)
-            c_lower[win_to_dos[*from++]] = win_to_dos[*to++];
+            c_lower[iso88591_to_cp850[*from++]] = iso88591_to_cp850[*to++];
     else
         while (*from)
             c_lower[*from++] = *to++;
@@ -132,7 +161,7 @@ void init_c_type() {
 
     if (dos_chars)
         for (c = 0; c < 256; c++)
-            c_lower[c] = c_upper[c] = win_to_dos[c];
+            c_lower[c] = c_upper[c] = iso88591_to_cp850[c];
     else
         for (c = 0; c < 256; c++)
             c_lower[c] = c_upper[c] = c;

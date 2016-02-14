@@ -238,7 +238,7 @@ static void process_key_events() {
                 if (!keypress) {
                     GLODWORD(libkey, SCANCODE) = k;
                     if (e.key.keysym.scancode) {
-                        asc = win_to_dos[e.key.keysym.scancode & 0xFF];
+                        asc = iso88591_to_cp850[e.key.keysym.scancode & 0xFF];
 
                         /* ascii mayusculas */
                         if (asc >= 'a' && asc <= 'z' &&
@@ -253,7 +253,7 @@ static void process_key_events() {
                 } else {
                     keyring[keyring_tail].scancode = k;
                     if (e.key.keysym.scancode) {
-                        asc = win_to_dos[e.key.keysym.scancode & 0x7F];
+                        asc = iso88591_to_cp850[e.key.keysym.scancode & 0x7F];
 
                         /*ascii mayusculas */
                         if (asc >= 'a' && asc <= 'z' &&

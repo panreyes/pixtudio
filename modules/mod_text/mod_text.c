@@ -46,7 +46,7 @@
 #endif
 
 /* --------------------------------------------------------------------------- */
-/* Funciones de visualización de textos */
+/* Text visualization routines */
 
 int modtext_write(INSTANCE *my, int *params) {
     const char *text = string_get(params[4]);

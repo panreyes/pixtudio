@@ -37,5 +37,6 @@ extern unsigned char c_lower[256];
 extern unsigned char convert(unsigned char c);
 extern void init_c_type();
 
-extern unsigned char dos_to_win[256];
-extern unsigned char win_to_dos[256];
+extern unsigned char cp850_to_iso88591[256];
+extern unsigned char iso88591_to_cp850[256];
+extern uint16_t cp850_to_utf8[256];

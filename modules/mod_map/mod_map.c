@@ -689,7 +689,7 @@ int modmap_get_glyph(INSTANCE *my, int *params) {
     }
 
     if (font->bitmap.charset == /*CHARSET_CP850*/ CHARSET_ISO8859) {
-        c = win_to_dos[c];
+        c = iso88591_to_cp850[c];
     }
     if (!font) {
         return 0;
@@ -735,7 +735,7 @@ int modmap_set_glyph(INSTANCE *my, int *params) {
     }
 
     if (font->bitmap.charset == CHARSET_ISO8859) {
-        c = win_to_dos[c];
+        c = iso88591_to_cp850[c];
     }
 
     if (map) {
