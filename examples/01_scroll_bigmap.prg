@@ -67,8 +67,10 @@ BEGIN
         if(! key(_down))
             if(key(_right) || mouse.left)
                 scroll[0].x0 += 30;
+                scroll[1].alpha1 += 2;
             elseif(key(_left))
                 scroll[0].x0 -= 30;
+                scroll[1].alpha1 -= 2;
             else
                 scroll[0].x0 += 30;
             end

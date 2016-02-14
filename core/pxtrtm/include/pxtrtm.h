@@ -97,7 +97,7 @@ extern void mnemonic_dump(int i, int param);
 /* --------------------------------------------------------------------------- */
 
 extern void pxtrtm_entry(int argc, char *argv[]);
-extern void pxtrtm_exit(int n);
+extern void pxtrtm_exit(int exit_code);
 
 /* --------------------------------------------------------------------------- */
 

@@ -365,7 +365,7 @@ int gr_font_save(int fontid, const char *filename) {
         return 0;
     }
 
-    file *file;
+    file *fd;
     int n;
     uint32_t y;
     long offset;
@@ -385,8 +385,8 @@ int gr_font_save(int fontid, const char *filename) {
 
     /* Open the file */
 
-    file = file_open(filename, "wb0");
-    if (!file) {
+    fd = file_open(filename, "wb0");
+    if (!fd) {
         return 0;
     }
 
@@ -394,7 +394,7 @@ int gr_font_save(int fontid, const char *filename) {
 
     strcpy((char *)header, FNX_MAGIC);
     header[7] = font->bpp;
-    file_write(file, &header, 8);
+    file_write(fd, &header, 8);
 
     /* Write the character information */
 
@@ -427,8 +427,8 @@ int gr_font_save(int fontid, const char *filename) {
                     colors[k][2] = gpal[k].b >> 2;
                 }
 
-                file_write(file, &colors, sizeof(colors));
-                file_write(file, data_block, 576);
+                file_write(fd, &colors, sizeof(colors));
+                file_write(fd, data_block, 576);
                 free(data_block);
                 palette_saved = 1;
             }
@@ -453,9 +453,9 @@ int gr_font_save(int fontid, const char *filename) {
         ARRANGE_DWORD(&chardata[n].fileoffset);
     }
 
-    file_writeSint32(file, &font->bitmap.charset);
+    file_writeSint32(fd, &font->bitmap.charset);
 
-    file_write(file, &chardata, sizeof(chardata));
+    file_write(fd, &chardata, sizeof(chardata));
 
     /* Write the character bitmaps */
 
@@ -464,13 +464,13 @@ int gr_font_save(int fontid, const char *filename) {
             GRAPH *gr = font->bitmap.glyph[n].bitmap;
 
             if (gr->format->depth != font->bpp) {
-                file_close(file);
+                file_close(fd);
                 return 0;
             }
 
             if (gr->format->depth > 8) {
                 if ((block = malloc(gr->widthb)) == NULL) {
-                    file_close(file);
+                    file_close(fd);
                     return 0;
                 }
             }
@@ -484,12 +484,12 @@ int gr_font_save(int fontid, const char *filename) {
                         ARRANGE_WORDS(block, (int)gr->width);
                         /*                        gr_convert16_ScreenTo565(( uint16_t * )block,
                          * gr->width ); */
-                        file_write(file, block, gr->widthb);
+                        file_write(fd, block, gr->widthb);
                     } else if (gr->format->depth == 32) {
-                        file_writeUint32A(file, (uint32_t *)block, gr->width);
+                        file_writeUint32A(fd, (uint32_t *)block, gr->width);
                     }
                 } else {
-                    file_write(file, lineptr, gr->widthb);
+                    file_write(fd, lineptr, gr->widthb);
                 }
             }
 
@@ -498,7 +498,7 @@ int gr_font_save(int fontid, const char *filename) {
         }
     }
 
-    file_close(file);
+    file_close(fd);
 
     return 1;
 }

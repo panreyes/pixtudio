@@ -33,279 +33,19 @@
 #include FT_GLYPH_H
 
 /* PixTudio stuff */
-#include <pxtdl.h>
-#include <pxtrtm.h>
-#include <libgrbase.h>
-#include <g_video.h>
-#include <xstrings.h>
+#include "pxtdl.h"
+#include "pxtrtm.h"
+#include "libgrbase.h"
+#include "g_video.h"
+#include "xstrings.h"
+#include "xctype.h"
 #include "mod_map.h"
 
 #ifndef __MONOLITHIC__
 #include "mod_ttf_symbols.h"
 #endif
 
-#define MAX_GLYPHS 256
 #define MAX_FACES 255
-
-/* Correspondance between CP850 character codes (given by PixTudio)
- * and UTF-8 character codes (expected by FreeType)
- */
-uint16_t utf8codes[256] = {0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7,
-                        8,
-                        9,
-                        10,
-                        11,
-                        12,
-                        13,
-                        14,
-                        15,
-                        16,
-                        17,
-                        18,
-                        19,
-                        20,
-                        21,
-                        22,
-                        23,
-                        24,
-                        25,
-                        26,
-                        27,
-                        28,
-                        29,
-                        30,
-                        31,
-                        32,
-                        33,
-                        34,
-                        35,
-                        36,
-                        37,
-                        38,
-                        39,
-                        40,
-                        41,
-                        42,
-                        43,
-                        44,
-                        45,
-                        46,
-                        47,
-                        48,
-                        49,
-                        50,
-                        51,
-                        52,
-                        53,
-                        54,
-                        55,
-                        56,
-                        57,
-                        58,
-                        59,
-                        60,
-                        61,
-                        62,
-                        63,
-                        64,
-                        65,
-                        66,
-                        67,
-                        68,
-                        69,
-                        70,
-                        71,
-                        72,
-                        73,
-                        74,
-                        75,
-                        76,
-                        77,
-                        78,
-                        79,
-                        80,
-                        81,
-                        82,
-                        83,
-                        84,
-                        85,
-                        86,
-                        87,
-                        88,
-                        89,
-                        90,
-                        91,
-                        92,
-                        93,
-                        94,
-                        95,
-                        96,
-                        97,
-                        98,
-                        99,
-                        100,
-                        101,
-                        102,
-                        103,
-                        104,
-                        105,
-                        106,
-                        107,
-                        108,
-                        109,
-                        110,
-                        111,
-                        112,
-                        113,
-                        114,
-                        115,
-                        116,
-                        117,
-                        118,
-                        119,
-                        120,
-                        121,
-                        122,
-                        123,
-                        124,
-                        125,
-                        126,
-                        169,
-                        199,      /* Ç */
-                        252,      /* ü */
-                        233,      /* é */
-                        226,      /* â */
-                        228,      /* ä */
-                        224,      /* à */
-                        229,      /* å */
-                        231,      /* ç */
-                        234,      /* ê */
-                        235,      /* ë */
-                        232,      /* è */
-                        239,      /* ï */
-                        238,      /* î */
-                        236,      /* ì */
-                        196,      /* Ä */
-                        197,      /* Å */
-                        201,      /* É */
-                        198,      /* æ */
-                        198,      /* Æ */
-                        212,      /* ô */
-                        214,      /* ö */
-                        210,      /* ò */
-                        219,      /* û */
-                        217,      /* ù */
-                        255,      /* ÿ */
-                        214,      /* Ö */
-                        220,      /* Ü */
-                        216,      /* ø */
-                        163,      /* £ */
-                        216,      /* Ø */
-                        215,      /* × */
-                        401,      /* ƒ */
-                        193,      /* á */
-                        205,      /* í */
-                        211,      /* ó */
-                        218,      /* ú */
-                        241,      /* ñ */
-                        209,      /* Ñ */
-                        65,       /* ª */
-                        79,       /* º */
-                        191,      /* ¿ */
-                        174,      /* ® */
-                        172,      /* ¬ */
-                        189,      /* ½ */
-                        188,      /* ¼ */
-                        161,      /* ¡ */
-                        171,      /* « */
-                        187,      /* » */
-                        9617,     /* ░ */
-                        9618,     /* ▒ */
-                        9619,     /* ▓ */
-                        9474,     /* │ */
-                        9508,     /* ┤ */
-                        193,      /* Á */
-                        194,      /* Â */
-                        192,      /* À */
-                        169,      /* © */
-                        9571,     /* ╣ */
-                        9553,     /* ║ */
-                        9559,     /* ╗ */
-                        9565,     /* ╝ */
-                        162,      /* ¢ */
-                        165,      /* ¥ */
-                        9488,     /* ┐ */
-                        9492,     /* └ */
-                        9524,     /* ┴ */
-                        9516,     /* ┬ */
-                        9500,     /* ├ */
-                        9472,     /* ─ */
-                        9532,     /* ┼ */
-                        195,      /* ã */
-                        195,      /* Ã */
-                        9562,     /* ╚ */
-                        9556,     /* ╔ */
-                        9577,     /* ╩ */
-                        9574,     /* ╦ */
-                        9568,     /* ╠ */
-                        9552,     /* ═ */
-                        9580,     /* ╬ */
-                        164,      /* ¤ */
-                        208,      /* ð */
-                        208,      /* Ð */
-                        234,      /* Ê */
-                        203,      /* Ë */
-                        200,      /* È */
-                        305,      /* ı */
-                        205,      /* Í */
-                        206,      /* Î */
-                        207,      /* Ï */
-                        9496,     /* ┘ */
-                        9484,     /* ┌ */
-                        9608,     /* █ */
-                        9604,     /* ▄ */
-                        166,      /* ¦ */
-                        204,      /* Ì */
-                        9600,     /* ▀ */
-                        211,      /* Ó */
-                        223,      /* ß */
-                        212,      /* Ô */
-                        210,      /* Ò */
-                        213,      /* õ */
-                        213,      /* Õ */
-                        181,      /* µ */
-                        222,      /* þ */
-                        222,      /* Þ */
-                        218,      /* Ú */
-                        219,      /* Û */
-                        217,      /* Ù */
-                        221,      /* ý */
-                        221,      /* Ý */
-                        175,      /* ¯ */
-                        180,      /* ´ */
-                        173,      /* SHY (soft hyphen) */
-                        177,      /* ± */
-                        906,      /* ‗ */
-                        190,      /* ¾ */
-                        182,      /* ¶ */
-                        167,      /* § */
-                        247,      /* ÷ */
-                        184,      /* ¸ */
-                        176,      /* ° */
-                        168,      /* ¨ */
-                        183,      /* · */
-                        185,      /* ¹ */
-                        179,      /* ³ */
-                        178,      /* ² */
-                        9632,     /* ■ */
-                        160       /* NBSP */};
 
 typedef struct {
     FT_Face   face;
@@ -386,7 +126,7 @@ bool load_face(const char *path, uint16_t size, uint8_t n) {
     return true;
 }
 
-int ttf_draw_2(INSTANCE *my, int *params) {
+int ttf_draw(INSTANCE *my, int *params) {
     int error;
     // HACK, HACK, HAAAACK!
     extern int fntcolor32;
@@ -407,11 +147,11 @@ int ttf_draw_2(INSTANCE *my, int *params) {
     FT_Bool use_kerning = FT_HAS_KERNING(faces[0].face);
     FT_UInt previous    = 0;
 
-    FT_Glyph      glyphs[MAX_GLYPHS];   /* glyph image    */
-    FT_Vector     pos   [MAX_GLYPHS];   /* glyph position */
-
     const char *text = string_get(params[1]);
     uint32_t num_chars = strlen(text);
+
+    FT_Glyph      glyphs[num_chars];   /* glyph image    */
+    FT_Vector     pos   [num_chars];   /* glyph position */
 
     for (uint32_t n = 0; n < num_chars; n++) {
         /*
@@ -424,7 +164,7 @@ int ttf_draw_2(INSTANCE *my, int *params) {
          * (We want the "Decimal" column)
          * https://msdn.microsoft.com/en-us/library/cc195064.aspx
          */
-        FT_UInt glyph_index = FT_Get_Char_Index(faces[0].face, utf8codes[(unsigned char)text[n]]);
+        FT_UInt glyph_index = FT_Get_Char_Index(faces[0].face, cp850_to_utf8[(unsigned char)text[n]]);
 
         /* retrieve kerning distance and move pen position */
         if (use_kerning && previous && glyph_index) {
@@ -549,7 +289,7 @@ int print_code(INSTANCE *my, int * params) {
     const char *text = string_get(params[0]);
 
     printf("Got '%s'\n", text);
-    printf("Length: %lu\n\n", strlen(text));
+    printf("Length: %zu\n\n", strlen(text));
     for(int n=0; n<strlen(text); n++) {
         printf("%c ; %d\n", text[n], (unsigned char)text[n]);
     }

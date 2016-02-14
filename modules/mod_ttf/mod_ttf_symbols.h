@@ -27,7 +27,7 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int ttf_draw_2(INSTANCE *my, int * params);
+extern int ttf_draw(INSTANCE *my, int * params);
 extern int print_code(INSTANCE *my, int * params);
 
 extern void __pxtexport( mod_ttf, module_initialize )();
@@ -35,7 +35,7 @@ extern void __pxtexport( mod_ttf, module_finalize )();
 #endif
 
 DLSYSFUNCS __pxtexport( mod_ttf, exported_functions )[] = {
-    FUNC( "TTF_LOAD"                   , "SSI"  , TYPE_DWORD , ttf_draw_2       ),
+    FUNC( "TTF_LOAD"                   , "SSI"  , TYPE_DWORD , ttf_draw       ),
     FUNC( "PRINT_CODE"                 , "S"    , TYPE_DWORD , print_code     ),
     FUNC( NULL                         , NULL   , 0          , NULL           )
 };

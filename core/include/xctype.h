@@ -27,7 +27,8 @@
  *
  */
 
-#include <xctype_st.h>
+#include <stdint.h>
+#include "xctype_st.h"
 
 extern int dos_chars; /* 1 = MS-DOS charset source code */
 extern char c_type[256];

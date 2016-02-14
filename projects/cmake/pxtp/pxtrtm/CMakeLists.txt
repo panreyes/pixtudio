@@ -25,6 +25,8 @@ set(SOURCE_FILES
   ${pxtrtm_SOURCE_DIR}/../../../../core/include/pxtcore.h
   ${pxtrtm_SOURCE_DIR}/../../../../core/include/pxtdl.h
   ${pxtrtm_SOURCE_DIR}/../../../../core/include/sysprocs.h
+  ${pxtrtm_SOURCE_DIR}/../../../../core/include/xctype.h
+  ${pxtrtm_SOURCE_DIR}/../../../../core/include/xctype_st.h
   ${pxtrtm_SOURCE_DIR}/../../../../core/pxtrtm/include/pxtrtm.h
   ${pxtrtm_SOURCE_DIR}/../../../../core/pxtrtm/include/sysprocs_p.h
   ${pxtrtm_SOURCE_DIR}/../../../../core/pxtrtm/src/copy.c

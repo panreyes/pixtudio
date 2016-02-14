@@ -508,28 +508,28 @@ static void get_token() {
     /* Numbers */
 
     if (ISNUM(*token_ptr)) {
-        const char *ptr;
+        const char *pointer;
         double num = 0, dec;
         int base   = 10;
 
         /* Hex/Bin/Octal numbers with the h/b/o sufix */
-        ptr = token_ptr;
-        while (ISNUM(*ptr) || (*ptr >= 'a' && *ptr <= 'f') || (*ptr >= 'A' && *ptr <= 'F')) {
-            ptr++;
+        pointer = token_ptr;
+        while (ISNUM(*pointer) || (*pointer >= 'a' && *pointer <= 'f') || (*pointer >= 'A' && *pointer <= 'F')) {
+            pointer++;
         }
 
-        if (*ptr != 'h' && *ptr != 'H' && *ptr != 'o' && *ptr != 'O' &&
-            (ptr[-1] == 'b' || ptr[-1] == 'B')) {
-            ptr--;
+        if (*pointer != 'h' && *pointer != 'H' && *pointer != 'o' && *pointer != 'O' &&
+            (pointer[-1] == 'b' || pointer[-1] == 'B')) {
+            pointer--;
         }
 
-        if (*ptr == 'b' || *ptr == 'B') {
+        if (*pointer == 'b' || *pointer == 'B') {
             base = 2;
         }
-        if (*ptr == 'h' || *ptr == 'H') {
+        if (*pointer == 'h' || *pointer == 'H') {
             base = 16;
         }
-        if (*ptr == 'o' || *ptr == 'O') {
+        if (*pointer == 'o' || *pointer == 'O') {
             base = 8;
         }
 
@@ -1757,10 +1757,10 @@ static void console_do(const char *command) {
 
     if (strcmp(action, "SHOWDEL") == 0) {
         if (*ptr) {
-            char *p = ptr;
+            char *pointer = ptr;
 
-            while (ISNUM(*p)) {
-                p++;
+            while (ISNUM(*pointer)) {
+                pointer++;
             }
 
             if (ISNUM(*ptr)) {
@@ -1820,7 +1820,7 @@ static void console_do(const char *command) {
             *aptr = 0;
 
             if (*action) {
-                int i;
+                int j;
                 INSTANCE *inst;
                 p = procdef_get_by_name(action);
                 if (p) {
@@ -1828,8 +1828,8 @@ static void console_do(const char *command) {
                     console_printf("\033[0m%s", ptr);
                     inst = instance_new(p, NULL);
 
-                    for (i = 0; i < p->params; i++) {
-                        int type = dcb.proc[p->type].privar[i].Type.BaseType[0];
+                    for (j = 0; j < p->params; j++) {
+                        int type = dcb.proc[p->type].privar[j].Type.BaseType[0];
                         get_token();
                         eval_subexpression();
 
@@ -1841,7 +1841,7 @@ static void console_do(const char *command) {
                             case T_CONSTANT:
                                 switch (type) {
                                     case TYPE_FLOAT:
-                                        PRIDWORD(inst, 4 * i) = *(int *)&result.value;
+                                        PRIDWORD(inst, 4 * j) = *(int *)&result.value;
                                         break;
 
                                     case TYPE_INT:
@@ -1852,27 +1852,27 @@ static void console_do(const char *command) {
                                     case TYPE_BYTE:
                                     case TYPE_SBYTE:
                                     case TYPE_CHAR:
-                                        PRIDWORD(inst, 4 * i) = (int)result.value;
+                                        PRIDWORD(inst, 4 * j) = (int)result.value;
                                         break;
 
                                     case TYPE_STRING:
                                     default:
                                         instance_destroy(inst);
                                         console_printf(
-                                            "\033[38;2;192;0;0mInvalid argument %d\033[0m", i);
+                                            "\033[38;2;192;0;0mInvalid argument %d\033[0m", j);
                                         return;
                                 }
                                 break;
 
                             case T_STRING:
-                                PRIDWORD(inst, 4 * i) = (int)string_new(result.name);
-                                string_use(PRIDWORD(inst, 4 * i));
+                                PRIDWORD(inst, 4 * j) = (int)string_new(result.name);
+                                string_use(PRIDWORD(inst, 4 * j));
                                 break;
 
                             case T_VARIABLE:
                             default:
                                 instance_destroy(inst);
-                                console_printf("\033[38;2;192;0;0mInvalid argument %d\033[0m", i);
+                                console_printf("\033[38;2;192;0;0mInvalid argument %d\033[0m", j);
                                 return;
                         }
                     }

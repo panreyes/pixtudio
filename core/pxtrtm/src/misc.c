@@ -212,14 +212,16 @@ void pxtrtm_entry(int argc, char *argv[]) {
  *
  */
 
-void pxtrtm_exit(int exit_value) {
+void pxtrtm_exit(int exit_code) {
     int n;
     /* Finalize all modules */
-    if (module_finalize_count)
-        for (n = 0; n < module_finalize_count; n++)
+    if (module_finalize_count) {
+        for (n = 0; n < module_finalize_count; n++) {
             module_finalize_list[n]();
+        }
+    }
 
-    exit(exit_value);
+    exit(exit_code);
 }
 
 /* --------------------------------------------------------------------------- */

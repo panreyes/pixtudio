@@ -71,16 +71,16 @@ typedef struct {
 
 GRAPH *gr_read_pcx(const char *filename) {
     PCXheader header;
-    file *file;
+    file *fd;
     int width, height, x, y, p, count;
     GRAPH *bitmap;
     uint8_t *ptr, ch;
 
-    file = file_open(filename, "rb");
-    if (!file)
+    fd = file_open(filename, "rb");
+    if (!fd)
         return NULL;
 
-    file_read(file, &header, sizeof(header));
+    file_read(fd, &header, sizeof(header));
 
     /* Arrange the data for big-endian machines */
     ARRANGE_WORD(&header.Xmax);
@@ -99,13 +99,13 @@ GRAPH *gr_read_pcx(const char *filename) {
 
     bitmap = bitmap_new(0, width, height, (header.BitsPerPixel == 8) ? 8 : 16);
     if (!bitmap) {
-        file_close(file);
+        file_close(fd);
         return NULL;
     }
 
     if (width > header.BytesPerLine) {
         bitmap_destroy(bitmap);
-        file_close(file);
+        file_close(fd);
         return NULL;
     }
 
@@ -114,14 +114,14 @@ GRAPH *gr_read_pcx(const char *filename) {
             for (p = 0; p < header.NPlanes; p++) {
                 ptr = (uint8_t *)bitmap->data + bitmap->pitch * y;
                 for (x = 0; x < header.BytesPerLine;) {
-                    if (file_read(file, &ch, 1) < 1) {
+                    if (file_read(fd, &ch, 1) < 1) {
                         bitmap_destroy(bitmap);
-                        file_close(file);
+                        file_close(fd);
                         return NULL;
                     }
                     if ((ch & 0xC0) == 0xC0) {
                         count = (ch & 0x3F);
-                        file_read(file, &ch, 1);
+                        file_read(fd, &ch, 1);
                     } else {
                         count = 1;
                     }
@@ -133,9 +133,9 @@ GRAPH *gr_read_pcx(const char *filename) {
                 }
             }
 
-        if (file_read(file, &ch, 1) == 1 && ch == 0x0c) {
+        if (file_read(fd, &ch, 1) == 1 && ch == 0x0c) {
             uint8_t colors[256 * 3];
-            if (file_read(file, colors, sizeof(colors))) {
+            if (file_read(fd, colors, sizeof(colors))) {
                 bitmap->format->palette = pal_new_rgb((uint8_t *)colors);
                 pal_refresh(bitmap->format->palette);
 
@@ -148,7 +148,7 @@ GRAPH *gr_read_pcx(const char *filename) {
         }
     } else {
         bitmap_destroy(bitmap);
-        file_close(file);
+        file_close(fd);
         return NULL;
     }
 

@@ -168,7 +168,7 @@ static int inline get_distance(int x1, int y1, int r1, int x2, int y2, int r2) {
 static int inline get_distance_xy(INSTANCE *a, int x2, int y2, int r2) {
     if (a) {
         int x1, y1;
-        int res = LOCINT32(mod_grproc, a, RESOLUTION);
+        int resolution = LOCINT32(mod_grproc, a, RESOLUTION);
 
         x1 = LOCINT32(mod_grproc, a, COORDX);
         y1 = LOCINT32(mod_grproc, a, COORDY);
@@ -180,10 +180,11 @@ static int inline get_distance_xy(INSTANCE *a, int x2, int y2, int r2) {
         double dx = (x2 - x1) * (x2 - x1);
         double dy = (y2 - y1) * (y2 - y1);
 
-        if (res > 0)
-            return (int)sqrt(dx + dy) * res;
-        else if (res < 0)
-            return (int)sqrt(dx + dy) / -res;
+        if (resolution > 0) {
+            return (int)sqrt(dx + dy) * resolution;
+        } else if (resolution < 0) {
+            return (int)sqrt(dx + dy) / -resolution;
+        }
 
         return (int)sqrt(dx + dy);
     }

@@ -200,41 +200,41 @@ GRAPH *gr_read_png(const char *filename) {
 
         if (depth == 4) {
             for (n = 0; n < height; n++) {
-                char *orig, *dest;
-                orig = (char *)(rowpointers[n]);
-                dest = orig + width - 1;
-                orig += (width - 1) / 2;
+                char *origin, *dest;
+                origin = (char *)(rowpointers[n]);
+                dest = origin + width - 1;
+                origin += (width - 1) / 2;
 
                 for (x = width; x--;) {
-                    *dest-- = (*orig >> (((1 - (x & 0x01)) << 2))) & 0x0F;
+                    *dest-- = (*origin >> (((1 - (x & 0x01)) << 2))) & 0x0F;
                     if (!(x & 0x01))
-                        orig--;
+                        origin--;
                 }
             }
         } else if (depth == 2) {
             for (n = 0; n < height; n++) {
-                char *orig, *dest;
-                orig = (char *)rowpointers[n];
-                dest = orig + width - 1;
-                orig += (width - 1) / 4;
+                char *origin, *dest;
+                origin = (char *)rowpointers[n];
+                dest = origin + width - 1;
+                origin += (width - 1) / 4;
 
                 for (x = width; x--;) {
-                    *dest-- = (*orig >> (((3 - (x & 0x03)) << 1))) & 0x03;
+                    *dest-- = (*origin >> (((3 - (x & 0x03)) << 1))) & 0x03;
                     if (!(x & 0x03))
-                        orig--;
+                        origin--;
                 }
             }
         } else if (depth == 1) {
             for (n = 0; n < height; n++) {
-                char *orig, *dest;
-                orig = (char *)rowpointers[n];
-                dest = orig + width - 1;
-                orig += (width - 1) / 8;
+                char *origin, *dest;
+                origin = (char *)rowpointers[n];
+                dest = origin + width - 1;
+                origin += (width - 1) / 8;
 
                 for (x = width; x--;) {
-                    *dest-- = (*orig >> (7 - (x & 0x07))) & 0x01;
+                    *dest-- = (*origin >> (7 - (x & 0x07))) & 0x01;
                     if (!(x & 0x07))
-                        orig--;
+                        origin--;
                 }
             }
         }
@@ -338,10 +338,11 @@ GRAPH *gr_read_png(const char *filename) {
  */
 
 int gr_save_png(GRAPH *gr, const char *filename) {
-    if (!gr)
+    if (!gr) {
         return (0);
+    }
 
-    FILE *file = fopen(filename, "wb");
+    FILE *fd = fopen(filename, "wb");
     png_structp png_ptr;
     png_infop info_ptr;
     int k, i;
@@ -352,19 +353,20 @@ int gr_save_png(GRAPH *gr, const char *filename) {
     uint32_t *orig32;
     rgb_component *gpal = NULL;
 
-    if (!file)
+    if (!fd) {
         return (0);
+    }
 
     rowpointers = malloc(sizeof(png_bytep) * gr->height);
     if (!rowpointers) {
-        fclose(file);
+        fclose(fd);
         return 0;
     }
 
     png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
     if (!png_ptr) {
         free(rowpointers);
-        fclose(file);
+        fclose(fd);
         return (0);
     }
 
@@ -372,7 +374,7 @@ int gr_save_png(GRAPH *gr, const char *filename) {
     if (!info_ptr) {
         png_destroy_write_struct(&png_ptr, NULL);
         free(rowpointers);
-        fclose(file);
+        fclose(fd);
         return (0);
     }
 
@@ -381,11 +383,11 @@ int gr_save_png(GRAPH *gr, const char *filename) {
     if (setjmp(png_jmpbuf(png_ptr))) {
         png_destroy_write_struct(&png_ptr, NULL);
         free(rowpointers);
-        fclose(file);
+        fclose(fd);
         return (0);
     }
 
-    png_init_io(png_ptr, file);
+    png_init_io(png_ptr, fd);
 
     if (gr->format->depth == 1) {
         png_set_IHDR(png_ptr, info_ptr, gr->width, gr->height, 1, PNG_COLOR_TYPE_GRAY,
@@ -418,7 +420,7 @@ int gr_save_png(GRAPH *gr, const char *filename) {
         if (!pal) {
             png_destroy_write_struct(&png_ptr, NULL);
             free(rowpointers);
-            fclose(file);
+            fclose(fd);
             return (0);
         }
 
@@ -456,7 +458,7 @@ int gr_save_png(GRAPH *gr, const char *filename) {
         if (!data) {
             png_destroy_write_struct(&png_ptr, NULL);
             free(rowpointers);
-            fclose(file);
+            fclose(fd);
             return (0);
         }
 
@@ -502,7 +504,7 @@ int gr_save_png(GRAPH *gr, const char *filename) {
     png_write_end(png_ptr, info_ptr);
     png_destroy_write_struct(&png_ptr, NULL);
     free(rowpointers);
-    fclose(file);
+    fclose(fd);
     return (1);
 }
 

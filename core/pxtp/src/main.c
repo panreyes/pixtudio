@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
     char *filename = NULL, dcbname[__MAX_PATH], *ptr;
     int i, j, ret  = -1;
     file *fp       = NULL;
-    dcb_signature dcb_signature;
+    dcb_signature signature;
 
     /* get my executable name */
     ptr = argv[0] + strlen(argv[0]);
@@ -119,11 +119,11 @@ int main(int argc, char *argv[]) {
         /* Hand-made interpreter: search for DCB at EOF */
         fp = file_open(argv[0], "rb0");
         if (fp) {
-            file_seek(fp, -(int)sizeof(dcb_signature), SEEK_END);
-            file_read(fp, &dcb_signature, sizeof(dcb_signature));
+            file_seek(fp, -(int)sizeof(signature), SEEK_END);
+            file_read(fp, &signature, sizeof(signature));
 
-            if (strcmp(dcb_signature.magic, DCB_STUB_MAGIC) == 0) {
-                ARRANGE_DWORD(&dcb_signature.dcb_offset);
+            if (strcmp(signature.magic, DCB_STUB_MAGIC) == 0) {
+                ARRANGE_DWORD(&signature.dcb_offset);
                 embedded = 1;
             }
         }
@@ -244,7 +244,7 @@ int main(int argc, char *argv[]) {
             }
         }
     } else {
-        dcb_load_from(fp, dcbname, dcb_signature.dcb_offset);
+        dcb_load_from(fp, dcbname, signature.dcb_offset);
     }
 
     /* If the dcb is not in debug mode, deactivate it */
