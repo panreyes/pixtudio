@@ -120,20 +120,23 @@ GRAPH *bitmap_new_ex(int code, int w, int h, int depth, void *data, int pitch) {
     int wb;
     Uint32 format;
 
-    if (w < 1 || h < 1)
+    if (w < 1 || h < 1) {
         return NULL;
+    }
 
     /* Create and fill the struct */
 
     gr = (GRAPH *)malloc(sizeof(GRAPH));
-    if (!gr)
+    if (!gr) {
         return NULL; // sin memoria
+    }
 
     /* Calculate the row size (dword-aligned) */
 
     wb = w * depth / 8;
-    if ((wb * 8 / depth) < w)
+    if ((wb * 8 / depth) < w) {
         wb++;
+    }
 
     gr->data       = data;
     gr->texture    = NULL;
