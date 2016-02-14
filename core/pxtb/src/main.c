@@ -173,13 +173,13 @@ int main(int argc, char *argv[]) {
     strcpy(_tmp, VERSION);
     d  = strchr(_tmp, '.');
     *d = '\0';
-    add_simple_define("__BGD__", _tmp);
+    add_simple_define("__PXT__", _tmp);
     d1 = d + 1;
     d  = strchr(d1, '.');
     *d = '\0';
-    add_simple_define("__BGD_MINOR__", d1);
+    add_simple_define("__PXT_MINOR__", d1);
     d1 = d + 1;
-    add_simple_define("__BGD_PATCHLEVEL__", d1);
+    add_simple_define("__PXT_PATCHLEVEL__", d1);
 
     memset(&dcb, 0, sizeof(dcb));
 
@@ -198,6 +198,11 @@ int main(int argc, char *argv[]) {
             if (!strcmp(argv[i], "--libmode")) {
                 libmode = 1;
                 continue;
+            }
+
+            if (!strcmp(argv[i], "--credits")) {
+                printf(MSG_LICENSE);
+                exit(0);
             }
 
             j = 1;

@@ -47,16 +47,24 @@
     "   -l lang         Specify locale settings\n"                                                 \
     "   -s stub         Generate a stubbed executable from the given stub\n"                       \
     "   -g              Stores debugging information at the DCB\n"                                 \
-    "   -c              File uses the MS-DOS character set\n"                                      \
+    "   -c              File uses the CP850 (MS-DOS) character set\n"                              \
     "   -D macro=text   Set a macro\n"                                                             \
     "   -p|--pedantic   Don't use automatic declare\n"                                             \
     "   --libmode       Build a library\n"                                                         \
+    "   --credits       Show credit information and quit\n"                                        \
     "   -L library      Include a library\n"                                                       \
     "   -C options      Specify compiler options\n"                                                \
     "                   Where options are:\n"                                                      \
     "                   a    Enable automatic declare functions\n"                                 \
     "\n"
 #define MSG_LICENSE                                                                                \
+    "PixTudio is OSS brought to you thanks to the work of many people\n"                           \
+    "Its main contributors are listed below:\n"                                                    \
+    "  Copyright (C) 2009-2016 Joseba García Etxebarria (PixTudio/BennuGD)\n"                      \
+    "  Copyright (C) 2006-2012 SplinterGU (Fenix/BennuGD)\n"                                       \
+    "  Copyright (C) 2002-2006 Fenix Team (Fenix)\n"                                               \
+    "  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)\n\n"                                \
+    "PixTudio comes with ABSOLUTELY NO WARRANTY\n\n"                                               \
     "This software is provided 'as-is', without any express or implied\n"                          \
     "warranty. In no event will the authors be held liable for any damages\n"                      \
     "arising from the use of this software.\n"                                                     \
