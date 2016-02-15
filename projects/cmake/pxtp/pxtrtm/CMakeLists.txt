@@ -21,6 +21,7 @@ set(SOURCE_FILES
   ${pxtrtm_SOURCE_DIR}/../../../../core/common/xctype.c
   ${pxtrtm_SOURCE_DIR}/../../../../core/include/commons_defs.h
   ${pxtrtm_SOURCE_DIR}/../../../../core/include/dcb.h
+  ${pxtrtm_SOURCE_DIR}/../../../../core/include/loadlib.h
   ${pxtrtm_SOURCE_DIR}/../../../../core/include/monolithic_includes.h
   ${pxtrtm_SOURCE_DIR}/../../../../core/include/pxtcore.h
   ${pxtrtm_SOURCE_DIR}/../../../../core/include/pxtdl.h
