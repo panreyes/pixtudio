@@ -23,7 +23,7 @@ BEGIN
     set_mode(1920, 1088);
     set_fps(60, 0);
 
-    font = fnt_load("font.fnt");
+    font = fnt_load("fnt/font.fnt");
     if((graph = video_play("sintel_trailer-1080p.ogv")) == -1)
         say("Sorry, I couldn't play your video :(");
         exit();
