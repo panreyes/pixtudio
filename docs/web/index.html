@@ -223,6 +223,12 @@
             Android SDK installation dir.
         </p>
         <p>
+            If you want to install your game into a real Android device, be sure to
+            <a href="http://developer.android.com/tools/device.html">enable
+            USB debugging</a> during your development session and connect your device
+            to your computer with a USB cable.
+        </p>
+        <p>
             Open a command line in the main PixTudio source code folder. Then do:
         </p>
         <ul>
@@ -231,12 +237,24 @@
                 <code>cd projects/android</code>
             </li>
             <li>
-                Compile the C source code:
+                If you're using the Windows cmd.exe console, compile the C source code with:
+                <code>ndk-build.cmd</code>
+                Otherwise, compile it with:
                 <code>ndk-build</code>
             </li>
             <li>
-                Compile the Java source code:
-                <code>ant debug build</code>
+                Copy your game's resources into the "assets" folder and make sure to name
+                the main DCB file (compiled with a desktop version of PixTudio) "main.dcb".<br/>
+                Typically, PixTudio resource files (FPG, MAP &amp; FNT files) will actually be
+                compressed in gzip format. PixTudio for Android cannot read compressed files
+                from within APK files, so make sure that they are uncompressed.
+            </li>
+            <li>
+                Compile the libraries, assets &amp; Java code into an APK.
+                <code>ant debug</code>
+                Or compile the libraries, assets &amp; Java code into an APK and install it in
+                an attached Android device or emulator.
+                <code>ant debug install</code>
             </li>
         </ul>
 
