@@ -47,7 +47,7 @@ typedef struct _chardata {
 } _chardata;
 
 static int gr_font_loadfrom(file *fp);
-static int gr_font_vector_loadfrom(file *fp);
+static int gr_font_ttf_loadfrom(file *fp);
 
 /* --------------------------------------------------------------------------- */
 /*
@@ -245,7 +245,7 @@ static int gr_font_loadfrom(file *fp) {
 
 /* --------------------------------------------------------------------------- */
 /*
- *  FUNCTION : gr_font_vector_load
+ *  FUNCTION : gr_font_ttf_load
  *
  *  Load a vector font from a given file, in a format FreeType understands
  *
@@ -257,7 +257,7 @@ static int gr_font_loadfrom(file *fp) {
  *
  */
 
-int gr_font_vector_load(char *filename) {
+int gr_font_ttf_load(char *filename) {
     file *fp;
     int result;
 
@@ -270,7 +270,7 @@ int gr_font_vector_load(char *filename) {
         return -1;
     }
 
-    result = gr_font_vector_loadfrom(fp);
+    result = gr_font_ttf_loadfrom(fp);
 
     file_close(fp);
 
@@ -279,7 +279,66 @@ int gr_font_vector_load(char *filename) {
 
 /* --------------------------------------------------------------------------- */
 
-static int gr_font_vector_loadfrom(file *fp) {
+static int render_glyphs(int fontid) {
+    // Find a pointer to the font object
+    FONT *font = gr_font_get(fontid);
+
+    if(!font) {
+        return -1;
+    }
+
+    // Pre-render all tha glyph graphs
+    for (uint16_t charcode = 0; charcode < 256; charcode++) {
+        // Is there a previous graph? -> unload it
+        if(font->glyph[charcode].bitmap) {
+            bitmap_destroy(font->glyph[charcode].bitmap);
+        }
+
+        // Get the font face index for CP850 character n
+        FT_UInt glyph_index = FT_Get_Char_Index(font->face, cp850_to_utf8[charcode]);
+
+        // load glyph image into the slot without rendering
+        int error = FT_Load_Glyph(font->face, glyph_index, FT_LOAD_TARGET_LIGHT | FT_LOAD_RENDER);
+        if (error) {
+            continue;
+        }
+
+        // Store the font metrics
+        font->glyph[charcode].xadvance = font->face->glyph->advance.x >> 6;
+        font->glyph[charcode].yadvance = font->face->glyph->advance.y >> 6;
+        font->glyph[charcode].xoffset  = font->face->glyph->bitmap_left;
+        font->glyph[charcode].yoffset  = font->face->glyph->bitmap_top;
+
+        // Create a 8bpp graph for the glyph image, which
+        if(font->face->glyph->bitmap.width > 0 && font->face->glyph->bitmap.rows > 0) {
+            font->glyph[charcode].bitmap = bitmap_new(charcode,
+                                                      font->face->glyph->bitmap.width,
+                                                      font->face->glyph->bitmap.rows,
+                                                      8);
+            bitmap_add_cpoint(font->glyph[charcode].bitmap, 0, 0);
+            // Store the contents of the glyph bitmap
+            uint8_t *graph_pos;
+            uint8_t *alpha_pos;
+
+            for(uint32_t y = 0; y < font->face->glyph->bitmap.rows; y++) {
+                for(uint32_t x = 0; x < font->face->glyph->bitmap.width; x++) {
+                    graph_pos = ((uint8_t *)font->glyph[charcode].bitmap->data) + font->glyph[charcode].bitmap->pitch * y + x;
+                    alpha_pos = ((uint8_t *)font->face->glyph->bitmap.buffer) + font->face->glyph->bitmap.pitch * y + x;
+                    *graph_pos = *alpha_pos;
+                }
+            }
+        } else {
+            // Mark the GRAPH pointer empty so that we don't use it
+            font->glyph[charcode].bitmap = NULL;
+        }
+    }
+
+    return -1;
+}
+
+/* --------------------------------------------------------------------------- */
+
+static int gr_font_ttf_loadfrom(file *fp) {
     // Read the file size
     int fsize = file_size(fp);
     if(fsize <= 0) {
@@ -301,8 +360,8 @@ static int gr_font_vector_loadfrom(file *fp) {
     file_close(fp);
 
     // Create the font face and perform some basic checks
-    int fontid = gr_font_new(CHARSET_CP850, 32, FONT_TYPE_VECTOR);
-    FT_Face face = gr_font_get(fontid)->face;
+    int fontid = gr_font_new(CHARSET_UTF8, 32, FONT_TYPE_VECTOR);
+    FT_Face face = fonts[fontid]->face;
     int error = FT_New_Memory_Face(font_library, (const FT_Byte*)data, read, 0, &face);
     if(error) {
         if(debug) {
@@ -341,6 +400,9 @@ static int gr_font_vector_loadfrom(file *fp) {
         gr_font_destroy(fontid);
         return -1;
     }
+
+    // Store the glyph bitmaps
+    render_glyphs(fontid);
 
     return fontid;
 }

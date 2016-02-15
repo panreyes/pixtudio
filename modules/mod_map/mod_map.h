@@ -102,7 +102,7 @@ extern PALETTE *gr_read_pal(file *fp);
 extern PALETTE *gr_read_pal_with_gamma(file *fp);
 
 extern int gr_font_load(char *filename);
-extern int gr_font_vector_load(char *filename);
+extern int gr_font_ttf_load(char *filename);
 extern int gr_load_bdf(const char *filename);
 extern int gr_font_save(int fontid, const char *filename);
 

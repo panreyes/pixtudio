@@ -608,7 +608,7 @@ int modmap_load_fnt(INSTANCE *my, int *params) {
  */
 
 int modmap_load_ttf(INSTANCE *my, int *params) {
-    int r = gr_font_vector_load((char *)string_get(params[0]));
+    int r = gr_font_ttf_load((char *)string_get(params[0]));
     string_discard(params[0]);
     return r;
 }
@@ -766,11 +766,11 @@ int modmap_set_glyph(INSTANCE *my, int *params) {
 }
 
 /* --------------------------------------------------------------------------- */
-/** FNT_SET_SIZE (FONT, SIZE)
+/** TTF_SET_SIZE (FONT, SIZE)
  *  Set the size of a vector font (in pixels)
  */
 
-int modmap_set_fnt_size(INSTANCE *my, int *params) {
+int modmap_set_ttf_size(INSTANCE *my, int *params) {
     FONT *font = gr_font_get(params[0]);
 
     if(!font || font->type != FONT_TYPE_VECTOR) {

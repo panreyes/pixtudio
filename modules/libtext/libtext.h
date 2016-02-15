@@ -87,8 +87,8 @@ extern void gr_text_move(int textid, int x, int y);
 extern void gr_text_move2(int textid, int x, int y, int z);
 extern void gr_text_destroy(int textid);
 extern int gr_text_margintop(int fontid, const unsigned char *text);
-extern int gr_text_width(int fontid, const unsigned char *text);
-extern int gr_text_widthn(int fontid, const unsigned char *text, int n);
+extern uint32_t gr_text_width(int fontid, const unsigned char *text);
+extern uint32_t gr_text_widthn(int fontid, const unsigned char *text, int n);
 extern int gr_text_height(int fontid, const unsigned char *text);
 extern int gr_text_put(GRAPH *dest, REGION *region, int fontid, int x, int y,
                        const unsigned char *text);

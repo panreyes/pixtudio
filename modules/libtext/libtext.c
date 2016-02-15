@@ -71,17 +71,17 @@ typedef struct _text {
     int color32;
     int objectid;
     int last_value;
-    char *text;      /* Memoria dinámica */
+    char *text;      /* Dynamic memory */
     const void *var; /* CHANGED TO VOID to allow diff. data types */
     int last_z;
     int last_color8;
     int last_color16;
     int last_color32;
-    /* Internals, for speed up */
+    /* Internals, for speedup */
     int _x;
     int _y;
-    int _width;
-    int _height;
+    uint32_t _width;
+    uint32_t _height;
 } TEXT;
 
 TEXT texts[MAX_TEXTS];
@@ -92,11 +92,12 @@ int text_count  = 0;
 /* --------------------------------------------------------------------------- */
 
 int gr_text_height_no_margin(int fontid, const unsigned char *text);
-int gr_text_widthn(int fontid, const unsigned char *text, int n);
+uint32_t gr_text_widthn(int fontid, const unsigned char *text, int n);
 
 /* --------------------------------------------------------------------------- */
 
-enum { TEXTZ = 0, TEXT_FLAGS };
+enum { TEXTZ = 0,
+       TEXT_FLAGS };
 
 /* --------------------------------------------------------------------------- */
 /* Son las variables que se desea acceder.                           */
@@ -207,19 +208,11 @@ static int info_text(void *ptext, REGION *bbox, int *z, int *drawme) {
 
     // Splinter
     if (!str || !*str) {
-        /*        bbox->x = -2;
-                bbox->y = -2;
-                bbox->x2 = -2;
-                bbox->y2 = -2; */
         return 0;
     }
 
     font = gr_font_get(text->fontid);
     if (!font) {
-        /*        bbox->x = -2;
-                bbox->y = -2;
-                bbox->x2 = -2;
-                bbox->y2 = -2; */
         return 0;
     }
 
@@ -240,10 +233,13 @@ static int info_text(void *ptext, REGION *bbox, int *z, int *drawme) {
         int c;
 
         for (c = 0; c < 256; c++) {
-            if (!font->glyph[c].bitmap)
+            if (!font->glyph[c].bitmap) {
                 continue;
-            if (font->maxheight < (int)font->glyph[c].bitmap->height + font->glyph[c].yoffset)
+            }
+
+            if (font->maxheight < (int)font->glyph[c].bitmap->height + font->glyph[c].yoffset) {
                 font->maxheight = (int)font->glyph[c].bitmap->height + font->glyph[c].yoffset;
+            }
         }
     }
 
@@ -304,23 +300,26 @@ static int info_text(void *ptext, REGION *bbox, int *z, int *drawme) {
         case TEXT_INT:
         case TEXT_DWORD:
         case TEXT_POINTER:
-            if (text->last_value == *(int *)text->var)
+            if (text->last_value == *(int *)text->var) {
                 return changed;
+            }
             text->last_value = *(int *)text->var;
             return 1;
 
         case TEXT_BYTE:
         case TEXT_SBYTE:
         case TEXT_CHAR:
-            if (text->last_value == *(uint8_t *)text->var)
+            if (text->last_value == *(uint8_t *)text->var) {
                 return changed;
+            }
             text->last_value = *(uint8_t *)text->var;
             return 1;
 
         case TEXT_WORD:
         case TEXT_SHORT:
-            if (text->last_value == *(uint16_t *)text->var)
+            if (text->last_value == *(uint16_t *)text->var) {
                 return changed;
+            }
             text->last_value = *(uint16_t *)text->var;
             return 1;
 
@@ -533,20 +532,23 @@ void gr_text_destroy(int textid) {
 
 /* --------------------------------------------------------------------------- */
 
-int gr_text_width(int fontid, const unsigned char *text) {
+uint32_t gr_text_width(int fontid, const unsigned char *text) {
     return gr_text_widthn(fontid, text, strlen((char *)text));
 }
 
 /* --------------------------------------------------------------------------- */
 
-int gr_text_widthn(int fontid, const unsigned char *text, int n) {
+uint32_t gr_text_widthn(int fontid, const unsigned char *text, int n) {
     int l = 0;
     FONT *f;
+    FT_UInt glyph_index = 0, previous = 0;
 
-    if (!text || !*text)
+    if (!text || !*text) {
         return 0;
-    if (fontid < 0 || fontid >= MAX_FONTS || !fonts[fontid])
+    }
+    if (fontid < 0 || fontid >= MAX_FONTS || !fonts[fontid]) {
         return 0; // Incorrect font type
+    }
 
     f = fonts[fontid];
 
@@ -559,9 +561,31 @@ int gr_text_widthn(int fontid, const unsigned char *text, int n) {
             case CHARSET_CP850:
                 l += f->glyph[*text].xadvance;
                 break;
+
+            case CHARSET_UTF8:
+                l += f->glyph[cp850_to_utf8[*text]].xadvance;
+                break;
         }
+
+        // If the font is based on FreeType, we must also consider kerning
+        if(f->type == FONT_TYPE_VECTOR) {
+            glyph_index = FT_Get_Char_Index(f->face, cp850_to_utf8[*text]);
+            if (FT_HAS_KERNING(f->face) && previous && glyph_index) {
+                FT_Vector  delta;
+
+                FT_Get_Kerning(f->face, previous, glyph_index, FT_KERNING_DEFAULT, &delta);
+
+                l += (delta.x >> 6);
+            }
+
+            // Store the previous character
+            previous = glyph_index;
+        }
+
+        // Go to the next character
         text++;
     }
+
     return l;
 }
 
