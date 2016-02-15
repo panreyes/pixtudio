@@ -211,12 +211,13 @@ int grproc_get_dist(INSTANCE *a, int *params) {
 
 int grproc_get_real_point(INSTANCE *my, int *params) {
     GRAPH *b;
-    int x, y, r, centerx, centery, px = 0, py = 0, rx = 0, ry = 0;
+    int x, y, centerx, centery, px = 0, py = 0, rx = 0, ry = 0;
     int _angle = 0, angle = 0;
 
     b = instance_graph(my);
-    if (!b)
+    if (!b) {
         return 0;
+    }
 
     /* Point 0 is the graphic center, but it may be not defined */
     if (params[0] == 0 && (b->ncpoints == 0 || b->cpoints[0].x == CPOINT_UNDEFINED)) {
@@ -231,10 +232,6 @@ int grproc_get_real_point(INSTANCE *my, int *params) {
 
     if (b->cpoints[params[0]].x == CPOINT_UNDEFINED && b->cpoints[params[0]].y == CPOINT_UNDEFINED)
         return 0;
-
-    r = LOCINT32(mod_grproc, my, REGIONID);
-    if (r < 0 || r > 31)
-        r = 0;
 
     if (b->cpoints[0].x != CPOINT_UNDEFINED && b->cpoints[0].y != CPOINT_UNDEFINED) {
         centerx = b->cpoints[0].x;
