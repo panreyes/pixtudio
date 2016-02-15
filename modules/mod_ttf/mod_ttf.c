@@ -51,10 +51,10 @@ typedef struct {
     FT_Face   face;
     bool      loaded;
     GRAPH    *gr_glyph[256];
-    uint32_t  advance_x[256];
-    uint32_t  advance_y[256];
-    uint32_t  left[256];
-    uint32_t  top[256];
+    uint32_t  xadvance[256];
+    uint32_t  yadvance[256];
+    uint32_t  xoffset[256];
+    uint32_t  yoffset[256];
 } FONTFACE;
 
 FONTFACE faces[MAX_FACES];
@@ -81,10 +81,10 @@ bool preload_glyphs(int n) {
         }
 
         // Store the font metrics
-        faces[n].advance_x[charcode] = faces[n].face->glyph->advance.x >> 6;
-        faces[n].advance_y[charcode] = faces[n].face->glyph->advance.y >> 6;
-        faces[n].left[charcode]      = faces[n].face->glyph->bitmap_left;
-        faces[n].top[charcode]       = faces[n].face->glyph->bitmap_top;
+        faces[n].xadvance[charcode] = faces[n].face->glyph->advance.x >> 6;
+        faces[n].yadvance[charcode] = faces[n].face->glyph->advance.y >> 6;
+        faces[n].xoffset[charcode]      = faces[n].face->glyph->bitmap_left;
+        faces[n].yoffset[charcode]       = faces[n].face->glyph->bitmap_top;
 
         // Create a 8bpp graph for the glyph image, which
         if(faces[n].face->glyph->bitmap.width > 0 && faces[n].face->glyph->bitmap.rows > 0) {
@@ -198,17 +198,17 @@ bool get_text_size(const char *text, uint8_t fontid, uint32_t *w, uint32_t *h, i
         code = (unsigned char)text[n];
 
         // Is this glyph bigger than the biggest? -> Store the value
-        if(top_pixel < faces[fontid].top[code]) {
-            top_pixel = faces[fontid].top[code];
+        if(top_pixel < faces[fontid].yoffset[code]) {
+            top_pixel = faces[fontid].yoffset[code];
         }
 
-        if(faces[fontid].gr_glyph[code] && (bottom_pixel > (int32_t)(faces[fontid].top[code] - faces[fontid].gr_glyph[code]->height))) {
-            bottom_pixel = faces[fontid].top[code] - faces[fontid].gr_glyph[code]->height;
+        if(faces[fontid].gr_glyph[code] && (bottom_pixel > (int32_t)(faces[fontid].yoffset[code] - faces[fontid].gr_glyph[code]->height))) {
+            bottom_pixel = faces[fontid].yoffset[code] - faces[fontid].gr_glyph[code]->height;
         }
 
         // Is this glyph deeper than the deepest? -> Store the value
-        if(faces[fontid].gr_glyph[code] && (faces[fontid].gr_glyph[code]->height - faces[fontid].top[code]) > *baseline_y) {
-            *baseline_y = faces[fontid].gr_glyph[code]->height - faces[fontid].top[code];
+        if(faces[fontid].gr_glyph[code] && (faces[fontid].gr_glyph[code]->height - faces[fontid].yoffset[code]) > *baseline_y) {
+            *baseline_y = faces[fontid].gr_glyph[code]->height - faces[fontid].yoffset[code];
         }
 
         FT_UInt glyph_index = FT_Get_Char_Index(faces[fontid].face, cp850_to_utf8[(unsigned char)text[n]]);
@@ -223,13 +223,13 @@ bool get_text_size(const char *text, uint8_t fontid, uint32_t *w, uint32_t *h, i
         }
 
         /* increment pen position */
-        *w += faces[fontid].advance_x[code];
+        *w += faces[fontid].xadvance[code];
 
         /* record current glyph index */
         previous = glyph_index;
     }
 
-    *w += faces[fontid].left[code] + faces[fontid].gr_glyph[code]->width;
+    *w += faces[fontid].xoffset[code] + faces[fontid].gr_glyph[code]->width;
     *h  = top_pixel - bottom_pixel;
 
 
@@ -282,7 +282,7 @@ int ttf_draw(INSTANCE *my, int *params) {
         pos[n].y = pen_y;
 
         /* increment pen position */
-        pen_x += faces[0].advance_x[code];
+        pen_x += faces[0].xadvance[code];
 
         /* record current glyph index */
         previous = glyph_index;
@@ -318,8 +318,8 @@ int ttf_draw(INSTANCE *my, int *params) {
         code = (unsigned char)text[n];
 
         if(faces[0].gr_glyph[code]) {
-            int x = pen.x + faces[0].left[code];
-            int y = pen.y + h - faces[0].top[code] - baseline_y;
+            int x = pen.x + faces[0].xoffset[code];
+            int y = pen.y + h - faces[0].yoffset[code] - baseline_y;
             gr_blit(alpha_graph, NULL, x, y, 0,  255,  255,  255, faces[0].gr_glyph[code]);
         }
     }

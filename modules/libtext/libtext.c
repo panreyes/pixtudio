@@ -236,14 +236,14 @@ static int info_text(void *ptext, REGION *bbox, int *z, int *drawme) {
 
     /* Update the font's maxheight (if needed) */
 
-    if (!font->bitmap.maxheight) {
+    if (!font->maxheight) {
         int c;
 
         for (c = 0; c < 256; c++) {
-            if (!font->bitmap.glyph[c].bitmap)
+            if (!font->glyph[c].bitmap)
                 continue;
-            if (font->bitmap.maxheight < (int)font->bitmap.glyph[c].bitmap->height + font->bitmap.glyph[c].yoffset)
-                font->bitmap.maxheight = (int)font->bitmap.glyph[c].bitmap->height + font->bitmap.glyph[c].yoffset;
+            if (font->maxheight < (int)font->glyph[c].bitmap->height + font->glyph[c].yoffset)
+                font->maxheight = (int)font->glyph[c].bitmap->height + font->glyph[c].yoffset;
         }
     }
 
@@ -267,13 +267,13 @@ static int info_text(void *ptext, REGION *bbox, int *z, int *drawme) {
         case ALIGN_CENTER_LEFT:  // 3
         case ALIGN_CENTER:       // 4
         case ALIGN_CENTER_RIGHT: // 5
-            text->_y -= font->bitmap.maxheight / 2;
+            text->_y -= font->maxheight / 2;
             break;
 
         case ALIGN_BOTTOM_LEFT:  // 6
         case ALIGN_BOTTOM:       // 7
         case ALIGN_BOTTOM_RIGHT: // 8
-            text->_y -= font->bitmap.maxheight - 1;
+            text->_y -= font->maxheight - 1;
             break;
     }
 
@@ -551,13 +551,13 @@ int gr_text_widthn(int fontid, const unsigned char *text, int n) {
     f = fonts[fontid];
 
     while (*text && n--) {
-        switch (f->bitmap.charset) {
+        switch (f->charset) {
             case CHARSET_ISO8859:
-                l += f->bitmap.glyph[cp850_to_iso88591[*text]].xadvance;
+                l += f->glyph[cp850_to_iso88591[*text]].xadvance;
                 break;
 
             case CHARSET_CP850:
-                l += f->bitmap.glyph[*text].xadvance;
+                l += f->glyph[*text].xadvance;
                 break;
         }
         text++;
@@ -579,15 +579,15 @@ int gr_text_margintop(int fontid, const unsigned char *text) {
     f = fonts[fontid];
 
     while (*text) {
-        switch (f->bitmap.charset) {
+        switch (f->charset) {
             case CHARSET_ISO8859:
-                if (minyoffset > f->bitmap.glyph[cp850_to_iso88591[*text]].yoffset)
-                    minyoffset = f->bitmap.glyph[cp850_to_iso88591[*text]].yoffset;
+                if (minyoffset > f->glyph[cp850_to_iso88591[*text]].yoffset)
+                    minyoffset = f->glyph[cp850_to_iso88591[*text]].yoffset;
                 break;
 
             case CHARSET_CP850:
-                if (minyoffset > f->bitmap.glyph[*text].yoffset)
-                    minyoffset = f->bitmap.glyph[*text].yoffset;
+                if (minyoffset > f->glyph[*text].yoffset)
+                    minyoffset = f->glyph[*text].yoffset;
                 break;
         }
         text++;
@@ -609,19 +609,19 @@ int gr_text_height_no_margin(int fontid, const unsigned char *text) {
     f = fonts[fontid];
 
     while (*text) {
-        if (f->bitmap.glyph[*text].bitmap) {
-            switch (f->bitmap.charset) {
+        if (f->glyph[*text].bitmap) {
+            switch (f->charset) {
                 case CHARSET_ISO8859:
-                    if (l < f->bitmap.glyph[cp850_to_iso88591[*text]].yoffset +
-                            (int)f->bitmap.glyph[cp850_to_iso88591[*text]].bitmap->height) {
-                        l = f->bitmap.glyph[cp850_to_iso88591[*text]].yoffset +
-                            (int)f->bitmap.glyph[cp850_to_iso88591[*text]].bitmap->height;
+                    if (l < f->glyph[cp850_to_iso88591[*text]].yoffset +
+                            (int)f->glyph[cp850_to_iso88591[*text]].bitmap->height) {
+                        l = f->glyph[cp850_to_iso88591[*text]].yoffset +
+                            (int)f->glyph[cp850_to_iso88591[*text]].bitmap->height;
                     }
                     break;
 
                 case CHARSET_CP850:
-                    if (l < f->bitmap.glyph[*text].yoffset + (int)f->bitmap.glyph[*text].bitmap->height) {
-                        l = f->bitmap.glyph[*text].yoffset + (int)f->bitmap.glyph[*text].bitmap->height;
+                    if (l < f->glyph[*text].yoffset + (int)f->glyph[*text].bitmap->height) {
+                        l = f->glyph[*text].yoffset + (int)f->glyph[*text].bitmap->height;
                     }
                     break;
             }
@@ -676,7 +676,7 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
     }
 
     while (*text) {
-        switch (f->bitmap.charset) {
+        switch (f->charset) {
             case CHARSET_ISO8859:
                 current_char = cp850_to_iso88591[*text];
                 break;
@@ -690,12 +690,12 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
                 break;
         }
 
-        ch = f->bitmap.glyph[current_char].bitmap;
+        ch = f->glyph[current_char].bitmap;
         if (ch) {
-            gr_blit(dest, clip, x + f->bitmap.glyph[current_char].xoffset,
-                    y + f->bitmap.glyph[current_char].yoffset, flags, 255, 255, 255, ch);
+            gr_blit(dest, clip, x + f->glyph[current_char].xoffset,
+                    y + f->glyph[current_char].yoffset, flags, 255, 255, 255, ch);
         }
-        x += f->bitmap.glyph[current_char].xadvance;
+        x += f->glyph[current_char].xadvance;
         text++;
     }
 

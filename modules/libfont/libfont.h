@@ -55,25 +55,20 @@ enum { FONT_TYPE_BITMAP = 0,
 typedef struct _font {
     uint8_t type;
     uint32_t bpp;
+    FT_Face face;
 
-    struct {
-        struct _glyph {
-            GRAPH *bitmap;
-            int xoffset;
-            int yoffset;
-            int xadvance;
-            int yadvance;
-        } glyph[256];
+    struct _glyph {
+        GRAPH *bitmap;
+        int xoffset;
+        int yoffset;
+        int xadvance;
+        int yadvance;
+    } glyph[256];
 
-        int maxheight;
-        int maxwidth;
+    int maxheight;
+    int maxwidth;
 
-        int32_t charset;
-    } bitmap;
-
-    struct {
-        FT_Face face;
-    } vector;
+    int32_t charset;
 } FONT;
 
 /* -------------------------------------------------------------------------- */
