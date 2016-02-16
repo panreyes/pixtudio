@@ -777,10 +777,20 @@ int modmap_set_ttf_size(INSTANCE *my, int *params) {
         return -1;
     }
 
+    // Nothing to do
+    if(font->size == params[0]) {
+        return 0;
+    }
+
     int error = FT_Set_Pixel_Sizes(font->face, params[1], params[1]);
     if(error) {
         return -1;
     }
+
+    font->size = params[1];
+
+    // Cache the new glyphs
+    render_glyphs(params[0]);
 
     return 0;
 }

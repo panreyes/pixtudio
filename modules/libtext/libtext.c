@@ -606,6 +606,11 @@ int32_t gr_text_margintop(int fontid, const unsigned char *text) {
         return 0;
     }
 
+    // Vector and bitmap fonts measure sizes differently
+    if(f->type == FONT_TYPE_VECTOR) {
+        return 0;
+    }
+
     while (*text) {
         switch (f->charset) {
             case CHARSET_ISO8859:
@@ -619,12 +624,6 @@ int32_t gr_text_margintop(int fontid, const unsigned char *text) {
                     minyoffset = f->glyph[*text].yoffset;
                 }
                 break;
-
-            case CHARSET_UTF8:
-                if (minyoffset > f->glyph[cp850_to_utf8[*text]].yoffset) {
-                    minyoffset = f->glyph[cp850_to_utf8[*text]].yoffset;
-                }
-                break;
         }
         text++;
     }
@@ -634,7 +633,7 @@ int32_t gr_text_margintop(int fontid, const unsigned char *text) {
 /* --------------------------------------------------------------------------- */
 
 uint32_t gr_text_height_no_margin(int fontid, const unsigned char *text) {
-    int l = 0;
+    int h = 0;
     FONT *f;
 
     if (!text || !*text) {
@@ -646,46 +645,99 @@ uint32_t gr_text_height_no_margin(int fontid, const unsigned char *text) {
         return 0;
     }
 
-    while (*text) {
-        if (f->glyph[*text].bitmap) {
-            switch (f->charset) {
-                case CHARSET_ISO8859:
-                    if (l < f->glyph[cp850_to_iso88591[*text]].yoffset +
-                            (int)f->glyph[cp850_to_iso88591[*text]].bitmap->height) {
-                        l = f->glyph[cp850_to_iso88591[*text]].yoffset +
-                            (int)f->glyph[cp850_to_iso88591[*text]].bitmap->height;
-                    }
-                    break;
+    if(f->type == FONT_TYPE_BITMAP) {
+        while (*text) {
+            if (f->glyph[*text].bitmap) {
+                switch (f->charset) {
+                    case CHARSET_ISO8859:
+                        if (h < f->glyph[cp850_to_iso88591[*text]].yoffset +
+                                (int)f->glyph[cp850_to_iso88591[*text]].bitmap->height) {
+                            h = f->glyph[cp850_to_iso88591[*text]].yoffset +
+                                (int)f->glyph[cp850_to_iso88591[*text]].bitmap->height;
+                        }
+                        break;
 
-                case CHARSET_CP850:
-                    if (l < f->glyph[*text].yoffset + (int)f->glyph[*text].bitmap->height) {
-                        l = f->glyph[*text].yoffset + (int)f->glyph[*text].bitmap->height;
-                    }
-                    break;
-
-            case CHARSET_UTF8:
-                if (l < f->glyph[cp850_to_utf8[*text]].yoffset +
-                        (int)f->glyph[cp850_to_utf8[*text]].bitmap->height) {
-                    l = f->glyph[cp850_to_utf8[*text]].yoffset +
-                        (int)f->glyph[cp850_to_utf8[*text]].bitmap->height;
+                    case CHARSET_CP850:
+                        if (h < f->glyph[*text].yoffset + (int)f->glyph[*text].bitmap->height) {
+                            h = f->glyph[*text].yoffset + (int)f->glyph[*text].bitmap->height;
+                        }
+                        break;
                 }
-                break;
             }
+            text++;
         }
-        text++;
+    } else if(f->type == FONT_TYPE_VECTOR) {
+        int32_t top_pixel =0, bottom_pixel = 0;
+
+        while (*text) {
+            if (f->glyph[*text].bitmap) {
+                switch (f->charset) {
+                    case CHARSET_UTF8:
+                        // Is this glyph taller than the tallest? -> Store the value
+                        if(top_pixel < f->glyph[cp850_to_utf8[*text]].yoffset) {
+                            top_pixel = f->glyph[cp850_to_utf8[*text]].yoffset;
+                        }
+
+                        // Is this glyph lower than the lowest? -> Store the value
+                        if((bottom_pixel > (int32_t)(f->glyph[cp850_to_utf8[*text]].yoffset - f->glyph[cp850_to_utf8[*text]].bitmap->height))) {
+                            bottom_pixel = f->glyph[cp850_to_utf8[*text]].yoffset - f->glyph[cp850_to_utf8[*text]].bitmap->height;
+                        }
+                        break;
+                }
+            }
+            text++;
+        }
+
+        h = top_pixel - bottom_pixel;
     }
-    return l;
+    return h;
 }
 
 /* --------------------------------------------------------------------------- */
 
 int gr_text_height(int fontid, const unsigned char *text) {
-    int l = gr_text_height_no_margin(fontid, text);
-    if (l) {
-        l -= gr_text_margintop(fontid, text);
+    int h = gr_text_height_no_margin(fontid, text);
+    if (h) {
+        h -= gr_text_margintop(fontid, text);
     }
 
-    return l;
+    return h;
+}
+
+/* --------------------------------------------------------------------------- */
+
+int32_t gr_text_baseline_y(int fontid, const unsigned char *text) {
+    int32_t bottom_pixel = 0;
+    FONT *f;
+
+    if (!text || !*text) {
+        return 0;
+    }
+
+    f = gr_font_get(fontid);
+    if (!f) {
+        return 0;
+    }
+
+    if(f->type == FONT_TYPE_BITMAP) {
+        return 0;
+    } else if(f->type == FONT_TYPE_VECTOR) {
+        while (*text) {
+            if (f->glyph[*text].bitmap) {
+                switch (f->charset) {
+                    case CHARSET_UTF8:
+                        // Is this glyph lower than the lowest? -> Store the value
+                        if((bottom_pixel > (int32_t)(f->glyph[cp850_to_utf8[*text]].yoffset - f->glyph[cp850_to_utf8[*text]].bitmap->height))) {
+                            bottom_pixel = f->glyph[cp850_to_utf8[*text]].yoffset - f->glyph[cp850_to_utf8[*text]].bitmap->height;
+                        }
+
+                        break;
+                }
+            }
+            text++;
+        }
+    }
+    return -bottom_pixel;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -751,21 +803,11 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
         }
     } else if(f->type == FONT_TYPE_VECTOR) {
         FT_UInt glyph_index = 0, previous = 0;
-        GRAPH *alpha_graph = bitmap_new(-1,
-                                        gr_text_width(fontid, text),
-                                        gr_text_height(fontid, text),
-                                        8);
-        if (!alpha_graph) {
-            if(debug) {
-                PXTRTM_LOGERROR("ERROR: Could not create text auxiliary alpha graph\n");
-            }
-            return -1;
-        }
-        gr_clear(alpha_graph);
+        int y0 = y;
 
-        printf("Created GRAPH of size %dx%d\n", alpha_graph->width, alpha_graph->height);
-
-        int32_t _x = 0, _y = 0;
+        // Compute the height of the text
+        uint32_t h = gr_text_height(fontid, text);
+        int32_t baseline_y = gr_text_baseline_y(fontid, text);
 
         while (*text) {
             // Convert the CP850 char into UTF-8
@@ -781,46 +823,43 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
                 FT_Get_Kerning(f->face, previous, glyph_index,
                                FT_KERNING_DEFAULT, &delta);
 
-                _x += (delta.x >> 6);
+                x += (delta.x >> 6);
             }
 
             ch = f->glyph[current_char].bitmap;
             if (ch) {
-                gr_blit(alpha_graph, NULL, _x + f->glyph[current_char].xoffset,
-                        _y + f->glyph[current_char].yoffset, flags, 255, 255, 255, ch);
-//                printf("Blitting to %dx%d\n",
-//                       _x + f->glyph[current_char].xoffset,
-//                       _y + f->glyph[current_char].yoffset);
+                // Create a new 32bpp graph with the same dimensions as the glyph
+                GRAPH *glyph32 = bitmap_new(-1, ch->width, ch->height, 32);
+                bitmap_add_cpoint(glyph32, 0, 0);
+                if (!glyph32) {
+                    if(debug) {
+                        PXTRTM_LOGERROR("ERROR: Could not create text auxiliary alpha graph\n");
+                    }
+                    return -1;
+                }
+                gr_clear_as(glyph32, pixel_color32);
+
+                // Blit the contents of ch as the alpha channel of glyph32
+                for(uint32_t _y = 0; _y < glyph32->height; _y++) {
+                    for(uint32_t _x = 0; _x < glyph32->width; _x++) {
+                        uint8_t *glyph32_pos = ((uint8_t *)glyph32->data) + glyph32->pitch * _y + _x * glyph32->format->depthb + 3;
+                        uint8_t *alpha_pos = ((uint8_t *)ch->data) + ch->pitch * _y + _x * ch->format->depthb;
+                        *glyph32_pos = *alpha_pos;
+                    }
+                }
+
+                // Blit the graph into the destination graphic
+                gr_blit(dest, clip,
+                        x + f->glyph[current_char].xoffset,
+                        y + h - f->glyph[current_char].yoffset - baseline_y,
+                        flags, 255, 255, 255, glyph32);
             }
-            _x += f->glyph[current_char].xadvance;
+            x += f->glyph[current_char].xadvance;
             text++;
 
             // Record current glyph index
             previous = glyph_index;
         }
-
-        GRAPH *graph = bitmap_new(0,
-                                  alpha_graph->width,
-                                  alpha_graph->height,
-                                  32);
-        gr_clear_as(graph, pixel_color32);
-
-        // Set the contents of alpha_graph as the alpha channel for graph
-        uint8_t *graph_pos = graph->data;
-        uint8_t *alpha_pos = graph->data;
-
-        for(_y = 0; _y < graph->height; _y++) {
-            for(_x = 0; _x < graph->width; _x++) {
-                graph_pos = ((uint8_t *)graph->data) + graph->pitch * _y + _x * graph->format->depthb + 3;
-                alpha_pos = ((uint8_t *)alpha_graph->data) + alpha_graph->pitch * _y + _x * alpha_graph->format->depthb;
-                *graph_pos = *alpha_pos;
-            }
-        }
-
-        // Blit graph into dest
-        gr_blit(dest, clip, x, y, flags, 255, 255, 255, ch);
-        bitmap_destroy(graph);
-        bitmap_destroy(alpha_graph);
     }
 
     pixel_color8  = save8;

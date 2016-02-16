@@ -9,19 +9,21 @@ Process main()
 Private
     int fnt;
     int ttf;
-    int graph_ttf;
+    int ttf_size = 30;
+    string fnt_rendering = "Text rendering with a bitmap font";
+    string ttf_text = "Text rendering with Freetype";
 Begin
-    set_mode(800, 600);
+    set_mode(1024, 600);
     fnt = fnt_load("fnt/font.fnt");
-    graph_ttf = modttf_load("/opt/android-sdk/platforms/android-19/data/fonts/Roboto-Regular.ttf",
-                            "Hello, FreeType world!", 20);
-    png_save(0, graph_ttf, "/home/joseba/tmp/mod_ttf.png");
-    // Size should be 199x20
-    ttf = ttf_load("/opt/android-sdk/platforms/android-19/data/fonts/Roboto-Regular.ttf");
-    say(fnt);
-    say(ttf);
-    write(fnt, 400, 300, 4, "Hello, world!");
-    write(ttf, 400, 320, 4, "Hello, FreeType world!");
+    graph = modttf_load("/usr/share/fonts/dejavu/DejaVuSans.ttf",
+                        ttf_text, ttf_size);
+    png_save(0, graph, "/home/joseba/tmp/mod_ttf.png");
+    ttf = ttf_load("/usr/share/fonts/dejavu/DejaVuSans.ttf");
+    ttf_set_size(ttf, ttf_size);
+    write(fnt, 512, 300, 4, fnt_rendering);
+    // Size should be 295x29
+    write(ttf, 512, 320, 1, ttf_text);
+    x = 512; y = 380;
     while(!key(_esc))
         FRAME;
     end

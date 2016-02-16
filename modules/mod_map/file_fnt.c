@@ -258,7 +258,8 @@ static int gr_font_loadfrom(file *fp) {
  *
  */
 
-int gr_font_ttf_load(char *filename) {
+int
+gr_font_ttf_load(char *filename) {
     file *fp;
     int result;
 
@@ -280,7 +281,7 @@ int gr_font_ttf_load(char *filename) {
 
 /* --------------------------------------------------------------------------- */
 
-static int render_glyphs(int fontid) {
+int render_glyphs(int fontid) {
     // Find a pointer to the font object
     FONT *font = gr_font_get(fontid);
 
@@ -316,7 +317,6 @@ static int render_glyphs(int fontid) {
                                                       font->face->glyph->bitmap.width,
                                                       font->face->glyph->bitmap.rows,
                                                       8);
-            bitmap_add_cpoint(font->glyph[charcode].bitmap, 0, 0);
             // Store the contents of the glyph bitmap
             uint8_t *graph_pos;
             uint8_t *alpha_pos;
@@ -394,6 +394,8 @@ static int gr_font_ttf_loadfrom(file *fp) {
         gr_font_destroy(fontid);
         return -1;
     }
+
+    fonts[fontid]->size = 20;
 
     // Store the glyph bitmaps
     render_glyphs(fontid);
