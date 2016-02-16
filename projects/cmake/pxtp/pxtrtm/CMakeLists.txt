@@ -207,8 +207,6 @@ set(SOURCE_FILES
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_time/mod_time_symbols.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_timers/mod_timers.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_timers/mod_timers_symbols.h
-  ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_ttf/mod_ttf.c
-  ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_ttf/mod_ttf_symbols.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_video/mod_video.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_video/mod_video_symbols.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_wm/locale/get_locale.h

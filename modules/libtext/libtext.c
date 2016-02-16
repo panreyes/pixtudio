@@ -803,7 +803,6 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
         }
     } else if(f->type == FONT_TYPE_VECTOR) {
         FT_UInt glyph_index = 0, previous = 0;
-        int y0 = y;
 
         // Compute the height of the text
         uint32_t h = gr_text_height(fontid, text);
