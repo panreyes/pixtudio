@@ -563,10 +563,6 @@ uint32_t gr_text_widthn(int fontid, const unsigned char *text, int n) {
             case CHARSET_CP850:
                 l += f->glyph[*text].xadvance;
                 break;
-
-            case CHARSET_UTF8:
-                l += f->glyph[cp850_to_utf8[*text]].xadvance;
-                break;
         }
 
         // If the font is based on FreeType, we must also consider kerning
@@ -672,15 +668,15 @@ uint32_t gr_text_height_no_margin(int fontid, const unsigned char *text) {
         while (*text) {
             if (f->glyph[*text].bitmap) {
                 switch (f->charset) {
-                    case CHARSET_UTF8:
+                    case CHARSET_CP850:
                         // Is this glyph taller than the tallest? -> Store the value
-                        if(top_pixel < f->glyph[cp850_to_utf8[*text]].yoffset) {
-                            top_pixel = f->glyph[cp850_to_utf8[*text]].yoffset;
+                        if(top_pixel < f->glyph[*text].yoffset) {
+                            top_pixel = f->glyph[*text].yoffset;
                         }
 
                         // Is this glyph lower than the lowest? -> Store the value
-                        if((bottom_pixel > (int32_t)(f->glyph[cp850_to_utf8[*text]].yoffset - f->glyph[cp850_to_utf8[*text]].bitmap->height))) {
-                            bottom_pixel = f->glyph[cp850_to_utf8[*text]].yoffset - f->glyph[cp850_to_utf8[*text]].bitmap->height;
+                        if((bottom_pixel > (int32_t)(f->glyph[*text].yoffset - f->glyph[*text].bitmap->height))) {
+                            bottom_pixel = f->glyph[*text].yoffset - f->glyph[*text].bitmap->height;
                         }
                         break;
                 }
@@ -725,10 +721,10 @@ int32_t gr_text_baseline_y(int fontid, const unsigned char *text) {
         while (*text) {
             if (f->glyph[*text].bitmap) {
                 switch (f->charset) {
-                    case CHARSET_UTF8:
+                    case CHARSET_CP850:
                         // Is this glyph lower than the lowest? -> Store the value
-                        if((bottom_pixel > (int32_t)(f->glyph[cp850_to_utf8[*text]].yoffset - f->glyph[cp850_to_utf8[*text]].bitmap->height))) {
-                            bottom_pixel = f->glyph[cp850_to_utf8[*text]].yoffset - f->glyph[cp850_to_utf8[*text]].bitmap->height;
+                        if((bottom_pixel > (int32_t)(f->glyph[*text].yoffset - f->glyph[*text].bitmap->height))) {
+                            bottom_pixel = (int32_t)(f->glyph[*text].yoffset - f->glyph[*text].bitmap->height);
                         }
 
                         break;
@@ -825,7 +821,7 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
                 x += (delta.x >> 6);
             }
 
-            ch = f->glyph[current_char].bitmap;
+            ch = f->glyph[*text].bitmap;
             if (ch) {
                 // Create a new 32bpp graph with the same dimensions as the glyph
                 GRAPH *glyph32 = bitmap_new(-1, ch->width, ch->height, 32);
@@ -849,11 +845,11 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
 
                 // Blit the graph into the destination graphic
                 gr_blit(dest, clip,
-                        x + f->glyph[current_char].xoffset,
-                        y + h - f->glyph[current_char].yoffset - baseline_y,
+                        x + f->glyph[*text].xoffset,
+                        y + h - f->glyph[*text].yoffset - baseline_y,
                         flags, 255, 255, 255, glyph32);
             }
-            x += f->glyph[current_char].xadvance;
+            x += f->glyph[*text].xadvance;
             text++;
 
             // Record current glyph index

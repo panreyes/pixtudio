@@ -359,7 +359,7 @@ static int gr_font_ttf_loadfrom(file *fp) {
     }
 
     // Create the font face and perform some basic checks
-    int fontid = gr_font_new(CHARSET_UTF8, 32, FONT_TYPE_VECTOR);
+    int fontid = gr_font_new(CHARSET_CP850, 32, FONT_TYPE_VECTOR);
     int error = FT_New_Memory_Face(font_library, (const FT_Byte*)data, read, 0, &(fonts[fontid]->face));
     if(error) {
         if(debug) {
