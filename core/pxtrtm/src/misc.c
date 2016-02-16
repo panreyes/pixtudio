@@ -214,6 +214,7 @@ void pxtrtm_entry(int argc, char *argv[]) {
 
 void pxtrtm_exit(int exit_code) {
     int n;
+
     /* Finalize all modules */
     if (module_finalize_count) {
         for (n = 0; n < module_finalize_count; n++) {

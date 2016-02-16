@@ -454,18 +454,19 @@ void gr_font_destroy(int fontid) {
             return;
         }
 
-        if(fonts[fontid]->type == FONT_TYPE_BITMAP) {
-            for (n = 0; n < MAX_FONTS; n++) {
-                if (fonts[fontid]->glyph[n].bitmap) {
-                    bitmap_destroy(fonts[fontid]->glyph[n].bitmap);
-                }
+        for (n = 0; n < MAX_GLYPHS; n++) {
+            if (fonts[fontid]->glyph[n].bitmap) {
+                bitmap_destroy(fonts[fontid]->glyph[n].bitmap);
             }
-        } else {
+        }
+
+        if(fonts[fontid]->type == FONT_TYPE_VECTOR) {
             FT_Done_Face(fonts[fontid]->face);
         }
 
         free(fonts[fontid]);
         fonts[fontid] = NULL;
+
         while (font_count > 0 && fonts[font_count - 1] == 0) {
             font_count--;
         }

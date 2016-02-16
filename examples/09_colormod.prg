@@ -22,16 +22,16 @@ Private
     int state=0;
 
 BEGIN
-    set_mode(1600, 1200);
+    set_mode(800, 600);
     set_fps(60, 0);
 
     mouse.graph = png_load("png/ball_opaque.png");
 
-    graphid = png_load("png/image.png");
+    graphid = png_load("png/logo.png");
 
     pid = collisioner(graphid, 255, 255, 255);
-    pid.x = 1600/2;
-    pid.y = 1200/2;
+    pid.x = 800/2;
+    pid.y = 600/2;
 
     WHILE (NOT key(_esc))
         if(key(_right) && timer[0] > t0+50)

@@ -439,8 +439,9 @@ void sysproc_init() {
             spath++;
         }
 
-        if (!library)
+        if (!library) {
             library = dlibopen(filename);
+        }
 
         if (!library) {
             PXTRTM_LOGERROR("FATAL ERROR: Couldn't open library \"%s\", quitting. \"%s\"\n", filename,

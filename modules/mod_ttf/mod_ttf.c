@@ -229,7 +229,7 @@ bool get_text_size(const char *text, uint8_t fontid, uint32_t *w, uint32_t *h, i
         previous = glyph_index;
     }
 
-    *w += faces[fontid].xoffset[code] + faces[fontid].gr_glyph[code]->width;
+//    *w += faces[fontid].xoffset[code] + faces[fontid].gr_glyph[code]->width;
     *h  = top_pixel - bottom_pixel;
 
 

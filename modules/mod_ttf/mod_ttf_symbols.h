@@ -35,7 +35,7 @@ extern void __pxtexport( mod_ttf, module_finalize )();
 #endif
 
 DLSYSFUNCS __pxtexport( mod_ttf, exported_functions )[] = {
-    FUNC( "TTF_LOAD"                   , "SSI"  , TYPE_DWORD , ttf_draw       ),
+    FUNC( "MODTTF_LOAD"                , "SSI"  , TYPE_DWORD , ttf_draw       ),
     FUNC( "PRINT_CODE"                 , "S"    , TYPE_DWORD , print_code     ),
     FUNC( NULL                         , NULL   , 0          , NULL           )
 };

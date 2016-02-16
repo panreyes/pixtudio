@@ -37,6 +37,7 @@
 /* -------------------------------------------------------------------------- */
 
 #define MAX_FONTS 256
+#define MAX_GLYPHS 256
 
 #define NFB_FIXEDWIDTH 1
 
@@ -64,7 +65,7 @@ typedef struct _font {
         int yoffset;
         int xadvance;
         int yadvance;
-    } glyph[256];
+    } glyph[MAX_GLYPHS];
 
     int maxheight;
     int maxwidth;

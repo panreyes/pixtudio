@@ -71,8 +71,9 @@ int gr_font_load(char *filename) {
         return -1;
 
     fp = file_open(filename, "rb");
-    if (!fp)
+    if (!fp) {
         return -1;
+    }
 
     result = gr_font_loadfrom(fp);
 
@@ -342,7 +343,6 @@ static int gr_font_ttf_loadfrom(file *fp) {
     // Read the file size
     int fsize = file_size(fp);
     if(fsize <= 0) {
-        file_close(fp);
         if(debug) {
             PXTRTM_LOGERROR("ERROR: font face size is 0\n");
         }
@@ -357,46 +357,40 @@ static int gr_font_ttf_loadfrom(file *fp) {
             PXTRTM_LOGERROR("You should not be here\n");
         }
     }
-    file_close(fp);
 
     // Create the font face and perform some basic checks
     int fontid = gr_font_new(CHARSET_UTF8, 32, FONT_TYPE_VECTOR);
-    FT_Face face = fonts[fontid]->face;
-    int error = FT_New_Memory_Face(font_library, (const FT_Byte*)data, read, 0, &face);
+    int error = FT_New_Memory_Face(font_library, (const FT_Byte*)data, read, 0, &(fonts[fontid]->face));
     if(error) {
         if(debug) {
             PXTRTM_LOGERROR("ERROR: Could not load font face\n");
         }
 
-        FT_Done_Face(face);
         gr_font_destroy(fontid);
         return -1;
     }
 
-    if(FT_HAS_VERTICAL(face)) {
+    if(FT_HAS_VERTICAL(fonts[fontid]->face)) {
         if(debug) {
             PXTRTM_LOGERROR("ERROR: Vertical font faces are not supported\n");
         }
 
-        FT_Done_Face(face);
         gr_font_destroy(fontid);
         return -1;
     }
 
-    if(!FT_IS_SCALABLE(face)) {
+    if(!FT_IS_SCALABLE(fonts[fontid]->face)) {
         if(debug) {
             PXTRTM_LOGERROR("ERROR: Non-scallable font faces are not supported\n");
         }
 
-        FT_Done_Face(face);
         gr_font_destroy(fontid);
         return -1;
     }
 
     // Set the character size in px
-    error = FT_Set_Pixel_Sizes(face, 20, 20);
+    error = FT_Set_Pixel_Sizes(fonts[fontid]->face, 20, 20);
     if(error) {
-        FT_Done_Face(face);
         gr_font_destroy(fontid);
         return -1;
     }
