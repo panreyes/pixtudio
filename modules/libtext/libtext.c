@@ -91,7 +91,7 @@ int text_count  = 0;
 
 /* --------------------------------------------------------------------------- */
 
-int gr_text_height_no_margin(int fontid, const unsigned char *text);
+uint32_t gr_text_height_no_margin(int fontid, const unsigned char *text);
 uint32_t gr_text_widthn(int fontid, const unsigned char *text, int n);
 
 /* --------------------------------------------------------------------------- */
@@ -591,27 +591,37 @@ uint32_t gr_text_widthn(int fontid, const unsigned char *text, int n) {
 
 /* --------------------------------------------------------------------------- */
 
-int gr_text_margintop(int fontid, const unsigned char *text) {
+int32_t gr_text_margintop(int fontid, const unsigned char *text) {
     int minyoffset = 0x7FFFFFFF;
     FONT *f;
 
-    if (!text || !*text)
+    if (!text || !*text) {
         return 0;
-    if (fontid < 0 || fontid >= MAX_FONTS || !fonts[fontid])
+    }
+    if (fontid < 0 || fontid >= MAX_FONTS || !fonts[fontid]) {
         return 0; // Incorrect font type
+    }
 
     f = fonts[fontid];
 
     while (*text) {
         switch (f->charset) {
             case CHARSET_ISO8859:
-                if (minyoffset > f->glyph[cp850_to_iso88591[*text]].yoffset)
+                if (minyoffset > f->glyph[cp850_to_iso88591[*text]].yoffset) {
                     minyoffset = f->glyph[cp850_to_iso88591[*text]].yoffset;
+                }
                 break;
 
             case CHARSET_CP850:
-                if (minyoffset > f->glyph[*text].yoffset)
+                if (minyoffset > f->glyph[*text].yoffset) {
                     minyoffset = f->glyph[*text].yoffset;
+                }
+                break;
+
+            case CHARSET_UTF8:
+                if (minyoffset > f->glyph[cp850_to_utf8[*text]].yoffset) {
+                    minyoffset = f->glyph[cp850_to_utf8[*text]].yoffset;
+                }
                 break;
         }
         text++;
@@ -621,14 +631,16 @@ int gr_text_margintop(int fontid, const unsigned char *text) {
 
 /* --------------------------------------------------------------------------- */
 
-int gr_text_height_no_margin(int fontid, const unsigned char *text) {
+uint32_t gr_text_height_no_margin(int fontid, const unsigned char *text) {
     int l = 0;
     FONT *f;
 
-    if (!text || !*text)
+    if (!text || !*text) {
         return 0;
-    if (fontid < 0 || fontid >= MAX_FONTS || !fonts[fontid])
+    }
+    if (fontid < 0 || fontid >= MAX_FONTS || !fonts[fontid]) {
         return 0; // Incorrect font type
+    }
 
     f = fonts[fontid];
 
@@ -648,6 +660,14 @@ int gr_text_height_no_margin(int fontid, const unsigned char *text) {
                         l = f->glyph[*text].yoffset + (int)f->glyph[*text].bitmap->height;
                     }
                     break;
+
+            case CHARSET_UTF8:
+                if (l < f->glyph[cp850_to_utf8[*text]].yoffset +
+                        (int)f->glyph[cp850_to_utf8[*text]].bitmap->height) {
+                    l = f->glyph[cp850_to_utf8[*text]].yoffset +
+                        (int)f->glyph[cp850_to_utf8[*text]].bitmap->height;
+                }
+                break;
             }
         }
         text++;
@@ -674,13 +694,16 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
     int flags;
     int save8, save16, save32;
 
-    if (!text || !*text)
+    if (!text || !*text) {
         return -1;
-    if (fontid < 0 || fontid >= MAX_FONTS || !fonts[fontid])
+    }
+    if (fontid < 0 || fontid >= MAX_FONTS || !fonts[fontid]) {
         return 0; // Incorrect font type
+    }
 
-    if (!dest)
+    if (!dest) {
         dest = scrbitmap;
+    }
 
     f = fonts[fontid];
 
@@ -699,28 +722,60 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
         pixel_color32 = fntcolor32;
     }
 
-    while (*text) {
-        switch (f->charset) {
-            case CHARSET_ISO8859:
-                current_char = cp850_to_iso88591[*text];
-                break;
+    if(f->type == FONT_TYPE_BITMAP) {
+        while (*text) {
+            switch (f->charset) {
+                case CHARSET_ISO8859:
+                    current_char = cp850_to_iso88591[*text];
+                    break;
 
-            case CHARSET_CP850:
-                current_char = *text;
-                break;
+                case CHARSET_CP850:
+                    current_char = *text;
+                    break;
 
-            default:
-                current_char = 0;
-                break;
+                default:
+                    current_char = 0;
+                    break;
+            }
+
+            ch = f->glyph[current_char].bitmap;
+            if (ch) {
+                gr_blit(dest, clip, x + f->glyph[current_char].xoffset,
+                        y + f->glyph[current_char].yoffset, flags, 255, 255, 255, ch);
+            }
+            x += f->glyph[current_char].xadvance;
+            text++;
         }
+    } else if(f->type == FONT_TYPE_VECTOR) {
+        FT_UInt glyph_index = 0, previous = 0;
+        while (*text) {
+            // Convert the CP850 char into UTF-8
+            current_char = cp850_to_utf8[*text];
 
-        ch = f->glyph[current_char].bitmap;
-        if (ch) {
-            gr_blit(dest, clip, x + f->glyph[current_char].xoffset,
-                    y + f->glyph[current_char].yoffset, flags, 255, 255, 255, ch);
+            // Get the font's glyph index for the character
+            glyph_index = FT_Get_Char_Index(f->face, current_char);
+
+            // If the font has kerning, take it into account
+            if (FT_HAS_KERNING(f->face) && previous && glyph_index) {
+                FT_Vector delta;
+
+                FT_Get_Kerning(f->face, previous, glyph_index,
+                               FT_KERNING_DEFAULT, &delta);
+
+                x += (delta.x >> 6);
+            }
+
+            ch = f->glyph[current_char].bitmap;
+            if (ch) {
+                gr_blit(dest, clip, x + f->glyph[current_char].xoffset,
+                        y + f->glyph[current_char].yoffset, flags, 255, 255, 255, ch);
+            }
+            x += f->glyph[current_char].xadvance;
+            text++;
+
+            // Record current glyph index
+            previous = glyph_index;
         }
-        x += f->glyph[current_char].xadvance;
-        text++;
     }
 
     pixel_color8  = save8;
@@ -737,16 +792,19 @@ GRAPH *gr_text_bitmap(int fontid, const char *text, int alignment) {
     int x, y;
 
     // Splinter
-    if (!text || !*text)
+    if (!text || !*text) {
         return NULL;
-    if (fontid < 0 || fontid >= MAX_FONTS || !fonts[fontid])
+    }
+    if (fontid < 0 || fontid >= MAX_FONTS || !fonts[fontid]) {
         return NULL; // Incorrect font type
+    }
 
     /* Un refresco de paleta en mitad de gr_text_put puede provocar efectos
      * desagradables al modificar el tipo de letra del sistema */
 
-    if (palette_changed)
+    if (palette_changed) {
         gr_refresh_palette();
+    }
 
     gr = bitmap_new_syslib(gr_text_width(fontid, (const unsigned char *)text),
                            gr_text_height(fontid, (const unsigned char *)text),
