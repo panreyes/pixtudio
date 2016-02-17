@@ -100,6 +100,7 @@ int gr_font_new(int charset, uint8_t bpp, uint8_t type) {
     f->type      = type;
     f->maxwidth  = 0;
     f->maxheight = 0;
+    f->face_data = NULL;    // To be filled by loader, if needed
 
     fonts[font_count] = f;
     return font_count++;
@@ -464,6 +465,7 @@ void gr_font_destroy(int fontid) {
             FT_Done_Face(fonts[fontid]->face);
             if(fonts[fontid]->face_data) {
                 free(fonts[fontid]->face_data);
+                fonts[fontid]->face_data = NULL;
             }
         }
 

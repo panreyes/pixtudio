@@ -33,7 +33,7 @@
 
 /* --------------------------------------------------------------------------- */
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(_inline)
 #define _inline inline
 #endif
 
