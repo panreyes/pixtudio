@@ -58,6 +58,7 @@ typedef struct _font {
     uint8_t type;
     uint32_t bpp;
     FT_Face face;
+    FT_Byte *face_data;
     uint16_t size;  // Size in px (only used in vector fonts)
 
     struct _glyph {

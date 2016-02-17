@@ -462,6 +462,9 @@ void gr_font_destroy(int fontid) {
 
         if(fonts[fontid]->type == FONT_TYPE_VECTOR) {
             FT_Done_Face(fonts[fontid]->face);
+            if(fonts[fontid]->face_data) {
+                free(fonts[fontid]->face_data);
+            }
         }
 
         free(fonts[fontid]);
