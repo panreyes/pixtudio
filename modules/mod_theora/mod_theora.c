@@ -210,12 +210,10 @@ int video_is_playing() {
 }
 
 int video_play(INSTANCE *my, int *params) {
-    int bpp, graphid;
+    int graphid;
     const int MAX_FRAMES = 30;
     void *pixels;
     int pitch;
-
-    bpp = screen->format->BitsPerPixel;
 
     if (playing_video == 1) {
         return -1;
@@ -287,7 +285,7 @@ int video_play(INSTANCE *my, int *params) {
 
     // Create the graph holding the video surface
     graphid     = bitmap_next_code();
-    video.graph = bitmap_new_streaming(graphid, video.frame->width, video.frame->height, bpp);
+    video.graph = bitmap_new_streaming(graphid, video.frame->width, video.frame->height, 32);
     if (!video.graph) {
         THEORAPLAY_stopDecode(video.decoder);
         video.decoder = NULL;
