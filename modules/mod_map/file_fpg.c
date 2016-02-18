@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mod_map.h"
+#include "pxtrtm.h"
 
 /* --------------------------------------------------------------------------- */
 
@@ -60,8 +61,9 @@ static int gr_read_lib(file *fp) {
     int st       = 0;
 
     libid = grlib_new();
-    if (libid < 0)
+    if (libid < 0) {
         return -1;
+    }
 
     lib = grlib_get(libid);
     if (!lib) {
@@ -71,15 +73,15 @@ static int gr_read_lib(file *fp) {
 
     file_read(fp, header, 8);
 
-    if (strcmp(header, F32_MAGIC) == 0)
+    if (strcmp(header, F32_MAGIC) == 0) {
         bpp = 32;
-    else if (strcmp(header, F16_MAGIC) == 0)
+    } else if (strcmp(header, F16_MAGIC) == 0) {
         bpp = 16;
-    else if (strcmp(header, FPG_MAGIC) == 0)
+    } else if (strcmp(header, FPG_MAGIC) == 0) {
         bpp = 8;
-    else if (strcmp(header, F01_MAGIC) == 0)
+    } else if (strcmp(header, F01_MAGIC) == 0) {
         bpp = 1;
-    else {
+    } else {
         grlib_destroy(libid);
         return -1;
     }
@@ -90,8 +92,9 @@ static int gr_read_lib(file *fp) {
     }
 
     while (!file_eof(fp)) {
-        if (!file_read(fp, &chunk, 64))
+        if (!file_read(fp, &chunk, 64)) {
             break;
+        }
 
         ARRANGE_DWORD(&chunk.code);
         ARRANGE_DWORD(&chunk.regsize);
@@ -99,13 +102,27 @@ static int gr_read_lib(file *fp) {
         ARRANGE_DWORD(&chunk.height);
         ARRANGE_DWORD(&chunk.flags);
 
-        /* Cabecera del gráfico */
+        // Refuse to load the map if its code is malformed
+        if(chunk.code < 1 || chunk.code > 999) {
+            if(debug) {
+                PXTRTM_LOGERROR("Refusing to load malformed FPG '%s'\n", fp->name);
+                PXTRTM_LOGERROR("FPG files should not contain map with codes > 999 or < 1\n");
+            }
 
+            grlib_destroy(libid);
+            if (bpp == 8) {
+                pal_destroy(pal); // Destroy the initial instance
+            }
+            return -1;
+        }
+
+        // Graph header
         gr = bitmap_new(chunk.code, chunk.width, chunk.height, bpp);
         if (!gr) {
             grlib_destroy(libid);
-            if (bpp == 8)
-                pal_destroy(pal); // Elimino la instancia inicial
+            if (bpp == 8) {
+                pal_destroy(pal); // Destroy the initial instance
+            }
             return -1;
         }
         memcpy(gr->name, chunk.name, 32);
@@ -121,8 +138,9 @@ static int gr_read_lib(file *fp) {
             if (!gr->cpoints) {
                 bitmap_destroy(gr);
                 grlib_destroy(libid);
-                if (bpp == 8)
+                if (bpp == 8) {
                     pal_destroy(pal);
+                }
                 return -1;
             }
             for (c = 0; c < gr->ncpoints; c++) {
@@ -136,8 +154,9 @@ static int gr_read_lib(file *fp) {
                     gr->cpoints[c].y = py;
                 }
             }
-        } else
+        } else {
             gr->cpoints = 0;
+        }
 
         /* Datos del gráfico */
 
@@ -160,8 +179,9 @@ static int gr_read_lib(file *fp) {
             if (!st) {
                 bitmap_destroy(gr);
                 grlib_destroy(libid);
-                if (bpp == 8)
+                if (bpp == 8) {
                     pal_destroy(pal);
+                }
                 return -1;
             }
         }
@@ -170,12 +190,14 @@ static int gr_read_lib(file *fp) {
         if (bpp >= 16) {
             gr->needs_texture_update = 1;
         }
-        if (bpp == 8)
+        if (bpp == 8) {
             pal_map_assign(libid, code, pal);
+        }
     }
 
-    if (bpp == 8)
+    if (bpp == 8) {
         pal_destroy(pal); // Elimino la instancia inicial
+    }
 
     return libid;
 }
