@@ -77,6 +77,7 @@ include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_regex/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_fsock/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_effects/
+                    ${pxtb_SOURCE_DIR}/../../../modules/mod_curl/
                     ${SDL2_INCLUDE_DIR}
                     ${ZLIB_INCLUDE_DIRS})
 # Main executable

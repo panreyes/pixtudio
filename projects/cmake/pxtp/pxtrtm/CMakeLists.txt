@@ -11,6 +11,7 @@ find_package(Theora REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(TRE REQUIRED)
+find_package(CURL REQUIRED)
 # Preprocessor macros
 add_definitions(-D__PXTRTM__)
 include(common_defs)
@@ -134,6 +135,7 @@ set(SOURCE_FILES
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_chipmunk/Miscelanea.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_chipmunk/mod_chipmunk_symbols.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_curl/mod_curl_symbols.h
+  ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_curl/mod_curl.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_debug/mod_debug.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_debug/mod_debug_symbols.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_dir/mod_dir.c
@@ -286,7 +288,8 @@ include_directories(${pxtrtm_SOURCE_DIR}/../../../../core/pxtrtm/include
                     ${THEORA_INCLUDE_DIR}
                     ${FREETYPE_INCLUDE_DIRS}
                     ${OPENAL_INCLUDE_DIR}
-                    ${TRE_INCLUDE_DIR})
+                    ${TRE_INCLUDE_DIR}
+                    ${CURL_INCLUDE_DIR})
 # Main executable
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
