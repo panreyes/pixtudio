@@ -424,7 +424,7 @@ void sysproc_init() {
 
         /* Load library */
 
-        if (debug_DCB) {
+        if (debug) {
             PXTRTM_LOG("Loading... %s\n", filename);
         }
 
@@ -482,33 +482,40 @@ void sysproc_init() {
 
         sysproc_add_tab(exported_functions);
 
-        if (module_initialize)
+        if (module_initialize) {
             hook_add(module_initialize, module_initialize_list, module_initialize_allocated,
                      module_initialize_count);
+        }
 
-        if (module_finalize)
+        if (module_finalize) {
             hook_add(module_finalize, module_finalize_list, module_finalize_allocated,
                      module_finalize_count);
+        }
 
-        if (instance_create_hook)
+        if (instance_create_hook) {
             hook_add(instance_create_hook, instance_create_hook_list,
                      instance_create_hook_allocated, instance_create_hook_count);
+        }
 
-        if (instance_destroy_hook)
+        if (instance_destroy_hook) {
             hook_add(instance_destroy_hook, instance_destroy_hook_list,
                      instance_destroy_hook_allocated, instance_destroy_hook_count);
+        }
 
-        if (instance_pre_execute_hook)
+        if (instance_pre_execute_hook) {
             hook_add(instance_pre_execute_hook, instance_pre_execute_hook_list,
                      instance_pre_execute_hook_allocated, instance_pre_execute_hook_count);
+        }
 
-        if (instance_pos_execute_hook)
+        if (instance_pos_execute_hook) {
             hook_add(instance_pos_execute_hook, instance_pos_execute_hook_list,
                      instance_pos_execute_hook_allocated, instance_pos_execute_hook_count);
+        }
 
-        if (process_exec_hook)
+        if (process_exec_hook) {
             hook_add(process_exec_hook, process_exec_hook_list, process_exec_hook_allocated,
                      process_exec_hook_count);
+        }
 
         while (handler_hooks && handler_hooks->hook) {
             hook_add(*handler_hooks, handler_hook_list, handler_hook_allocated, handler_hook_count);
@@ -516,12 +523,7 @@ void sysproc_init() {
         }
     }
 
-    if (debug_DCB) {
-        PXTRTM_LOG("\n");
-    }
-
     /* System Procs FixUp */
-
     sysprocs_fixup();
 
     proc = sysprocs;
@@ -541,14 +543,16 @@ void sysproc_init() {
     }
 
     /* Sort handler_hooks */
-    if (handler_hook_list)
+    if (handler_hook_list) {
         qsort(handler_hook_list, handler_hook_count, sizeof(handler_hook_list[0]),
               (int (*)(const void *, const void *))compare_priority);
+    }
 
     /* Initialize all modules */
-    if (module_initialize_count)
+    if (module_initialize_count) {
         for (n = 0; n < module_initialize_count; n++)
             module_initialize_list[n]();
+    }
 }
 
 /* ---------------------------------------------------------------------- */

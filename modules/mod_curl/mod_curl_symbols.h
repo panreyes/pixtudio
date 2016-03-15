@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2011-2015 Joseba Garcí­a Echebarria. All rights reserved.
+ *  Copyright (C) 2011-2016 Joseba Garcí­a Etxebarria. All rights reserved.
  *
  *  This software is provided 'as-is', without any express or implied
  *  warranty. In no event will the authors be held liable for any damages
