@@ -103,7 +103,7 @@ int modvideo_list_modes(INSTANCE *my, int *params) {
 
 int modvideo_mode_is_ok(INSTANCE *my, int *params) {
 #warning modvideo_mode_is_ok is a stub implementation
-    return 0;
+    return 1;
 }
 
 /* --------------------------------------------------------------------------- */
