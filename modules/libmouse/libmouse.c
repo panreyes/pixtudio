@@ -38,6 +38,7 @@
 #include "libvideo.h"
 #include "libblit.h"
 #include "librender.h"
+#include "pxtrtm.h"
 
 #include "sysprocs_st.h"
 
@@ -127,7 +128,19 @@ DLVARFIXUP __pxtexport(libmouse, globals_fixup)[] = {
 static void do_mouse_events() {
     SDL_Event e;
     static int last_mouse_x = -1, last_mouse_y = -1;
-
+	int w,h;
+	
+	/* Las posiciones del ratón no deben ser superiores que las de la resolución lógica */
+	
+    if (screen) {
+        w = screen->w;
+        h = screen->h;
+    } else {
+        // This'll avoid division-by-zero below
+        PXTRTM_LOGERROR("Unexpected condition getting resolution, refusing to parse events");
+        return;
+    }
+	
     /* Actualizar eventos */
 
     /* El cambio de mouse.x/y afecta directamente al ratón */
@@ -136,7 +149,7 @@ static void do_mouse_events() {
         (last_mouse_y != -1 && GLOINT32(libmouse, MOUSEY) != last_mouse_y)) {
         SDL_WarpMouseInWindow(window, GLOINT32(libmouse, MOUSEX), GLOINT32(libmouse, MOUSEY));
     }
-
+	
     /* Procesa los eventos de mouse pendientes */
 
     GLODWORD(libmouse, MOUSEWHEELUP) = 0;
@@ -145,8 +158,24 @@ static void do_mouse_events() {
     while (SDL_PeepEvents(&e, 1, SDL_GETEVENT, SDL_MOUSEMOTION, SDL_MOUSEWHEEL) > 0) {
         switch (e.type) {
             case SDL_MOUSEMOTION:
-                GLOINT32(libmouse, MOUSEX) = e.motion.x;
-                GLOINT32(libmouse, MOUSEY) = e.motion.y;
+				if (e.motion.x < 0) {
+					GLOINT32(libmouse, MOUSEX) = 0;
+				} else {
+					if(e.motion.x > w) {
+						GLOINT32(libmouse, MOUSEX) = w;
+					} else {
+						GLOINT32(libmouse, MOUSEX) = e.motion.x;
+					}
+				}
+				if (e.motion.y < 0) {
+					GLOINT32(libmouse, MOUSEY) = 0;
+				} else {
+					if(e.motion.y > h) {
+						GLOINT32(libmouse, MOUSEY) = h;
+					} else {
+						GLOINT32(libmouse, MOUSEY) = e.motion.y;
+					}
+				}
                 break;
 
             case SDL_MOUSEBUTTONDOWN:

@@ -67,8 +67,7 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_fsock/ \
 	$(MODULES_PATH)/mod_effects/ \
 	$(MODULES_PATH)/libsocket/ \
-	$(MODULES_PATH)/mod_debug/ \
-	$(MODULES_PATH)/mod_ttf/
+	$(MODULES_PATH)/mod_debug/
 
 LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-D__PXTRTM__ \
@@ -160,7 +159,6 @@ LOCAL_SRC_FILES := \
 	../../../../3rdparty/theoraplay/theoraplay.c \
 	../../../../modules/mod_time/mod_time.c \
 	../../../../modules/mod_timers/mod_timers.c \
-	../../../../modules/mod_ttf/mod_ttf.c \
 	../../../../modules/mod_video/mod_video.c \
 	../../../../modules/mod_wm/mod_wm.c \
 	../../../../modules/mod_wm/locale/android.c
