@@ -86,13 +86,29 @@ void parse_input_events() {
     int n   = 0;
     float x = 0.0, y = 0.0;
     double width = 0.0, height = 0.0;
+	int offset_x, offset_y, max_x, max_y;
+	double scale_ratio;
     SDL_Event e;
 
+    int window_width, window_height;
+    SDL_GetWindowSize(window, &window_width, &window_height);
+	
     // SDL will give us the touch position relative to the whole window
     // but we might have set a different virtual resolution
     if (screen) {
         width  = screen->w;
         height = screen->h;
+		if (window_width > window_height) {
+			scale_ratio = (double) window_height / height;
+			offset_x = (window_width - (width * scale_ratio)) / 2; // en caso de que tengamos barras negras verticales
+			offset_y = 0;
+		} else {
+			scale_ratio = (double) window_width / width;
+			offset_x = 0; 
+			offset_y = (window_height - (height * scale_ratio)) / 2; // barras negras horizontales
+		}
+		max_x = window_width - offset_x;
+		max_y = window_height - offset_y;
     } else {
         // This'll avoid division-by-zero below
         PXTRTM_LOGERROR("Unexpected condition getting resolution, refusing to parse events");
@@ -116,13 +132,13 @@ void parse_input_events() {
                 // Store the data about this finger's position
                 pointers[n].fingerid = e.tfinger.fingerId;
                 pointers[n].active   = SDL_TRUE;
-                x                    = e.tfinger.x * width;
-                y                    = e.tfinger.y * height;
+                x                    = e.tfinger.x * window_width;
+                y                    = e.tfinger.y * window_height;
                 pointers[n].pressure = (float)e.tfinger.pressure * 255;
 
                 // Convert the touch location taking scaling/rotations into account
-                pointers[n].x = (int)x;
-                pointers[n].y = (int)y;
+                pointers[n].x = modmulti_finger_calc((int) x, offset_x, max_x, scale_ratio);
+                pointers[n].y = modmulti_finger_calc((int) y, offset_y, max_y, scale_ratio);
 
                 // Fake a mouse click, but only for the first pointer and
                 // if libmouse has been imported
@@ -144,13 +160,13 @@ void parse_input_events() {
                     break;
 
                 // Update the data about this finger's position
-                x                    = e.tfinger.x * width;
-                y                    = e.tfinger.y * height;
+                x                    = e.tfinger.x * window_width;
+                y                    = e.tfinger.y * window_height;
                 pointers[n].pressure = (float)e.tfinger.pressure * 255;
 
                 // Convert the touch location taking scaling/rotations into account
-                pointers[n].x = (int)x;
-                pointers[n].y = (int)y;
+                pointers[n].x = modmulti_finger_calc((int) x, offset_x, max_x, scale_ratio);
+                pointers[n].y = modmulti_finger_calc((int) y, offset_y, max_y, scale_ratio);
 
                 // Fake a mouse move, but only if libmouse has been imported
                 /*if (n == 0) {
@@ -186,6 +202,16 @@ void parse_input_events() {
                 break;
         }
     }
+}
+
+int modmulti_finger_calc(int position, int min, int max, double ratio) {
+	if (position < min) {
+			return 0;
+	}
+	if (position > max) {
+			return (int) ((max - min) / ratio);
+	}
+	return (int) ((position - min) / ratio);
 }
 
 // Return the total number of active pointers
