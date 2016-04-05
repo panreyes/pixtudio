@@ -55,7 +55,9 @@ multi_pointer pointers[MAX_POINTERS];
 int numpointers = 0;
 
 // Required for mouse emulation
-enum { MOUSEX = 0, MOUSEY, MOUSELEFT = 9 };
+enum { MOUSEX = 0,
+       MOUSEY,
+       MOUSELEFT = 9 };
 
 /* Return the position of finger in the pointers array, if it's not there,
 return the first unused entry.
@@ -81,34 +83,44 @@ int get_sdlfinger_index(SDL_FingerID finger) {
     return -1;
 }
 
+int modmulti_finger_calc(int position, int min, int max, double ratio) {
+    if (position < min) {
+            return 0;
+    }
+    if (position > max) {
+            return (int) ((max - min) / ratio);
+    }
+    return (int) ((position - min) / ratio);
+}
+
 /* Process SDL events looking for multitouch-related ones */
 void parse_input_events() {
     int n   = 0;
     float x = 0.0, y = 0.0;
     double width = 0.0, height = 0.0;
-	int offset_x, offset_y, max_x, max_y;
-	double scale_ratio;
+    int offset_x, offset_y, max_x, max_y;
+    double scale_ratio;
     SDL_Event e;
 
     int window_width, window_height;
     SDL_GetWindowSize(window, &window_width, &window_height);
-	
+
     // SDL will give us the touch position relative to the whole window
     // but we might have set a different virtual resolution
     if (screen) {
         width  = screen->w;
         height = screen->h;
-		if (window_width > window_height) {
-			scale_ratio = (double) window_height / height;
-			offset_x = (window_width - (width * scale_ratio)) / 2; // en caso de que tengamos barras negras verticales
-			offset_y = 0;
-		} else {
-			scale_ratio = (double) window_width / width;
-			offset_x = 0; 
-			offset_y = (window_height - (height * scale_ratio)) / 2; // barras negras horizontales
-		}
-		max_x = window_width - offset_x;
-		max_y = window_height - offset_y;
+        if (window_width > window_height) {
+            scale_ratio = (double) window_height / height;
+            offset_x = (window_width - (width * scale_ratio)) / 2;
+            offset_y = 0;
+        } else {
+            scale_ratio = (double) window_width / width;
+            offset_x = 0;
+            offset_y = (window_height - (height * scale_ratio)) / 2;
+        }
+        max_x = window_width - offset_x;
+        max_y = window_height - offset_y;
     } else {
         // This'll avoid division-by-zero below
         PXTRTM_LOGERROR("Unexpected condition getting resolution, refusing to parse events");
@@ -202,16 +214,6 @@ void parse_input_events() {
                 break;
         }
     }
-}
-
-int modmulti_finger_calc(int position, int min, int max, double ratio) {
-	if (position < min) {
-			return 0;
-	}
-	if (position > max) {
-			return (int) ((max - min) / ratio);
-	}
-	return (int) ((position - min) / ratio);
 }
 
 // Return the total number of active pointers
