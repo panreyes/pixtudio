@@ -71,7 +71,10 @@ static int gr_read_lib(file *fp) {
         return -1;
     }
 
-    file_read(fp, header, 8);
+    if (file_read(fp, header, sizeof(header)) != sizeof(header)) {
+        grlib_destroy( libid );
+        return -1;
+    }
 
     if (strcmp(header, F32_MAGIC) == 0) {
         bpp = 32;
@@ -92,7 +95,7 @@ static int gr_read_lib(file *fp) {
     }
 
     while (!file_eof(fp)) {
-        if (!file_read(fp, &chunk, 64)) {
+        if (file_read(fp, &chunk, sizeof(chunk)) != sizeof(chunk)) {
             break;
         }
 
@@ -102,18 +105,17 @@ static int gr_read_lib(file *fp) {
         ARRANGE_DWORD(&chunk.height);
         ARRANGE_DWORD(&chunk.flags);
 
-        // Refuse to load the map if its code is malformed
+        // Warn when detecting a malformed FPG file and stop reading
+        // This should not happen anymore
         if(chunk.code < 1 || chunk.code > 999) {
             if(debug) {
-                PXTRTM_LOGERROR("Refusing to load malformed FPG '%s'\n", fp->name);
-                PXTRTM_LOGERROR("FPG files should not contain map with codes > 999 or < 1\n");
+                PXTRTM_LOGERROR("Malformed FPG detected '%s'\n", fp->name);
+                PXTRTM_LOGERROR("This FPG file contains a graph with code %d\n", chunk.code);
+                PXTRTM_LOGERROR("but FPG files should not contain map with codes > 999 or < 1\n");
+                PXTRTM_LOGERROR("You can expect weirdness\n");
             }
 
-            grlib_destroy(libid);
-            if (bpp == 8) {
-                pal_destroy(pal); // Destroy the initial instance
-            }
-            return -1;
+            break;
         }
 
         // Graph header
@@ -125,7 +127,7 @@ static int gr_read_lib(file *fp) {
             }
             return -1;
         }
-        memcpy(gr->name, chunk.name, 32);
+        memcpy(gr->name, chunk.name, sizeof(chunk.name));
         gr->name[31] = 0;
         gr->ncpoints = chunk.flags;
         gr->modified = 2;
@@ -172,7 +174,9 @@ static int gr_read_lib(file *fp) {
                     break;
                 case 8:
                 case 1:
-                    st = file_read(fp, line, gr->widthb);
+                    if ((st = file_read(fp, line, gr->widthb)) != gr->widthb) {
+                        st = 0;
+                    }
                     break;
             }
 
@@ -297,7 +301,7 @@ int gr_save_fpg(int libid, const char *filename) {
     /* Write the header */
 
     header[7] = 0x00; /* Version */
-    file_write(fp, header, 8);
+    file_write(fp, header, sizeof(header));
 
     /* Write the color palette */
 
@@ -345,7 +349,7 @@ int gr_save_fpg(int libid, const char *filename) {
             ARRANGE_DWORD(&chunk.height);
             ARRANGE_DWORD(&chunk.flags);
 
-            file_write(fp, &chunk, 64);
+            file_write(fp, &chunk, sizeof(chunk));
 
             /* Write the control points */
 

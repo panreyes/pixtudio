@@ -107,7 +107,7 @@ static int gr_font_loadfrom(file *fp) {
 
     /* Read the file header */
 
-    if (!file_read(fp, header, 8)) {
+    if (file_read(fp, header, sizeof(header)) != sizeof(header)) {
         return -1;
     }
 
@@ -133,7 +133,7 @@ static int gr_font_loadfrom(file *fp) {
             pal_destroy(pal);
             return -1;
         }
-        if (!file_read(fp, chardata, sizeof(chardata))) {
+        if (file_read(fp, chardata, sizeof(chardata)) != sizeof(chardata)) {
             pal_destroy(pal);
             return -1;
         }
@@ -151,7 +151,7 @@ static int gr_font_loadfrom(file *fp) {
             pal_destroy(pal);
             return -1;
         }
-        if (!file_read(fp, oldchardata, sizeof(oldchardata))) {
+        if (file_read(fp, oldchardata, sizeof(oldchardata)) != sizeof(oldchardata)) {
             pal_destroy(pal);
             return -1;
         }
@@ -219,7 +219,7 @@ static int gr_font_loadfrom(file *fp) {
         pal_use(pal);
 
         for (y = 0, ptr = gr->data; y < gr->height; y++, ptr += gr->pitch) {
-            if (!file_read(fp, ptr, gr->widthb)) {
+            if (file_read(fp, ptr, gr->widthb) != gr->widthb) {
                 break;
             }
 
@@ -624,8 +624,8 @@ int gr_load_bdf(const char *filename) {
 
     /* Arrays used to convert hex ASCII to binary */
 
-    memset(nibbleh, 0, 256);
-    memset(nibblel, 0, 256);
+    memset(nibbleh, 0, sizeof(nibbleh));
+    memset(nibblel, 0, sizeof(nibblel));
 
     for (i = '0'; i <= '9'; i++) {
         nibbleh[i] = ((i - '0') << 4);

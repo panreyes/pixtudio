@@ -39,11 +39,13 @@ PALETTE *gr_read_pal(file *fp) {
     int i;
     uint8_t colors[256 * 3];
 
-    if (!file_read(fp, colors, sizeof(colors)))
+    if (file_read(fp, colors, sizeof(colors)) != sizeof(colors)) {
         return NULL;
+    }
 
-    for (i = 0; i < 768; i++)
+    for (i = 0; i < 768; i++) {
         colors[i] <<= 2;
+    }
 
     pal = pal_new_rgb((uint8_t *)colors);
     pal_refresh(pal);
@@ -143,8 +145,9 @@ int gr_save_system_pal(const char *filename) {
     memmove(colors,
             sys_pixel_format->palette ? (uint8_t *)sys_pixel_format->palette->rgb : default_palette,
             sizeof(colors));
-    for (i = 0; i < sizeof(colors); i++)
+    for (i = 0; i < sizeof(colors); i++) {
         colors[i] >>= 2;
+    }
 
     header[7] = 0x00; /* Version */
     file_write(fp, header, 8);
@@ -168,10 +171,14 @@ int gr_load_pal(const char *filename) {
     PALETTE *r           = NULL;
     PALETTE *old_sys_pal = sys_pixel_format->palette;
 
-    if (!fp)
+    if (!fp) {
         return 0;
+    }
 
-    file_read(fp, header, 8);
+    if (file_read(fp, header, sizeof(header)) != sizeof(header)) {
+        return 0;
+    }
+
     if (!strcmp(header, MAP_MAGIC)) {
         file_seek(fp, 48, SEEK_SET);
         r = gr_read_pal_with_gamma(fp);
