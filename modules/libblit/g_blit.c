@@ -1400,11 +1400,13 @@ void gr_rotated_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, i
     /* Pointer to the line drawing function */
     DRAW_SPAN *draw_span = NULL;
 
-    if (!dest)
+    if (!dest) {
         dest = scrbitmap;
+    }
 
-    if (scalex <= 0 || scaley <= 0)
+    if (scalex <= 0 || scaley <= 0) {
         return;
+    }
 
     // When drawing to screen, use SDL_Render directly, otherwise use
     // the software blitter

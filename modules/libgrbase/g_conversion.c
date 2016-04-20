@@ -421,6 +421,8 @@ void gr_fade16(GRAPH *graph, int r, int g, int b) {
             p += graph->pitch;
         }
     }
+
+    graph->needs_texture_update = 1;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -439,8 +441,10 @@ void gr_fade16(GRAPH *graph, int r, int g, int b) {
  */
 
 uint16_t *gr_alpha16(int alpha) {
-    if (!alpha16_tables_ok)
+    if (!alpha16_tables_ok) {
         init_alpha16_tables(GLODWORD(libgrbase, ALPHA_STEPS));
+    }
+
     return alpha16[alpha];
 }
 

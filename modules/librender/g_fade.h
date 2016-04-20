@@ -36,9 +36,7 @@ extern int fade_on;   /* ¿Hay un fade activo?                  */
 extern int fade_set;  /* ¿Hay un fade seteado pero inactivo?   */
 extern int fade_step; /* Si lo hay, posición (0=off)           */
 
-extern SDL_Color vpalette[256];
-
-extern void gr_fade_init(int pr, int pg, int pb, int speed);
+extern void gr_fade_init(int pr, int pg, int pb, int pa, int speed);
 extern void gr_fade_step();
 
 #endif

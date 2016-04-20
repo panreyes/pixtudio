@@ -511,21 +511,21 @@ int modmap_rgba_depth(INSTANCE *my, int *params) {
 /* --------------------------------------------------------------------------- */
 
 int modmap_fade(INSTANCE *my, int *params) {
-    gr_fade_init(params[0], params[1], params[2], params[3]);
+    gr_fade_init(params[0], params[1], params[2], params[3], params[4]);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
 int modmap_fade_in(INSTANCE *my, int *params) {
-    gr_fade_init(100, 100, 100, 16);
+    gr_fade_init(0, 0, 0, 0, 16);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
 int modmap_fade_out(INSTANCE *my, int *params) {
-    gr_fade_init(0, 0, 0, 16);
+    gr_fade_init(0, 0, 0, 255, 16);
     return 1;
 }
 

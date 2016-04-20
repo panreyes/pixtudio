@@ -189,7 +189,7 @@ DLSYSFUNCS  __pxtexport( mod_map, exported_functions )[] = {
     FUNC( "RGB_GET"             , "IPPP"        , TYPE_INT      , modmap_get_rgb            ),
     FUNC( "RGBA_GET"            , "IPPPP"       , TYPE_INT      , modmap_get_rgba           ),
 
-    FUNC( "FADE"                , "IIII"        , TYPE_INT      , modmap_fade               ),
+    FUNC( "FADE"                , "IIIII"       , TYPE_INT      , modmap_fade               ),
     FUNC( "FADE_IN"             , ""            , TYPE_INT      , modmap_fade_in            ),
     FUNC( "FADE_OUT"            , ""            , TYPE_INT      , modmap_fade_out           ),
 
