@@ -106,7 +106,6 @@ void gr_fade_step() {
         // Draw a filled rectangle on the renderer with the right alpha
         SDL_SetRenderDrawColor(renderer,
                                fade_to.r, fade_to.g, fade_to.b, fade_pos.a);
-        printf("%d, %d, %d, %d\n", fade_to.r, fade_to.g, fade_to.b, fade_pos.a);
         SDL_RenderFillRect(renderer, NULL);
     }
 }

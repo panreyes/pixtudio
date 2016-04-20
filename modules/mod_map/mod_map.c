@@ -518,14 +518,14 @@ int modmap_fade(INSTANCE *my, int *params) {
 /* --------------------------------------------------------------------------- */
 
 int modmap_fade_in(INSTANCE *my, int *params) {
-    gr_fade_init(0, 0, 0, 0, 16);
+    gr_fade_init(0, 0, 0, 0, 8);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
 int modmap_fade_out(INSTANCE *my, int *params) {
-    gr_fade_init(0, 0, 0, 255, 16);
+    gr_fade_init(0, 0, 0, 255, 8);
     return 1;
 }
 
