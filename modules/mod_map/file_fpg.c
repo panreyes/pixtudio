@@ -223,8 +223,9 @@ static int gr_read_lib(file *fp) {
 int gr_load_fpg(const char *libname) {
     int libid;
     file *fp = file_open(libname, "rb");
-    if (!fp)
+    if (!fp) {
         return -1;
+    }
     libid = gr_read_lib(fp);
     file_close(fp);
     return libid;

@@ -34,11 +34,11 @@ BEGIN
     set_fps(0,0);
 
     // load the fpg file with the graphics
-    graphics_lib=load_fpg("graf2.fpg");
-    font = load_fnt("font.fnt");
+    graphics_lib=fpg_load("graf2.fpg");
+    font = fnt_load("font.fnt");
 
     // create an extended scroll, drawn on the "scroll_blit_graph".
-    scroll_window=start_scroll(0,graphics_lib,1,0,0,3);
+    scroll_window=scroll_start(0,graphics_lib,1,0,0,3);
 
     // create the two objct processes.
     object1_id=object1(graphics_lib);
@@ -57,7 +57,7 @@ BEGIN
     END
 
     // stop scroll window.
-    stop_scroll(0);
+    scroll_stop(0);
 
 
     // kill all processes, execpt the "main" process.
