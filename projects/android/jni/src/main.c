@@ -63,13 +63,14 @@ int main( int argc, char *argv[] ) {
     file * fp = NULL;
     INSTANCE * mainproc_running;
 
-    SDL_Log ("BennuGD init\n");
+    SDL_Log("PixTudio init");
 
     filename = "main.dcb";
-    if(file_exists("main.dcb")) {
-        SDL_Log("Loading main.dcb from the APK...\n");
-    } else {
-        SDL_Log("main.dcb doesn't exist in APK, quitting\n");
+    if(!file_exists("main.dcb")) {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+                                "PixTudio error",
+                                "Could not load main.dcb from the game APK, quitting",
+                                NULL);
         return 1;
     }
 
