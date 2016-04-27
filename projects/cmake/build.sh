@@ -18,10 +18,10 @@ elif [ "$OS" = "GNU/Linux" ]; then
     BINDIR="bin/gnulinux32"
     BUILDTOOL="make"
 elif [ "$OS" = "Darwin" ]; then
-    PROJECTTYPE="Unix Makefiles"
+    PROJECTTYPE="Ninja"
     EXT=""
     BINDIR="bin/osx32"
-    BUILDTOOL="make"
+    BUILDTOOL="ninja"
 fi
 
 # Compile PXTB and PXTP
