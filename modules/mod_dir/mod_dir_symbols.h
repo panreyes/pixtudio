@@ -82,7 +82,6 @@ DLSYSFUNCS __pxtexport( mod_dir, exported_functions)[] = {
     FUNC( "MKDIR"   , "S" , TYPE_INT    , moddir_mkdir  ),
     FUNC( "RMDIR"   , "S" , TYPE_INT    , moddir_rmdir  ),
     FUNC( "GLOB"    , "S" , TYPE_STRING , moddir_glob   ),
-    FUNC( "CD"      , "S" , TYPE_STRING , moddir_chdir  ),
     FUNC( "RM"      , "S" , TYPE_INT    , moddir_rm     ),
 
     FUNC( "DIROPEN" , "S" , TYPE_INT    , moddir_open   ),
