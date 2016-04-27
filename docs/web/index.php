@@ -72,6 +72,10 @@
         </p>
 
         <h2 id="showcase">Games showcase</h2>
+<?php
+    switch (mt_rand(0, 1)) {
+        case 0:
+?>
         <h3>Tiki Brawl</h3>
         <p>
             Created in two days, Tiki Brawl is Last Five's entry for the
@@ -89,6 +93,33 @@
             <a href="http://steamcommunity.com/sharedfiles/filedetails/?id=612666493">Steam Greelight</a>
             so that it gets included in Steam.
         </p>
+
+        <h2 id="project_page">Project page</h2>
+        <p>
+            Check out the project page at
+            <a href="https://bitbucket.org/josebagar/pixtudio">
+                Bitbucket
+            </a>.
+        </p>
+<?php
+            break;
+
+        case 1:
+?>
+        <h3>Spidey Technical Demo</h3>
+        <p>
+            Developed by "La Momia que Fuma" in 2011, the video shows the technical demo
+            adapted for PixTudio, running at a 1080p resolution and 60fps.<br/>
+            You can find more info in Spanish
+            <a href="http://forum.bennugd.org/index.php?topic=2708.0">here</a>.
+        </p>
+        <p style="text-align: center;">
+            <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/gOAtYSW-VU0" style="border: none;" allowfullscreen></iframe>
+        </p>
+<?php
+            break;
+    }
+?>
 
         <h2 id="project_page">Project page</h2>
         <p>
