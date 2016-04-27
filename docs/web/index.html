@@ -130,6 +130,9 @@
                     ./build.sh
                 </code>
             </li>
+            <li>
+                The binaries should be in bin/gnulinux32.
+            </li>
         </ul>
 
         <h3>Ubuntu 15.10</h3>
@@ -161,12 +164,53 @@
                     ./build.sh
                 </code>
             </li>
+            <li>
+                The binaries should be in bin/gnulinux32.
+            </li>
         </ul>
 
         <h3>OS X</h3>
         <p>
-            Instructions here.
+            These instructions should work in earlier versions of OS X (as long as they're supported by Apple), but have only been tested in a fresh install of OS X El Capitan.
         </p>
+        <ul>
+            <li>
+                Open a Terminal and execute the following command to check for the Xcode command line
+                tools:
+                <code>clang</code>
+                If the output reads like the following the developer tools are already installed in
+                your computer and you can skip to the next step:
+                <code>clang: error: no input files</code>
+                Otherwise, the following message will be displayed and a dialog will be opened
+                offering to install either Xcode or the command line tools. Both should work.
+                <code>xcode-select: note: no developer tools were found at '/Applications/Xcode.app', requesting install. Choose and option in the dialog to download the command line developer tools.</code>
+                Close that terminal.
+            </li>
+            <li>
+                Install <a href="https://www.macports.org/install.php">MacPorts</a>.
+                <a href="http://brew.sh/">Homebrew</a> will probably work, too, but you'll have to
+                adapt the instructions below.
+            </li>
+            <li>
+                Open a new terminal and install the required MacPorts dependencies.
+                <code>sudo port install libsdl2 +universal libsdl2_mixer +universal libpng +universal zlib +universal libogg +universal libvorbis +universal libtheora +universal libmikmod +universal tre +universal smpeg2 +universal curl +universal chipmunk +universal ninja cmake
+                </code>
+            </li>
+            <li>
+                Clone the source code repository.
+                <code>git clone https://bitbucket.org/josebagar/pixtudio.git
+                </code>
+            </li>
+            <li>
+                Compile the source code.
+                <code>cd pixtudio/projects/cmake
+                    ./build.sh
+                </code>
+            </li>
+            <li>
+                The binaries should be in bin/osx32.
+            </li>
+        </ul>
 
         <h3>Windows 10</h3>
         <p>
@@ -196,6 +240,9 @@
                 <code>cd pixtudio/projects/cmake
                     ./build.sh
                 </code>
+            </li>
+            <li>
+                The binaries should be in bin/win32.
             </li>
         </ul>
 
