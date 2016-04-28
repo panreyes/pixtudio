@@ -193,8 +193,10 @@ void grlib_destroy(int libid) {
 
     libs[libid] = 0;
 
-    for (i = 0; i < lib->map_reserved; i++)
+    for (i = 0; i < lib->map_reserved; i++) {
         bitmap_destroy(lib->maps[i]);
+        lib->maps[i] = NULL;
+    }
 
     free(lib->maps);
     free(lib);

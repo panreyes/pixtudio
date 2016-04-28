@@ -294,6 +294,7 @@ int render_glyphs(int fontid) {
         // Is there a previous graph? -> unload it
         if(font->glyph[charcode].bitmap) {
             bitmap_destroy(font->glyph[charcode].bitmap);
+            font->glyph[charcode].bitmap = NULL;
         }
 
         // Get the font face index for CP850 character n

@@ -889,8 +889,9 @@ GRAPH *gr_text_bitmap(int fontid, const char *text, int alignment) {
     gr = bitmap_new_syslib(gr_text_width(fontid, (const unsigned char *)text),
                            gr_text_height(fontid, (const unsigned char *)text),
                            sys_pixel_format->depth);
-    if (!gr)
+    if (!gr) {
         return NULL;
+    }
 
     gr_clear(gr);
     if (!gr_text_put(gr, 0, fontid, 0, -gr_text_margintop(fontid, (const unsigned char *)text),

@@ -458,6 +458,7 @@ void gr_font_destroy(int fontid) {
         for (n = 0; n < MAX_GLYPHS; n++) {
             if (fonts[fontid]->glyph[n].bitmap) {
                 bitmap_destroy(fonts[fontid]->glyph[n].bitmap);
+                fonts[fontid]->glyph[n].bitmap = NULL;
             }
         }
 

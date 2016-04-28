@@ -650,8 +650,9 @@ static int check_collision(INSTANCE *proc1, GRAPH *bmp1, REGION *bbox3, INSTANCE
     bbox2.y2 = h - 1;
 
     bmp1 = bitmap_new(-1, w, h, sys_pixel_format->depth);
-    if (!bmp1)
+    if (!bmp1) {
         return 0;
+    }
 
     bmp2 = bitmap_new(-1, w, h, sys_pixel_format->depth);
     if (!bmp2) {
