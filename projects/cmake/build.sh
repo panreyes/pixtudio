@@ -23,10 +23,14 @@ if [ "$OS" = "Msys" ]; then
     BINDIR="bin/win32"
     BUILDTOOL="ninja"
 elif [ "$OS" = "GNU/Linux" ]; then
-    PROJECTTYPE="Unix Makefiles"
+    PROJECTTYPE="Ninja"
     EXT=""
     BINDIR="bin/gnulinux32"
-    BUILDTOOL="make"
+    if ! [ "$(type -p ninja)" = "" ]; then
+        BUILDTOOL="ninja"
+    else
+        BUILDTOOL="ninja-build"
+    fi
 elif [ "$OS" = "Darwin" ]; then
     PROJECTTYPE="Ninja"
     EXT=""
