@@ -135,7 +135,7 @@
         <p>
             These instructions might work in earlier versions of Fedora and in other Fedora
             spins, too, but have only been tested in a fully updated fresh installation of
-            Fedora 23 Workstation.
+            Fedora 23 Workstation 64-bit.
         </p>
         <ul>
             <li>Open a terminal</li>
@@ -166,22 +166,23 @@
             </li>
         </ul>
 
-        <h3>Ubuntu 15.10</h3>
+        <h3>Ubuntu 16.04 LTS</h3>
         <p>
             These instructions might work in earlier versions of Ubuntu and in other Ubuntu
-            flavours, too, but have only been tested in a fresh installation of Ubuntu 15.10.
+            flavours, too, but have only been tested in a fresh installation of Ubuntu 16.04 Desktop
+            (64-bit).
         </p>
         <ul>
             <li>Open a terminal</li>
             <li>
                 Install the required command line utilities.
-                <code>sudo apt-get update
-                    sudo apt-get install git cmake
+                <code>sudo apt update
+                    sudo apt install git cmake ninja-build
                 </code>
             </li>
             <li>
                 Install the required dependencies.
-                <code>sudo apt-get install libsdl2-dev:i386 libsdl2-mixer-dev:i386 libpng12-dev:i386 zlib1g-dev:i386 libogg-dev:i386 libvorbis-dev:i386 libtheora-dev:i386 libtre-dev:i386 libsqlite3-dev:i386 libcurl4-gnutls-dev:i386 libopenal-dev:i386 libfreetype6-dev:i386 libc6-dev:i386
+                <code>sudo apt install libsdl2-dev:i386 libsdl2-mixer-dev:i386 libpng12-dev:i386 zlib1g-dev:i386 libogg-dev:i386 libvorbis-dev:i386 libtheora-dev:i386 libtre-dev:i386 libsqlite3-dev:i386 libcurl4-gnutls-dev:i386 libopenal-dev:i386 libfreetype6-dev:i386 libc6-dev-i386
                 </code>
             </li>
             <li>

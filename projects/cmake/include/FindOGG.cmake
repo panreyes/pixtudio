@@ -39,7 +39,7 @@ FIND_PATH(OGG_INCLUDE_DIR
 FIND_LIBRARY(OGG_LIBRARY
     NAMES ogg libogg
     HINTS ENV OGGDIR
-    PATH_SUFFIXES lib lib64 win32/Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
+    PATH_SUFFIXES lib lib64 lib/i386-linux-gnu win32/Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
     PATHS ${OGG_SEARCH_PATHS}
 )
 
@@ -47,7 +47,7 @@ FIND_LIBRARY(OGG_LIBRARY
 FIND_LIBRARY(OGG_LIBRARY_DEBUG
     NAMES oggd ogg_d liboggd libogg_d
     HINTS ENV OGGDIR
-    PATH_SUFFIXES lib lib64 win32/Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
+    PATH_SUFFIXES lib lib64 lib/i386-linux-gnu win32/Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
     PATHS ${OGG_SEARCH_PATHS}
 )
 

@@ -17,6 +17,7 @@ fi
 echo "Build type: ${BUILD_TYPE}"
 
 # Set some variables we'll be using
+EXTRACMAKEFLAGS=""
 if [ "$OS" = "Msys" ]; then
 	PROJECTTYPE="Ninja"
 	EXT=".exe"
@@ -31,6 +32,11 @@ elif [ "$OS" = "GNU/Linux" ]; then
     else
         BUILDTOOL="ninja-build"
     fi
+
+    # Ubuntu? => Manually specify library locations (beats me)
+    if [ "$(lsb_release -is)" = "Ubuntu" ]; then
+        EXTRACMAKEFLAGS="-DZLIB_LIBRARY=/usr/lib/i386-linux-gnu/libz.so -DPNG_LIBRARY=/usr/lib/i386-linux-gnu/libpng.so -DFREETYPE_LIBRARY=/usr/lib/i386-linux-gnu/libfreetype.so -DOPENAL_LIBRARY=/usr/lib/i386-linux-gnu/libopenal.so"
+    fi
 elif [ "$OS" = "Darwin" ]; then
     PROJECTTYPE="Ninja"
     EXT=""
@@ -44,7 +50,7 @@ for PROJECT in pxtb pxtp; do
     rm -rf ${PROJECT}_build
     mkdir ${PROJECT}_build
     cd ${PROJECT}_build
-    cmake -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" -G "${PROJECTTYPE}" ../${PROJECT}
+    cmake -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" ${EXTRACMAKEFLAGS} -G "${PROJECTTYPE}" ../${PROJECT}
     $BUILDTOOL
     cd ..
 done

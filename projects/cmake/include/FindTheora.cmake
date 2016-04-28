@@ -44,7 +44,7 @@ FIND_LIBRARY(THEORA_LIBRARY
     HINTS
     $ENV{THEORADIR}
     $ENV{THEORA_PATH}
-    PATH_SUFFIXES lib lib64 win32/Theora_Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
+    PATH_SUFFIXES lib lib64 lib/i386-linux-gnu win32/Theora_Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
     PATHS ${THEORA_SEARCH_PATHS}
 )
 
@@ -54,7 +54,7 @@ FIND_LIBRARY(THEORA_LIBRARY_DEBUG
     HINTS
     $ENV{THEORADIR}
     $ENV{THEORA_PATH}
-    PATH_SUFFIXES lib lib64 win32/Theora_Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
+    PATH_SUFFIXES lib lib64 lib/i386-linux-gnu win32/Theora_Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
     PATHS ${THEORA_SEARCH_PATHS}
 )
 
@@ -76,7 +76,7 @@ FIND_LIBRARY(THEORADEC_LIBRARY
     HINTS
     $ENV{THEORADIR}
     $ENV{THEORA_PATH}
-    PATH_SUFFIXES lib lib64 win32/Theoradec_Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
+    PATH_SUFFIXES lib lib64 lib/i386-linux-gnu win32/Theoradec_Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
     PATHS ${THEORA_SEARCH_PATHS}
 )
 
@@ -86,7 +86,7 @@ FIND_LIBRARY(THEORADEC_LIBRARY_DEBUG
     HINTS
     $ENV{THEORADIR}
     $ENV{THEORA_PATH}
-    PATH_SUFFIXES lib lib64 win32/Theoradec_Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
+    PATH_SUFFIXES lib lib64 lib/i386-linux-gnu win32/Theoradec_Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
     PATHS ${THEORA_SEARCH_PATHS}
 )
 

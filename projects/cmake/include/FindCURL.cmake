@@ -39,7 +39,7 @@ FIND_PATH(CURL_INCLUDE_DIR
 FIND_LIBRARY(CURL_LIBRARY
     NAMES curl libcurl
     HINTS ENV CURLDIR
-    PATH_SUFFIXES lib lib64 win32/Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
+    PATH_SUFFIXES lib lib64 lib/i386-linux-gnu win32/Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
     PATHS ${CURL_SEARCH_PATHS}
 )
 
@@ -47,7 +47,7 @@ FIND_LIBRARY(CURL_LIBRARY
 FIND_LIBRARY(CURL_LIBRARY_DEBUG
     NAMES curld curl_d libcurld libcurl_d
     HINTS ENV CURLDIR
-    PATH_SUFFIXES lib lib64 win32/Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
+    PATH_SUFFIXES lib lib64 lib/i386-linux-gnu win32/Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
     PATHS ${CURL_SEARCH_PATHS}
 )
 

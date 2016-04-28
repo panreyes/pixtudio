@@ -43,7 +43,7 @@ FIND_LIBRARY(TRE_LIBRARY
     HINTS
     $ENV{TREDIR}
     $ENV{TRE_PATH}
-    PATH_SUFFIXES lib lib64 win32/Tre_Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
+    PATH_SUFFIXES lib lib64 lib/i386-linux-gnu win32/Tre_Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
     PATHS ${TRE_SEARCH_PATHS}
 )
 
@@ -53,7 +53,7 @@ FIND_LIBRARY(TRE_LIBRARY_DEBUG
     HINTS
     $ENV{TREDIR}
     $ENV{TRE_PATH}
-    PATH_SUFFIXES lib lib64 win32/Tre_Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
+    PATH_SUFFIXES lib lib64 lib/i386-linux-gnu win32/Tre_Dynamic_Debug "Win32/${MSVC_YEAR_NAME}/x64/Debug" "Win32/${MSVC_YEAR_NAME}/Win32/Debug"
     PATHS ${TRE_SEARCH_PATHS}
 )
 
