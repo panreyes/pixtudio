@@ -6,6 +6,16 @@ else
     OS=$(uname -o)
 fi
 
+BUILD_TYPE="Debug"
+if [ $# -eq 1 ]; then
+    # If given an argument, interpret it as the build type
+    # Valid values are:
+    # Debug Release RelWithDebInfo MinSizeRel
+    BUILD_TYPE=$1
+fi
+
+echo "Build type: ${BUILD_TYPE}"
+
 # Set some variables we'll be using
 if [ "$OS" = "Msys" ]; then
 	PROJECTTYPE="Ninja"
@@ -30,7 +40,7 @@ for PROJECT in pxtb pxtp; do
     rm -rf ${PROJECT}_build
     mkdir ${PROJECT}_build
     cd ${PROJECT}_build
-    cmake -G "${PROJECTTYPE}" ../${PROJECT}
+    cmake -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" -G "${PROJECTTYPE}" ../${PROJECT}
     $BUILDTOOL
     cd ..
 done
