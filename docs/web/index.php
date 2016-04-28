@@ -108,7 +108,7 @@
 ?>
         <h3>Spidey Technical Demo</h3>
         <p>
-            Developed by "La Momia que Fuma" in 2011, the video shows the technical demo
+            Developed by Gabriel Garrote in 2011, the video shows the technical demo
             adapted for PixTudio, running at a 1080p resolution and 60fps.<br/>
             You can find more info in Spanish
             <a href="http://forum.bennugd.org/index.php?topic=2708.0">here</a>.
