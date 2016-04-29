@@ -1,16 +1,49 @@
 #!/bin/bash
 
+# This function will try to copy the required dependencies for the
+# binaries in the given directory.
+function copy_dependencies {
+    # We require two params:
+    #   * the dir to install the dependencies into
+    #   * the dir where we should be looking for deps
+    NUMFILES=$(ls ${1}/* | wc -l)
+    if [ "$OS" = "Msys" ]; then
+        for i in "${1}/*"; do
+            for DEP in $(objdump -p $i | grep "DLL Name" | cut -d ":" -f 2); do
+                # Is the dependency in the given dir? => copy it if not present
+                if [ -f "${2}/${DEP}" ]; then
+                    if ! [ -f "${1}/${DEP}" ]; then
+                        cp "${2}/${DEP}" "${1}"
+                    fi
+                fi
+            done
+        done
+    elif [ "$OS" = "Darwin" ]; then
+        # Here we should be doing pretty much the same thing as in Msys
+        # but we should also be changing the dependency path to use
+        # relative paths when looking for the dependencies
+        echo "Darwin!"
+    fi
+
+    # If the number of files has changed, iterate again
+    if [ ! "${NUMFILES}" = "$(ls ${1}/* | wc -l)" ]; then
+        copy_dependencies ${1} ${2}
+    fi
+}
+
+# Determine the OS
 if [ $(uname) = "Darwin" ]; then
     OS=Darwin
 else
     OS=$(uname -o)
 fi
 
+# If given an argument, interpret it as the build type
+# Valid values are:
+# Debug Release RelWithDebInfo MinSizeRel
+# Otherwise compile with Debug configuration
 BUILD_TYPE="Debug"
 if [ $# -eq 1 ]; then
-    # If given an argument, interpret it as the build type
-    # Valid values are:
-    # Debug Release RelWithDebInfo MinSizeRel
     BUILD_TYPE=$1
 fi
 
@@ -62,14 +95,12 @@ fi
 cp pxtb_build/pxtb${EXT} ${BINDIR}
 cp pxtp_build/pxtp${EXT} ${BINDIR}
 
-# Copy dependencies to the bin dir (for Windows)
-# However, we can do better:
+# Copy dependencies to the bin dir (for Windows/OS X)
+# However, we could do better:
 # We can download SDL2 & SDL_mixer from their sites, and use their binaries
 # which include far less deps
-# Dependency inspection in MSYS:
-# for i in *; do echo $i;objdump -p $i | grep DLL; done
-if [ "$OS" = "Msys" ]; then
-    for EXTRADLL in libbz2-1 libFLAC-8 libfluidsynth-1 libfreetype-6 libgcc_s_dw2-1 libglib-2.0-0 libharfbuzz-0 libiconv-2 libintl-8 libmad-0 libmodplug-1 libogg-0 libopenal-1 libpng16-16 libportaudio-2 libsndfile-1 libspeex-1 libstdc++-6 libtheora-0 libtre-5 libvorbis-0 libvorbisenc-2 libvorbisfile-3 libwinpthread-1 SDL2 SDL2_mixer zlib1 libcurl-4 libidn-11 libeay32 librtmp-1 libssh2-1 ssleay32 libgnutls-30 libhogweed-4-1 libgmp-10 libnettle-6-1 libp11-kit-0 libffi-6 libtasn1-6; do
-        cp /mingw32/bin/${EXTRADLL}.dll ${BINDIR}
-    done
+if [ "$OS" = "Msys" ] || [ "$OS" = "Darwin" ]; then
+    if ! [ "${BUILD_TYPE}" = "Debug" ]; then
+        copy_dependencies ${BINDIR} /mingw32/bin/
+    fi
 fi
