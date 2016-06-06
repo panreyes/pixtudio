@@ -1,16 +1,13 @@
-<category:reserved> <category:language> [category:control flow
-statements](category:control_flow_statements "wikilink")
-
 Syntax
 ------
 
-**jmp** <label> ;
+**jmp** &lt;label&gt; ;
 
 Description
 -----------
 
-The [jmp](jmp "wikilink") command jumps to the given label inside a
-function. Unlike the [call](call "wikilink") command, there is nothing
+The [jmp](#jmp) command jumps to the given label inside a
+function. Unlike the [call](#call) command, there is nothing
 more to it.
 
 Example
@@ -46,9 +43,9 @@ Example
 
     End
 
-Used in example: [process](process "wikilink"),
-[function](function "wikilink"), [jmp](jmp "wikilink"),
-[call](call "wikilink"), [return](return "wikilink")
+Used in example: [process](#process),
+[function](#function), [jmp](#jmp),
+[call](#call), [return](#return)
 
 The output of this example is `500`, when `value` is 1. This example
 show 500 because the input value is a one and it causes that goes to the
