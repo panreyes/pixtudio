@@ -142,7 +142,7 @@
             <li>
                 Install the required command line utilities.
                 <code>sudo dnf group install "Development Tools"
-                sudo dnf install cmake
+                sudo dnf install cmake ninja-build
                 </code>
             </li>
             <li>
