@@ -1,18 +1,16 @@
-<category:reserved> <category:language>
-
 Syntax
 ------
 
 **Clone**
 
-:   <sentences>
+:   &lt;sentences&gt;
 
 **End**
 
 Description
 -----------
 
-The [clone](clone "wikilink") command creates a copy of the actual
+The [clone](#clone) command creates a copy of the actual
 process which is called a "child process." The original process is then
 called the "parent process".
 
@@ -63,8 +61,8 @@ Example
 
     End
 
-Used in example: [key](key "wikilink")(),
-[map\_new](map_new "wikilink")(), [map\_clear](map_clear "wikilink")(),
-[rgb](rgb "wikilink")(), [map\_unload](map_unload "wikilink")() This
+Used in example: [key](#key)(),
+[map\_new](#map_new)(), [map\_clear](#map_clear)(),
+[rgb](#rgb)(), [map\_unload](#map_unload)() This
 example shows two squares. One is the child process, that is the white,
 and the other is the parent process.

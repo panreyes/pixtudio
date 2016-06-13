@@ -1,14 +1,14 @@
 Definition
 ----------
 
-<datatype> <array name>**\[**<upperlimit>**\]** \[= <values>\]
+&lt;datatype&gt; &lt;array name&gt;**\[**&lt;upperlimit&gt;**\]** \[= &lt;values&gt;\]
 
-**Array**s are [datatypes](datatypes "wikilink"), consisting of a
+**Array**s are [datatypes](#datatypes), consisting of a
 *range* of variables of the *same type*. The range is `0..upperlimit`,
 meaning there are `upperlimit+1` elements in the array.
 
 The initializing values start at the first (*0th*) element and go up
-from there (see [example](#Multiple_types "wikilink")).
+from there.
 
 Example
 -------
@@ -25,7 +25,7 @@ Use them like:
 
 ### Multiple types
 
-Consider, using [Type](Type "wikilink"):
+Consider, using [Type](#Type):
 
     Type _point;
         float x;
@@ -45,6 +45,4 @@ Use them like:
 
 ### Multiple structs
 
-See [Struct example](Struct#Multiple_identical_data_groups "wikilink").
-
-<Category:language> <Category:datatypes>
+See [Struct](#Struct).
