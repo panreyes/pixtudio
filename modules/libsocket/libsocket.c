@@ -326,7 +326,7 @@ int libsocket_recv_udp(int socket, void *dest, size_t len, int *ip, int *port) {
 #ifdef WIN32
     int connection_info_size;
 #else
-    unsigned int connection_info_size;
+    unsigned int connection_info_size = sizeof(connection_info);
 #endif
 
     received_bytes =
