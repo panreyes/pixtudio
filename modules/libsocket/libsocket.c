@@ -170,7 +170,13 @@ int libsocket_setblock(int fd, u_long ulVal) {
 #ifdef WIN32
     return (ioctlsocket(fd, FIONBIO, &ulVal));
 #else
-    return (fcntl(fd, O_NONBLOCK, ulVal));
+    int flags = fcntl(fd, F_GETFL, 0);
+    
+    if (flags < 0) return -1; // Failed
+	
+    flags = (ulVal == 0) ? (flags &~O_NONBLOCK) : (flags|O_NONBLOCK);
+
+    return fcntl(fd, F_SETFL, flags);
 #endif
 }
 
