@@ -26,6 +26,7 @@
 #define __MODMULTIPOINTER_SYMBOLS_H
 
 #include "pxtdl.h"
+#include "mod_multi.h"
 
 #ifndef __PXTB__
 // Fucntion declarations
@@ -51,4 +52,10 @@ DLSYSFUNCS __pxtexport( mod_multi, exported_functions )[] = {
     FUNC( "MULTI_INFO"        , "IS"    , TYPE_INT    , modmulti_info ),
     FUNC( 0                   , 0       , 0           , 0 )
 };
+
+DLCONSTANT  __pxtexport( mod_multi, constants_def )[] = {
+    { "MULTI_MAX_POINTERS", TYPE_DWORD, MAX_POINTERS },
+    { NULL          , 0       , 0  }
+};
+
 #endif

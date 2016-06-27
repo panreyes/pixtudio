@@ -163,7 +163,7 @@ basic_symbols symbol_list[] = {
 #ifndef NO_MODCHIPMUNK
     { "mod_chipmunk.fakelib" , mod_chipmunk_module_dependencies, mod_chipmunk_constants_def, mod_chipmunk_types_def, mod_chipmunk_globals_def, mod_chipmunk_locals_def, mod_chipmunk_exported_functions },
 #endif
-    { "mod_multi.fakelib"    , mod_multi_module_dependencies, NULL, NULL, NULL, NULL, mod_multi_exported_functions },
+    { "mod_multi.fakelib"    , mod_multi_module_dependencies, mod_multi_constants_def, NULL, NULL, NULL, mod_multi_exported_functions },
 #ifndef NO_MODCURL
     { "mod_curl.fakelib"     , NULL, mod_curl_constants_def, NULL, NULL, NULL, mod_curl_exported_functions },
 #endif
