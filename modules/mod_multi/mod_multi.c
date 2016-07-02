@@ -64,7 +64,7 @@ int get_sdlfinger_index(SDL_FingerID finger) {
 
     // First, try to see if the given ID matches any active one
     for (n = 0; n < MAX_POINTERS; n++) {
-        if (finger == pointers[n].fingerid) {
+        if (finger == pointers[n].fingerid && pointers[n].active) {
             return n;
         }
     }
