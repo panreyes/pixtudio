@@ -173,6 +173,7 @@ set(SOURCE_FILES
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_mem/mod_mem_symbols.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_mouse/mod_mouse_symbols.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_multi/mod_multi.c
+  ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_multi/mod_multi.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_multi/mod_multi_symbols.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_path/mod_path.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_path/mod_path_symbols.h
