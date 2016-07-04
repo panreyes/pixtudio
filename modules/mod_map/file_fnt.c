@@ -258,8 +258,7 @@ static int gr_font_loadfrom(file *fp) {
  *
  */
 
-int
-gr_font_ttf_load(char *filename) {
+int gr_font_ttf_load(char *filename) {
     file *fp;
     int result;
 

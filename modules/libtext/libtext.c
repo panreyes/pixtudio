@@ -824,20 +824,20 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
             ch = f->glyph[*text].bitmap;
             if (ch) {
                 // Create a new 32bpp graph with the same dimensions as the glyph
-                GRAPH *glyph32 = bitmap_new(-1, ch->width, ch->height, 32);
-                bitmap_add_cpoint(glyph32, 0, 0);
-                if (!glyph32) {
+                GRAPH *aux = bitmap_new(-1, ch->width, ch->height, 32);
+                bitmap_add_cpoint(aux, 0, 0);
+                if (!aux) {
                     if(debug) {
                         PXTRTM_LOGERROR("ERROR: Could not create text auxiliary alpha graph\n");
                     }
                     return -1;
                 }
-                gr_clear_as(glyph32, pixel_color32);
+                gr_clear_as(aux, pixel_color32);
 
                 // Blit the contents of ch as the alpha channel of glyph32
-                for(uint32_t _y = 0; _y < glyph32->height; _y++) {
-                    for(uint32_t _x = 0; _x < glyph32->width; _x++) {
-                        uint8_t *glyph32_pos = ((uint8_t *)glyph32->data) + glyph32->pitch * _y + _x * glyph32->format->depthb + 3;
+                for(uint32_t _y = 0; _y < aux->height; _y++) {
+                    for(uint32_t _x = 0; _x < aux->width; _x++) {
+                        uint8_t *glyph32_pos = ((uint8_t *)aux->data) + aux->pitch * _y + _x * aux->format->depthb + 3;
                         uint8_t *alpha_pos = ((uint8_t *)ch->data) + ch->pitch * _y + _x * ch->format->depthb;
                         *glyph32_pos = *alpha_pos;
                     }
@@ -847,7 +847,10 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
                 gr_blit(dest, clip,
                         x + f->glyph[*text].xoffset,
                         y + h - f->glyph[*text].yoffset - baseline_y,
-                        flags, 255, 255, 255, glyph32);
+                        flags, 255, 255, 255, aux);
+
+                // Destroy glyph32
+                bitmap_destroy(aux);
             }
             x += f->glyph[*text].xadvance;
             text++;
