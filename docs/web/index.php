@@ -163,7 +163,7 @@
             <li>
                 Compile the source code.
                 <code>cd pixtudio/projects/cmake
-                    ./build.sh
+                    ./build.sh Release
                 </code>
             </li>
             <li>
@@ -198,7 +198,7 @@
             <li>
                 Compile the source code.
                 <code>cd pixtudio/projects/cmake
-                    ./build.sh
+                    ./build.sh Release
                 </code>
             </li>
             <li>
@@ -241,7 +241,7 @@
             <li>
                 Compile the source code.
                 <code>cd pixtudio/projects/cmake
-                    ./build.sh
+                    ./build.sh Release
                 </code>
             </li>
             <li>
@@ -275,7 +275,7 @@
             <li>
                 Compile the source code.
                 <code>cd pixtudio/projects/cmake
-                    ./build.sh
+                    ./build.sh Release
                 </code>
             </li>
             <li>
