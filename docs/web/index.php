@@ -93,14 +93,6 @@
             <a href="http://steamcommunity.com/sharedfiles/filedetails/?id=612666493">Steam Greelight</a>
             so that it gets included in Steam.
         </p>
-
-        <h2 id="project_page">Project page</h2>
-        <p>
-            Check out the project page at
-            <a href="https://bitbucket.org/josebagar/pixtudio">
-                Bitbucket
-            </a>.
-        </p>
 <?php
             break;
 
