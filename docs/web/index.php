@@ -131,11 +131,11 @@
 
         <h2 id="compiling">Compiling PixTudio from source code</h2>
 
-        <h3>Fedora 23 Workstation</h3>
+        <h3>Fedora 24 Workstation</h3>
         <p>
             These instructions might work in earlier versions of Fedora and in other Fedora
             spins, too, but have only been tested in a fully updated fresh installation of
-            Fedora 23 Workstation 64-bit.
+            Fedora 24 Workstation 64-bit.
         </p>
         <ul>
             <li>Open a terminal</li>
@@ -148,6 +148,11 @@
             <li>
                 Install the required dependencies.
                 <code>sudo dnf install SDL2-devel.i686 SDL2_mixer-devel.i686 libpng-devel.i686 zlib-devel.i686 libogg-devel.i686 libvorbis-devel.i686 libtheora-devel.i686 tre.i686 tre-devel.i686 sqlite-devel.i686 libcurl-devel.i686 openal-soft-devel.i686 freetype-devel.i686 glibc-devel.i686
+                </code>
+            </li>
+            <li>
+                If you're going to package Android games, install ncurses-compat-libs, too.
+                <code>sudo dnf install ncurses-compat-libs
                 </code>
             </li>
             <li>
