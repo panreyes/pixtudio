@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2014-2016 Joseba García Etxebarria <joseba.gar@gmail.com>
- *  Copyright (C) 2006-2012 SplinterGU (Fenix/Bennugd)
+ *  Copyright (C) 2006-2016 SplinterGU (Fenix/Bennugd)
  *  Copyright (C) 2002-2006 Fenix Team (Fenix)
  *  Copyright (C) 1999-2002 José Luis Cebrián Pagüe (Fenix)
  *
@@ -169,6 +169,14 @@ void gr_clear_region(GRAPH *dest, REGION *region) {
         region->y   = MAX(MIN(region->y, region->y2), 0);
         region->x2  = MIN(MAX(region->x, region->x2), dest->width - 1);
         region->y2  = MIN(MAX(region->y, region->y2), dest->height - 1);
+    }
+
+    if ( region->x > dest->width || region->y > dest->height ) {
+        return;
+    }
+
+    if ( region->x2 < 0 || region->y2 < 0 ) {
+        return;
     }
 
     switch (dest->format->depth) {
