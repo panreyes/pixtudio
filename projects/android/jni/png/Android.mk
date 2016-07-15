@@ -3,21 +3,21 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 common_SRC_FILES := \
-    ../../../../3rdparty/libpng/png.c \
-    ../../../../3rdparty/libpng/pngerror.c \
-    ../../../../3rdparty/libpng/pngget.c \
-    ../../../../3rdparty/libpng/pngmem.c \
-    ../../../../3rdparty/libpng/pngpread.c \
-    ../../../../3rdparty/libpng/pngread.c \
-    ../../../../3rdparty/libpng/pngrio.c \
-    ../../../../3rdparty/libpng/pngrtran.c \
-    ../../../../3rdparty/libpng/pngrutil.c \
-    ../../../../3rdparty/libpng/pngset.c \
-    ../../../../3rdparty/libpng/pngtrans.c \
-    ../../../../3rdparty/libpng/pngwio.c \
-    ../../../../3rdparty/libpng/pngwrite.c \
-    ../../../../3rdparty/libpng/pngwtran.c \
-    ../../../../3rdparty/libpng/pngwutil.c
+    ../../../../3rdparty/libpng-1.6.23/png.c \
+    ../../../../3rdparty/libpng-1.6.23/pngerror.c \
+    ../../../../3rdparty/libpng-1.6.23/pngget.c \
+    ../../../../3rdparty/libpng-1.6.23/pngmem.c \
+    ../../../../3rdparty/libpng-1.6.23/pngpread.c \
+    ../../../../3rdparty/libpng-1.6.23/pngread.c \
+    ../../../../3rdparty/libpng-1.6.23/pngrio.c \
+    ../../../../3rdparty/libpng-1.6.23/pngrtran.c \
+    ../../../../3rdparty/libpng-1.6.23/pngrutil.c \
+    ../../../../3rdparty/libpng-1.6.23/pngset.c \
+    ../../../../3rdparty/libpng-1.6.23/pngtrans.c \
+    ../../../../3rdparty/libpng-1.6.23/pngwio.c \
+    ../../../../3rdparty/libpng-1.6.23/pngwrite.c \
+    ../../../../3rdparty/libpng-1.6.23/pngwtran.c \
+    ../../../../3rdparty/libpng-1.6.23/pngwutil.c
 
 common_CFLAGS := ## -fomit-frame-pointer
 
