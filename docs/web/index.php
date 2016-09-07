@@ -127,12 +127,8 @@ switch (mt_rand(0, 2)) {
             Released by Benjamin Hoffmann (Grew) in August 2016 for Android,
             this hardcore arcade shooter is very fun to play.
             <a href='https://play.google.com/store/apps/details?id=org.unigames.hoboy&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
-                <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/>
+                <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' style="max-width: 300px;"/>
             </a>
-        </p>
-        <p style="text-align: center;">
-            <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/gOAtYSW-VU0"
-                    style="border: none;" allowfullscreen></iframe>
         </p>
         <?php
         break;
