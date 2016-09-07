@@ -69,13 +69,13 @@
     The following example shows the code for a simple process named "enemy" whose graphic
     is loaded from a PNG file and is positioned at coordinates (x, y) = (100, 200).
     <code style="white-space: pre;"><b>Process</b> enemy()
-        <b>Begin</b>
-        graph = png_load("img/enemy.png");
-        x = 100; y = 200;
-        <b>LOOP</b>
+<b>Begin</b>
+    graph = png_load("img/enemy.png");
+    x = 100; y = 200;
+    <b>LOOP</b>
         <b>FRAME;</b>
-        <b>End</b>
-        <b>End</b></code>
+    <b>End</b>
+<b>End</b></code>
 </p>
 
 <h2 id="showcase">Games showcase</h2>
