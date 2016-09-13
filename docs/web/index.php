@@ -122,16 +122,32 @@ switch (mt_rand(0, 2)) {
 
     case 2:
         ?>
-        <h3>Hoboy</h3>
-        <p>
-            Released by Benjamin Hoffmann (Grew) in August 2016 for Android,
-            this hardcore arcade shooter is very fun to play.
-            <a href='https://play.google.com/store/apps/details?id=org.unigames.hoboy'>
-                <img alt='Get it on Google Play'
-                     src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'
-                     style="max-width: 300px;"/>
-            </a>
-        </p>
+        <h3>Hoboy - The Incredible Journey</h3>
+        <div style="margin: 20px 20px 0 0; overflow: auto">
+            <div style="float: left; margin-right: 10px;">
+                <img src="img/hoboy/logo.png" style="display: block; height:150px;" />
+            </div>
+            <div style="margin-left:170px;">
+                Released by Benjamin Hoffmann (Grew) in August 2016 for Android, Hoboy is an hardcore arcade shooter with a retro style. You
+                are attacked by invaders! Defend yourself, pick up coins to collect all the stars to unlock the ultimate level!
+                <div style="display: table; margin: 5px auto 0;">
+                    <a href="https://play.google.com/store/apps/details?id=org.unigames.hoboy" style="display: table-cell;">
+                        <img src="img/hoboy/img1.png" style="height:200px; margin:2px;" />
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=org.unigames.hoboy" style="display: table-cell;">
+                        <img src="img/hoboy/img2.png" style="height:200px; margin:2px;" />
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=org.unigames.hoboy" style="display: table-cell;">
+                        <img src="img/hoboy/img3.png" style="height:200px; margin:2px;" />
+                    </a>
+                </div>
+                <div style="display: table; margin: 0 auto;">
+                    <a href='https://play.google.com/store/apps/details?id=org.unigames.hoboy'>
+                        <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' style="height:80px" />
+                    </a>
+                </div>
+            </div>
+        </div>
         <?php
         break;
 }
