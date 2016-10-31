@@ -195,6 +195,15 @@ switch (mt_rand(0, 2)) {
         </code>
     </li>
     <li>
+        If you want basic <a href="http://store.steampowered.com/">Steam</a> integration, download the SDK from
+        <a href="https://partner.steamgames.com/">here</a>
+        and unzip it to the '3rdparty' dir, then rename the uncrompressed folder to "steamworks".
+        <code>cd pixtudio/3rdparty
+            unzip [DOWNLOAD_PATH]/steamworks_sdk_138a.zip
+            mv sdk steamworks
+        </code>
+    </li>
+    <li>
         Compile the source code.
         <code>cd pixtudio/projects/cmake
             ./build.sh Release
@@ -229,6 +238,15 @@ switch (mt_rand(0, 2)) {
     <li>
         Clone the source code repository.
         <code>git clone https://bitbucket.org/josebagar/pixtudio.git
+        </code>
+    </li>
+    <li>
+        If you want basic <a href="http://store.steampowered.com/">Steam</a> integration, download the SDK from
+        <a href="https://partner.steamgames.com/">here</a>
+        and unzip it to the '3rdparty' dir, then rename the uncrompressed folder to "steamworks".
+        <code>cd pixtudio/3rdparty
+            unzip [DOWNLOAD_PATH]/steamworks_sdk_138a.zip
+            mv sdk steamworks
         </code>
     </li>
     <li>
@@ -279,6 +297,15 @@ switch (mt_rand(0, 2)) {
         </code>
     </li>
     <li>
+        If you want basic <a href="http://store.steampowered.com/">Steam</a> integration, download the SDK from
+        <a href="https://partner.steamgames.com/">here</a>
+        and unzip it to the '3rdparty' dir, then rename the uncrompressed folder to "steamworks".
+        <code>cd pixtudio/3rdparty
+            unzip [DOWNLOAD_PATH]/steamworks_sdk_138a.zip
+            mv sdk steamworks
+        </code>
+    </li>
+    <li>
         Compile the source code.
         <code>cd pixtudio/projects/cmake
             ./build.sh Release
@@ -318,6 +345,15 @@ switch (mt_rand(0, 2)) {
     <li>
         Clone the source code repository.
         <code>git clone https://bitbucket.org/josebagar/pixtudio.git
+        </code>
+    </li>
+    <li>
+        If you want basic <a href="http://store.steampowered.com/">Steam</a> integration, download the SDK from
+        <a href="https://partner.steamgames.com/">here</a>
+        and unzip it to the '3rdparty' dir, then rename the uncrompressed folder to "steamworks".
+        <code>cd pixtudio/3rdparty
+            unzip [DOWNLOAD_PATH]/steamworks_sdk_138a.zip
+            mv sdk steamworks
         </code>
     </li>
     <li>

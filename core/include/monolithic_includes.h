@@ -80,6 +80,9 @@
 #endif
 #include <mod_fsock_symbols.h>
 #include <mod_theora_symbols.h>
+#ifndef NO_MODSTEAM
+#include <mod_steam_symbols.h>
+#endif
 
 typedef struct
 {
@@ -167,6 +170,9 @@ basic_symbols symbol_list[] = {
 #ifndef NO_MODCURL
     { "mod_curl.fakelib"     , NULL, mod_curl_constants_def, NULL, NULL, NULL, mod_curl_exported_functions },
 #endif
+#ifndef NO_MODSTEAM
+    { "mod_steam.fakelib"     , NULL, NULL, NULL, NULL, NULL, mod_steam_exported_functions },
+#endif
     { "mod_fsock.fakelib"    , NULL, NULL, NULL, NULL, NULL, mod_fsock_exported_functions },
     { "mod_theora.fakelib"   , mod_theora_module_dependencies, NULL, NULL, NULL, NULL, mod_theora_exported_functions },
     { NULL                   , NULL, NULL, NULL, NULL, NULL, NULL }
@@ -178,7 +184,7 @@ basic_symbols symbol_list[] = {
 extra_symbols symbol_list_runtime[] = {
     { NULL, NULL, libsdlhandler_module_initialize, libsdlhandler_module_finalize, NULL, NULL, NULL, libsdlhandler_handler_hooks },      //libsdlhandler
     { NULL, NULL, mod_gamecontroller_module_initialize, mod_gamecontroller_module_finalize, NULL, NULL, NULL, NULL }, //mod_gamecontroller
-	{ NULL, NULL, libjoy_module_initialize, libjoy_module_finalize, NULL, NULL, NULL, NULL }, //libjoy
+    { NULL, NULL, libjoy_module_initialize, libjoy_module_finalize, NULL, NULL, NULL, NULL }, //libjoy
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_joy
     { libgrbase_globals_fixup, NULL, libgrbase_module_initialize, NULL, NULL, NULL, NULL, NULL }, //libgrbase
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //libblit
@@ -232,6 +238,9 @@ extra_symbols symbol_list_runtime[] = {
     { NULL, NULL, mod_multi_module_initialize, NULL, NULL, NULL, NULL, mod_multi_handler_hooks }, //mod_multi
 #ifndef NO_MODCURL
     { NULL, NULL, mod_curl_module_initialize, mod_curl_module_finalize, NULL, NULL, NULL, NULL }, //mod_curl
+#endif
+#ifndef NO_MODSTEAM
+    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_steam
 #endif
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_fsock
     { NULL, NULL, mod_theora_module_initialize, mod_theora_module_finalize, NULL, NULL, NULL, mod_theora_handler_hooks }, //mod_theora

@@ -4,8 +4,12 @@ cmake_minimum_required(VERSION 2.8)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${pxtb_SOURCE_DIR}/../include")
 find_package(SDL2 REQUIRED)     # We need the SDL_gamecontroller symbols, but we don't link against SDL2
 find_package(ZLIB REQUIRED)
+find_package(STEAMWORKS)
 # Preprocessor macros
 add_definitions(-D__PXTB__)
+if(NOT STEAMWORKS_FOUND)
+  add_definitions(-DNO_MODSTEAM)
+endif(NOT STEAMWORKS_FOUND)
 include(common_defs)
 # Source files
 file(GLOB SOURCE_FILES
@@ -75,6 +79,7 @@ include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include
                     ${pxtb_SOURCE_DIR}/../../../modules/libwm/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_wm/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_sys/
+                    ${pxtb_SOURCE_DIR}/../../../modules/mod_steam/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_regex/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_fsock/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_effects/

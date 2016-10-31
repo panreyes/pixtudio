@@ -1,4 +1,4 @@
-project(pxtrtm C)
+project(pxtrtm)
 cmake_minimum_required(VERSION 2.8)
 # Required stuff
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${pxtrtm_SOURCE_DIR}/../../include")
@@ -12,8 +12,12 @@ find_package(Freetype REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(TRE REQUIRED)
 find_package(CURL REQUIRED)
+find_package(STEAMWORKS)
 # Preprocessor macros
 add_definitions(-D__PXTRTM__)
+if(NOT STEAMWORKS_FOUND)
+  add_definitions(-DNO_MODSTEAM)
+endif(NOT STEAMWORKS_FOUND)
 include(common_defs)
 # Source files
 set(SOURCE_FILES
@@ -228,6 +232,16 @@ else()
          ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_wm/locale/env.c)
 endif()
 
+# Steamworks integration
+if(STEAMWORKS_FOUND)
+  list(APPEND SOURCE_FILES
+       ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/mod_steam.c
+       ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/mod_steam_symbols.h
+       ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/steam_wrapper.cpp
+       ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/steam_wrapper.h)
+  include_directories(${STEAMWORKS_INCLUDE_DIR})
+endif()
+
 # Include dirs
 include_directories(${pxtrtm_SOURCE_DIR}/../../../../core/pxtrtm/include
                     ${pxtrtm_SOURCE_DIR}/../../../../core/include
@@ -279,6 +293,7 @@ include_directories(${pxtrtm_SOURCE_DIR}/../../../../core/pxtrtm/include
                     ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_effects/
                     ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_curl/
                     ${pxtrtm_SOURCE_DIR}/../../../../modules/libsocket/
+                    ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/
                     ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_ttf/
                     ${pxtrtm_SOURCE_DIR}/../../../../3rdparty/stb/
                     ${pxtrtm_SOURCE_DIR}/../../../../3rdparty/theoraplay/

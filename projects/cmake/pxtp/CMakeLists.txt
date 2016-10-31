@@ -15,6 +15,7 @@ find_package(Freetype REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(TRE REQUIRED)
 find_package(CURL REQUIRED)
+find_package(STEAMWORKS)
 # Preprocessor macros
 add_definitions(-D__PXTP__)
 include(common_defs)
@@ -34,6 +35,13 @@ else()
     set(EXTRA_LIBS "-lm")
 endif()
 
+# Steamworks libraries
+if(STEAMWORKS_FOUND)
+    set(STEAM_LIB ${STEAMWORKS_LIBRARY})
+else()
+    set(STEAM_LIB "")
+endif()
+
 # Include the compiler flags from the external include file
 include(compiler_flags)
 
@@ -51,5 +59,6 @@ target_link_libraries(${PROJECT_NAME}
                       ${OPENAL_LIBRARY}
                       ${TRE_LIBRARY}
                       ${CURL_LIBRARY}
-                      ${EXTRA_LIBS})
+                      ${EXTRA_LIBS}
+                      ${STEAM_LIB})
 

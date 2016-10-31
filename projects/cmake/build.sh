@@ -83,7 +83,7 @@ for PROJECT in pxtb pxtp; do
     rm -rf ${PROJECT}_build
     mkdir ${PROJECT}_build
     cd ${PROJECT}_build
-    cmake -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" ${EXTRACMAKEFLAGS} -G "${PROJECTTYPE}" ../${PROJECT}
+    STEAMWORKSDIR=$(pwd)/../../../3rdparty/steamworks cmake -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" ${EXTRACMAKEFLAGS} -G "${PROJECTTYPE}" ../${PROJECT}
     $BUILDTOOL
     cd ..
 done
