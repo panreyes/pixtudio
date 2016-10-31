@@ -39,10 +39,6 @@ extern "C" {
 
 	bool c_SteamAPI_Init()
 	{
-		//std::cout << "Esto es una prueba\n";
-		printf( "Esto es una prueba");
-		printf( "%d", SteamAPI_Init());
-		exit(0); //ni si quiera consigo que salga de la aplicación -_-'
 		return SteamAPI_Init();
 	}
 

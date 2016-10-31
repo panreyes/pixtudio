@@ -47,15 +47,18 @@ int Steam_Cargado_Ok = 0;
 
 int steam_init(INSTANCE *my, int *params) {
 
-    if (c_SteamAPI_RestartAppIfNecessary(k_uAppIdInvalid)) {
-        printf("Steam Error: SteamAPI_RestartAppIfNecessary  \n");
-        return 0;
-    }
-
     if (!c_SteamAPI_Init()) {
         printf("Steam Error: SteamAPI_Init - Steam must be running to play this game   \n");
 
         return 0;
+    }
+
+
+    if(params[0]>0){
+		if (c_SteamAPI_RestartAppIfNecessary(k_uAppIdInvalid)) {
+			printf("Steam Error: SteamAPI_RestartAppIfNecessary  \n");
+			return 0;
+		}
     }
 
     c_SetWarningMessageHook();
