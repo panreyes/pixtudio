@@ -27,13 +27,18 @@ set(SOURCE_FILES
 include_directories(${pxtp_SOURCE_DIR}/../../../core/pxtp/include
                     ${pxtp_SOURCE_DIR}/../../../core/include
                     ${pxtp_SOURCE_DIR}/../../../core/pxtrtm/include/)
-# Main executable
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
 if(WIN32)
     set(EXTRA_LIBS "-lshlwapi -lwsock32 -lm")
+	set(SOURCE_FILES
+      ${SOURCE_FILES}
+      ${pxtp_SOURCE_DIR}/pxtp.rc)
 else()
     set(EXTRA_LIBS "-lm")
 endif()
+
+# Main executable
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # Steamworks libraries
 if(STEAMWORKS_FOUND)

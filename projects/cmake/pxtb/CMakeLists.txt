@@ -86,13 +86,18 @@ include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_curl/
                     ${SDL2_INCLUDE_DIR}
                     ${ZLIB_INCLUDE_DIRS})
-# Main executable
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
 if(WIN32)
+	set(SOURCE_FILES
+      ${SOURCE_FILES}
+      ${pxtb_SOURCE_DIR}/pxtb.rc)
     set(EXTRA_LIBS "-lshlwapi")
 else()
     set(EXTRA_LIBS)
 endif()
+
+# Main executable
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # Include the compiler flags from the external include file
 include(compiler_flags)
