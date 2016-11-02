@@ -246,7 +246,13 @@ int moddir_read(INSTANCE *my, int *params) {
  */
 int moddir_get_basepath(INSTANCE *my, int *params) {
     int code;
-    code = string_new(SDL_GetBasePath());
+    char *path = SDL_GetBasePath();
+    if(! path) {
+        code = string_new("");
+    } else {
+        code = string_new(path);
+        SDL_free(path);
+    }
     string_use(code);
 
     return code;
@@ -254,7 +260,13 @@ int moddir_get_basepath(INSTANCE *my, int *params) {
 
 int moddir_get_prefpath(INSTANCE *my, int *params) {
     int code;
-    code = string_new(SDL_GetPrefPath(string_get(params[0]), string_get(params[1])));
+    char *path = SDL_GetPrefPath(string_get(params[0]), string_get(params[1]));
+    if(! path) {
+        code = string_new("");
+    } else {
+        code = string_new(path);
+        SDL_free(path);
+    }
     string_use(code);
 
     string_discard(params[0]);
