@@ -128,9 +128,11 @@ DLVARFIXUP __pxtexport(libkey, globals_fixup)[] = {
 static void add_key_equiv(int equiv, int keyconst) {
     key_equiv *curr = &key_table[keyconst];
 
-    if (curr->next != NULL)
-        while (curr->next != NULL)
+    if (curr->next != NULL) {
+        while (curr->next != NULL) {
             curr = curr->next;
+        }
+    }
 
     if (curr->sdlk_equiv != 0) {
         curr->next = malloc(sizeof(key_equiv));
@@ -154,8 +156,8 @@ void hotkey_add(int mod, int sym, HOTKEY_CALLBACK callback) {
         exit(-1);
     }
 
-    hotkey_list[hotkey_count].mod      = mod;
-    hotkey_list[hotkey_count].sym      = sym;
+    hotkey_list[hotkey_count].mod = mod;
+    hotkey_list[hotkey_count].sym = sym;
     hotkey_list[hotkey_count].callback = callback;
     hotkey_count++;
 }
@@ -192,7 +194,7 @@ static void process_key_events() {
     /* Actualizar eventos */
 
     keypress = 0;
-    m        = SDL_GetModState();
+    m = SDL_GetModState();
 
     /* Procesa los eventos pendientes */
     /* Reset ascii and scancode if last key was released... */
@@ -202,9 +204,10 @@ static void process_key_events() {
     if (GLODWORD(libkey, SCANCODE)) {
         curr = &key_table[GLODWORD(libkey, SCANCODE)];
         while (curr != NULL && pressed == 0) {
-            if (keystate[curr->sdlk_equiv])
+            if (keystate[curr->sdlk_equiv]) {
                 pressed = 1;
-            curr        = curr->next;
+            }
+            curr = curr->next;
         }
     }
 
@@ -218,17 +221,18 @@ static void process_key_events() {
             case SDL_KEYDOWN:
                 ignore_key = 0;
                 /* KeyDown HotKey */
-                if (hotkey_count)
+                if (hotkey_count) {
                     for (n = 0; n < hotkey_count; n++) {
                         if (((hotkey_list[n].mod & e.key.keysym.mod) == hotkey_list[n].mod) &&
                             (!hotkey_list[n].sym || (hotkey_list[n].sym == e.key.keysym.sym))) {
                             ignore_key = hotkey_list[n].callback(e.key.keysym);
                         }
                     }
-                /* KeyDown HotKey */
+                }
 
-                if (ignore_key)
+                if (ignore_key) {
                     break;
+                }
 
                 /* Almacena la pulsación de la tecla */
                 k = sdl_equiv[e.key.keysym.scancode];
@@ -240,10 +244,11 @@ static void process_key_events() {
                     if (e.key.keysym.sym) {
                         asc = iso88591_to_cp850[e.key.keysym.sym & 0xFF];
 
-                        /* ascii mayusculas */
+                        /* capital ascii */
                         if (asc >= 'a' && asc <= 'z' &&
-                            (m & KMOD_LSHIFT || m & KMOD_RSHIFT || keystate[SDL_SCANCODE_CAPSLOCK]))
+                            (m & KMOD_LSHIFT || m & KMOD_RSHIFT || keystate[SDL_SCANCODE_CAPSLOCK])) {
                             asc -= 0x20;
+                        }
                     } else {
                         asc = 0; /* NON PRINTABLE */
                     }
@@ -255,22 +260,24 @@ static void process_key_events() {
                     if (e.key.keysym.sym) {
                         asc = iso88591_to_cp850[e.key.keysym.sym & 0x7F];
 
-                        /*ascii mayusculas */
+                        /* capital ascii */
                         if (asc >= 'a' && asc <= 'z' &&
-                            (m & KMOD_LSHIFT || m & KMOD_RSHIFT || keystate[SDL_SCANCODE_CAPSLOCK]))
+                            (m & KMOD_LSHIFT || m & KMOD_RSHIFT || keystate[SDL_SCANCODE_CAPSLOCK])) {
                             asc -= 0x20;
+                        }
                     } else {
                         asc = 0; /* NON PRINTABLE */
                     }
                     keyring[keyring_tail].ascii = asc;
-                    if (++keyring_tail == 64)
+                    if (++keyring_tail == 64) {
                         keyring_tail = 0;
+                    }
                 }
 
                 break;
 
             case SDL_KEYUP:
-                /* Do nothing, Bennu is key_up insensitive */
+                /* Do nothing, PixTudio is key_up insensitive */
                 break;
         }
     }
@@ -278,11 +285,12 @@ static void process_key_events() {
     if (!keypress && keyring_start != keyring_tail) {
         GLODWORD(libkey, ASCII) = keyring[keyring_start].ascii;
         GLODWORD(libkey, SCANCODE) = keyring[keyring_start].scancode;
-        if (++keyring_start == 64)
+        if (++keyring_start == 64) {
             keyring_start = 0;
+        }
     }
 
-    /* Now actualized every frame... */
+    /* Now updated every frame... */
     GLODWORD(libkey, SHIFTSTATUS) =
         ((m & KMOD_RSHIFT) ? STAT_RSHIFT : 0) | ((m & KMOD_LSHIFT) ? STAT_LSHIFT : 0) |
 
@@ -309,8 +317,9 @@ HOOK __pxtexport(libkey, handler_hooks)[] = {{4900, process_key_events}, {0, NUL
 void __pxtexport(libkey, module_initialize)() {
     int *ptr = equivs;
 
-    if (!SDL_WasInit(SDL_INIT_VIDEO))
+    if (!SDL_WasInit(SDL_INIT_VIDEO)) {
         SDL_InitSubSystem(SDL_INIT_VIDEO);
+    }
 
     memset(sdl_equiv, 0, sizeof(sdl_equiv));
     memset(key_table, 0, sizeof(key_table));
@@ -321,8 +330,9 @@ void __pxtexport(libkey, module_initialize)() {
         ptr += 2;
     }
 
-    if (!keystate)
+    if (!keystate) {
         keystate = SDL_GetKeyboardState(NULL);
+    }
 }
 
 /* ---------------------------------------------------------------------- */
@@ -342,8 +352,9 @@ void __pxtexport(libkey, module_finalize)() {
         free(curr);
     }
 
-    if (SDL_WasInit(SDL_INIT_VIDEO))
+    if (SDL_WasInit(SDL_INIT_VIDEO)) {
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
+    }
 }
 
 /* ---------------------------------------------------------------------- */
