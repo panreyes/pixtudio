@@ -311,7 +311,7 @@ int instance_go(INSTANCE *r) {
 
                 if (!proc) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Unknown process\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
 
@@ -381,7 +381,7 @@ int instance_go(INSTANCE *r) {
                 p = sysproc_get(ptr[1]);
                 if (!p) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Unknown system function\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
 
@@ -395,7 +395,7 @@ int instance_go(INSTANCE *r) {
                 p = sysproc_get(ptr[1]);
                 if (!p) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Unknown system process\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
                 r->stack_ptr -= p->params;
@@ -464,7 +464,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = (uint32_t)&LOCDWORD(i, ptr[1]);
@@ -482,7 +482,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = (uint32_t)&PUBDWORD(i, ptr[1]);
@@ -525,7 +525,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = LOCDWORD(i, ptr[1]);
@@ -538,7 +538,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = PUBDWORD(i, ptr[1]);
@@ -588,7 +588,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = LOCDWORD(i, ptr[1]);
@@ -600,7 +600,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = PUBDWORD(i, ptr[1]);
@@ -666,7 +666,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = LOCINT16(i, ptr[1]);
@@ -677,7 +677,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = LOCWORD(i, ptr[1]);
@@ -688,7 +688,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = PUBINT16(i, ptr[1]);
@@ -699,7 +699,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = PUBWORD(i, ptr[1]);
@@ -762,7 +762,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = LOCINT8(i, ptr[1]);
@@ -773,7 +773,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = LOCBYTE(i, ptr[1]);
@@ -784,7 +784,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = PUBINT8(i, ptr[1]);
@@ -795,7 +795,7 @@ int instance_go(INSTANCE *r) {
                 i = instance_get(r->stack_ptr[-1]);
                 if (!i) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Process %d not active\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID), r->stack_ptr[-1]);
                     exit(0);
                 } else
                     r->stack_ptr[-1] = PUBBYTE(i, ptr[1]);
@@ -933,7 +933,7 @@ int instance_go(INSTANCE *r) {
             case MN_DIV:
                 if (r->stack_ptr[-1] == 0) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Division by zero\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
                 r->stack_ptr[-2] /= r->stack_ptr[-1];
@@ -946,7 +946,7 @@ int instance_go(INSTANCE *r) {
             case MN_DIV | MN_UNSIGNED:
                 if (r->stack_ptr[-1] == 0) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Division by zero\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
                 r->stack_ptr[-2] = (uint32_t)r->stack_ptr[-2] / (uint32_t)r->stack_ptr[-1];
@@ -959,7 +959,7 @@ int instance_go(INSTANCE *r) {
             case MN_MOD:
                 if (r->stack_ptr[-1] == 0) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Division by zero\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
                 r->stack_ptr[-2] %= r->stack_ptr[-1];
@@ -972,7 +972,7 @@ int instance_go(INSTANCE *r) {
             case MN_MOD | MN_UNSIGNED:
                 if (r->stack_ptr[-1] == 0) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Division by zero\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
                 r->stack_ptr[-2] = (uint32_t)r->stack_ptr[-2] % (uint32_t)r->stack_ptr[-1];
@@ -1498,7 +1498,7 @@ int instance_go(INSTANCE *r) {
             case MN_VARDIV | MN_UNSIGNED:
                 if (r->stack_ptr[-1] == 0) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Division by zero\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
                 *(int32_t *)(r->stack_ptr[-2]) /= r->stack_ptr[-1];
@@ -1510,7 +1510,7 @@ int instance_go(INSTANCE *r) {
             case MN_VARMOD | MN_UNSIGNED:
                 if (r->stack_ptr[-1] == 0) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Division by zero\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
                 *(int32_t *)(r->stack_ptr[-2]) %= r->stack_ptr[-1];
@@ -1642,7 +1642,7 @@ int instance_go(INSTANCE *r) {
             case MN_WORD | MN_VARMOD | MN_UNSIGNED:
                 if ((int16_t)r->stack_ptr[-1] == 0) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Division by zero\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
                 *(int16_t *)(r->stack_ptr[-2]) %= (int16_t)r->stack_ptr[-1];
@@ -1762,7 +1762,7 @@ int instance_go(INSTANCE *r) {
             case MN_BYTE | MN_VARDIV | MN_UNSIGNED:
                 if ((uint8_t)r->stack_ptr[-1] == 0) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Division by zero\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
                 *(uint8_t *)(r->stack_ptr[-2]) /= (uint8_t)r->stack_ptr[-1];
@@ -1774,7 +1774,7 @@ int instance_go(INSTANCE *r) {
             case MN_BYTE | MN_VARMOD | MN_UNSIGNED:
                 if ((uint8_t)r->stack_ptr[-1] == 0) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Division by zero\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
                 *(uint8_t *)(r->stack_ptr[-2]) %= (uint8_t)r->stack_ptr[-1];
@@ -1994,7 +1994,7 @@ int instance_go(INSTANCE *r) {
                 PROCDEF *proct = procdef_get(ptr[1]);
                 if (!proct) {
                     PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Invalid type\n",
-                            r->proc->name, LOCDWORD(r, PROCESS_ID));
+                                    r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
                 *r->stack_ptr++ = proct->type;
@@ -2061,7 +2061,9 @@ int instance_go(INSTANCE *r) {
             case MN_DEBUG:
                 if (dcb.data.NSourceFiles) {
                     if (debug_DCB > 0)
-                        PXTRTM_LOG("\n::: DEBUG from %s(%d)\n", r->proc->name, LOCDWORD(r, PROCESS_ID));
+                        PXTRTM_LOG("\n::: DEBUG from %s(%d)\n",
+                                   r->proc->name,
+                                   LOCDWORD(r, PROCESS_ID));
                     debug_next = 1;
                 }
                 ptr++;
@@ -2082,7 +2084,8 @@ int instance_go(INSTANCE *r) {
         if (r->stack_ptr < r->stack) {
             PXTRTM_LOGERROR("ERROR: Runtime error in %s(%d) - Critical Stack Problem StackBase=%p "
                             "StackPTR=%p\n",
-                    r->proc->name, LOCDWORD(r, PROCESS_ID), (void *)r->stack, (void *)r->stack_ptr);
+                            r->proc->name, LOCDWORD(r, PROCESS_ID),
+                            (void *)r->stack, (void *)r->stack_ptr);
             exit(0);
         }
 
