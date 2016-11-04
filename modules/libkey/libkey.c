@@ -335,7 +335,7 @@ static void process_key_events() {
                 if (!keypress) {
                     GLODWORD(libkey, SCANCODE) = k;
                     if (e.key.keysym.sym) {
-                        asc = iso88591_to_cp850[e.key.keysym.sym];
+                        asc = iso88591_to_cp850[e.key.keysym.sym & 0xFF];
 
                         /* capital ascii */
                         if (asc >= 'a' && asc <= 'z' &&
