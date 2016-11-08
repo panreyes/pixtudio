@@ -18,4 +18,4 @@ PixTudio relies on code from the following projects:
 
 And probably many others.
 
-I'll also like to thank all the people who test the code, including Pablo Navarro, for finding bugs and encouraging development.
+I'll also like to thank all the people who test the code, including Pablo Navarro, for finding bugs, encouraging development and helping with the coding.
