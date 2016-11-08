@@ -41,13 +41,15 @@ tutorial](Tutorial:#Textinput).
 Example
 -------
 
+```
     Function int addInts( int a , int b )
     Private // Declare private variables here
     Begin // Start the main functioncode
         return a+b;
     End // End the main functioncode
+```
 
-addInts(3,6); will return 9. One can see that the function does indeed:
+`addInts(3,6);` will return 9. One can see that the function does indeed:
 
 -   receive parameters.
 -   act on the parameters.
