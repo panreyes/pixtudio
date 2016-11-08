@@ -142,7 +142,7 @@ function docs_read_content($file){
         <div id="page-content-wrapper">
 ';
 
-    //PONEMOS ÍNDICE
+    // PONEMOS ÍNDICE
     $fp=fopen($file,"r"); //round 2
     while(!feof($fp)) {
         $line=fgets($fp);

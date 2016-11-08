@@ -3,33 +3,34 @@ Datatype declaration
 
 ### Definition
 
-**Type** <name>
+```
+Type {name}
+    {variables}
+End
+```
 
-:   <variables>
-
-**End**
-
-Creates a new [datatype](datatype "wikilink"). It's handled as if it
-were a [struct](struct "wikilink"), so the declared variables are
+Creates a new [datatype](#datatype). It's handled as if it
+were a [struct](#struct), so the declared variables are
 members of the struct.
 
-While it's a convention to use a '\_' as first character in the name of
+While it's a convention to use a `_` as first character in the name of
 a datatype, it's not mandatory.
 
-When used as an [argument](argument "wikilink") in a
-[function](function "wikilink") or [process](process "wikilink"), the
-[parameter](parameter "wikilink") is not a copy, but the variable
+When used as an [argument](#argument) in a
+[function](#function) or [process](#process), the
+[parameter](#parameter) is not a copy, but the variable
 itself, as shown in the first example, and any change made to the
 parameter is also changed in the argument. It's more elegant to use a
-[pointer](pointer "wikilink") though, as it also displayed.
+[pointer](#pointer) though, as it also displayed.
 
 ### Example
 
 A file with name and path. Note that the assignment `myFile2 = myFile;`
-makes a copy of *myFile* and throws it into *myFile2*, which is normal.
+makes a copy of `myFile` and throws it into `myFile2`, which is normal.
 But when it's used as an argument in a function, the parameter is not a
-copy but the \_file itself.
+copy but the `_file` itself.
 
+```
     Type _file
         String path;
         String name;
@@ -71,14 +72,14 @@ copy but the \_file itself.
     Begin
         f.name = name; // this is actually (*f).name = name, but . can be used like this
     End
+```
 
-Used in example: [say](say "wikilink")(), [key](key "wikilink")(),
-[Pointer](Pointer "wikilink")
-
-This will result in something like:\
+Used in example: [say](#say)(), [key](#key)(),
+[Pointer](#pointer)
 
 A point with x and y.
 
+```
     // Declare the type _point
     Type _point
         float x;
@@ -118,27 +119,28 @@ A point with x and y.
     Begin
         return draw_line( a.x , a.y , b.x , b.y );
     End
+```
 
-Used in example: [write](write "wikilink")(), [key](key "wikilink")(),
-[sqrt](sqrt "wikilink")(), [draw\_line](draw_line "wikilink")()
-
-This will result in something like:\
+Used in example: [write](#write)(), [key](#key)(),
+[sqrt](#sqrt)(), [draw_line](#draw_line)()
 
 ProcessType
 -----------
 
 ### Definition
 
-**Type** <processname>
+```
+Type {processname}
+```
 
-Acquires the [processTypeID](processTypeID "wikilink") of a
-[processType](processType "wikilink") or
-[function](function "wikilink"). This can be useful for example with the
-functions [get\_id](get_id "wikilink")() and
-[signal](signal "wikilink")().
+Acquires the [processTypeID](#processtypeid) of a
+[processType](#processtype) or
+[function](#function). This can be useful for example with
+[get_id](#get_id)() and [signal](#signal)().
 
 ### Example
 
+```
     Program example;
     Private
         proc proc_id; //int could be used too
@@ -168,9 +170,6 @@ functions [get\_id](get_id "wikilink")() and
             frame;
         End
     End
+```
 
-Used in example: [get\_id](get_id "wikilink")(),
-[write](write "wikilink")(), [key](key "wikilink")()
-
-This will result in something like:\
-
+Used in example: [get_id](#get_id)(), [write](#write)(), [key](#key)()

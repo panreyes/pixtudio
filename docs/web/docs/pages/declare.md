@@ -1,26 +1,22 @@
 Syntax
 ------
 
-**Declare** \[ **Function** | **Process** \] \[ <returntype> \] <name>
-**(** \[ <parameters> \] **)**
+**Declare** [ **Function** | **Process** ] [ {returntype} ] {name}
+**(** [ {parameters} ] **)**
 
-:   \[ **Private**
-
-    :   <private variables>
-
-:   **End** \]
-:   \[ **Public**
-
-    :   <public variables>
-
-:   **End** \]
-
-**End**
+```
+Private
+   {private variables}
+End
+Public
+    {public variables}
+End
+```
 
 Description
 -----------
 
-Declare is a reserved word used to declare a
+`Declare` is a reserved word used to declare a
 [process](process "wikilink") or [function](function "wikilink") before
 its actual code. This can be useful if the function or process needs to
 be known before it is actually defined, like when the function returns
@@ -44,6 +40,7 @@ last two are defined within the Declare block.
 Example
 -------
 
+```
     Declare Process example_process()
         Public // Declare public variables for the process example_process
             int public_int;
@@ -80,6 +77,4 @@ Example
     Begin
         return "";
     End
-
-<Category:reserved> <Category:language> [Category:Basic
-statement](Category:Basic_statement "wikilink")
+```

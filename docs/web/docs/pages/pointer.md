@@ -1,35 +1,39 @@
-Definition
-----------
+Syntax
+------
 
-### Statement
+Declaration of a pointer:
+```
+{datatype} POINTER {pointername};
+```
 
-Declaration of a pointer:\
-<datatype> POINTER <pointername>\
-<datatype> \* <pointername>
+Assignment of a value to the location pointed to:
+```
+POINTER {pointername} = {value};
+```
 
-Assignment of a value to the location pointed to:\
-POINTER <pointername> = <value>;\
-\* <pointername> = <value>;
-
-### Concept
+Concept
+-------
 
 **Pointer**s, are used to point to a location in
-[memory](memory "wikilink"). It uses 32 [bits](bit "wikilink") (4
-[bytes](byte "wikilink")) so it can map 4GB of memory into bytes.
-**Pointer**s can point to any [datatype](datatype "wikilink"):
-[ints](int "wikilink"), [shorts](short "wikilink"),
-[strings](string "wikilink") or even usermade datatypes. However, using
-a `struct pointer my_pointer` is pointless, because the compiler has no
-knowledge of the elements inside the struct pointing to, since it
-doesn't know which struct is meant, so this is invalid.
-`MyStruct pointer my_pointer`, where MyStruct is an existing struct, is
+[memory](#memory). It uses 32 [bits](#bit) (4
+[bytes](#byte)) so it can map 4GB of memory into bytes.
+**Pointer**s can point to any [datatype](#datatype):
+[ints](#int), [shorts](#short),
+[strings](#string) or even usermade datatypes.
+
+However, using a `struct pointer my_pointer` is pointless, 
+because the compiler has no knowledge of the elements 
+inside the struct pointing to, since it doesn't know 
+which struct is meant, so this is invalid.
+`MyStruct pointer my_pointer`, where `MyStruct` is an existing struct, is
 also not valid, because MyStruct is not a datatype. The only way to have
 something like a `struct pointer my_pointer` is to use
-[Type](Type "wikilink") as seen in the example.
+[Type](#type) as seen in the example.
 
 Example
 -------
 
+```
     import "mod_say"
 
     Type _point
@@ -82,16 +86,15 @@ Example
         p.y = 5; // this is actually (*p).y = 5, but . can be used like this
         return 0;
     End
+```
 
-Used in example: [say](say "wikilink")(), [key](key "wikilink")(),
-[Type](Type "wikilink"), [Global](Global "wikilink"),
-[Private](Private "wikilink"), [point](point "wikilink")
+Used in example: [say](#say)(), [key](#key)(),
+[Type](#type), [Global](#global),
+[Private](#private), [point](#point)
 
-The & (offset) operator, when used with pointers, returns a
-[void](void "wikilink") pointer to a variable. In the example it returns
-an [int](int "wikilink") pointer to the variable my\_int. The \*
+The `&` (offset) operator, when used with pointers, returns a
+[void](#void) pointer to a variable. In the example it returns
+an [int](#int) pointer to the variable `my_int`. The `*`
 (pointer) operator, when used with pointers, makes it so the pointer
 variable is not accessed, but the variable it's pointing to. In the
-example it changes access from my\_int\_pointer to my\_int.
-
-<Category:language> <Category:datatypes> <Category:operators>
+example it changes access from `my_int_pointer` to `my_int`.
