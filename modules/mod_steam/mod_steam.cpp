@@ -53,7 +53,7 @@ extern "C" {
         }
 
         if(params[0] > 0){
-            if (SteamAPI_RestartAppIfNecessary(params[0])) {
+            if (SteamAPI_RestartAppIfNecessary((uint32_t)params[0])) {
                 fprintf(stderr, "Steam Error: SteamAPI_RestartAppIfNecessary\n");
                 fflush(stderr);
                 return 0;
@@ -70,28 +70,7 @@ extern "C" {
             return -1;
         }
 
-        char rgchCWD[1024];
-        getcwd(rgchCWD, sizeof(rgchCWD));
-
-        char rgchFullPath[1024];
-    #if defined(_WIN32)
-        _snprintf(rgchFullPath, sizeof(rgchFullPath), "%s\\%s", rgchCWD, "controller.vdf");
-    #elif defined(OSX)
-        // hack for now, because we do not have utility functions available for finding the resource
-        // path
-        // alternatively we could disable the SteamController init on OS X
-        _snprintf(rgchFullPath, sizeof(rgchFullPath), "%s/steamworksexample.app/Contents/Resources/%s",
-                  rgchCWD, "controller.vdf");
-    #else
-        snprintf(rgchFullPath, sizeof(rgchFullPath), "%s/%s", rgchCWD, "controller.vdf");
-    #endif
-
-        /*if (!SteamController()->Init())
-        {
-            printf("Steam Error: SteamController()->Init failed.   \n");
-
-            //return 0;
-        }*/
+        SteamUserStats()->RequestCurrentStats();
 
         steam_loaded = 1;
 
@@ -139,9 +118,13 @@ extern "C" {
             return -1;
         }
 
+        // TODO: This part is technically right, but won't work unless we
+        // process the callback from RequestCurrentState()
+        // https://partner.steamgames.com/documentation/bootstrap_achieve
         const char *achievement = string_get(params[0]);
         bool retval = SteamUserStats()->SetAchievement(achievement);
         string_discard(params[0]);
+        retval *= SteamUserStats()->StoreStats();
 
         if(retval == true) {
             return 0;
