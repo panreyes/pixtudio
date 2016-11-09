@@ -853,7 +853,7 @@ void __pxtexport(mod_map, module_initialize)() {
 }
 
 void __pxtexport(mod_map, module_finalize)() {
-#ifdef WIN32
+#ifndef WIN32
     // Unload all the loaded fonts
     // This code seems to crash on Windows, and I don't yet know why...
     for(int32_t i=0; i<MAX_FONTS; i++) {
