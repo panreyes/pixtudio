@@ -35,10 +35,10 @@
 #include "mod_steam_symbols.h"
 #endif
 
-static int Steam_Cargado_Ok = 0;
-
 /* ---------------------------------------------------------------------- */
 extern "C" {
+    #include <xstrings.h>
+    static int steam_loaded = 0;
 
     void SteamAPIDebugTextHook(int nSeverity, const char *pchDebugText) {
         printf( "%s\n", pchDebugText );
@@ -95,7 +95,7 @@ extern "C" {
             //return 0;
         }*/
 
-        Steam_Cargado_Ok = 1;
+        steam_loaded = 1;
 
         fprintf(stdout, "Steam Init OK.\n");
         fflush(stdout);
@@ -106,7 +106,7 @@ extern "C" {
     /* ---------------------------------------------------------------------- */
 
     int steam_close(INSTANCE *my, int *params) {
-        if (Steam_Cargado_Ok) {
+        if (steam_loaded) {
             // Shutdown the SteamAPI
             SteamAPI_Shutdown();
 
@@ -119,4 +119,18 @@ extern "C" {
     }
 
     /* ---------------------------------------------------------------------- */
+
+    int steam_username(INSTANCE *my, int *params) {
+        const char *name;
+        if(steam_loaded) {
+            name = SteamFriends()->GetPersonaName();
+        } else {
+            name = "";
+        }
+
+        int string_id = string_new(name);
+        string_use(string_id);
+
+        return string_id;
+    }
 }

@@ -37,11 +37,13 @@ extern "C" {
 #ifndef __PXTB__
 extern int steam_init(INSTANCE *my, int *params);
 extern int steam_close(INSTANCE *my, int *params);
+extern int steam_username(INSTANCE *my, int *params);
 #endif
 
 DLSYSFUNCS __pxtexport(mod_steam, exported_functions)[] = {
     FUNC("STEAM_INIT",  "I", TYPE_INT, steam_init ),
     FUNC("STEAM_CLOSE", "",  TYPE_INT, steam_close),
+    FUNC("STEAM_USERNAME", "",  TYPE_STRING, steam_username),
     FUNC(0, 0, 0, 0)};
 
 #endif
