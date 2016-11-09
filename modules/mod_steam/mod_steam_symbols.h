@@ -28,6 +28,10 @@
 #ifndef __MODSTEAM_SYMBOLS_H
 #define __MODSTEAM_SYMBOLS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <pxtdl.h>
 
 #ifndef __PXTB__
@@ -36,7 +40,12 @@ extern int steam_close(INSTANCE *my, int *params);
 #endif
 
 DLSYSFUNCS __pxtexport(mod_steam, exported_functions)[] = {
-    FUNC("STEAM_INIT", "I", TYPE_INT, steam_init), FUNC("STEAM_CLOSE", "", TYPE_INT, steam_close),
+    FUNC("STEAM_INIT",  "I", TYPE_INT, steam_init ),
+    FUNC("STEAM_CLOSE", "",  TYPE_INT, steam_close),
     FUNC(0, 0, 0, 0)};
 
+#endif
+
+#ifdef __cplusplus
+}
 #endif
