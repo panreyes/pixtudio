@@ -122,7 +122,6 @@ extern "C" {
         const char *name;
         if(steam_loaded) {
             name = SteamFriends()->GetPersonaName();
-            SteamUserStats()->SetAchievement("WHOLE_TRIBE");
         } else {
             name = "";
         }
