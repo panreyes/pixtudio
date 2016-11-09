@@ -45,7 +45,6 @@ extern "C" {
     }
 
     int steam_init(INSTANCE *my, int *params) {
-
         if (!SteamAPI_Init()) {
             fprintf(stderr, "Steam Error: SteamAPI_Init - Steam must be running to play this game\n");
             fflush(stderr);
@@ -53,8 +52,7 @@ extern "C" {
             return 0;
         }
 
-
-        if(params[0]>0){
+        if(params[0] > 0){
             if (SteamAPI_RestartAppIfNecessary(params[0])) {
                 fprintf(stderr, "Steam Error: SteamAPI_RestartAppIfNecessary\n");
                 fflush(stderr);
@@ -124,6 +122,7 @@ extern "C" {
         const char *name;
         if(steam_loaded) {
             name = SteamFriends()->GetPersonaName();
+            SteamUserStats()->SetAchievement("WHOLE_TRIBE");
         } else {
             name = "";
         }
@@ -132,5 +131,42 @@ extern "C" {
         string_use(string_id);
 
         return string_id;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    int steam_unlock_achievement(INSTANCE *my, int *params) {
+        if(!steam_loaded) {
+            return -1;
+        }
+
+        const char *achievement = string_get(params[0]);
+        bool retval = SteamUserStats()->SetAchievement(achievement);
+        string_discard(params[0]);
+
+        if(retval == true) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    int steam_check_achievement(INSTANCE *my, int *params) {
+        if(!steam_loaded) {
+            return -1;
+        }
+
+        const char *achievement = string_get(params[0]);
+        bool achieved;
+        SteamUserStats()->GetAchievement(achievement, &achieved);
+        string_discard(params[0]);
+
+        if(achieved){
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
