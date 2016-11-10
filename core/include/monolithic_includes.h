@@ -240,7 +240,7 @@ extra_symbols symbol_list_runtime[] = {
     { NULL, NULL, mod_curl_module_initialize, mod_curl_module_finalize, NULL, NULL, NULL, NULL }, //mod_curl
 #endif
 #ifndef NO_MODSTEAM
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_steam
+    { NULL, NULL, NULL, mod_steam_module_finalize, NULL, NULL, NULL, NULL }, //mod_steam
 #endif
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_fsock
     { NULL, NULL, mod_theora_module_initialize, mod_theora_module_finalize, NULL, NULL, NULL, mod_theora_handler_hooks }, //mod_theora

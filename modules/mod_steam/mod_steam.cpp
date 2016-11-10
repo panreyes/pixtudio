@@ -46,7 +46,8 @@ extern "C" {
 
     int steam_init(INSTANCE *my, int *params) {
         if (!SteamAPI_Init()) {
-            fprintf(stderr, "Steam Error: SteamAPI_Init - Steam must be running to play this game\n");
+            fprintf(stderr, "Steam Error: SteamAPI_Init - "
+                            "Steam must be running to play this game\n");
             fflush(stderr);
 
             return 0;
@@ -78,21 +79,6 @@ extern "C" {
         fflush(stdout);
 
         return 0;
-    }
-
-    /* ---------------------------------------------------------------------- */
-
-    int steam_close(INSTANCE *my, int *params) {
-        if (steam_loaded) {
-            // Shutdown the SteamAPI
-            SteamAPI_Shutdown();
-
-            // Shutdown Steam CEG
-            // c_Steamworks_TermCEGLibrary();
-            return 0;
-        }
-
-        return -1;
     }
 
     /* ---------------------------------------------------------------------- */
@@ -150,5 +136,14 @@ extern "C" {
         } else {
             return 0;
         }
+    }
+
+    /* ---------------------------------------------------------------------- */
+    void __pxtexport( mod_steam, module_finalize )() {
+        if(!steam_loaded) {
+            return;
+        }
+
+        SteamAPI_Shutdown();
     }
 }
