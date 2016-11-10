@@ -1556,7 +1556,7 @@ int modsound_wav_set_volume(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_channel_panning_set(INSTANCE *my, int *params) {
+int modsound_channel_set_panning(INSTANCE *my, int *params) {
     return (set_panning(params[0], params[1], params[2]));
 }
 
@@ -1574,7 +1574,7 @@ int modsound_channel_panning_set(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_channel_position_set(INSTANCE *my, int *params) {
+int modsound_channel_set_position(INSTANCE *my, int *params) {
     return (set_position(params[0], params[1], params[2]));
 }
 
@@ -1593,7 +1593,7 @@ int modsound_channel_position_set(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_channel_distance_set(INSTANCE *my, int *params) {
+int modsound_channel_set_distance(INSTANCE *my, int *params) {
     return (set_distance(params[0], params[1]));
 }
 
@@ -1617,7 +1617,7 @@ int modsound_stereo_reserve(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modsound_music_position_set(INSTANCE *my, int *params) {
+int modsound_music_set_position(INSTANCE *my, int *params) {
     return (Mix_SetMusicPosition((double)*(float *)&params[0]));
 }
 

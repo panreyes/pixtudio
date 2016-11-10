@@ -63,11 +63,11 @@ extern int modsound_music_fade_out( INSTANCE * my, int * params );
 extern int modsound_wav_set_volume( INSTANCE * my, int * params );
 extern int modsound_channel_set_volume( INSTANCE * my, int * params );
 extern int modsound_channels_reserve( INSTANCE * my, int * params );
-extern int modsound_channel_panning_set( INSTANCE * my, int * params );
-extern int modsound_channel_position_set( INSTANCE * my, int * params );
-extern int modsound_channel_distance_set( INSTANCE * my, int * params );
+extern int modsound_channel_set_panning( INSTANCE * my, int * params );
+extern int modsound_channel_set_position( INSTANCE * my, int * params );
+extern int modsound_channel_set_distance( INSTANCE * my, int * params );
 extern int modsound_stereo_reserve( INSTANCE * my, int * params );
-extern int modsound_music_position_set( INSTANCE * my, int * params );
+extern int modsound_music_set_position( INSTANCE * my, int * params );
 
 DLVARFIXUP  __pxtexport( mod_sound, globals_fixup )[] = {
     { "sound_freq",     NULL, -1, -1 },
@@ -131,13 +131,13 @@ DLSYSFUNCS  __pxtexport( mod_sound, exported_functions )[] = {
 
     FUNC( "CHANNELS_RESERVE"    , "I"    , TYPE_INT , modsound_channels_reserve     ),
 
-    FUNC( "CHANNEL_PANNING_SET" , "III"  , TYPE_INT , modsound_channel_panning_set  ),
-    FUNC( "CHANNEL_POSITION_SET", "III"  , TYPE_INT , modsound_channel_position_set ),
-    FUNC( "CHANNEL_DISTANCE_SET", "II"   , TYPE_INT , modsound_channel_distance_set ),
+    FUNC( "CHANNEL_SET_PANNING" , "III"  , TYPE_INT , modsound_channel_set_panning  ),
+    FUNC( "CHANNEL_SET_POSITION", "III"  , TYPE_INT , modsound_channel_set_position ),
+    FUNC( "CHANNEL_SET_DISTANCE", "II"   , TYPE_INT , modsound_channel_set_distance ),
 
     FUNC( "STEREO_REVERSE"      , "II"   , TYPE_INT , modsound_stereo_reserve       ),
 
-    FUNC( "MUSIC_POSITION_SET"  , "F"    , TYPE_INT , modsound_music_position_set   ),
+    FUNC( "MUSIC_SET_POSITION"  , "F"    , TYPE_INT , modsound_music_set_position   ),
 
     FUNC( 0                     , 0      , 0        , 0                             )
 };
