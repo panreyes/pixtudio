@@ -977,7 +977,7 @@ static int reverse_stereo(int channel, int flip) {
  *
  */
 
-int32_t modsound_load_song(INSTANCE *my, int *params) {
+int32_t modsound_song_load(INSTANCE *my, int *params) {
     int var;
     const char *filename;
 
@@ -1006,7 +1006,7 @@ int32_t modsound_load_song(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_bgload_song(INSTANCE *my, int *params) {
+int modsound_song_bgload(INSTANCE *my, int *params) {
     bgload(load_song, params);
 
     return 0;
@@ -1029,7 +1029,7 @@ int modsound_bgload_song(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_play_song(INSTANCE *my, int *params) {
+int modsound_song_play(INSTANCE *my, int *params) {
     if (params[0] == -1) {
         return -1;
     }
@@ -1053,7 +1053,7 @@ int modsound_play_song(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_unload_song(INSTANCE *my, int *params) {
+int modsound_song_unload(INSTANCE *my, int *params) {
     if (params[0] <= 0) {
         return (-1);
     }
@@ -1077,7 +1077,7 @@ int modsound_unload_song(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_unload_song2(INSTANCE *my, int *params) {
+int modsound_song_unload2(INSTANCE *my, int *params) {
     int *s = (int *)(params[0]), r;
     if (!s || *s <= 0) {
         return (-1);
@@ -1105,7 +1105,7 @@ int modsound_unload_song2(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_stop_song(INSTANCE *my, int *params) {
+int modsound_song_stop(INSTANCE *my, int *params) {
     return (stop_song());
 }
 
@@ -1126,7 +1126,7 @@ int modsound_stop_song(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_pause_song(INSTANCE *my, int *params) {
+int modsound_song_pause(INSTANCE *my, int *params) {
     return (pause_song());
 }
 
@@ -1147,7 +1147,7 @@ int modsound_pause_song(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_resume_song(INSTANCE *my, int *params) {
+int modsound_song_resume(INSTANCE *my, int *params) {
     return (resume_song());
 }
 
@@ -1168,7 +1168,7 @@ int modsound_resume_song(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_is_playing_song(INSTANCE *my, int *params) {
+int modsound_song_is_playing(INSTANCE *my, int *params) {
     return (is_playing_song());
 }
 
@@ -1189,7 +1189,7 @@ int modsound_is_playing_song(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_set_song_volume(INSTANCE *my, int *params) {
+int modsound_song_set_volume(INSTANCE *my, int *params) {
     return (set_song_volume(params[0]));
 }
 
@@ -1210,7 +1210,7 @@ int modsound_set_song_volume(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_fade_music_in(INSTANCE *my, int *params) {
+int modsound_music_fade_in(INSTANCE *my, int *params) {
     if (params[0] == -1) {
         return -1;
     }
@@ -1234,7 +1234,7 @@ int modsound_fade_music_in(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_fade_music_out(INSTANCE *my, int *params) {
+int modsound_music_fade_out(INSTANCE *my, int *params) {
     return (fade_music_out(params[0]));
 }
 
@@ -1253,7 +1253,7 @@ int modsound_fade_music_out(INSTANCE *my, int *params) {
  *
  */
 
-int32_t modsound_load_wav(INSTANCE *my, int *params) {
+int32_t modsound_wav_load(INSTANCE *my, int *params) {
     int var;
     const char *filename;
 
@@ -1282,7 +1282,7 @@ int32_t modsound_load_wav(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_bgload_wav(INSTANCE *my, int *params) {
+int modsound_wav_bgload(INSTANCE *my, int *params) {
     bgload(load_wav, params);
 
     return 0;
@@ -1305,7 +1305,7 @@ int modsound_bgload_wav(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_play_wav(INSTANCE *my, int *params) {
+int modsound_wav_play(INSTANCE *my, int *params) {
     if (params[0] == -1) {
         return -1;
     }
@@ -1331,7 +1331,7 @@ int modsound_play_wav(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_play_wav_channel(INSTANCE *my, int *params) {
+int modsound_wav_play_channel(INSTANCE *my, int *params) {
     if (params[0] == -1) {
         return -1;
     }
@@ -1356,7 +1356,7 @@ int modsound_play_wav_channel(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_unload_wav(INSTANCE *my, int *params) {
+int modsound_wav_unload(INSTANCE *my, int *params) {
     if (params[0] == -1) {
         return -1;
     }
@@ -1381,7 +1381,7 @@ int modsound_unload_wav(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_unload_wav2(INSTANCE *my, int *params) {
+int modsound_wav_unload2(INSTANCE *my, int *params) {
     int *s = (int *)(params[0]), r;
 
     if (!s || *s == -1) {
@@ -1411,7 +1411,7 @@ int modsound_unload_wav2(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_stop_wav(INSTANCE *my, int *params) {
+int modsound_wav_stop(INSTANCE *my, int *params) {
     return (stop_wav(params[0]));
 }
 
@@ -1432,7 +1432,7 @@ int modsound_stop_wav(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_pause_wav(INSTANCE *my, int *params) {
+int modsound_wav_pause(INSTANCE *my, int *params) {
     return (pause_wav(params[0]));
 }
 
@@ -1453,7 +1453,7 @@ int modsound_pause_wav(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_resume_wav(INSTANCE *my, int *params) {
+int modsound_wav_resume(INSTANCE *my, int *params) {
     return (resume_wav(params[0]));
 }
 
@@ -1474,7 +1474,7 @@ int modsound_resume_wav(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_is_playing_wav(INSTANCE *my, int *params) {
+int modsound_wav_is_playing(INSTANCE *my, int *params) {
     return (is_playing_wav(params[0]));
 }
 
@@ -1496,7 +1496,7 @@ int modsound_is_playing_wav(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_set_channel_volume(INSTANCE *my, int *params) {
+int modsound_channel_set_volume(INSTANCE *my, int *params) {
     return (set_channel_volume(params[0], params[1]));
 }
 
@@ -1516,7 +1516,7 @@ int modsound_set_channel_volume(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_reserve_channels(INSTANCE *my, int *params) {
+int modsound_channels_reserve(INSTANCE *my, int *params) {
     return (reserve_channels(params[0]));
 }
 
@@ -1538,7 +1538,7 @@ int modsound_reserve_channels(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_set_wav_volume(INSTANCE *my, int *params) {
+int modsound_wav_set_volume(INSTANCE *my, int *params) {
     return (set_wav_volume(params[0], params[1]));
 }
 
@@ -1556,7 +1556,7 @@ int modsound_set_wav_volume(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_set_panning(INSTANCE *my, int *params) {
+int modsound_panning_set(INSTANCE *my, int *params) {
     return (set_panning(params[0], params[1], params[2]));
 }
 
@@ -1574,7 +1574,7 @@ int modsound_set_panning(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_set_position(INSTANCE *my, int *params) {
+int modsound_position_set(INSTANCE *my, int *params) {
     return (set_position(params[0], params[1], params[2]));
 }
 
@@ -1593,7 +1593,7 @@ int modsound_set_position(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_set_distance(INSTANCE *my, int *params) {
+int modsound_distance_set(INSTANCE *my, int *params) {
     return (set_distance(params[0], params[1]));
 }
 
@@ -1611,13 +1611,13 @@ int modsound_set_distance(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_reverse_stereo(INSTANCE *my, int *params) {
+int modsound_stereo_reserve(INSTANCE *my, int *params) {
     return (reverse_stereo(params[0], params[1]));
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modsound_set_music_position(INSTANCE *my, int *params) {
+int modsound_music_set_position(INSTANCE *my, int *params) {
     return (Mix_SetMusicPosition((double)*(float *)&params[0]));
 }
 
