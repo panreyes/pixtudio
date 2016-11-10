@@ -46,28 +46,28 @@ extern int modsound_song_pause( INSTANCE * my, int * params );
 extern int modsound_song_resume( INSTANCE * my, int * params );
 extern int modsound_song_set_volume( INSTANCE * my, int * params );
 extern int modsound_song_is_playing( INSTANCE * my, int * params );
-extern int32_t modsound_wav_load( INSTANCE * my, int * params );
-extern int modsound_wav_bgload( INSTANCE * my, int * params );
-extern int modsound_wav_unload( INSTANCE * my, int * params );
-extern int modsound_wav_unload2( INSTANCE * my, int * params );
-extern int modsound_wav_unload2( INSTANCE * my, int * params );
-extern int modsound_wav_play( INSTANCE * my, int * params );
-extern int modsound_wav_play_channel( INSTANCE * my, int * params );
-extern int modsound_wav_play_channel( INSTANCE * my, int * params );
-extern int modsound_wav_stop( INSTANCE * my, int * params );
-extern int modsound_wav_pause( INSTANCE * my, int * params );
-extern int modsound_wav_resume( INSTANCE * my, int * params );
-extern int modsound_wav_is_playing( INSTANCE * my, int * params );
+extern int32_t modsound_sound_load( INSTANCE * my, int * params );
+extern int modsound_sound_bgload( INSTANCE * my, int * params );
+extern int modsound_sound_unload( INSTANCE * my, int * params );
+extern int modsound_sound_unload2( INSTANCE * my, int * params );
+extern int modsound_sound_unload2( INSTANCE * my, int * params );
+extern int modsound_sound_play( INSTANCE * my, int * params );
+extern int modsound_sound_play_channel( INSTANCE * my, int * params );
+extern int modsound_sound_play_channel( INSTANCE * my, int * params );
+extern int modsound_sound_stop( INSTANCE * my, int * params );
+extern int modsound_sound_pause( INSTANCE * my, int * params );
+extern int modsound_sound_resume( INSTANCE * my, int * params );
+extern int modsound_sound_is_playing( INSTANCE * my, int * params );
 extern int modsound_music_fade_in( INSTANCE * my, int * params );
 extern int modsound_music_fade_out( INSTANCE * my, int * params );
 extern int modsound_wav_set_volume( INSTANCE * my, int * params );
 extern int modsound_channel_set_volume( INSTANCE * my, int * params );
 extern int modsound_channels_reserve( INSTANCE * my, int * params );
-extern int modsound_panning_set( INSTANCE * my, int * params );
-extern int modsound_position_set( INSTANCE * my, int * params );
-extern int modsound_distance_set( INSTANCE * my, int * params );
+extern int modsound_channel_panning_set( INSTANCE * my, int * params );
+extern int modsound_channel_position_set( INSTANCE * my, int * params );
+extern int modsound_channel_distance_set( INSTANCE * my, int * params );
 extern int modsound_stereo_reserve( INSTANCE * my, int * params );
-extern int modsound_music_set_position( INSTANCE * my, int * params );
+extern int modsound_music_position_set( INSTANCE * my, int * params );
 
 DLVARFIXUP  __pxtexport( mod_sound, globals_fixup )[] = {
     { "sound_freq",     NULL, -1, -1 },
@@ -93,53 +93,53 @@ char __pxtexport( mod_sound, globals_def )[] =
     "   sound_channels = 8 ;\n";
 
 DLSYSFUNCS  __pxtexport( mod_sound, exported_functions )[] = {
-    FUNC( "SOUND_INIT"          , ""     , TYPE_INT , modsound_init               ),
-    FUNC( "SOUND_CLOSE"         , ""     , TYPE_INT , modsound_close              ),
+    FUNC( "SOUND_INIT"          , ""     , TYPE_INT , modsound_init                 ),
+    FUNC( "SOUND_CLOSE"         , ""     , TYPE_INT , modsound_close                ),
 
-    FUNC( "SONG_LOAD"           , "S"    , TYPE_INT , modsound_song_load          ),
-    FUNC( "SONG_LOAD"           , "SP"   , TYPE_INT , modsound_song_bgload        ),
-    FUNC( "SONG_UNLOAD"         , "I"    , TYPE_INT , modsound_song_unload        ),
-    FUNC( "SONG_UNLOAD"         , "P"    , TYPE_INT , modsound_song_unload2       ),
+    FUNC( "SONG_LOAD"           , "S"    , TYPE_INT , modsound_song_load            ),
+    FUNC( "SONG_LOAD"           , "SP"   , TYPE_INT , modsound_song_bgload          ),
+    FUNC( "SONG_UNLOAD"         , "I"    , TYPE_INT , modsound_song_unload          ),
+    FUNC( "SONG_UNLOAD"         , "P"    , TYPE_INT , modsound_song_unload2         ),
 
-    FUNC( "SONG_PLAY"           , "II"   , TYPE_INT , modsound_song_play          ),
-    FUNC( "SONG_STOP"           , ""     , TYPE_INT , modsound_song_stop          ),
-    FUNC( "SONG_PAUSE"          , ""     , TYPE_INT , modsound_song_pause         ),
-    FUNC( "SONG_RESUME"         , ""     , TYPE_INT , modsound_song_resume        ),
+    FUNC( "SONG_PLAY"           , "II"   , TYPE_INT , modsound_song_play            ),
+    FUNC( "SONG_STOP"           , ""     , TYPE_INT , modsound_song_stop            ),
+    FUNC( "SONG_PAUSE"          , ""     , TYPE_INT , modsound_song_pause           ),
+    FUNC( "SONG_RESUME"         , ""     , TYPE_INT , modsound_song_resume          ),
 
-    FUNC( "SONG_SET_VOLUME"     , "I"    , TYPE_INT , modsound_song_set_volume    ),
+    FUNC( "SONG_SET_VOLUME"     , "I"    , TYPE_INT , modsound_song_set_volume      ),
 
-    FUNC( "SONG_IS_PLAYING"     , ""     , TYPE_INT , modsound_song_is_playing    ),
+    FUNC( "SONG_IS_PLAYING"     , ""     , TYPE_INT , modsound_song_is_playing      ),
 
-    FUNC( "WAV_LOAD"            , "S"    , TYPE_INT , modsound_wav_load           ),
-    FUNC( "WAV_LOAD"            , "SP"   , TYPE_INT , modsound_wav_bgload         ),
-    FUNC( "WAV_UNLOAD"          , "I"    , TYPE_INT , modsound_wav_unload         ),
-    FUNC( "WAV_UNLOAD"          , "P"    , TYPE_INT , modsound_wav_unload2        ),
+    FUNC( "SOUND_LOAD"          , "S"    , TYPE_INT , modsound_sound_load           ),
+    FUNC( "SOUND_LOAD"          , "SP"   , TYPE_INT , modsound_sound_bgload         ),
+    FUNC( "SOUND_UNLOAD"        , "I"    , TYPE_INT , modsound_sound_unload         ),
+    FUNC( "SOUND_UNLOAD"        , "P"    , TYPE_INT , modsound_sound_unload2        ),
 
-    FUNC( "WAV_PLAY"            , "II"   , TYPE_INT , modsound_wav_play           ),
-    FUNC( "WAV_PLAY"            , "III"  , TYPE_INT , modsound_wav_play_channel   ),
-    FUNC( "WAV_STOP"            , "I"    , TYPE_INT , modsound_wav_stop           ),
-    FUNC( "WAV_PAUSE"           , "I"    , TYPE_INT , modsound_wav_pause          ),
-    FUNC( "WAV_RESUME"          , "I"    , TYPE_INT , modsound_wav_resume         ),
+    FUNC( "SOUND_PLAY"          , "II"   , TYPE_INT , modsound_sound_play           ),
+    FUNC( "SOUND_PLAY"          , "III"  , TYPE_INT , modsound_sound_play_channel   ),
+    FUNC( "SOUND_STOP"          , "I"    , TYPE_INT , modsound_sound_stop           ),
+    FUNC( "SOUND_PAUSE"         , "I"    , TYPE_INT , modsound_sound_pause          ),
+    FUNC( "SOUND_RESUME"        , "I"    , TYPE_INT , modsound_sound_resume         ),
 
-    FUNC( "WAV_IS_PLAYING"      , "I"    , TYPE_INT , modsound_wav_is_playing     ),
+    FUNC( "SOUND_IS_PLAYING"    , "I"    , TYPE_INT , modsound_sound_is_playing     ),
 
-    FUNC( "MUSIC_FADE_IN"       , "III"  , TYPE_INT , modsound_music_fade_in      ),
-    FUNC( "MUSIC_FADE_OUT"      , "I"    , TYPE_INT , modsound_music_fade_out     ),
+    FUNC( "MUSIC_FADE_IN"       , "III"  , TYPE_INT , modsound_music_fade_in        ),
+    FUNC( "MUSIC_FADE_OUT"      , "I"    , TYPE_INT , modsound_music_fade_out       ),
 
-    FUNC( "WAV_SET_VOLUME"      , "II"   , TYPE_INT , modsound_wav_set_volume     ),
-    FUNC( "CHANNEL_SET_VOLUME"  , "II"   , TYPE_INT , modsound_channel_set_volume ),
+    FUNC( "WAV_SET_VOLUME"      , "II"   , TYPE_INT , modsound_wav_set_volume       ),
+    FUNC( "CHANNEL_SET_VOLUME"  , "II"   , TYPE_INT , modsound_channel_set_volume   ),
 
-    FUNC( "CHANNELS_RESERVE"    , "I"    , TYPE_INT , modsound_channels_reserve   ),
+    FUNC( "CHANNELS_RESERVE"    , "I"    , TYPE_INT , modsound_channels_reserve     ),
 
-    FUNC( "PANNING_SET"         , "III"  , TYPE_INT , modsound_panning_set        ),
-    FUNC( "POSITION_SET"        , "III"  , TYPE_INT , modsound_position_set       ),
-    FUNC( "DISTANCE_SET"        , "II"   , TYPE_INT , modsound_distance_set       ),
+    FUNC( "CHANNEL_PANNING_SET" , "III"  , TYPE_INT , modsound_channel_panning_set  ),
+    FUNC( "CHANNEL_POSITION_SET", "III"  , TYPE_INT , modsound_channel_position_set ),
+    FUNC( "CHANNEL_DISTANCE_SET", "II"   , TYPE_INT , modsound_channel_distance_set ),
 
-    FUNC( "STEREO_REVERSE"      , "II"   , TYPE_INT , modsound_stereo_reserve     ),
+    FUNC( "STEREO_REVERSE"      , "II"   , TYPE_INT , modsound_stereo_reserve       ),
 
-    FUNC( "MUSIC_SET_POSITION"  , "F"    , TYPE_INT , modsound_music_set_position ),
+    FUNC( "MUSIC_POSITION_SET"  , "F"    , TYPE_INT , modsound_music_position_set   ),
 
-    FUNC( 0                     , 0      , 0        , 0                           )
+    FUNC( 0                     , 0      , 0        , 0                             )
 };
 
 
