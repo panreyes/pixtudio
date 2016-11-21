@@ -158,9 +158,9 @@ extern "C" {
         for (uint32_t i = 0; i < 4*width*height; i += 4) {
             temp_color = rgba_data[i];
             rgba_data[i] = rgba_data[i+2];
-            rgba_data[i+1] = rgba_data[i+1];
+            //rgba_data[i+1] = rgba_data[i+1];
             rgba_data[i+2] = temp_color;
-            rgba_data[i+3] = rgba_data[i+3];
+            //rgba_data[i+3] = rgba_data[i+3];
             /*rgba_data[i] = 255;       // B
             rgba_data[i+1] = 0;     // G
             rgba_data[i+2] = 0;     // R
