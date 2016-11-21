@@ -71,6 +71,53 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
+    /* Create a GRAPH from a steam icon ID */
+    GRAPH *gr_from_icon_id(int icon_id) {
+        if(icon_id <= 0) {
+            return NULL;
+        }
+
+        // Get the image size
+        uint32_t width, height;
+        bool retval = SteamUtils()->GetImageSize(icon_id, &width, &height);
+        if(retval == false || width <= 0 || height <= 0) {
+            return NULL;
+        }
+
+        // Create the GRAPH which will hold the achievement icon
+        GRAPH *gr = bitmap_new(0, width, height, 32);
+        if(!gr) {
+            return NULL;
+        }
+
+        size_t size = 4 * height * width * sizeof(uint8_t);
+        uint8_t *pixel_data = (uint8_t *)(gr->data);
+        retval = SteamUtils()->GetImageRGBA(icon_id, pixel_data, (int)size);
+        if(retval == false) {
+            bitmap_destroy(gr);
+            return NULL;
+        }
+
+        // Swap color channels
+        uint8_t temp_color;
+        for (uint32_t i = 0; i < 4*width*height; i += 4) {
+            temp_color = pixel_data[i];
+            pixel_data[i] = pixel_data[i+2];    // B channel
+            pixel_data[i+2] = temp_color;       // R channel
+        }
+
+        // Register the map in the system lib
+        gr->code = bitmap_next_code();
+        grlib_add_map(0, gr);
+
+        // Mark the graph for texture update
+        gr->needs_texture_update = 1;
+
+        return gr;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
     int steam_achievement_unlock(INSTANCE *my, int *params) {
         if(!steam_loaded) {
             return -1;
@@ -148,48 +195,18 @@ extern "C" {
             return -1;
         }
 
-        // Get the image size
-        uint32_t width, height;
-        bool retval = SteamUtils()->GetImageSize(icon_id, &width, &height);
-        if(retval == false || width <= 0 || height <= 0) {
-            return -1;
-        }
-
         // Create the GRAPH which will hold the achievement icon
-        GRAPH *gr_achievement = bitmap_new(0, width, height, 32);
+        GRAPH *gr_achievement = gr_from_icon_id(icon_id);
         if(!gr_achievement) {
             return -1;
         }
-
-        size_t size = 4 * height * width * sizeof(uint8_t);
-        uint8_t *pixel_data = (uint8_t *)(gr_achievement->data);
-        retval = SteamUtils()->GetImageRGBA(icon_id, pixel_data, (int)size);
-        if(retval == false) {
-            bitmap_destroy(gr_achievement);
-            return -1;
-        }
-
-        // Swap color channels
-        uint8_t temp_color;
-        for (uint32_t i = 0; i < 4*width*height; i += 4) {
-            temp_color = pixel_data[i];
-            pixel_data[i] = pixel_data[i+2];    // B channel
-            pixel_data[i+2] = temp_color;       // R channel
-        }
-
-        // Register the map in the system lib
-        gr_achievement->code = bitmap_next_code();
-        grlib_add_map(0, gr_achievement);
-
-        // Mark the graph for texture update
-        gr_achievement->needs_texture_update = 1;
 
         return gr_achievement->code;
     }
 
     /* ---------------------------------------------------------------------- */
 
-    int gr_avatar_get(CSteamID user_id, uint8_t avatar_size) {
+    GRAPH *gr_avatar_get(CSteamID user_id, uint8_t avatar_size) {
         // We get the icon ID for the given achievement,
         // and then use that ID to retrieve the pixels
         int icon_id;
@@ -202,50 +219,16 @@ extern "C" {
         }
 
         if(icon_id <= 0) {
-            printf("Nope 1\n");
-            return -1;
-        }
-
-        // Get the image size
-        uint32_t width, height;
-        bool retval = SteamUtils()->GetImageSize(icon_id, &width, &height);
-        if(retval == false || width <= 0 || height <= 0) {
-            printf("Nope 2\n");
-            return -1;
+            return NULL;
         }
 
         // Create the GRAPH which will hold the achievement icon
-        GRAPH *gr_avatar = bitmap_new(0, width, height, 32);
+        GRAPH *gr_avatar = gr_from_icon_id(icon_id);
         if(!gr_avatar) {
-            printf("Nope 3\n");
-            return -1;
+            return NULL;
         }
 
-        size_t size = 4 * height * width * sizeof(uint8_t);
-        uint8_t *pixel_data = (uint8_t *)(gr_avatar->data);
-        retval = SteamUtils()->GetImageRGBA(icon_id, pixel_data, (int)size);
-        if(retval == false) {
-            printf("Nope 4\n");
-            bitmap_destroy(gr_avatar);
-            return -1;
-        }
-
-        // Swap color channels
-        uint8_t temp_color;
-        for (uint32_t i = 0; i < 4*width*height; i += 4) {
-            temp_color = pixel_data[i];
-            pixel_data[i] = pixel_data[i+2];    // B channel
-            pixel_data[i+2] = temp_color;       // R channel
-        }
-
-        // Register the map in the system lib
-        gr_avatar->code = bitmap_next_code();
-        grlib_add_map(0, gr_avatar);
-
-        // Mark the graph for texture update
-        gr_avatar->needs_texture_update = 1;
-
-        return gr_avatar->code;
+        return gr_avatar;
     }
 
     int steam_avatar_get(INSTANCE *my, int *params) {
@@ -253,7 +236,12 @@ extern "C" {
             return -1;
         }
 
-        return gr_avatar_get(SteamUser()->GetSteamID(), AVATAR_LARGE);
+        GRAPH *gr_avatar = gr_avatar_get(SteamUser()->GetSteamID(), AVATAR_LARGE);
+        if(!gr_avatar) {
+            return -1;
+        }
+
+        return gr_avatar->code;
     }
 
     /* ---------------------------------------------------------------------- */
