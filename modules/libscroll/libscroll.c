@@ -65,7 +65,14 @@ scrolldata scrolls[10];
 
 /* Locals */
 
-enum { CTYPE = 0, CNUMBER, PROCESS_ID, STATUS, COORDX, COORDY, COORDZ, RESOLUTION };
+enum { CTYPE = 0,
+       CNUMBER,
+       PROCESS_ID,
+       STATUS,
+       COORDX,
+       COORDY,
+       COORDZ,
+       RESOLUTION };
 
 /* Globals */
 
@@ -73,18 +80,24 @@ enum { SCROLLS = 0 };
 
 DLVARFIXUP __pxtexport(libscroll, locals_fixup)[] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
-    {"ctype", NULL, -1, -1}, {"cnumber", NULL, -1, -1},
-    {"id", NULL, -1, -1},    {"reserved.status", NULL, -1, -1},
-    {"x", NULL, -1, -1},     {"y", NULL, -1, -1},
-    {"z", NULL, -1, -1},     {"resolution", NULL, -1, -1},
-    {NULL, NULL, -1, -1}};
+    {"ctype", NULL, -1, -1},
+    {"cnumber", NULL, -1, -1},
+    {"id", NULL, -1, -1},
+    {"reserved.status", NULL, -1, -1},
+    {"x", NULL, -1, -1},
+    {"y", NULL, -1, -1},
+    {"z", NULL, -1, -1},
+    {"resolution", NULL, -1, -1},
+    {NULL, NULL, -1, -1}
+};
 
 /* --------------------------------------------------------------------------- */
 
 DLVARFIXUP __pxtexport(libscroll, globals_fixup)[] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
     {"scroll", NULL, -1, -1},
-    {NULL, NULL, -1, -1}};
+    {NULL, NULL, -1, -1}
+};
 
 /* --------------------------------------------------------------------------- */
 
