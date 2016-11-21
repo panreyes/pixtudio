@@ -42,13 +42,21 @@ enum {
     STEAM_USERNAME
 };
 
+enum {
+    AVATAR_SMALL = 0,
+    AVATAR_MEDIUM,
+    AVATAR_LARGE
+};
+
 /* ---------------------------------------------------------------------- */
 extern "C" {
     #include <mod_map.h>
     #include <xstrings.h>
     #include <dlvaracc.h>
+
     static int steam_loaded = 0;
     static uint32_t steam_appid = 0;
+    static uint32_t steam_userid = 0;
 
     DLVARFIXUP __pxtexport(mod_steam, globals_fixup)[] = {
         /* Name of global var, pointer to the data, size, #elements */
@@ -63,7 +71,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_unlock_achievement(INSTANCE *my, int *params) {
+    int steam_achievement_unlock(INSTANCE *my, int *params) {
         if(!steam_loaded) {
             return -1;
         }
@@ -85,7 +93,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_delete_achievement(INSTANCE *my, int *params) {
+    int steam_achievement_delete(INSTANCE *my, int *params) {
         if(!steam_loaded) {
             return -1;
         }
@@ -107,7 +115,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_check_achievement(INSTANCE *my, int *params) {
+    int steam_achivement_check(INSTANCE *my, int *params) {
         if(!steam_loaded) {
             return -1;
         }
@@ -124,7 +132,9 @@ extern "C" {
         }
     }
 
-    int steam_get_achievement_icon(INSTANCE *my, int *params) {
+    /* ---------------------------------------------------------------------- */
+
+    int steam_achievement_icon_get(INSTANCE *my, int *params) {
         if(!steam_loaded) {
             return -1;
         }
@@ -133,7 +143,6 @@ extern "C" {
         // and then use that ID to retrieve the pixels
         const char *achievement = string_get(params[0]);
         int icon_id = SteamUserStats()->GetAchievementIcon(achievement);
-        //int icon_id = SteamFriends()->GetLargeFriendAvatar(SteamUser()->GetSteamID());
         string_discard(params[0]);
         if(icon_id <= 0) {
             return -1;
@@ -142,51 +151,109 @@ extern "C" {
         // Get the image size
         uint32_t width, height;
         bool retval = SteamUtils()->GetImageSize(icon_id, &width, &height);
-        if(retval == false) {
+        if(retval == false || width <= 0 || height <= 0) {
             return -1;
         }
-        // Allocate the pixel buffer and fill it with the icon data
+
+        // Create the GRAPH which will hold the achievement icon
+        GRAPH *gr_achievement = bitmap_new(0, width, height, 32);
+        if(!gr_achievement) {
+            return -1;
+        }
+
         size_t size = 4 * height * width * sizeof(uint8_t);
-        uint8_t *rgba_data = (uint8_t *)malloc(size);
-        retval = SteamUtils()->GetImageRGBA(icon_id, rgba_data, (int)size);
+        uint8_t *pixel_data = (uint8_t *)(gr_achievement->data);
+        retval = SteamUtils()->GetImageRGBA(icon_id, pixel_data, (int)size);
         if(retval == false) {
-            free(rgba_data);
+            bitmap_destroy(gr_achievement);
             return -1;
         }
-        // Convert RGBA -> BGRA
+
+        // Swap color channels
         uint8_t temp_color;
         for (uint32_t i = 0; i < 4*width*height; i += 4) {
-            temp_color = rgba_data[i];
-            rgba_data[i] = rgba_data[i+2];
-            //rgba_data[i+1] = rgba_data[i+1];
-            rgba_data[i+2] = temp_color;
-            //rgba_data[i+3] = rgba_data[i+3];
-            /*rgba_data[i] = 255;       // B
-            rgba_data[i+1] = 0;     // G
-            rgba_data[i+2] = 0;     // R
-            rgba_data[i+3] = 255;     // A*/
+            temp_color = pixel_data[i];
+            pixel_data[i] = pixel_data[i+2];    // B channel
+            pixel_data[i+2] = temp_color;       // R channel
         }
 
-        // We create a temporary GRAPH with the pixels
-        GRAPH *gr_achievement = bitmap_new_ex(-1, width, height, 32, rgba_data, 4*width);
-        if (!gr_achievement) {
-            free(rgba_data);
+        // Register the map in the system lib
+        gr_achievement->code = bitmap_next_code();
+        grlib_add_map(0, gr_achievement);
+
+        // Mark the graph for texture update
+        gr_achievement->needs_texture_update = 1;
+
+        return gr_achievement->code;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    int gr_avatar_get(CSteamID user_id, uint8_t avatar_size) {
+        // We get the icon ID for the given achievement,
+        // and then use that ID to retrieve the pixels
+        int icon_id;
+        if(avatar_size == AVATAR_SMALL) {
+            icon_id = SteamFriends()->GetSmallFriendAvatar(user_id);
+        } else if (avatar_size == AVATAR_MEDIUM) {
+            icon_id = SteamFriends()->GetMediumFriendAvatar(user_id);
+        } else {
+            icon_id = SteamFriends()->GetLargeFriendAvatar(user_id);
+        }
+
+        if(icon_id <= 0) {
+            printf("Nope 1\n");
             return -1;
         }
 
-        // Duplicate it so that we don't have to care
-        // about freeing the memory later
-        GRAPH *gr = bitmap_clone(gr_achievement);
-        if(!gr) {
-            free(rgba_data);
+        // Get the image size
+        uint32_t width, height;
+        bool retval = SteamUtils()->GetImageSize(icon_id, &width, &height);
+        if(retval == false || width <= 0 || height <= 0) {
+            printf("Nope 2\n");
             return -1;
         }
-        bitmap_destroy(gr_achievement);
-        free(rgba_data);
 
-        gr->code = bitmap_next_code();
-        grlib_add_map(0, gr);
-        return gr->code;
+        // Create the GRAPH which will hold the achievement icon
+        GRAPH *gr_avatar = bitmap_new(0, width, height, 32);
+        if(!gr_avatar) {
+            printf("Nope 3\n");
+            return -1;
+        }
+
+        size_t size = 4 * height * width * sizeof(uint8_t);
+        uint8_t *pixel_data = (uint8_t *)(gr_avatar->data);
+        retval = SteamUtils()->GetImageRGBA(icon_id, pixel_data, (int)size);
+        if(retval == false) {
+            printf("Nope 4\n");
+            bitmap_destroy(gr_avatar);
+            return -1;
+        }
+
+        // Swap color channels
+        uint8_t temp_color;
+        for (uint32_t i = 0; i < 4*width*height; i += 4) {
+            temp_color = pixel_data[i];
+            pixel_data[i] = pixel_data[i+2];    // B channel
+            pixel_data[i+2] = temp_color;       // R channel
+        }
+
+        // Register the map in the system lib
+        gr_avatar->code = bitmap_next_code();
+        grlib_add_map(0, gr_avatar);
+
+        // Mark the graph for texture update
+        gr_avatar->needs_texture_update = 1;
+
+        return gr_avatar->code;
+    }
+
+    int steam_avatar_get(INSTANCE *my, int *params) {
+        if(!steam_loaded) {
+            return -1;
+        }
+
+        return gr_avatar_get(SteamUser()->GetSteamID(), AVATAR_LARGE);
     }
 
     /* ---------------------------------------------------------------------- */
@@ -200,7 +267,7 @@ extern "C" {
             return;
         }
 
-        // Get the Steam app ID
+        // Get a few IDs from Steam
         steam_appid = SteamUtils()->GetAppID();
         GLODWORD(mod_steam, STEAM_APPID) = steam_appid;
 

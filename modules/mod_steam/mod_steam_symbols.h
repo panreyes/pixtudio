@@ -35,10 +35,11 @@ extern "C" {
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int steam_unlock_achievement(INSTANCE *my, int *params);
-extern int steam_delete_achievement(INSTANCE *my, int *params);
-extern int steam_check_achievement(INSTANCE *my, int *params);
-extern int steam_get_achievement_icon(INSTANCE *my, int *params);
+extern int steam_achievement_unlock(INSTANCE *my, int *params);
+extern int steam_achievement_delete(INSTANCE *my, int *params);
+extern int steam_achivement_check(INSTANCE *my, int *params);
+extern int steam_achievement_icon_get(INSTANCE *my, int *params);
+extern int steam_avatar_get(INSTANCE *my, int *params);
 
 extern void __pxtexport( mod_steam, module_initialize )();
 extern void __pxtexport( mod_steam, module_finalize )();
@@ -50,10 +51,11 @@ char __pxtexport( mod_steam, globals_def )[] =
     "STRING steam_username = \"\";\n";
 
 DLSYSFUNCS __pxtexport(mod_steam, exported_functions)[] = {
-    FUNC("STEAM_UNLOCK_ACHIEVEMENT", "S",  TYPE_INT, steam_unlock_achievement),
-    FUNC("STEAM_DELETE_ACHIEVEMENT", "S",  TYPE_INT, steam_delete_achievement),
-    FUNC("STEAM_CHECK_ACHIEVEMENT", "S",  TYPE_INT, steam_check_achievement),
-    FUNC("STEAM_GET_ACHIEVEMENT_ICON", "S",  TYPE_INT, steam_get_achievement_icon),
+    FUNC("STEAM_ACHIEVEMENT_UNLOCK", "S",  TYPE_INT, steam_achievement_unlock),
+    FUNC("STEAM_ACHIEVEMENT_DELETE", "S",  TYPE_INT, steam_achievement_delete),
+    FUNC("STEAM_ACHIEVEMENT_CHECK", "S",  TYPE_INT, steam_achivement_check),
+    FUNC("STEAM_ACHIEVEMENT_ICON_GET", "S",  TYPE_INT, steam_achievement_icon_get),
+    FUNC("STEAM_AVATAR_GET", "", TYPE_INT, steam_avatar_get),
     FUNC(0, 0, 0, 0)};
 
 char * __pxtexport( mod_steam, module_dependencies )[] = {

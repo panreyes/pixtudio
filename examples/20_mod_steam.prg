@@ -5,6 +5,7 @@ import "mod_key"
 import "mod_map"
 import "mod_file"
 import "mod_proc"
+import "mod_rand"
 
 Global
     int handle = -1;
@@ -36,8 +37,10 @@ Begin
         return;
     end
 
-    x = scr_width / 2;
-    y = scr_height / 2;
+    x = scr_width / 2 + rand(-200, 200);
+    y = scr_height / 2 + rand(-200, 200);
+    v_x += rand(-2, 2);
+    v_y += rand(-2, 2);
     Loop
         if(x > scr_width - 20 || x < 20)
             v_x = -v_x;
@@ -70,22 +73,27 @@ Begin
     write(font, scr_width / 2, scr_height/2, 4, "and this app's appID is " + steam_appid);
     write(font, scr_width / 2, scr_height/2 + 40, 4, "Press esc to unlock WHOLE_TRIBE");
 
-    // steam_get_achievement_icon will return a graph with the
+    // steam_achievement_icon_get will return a graph with the
     // current state for the achievement icon
     // meaning that if the achievement is unlocked, the icon will
     // be "disabled" (grayscale)
-    bouncer(steam_get_achievement_icon("WHOLE_TRIBE"));
+    bouncer(steam_achievement_icon_get("WHOLE_TRIBE"));
+    bouncer(steam_avatar_get());
 
     while(!key(_esc))
         Frame;
     End
 
-    retval = steam_unlock_achievement("WHOLE_TRIBE");
-    if(retval == 0)
-        write(font, scr_width / 2, scr_height - 35, 4, "Achievement was unlocked");
+    if(! steam_achievement_check("WHOLE_TRIBE"))
+        retval = steam_achievement_unlock("WHOLE_TRIBE");
+        if(retval == 0)
+            write(font, scr_width / 2, scr_height - 35, 4, "Achievement was unlocked");
+        else
+            write(font, scr_width / 2, scr_height - 35, 4, "Achievement was NOT unlocked");
+        end
     else
-        write(font, scr_width / 2, scr_height - 35, 4, "Achievement was NOT unlocked");
-    end
+        write(font, scr_width / 2, scr_height - 35, 4, "No need to unlock achievement");
+    End
 
     write(font, scr_width / 2, scr_height/2 + 80, 4, "Press enter to quit");
 
@@ -94,9 +102,6 @@ Begin
     End
 
     let_me_alone();
-
-    say("Achivement unlocked? " + steam_check_achievement("WHOLE_TRIBE"));
-    steam_delete_achievement("WHOLE_TRIBE");
 
 OnExit
     fclose(handle);
