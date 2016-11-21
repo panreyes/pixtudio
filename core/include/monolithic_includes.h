@@ -171,7 +171,7 @@ basic_symbols symbol_list[] = {
     { "mod_curl.fakelib"     , NULL, mod_curl_constants_def, NULL, NULL, NULL, mod_curl_exported_functions },
 #endif
 #ifndef NO_MODSTEAM
-    { "mod_steam.fakelib"     , NULL, NULL, NULL, NULL, NULL, mod_steam_exported_functions },
+    { "mod_steam.fakelib"    , mod_steam_module_dependencies, NULL, NULL, mod_steam_globals_def, NULL, mod_steam_exported_functions },
 #endif
     { "mod_fsock.fakelib"    , NULL, NULL, NULL, NULL, NULL, mod_fsock_exported_functions },
     { "mod_theora.fakelib"   , mod_theora_module_dependencies, NULL, NULL, NULL, NULL, mod_theora_exported_functions },
@@ -240,7 +240,7 @@ extra_symbols symbol_list_runtime[] = {
     { NULL, NULL, mod_curl_module_initialize, mod_curl_module_finalize, NULL, NULL, NULL, NULL }, //mod_curl
 #endif
 #ifndef NO_MODSTEAM
-    { NULL, NULL, NULL, mod_steam_module_finalize, NULL, NULL, NULL, NULL }, //mod_steam
+    { mod_steam_globals_fixup, NULL, mod_steam_module_initialize, mod_steam_module_finalize, NULL, NULL, NULL, NULL }, //mod_steam
 #endif
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_fsock
     { NULL, NULL, mod_theora_module_initialize, mod_theora_module_finalize, NULL, NULL, NULL, mod_theora_handler_hooks }, //mod_theora

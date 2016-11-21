@@ -155,13 +155,6 @@ GRAPH *bitmap_new_ex(int code, int w, int h, int depth, void *data, int pitch) {
             PXTRTM_LOGERROR("bitmap_new_ex: Could not create GRAPH texture (%s)", SDL_GetError());
             return NULL;
         }
-
-        if (SDL_UpdateTexture(gr->texture, NULL, data, pitch) < 0) {
-            PXTRTM_LOGERROR("Error updating texture: %s", SDL_GetError());
-            SDL_DestroyTexture(gr->texture);
-            free(gr);
-            return NULL;
-        }
     }
 
     gr->width  = w;
@@ -184,6 +177,8 @@ GRAPH *bitmap_new_ex(int code, int w, int h, int depth, void *data, int pitch) {
 
     gr->modified   = 0;
     gr->info_flags = GI_EXTERNAL_DATA;
+
+    gr->needs_texture_update = 1;
 
     return gr;
 }
@@ -359,8 +354,9 @@ GRAPH *bitmap_new_streaming(int code, int w, int h, int depth) {
         wb++;
 
     bytesPerRow = wb;
-    if (bytesPerRow & 0x03)
+    if (bytesPerRow & 0x03) {
         bytesPerRow = (bytesPerRow & ~3) + 4;
+    }
 
     gr->data       = NULL;
     gr->texture    = NULL;
@@ -562,17 +558,21 @@ void bitmap_destroy(GRAPH *map) {
     TEXTURE_PIECE *old_piece;
     TEXTURE_PIECE *piece;
 
-    if (!map)
+    if (!map) {
         return;
+    }
 
-    if (map->cpoints)
+    if (map->cpoints) {
         free(map->cpoints);
+    }
 
-    if (map->code > 999)
+    if (map->code > 999) {
         bit_clr(map_code_bmp, map->code - 1000);
+    }
 
-    if (map->data && !(map->info_flags & GI_EXTERNAL_DATA))
+    if (map->data && !(map->info_flags & GI_EXTERNAL_DATA)) {
         free(map->data);
+    }
     if (map->texture && !(map->info_flags & GI_EXTERNAL_DATA)) {
         SDL_DestroyTexture(map->texture);
         piece = map->next_piece;

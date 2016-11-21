@@ -240,7 +240,9 @@ endif()
 if(STEAMWORKS_FOUND)
   list(APPEND SOURCE_FILES
        ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/mod_steam.cpp
-       ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/mod_steam_symbols.h)
+       ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/mod_steam_symbols.h
+       ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/mod_steam_achievements.cpp
+       ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/mod_steam_achievements.h)
   include_directories(${STEAMWORKS_INCLUDE_DIR})
 endif()
 

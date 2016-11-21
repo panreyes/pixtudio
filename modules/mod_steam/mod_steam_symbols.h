@@ -35,20 +35,31 @@ extern "C" {
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int steam_init(INSTANCE *my, int *params);
-extern int steam_username(INSTANCE *my, int *params);
 extern int steam_unlock_achievement(INSTANCE *my, int *params);
+extern int steam_delete_achievement(INSTANCE *my, int *params);
 extern int steam_check_achievement(INSTANCE *my, int *params);
+extern int steam_get_achievement_icon(INSTANCE *my, int *params);
 
+extern void __pxtexport( mod_steam, module_initialize )();
 extern void __pxtexport( mod_steam, module_finalize )();
+extern DLVARFIXUP __pxtexport( mod_steam, globals_fixup )[];
 #endif
 
+char __pxtexport( mod_steam, globals_def )[] =
+    "INT steam_appid = 0;\n"
+    "STRING steam_username = \"\";\n";
+
 DLSYSFUNCS __pxtexport(mod_steam, exported_functions)[] = {
-    FUNC("STEAM_INIT",  "I", TYPE_INT, steam_init ),
-    FUNC("STEAM_USERNAME", "",  TYPE_STRING, steam_username),
     FUNC("STEAM_UNLOCK_ACHIEVEMENT", "S",  TYPE_INT, steam_unlock_achievement),
+    FUNC("STEAM_DELETE_ACHIEVEMENT", "S",  TYPE_INT, steam_delete_achievement),
     FUNC("STEAM_CHECK_ACHIEVEMENT", "S",  TYPE_INT, steam_check_achievement),
+    FUNC("STEAM_GET_ACHIEVEMENT_ICON", "S",  TYPE_INT, steam_get_achievement_icon),
     FUNC(0, 0, 0, 0)};
+
+char * __pxtexport( mod_steam, module_dependencies )[] = {
+    "libgrbase",
+    NULL
+};
 
 #endif
 

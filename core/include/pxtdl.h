@@ -71,7 +71,7 @@
 /* --------------------------------------------------------------------------- */
 
 typedef struct {
-    char *var;
+    const char *var;
     void *data_offset;
     int size;
     int elements;
