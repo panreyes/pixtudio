@@ -1,7 +1,7 @@
 Definition
 ----------
 
-**VOID** sound\_init ( )
+**VOID** sound_init ( )
 
 Manually Closes the audio system. This is normally not needed, but may
 be necessary on some systems with SDL mixer issues. It is used in
