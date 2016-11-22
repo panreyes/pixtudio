@@ -73,11 +73,11 @@ Begin
     write(font, scr_width / 2, scr_height/2, 4, "and this app's appID is " + steam_appid);
     write(font, scr_width / 2, scr_height/2 + 40, 4, "Press esc to unlock WHOLE_TRIBE");
 
-    // steam_achievement_icon_get will return a graph with the
+    // steam_achievement_get_icon will return a graph with the
     // current state for the achievement icon
     // meaning that if the achievement is unlocked, the icon will
     // be "disabled" (grayscale)
-    bouncer(steam_achievement_icon_get("WHOLE_TRIBE"));
+    bouncer(steam_achievement_get_icon("WHOLE_TRIBE"));
     bouncer(steam_avatar_get());
 
     while(!key(_esc))
