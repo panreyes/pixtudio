@@ -228,7 +228,7 @@ set(SOURCE_FILES
 if(WIN32)
     list(APPEND SOURCE_FILES
          ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_wm/locale/win32.c)
-elseif(DARWIN)
+elseif(APPLE)
     list(APPEND SOURCE_FILES
          ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_wm/locale/darwin.m)
 else()

@@ -15,10 +15,18 @@ SET(STEAMWORKS_SEARCH_PATHS
     /opt/csw # Blastwave
     /opt
     $ENV{STEAMWORKSDIR}/public/steam
-    $ENV{STEAMWORKSDIR}/redistributable_bin
-    $ENV{STEAMWORKSDIR}/redistributable_bin/linux32
-    $ENV{STEAMWORKSDIR}/redistributable_bin/osx32
 )
+
+if(WIN32)
+    list(APPEND STEAMWORKS_SEARCH_PATHS
+         $ENV{STEAMWORKSDIR}/redistributable_bin)
+elseif(APPLE)
+    list(APPEND STEAMWORKS_SEARCH_PATHS
+         $ENV{STEAMWORKSDIR}/redistributable_bin/osx32)
+else()
+    list(APPEND STEAMWORKS_SEARCH_PATHS
+         $ENV{STEAMWORKSDIR}/redistributable_bin/linux32)
+endif()
 
 SET(MSVC_YEAR_NAME)
 IF (MSVC_VERSION GREATER 1599)      # >= 1600
