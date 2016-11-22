@@ -38,7 +38,7 @@ extern "C" {
 extern int steam_achievement_unlock(INSTANCE *my, int *params);
 extern int steam_achievement_delete(INSTANCE *my, int *params);
 extern int steam_achivement_check(INSTANCE *my, int *params);
-extern int steam_achievement_icon_get(INSTANCE *my, int *params);
+extern int steam_achievement_get_icon(INSTANCE *my, int *params);
 extern int steam_avatar_get(INSTANCE *my, int *params);
 
 extern void __pxtexport( mod_steam, module_initialize )();
@@ -54,7 +54,7 @@ DLSYSFUNCS __pxtexport(mod_steam, exported_functions)[] = {
     FUNC("STEAM_ACHIEVEMENT_UNLOCK", "S",  TYPE_INT, steam_achievement_unlock),
     FUNC("STEAM_ACHIEVEMENT_DELETE", "S",  TYPE_INT, steam_achievement_delete),
     FUNC("STEAM_ACHIEVEMENT_CHECK", "S",  TYPE_INT, steam_achivement_check),
-    FUNC("STEAM_ACHIEVEMENT_ICON_GET", "S",  TYPE_INT, steam_achievement_icon_get),
+    FUNC("STEAM_ACHIEVEMENT_GET_ICON", "S",  TYPE_INT, steam_achievement_get_icon),
     FUNC("STEAM_AVATAR_GET", "", TYPE_INT, steam_avatar_get),
     FUNC(0, 0, 0, 0)};
 

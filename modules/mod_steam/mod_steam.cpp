@@ -181,7 +181,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_achievement_icon_get(INSTANCE *my, int *params) {
+    int steam_achievement_get_icon(INSTANCE *my, int *params) {
         if(!steam_loaded) {
             return -1;
         }
