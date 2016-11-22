@@ -25,11 +25,13 @@
  *
  */
 
-#include "pxtdl.h"
-#include "stdio.h"
+#include "mod_steam.h"
+#include <pxtdl.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <pxtrtm.h>
 #include <steam_api.h>
+#include <steam_api_flat.h>
 #include <stdlib.h>
 
 #ifndef __MONOLITHIC__
@@ -40,12 +42,6 @@
 enum {
     STEAM_APPID = 0,
     STEAM_USERNAME
-};
-
-enum {
-    AVATAR_SMALL = 0,
-    AVATAR_MEDIUM,
-    AVATAR_LARGE
 };
 
 /* ---------------------------------------------------------------------- */
@@ -236,7 +232,10 @@ extern "C" {
             return -1;
         }
 
-        GRAPH *gr_avatar = gr_avatar_get(SteamUser()->GetSteamID(), AVATAR_LARGE);
+        // Using the C++ API here crashes when compiled with MinGW in windows,
+        // hence I'm resorting to steam_api_flat.h functions
+        uint64_t steam_id = SteamAPI_ISteamUser_GetSteamID((intptr_t) SteamUser());
+        GRAPH *gr_avatar = gr_avatar_get(CSteamID(steam_id), params[0]);
         if(!gr_avatar) {
             return -1;
         }

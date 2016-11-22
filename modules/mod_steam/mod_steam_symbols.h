@@ -32,6 +32,7 @@
 extern "C" {
 #endif
 
+#include "mod_steam.h"
 #include <pxtdl.h>
 
 #ifndef __PXTB__
@@ -46,6 +47,13 @@ extern void __pxtexport( mod_steam, module_finalize )();
 extern DLVARFIXUP __pxtexport( mod_steam, globals_fixup )[];
 #endif
 
+DLCONSTANT  __pxtexport( mod_steam, constants_def )[] = {
+    { "AVATAR_SMALL"   , TYPE_INT, AVATAR_SMALL  },
+    { "AVATAR_MEDIUM"  , TYPE_INT, AVATAR_MEDIUM },
+    { "AVATAR_LARGE"   , TYPE_INT, AVATAR_LARGE  },
+    { NULL             , 0       , 0 }
+} ;
+
 char __pxtexport( mod_steam, globals_def )[] =
     "INT steam_appid = 0;\n"
     "STRING steam_username = \"\";\n";
@@ -55,7 +63,7 @@ DLSYSFUNCS __pxtexport(mod_steam, exported_functions)[] = {
     FUNC("STEAM_ACHIEVEMENT_DELETE", "S",  TYPE_INT, steam_achievement_delete),
     FUNC("STEAM_ACHIEVEMENT_CHECK", "S",  TYPE_INT, steam_achivement_check),
     FUNC("STEAM_ACHIEVEMENT_GET_ICON", "S",  TYPE_INT, steam_achievement_get_icon),
-    FUNC("STEAM_AVATAR_GET", "", TYPE_INT, steam_avatar_get),
+    FUNC("STEAM_AVATAR_GET", "I", TYPE_INT, steam_avatar_get),
     FUNC(0, 0, 0, 0)};
 
 char * __pxtexport( mod_steam, module_dependencies )[] = {

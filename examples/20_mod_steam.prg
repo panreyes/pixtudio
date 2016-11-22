@@ -78,7 +78,7 @@ Begin
     // meaning that if the achievement is unlocked, the icon will
     // be "disabled" (grayscale)
     bouncer(steam_achievement_get_icon("WHOLE_TRIBE"));
-    bouncer(steam_avatar_get());
+    bouncer(steam_avatar_get(AVATAR_LARGE));
 
     while(!key(_esc))
         Frame;
