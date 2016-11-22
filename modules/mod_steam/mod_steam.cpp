@@ -30,9 +30,11 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <pxtrtm.h>
-#include <steam_api.h>
-#include <steam_api_flat.h>
 #include <stdlib.h>
+#include <steam_api.h>
+#if defined(_WIN32) && defined(__GNUC__)
+#include <steam_api_flat.h>
+#endif
 
 #ifndef __MONOLITHIC__
 #include "mod_steam_symbols.h"
@@ -232,10 +234,14 @@ extern "C" {
             return -1;
         }
 
+#if defined(_WIN32) && defined(__GNUC__)
         // Using the C++ API here crashes when compiled with MinGW in windows,
         // hence I'm resorting to steam_api_flat.h functions
         uint64_t steam_id = SteamAPI_ISteamUser_GetSteamID((intptr_t) SteamUser());
         GRAPH *gr_avatar = gr_avatar_get(CSteamID(steam_id), params[0]);
+#else
+        GRAPH *gr_avatar = gr_avatar_get(SteamUser()->GetSteamID(), params[0]);
+#endif
         if(!gr_avatar) {
             return -1;
         }
