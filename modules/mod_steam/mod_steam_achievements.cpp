@@ -120,7 +120,6 @@ void CSteamAchievements::OnUserStatsStored(UserStatsStored_t *pCallback) {
         } else {
             char buffer[128];
             _snprintf(buffer, 128, "StatsStored - failed, %d\n", pCallback->m_eResult );
-            printf(buffer);
         }
     }
 }
