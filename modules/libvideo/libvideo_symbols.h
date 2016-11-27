@@ -70,11 +70,6 @@ DLCONSTANT  __pxtexport( libvideo, constants_def )[] = {
 
     { "SCALE_NONE"          , TYPE_DWORD    , SCALE_NONE            },
 
-    { "SRO_NORMAL"          , TYPE_DWORD    , SRO_NORMAL            },
-    { "SRO_LEFT"            , TYPE_DWORD    , SRO_LEFT              },
-    { "SRO_DOWN"            , TYPE_DWORD    , SRO_DOWN              },
-    { "SRO_RIGHT"           , TYPE_DWORD    , SRO_RIGHT             },
-
     { "SRA_STRETCH"         , TYPE_DWORD    , SRA_STRETCH           },
     { "SRA_PRESERVE"        , TYPE_DWORD    , SRA_PRESERVE          },
 
