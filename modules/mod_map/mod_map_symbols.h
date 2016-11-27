@@ -111,7 +111,6 @@ extern int modmap_load_pcx( INSTANCE * my, int * params );
 extern int modmap_bgload_pcx( INSTANCE * my, int * params );
 extern int modmap_save_png( INSTANCE * my, int * params );
 
-extern void __pxtexport( mod_map, module_initialize )();
 extern void __pxtexport( mod_map, module_finalize )();
 #endif
 

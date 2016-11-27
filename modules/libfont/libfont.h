@@ -77,7 +77,7 @@ typedef struct _font {
 
 /* -------------------------------------------------------------------------- */
 
-extern unsigned char default_font[8 * 32 * 256];
+extern unsigned char default_font[];
 
 /* -------------------------------------------------------------------------- */
 
@@ -92,7 +92,7 @@ extern FONT *gr_font_get(int id);
 extern int gr_font_new(int charset, uint8_t bpp, uint8_t type);
 extern int gr_font_newfrombitmap(GRAPH *map, int charset, int width, int height, int first,
                                  int last, int options);
-extern int gr_font_systemfont(char *chardata);
+extern int gr_font_systemfont();
 
 /* -------------------------------------------------------------------------- */
 

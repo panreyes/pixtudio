@@ -107,4 +107,6 @@ extern int render_glyphs(int fontid);
 extern int gr_load_bdf(const char *filename);
 extern int gr_font_save(int fontid, const char *filename);
 
+extern int gr_font_ttf_loadfromdata(unsigned char *data, long int size);
+
 #endif

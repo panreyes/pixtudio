@@ -40,6 +40,7 @@ extern void __pxtexport( libfont, module_initialize )();
 
 char * __pxtexport( libfont, module_dependencies )[] = {
     "libgrbase",
+    "mod_map",
     NULL
 };
 #endif

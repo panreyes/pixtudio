@@ -209,7 +209,7 @@ extra_symbols symbol_list_runtime[] = {
     { mod_regex_globals_fixup, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_regex
     { mod_video_globals_fixup, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_video
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_mouse
-    { NULL, NULL, mod_map_module_initialize, mod_map_module_finalize, NULL, NULL, NULL, NULL }, //mod_map
+    { NULL, NULL, NULL, mod_map_module_finalize, NULL, NULL, NULL, NULL }, //mod_map
     { mod_dir_globals_fixup, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_dir
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_text
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_rand

@@ -39,6 +39,7 @@
 #define __LIB_FONT
 #include "libfont.h"
 #include "systemfont.h"
+#include "mod_map.h"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -404,7 +405,7 @@ static int get_bitmap_char_width(unsigned char *data, int width, int height, int
 /*
  *  FUNCTION : gr_font_systemfont
  *
- *  Create the system font. This function should be called once.
+ *  Create the system font. This function should only be called once.
  *
  *  PARAMS :
  *  chardata  Pointer to the system font data
@@ -414,21 +415,17 @@ static int get_bitmap_char_width(unsigned char *data, int width, int height, int
  *
  */
 
-int gr_font_systemfont(char *chardata) {
-    GRAPH *map = bitmap_new_ex(0, 8, 8 * 256, 32, chardata, 32);
-    if (!map)
-        return -1;
-
+int gr_font_systemfont() {
     int last_count = font_count;
     if (fonts[0])
         gr_font_destroy(0);
     font_count = 0;
 
-    gr_font_newfrombitmap(map, CHARSET_CP850, 8, 8, 0, 255, 0);
-    if (last_count)
-        font_count = last_count;
+    gr_font_ttf_loadfromdata(default_font, sizeof (default_font));
 
-    bitmap_destroy(map);
+    if (last_count) {
+        font_count = last_count;
+    }
 
     return 1;
 }
@@ -504,7 +501,12 @@ FONT *gr_font_get(int id) {
 /* --------------------------------------------------------------------------- */
 
 void __pxtexport(libfont, module_initialize)() {
-    gr_font_systemfont((char *)default_font);
+    int error = FT_Init_FreeType(&font_library);
+    if (error) {
+        PXTRTM_LOGERROR("ERROR: Could not start Freetype library\n");
+    }
+
+    gr_font_systemfont(default_font);
 }
 
 /* --------------------------------------------------------------------------- */

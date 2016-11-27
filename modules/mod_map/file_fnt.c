@@ -339,37 +339,10 @@ int render_glyphs(int fontid) {
 
 /* --------------------------------------------------------------------------- */
 
-static int gr_font_ttf_loadfrom(file *fp) {
-    // Read the file size
-    int fsize = file_size(fp);
-    if(fsize <= 0) {
-        if(debug) {
-            PXTRTM_LOGERROR("ERROR: font face size is 0\n");
-        }
-        return -1;
-    }
-
-    // Read the file into memory
-    FT_Byte *data = (FT_Byte *)malloc(sizeof(FT_Byte) * fsize);
-    if(data == NULL) {
-        if(debug) {
-            PXTRTM_LOGERROR("Could not allocate memory for reading the font file\n");
-        }
-
-        return -1;
-    }
-    int read = 0;
-    if((read = file_read(fp, data, fsize)) < fsize) {
-        if(debug) {
-            PXTRTM_LOGERROR("You should not be here\n");
-            return -1;
-        }
-    }
-
+int gr_font_ttf_loadfromdata(unsigned char *data, long int size) {
     // Create the font face and perform some basic checks
     int fontid = gr_font_new(CHARSET_CP850, 32, FONT_TYPE_VECTOR);
     if(fontid == -1) {
-        free(data);
         if(debug) {
             PXTRTM_LOGERROR("ERROR: Could not create new font\n");
         }
@@ -377,11 +350,11 @@ static int gr_font_ttf_loadfrom(file *fp) {
         return -1;
     }
     // Store the memory pointer in order to free it when unloading
-    fonts[fontid]->face_data = data;
-    int error = FT_New_Memory_Face(font_library, (const FT_Byte*)data, read, 0, &(fonts[fontid]->face));
+    fonts[fontid]->face_data = (FT_Byte *)data;
+    int error = FT_New_Memory_Face(font_library, (const FT_Byte*)data, (FT_Long)size, 0, &(fonts[fontid]->face));
     if(error) {
         if(debug) {
-            PXTRTM_LOGERROR("ERROR: Could not load font face\n");
+            PXTRTM_LOGERROR("ERROR: Could not load font face (%d)\n", error);
         }
 
         gr_font_destroy(fontid);
@@ -417,6 +390,49 @@ static int gr_font_ttf_loadfrom(file *fp) {
 
     // Store the glyph bitmaps
     render_glyphs(fontid);
+
+    return fontid;
+}
+
+/* --------------------------------------------------------------------------- */
+
+static int gr_font_ttf_loadfrom(file *fp) {
+    // Read the file size
+    int fsize = file_size(fp);
+    if(fsize <= 0) {
+        if(debug) {
+            PXTRTM_LOGERROR("ERROR: font face size is 0\n");
+        }
+        return -1;
+    }
+
+    // Read the file into memory
+    FT_Byte *data = (FT_Byte *)malloc(sizeof(FT_Byte) * fsize);
+    if(data == NULL) {
+        if(debug) {
+            PXTRTM_LOGERROR("Could not allocate memory for reading the font file\n");
+        }
+
+        return -1;
+    }
+    int read = 0;
+    if((read = file_read(fp, data, fsize)) < fsize) {
+        if(debug) {
+            PXTRTM_LOGERROR("You should not be here\n");
+            return -1;
+        }
+    }
+
+    // Load the font face from memory
+    int fontid = gr_font_ttf_loadfromdata(data, read);
+    if(fontid == -1) {
+        free(data);
+        if(debug) {
+            PXTRTM_LOGERROR("ERROR: Could not create new font\n");
+        }
+
+        return -1;
+    }
 
     return fontid;
 }

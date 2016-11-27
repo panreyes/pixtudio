@@ -845,13 +845,6 @@ int modmap_bgload_bdf(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-void __pxtexport(mod_map, module_initialize)() {
-    int error = FT_Init_FreeType(&font_library);
-    if (error) {
-        PXTRTM_LOGERROR("ERROR: Could not start Freetype library\n");
-    }
-}
-
 void __pxtexport(mod_map, module_finalize)() {
 #ifndef WIN32
     // Unload all the loaded fonts
