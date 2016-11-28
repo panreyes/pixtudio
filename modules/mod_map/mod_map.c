@@ -41,6 +41,7 @@
 #include "mod_map.h"
 
 #include "librender.h"
+#include "libtext.h"
 
 #include "bgload.h"
 
@@ -684,36 +685,48 @@ int modmap_get_glyph(INSTANCE *my, int *params) {
     GRAPH *map;
     unsigned char c = params[1];
 
-    if(font->type != FONT_TYPE_BITMAP) {
-        return 0;
-    }
-
-    if (font->charset == CHARSET_ISO8859) {
-        c = iso88591_to_cp850[c];
-    }
     if (!font) {
-        return 0;
-    }
-    if (!font->glyph[c].bitmap) {
-        return 0;
+        return -1;
     }
 
-    map = bitmap_clone(font->glyph[c].bitmap);
-    if (!map) {
-        return 0;
+    if(font->type == FONT_TYPE_VECTOR) {
+        // The glyphs are not stored as bitmaps in the font
+        // (only their alpha channel is) so we call
+        // gr_text_bitmap to render one glyph
+        unsigned char buffer[2] = " ";
+        buffer[0] = (unsigned char)params[1];
+
+        GRAPH *gr = gr_text_bitmap(params[0], (char *)buffer, 0);
+        if (!gr) {
+            return -1;
+        }
+
+        return gr->code;
+    } else {
+        if (font->charset == CHARSET_ISO8859) {
+            c = iso88591_to_cp850[c];
+        }
+        if (!font->glyph[c].bitmap) {
+            return -1;
+        }
+
+        map = bitmap_clone(font->glyph[c].bitmap);
+        if (!map) {
+            return -1;
+        }
+
+        map->code = bitmap_next_code();
+
+        if (!map->ncpoints) {
+            bitmap_add_cpoint(map, map->width / 2, map->height / 2);
+        }
+        bitmap_add_cpoint(map, font->glyph[c].xoffset, font->glyph[c].yoffset);
+        bitmap_add_cpoint(map, font->glyph[c].xadvance, font->glyph[c].yadvance);
+
+        grlib_add_map(0, map);
+
+        return map->code;
     }
-
-    map->code = bitmap_next_code();
-
-    if (!map->ncpoints) {
-        bitmap_add_cpoint(map, map->width / 2, map->height / 2);
-    }
-    bitmap_add_cpoint(map, font->glyph[c].xoffset, font->glyph[c].yoffset);
-    bitmap_add_cpoint(map, font->glyph[c].xadvance, font->glyph[c].yadvance);
-
-    grlib_add_map(0, map);
-
-    return map->code;
 }
 
 /* --------------------------------------------------------------------------- */

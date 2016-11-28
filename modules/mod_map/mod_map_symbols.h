@@ -245,6 +245,7 @@ char * __pxtexport( mod_map, module_dependencies )[] = {
     "libvideo",
     "libblit",
     "libfont",
+    "libtext",
     NULL
 };
 
