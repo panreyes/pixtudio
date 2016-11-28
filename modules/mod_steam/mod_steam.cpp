@@ -116,14 +116,38 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
+    GRAPH *gr_avatar_get(CSteamID user_id, uint8_t avatar_size) {
+        // We get the icon ID for the given achievement,
+        // and then use that ID to retrieve the pixels
+        int icon_id;
+        if(avatar_size == AVATAR_SMALL) {
+            icon_id = SteamFriends()->GetSmallFriendAvatar(user_id);
+        } else if (avatar_size == AVATAR_MEDIUM) {
+            icon_id = SteamFriends()->GetMediumFriendAvatar(user_id);
+        } else {
+            icon_id = SteamFriends()->GetLargeFriendAvatar(user_id);
+        }
+
+        if(icon_id <= 0) {
+            return NULL;
+        }
+
+        // Create the GRAPH which will hold the achievement icon
+        GRAPH *gr_avatar = gr_from_icon_id(icon_id);
+        if(!gr_avatar) {
+            return NULL;
+        }
+
+        return gr_avatar;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
     int steam_achievement_unlock(INSTANCE *my, int *params) {
         if(!steam_loaded) {
             return -1;
         }
 
-        // TODO: This part is technically right, but won't work unless we
-        // process the callback from RequestCurrentState()
-        // https://partner.steamgames.com/documentation/bootstrap_achieve
         const char *achievement = string_get(params[0]);
         bool retval = SteamUserStats()->SetAchievement(achievement);
         string_discard(params[0]);
@@ -143,9 +167,6 @@ extern "C" {
             return -1;
         }
 
-        // TODO: This part is technically right, but won't work unless we
-        // process the callback from RequestCurrentState()
-        // https://partner.steamgames.com/documentation/bootstrap_achieve
         const char *achievement = string_get(params[0]);
         bool retval = SteamUserStats()->ClearAchievement(achievement);
         string_discard(params[0]);
@@ -204,31 +225,6 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    GRAPH *gr_avatar_get(CSteamID user_id, uint8_t avatar_size) {
-        // We get the icon ID for the given achievement,
-        // and then use that ID to retrieve the pixels
-        int icon_id;
-        if(avatar_size == AVATAR_SMALL) {
-            icon_id = SteamFriends()->GetSmallFriendAvatar(user_id);
-        } else if (avatar_size == AVATAR_MEDIUM) {
-            icon_id = SteamFriends()->GetMediumFriendAvatar(user_id);
-        } else {
-            icon_id = SteamFriends()->GetLargeFriendAvatar(user_id);
-        }
-
-        if(icon_id <= 0) {
-            return NULL;
-        }
-
-        // Create the GRAPH which will hold the achievement icon
-        GRAPH *gr_avatar = gr_from_icon_id(icon_id);
-        if(!gr_avatar) {
-            return NULL;
-        }
-
-        return gr_avatar;
-    }
-
     int steam_avatar_get(INSTANCE *my, int *params) {
         if(!steam_loaded) {
             return -1;
@@ -247,6 +243,87 @@ extern "C" {
         }
 
         return gr_avatar->code;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    int steam_friend_count(INSTANCE *my, int *params) {
+        // Get the number of friends
+        if(!steam_loaded) {
+            return -1;
+        }
+
+        return SteamFriends()->GetFriendCount(k_EFriendFlagImmediate);
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    int steam_friend_name(INSTANCE *my, int *params) {
+        // Get a friend's name
+        if(!steam_loaded) {
+            return -1;
+        }
+
+        int friend_count = SteamFriends()->GetFriendCount(k_EFriendFlagImmediate);
+        if(params[0] >= friend_count) {
+            return -1;
+        }
+
+        CSteamID friend_id = SteamFriends()->GetFriendByIndex(params[0], k_EFriendFlagImmediate);
+        const char *name = SteamFriends()->GetFriendPersonaName(friend_id);
+
+        int str_id = string_new(name);
+        string_use(str_id);
+        return str_id;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    int steam_friend_nickname(INSTANCE *my, int *params) {
+        // Get the user-assigned nickname for a friend
+        if(!steam_loaded) {
+            return -1;
+        }
+
+        int friend_count = SteamFriends()->GetFriendCount(k_EFriendFlagImmediate);
+        if(params[0] >= friend_count) {
+            return -1;
+        }
+
+        CSteamID friend_id = SteamFriends()->GetFriendByIndex(params[0], k_EFriendFlagImmediate);
+        const char *name = SteamFriends()->GetPlayerNickname(friend_id);
+
+        int str_id;
+        if(name) {
+            str_id = string_new(name);
+        } else {
+            str_id = string_new("");
+        }
+
+        string_use(str_id);
+        return str_id;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+    int steam_friend_avatar(INSTANCE *my, int *params) {
+        // Get a friend's avatar image, given its size
+        if(!steam_loaded) {
+            return -1;
+        }
+
+        int friend_count = SteamFriends()->GetFriendCount(k_EFriendFlagImmediate);
+        if(params[0] >= friend_count) {
+            return -1;
+        }
+
+        CSteamID friend_id = SteamFriends()->GetFriendByIndex(params[0], k_EFriendFlagImmediate);
+        GRAPH *avatar = gr_avatar_get(friend_id, params[1]);
+        if(!avatar) {
+            return -1;
+        }
+
+        return avatar->code;
     }
 
     /* ---------------------------------------------------------------------- */
@@ -289,7 +366,6 @@ extern "C" {
         GLODWORD(mod_steam, STEAM_USERNAME) = string_id;
 
         // Request the current player stats
-        // TODO: Should we create the callback for this?
         SteamUserStats()->RequestCurrentStats();
 
         // Mark the process as successful
