@@ -254,6 +254,31 @@ function docs_read_content($file){
                     echo "</div>\n";
                 }
             }
+            if($line[0]=="!"){
+                $content_number++;
+                $content_name=substr($line,2);
+
+                if(strpos($content_name," ||| ") === FALSE){
+                    if(file_exists("pages/".convert_page_name($content_name).".md")){
+                        $page=convert_page_name($content_name);
+                    }
+                } else {
+                    $temp=explode(" ||| ",$content_name);
+                    $content_name=$temp[0];
+                    $page=$temp[1];
+                }
+                //echo '<a href="#" onclick="show_content('.$content_name.');">'.$content_name.'</a><br />'."\n";
+                if($page!=""){
+                    echo "<h2>$content_name</h2>\n";
+                } else {
+                    echo "<h2>$content_name (MISSING)</h2>\n";
+                }
+                if($page!=""){
+                    echo '<div class="bs-callout bs-callout-info" id="'.$content_name.'" style="/*display:none*/">';
+                    parsedown($page);
+                    echo "</div>\n";
+                }
+            }
             if($line[0]=="*") {
                 $anterior_level=$level;
             }
