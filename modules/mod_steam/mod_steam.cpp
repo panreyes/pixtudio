@@ -381,6 +381,18 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
+    int steam_lang_get(INSTANCE *my, int *params) {
+        // Returns a string with the lang the game should be run in
+        const char *lang = SteamApps()->GetCurrentGameLanguage();
+
+        int str_id = string_new(lang);
+        string_use(str_id);
+
+        return str_id;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
     void __pxtexport(mod_steam, module_initialize)() {
         if (!SteamAPI_Init()) {
             fprintf(stderr, "Steam Error: SteamAPI_Init - "
@@ -423,6 +435,8 @@ extern "C" {
 
         // Mark the process as successful
         steam_loaded = 1;
+
+        printf("%s\n", SteamApps()->GetCurrentGameLanguage());
 
         fprintf(stdout, "Steam Init OK.\n");
         fflush(stdout);

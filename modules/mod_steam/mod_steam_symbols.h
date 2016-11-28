@@ -45,6 +45,7 @@ extern int steam_friend_count(INSTANCE *my, int *params);
 extern int steam_friend_name(INSTANCE *my, int *params);
 extern int steam_friend_nickname(INSTANCE *my, int *params);
 extern int steam_friend_avatar(INSTANCE *my, int *params);
+extern int steam_lang_get(INSTANCE *my, int *params);
 
 extern void __pxtexport( mod_steam, module_initialize )();
 extern void __pxtexport( mod_steam, module_finalize )();
@@ -63,15 +64,16 @@ char __pxtexport( mod_steam, globals_def )[] =
     "STRING steam_username = \"\";\n";
 
 DLSYSFUNCS __pxtexport(mod_steam, exported_functions)[] = {
-    FUNC("STEAM_ACHIEVEMENT_UNLOCK", "S",  TYPE_INT, steam_achievement_unlock),
-    FUNC("STEAM_ACHIEVEMENT_DELETE", "S",  TYPE_INT, steam_achievement_delete),
-    FUNC("STEAM_ACHIEVEMENT_CHECK", "S",  TYPE_INT, steam_achivement_check),
-    FUNC("STEAM_ACHIEVEMENT_GET_ICON", "S",  TYPE_INT, steam_achievement_get_icon),
-    FUNC("STEAM_AVATAR_GET", "I", TYPE_INT, steam_avatar_get),
-    FUNC("STEAM_FRIEND_COUNT", "", TYPE_INT, steam_friend_count),
-    FUNC("STEAM_FRIEND_NAME", "I", TYPE_STRING, steam_friend_name),
-    FUNC("STEAM_FRIEND_NICKNAME", "I", TYPE_STRING, steam_friend_name),
-    FUNC("STEAM_FRIEND_AVATAR", "II", TYPE_INT, steam_friend_avatar),
+    FUNC("STEAM_ACHIEVEMENT_UNLOCK"  , "S" , TYPE_INT   , steam_achievement_unlock  ),
+    FUNC("STEAM_ACHIEVEMENT_DELETE"  , "S" , TYPE_INT   , steam_achievement_delete  ),
+    FUNC("STEAM_ACHIEVEMENT_CHECK"   , "S" , TYPE_INT   , steam_achivement_check    ),
+    FUNC("STEAM_ACHIEVEMENT_GET_ICON", "S" , TYPE_INT   , steam_achievement_get_icon),
+    FUNC("STEAM_AVATAR_GET"          , "I" , TYPE_INT   , steam_avatar_get          ),
+    FUNC("STEAM_FRIEND_COUNT"        , ""  , TYPE_INT   , steam_friend_count        ),
+    FUNC("STEAM_FRIEND_NAME"         , "I" , TYPE_STRING, steam_friend_name         ),
+    FUNC("STEAM_FRIEND_NICKNAME"     , "I" , TYPE_STRING, steam_friend_name         ),
+    FUNC("STEAM_FRIEND_AVATAR"       , "II", TYPE_INT   , steam_friend_avatar       ),
+    FUNC("STEAM_LANG_GET"            , ""  , TYPE_STRING, steam_lang_get            ),
     FUNC(0, 0, 0, 0)};
 
 char * __pxtexport( mod_steam, module_dependencies )[] = {
