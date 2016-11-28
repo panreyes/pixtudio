@@ -417,8 +417,10 @@ static int get_bitmap_char_width(unsigned char *data, int width, int height, int
 
 int gr_font_systemfont() {
     int last_count = font_count;
-    if (fonts[0])
+    if (fonts[0]) {
         gr_font_destroy(0);
+    }
+
     font_count = 0;
 
     gr_font_ttf_loadfromdata(default_font, sizeof (default_font));
@@ -506,7 +508,7 @@ void __pxtexport(libfont, module_initialize)() {
         PXTRTM_LOGERROR("ERROR: Could not start Freetype library\n");
     }
 
-    gr_font_systemfont(default_font);
+    gr_font_systemfont();
 }
 
 /* --------------------------------------------------------------------------- */

@@ -349,9 +349,15 @@ int gr_font_ttf_loadfromdata(unsigned char *data, long int size) {
 
         return -1;
     }
+
+    // Copy the memory so that the caller can free their pointer
+    FT_Byte *face_data = malloc(size);
+    memcpy(face_data, data, size);
+
     // Store the memory pointer in order to free it when unloading
-    fonts[fontid]->face_data = (FT_Byte *)data;
-    int error = FT_New_Memory_Face(font_library, (const FT_Byte*)data, (FT_Long)size, 0, &(fonts[fontid]->face));
+    fonts[fontid]->face_data = face_data;
+    int error = FT_New_Memory_Face(font_library, (const FT_Byte*)face_data,
+                                   (FT_Long)size, 0, &(fonts[fontid]->face));
     if(error) {
         if(debug) {
             PXTRTM_LOGERROR("ERROR: Could not load font face (%d)\n", error);
