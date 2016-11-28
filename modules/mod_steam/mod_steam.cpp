@@ -253,7 +253,14 @@ extern "C" {
             return -1;
         }
 
-        return SteamFriends()->GetFriendCount(k_EFriendFlagImmediate);
+#if defined(_WIN32) && defined(__GNUC__)
+        int friend_count = SteamAPI_ISteamFriends_GetFriendCount((intptr_t) SteamFriends(),
+                                                                 k_EFriendFlagImmediate);
+#else
+        int friend_count = SteamFriends()->GetFriendCount(k_EFriendFlagImmediate);
+#endif
+
+        return friend_count;
     }
 
     /* ---------------------------------------------------------------------- */
@@ -264,13 +271,29 @@ extern "C" {
             return -1;
         }
 
+#if defined(_WIN32) && defined(__GNUC__)
+        int friend_count = SteamAPI_ISteamFriends_GetFriendCount((intptr_t) SteamFriends(),
+                                                                 k_EFriendFlagImmediate);
+#else
         int friend_count = SteamFriends()->GetFriendCount(k_EFriendFlagImmediate);
+#endif
         if(params[0] >= friend_count) {
             return -1;
         }
 
+#if defined(_WIN32) && defined(__GNUC__)
+        // Using the C++ API here crashes when compiled with MinGW in windows,
+        // hence I'm resorting to steam_api_flat.h functions
+        uint64_t steam_id = SteamAPI_ISteamFriends_GetFriendByIndex((intptr_t) SteamFriends(),
+                                                                    params[0],
+                                                                    k_EFriendFlagImmediate);
+        CSteamID friend_id = CSteamID(steam_id);
+        const char *name = SteamAPI_ISteamFriends_GetFriendPersonaName((intptr_t) SteamFriends(),
+                                                                       friend_id);
+#else
         CSteamID friend_id = SteamFriends()->GetFriendByIndex(params[0], k_EFriendFlagImmediate);
         const char *name = SteamFriends()->GetFriendPersonaName(friend_id);
+#endif
 
         int str_id = string_new(name);
         string_use(str_id);
@@ -285,13 +308,29 @@ extern "C" {
             return -1;
         }
 
+#if defined(_WIN32) && defined(__GNUC__)
+        int friend_count = SteamAPI_ISteamFriends_GetFriendCount((intptr_t) SteamFriends(),
+                                                                 k_EFriendFlagImmediate);
+#else
         int friend_count = SteamFriends()->GetFriendCount(k_EFriendFlagImmediate);
+#endif
         if(params[0] >= friend_count) {
             return -1;
         }
 
+#if defined(_WIN32) && defined(__GNUC__)
+        // Using the C++ API here crashes when compiled with MinGW in windows,
+        // hence I'm resorting to steam_api_flat.h functions
+        uint64_t steam_id = SteamAPI_ISteamFriends_GetFriendByIndex((intptr_t) SteamFriends(),
+                                                                    params[0],
+                                                                    k_EFriendFlagImmediate);
+        CSteamID friend_id = CSteamID(steam_id);
+        const char *name = SteamAPI_ISteamFriends_GetPlayerNickname((intptr_t) SteamFriends(),
+                                                                    friend_id);
+#else
         CSteamID friend_id = SteamFriends()->GetFriendByIndex(params[0], k_EFriendFlagImmediate);
         const char *name = SteamFriends()->GetPlayerNickname(friend_id);
+#endif
 
         int str_id;
         if(name) {
@@ -312,12 +351,26 @@ extern "C" {
             return -1;
         }
 
+#if defined(_WIN32) && defined(__GNUC__)
+        int friend_count = SteamAPI_ISteamFriends_GetFriendCount((intptr_t) SteamFriends(),
+                                                                 k_EFriendFlagImmediate);
+#else
         int friend_count = SteamFriends()->GetFriendCount(k_EFriendFlagImmediate);
+#endif
         if(params[0] >= friend_count) {
             return -1;
         }
 
+#if defined(_WIN32) && defined(__GNUC__)
+        // Using the C++ API here crashes when compiled with MinGW in windows,
+        // hence I'm resorting to steam_api_flat.h functions
+        uint64_t steam_id = SteamAPI_ISteamFriends_GetFriendByIndex((intptr_t) SteamFriends(),
+                                                                    params[0],
+                                                                    k_EFriendFlagImmediate);
+        CSteamID friend_id = CSteamID(steam_id);
+#else
         CSteamID friend_id = SteamFriends()->GetFriendByIndex(params[0], k_EFriendFlagImmediate);
+#endif
         GRAPH *avatar = gr_avatar_get(friend_id, params[1]);
         if(!avatar) {
             return -1;
