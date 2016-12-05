@@ -819,7 +819,11 @@ int modmap_ttf_get_family(INSTANCE *my, int *params) {
     if(!font || font->type != FONT_TYPE_VECTOR) {
         family_name = "";
     } else {
-        family_name = (const char *)font->face->family_name;
+        if(!font->face->family_name) {
+            family_name = "";
+        } else {
+            family_name = (const char *)font->face->family_name;
+        }
     }
 
     int str_id = string_new(family_name);
@@ -839,7 +843,11 @@ int modmap_ttf_get_style(INSTANCE *my, int *params) {
     if(!font || font->type != FONT_TYPE_VECTOR) {
         style_name = "";
     } else {
-        style_name = (const char *)font->face->style_name;
+        if(!font->face->style_name) {
+            style_name = "";
+        } else {
+            style_name = (const char *)font->face->style_name;
+        }
     }
 
     int str_id = string_new(style_name);
