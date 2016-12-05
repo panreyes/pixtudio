@@ -1,0 +1,270 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+1
+Microsoft (R) Build Engine version 4.6.2006.0
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Compilaci¢n iniciada a las 06/12/2016 0:30:05.
+Proyecto "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" en nodo 1 (destinos predeterminados).
+C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+Compilaci¢n del proyecto terminada "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" (destinos predeterminados) -- ERROR.
+
+ERROR al compilar.
+
+"C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" (destino predeterminado) (1) ->
+  C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+
+    0 Advertencia(s)
+    1 Errores
+
+Tiempo transcurrido 00:00:00.20
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+1
+Microsoft (R) Build Engine version 4.6.2006.0
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Compilaci¢n iniciada a las 06/12/2016 0:30:06.
+Proyecto "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" en nodo 1 (destinos predeterminados).
+C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+Compilaci¢n del proyecto terminada "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" (destinos predeterminados) -- ERROR.
+
+ERROR al compilar.
+
+"C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" (destino predeterminado) (1) ->
+  C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+
+    0 Advertencia(s)
+    1 Errores
+
+Tiempo transcurrido 00:00:00.20
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+1
+Microsoft (R) Build Engine version 4.6.2006.0
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Compilaci¢n iniciada a las 06/12/2016 0:30:30.
+Proyecto "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" en nodo 1 (destinos predeterminados).
+C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+Compilaci¢n del proyecto terminada "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" (destinos predeterminados) -- ERROR.
+
+ERROR al compilar.
+
+"C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" (destino predeterminado) (1) ->
+  C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+
+    0 Advertencia(s)
+    1 Errores
+
+Tiempo transcurrido 00:00:00.20
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+1
+Microsoft (R) Build Engine version 4.6.2006.0
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Compilaci¢n iniciada a las 06/12/2016 0:30:30.
+Proyecto "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" en nodo 1 (destinos predeterminados).
+C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+Compilaci¢n del proyecto terminada "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" (destinos predeterminados) -- ERROR.
+
+ERROR al compilar.
+
+"C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" (destino predeterminado) (1) ->
+  C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+
+    0 Advertencia(s)
+    1 Errores
+
+Tiempo transcurrido 00:00:00.20
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+1
+Microsoft (R) Build Engine version 4.6.2006.0
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Compilaci¢n iniciada a las 06/12/2016 0:30:38.
+Proyecto "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" en nodo 1 (destinos predeterminados).
+C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+Compilaci¢n del proyecto terminada "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" (destinos predeterminados) -- ERROR.
+
+ERROR al compilar.
+
+"C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" (destino predeterminado) (1) ->
+  C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+
+    0 Advertencia(s)
+    1 Errores
+
+Tiempo transcurrido 00:00:00.20
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+1
+Microsoft (R) Build Engine version 4.6.2006.0
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Compilaci¢n iniciada a las 06/12/2016 0:30:39.
+Proyecto "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" en nodo 1 (destinos predeterminados).
+C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+Compilaci¢n del proyecto terminada "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" (destinos predeterminados) -- ERROR.
+
+ERROR al compilar.
+
+"C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" (destino predeterminado) (1) ->
+  C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+
+    0 Advertencia(s)
+    1 Errores
+
+Tiempo transcurrido 00:00:00.19
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+1
+Microsoft (R) Build Engine version 4.6.2006.0
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Compilaci¢n iniciada a las 06/12/2016 0:32:27.
+Proyecto "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" en nodo 1 (destinos predeterminados).
+C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+Compilaci¢n del proyecto terminada "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" (destinos predeterminados) -- ERROR.
+
+ERROR al compilar.
+
+"C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" (destino predeterminado) (1) ->
+  C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+
+    0 Advertencia(s)
+    1 Errores
+
+Tiempo transcurrido 00:00:00.20
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+1
+Microsoft (R) Build Engine version 4.6.2006.0
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Compilaci¢n iniciada a las 06/12/2016 0:32:28.
+Proyecto "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" en nodo 1 (destinos predeterminados).
+C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+Compilaci¢n del proyecto terminada "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" (destinos predeterminados) -- ERROR.
+
+ERROR al compilar.
+
+"C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" (destino predeterminado) (1) ->
+  C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+
+    0 Advertencia(s)
+    1 Errores
+
+Tiempo transcurrido 00:00:00.20
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+1
+Microsoft (R) Build Engine version 4.6.2006.0
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Compilaci¢n iniciada a las 06/12/2016 0:32:46.
+Proyecto "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" en nodo 1 (destinos predeterminados).
+C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+Compilaci¢n del proyecto terminada "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" (destinos predeterminados) -- ERROR.
+
+ERROR al compilar.
+
+"C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj" (destino predeterminado) (1) ->
+  C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdC\CompilerIdC.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+
+    0 Advertencia(s)
+    1 Errores
+
+Tiempo transcurrido 00:00:00.19
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+1
+Microsoft (R) Build Engine version 4.6.2006.0
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Compilaci¢n iniciada a las 06/12/2016 0:32:47.
+Proyecto "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" en nodo 1 (destinos predeterminados).
+C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+Compilaci¢n del proyecto terminada "C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" (destinos predeterminados) -- ERROR.
+
+ERROR al compilar.
+
+"C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj" (destino predeterminado) (1) ->
+  C:\msys64\home\joseba\cvs\pixtudio\3rdparty\freetype-2.7\build\CMakeFiles\3.6.2\CompilerIdCXX\CompilerIdCXX.vcxproj(18,3): error MSB4019: No se encuentra el proyecto importado "C:\Microsoft.Cpp.Default.props". Aseg£rese de que la ruta de acceso de la declaraci¢n <Import> es correcta y de que el archivo se encuentra en el disco.
+
+    0 Advertencia(s)
+    1 Errores
+
+Tiempo transcurrido 00:00:00.20
+
+
