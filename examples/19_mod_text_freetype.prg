@@ -16,6 +16,8 @@ Begin
     fnt = fnt_load("fnt/font.fnt");
     ttf = ttf_load("ttf/DejaVuSans.ttf");
     ttf_set_size(ttf, ttf_size);
+    say("Font family: " + ttf_get_family(ttf));
+    say("Font style: " + ttf_get_style(ttf));
 
     // Paint the text red
     set_text_color(rgb(255,0,0));

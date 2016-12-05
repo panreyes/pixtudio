@@ -104,7 +104,9 @@ extern int modmap_load_bdf( INSTANCE * my, int * params );
 extern int modmap_bgload_bdf( INSTANCE * my, int * params );
 extern int modmap_get_glyph( INSTANCE * my, int * params );
 extern int modmap_set_glyph( INSTANCE * my, int * params );
-extern int modmap_set_ttf_size( INSTANCE * my, int * params );
+extern int modmap_ttf_set_size( INSTANCE * my, int * params );
+extern int modmap_ttf_get_family( INSTANCE * my, int * params );
+extern int modmap_ttf_get_style( INSTANCE * my, int * params );
 extern int modmap_load_png( INSTANCE * my, int * params );
 extern int modmap_bgload_png( INSTANCE * my, int * params );
 extern int modmap_load_pcx( INSTANCE * my, int * params );
@@ -218,7 +220,9 @@ DLSYSFUNCS  __pxtexport( mod_map, exported_functions )[] = {
     FUNC( "FNT_NEW"             , "IIIIIIII"    , TYPE_INT      , modmap_fnt_new_from_bitmap),
 
     FUNC( "TTF_LOAD"            , "S"           , TYPE_INT      , modmap_load_ttf           ),
-    FUNC( "TTF_SET_SIZE"        , "II"          , TYPE_INT      , modmap_set_ttf_size       ),
+    FUNC( "TTF_SET_SIZE"        , "II"          , TYPE_INT      , modmap_ttf_set_size       ),
+    FUNC( "TTF_GET_FAMILY"      , "I"           , TYPE_STRING   , modmap_ttf_get_family     ),
+    FUNC( "TTF_GET_STYLE"       , "I"           , TYPE_STRING   , modmap_ttf_get_style      ),
 
     FUNC( "BDF_LOAD"            , "S"           , TYPE_INT      , modmap_load_bdf           ),
     FUNC( "BDF_LOAD"            , "SP"          , TYPE_INT      , modmap_bgload_bdf         ),

@@ -783,7 +783,7 @@ int modmap_set_glyph(INSTANCE *my, int *params) {
  *  Set the size of a vector font (in pixels)
  */
 
-int modmap_set_ttf_size(INSTANCE *my, int *params) {
+int modmap_ttf_set_size(INSTANCE *my, int *params) {
     FONT *font = gr_font_get(params[0]);
 
     if(!font || font->type != FONT_TYPE_VECTOR) {
@@ -806,6 +806,46 @@ int modmap_set_ttf_size(INSTANCE *my, int *params) {
     render_glyphs(params[0]);
 
     return 0;
+}
+
+/* --------------------------------------------------------------------------- */
+/** TTF_GET_FAMILY (FONT)
+ *  Gets a TTF font's family name
+ */
+int modmap_ttf_get_family(INSTANCE *my, int *params) {
+    FONT *font = gr_font_get(params[0]);
+    const char *family_name;
+
+    if(!font || font->type != FONT_TYPE_VECTOR) {
+        family_name = "";
+    } else {
+        family_name = (const char *)font->face->family_name;
+    }
+
+    int str_id = string_new(family_name);
+    string_use(str_id);
+
+    return str_id;
+}
+
+/* --------------------------------------------------------------------------- */
+/** TTF_GET_STYLE (FONT)
+ *  Gets a TTF font's family name
+ */
+int modmap_ttf_get_style(INSTANCE *my, int *params) {
+    FONT *font = gr_font_get(params[0]);
+    const char *style_name;
+
+    if(!font || font->type != FONT_TYPE_VECTOR) {
+        style_name = "";
+    } else {
+        style_name = (const char *)font->face->style_name;
+    }
+
+    int str_id = string_new(style_name);
+    string_use(str_id);
+
+    return str_id;
 }
 
 /* --------------------------------------------------------------------------- */
