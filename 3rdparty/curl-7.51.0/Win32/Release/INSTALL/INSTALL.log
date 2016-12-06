@@ -1,0 +1,15 @@
+﻿  -- Install configuration: "Release"
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/bin/curl-config
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/lib/pkgconfig/libcurl.pc
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/include/curl/curlbuild.h
+  -- Up-to-date: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/include/curl
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/include/curl/curl.h
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/include/curl/curlrules.h
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/include/curl/curlver.h
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/include/curl/easy.h
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/include/curl/mprintf.h
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/include/curl/multi.h
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/include/curl/stdcheaders.h
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/include/curl/typecheck-gcc.h
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/lib/libcurl_imp.lib
+  -- Installing: C:/msys64/home/joseba/cvs/pixtudio/3rdparty/curl-7.51.0/dist/bin/libcurl.dll
