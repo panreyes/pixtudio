@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 # Required stuff
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${pxtb_SOURCE_DIR}/../include")
 find_package(SDL2 REQUIRED)     # We need the SDL_gamecontroller symbols, but we don't link against SDL2
+find_package(CURL REQUIRED)     # We need some symbols, but we don't link against libcurl
 find_package(ZLIB REQUIRED)
 find_package(STEAMWORKS)
 # Preprocessor macros
@@ -85,6 +86,7 @@ include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_effects/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_curl/
                     ${SDL2_INCLUDE_DIR}
+                    ${CURL_INCLUDE_DIR}
                     ${ZLIB_INCLUDE_DIRS})
 
 if(WIN32)
