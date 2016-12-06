@@ -512,8 +512,9 @@ int gr_save_png(GRAPH *gr, const char *filename) {
 
 int gr_load_png(const char *mapname) {
     GRAPH *gr = gr_read_png(mapname);
-    if (!gr)
+    if (!gr) {
         return 0;
+    }
     gr->code = bitmap_next_code();
     grlib_add_map(0, gr);
     return gr->code;

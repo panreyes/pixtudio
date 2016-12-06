@@ -528,16 +528,18 @@ int file_write(file *fp, void *buffer, int len) {
 int file_size(file *fp) {
     long pos, size;
 
-    if (fp->type == F_XFILE)
+    if (fp->type == F_XFILE) {
         return x_file[fp->n].size;
+    }
 
     pos = file_pos(fp);
 #ifndef NO_ZLIB
     if (fp->type == F_GZFILE) {
         char buffer[8192];
         size = pos;
-        while (!file_eof(fp))
+        while (!file_eof(fp)) {
             size += file_read(fp, buffer, sizeof(buffer));
+        }
     } else
 #endif
     {

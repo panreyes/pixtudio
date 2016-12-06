@@ -70,7 +70,7 @@ extern char *appexepath;
 extern char *appexefullpath;
 
 extern int debug_DCB;  /* 1 if running in debug mode to dump DCB output */
-extern int debug;
+extern int debug;      /* 1 if the user set the debug arg (-d) on PXTP */
 
 /* Trace */
 extern int debug_mode;

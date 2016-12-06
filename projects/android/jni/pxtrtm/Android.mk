@@ -140,6 +140,7 @@ LOCAL_SRC_FILES := \
 	../../../../modules/mod_map/file_pal.c \
 	../../../../modules/mod_map/file_pcx.c \
 	../../../../modules/mod_map/file_png.c \
+	../../../../modules/mod_map/file_jpg.c \
 	../../../../modules/mod_map/mod_map.c \
 	../../../../modules/mod_math/mod_math.c \
 	../../../../modules/mod_mem/mod_mem.c \

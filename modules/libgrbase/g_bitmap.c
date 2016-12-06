@@ -206,12 +206,14 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
     /* Calculate the row size (dword-aligned) */
 
     wb = w * depth / 8;
-    if ((wb * 8 / depth) < w)
+    if ((wb * 8 / depth) < w) {
         wb++;
+    }
 
     bytesPerRow = wb;
-    if (bytesPerRow & 0x03)
+    if (bytesPerRow & 0x03) {
         bytesPerRow = (bytesPerRow & ~3) + 4;
+    }
 
     gr->data = (char *)malloc(h * bytesPerRow);
     if (!gr->data) { // No memory left

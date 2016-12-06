@@ -8,6 +8,7 @@ find_package(SDL2 2.0.4 REQUIRED)
 find_package(SDL2_Mixer REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(PNG REQUIRED)
+find_package(JPEG REQUIRED)
 find_package(OGG REQUIRED)
 find_package(Vorbis REQUIRED)
 find_package(Theora REQUIRED)
@@ -57,6 +58,7 @@ target_link_libraries(${PROJECT_NAME}
                       ${SDL2_MIXER_LIBRARIES}
                       ${ZLIB_LIBRARIES}
                       ${PNG_LIBRARIES}
+                      ${JPEG_LIBRARIES}
                       ${OGG_LIBRARY}
                       ${VORBIS_LIBRARY}
                       ${THEORA_LIBRARIES}

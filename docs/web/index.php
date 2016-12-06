@@ -339,7 +339,7 @@ switch (mt_rand(0, 2)) {
             mingw32/mingw-w64-i686-libtheora mingw32/mingw-w64-i686-libmodplug mingw32/mingw-w64-i686-libmikmod
             mingw32/mingw-w64-i686-libtre-git mingw32/mingw-w64-i686-flac mingw32/mingw-w64-i686-sqlite3
             mingw32/mingw-w64-i686-curl mingw32/mingw-w64-i686-chipmunk mingw32/mingw-w64-i686-openal
-            mingw32/mingw-w64-i686-freetype
+            mingw32/mingw-w64-i686-freetype mingw32/mingw-w64-i686-libxml2 mingw32/mingw-w64-i686-libjpeg
         </code>
     </li>
     <li>

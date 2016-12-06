@@ -194,6 +194,12 @@ int modmap_load_pcx(INSTANCE *my, int *params) {
     return r;
 }
 
+int modmap_load_jpg(INSTANCE *my, int *params) {
+    int r = gr_load_jpg(string_get(params[0]));
+    string_discard(params[0]);
+    return r;
+}
+
 /* --------------------------------------------------------------------------- */
 
 int modmap_save_png(INSTANCE *my, int *params) {
@@ -891,6 +897,11 @@ int modmap_bgload_png(INSTANCE *my, int *params) {
 
 int modmap_bgload_pcx(INSTANCE *my, int *params) {
     bgload(gr_load_pcx, params);
+    return 0;
+}
+
+int modmap_bgload_jpg(INSTANCE *my, int *params) {
+    bgload(gr_load_jpg, params);
     return 0;
 }
 

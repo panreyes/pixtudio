@@ -6,6 +6,7 @@ find_package(SDL2 2.0.4 REQUIRED)
 find_package(SDL2_Mixer REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(PNG REQUIRED)
+find_package(JPEG REQUIRED)
 find_package(Vorbis REQUIRED)
 find_package(Theora REQUIRED)
 find_package(Freetype REQUIRED)
@@ -172,6 +173,7 @@ set(SOURCE_FILES
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/file_pal.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/file_pcx.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/file_png.c
+  ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/file_jpg.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/mod_map.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/mod_map.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/mod_map_symbols.h
@@ -308,7 +310,9 @@ include_directories(${pxtrtm_SOURCE_DIR}/../../../../core/pxtrtm/include
                     ${FREETYPE_INCLUDE_DIRS}
                     ${OPENAL_INCLUDE_DIR}
                     ${TRE_INCLUDE_DIR}
-                    ${CURL_INCLUDE_DIR})
+                    ${CURL_INCLUDE_DIR}
+                    ${PNG_INCLUDE_DIR}
+                    ${JPEG_INCLUDE_DIR})
 # Main executable
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
