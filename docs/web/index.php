@@ -181,7 +181,7 @@ switch (mt_rand(0, 2)) {
         Install the required dependencies.
         <code>sudo dnf install SDL2-devel.i686 SDL2_mixer-devel.i686 libpng-devel.i686 zlib-devel.i686 libogg-devel.i686
             libvorbis-devel.i686 libtheora-devel.i686 tre.i686 tre-devel.i686 sqlite-devel.i686 libcurl-devel.i686
-            openal-soft-devel.i686 freetype-devel.i686 glibc-devel.i686
+            openal-soft-devel.i686 freetype-devel.i686 glibc-devel.i686 libjpeg-turbo-devel.i686
         </code>
     </li>
     <li>
