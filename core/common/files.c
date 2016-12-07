@@ -937,20 +937,27 @@ char *whereis(char *fname) {
     while (pact && *pact) {
         struct stat st;
 
-        if ((p = strchr(pact, ENV_PATH_SEP)))
+        if ((p = strchr(pact, ENV_PATH_SEP))) {
             *p = '\0';
+        }
         sprintf(fullname, "%s%s%s", pact, (pact[strlen(pact) - 1] == ENV_PATH_SEP) ? "" : PATH_SEP,
                 fname);
 
+#if _MSC_VER
+        if (!stat(fullname, &st) && (((st.st_mode) & _S_IFMT) == _S_IFREG)) {
+#else
         if (!stat(fullname, &st) && S_ISREG(st.st_mode)) {
+#endif
             pact = strdup(pact);
-            if (p)
+            if (p) {
                 *p = ENV_PATH_SEP;
+            }
             return (pact);
         }
 
-        if (!p)
+        if (!p) {
             break;
+        }
 
         *p   = ENV_PATH_SEP;
         pact = p + 1;

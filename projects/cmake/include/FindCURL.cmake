@@ -14,6 +14,7 @@ SET(CURL_SEARCH_PATHS
     /opt/local # DarwinPorts
     /opt/csw # Blastwave
     /opt
+    ${CURL_PATH}
 )
 
 SET(MSVC_YEAR_NAME)
@@ -37,7 +38,7 @@ FIND_PATH(CURL_INCLUDE_DIR
 )
 
 FIND_LIBRARY(CURL_LIBRARY
-    NAMES curl libcurl
+    NAMES curl libcurl libcurl_imp.lib
     HINTS ENV CURLDIR
     PATH_SUFFIXES lib lib64 lib/i386-linux-gnu win32/Dynamic_Release "Win32/${MSVC_YEAR_NAME}/x64/Release" "Win32/${MSVC_YEAR_NAME}/Win32/Release"
     PATHS ${CURL_SEARCH_PATHS}

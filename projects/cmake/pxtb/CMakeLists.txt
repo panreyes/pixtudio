@@ -3,14 +3,17 @@ cmake_minimum_required(VERSION 2.8)
 # Required stuff
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${pxtb_SOURCE_DIR}/../include")
 find_package(SDL2 REQUIRED)     # We need the SDL_gamecontroller symbols, but we don't link against SDL2
-find_package(CURL REQUIRED)     # We need some symbols, but we don't link against libcurl
 find_package(ZLIB REQUIRED)
 find_package(STEAMWORKS)
+find_package(CURL)              # We need some symbols, but we don't link against libcurl
 # Preprocessor macros
 add_definitions(-D__PXTB__)
 if(NOT STEAMWORKS_FOUND)
   add_definitions(-DNO_MODSTEAM)
 endif(NOT STEAMWORKS_FOUND)
+if(NOT CURL_FOUND)
+  add_definitions(-DNO_MODCURL)
+endif(NOT CURL_FOUND)
 include(common_defs)
 # Source files
 file(GLOB SOURCE_FILES
@@ -86,14 +89,18 @@ include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_effects/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_curl/
                     ${SDL2_INCLUDE_DIR}
-                    ${CURL_INCLUDE_DIR}
                     ${ZLIB_INCLUDE_DIRS})
+
+# Add CURL include dir, if found
+if(CURL_FOUND)
+  include_directories(${CURL_INCLUDE_DIR})
+endif(CURL_FOUND)
 
 if(WIN32)
 	set(SOURCE_FILES
       ${SOURCE_FILES}
       ${pxtb_SOURCE_DIR}/pxtb.rc)
-    set(EXTRA_LIBS "-lshlwapi")
+  set(EXTRA_LIBS "shlwapi")
 else()
     set(EXTRA_LIBS)
 endif()

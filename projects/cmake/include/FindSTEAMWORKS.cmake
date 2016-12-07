@@ -14,17 +14,21 @@ SET(STEAMWORKS_SEARCH_PATHS
     /opt/local # DarwinPorts
     /opt/csw # Blastwave
     /opt
+    ${STEAMWORKS_PATH}/public/steam
     $ENV{STEAMWORKSDIR}/public/steam
 )
 
 if(WIN32)
     list(APPEND STEAMWORKS_SEARCH_PATHS
+         ${STEAMWORKS_PATH}/redistributable_bin
          $ENV{STEAMWORKSDIR}/redistributable_bin)
 elseif(APPLE)
     list(APPEND STEAMWORKS_SEARCH_PATHS
+         ${STEAMWORKS_PATH}/redistributable_bin/osx32
          $ENV{STEAMWORKSDIR}/redistributable_bin/osx32)
 else()
     list(APPEND STEAMWORKS_SEARCH_PATHS
+         ${STEAMWORKS_PATH}/redistributable_bin/linux32
          $ENV{STEAMWORKSDIR}/redistributable_bin/linux32)
 endif()
 
