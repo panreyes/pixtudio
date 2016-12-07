@@ -29,10 +29,10 @@
 
 /* --------------------------------------------------------------------------- */
 
-#include <jpeglib.h>
 #include <strings.h>
 #include <files.h>
 #include <pxtrtm.h>
+#include <jpeglib.h>
 
 #include "mod_map.h"
 #include "g_bitmap.h"
