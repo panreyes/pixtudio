@@ -2,7 +2,7 @@
 
 * Install [Visual Studio Community 2015](https://www.visualstudio.com/en/vs/community/) with C++ development tools.
 * Install [CMake](https://cmake.org/).
-* Install [NASM](http://www.nasm.us/) (choose the 64 of 32 bit version, depending on your system).
+* Install [NASM](http://www.nasm.us/) Choose the 64 of 32 bit version, depending on your system (both should work fine).
 * Open a command prompt at the PixTudio source code folder and ensure that CMake & NASM are available in your path.
 
 ##Compile zlib:
