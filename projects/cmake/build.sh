@@ -56,14 +56,17 @@ if [ "$OS" = "Msys" ]; then
 	EXT=".exe"
     BINDIR="bin/win32"
     BUILDTOOL="ninja"
+    INSTALLTOOL="ninja install"
 elif [ "$OS" = "GNU/Linux" ]; then
     PROJECTTYPE="Ninja"
     EXT=""
     BINDIR="bin/gnulinux32"
     if ! [ "$(type -p ninja)" = "" ]; then
         BUILDTOOL="ninja"
+        INSTALLTOOL="ninja install"
     else
         BUILDTOOL="ninja-build"
+        INSTALLTOOL="ninja-build install"
     fi
 
     # Ubuntu? => Manually specify library locations (beats me)
@@ -75,6 +78,7 @@ elif [ "$OS" = "Darwin" ]; then
     EXT=""
     BINDIR="bin/osx32"
     BUILDTOOL="ninja"
+    INSTALLTOOL="ninja install"
 fi
 
 # Compile PXTB and PXTP
@@ -83,8 +87,8 @@ for PROJECT in pxtb pxtp; do
     rm -rf ${PROJECT}_build
     mkdir ${PROJECT}_build
     cd ${PROJECT}_build
-    STEAMWORKSDIR=$(pwd)/../../../3rdparty/steamworks cmake -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" ${EXTRACMAKEFLAGS} -G "${PROJECTTYPE}" ../${PROJECT}
-    $BUILDTOOL
+    cmake -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" ${EXTRACMAKEFLAGS} -G "${PROJECTTYPE}" -DSTEAMWORKS_PATH=$(pwd)/../../../3rdparty/steamworks -DCMAKE_INSTALL_PREFIX=$(pwd)/../ ../${PROJECT}
+    $BUILDTOOL && $INSTALLTOOL
     cd ..
 done
 

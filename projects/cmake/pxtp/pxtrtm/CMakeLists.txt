@@ -1,5 +1,5 @@
 project(pxtrtm)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.4)
 # Required stuff
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${pxtrtm_SOURCE_DIR}/../../include")
 find_package(SDL2 2.0.4 REQUIRED)

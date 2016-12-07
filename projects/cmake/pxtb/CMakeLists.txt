@@ -1,5 +1,5 @@
 project(pxtb C)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.4)
 # Required stuff
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${pxtb_SOURCE_DIR}/../include")
 find_package(SDL2 REQUIRED)     # We need the SDL_gamecontroller symbols, but we don't link against SDL2
@@ -8,13 +8,18 @@ find_package(STEAMWORKS)
 find_package(CURL)              # We need some symbols, but we don't link against libcurl
 # Preprocessor macros
 add_definitions(-D__PXTB__)
+
+# Determine if optional libraries should be built in or not
 if(NOT STEAMWORKS_FOUND)
   add_definitions(-DNO_MODSTEAM)
 endif(NOT STEAMWORKS_FOUND)
 if(NOT CURL_FOUND)
   add_definitions(-DNO_MODCURL)
 endif(NOT CURL_FOUND)
+
+# Common defines
 include(common_defs)
+
 # Source files
 file(GLOB SOURCE_FILES
   ${pxtb_SOURCE_DIR}/../../../core/pxtb/src/*.c
@@ -91,16 +96,17 @@ include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include
                     ${SDL2_INCLUDE_DIR}
                     ${ZLIB_INCLUDE_DIRS})
 
-# Add CURL include dir, if found
+# Add CURL include dir, if mod_curl is to be built
 if(CURL_FOUND)
-  include_directories(${CURL_INCLUDE_DIR})
+    include_directories(${CURL_INCLUDE_DIR})
 endif(CURL_FOUND)
 
+# In windows? Add an icon and link agains shlwapi
 if(WIN32)
 	set(SOURCE_FILES
-      ${SOURCE_FILES}
-      ${pxtb_SOURCE_DIR}/pxtb.rc)
-  set(EXTRA_LIBS "shlwapi")
+        ${SOURCE_FILES}
+        ${pxtb_SOURCE_DIR}/pxtb.rc)
+    set(EXTRA_LIBS "shlwapi")
 else()
     set(EXTRA_LIBS)
 endif()
@@ -113,3 +119,14 @@ include(compiler_flags)
 
 # Link the executable to the libraries
 target_link_libraries(${PROJECT_NAME} ${ZLIB_LIBRARIES} ${EXTRA_LIBS})
+
+# Installation instructions
+if(WIN32)
+    set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin/win32" CACHE PATH "Installation directory for executables")
+elseif(APPLE)
+    set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin/osx32" CACHE PATH "Installation directory for executables")
+else()
+    set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin/gnulinux32" CACHE PATH "Installation directory for executables")
+endif()
+install(TARGETS ${PROJECT_NAME}
+        RUNTIME DESTINATION "${INSTALL_BIN_DIR}")

@@ -1,5 +1,5 @@
 project(pxtp C)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.4)
 # Require pxtrtm
 add_subdirectory(pxtrtm)
 # Required stuff
@@ -69,3 +69,13 @@ target_link_libraries(${PROJECT_NAME}
                       ${EXTRA_LIBS}
                       ${STEAM_LIB})
 
+# Installation instructions
+if(WIN32)
+    set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin/win32" CACHE PATH "Installation directory for executables")
+elseif(APPLE)
+    set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin/osx32" CACHE PATH "Installation directory for executables")
+else()
+    set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin/gnulinux32" CACHE PATH "Installation directory for executables")
+endif()
+install(TARGETS ${PROJECT_NAME}
+        RUNTIME DESTINATION "${INSTALL_BIN_DIR}")
