@@ -49,7 +49,7 @@ int copy_locale_var(const char *varname, char *dest) {
 }
 
 // get_locale implementation reading the LANG environment variable
-// returns en_US on failure
+// returns (-_-) on failure
 const char *get_locale() {
     if (copy_locale_var("LANG", locale) > 0) {
         return (const char *)locale;
