@@ -40,6 +40,7 @@
     cmake --build . --config Release
     cmake --build . --config Release --target INSTALL
     cd ..\..\
+
 ##Compile libcurl
     cd curl-7.51.0
     md build
@@ -48,6 +49,34 @@
     cmake --build . --config Release
     cmake --build . --config Release --target INSTALL
     cd ..\..\
+
+##Compile libogg
+    cd SDL2_mixer\external\libogg-1.3.1\
+    md build
+    cd build
+    cmake -G"Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%cd%/../dist ..
+    cmake --build . --config Release
+    cmake --build . --config Release --target INSTALL
+    cd ..\..\..\..\
+
+##Compile libvorbis
+    cd SDL2_mixer\external\libvorbis-1.3.3
+    md build
+    cd build
+    cmake -G"Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%cd%/../dist -DLIBOGG_PATH=%cd%/../../libogg-1.3.1 ..
+    cmake --build . --config Release
+    cmake --build . --config Release --target INSTALL
+    cd ..\..\..\..\
+
+##Compile libtheora
+    cd libtheora-1.1.1
+    md build
+    cd build
+    cmake -G"Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%cd%/../dist -DLIBOGG_PATH=%cd%/../../SDL2_mixer/external/libogg-1.3.1 ..
+    cmake --build . --config Release
+    cmake --build . --config Release --target INSTALL
+    cd ..\..\
+
 ##Compile SDL2
     cd SDL2
     md build
@@ -56,6 +85,7 @@
     cmake --build . --config Release
     cmake --build . --config Release --target INSTALL
     cd ..\..\
+
 ##Compile PXTB
     cd projects\cmake\pxtb
     md build
@@ -65,3 +95,4 @@
     cmake --build . --config Release --target INSTALL
     cd Release
     copy ..\..\..\..\..\3rdparty\zlib-1.2.8\dist\bin\zlib.dll .
+    cd ..\..\..
