@@ -6,7 +6,7 @@
 * Open a command prompt at the PixTudio source code folder and ensure that CMake & NASM are available in your path.
 
 ##Compile zlib:
-    cd zlib-1.2.8
+    cd 3rdparty/zlib-1.2.8
     md build
     cd build
     cmake -G"Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%cd%/../dist ..
@@ -73,6 +73,15 @@
     md build
     cd build
     cmake -G"Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%cd%/../dist -DLIBOGG_PATH=%cd%/../../SDL2_mixer/external/libogg-1.3.1 ..
+    cmake --build . --config Release
+    cmake --build . --config Release --target INSTALL
+    cd ..\..\
+
+##Compile libtre
+    cd tre
+    md build
+    cd build
+    cmake -G"Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%cd%/../dist ..
     cmake --build . --config Release
     cmake --build . --config Release --target INSTALL
     cd ..\..\
