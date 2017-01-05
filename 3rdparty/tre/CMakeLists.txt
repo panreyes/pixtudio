@@ -18,7 +18,6 @@ set(SOURCE_FILES
 add_definitions(-DHAVE_CONFIG_H)
 
 if (MSVC)
-    message("MSVC")
     include_directories(${libtre_SOURCE_DIR}/win32 ${libtre_SOURCE_DIR}/lib ${libtre_SOURCE_DIR}/lib/tre)
 else(MSVC)
     include_directories(${libtre_SOURCE_DIR} ${libtre_SOURCE_DIR}/lib ${libtre_SOURCE_DIR}/lib/tre)
