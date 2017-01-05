@@ -15,7 +15,7 @@ find_package(Theora REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(TRE REQUIRED)
-find_package(CURL REQUIRED)
+find_package(CURL)
 find_package(STEAMWORKS)
 # Preprocessor macros
 add_definitions(-D__PXTP__)
@@ -41,7 +41,12 @@ endif()
 # Main executable
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-# Steamworks libraries
+# Optional libraries
+if(CURL_FOUND)
+    set(CURL_LIBRARY ${CURL_LIBRARY})
+else()
+    set(CURL_LIBRARY "")
+endif()
 if(STEAMWORKS_FOUND)
     set(STEAM_LIB ${STEAMWORKS_LIBRARY})
 else()

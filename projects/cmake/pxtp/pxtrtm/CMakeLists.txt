@@ -12,13 +12,16 @@ find_package(Theora REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(TRE REQUIRED)
-find_package(CURL REQUIRED)
+find_package(CURL)
 find_package(STEAMWORKS)
 # Preprocessor macros
 add_definitions(-D__PXTRTM__)
 if(NOT STEAMWORKS_FOUND)
   add_definitions(-DNO_MODSTEAM)
 endif(NOT STEAMWORKS_FOUND)
+if(NOT CURL_FOUND)
+  add_definition(-DNO_MODCURL)
+endif(NOT CURL_FOUND)
 include(common_defs)
 # Source files
 set(SOURCE_FILES
@@ -143,8 +146,6 @@ set(SOURCE_FILES
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_chipmunk/locales.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_chipmunk/Miscelanea.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_chipmunk/mod_chipmunk_symbols.h
-  ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_curl/mod_curl_symbols.h
-  ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_curl/mod_curl.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_debug/mod_debug.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_debug/mod_debug_symbols.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_dir/mod_dir.c
@@ -238,14 +239,23 @@ else()
          ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_wm/locale/env.c)
 endif()
 
-# Steamworks integration
+# Optional modules
+if(CURL_FOUND)
+  list(APPEND SOURCE_FILES
+       ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_curl/mod_curl_symbols.h
+       ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_curl/mod_curl.c)
+  include_directories(${pxtrtm_SOURCE_DIR}/../../../../modules/mod_curl/
+                      ${CURL_INCLUDE_DIR})
+endif(CURL_FOUND)
+
 if(STEAMWORKS_FOUND)
   list(APPEND SOURCE_FILES
        ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/mod_steam.cpp
        ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/mod_steam.h
        ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/mod_steam_symbols.h)
-  include_directories(${STEAMWORKS_INCLUDE_DIR})
-endif()
+  include_directories(${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/
+                      ${STEAMWORKS_INCLUDE_DIR})
+endif(STEAMWORKS_FOUND)
 
 # Include dirs
 include_directories(${pxtrtm_SOURCE_DIR}/../../../../core/pxtrtm/include
@@ -296,9 +306,7 @@ include_directories(${pxtrtm_SOURCE_DIR}/../../../../core/pxtrtm/include
                     ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_regex/
                     ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_fsock/
                     ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_effects/
-                    ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_curl/
                     ${pxtrtm_SOURCE_DIR}/../../../../modules/libsocket/
-                    ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_steam/
                     ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_ttf/
                     ${pxtrtm_SOURCE_DIR}/../../../../3rdparty/stb/
                     ${pxtrtm_SOURCE_DIR}/../../../../3rdparty/theoraplay/
@@ -310,7 +318,6 @@ include_directories(${pxtrtm_SOURCE_DIR}/../../../../core/pxtrtm/include
                     ${FREETYPE_INCLUDE_DIRS}
                     ${OPENAL_INCLUDE_DIR}
                     ${TRE_INCLUDE_DIR}
-                    ${CURL_INCLUDE_DIR}
                     ${PNG_INCLUDE_DIR}
                     ${JPEG_INCLUDE_DIR})
 # Main executable
