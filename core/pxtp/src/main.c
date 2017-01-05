@@ -256,7 +256,7 @@ int main(int argc, char *argv[]) {
 
     sysproc_init();
 
-#if defined(_WIN32)
+#ifdef _WIN32
     HWND hWnd = /*GetForegroundWindow()*/ GetConsoleWindow();
     DWORD dwProcessId;
     GetWindowThreadProcessId(hWnd, &dwProcessId);

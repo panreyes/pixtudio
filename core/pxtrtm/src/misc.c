@@ -61,7 +61,7 @@ int debug = 0;
 /* --------------------------------------------------------------------------- */
 
 /* os versions */
-#if defined(_WIN32)
+#ifdef _WIN32
 #define _OS_ID OS_WIN32
 #endif
 
