@@ -8,7 +8,9 @@ if (${CMAKE_C_COMPILER_ID} MATCHES "GNU" OR
         set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG} -g")
         set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -O2")
         set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
-elseif (${CMAKE_C_COMPILER_ID} MATCHES "MSVC")
+elseif (MSVC)
+        # The following flags disable warnings that suggest to use MSVC-specific functions
+        set(CMAKE_C_FLAGS "/wd4996 ${CMAKE_CXX_FLAGS}" CACHE STRING "" FORCE)
         if (CMAKE_C_FLAGS MATCHES "/W[0-4]")
                 string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
         else()

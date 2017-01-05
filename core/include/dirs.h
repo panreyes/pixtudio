@@ -38,8 +38,8 @@
 #ifndef __DIRS_H
 #define __DIRS_H
 
-#ifdef WIN32
-#include <windows.h>
+#ifdef _WIN32
+#include <Windows.h>
 #include <winbase.h>
 #include <windef.h>
 #include <direct.h>

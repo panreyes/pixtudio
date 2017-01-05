@@ -26,6 +26,8 @@ file(GLOB SOURCE_FILES
   ${pxtb_SOURCE_DIR}/../../../core/common/debug.c
   ${pxtb_SOURCE_DIR}/../../../core/common/files.c
   ${pxtb_SOURCE_DIR}/../../../core/common/xctype.c
+  ${pxtb_SOURCE_DIR}/../../../core/common/commons_defs.h
+  ${pxtb_SOURCE_DIR}/../../../core/common/dirs.h
   ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/codeblock.h
   ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/compiler.h
   ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/constants.h

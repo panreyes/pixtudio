@@ -404,7 +404,7 @@ void sysproc_init() {
 #if defined(__MONOLITHIC__)
 #define DLLEXT ".fakelib"
 #define SIZEDLLEXT 8
-#elif defined(WIN32)
+#elif defined(_WIN32)
 #define DLLEXT ".dll"
 #define SIZEDLLEXT 4
 #elif defined(__APPLE__)

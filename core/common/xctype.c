@@ -195,7 +195,7 @@ static void set_c_lower(const unsigned char *from, const unsigned char *to) {
 }
 
 void init_c_type() {
-    int c;
+    unsigned char c;
 
     memset(c_type, 0, sizeof(c_type));
 

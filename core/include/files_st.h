@@ -66,7 +66,7 @@
 #define	__MAX_EXT	        256
 */
 
-#ifdef WIN32
+#ifdef _WIN32
 #define PATH_SEP "\\"
 #define PATH_ISEP "/"
 #define PATH_CHAR_SEP '\\'

@@ -112,7 +112,7 @@ int check_for_valid_pathname(char *pathname) {
     if (!pathname || (l = strlen(pathname)) > __MAX_PATH)
         return 0;
 
-#if WIN32
+#ifdef _WIN32
     /* Only ':' with this sintax: "L:..." */
     if (pathname[0] == ':' || (l > 2 && strchr(pathname + 2, ':')))
         return 0;

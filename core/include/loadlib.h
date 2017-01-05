@@ -29,7 +29,7 @@
 #define _LOADLIB_H
 
 #ifdef _WIN32
-#include <windows.h>
+#include <Windows.h>
 #include <winbase.h>
 #else
 #define _GNU_SOURCE
@@ -79,7 +79,7 @@ static dlibhandle *dlibopen(const char *fname) {
 #ifdef _WIN32
     void *hnd = LoadLibrary(fname);
 #else
-    void *hnd     = dlopen(fname, RTLD_NOW | RTLD_GLOBAL);
+    void *hnd = dlopen(fname, RTLD_NOW | RTLD_GLOBAL);
 #endif
     if (!hnd) {
 #ifdef _WIN32

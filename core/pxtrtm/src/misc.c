@@ -61,7 +61,7 @@ int debug = 0;
 /* --------------------------------------------------------------------------- */
 
 /* os versions */
-#ifdef _WIN32
+#if defined(_WIN32)
 #define _OS_ID OS_WIN32
 #endif
 
@@ -162,11 +162,13 @@ int debug = 0;
 int pxtrtm_strncmpi(char *str1, char *str2, int sz) {
     while ((*str1 || *str2) && sz) {
 #ifdef _WIN32
-        if (toupper(*str1) != toupper(*str2))
+        if (toupper(*str1) != toupper(*str2)) {
             return toupper(*str1) - toupper(*str2);
+        }
 #else
-        if (*str1 != *str2)
+        if (*str1 != *str2) {
             return *str1 - *str2;
+        }
 #endif
         str1++;
         str2++;
