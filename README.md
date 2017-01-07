@@ -4,6 +4,8 @@ PixTudio is a 2D game engine with an emphasis on PC & mobile gaming.
 
 The project originated from the (unsuccessful) Kickstarter for [Explosive Dinosaurs](https://www.kickstarter.com/projects/rawrlab/explosive-dinosaurs-minigames-dinosaurs-and-explos)
 
+Although I do work on PixTudio from time to time, my time is limited so I tend to focus in features I find interesting/fun to work on. Please feel free to fork the code and experiment.
+
 ## CREDITS ##
 PixTudio relies on code from the following projects:
 
