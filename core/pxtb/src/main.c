@@ -99,8 +99,9 @@ int main(int argc, char *argv[]) {
 
     /* get my executable name */
     ptr = argv[0] + strlen(argv[0]);
-    while (ptr > argv[0] && ptr[-1] != '\\' && ptr[-1] != '/')
+    while (ptr > argv[0] && ptr[-1] != '\\' && ptr[-1] != '/') {
         ptr--;
+    }
     appexename = strdup(ptr);
 
     /* get executable full pathname  */
@@ -148,7 +149,6 @@ int main(int argc, char *argv[]) {
     constants_init();
     string_init();
     compile_init();
-
     mainproc = procdef_new(procdef_getid(), identifier_search_or_add("MAIN"));
 
     /* Init vars */

@@ -134,7 +134,7 @@ int dir_create(const char *dir) {
     char *c = dir_path_convert(dir);
     if (!c)
         return 0;
-#if defined(_WIN32)
+#ifdef _WIN32
     int r = mkdir(c);
 #else
     int r = mkdir(c, 0777);

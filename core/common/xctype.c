@@ -195,7 +195,7 @@ static void set_c_lower(const unsigned char *from, const unsigned char *to) {
 }
 
 void init_c_type() {
-    unsigned char c;
+    uint32_t c;
 
     memset(c_type, 0, sizeof(c_type));
 
@@ -205,7 +205,7 @@ void init_c_type() {
         }
     } else {
         for (c = 0; c < 256; c++) {
-            c_lower[c] = c_upper[c] = c;
+            c_lower[c] = c_upper[c] = (unsigned char)c;
         }
     }
 

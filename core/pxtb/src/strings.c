@@ -92,8 +92,9 @@ int string_new(const char *text) {
         }
     }
 
-    while (string_used + len >= string_allocated)
+    while (string_used + len >= string_allocated) {
         string_alloc(1024);
+    }
 
     string_offset[string_count] = string_used;
     strcpy(string_mem + string_used, text);
@@ -109,19 +110,23 @@ char *invalidchars = "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x
 int check_for_valid_pathname(char *pathname) {
     int n, l;
 
-    if (!pathname || (l = strlen(pathname)) > __MAX_PATH)
+    if (!pathname || (l = strlen(pathname)) > __MAX_PATH) {
         return 0;
+    }
 
 #ifdef _WIN32
-    /* Only ':' with this sintax: "L:..." */
-    if (pathname[0] == ':' || (l > 2 && strchr(pathname + 2, ':')))
+    /* Only ':' with this syntax: "L:..." */
+    if (pathname[0] == ':' || (l > 2 && strchr(pathname + 2, ':'))) {
         return 0;
+    }
 #endif
 
-    /* Some invalid character? */
-    for (n = 0; n < strlen(invalidchars); n++)
-        if (strchr(pathname, invalidchars[n]))
+    /* Check for invalid characters */
+    for (n = 0; n < strlen(invalidchars); n++) {
+        if (strchr(pathname, invalidchars[n])) {
             return 0;
+        }
+    }
 
     return 1;
 }
@@ -145,30 +150,25 @@ int string_compile(const char **source) {
     string_offset[string_count] = string_used;
 
     while (*(*source)) {
-        if (*(*source) == c) /* Termina la string? */
-        {
+        if (*(*source) == c) { /* String end? */
             (*source)++;
-            if (*(*source) == c) /* Comienza una nueva? (esto es para strings divididas) */
-            {
+            if (*(*source) == c)  { /* Starting a new string? (for divided strings) */
                 (*source)++;
             } else {
-                /* Elimino todos los espacios para buscar si hay otra string, esto es para strings
-                 * divididas */
+                /* Remove all spaces to check for another string (for divided string) */
                 ptr = (*source);
                 while (ISSPACE(*ptr)) {
                     if (*ptr == '\n')
                         line_count++;
                     ptr++;
                 }
-                /* Si despues de saltar todos los espacios, no tengo un delimitador de string, salgo
-                 */
+                /* Break if there is no string delimiter after all the spaces */
                 if (*ptr != c) {
-                    (*source) = ptr; /* Fix: Splinter, por problema con numeracion de lineas */
+                    (*source) = ptr; /* Fix: Splinter, numbering error */
                     break;
                 }
 
-                /* Obtengo delimitador de string, me posiciono en el caracter siguiente, dentro de
-                 * la string */
+                /* Obtain string delimiter and position at the character after that */
                 (*source) = ptr + 1;
                 continue;
             }
@@ -205,14 +205,16 @@ int string_compile(const char **source) {
         }
     }
 
-    if (string_used >= string_allocated)
+    if (string_used >= string_allocated) {
         string_alloc(1024);
+    }
 
-    /* Hack: añade el posible fichero al DCB */
+    /* Hack: add possible file to the DCB */
 
     if (!no_include_this_file && autoinclude &&
-        check_for_valid_pathname(string_mem + string_offset[string_count]))
+        check_for_valid_pathname(string_mem + string_offset[string_count])) {
         dcb_add_file(string_mem + string_offset[string_count]);
+    }
 
     no_include_this_file = 0;
 

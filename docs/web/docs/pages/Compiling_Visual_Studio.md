@@ -99,9 +99,9 @@
     cd projects\cmake\pxtb
     md build
     cd build
-    cmake -G"Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%cd%/../../bin -DSDL2_PATH=%cd%/../../../../3rdparty/SDL2/dist -DZLIB_ROOT=%cd%/../../../../3rdparty/zlib-1.2.8/dist -DSTEAMWORKS_PATH=%cd%/../../../../3rdparty/steamworks ..
+    cmake -G"Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%cd%/../../ -DSDL2_PATH=%cd%/../../../../3rdparty/SDL2/dist -DZLIB_ROOT=%cd%/../../../../3rdparty/zlib-1.2.8/dist -DSTEAMWORKS_PATH=%cd%/../../../../3rdparty/steamworks ..
     cmake --build . --config Release
     cmake --build . --config Release --target INSTALL
-    cd Release
-    copy ..\..\..\..\..\3rdparty\zlib-1.2.8\dist\bin\zlib.dll .
+    cd ..\..\bin\win32
+    copy ..\..\..\..\3rdparty\zlib-1.2.8\dist\bin\zlib.dll .
     cd ..\..\..
