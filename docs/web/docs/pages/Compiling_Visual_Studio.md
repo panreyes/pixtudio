@@ -104,4 +104,4 @@
     cmake --build . --config Release --target INSTALL
     cd ..\..\bin\win32
     copy ..\..\..\..\3rdparty\zlib-1.2.8\dist\bin\zlib.dll .
-    cd ..\..\..
+    cd ..\..\..\..\
