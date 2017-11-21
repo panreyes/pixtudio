@@ -61,42 +61,10 @@ static REGION updaterects[DIRTYCOLS * DIRTYROWS];
  */
 
 void gr_draw_screen(GRAPH *dest, int restore_type, int dump_type) {
-    GRAPH *orig_scrbitmap = scrbitmap;
-
-    scrbitmap = dest;
-
-    if (background && background->modified) {
-        restore_type = 1;
-        dump_type    = 1;
-    }
-
-    /* Update the object list */
-    gr_update_objects_mark_rects(restore_type, dump_type);
-
-    if (background->info_flags & GI_CLEAN) {
-        gr_clear(scrbitmap);
-    } else {
-        gr_blit(scrbitmap, NULL, 0, 0, B_NOCOLORKEY, 255, 255, 255, background);
-    }
-
-    updaterects_count = 1;
-    updaterects[0].x  = 0;
-    updaterects[0].y  = 0;
-    updaterects[0].x2 = scr_width - 1;
-    updaterects[0].y2 = scr_height - 1;
-
-    /* Dump everything */
-    gr_draw_objects_complete();
-
-    /* Reset the zone-to-update array for the next frame */
-    gr_rects_clear();
-
-    if (background && background->modified)
-        background->modified = 0;
-    if (scrbitmap && scrbitmap->modified)
-        scrbitmap->modified = 0;
-
-    scrbitmap = orig_scrbitmap;
+	//nuevo, mejor.
+	gr_update_objects_mark_rects(restore_type, dump_type);
+	gr_blit(scrbitmap, NULL, 0, 0, B_NOCOLORKEY, 255, 255, 255, background);
+	gr_draw_objects_complete();
 }
 
 /* --------------------------------------------------------------------------- */
