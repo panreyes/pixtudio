@@ -61,10 +61,14 @@ static REGION updaterects[DIRTYCOLS * DIRTYROWS];
  */
 
 void gr_draw_screen(GRAPH *dest, int restore_type, int dump_type) {
-	//nuevo, mejor.
-	gr_update_objects_mark_rects(restore_type, dump_type);
-	gr_blit(scrbitmap, NULL, 0, 0, B_NOCOLORKEY, 255, 255, 255, background);
-	gr_draw_objects_complete();
+    /* Update the object list */
+    gr_update_objects_mark_rects(restore_type, dump_type);
+    
+    /* Blit the background map */
+    gr_blit(scrbitmap, NULL, 0, 0, B_NOCOLORKEY, 255, 255, 255, background);
+    
+    /* Dump everything */
+    gr_draw_objects_complete();
 }
 
 /* --------------------------------------------------------------------------- */
