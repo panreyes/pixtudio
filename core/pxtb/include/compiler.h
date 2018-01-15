@@ -89,7 +89,7 @@ extern int
 
     identifier_program,
     identifier_debug, identifier_const, identifier_begin, identifier_end, identifier_struct,
-    identifier_global, identifier_local, identifier_public, identifier_private, identifier_const,
+    identifier_global, identifier_local, identifier_public, identifier_private,
     identifier_dup, identifier_while, identifier_repeat, identifier_until, identifier_switch,
     identifier_case, identifier_default, identifier_loop, identifier_for, identifier_from,
     identifier_step, identifier_to, identifier_if, identifier_else, identifier_break,
@@ -106,7 +106,7 @@ extern int
     identifier_plusequal, identifier_minusequal, identifier_multequal, identifier_divequal,
     identifier_modequal, identifier_orequal, identifier_xorequal, identifier_andequal,
     identifier_rorequal, identifier_rolequal, identifier_mouse, identifier_dword, identifier_word,
-    identifier_byte, identifier_string, identifier_float, identifier_include, identifier_type,
+    identifier_byte, identifier_string, identifier_float, identifier_include,
     identifier_import, identifier_elseif, identifier_question, identifier_function, identifier_int,
     identifier_short, identifier_char, identifier_unsigned, identifier_signed;
 

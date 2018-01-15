@@ -12,7 +12,6 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(LOCAL_PATH)/../../../../3rdparty/SDL2_mixer/ \
 	$(LOCAL_PATH)/../../../../3rdparty/libpng-1.6.23/ \
 	$(LOCAL_PATH)/../../../../3rdparty/libglob-bsd/include/ \
-	$(LOCAL_PATH)/../../../../3rdparty/curl-7.23.1/include/ \
 	$(LOCAL_PATH)/../../../../3rdparty/stb/ \
 	$(LOCAL_PATH)/../../../../3rdparty/theoraplay/ \
 	$(LOCAL_PATH)/../../../../3rdparty/libtheora-1.1.1/include/ \
@@ -59,7 +58,6 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(MODULES_PATH)/mod_sys/ \
 	$(MODULES_PATH)/mod_regex/ \
 	$(MODULES_PATH)/mod_multi/ \
-	$(MODULES_PATH)/mod_curl/ \
 	$(MODULES_PATH)/mod_gamecontroller/ \
 	$(MODULES_PATH)/mod_joy/ \
 	$(MODULES_PATH)/libjoy/ \

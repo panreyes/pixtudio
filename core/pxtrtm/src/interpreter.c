@@ -85,7 +85,7 @@ int instance_go_all() {
     INSTANCE *i = NULL;
     int i_count = 0;
     int n;
-    int status;
+    uint32_t status;
 
     must_exit = 0;
 

@@ -180,7 +180,6 @@ static int copytype(void *dst, void *src, DCB_TYPEDEF *var) {
             default:
                 PXTRTM_LOGERROR("ERROR: Runtime error - Could not copy datatype\n");
                 exit(1);
-                break;
         }
         break;
     }
@@ -194,8 +193,8 @@ static int copytype(void *dst, void *src, DCB_TYPEDEF *var) {
  **/
 
 int pxt_copy_struct(INSTANCE *my, int *params) {
-    return (int)copytypes((void *)params[0], (void *)params[1], (DCB_TYPEDEF *)params[2], params[3],
-                          params[4]);
+    return copytypes((void *)params[0], (void *)params[1], (DCB_TYPEDEF *)params[2], params[3],
+                     params[4]);
 }
 
 int pxt_internal_memcopy(INSTANCE *my, int *params) {

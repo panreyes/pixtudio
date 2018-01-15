@@ -36,6 +36,12 @@
 
 /* Un VARSPACE es una zona de definición de variables */
 
+typedef struct _variable {
+    TYPEDEF type;
+    int code;
+    int offset;
+} VARIABLE;
+
 typedef struct _varspace {
     struct _variable *vars;
     int size;
@@ -47,12 +53,6 @@ typedef struct _varspace {
     int stringvar_reserved;
     int stringvar_count;
 } VARSPACE;
-
-typedef struct _variable {
-    TYPEDEF type;
-    int code;
-    int offset;
-} VARIABLE;
 
 extern VARSPACE *varspace_new();
 extern void varspace_alloc(VARSPACE *n, int count);

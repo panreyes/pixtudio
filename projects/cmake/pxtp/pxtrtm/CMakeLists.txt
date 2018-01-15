@@ -20,7 +20,7 @@ if(NOT STEAMWORKS_FOUND)
   add_definitions(-DNO_MODSTEAM)
 endif(NOT STEAMWORKS_FOUND)
 if(NOT CURL_FOUND)
-  add_definition(-DNO_MODCURL)
+  add_definitions(-DNO_MODCURL)
 endif(NOT CURL_FOUND)
 include(common_defs)
 # Source files

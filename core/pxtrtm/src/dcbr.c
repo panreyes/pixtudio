@@ -132,7 +132,7 @@ static char *trim(char *ptr) {
 static int load_file(const char *filename, int n) {
     char line[2048];
     int allocated = 16;
-    int count     = 0;
+    uint32_t count     = 0;
     char **lines;
     file *fp;
 
@@ -415,7 +415,7 @@ int dcb_load_from(file *fp, const char *filename, int offset) {
         procs[n].id              = dcb.proc[n].data.ID;
         procs[n].flags           = dcb.proc[n].data.Flags;
         procs[n].type            = n;
-        procs[n].name            = getid_name(procs[n].id);
+        procs[n].name            = getid_name((unsigned int) procs[n].id);
         procs[n].breakpoint      = 0;
 
         if (dcb.proc[n].data.SPrivate) {

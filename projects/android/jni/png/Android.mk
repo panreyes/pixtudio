@@ -21,7 +21,7 @@ common_SRC_FILES := \
 
 common_CFLAGS := ## -fomit-frame-pointer
 
-common_C_INCLUDES += $(LOCAL_PATH)/../../../../3rdparty/libpng/
+common_C_INCLUDES += $(LOCAL_PATH)/../../../../3rdparty/libpng-1.6.23/
 
 # For the host
 # =====================================================

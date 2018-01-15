@@ -127,7 +127,6 @@
 #define MSG_VARIABLE_REDECLARED_AS_CONSTANT "Variable redeclared as constant"
 #define MSG_VARIABLE_REDECLARE "Variable redeclared"
 #define MSG_VARIABLE_REDECLARE_DIFF "Variable redeclared with different type"
-#define MSG_IDENTIFIER_EXP "Identifier expected"
 #define MSG_CANT_INIT_STR "This struct can't be initialized"
 #define MSG_TOO_MANY_INIT "Too many initializers"
 #define MSG_TOO_MANY_INCLUDES "Too many nested includes"

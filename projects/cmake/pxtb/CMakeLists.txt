@@ -43,6 +43,7 @@ file(GLOB SOURCE_FILES
   ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/procdef.h
   ${pxtb_SOURCE_DIR}/../../../core/include/pxtdl.h
   ${pxtb_SOURCE_DIR}/../../../core/include/loadlib.h
+  ${pxtb_SOURCE_DIR}/../../../core/include/files.h
   ${pxtb_SOURCE_DIR}/../../../core/include/monolithic_includes.h)
 # Include dirs
 include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include

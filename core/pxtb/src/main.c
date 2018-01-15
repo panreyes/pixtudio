@@ -65,7 +65,7 @@ extern int dcb_load_lib(const char *filename);
 
 char langinfo[64];
 
-extern int debug;
+
 int autodeclare = 1;
 int libmode     = 0;
 

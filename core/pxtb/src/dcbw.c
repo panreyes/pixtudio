@@ -47,7 +47,7 @@
 #define FREEM(m)                                                                                   \
     if (m) {                                                                                       \
         free(m);                                                                                   \
-        m = NULL;                                                                                  \
+        (m) = NULL;                                                                                  \
     }
 
 /* dirty declare external vars */

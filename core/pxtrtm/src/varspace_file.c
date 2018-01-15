@@ -232,7 +232,6 @@ int savetype(file *fp, void *data, DCB_TYPEDEF *var, int dcbformat) {
             default:
                 /* Can't be possible save this struct */
                 return -1;
-                break;
         }
         break;
     }
@@ -327,7 +326,6 @@ int loadtype(file *fp, void *data, DCB_TYPEDEF *var, int dcbformat) {
             default:
                 /* Can't be possible load this struct */
                 return -1;
-                break;
         }
         break;
     }
