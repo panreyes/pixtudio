@@ -240,6 +240,10 @@ int gr_set_mode(int width, int height) {
         } else {
             SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
         }
+#ifdef SDL_HINT_RENDER_BATCHING
+        // Use SDL_Renderer's batching capability (if present)
+        SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
+#endif
         renderer = SDL_CreateRenderer(window, -1, sdl_flags);
         if (!renderer) {
             PXTRTM_LOGERROR("Error creating renderer (%s)", SDL_GetError());
