@@ -54,6 +54,7 @@ extern int modjoy_get_ball( INSTANCE * my, int * params );
 extern int modjoy_get_ball_specific( INSTANCE * my, int * params );
 extern int modjoy_get_accel( INSTANCE * my, int * params );
 extern int modjoy_get_accel_specific( INSTANCE * my, int * params );
+extern int modjoy_rumble( INSTANCE * my, int * params );
 #endif
 
 DLSYSFUNCS  __pxtexport( mod_joy, exported_functions )[] = {
@@ -92,6 +93,8 @@ DLSYSFUNCS  __pxtexport( mod_joy, exported_functions )[] = {
 
     FUNC( "JOY_GET_ACCEL"    , "PPP"  , TYPE_INT    , modjoy_get_accel             ),
     FUNC( "JOY_GET_ACCEL"    , "IPPP" , TYPE_INT    , modjoy_get_accel_specific    ),
+
+    FUNC( "JOY_RUMBLE"       , "IIII" , TYPE_INT    , modjoy_rumble                ),
 
     FUNC( 0                  , 0      , 0           , 0                            )
 };

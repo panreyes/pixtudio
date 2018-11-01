@@ -51,5 +51,6 @@ extern int libjoy_get_hat_specific(int joy, int hat);
 extern int libjoy_get_ball_specific(int joy, int ball, int *dx, int *dy);
 extern int libjoy_get_accel(int *x, int *y, int *z);
 extern int libjoy_get_accel_specific(int joy, int *x, int *y, int *z);
+extern int libjoy_rumble(int joy, int low_frequency_rumble, int high_frequency_rumble, int duration);
 
 #endif

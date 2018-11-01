@@ -300,8 +300,13 @@ int modjoy_get_ball_specific(INSTANCE *my, int *params) {
 /* --------------------------------------------------------------------------- */
 
 int modjoy_get_accel_specific(INSTANCE *my, int *params) {
-    return (
-        libjoy_get_accel_specific(params[0], (int *)params[1], (int *)params[2], (int *)params[3]));
+    return (libjoy_get_accel_specific(params[0], (int *)params[1], (int *)params[2], (int *)params[3]));
+}
+
+/* ---------------------------------------------------------------------- */
+
+int modjoy_rumble(INSTANCE *my, int *params) {
+    return (libjoy_rumble(params[0], params[1], params[2], params[3]));
 }
 
 /* ---------------------------------------------------------------------- */
