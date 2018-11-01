@@ -316,21 +316,21 @@ int libjoy_get_accel_specific(int joy, int *x, int *y, int *z) {
 /* --------------------------------------------------------------------------- */
 
 int libjoy_rumble(int joy, int low_frequency_rumble, int high_frequency_rumble, int duration) {
-    // Update intensity values if needed, since the intensities
-    // can only take uint16, but PixTudio typically takes values
-    // in the 0-255 range
-    if(low_frequency_rumble < 0) {
-        low_frequency_rumble = 0;
-    } else if(low_frequency_rumble > 255) {
-        low_frequency_rumble = 255;
-    }
-    if(high_frequency_rumble < 0) {
-        high_frequency_rumble = 0;
-    } else if(high_frequency_rumble > 255) {
-        high_frequency_rumble = 255;
-    }
-
     if (joy >= 0 && joy < _max_joys) {
+        // Update intensity values if needed, since the intensities
+        // can only take uint16, but PixTudio typically takes values
+        // in the 0-255 range
+        if (low_frequency_rumble < 0) {
+            low_frequency_rumble = 0;
+        } else if (low_frequency_rumble > 255) {
+            low_frequency_rumble = 255;
+        }
+        if (high_frequency_rumble < 0) {
+            high_frequency_rumble = 0;
+        } else if (high_frequency_rumble > 255) {
+            high_frequency_rumble = 255;
+        }
+
         return SDL_JoystickRumble(_joysticks[joy],
                                   (Uint16) (low_frequency_rumble * 65535 / 255),
                                   (Uint16) (high_frequency_rumble * 65535 / 255),
