@@ -49,31 +49,31 @@ static fixed *cos_table = NULL;
 
 /* --------------------------------------------------------------------------- */
 
-fixed ftofix(float x) {
+fixed ftofixed(float x) {
     return (long)(x * FIXED_PREC);
 }
 
 /* --------------------------------------------------------------------------- */
 
-float fixtof(fixed x) {
+float fixedtof(fixed x) {
     return ((float)x) / FIXED_PREC;
 }
 
 /* --------------------------------------------------------------------------- */
 
-fixed itofix(int x) {
+fixed itofixed(int x) {
     return x * FIXED_PREC;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int fixtoi(fixed x) {
+int fixedtoi(fixed x) {
     return x / FIXED_PREC;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int fixceil(fixed x) {
+int fixed_ceil(fixed x) {
     int xd;
 
     if (x < 0) {
@@ -89,7 +89,7 @@ int fixceil(fixed x) {
 
 /* --------------------------------------------------------------------------- */
 
-fixed fcos(int x) {
+fixed fixed_cos(int x) {
     if (x < 0)
         x = -x;
     if (x > 360000)
@@ -105,9 +105,9 @@ fixed fcos(int x) {
 
 /* --------------------------------------------------------------------------- */
 
-fixed fsin(int x) {
+fixed fixed_sin(int x) {
     if (x < 0)
-        return -fsin(-x);
+        return -fixed_sin(-x);
     if (x > 360000)
         x %= 360000;
     if (x > 270000)
@@ -121,14 +121,14 @@ fixed fsin(int x) {
 
 /* --------------------------------------------------------------------------- */
 
-fixed fmul(int x, int y) {
-    return ftofix(fixtof(x) * fixtof(y));
+fixed fixed_mul(int x, int y) {
+    return ftofixed(fixedtof(x) * fixedtof(y));
 }
 
 /* --------------------------------------------------------------------------- */
 
-fixed fdiv(int x, int y) {
-    return ftofix(fixtof(x) / fixtof(y));
+fixed fixed_div(int x, int y) {
+    return ftofixed(fixedtof(x) / fixedtof(y));
 }
 
 /* --------------------------------------------------------------------------- */
@@ -140,7 +140,7 @@ void init_cos_tables() {
         cos_table = (fixed *)malloc(90001 * sizeof(fixed));
 
     for (i = 0; i <= 90000; i++) {
-        cos_table[i] = ftofix(cos(i * M_PI / 180000.0));
+        cos_table[i] = ftofixed(cos(i * M_PI / 180000.0));
     }
 }
 

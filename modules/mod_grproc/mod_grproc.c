@@ -90,8 +90,8 @@ enum { MOUSEX = 0, MOUSEY, SCROLLS };
 
 int grproc_advance(INSTANCE *my, int *params) {
     int angle = LOCINT32(mod_grproc, my, ANGLE);
-    LOCINT32(mod_grproc, my, COORDX) += fixtoi(fmul(fcos(angle), itofix(params[0])));
-    LOCINT32(mod_grproc, my, COORDY) -= fixtoi(fmul(fsin(angle), itofix(params[0])));
+    LOCINT32(mod_grproc, my, COORDX) += fixedtoi(fixed_mul(fixed_cos(angle), itofixed(params[0])));
+    LOCINT32(mod_grproc, my, COORDY) -= fixedtoi(fixed_mul(fixed_sin(angle), itofixed(params[0])));
     return 1;
 }
 
@@ -99,8 +99,8 @@ int grproc_advance(INSTANCE *my, int *params) {
 
 int grproc_xadvance(INSTANCE *my, int *params) {
     int angle = params[0];
-    LOCINT32(mod_grproc, my, COORDX) += fixtoi(fmul(fcos(angle), itofix(params[1])));
-    LOCINT32(mod_grproc, my, COORDY) -= fixtoi(fmul(fsin(angle), itofix(params[1])));
+    LOCINT32(mod_grproc, my, COORDX) += fixedtoi(fixed_mul(fixed_cos(angle), itofixed(params[1])));
+    LOCINT32(mod_grproc, my, COORDY) -= fixedtoi(fixed_mul(fixed_sin(angle), itofixed(params[1])));
     return 1;
 }
 

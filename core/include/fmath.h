@@ -49,15 +49,15 @@
 
 typedef long int fixed;
 
-extern fixed ftofix(float x);
-extern float fixtof(fixed x);
-extern fixed itofix(int x);
-extern int fixtoi(fixed x);
-extern int fixceil(fixed x);
-extern fixed fcos(int x);
-extern fixed fsin(int x);
-extern fixed fmul(int x, int y);
-extern fixed fdiv(int x, int y);
+extern fixed ftofixed(float x);
+extern float fixedtof(fixed x);
+extern fixed itofixed(int x);
+extern int fixedtoi(fixed x);
+extern int fixed_ceil(fixed x);
+extern fixed fixed_cos(int x);
+extern fixed fixed_sin(int x);
+extern fixed fixed_mul(int x, int y);
+extern fixed fixed_div(int x, int y);
 extern void init_cos_tables();
 
 #endif
