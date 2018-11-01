@@ -304,7 +304,18 @@ int modjoy_get_accel_specific(INSTANCE *my, int *params) {
 }
 
 /* ---------------------------------------------------------------------- */
-
+/**
+ * JOY_RUMBLE (int JOY, int low_frequency_rumble, int high_frequency_rumble, int duration_ms)
+ *
+ * Rumble the given joystick. Returns 0 on success, -1 otherwise
+ *
+ *  PARAMS:
+ *      id of the controller, as returned by modgamecontroller_open
+ *      intensity of the low frequency (left) rumble motor, from 0 to 255
+ *      intensity of the high frequency (right) rumble motor, from 0 to 255
+ *      duration of the rumble effect, in milliseconds
+ *
+ **/
 int modjoy_rumble(INSTANCE *my, int *params) {
     return (libjoy_rumble(params[0], params[1], params[2], params[3]));
 }

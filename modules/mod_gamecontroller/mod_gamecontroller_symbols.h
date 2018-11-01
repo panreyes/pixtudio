@@ -41,6 +41,7 @@ extern int modgamecontroller_close( INSTANCE * my, int * params );
 extern int modgamecontroller_getbutton( INSTANCE * my, int * params );
 extern int modgamecontroller_getaxis( INSTANCE * my, int * params );
 extern int modgamecontroller_getname( INSTANCE * my, int * params );
+extern int modgamecontroller_rumble( INSTANCE * my, int * params );
 #endif
 
 DLCONSTANT  __pxtexport( mod_gamecontroller, constants_def )[] = {
@@ -80,6 +81,7 @@ DLSYSFUNCS  __pxtexport( mod_gamecontroller, exported_functions )[] = {
     FUNC( "CONTROLLER_GETBUTTON" , "II"    , TYPE_INT    , modgamecontroller_getbutton ),
     FUNC( "CONTROLLER_GETAXIS"   , "II"    , TYPE_INT    , modgamecontroller_getaxis   ),
     FUNC( "CONTROLLER_GETNAME"   , "I"     , TYPE_STRING , modgamecontroller_getname   ),
+    FUNC( "CONTROLLER_RUMBLE"    , "IIII"  , TYPE_INT    , modgamecontroller_rumble    ),
     { 0                     , 0       , 0           , 0 }
 };
 

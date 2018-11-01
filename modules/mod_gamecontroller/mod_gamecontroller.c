@@ -189,6 +189,48 @@ int modgamecontroller_open(INSTANCE *my, int *params) {
     }
 }
 
+/**
+ * JOY_RUMBLE (int JOY, int low_frequency_rumble, int high_frequency_rumble, int duration_ms)
+ *
+ * Rumble the given joystick. Returns 0 on success, -1 otherwise
+ *
+ *  PARAMS:
+ *      id of the controller, as returned by modgamecontroller_open
+ *      intensity of the low frequency (left) rumble motor, from 0 to 255
+ *      intensity of the high frequency (right) rumble motor, from 0 to 255
+ *      duration of the rumble effect, in milliseconds
+ *
+ **/
+int modgamecontroller_rumble( INSTANCE * my, int * params ) {
+    int id     = params[0];
+    int low_frequency_rumble = params[1];
+    int high_frequency_rumble = params[2];
+    int duration = params[3];
+
+    if (!check_controller_id(id)) {
+        return CONTROLLER_INVALID;
+    }
+
+    // Update intensity values if needed, since the intensities
+    // can only take uint16, but PixTudio typically takes values
+    // in the 0-255 range
+    if (low_frequency_rumble < 0) {
+        low_frequency_rumble = 0;
+    } else if (low_frequency_rumble > 255) {
+        low_frequency_rumble = 255;
+    }
+    if (high_frequency_rumble < 0) {
+        high_frequency_rumble = 0;
+    } else if (high_frequency_rumble > 255) {
+        high_frequency_rumble = 255;
+    }
+
+    return SDL_GameControllerRumble(open_controllers[id],
+                                    (Uint16) (low_frequency_rumble * 65535 / 255),
+                                    (Uint16) (high_frequency_rumble * 65535 / 255),
+                                    (Uint32) duration);
+}
+
 /* ------------------------------------------------------------ */
 /* Module initialisation routines                               */
 
