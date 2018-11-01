@@ -199,7 +199,7 @@
             <a href="https://partner.steamgames.com/">here</a>
             and unzip it to the '3rdparty' dir, then rename the uncrompressed folder to "steamworks".
             <code>cd pixtudio/3rdparty
-                unzip [DOWNLOAD_PATH]/steamworks_sdk_138a.zip
+                unzip [DOWNLOAD_PATH]/steamworks_sdk_142.zip
                 mv sdk steamworks
             </code>
         </li>
@@ -207,6 +207,11 @@
             Compile the source code.
             <code>cd pixtudio/projects/cmake
                 ./build.sh Release
+            </code>
+            If you want to manually specify the location of a non-systemwide SDL2 installation,
+            you can set the SDL2DIR environment variable.
+            <code>cd pixtudio/projects/cmake
+                SDL2DIR=[SDL2_INSTALL_PATH] ./build.sh Release
             </code>
         </li>
         <li>
@@ -245,7 +250,7 @@
             <a href="https://partner.steamgames.com/">here</a>
             and unzip it to the '3rdparty' dir, then rename the uncrompressed folder to "steamworks".
             <code>cd pixtudio/3rdparty
-                unzip [DOWNLOAD_PATH]/steamworks_sdk_138a.zip
+                unzip [DOWNLOAD_PATH]/steamworks_sdk_142.zip
                 mv sdk steamworks
             </code>
         </li>
@@ -253,6 +258,11 @@
             Compile the source code.
             <code>cd pixtudio/projects/cmake
                 ./build.sh Release
+            </code>
+            If you want to manually specify the location of a non-systemwide SDL2 installation,
+            you can set the SDL2DIR environment variable.
+            <code>cd pixtudio/projects/cmake
+                SDL2DIR=[SDL2_INSTALL_PATH] ./build.sh Release
             </code>
         </li>
         <li>
@@ -301,7 +311,7 @@
             <a href="https://partner.steamgames.com/">here</a>
             and unzip it to the '3rdparty' dir, then rename the uncrompressed folder to "steamworks".
             <code>cd pixtudio/3rdparty
-                unzip [DOWNLOAD_PATH]/steamworks_sdk_138a.zip
+                unzip [DOWNLOAD_PATH]/steamworks_sdk_142.zip
                 mv sdk steamworks
             </code>
         </li>
@@ -309,6 +319,11 @@
             Compile the source code.
             <code>cd pixtudio/projects/cmake
                 ./build.sh Release
+            </code>
+            If you want to manually specify the location of a non-systemwide SDL2 installation,
+            you can set the SDL2DIR environment variable.
+            <code>cd pixtudio/projects/cmake
+                SDL2DIR=[SDL2_INSTALL_PATH] ./build.sh Release
             </code>
         </li>
         <li>
@@ -352,7 +367,7 @@
             <a href="https://partner.steamgames.com/">here</a>
             and unzip it to the '3rdparty' dir, then rename the uncrompressed folder to "steamworks".
             <code>cd pixtudio/3rdparty
-                unzip [DOWNLOAD_PATH]/steamworks_sdk_138a.zip
+                unzip [DOWNLOAD_PATH]/steamworks_sdk_142.zip
                 mv sdk steamworks
             </code>
         </li>
@@ -360,6 +375,11 @@
             Compile the source code.
             <code>cd pixtudio/projects/cmake
                 ./build.sh Release
+            </code>
+            If you want to manually specify the location of a non-systemwide SDL2 installation,
+            you can set the SDL2DIR environment variable.
+            <code>cd pixtudio/projects/cmake
+                SDL2DIR=[SDL2_INSTALL_PATH] ./build.sh Release
             </code>
         </li>
         <li>
