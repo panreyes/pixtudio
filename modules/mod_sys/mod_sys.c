@@ -50,7 +50,6 @@
 #elif defined(__ANDROID__)
 #include <jni.h>
 extern JNIEnv *Android_JNI_GetEnv();
-extern jclass Android_JNI_GetActivityClass(void);
 #endif
 
 #ifndef __MONOLITHIC__
@@ -71,7 +70,6 @@ int modsys_exec(INSTANCE *my, int *params) {
     jclass mActivityClass;
 
     JNIEnv *mEnv   = Android_JNI_GetEnv();
-    mActivityClass = Android_JNI_GetActivityClass();
     mid = (*mEnv)->GetStaticMethodID(mEnv, mActivityClass, "openURL", "(Ljava/lang/String;)V");
     if (mid) {
         jstring Url = (*mEnv)->NewStringUTF(mEnv, string_get(params[1]));

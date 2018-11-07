@@ -1,6 +1,6 @@
 LOCAL_PATH := $(call my-dir)
-CORE_PATH := $(LOCAL_PATH)/../../../../core/
-MODULES_PATH := $(LOCAL_PATH)/../../../../modules/
+CORE_PATH := $(LOCAL_PATH)/../../../../../core/
+MODULES_PATH := $(LOCAL_PATH)/../../../../../modules/
 
 include $(CLEAR_VARS)
 
@@ -8,17 +8,18 @@ LOCAL_MODULE := pxtrtm
 
 LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(CORE_PATH)/pxtrtm/include/ \
-	$(LOCAL_PATH)/../../../../3rdparty/SDL2/include/ \
-	$(LOCAL_PATH)/../../../../3rdparty/SDL2_mixer/ \
-	$(LOCAL_PATH)/../../../../3rdparty/libpng-1.6.23/ \
-	$(LOCAL_PATH)/../../../../3rdparty/libglob-bsd/include/ \
-	$(LOCAL_PATH)/../../../../3rdparty/stb/ \
-	$(LOCAL_PATH)/../../../../3rdparty/theoraplay/ \
-	$(LOCAL_PATH)/../../../../3rdparty/libtheora-1.1.1/include/ \
-	$(LOCAL_PATH)/../../../../3rdparty/SDL2_mixer/external/libvorbis-1.3.3/include \
-	$(LOCAL_PATH)/../../../../3rdparty/tre/lib \
-	$(LOCAL_PATH)/../../../../3rdparty/openal-soft-1.17.0/include/ \
-	$(LOCAL_PATH)/../../../../3rdparty/freetype-2.6/include/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/SDL2/include/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/SDL2_mixer/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/libpng-1.6.23/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/libglob-bsd/include/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/stb/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/theoraplay/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/libtheora-1.1.1/include/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/SDL2_mixer/external/libvorbis-1.3.3/include \
+	$(LOCAL_PATH)/../../../../../3rdparty/tre/lib \
+	$(LOCAL_PATH)/../../../../../3rdparty/openal-soft-1.17.0/include/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/freetype-2.7/include/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/jpeg-9c/ \
 	$(MODULES_PATH)/libbgload/ \
 	$(MODULES_PATH)/mod_say/ \
 	$(MODULES_PATH)/mod_string/ \
@@ -79,92 +80,92 @@ LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-O3
 
 LOCAL_SRC_FILES := \
-	../../../../3rdparty/libglob-bsd/src/glob.c \
-	../../../../core/common/debug.c \
-	../../../../core/common/files.c \
-	../../../../core/common/xctype.c \
-	../../../../core/pxtrtm/src/copy.c \
-	../../../../core/pxtrtm/src/dcbr.c \
-	../../../../core/pxtrtm/src/dirs.c \
-	../../../../core/pxtrtm/src/fmath.c \
-	../../../../core/pxtrtm/src/instance.c \
-	../../../../core/pxtrtm/src/interpreter.c \
-	../../../../core/pxtrtm/src/misc.c \
-	../../../../core/pxtrtm/src/strings.c \
-	../../../../core/pxtrtm/src/sysprocs.c \
-	../../../../core/pxtrtm/src/varspace_file.c \
-	../../../../modules/libbgload/bgload.c \
-	../../../../modules/libblit/g_blit.c \
-	../../../../modules/libblit/g_pixel.c \
-	../../../../modules/libdraw/libdraw.c \
-	../../../../modules/libfont/libfont.c \
-	../../../../modules/libgrbase/g_bitmap.c \
-	../../../../modules/libgrbase/g_blendop.c \
-	../../../../modules/libgrbase/g_clear.c \
-	../../../../modules/libgrbase/g_conversion.c \
-	../../../../modules/libgrbase/g_grlib.c \
-	../../../../modules/libgrbase/g_pal.c \
-	../../../../modules/libgrbase/libgrbase.c \
-	../../../../modules/libjoy/libjoy.c \
-	../../../../modules/libkey/libkey.c \
-	../../../../modules/libmouse/libmouse.c \
-	../../../../modules/librender/g_fade.c \
-	../../../../modules/librender/g_frame.c \
-	../../../../modules/librender/g_instance.c \
-	../../../../modules/librender/g_object.c \
-	../../../../modules/librender/g_rects.c \
-	../../../../modules/librender/g_screen.c \
-	../../../../modules/librender/librender.c \
-	../../../../modules/libscroll/libscroll.c \
-	../../../../modules/libsdlhandler/libsdlhandler.c \
-	../../../../modules/libsocket/libsocket.c \
-	../../../../modules/libtext/libtext.c \
-	../../../../modules/libvideo/g_regions.c \
-	../../../../modules/libvideo/g_video.c \
-	../../../../modules/libwm/libwm.c \
-	../../../../modules/mod_debug/mod_debug.c \
-	../../../../modules/mod_dir/mod_dir.c \
-	../../../../modules/mod_draw/mod_draw.c \
-	../../../../modules/mod_effects/mod_effects.c \
-	../../../../modules/mod_file/mod_file.c \
-	../../../../modules/mod_fsock/mod_fsock.c \
-	../../../../modules/mod_gamecontroller/mod_gamecontroller.c \
-	../../../../modules/mod_grproc/mod_grproc.c \
-	../../../../modules/mod_joy/mod_joy.c \
-	../../../../modules/mod_key/mod_key.c \
-	../../../../modules/mod_map/file_fnt.c \
-	../../../../modules/mod_map/file_fpg.c \
-	../../../../modules/mod_map/file_map.c \
-	../../../../modules/mod_map/file_pal.c \
-	../../../../modules/mod_map/file_pcx.c \
-	../../../../modules/mod_map/file_png.c \
-	../../../../modules/mod_map/file_jpg.c \
-	../../../../modules/mod_map/mod_map.c \
-	../../../../modules/mod_math/mod_math.c \
-	../../../../modules/mod_mem/mod_mem.c \
-	../../../../modules/mod_multi/mod_multi.c \
-	../../../../modules/mod_path/mod_path.c \
-	../../../../modules/mod_proc/mod_proc.c \
-	../../../../modules/mod_rand/mod_rand.c \
-	../../../../modules/mod_regex/mod_regex.c \
-	../../../../modules/mod_say/mod_say.c \
-	../../../../modules/mod_screen/mod_screen.c \
-	../../../../modules/mod_scroll/mod_scroll.c \
-	../../../../modules/mod_sort/mod_sort.c \
-	../../../../modules/mod_sound/mod_sound.c \
-	../../../../modules/mod_string/mod_string.c \
-	../../../../modules/mod_sys/mod_sys.c \
-	../../../../modules/mod_text/mod_text.c \
-	../../../../modules/mod_theora/mod_theora.c \
-	../../../../3rdparty/theoraplay/theoraplay.c \
-	../../../../modules/mod_time/mod_time.c \
-	../../../../modules/mod_timers/mod_timers.c \
-	../../../../modules/mod_video/mod_video.c \
-	../../../../modules/mod_wm/mod_wm.c \
-	../../../../modules/mod_wm/locale/android.c
+	../../../../../3rdparty/libglob-bsd/src/glob.c \
+	../../../../../core/common/debug.c \
+	../../../../../core/common/files.c \
+	../../../../../core/common/xctype.c \
+	../../../../../core/pxtrtm/src/copy.c \
+	../../../../../core/pxtrtm/src/dcbr.c \
+	../../../../../core/pxtrtm/src/dirs.c \
+	../../../../../core/pxtrtm/src/fmath.c \
+	../../../../../core/pxtrtm/src/instance.c \
+	../../../../../core/pxtrtm/src/interpreter.c \
+	../../../../../core/pxtrtm/src/misc.c \
+	../../../../../core/pxtrtm/src/strings.c \
+	../../../../../core/pxtrtm/src/sysprocs.c \
+	../../../../../core/pxtrtm/src/varspace_file.c \
+	../../../../../modules/libbgload/bgload.c \
+	../../../../../modules/libblit/g_blit.c \
+	../../../../../modules/libblit/g_pixel.c \
+	../../../../../modules/libdraw/libdraw.c \
+	../../../../../modules/libfont/libfont.c \
+	../../../../../modules/libgrbase/g_bitmap.c \
+	../../../../../modules/libgrbase/g_blendop.c \
+	../../../../../modules/libgrbase/g_clear.c \
+	../../../../../modules/libgrbase/g_conversion.c \
+	../../../../../modules/libgrbase/g_grlib.c \
+	../../../../../modules/libgrbase/g_pal.c \
+	../../../../../modules/libgrbase/libgrbase.c \
+	../../../../../modules/libjoy/libjoy.c \
+	../../../../../modules/libkey/libkey.c \
+	../../../../../modules/libmouse/libmouse.c \
+	../../../../../modules/librender/g_fade.c \
+	../../../../../modules/librender/g_frame.c \
+	../../../../../modules/librender/g_instance.c \
+	../../../../../modules/librender/g_object.c \
+	../../../../../modules/librender/g_rects.c \
+	../../../../../modules/librender/g_screen.c \
+	../../../../../modules/librender/librender.c \
+	../../../../../modules/libscroll/libscroll.c \
+	../../../../../modules/libsdlhandler/libsdlhandler.c \
+	../../../../../modules/libsocket/libsocket.c \
+	../../../../../modules/libtext/libtext.c \
+	../../../../../modules/libvideo/g_regions.c \
+	../../../../../modules/libvideo/g_video.c \
+	../../../../../modules/libwm/libwm.c \
+	../../../../../modules/mod_debug/mod_debug.c \
+	../../../../../modules/mod_dir/mod_dir.c \
+	../../../../../modules/mod_draw/mod_draw.c \
+	../../../../../modules/mod_effects/mod_effects.c \
+	../../../../../modules/mod_file/mod_file.c \
+	../../../../../modules/mod_fsock/mod_fsock.c \
+	../../../../../modules/mod_gamecontroller/mod_gamecontroller.c \
+	../../../../../modules/mod_grproc/mod_grproc.c \
+	../../../../../modules/mod_joy/mod_joy.c \
+	../../../../../modules/mod_key/mod_key.c \
+	../../../../../modules/mod_map/file_fnt.c \
+	../../../../../modules/mod_map/file_fpg.c \
+	../../../../../modules/mod_map/file_map.c \
+	../../../../../modules/mod_map/file_pal.c \
+	../../../../../modules/mod_map/file_pcx.c \
+	../../../../../modules/mod_map/file_png.c \
+	../../../../../modules/mod_map/file_jpg.c \
+	../../../../../modules/mod_map/mod_map.c \
+	../../../../../modules/mod_math/mod_math.c \
+	../../../../../modules/mod_mem/mod_mem.c \
+	../../../../../modules/mod_multi/mod_multi.c \
+	../../../../../modules/mod_path/mod_path.c \
+	../../../../../modules/mod_proc/mod_proc.c \
+	../../../../../modules/mod_rand/mod_rand.c \
+	../../../../../modules/mod_regex/mod_regex.c \
+	../../../../../modules/mod_say/mod_say.c \
+	../../../../../modules/mod_screen/mod_screen.c \
+	../../../../../modules/mod_scroll/mod_scroll.c \
+	../../../../../modules/mod_sort/mod_sort.c \
+	../../../../../modules/mod_sound/mod_sound.c \
+	../../../../../modules/mod_string/mod_string.c \
+	../../../../../modules/mod_sys/mod_sys.c \
+	../../../../../modules/mod_text/mod_text.c \
+	../../../../../modules/mod_theora/mod_theora.c \
+	../../../../../3rdparty/theoraplay/theoraplay.c \
+	../../../../../modules/mod_time/mod_time.c \
+	../../../../../modules/mod_timers/mod_timers.c \
+	../../../../../modules/mod_video/mod_video.c \
+	../../../../../modules/mod_wm/mod_wm.c \
+	../../../../../modules/mod_wm/locale/android.c
 
 LOCAL_LDLIBS := -llog -ldl -lz
-LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png theora libopenal
+LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png jpeg theora libopenal
 LOCAL_STATIC_LIBRARIES += tre freetype
 
 include $(BUILD_SHARED_LIBRARY)

@@ -3,4 +3,4 @@ APP_OPTIM=debug
 NDK_TOOLCHAIN_VERSION=clang
 
 # Min runtime API level
-APP_PLATFORM=android-14
+APP_PLATFORM=android-16

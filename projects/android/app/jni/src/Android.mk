@@ -1,11 +1,11 @@
 LOCAL_PATH := $(call my-dir)
-CORE_PATH := $(LOCAL_PATH)/../../../../core/
+CORE_PATH := $(LOCAL_PATH)/../../../../../core/
 
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := main
 
-SDL_PATH := $(LOCAL_PATH)/../../../../3rdparty/SDL
+SDL_PATH := $(LOCAL_PATH)/../../../../../3rdparty/SDL
 
 LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/include \
@@ -22,7 +22,7 @@ LOCAL_CFLAGS := \
 	-O3
 
 # Add your application source files here...
-LOCAL_SRC_FILES := ../../../../3rdparty/SDL2/src/main/android/SDL_android_main.c \
+LOCAL_SRC_FILES := ../../../../../3rdparty/SDL2/src/main/android/SDL_android_main.c \
 	main.c
 
 LOCAL_SHARED_LIBRARIES  += pxtrtm SDL2

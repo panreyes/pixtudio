@@ -70,13 +70,13 @@ LOCAL_SRC_FILES += \
 
 else ifneq ($(filter $(TARGET_ARCH_ABI), armeabi-v7a armeabi-v7a-hard),)
 LOCAL_SRC_FILES += \
-    $(SOURCE_PATH)/simd/jsimd_arm.c \
-    $(SOURCE_PATH)/simd/jsimd_arm_neon.S \
+    $(LOCAL_PATH)/simd/jsimd_arm.c \
+    $(LOCAL_PATH)/simd/jsimd_arm_neon.S \
 
 else ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
 LOCAL_SRC_FILES += \
-    $(SOURCE_PATH)/simd/jsimd_arm64.c \
-    $(SOURCE_PATH)/simd/jsimd_arm64_neon.S \
+    $(LOCAL_PATH)/simd/jsimd_arm64.c \
+    $(LOCAL_PATH)/simd/jsimd_arm64_neon.S \
 
 endif
 
@@ -172,8 +172,7 @@ LOCAL_CFLAGS += \
     -DHAVE_UNSIGNED_CHAR=1 \
     -DHAVE_UNSIGNED_SHORT=1 \
     -DINLINE="inline __attribute__((always_inline))" \
-    -DJPEG_LIB_VERSION=62 \
-    -DLIBJPEG_TURBO_VERSION="1.5.1" \
+    -DJPEG_LIB_VERSION=80 \
     -DMEM_SRCDST_SUPPORTED=1 \
     -DNEED_SYS_TYPES_H=1 \
     -DSTDC_HEADERS=1 \
