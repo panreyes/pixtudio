@@ -46,7 +46,7 @@ GRAPH *gr_read_jpg(const char *filename) {
 	if(debug) {
 		PXTRTM_LOGERROR("Could not load '%s', JPEG loading not compiled in\n", filename);
 	}
-	return NULL
+	return NULL;
 #else
     // First of all, we read the whole JPEG file into memory
     file *infd = file_open(filename, "rb");
