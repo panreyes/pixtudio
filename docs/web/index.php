@@ -156,8 +156,8 @@
     <h2 id="project_page">Project page</h2>
     <p>
         Check out the project page at
-        <a href="https://bitbucket.org/josebagar/pixtudio">
-            Bitbucket
+        <a href="https://gitlab.com/josebagar/pixtudio">
+            GitLab
         </a>.
     </p>
 
@@ -191,7 +191,7 @@
         </li>
         <li>
             Clone the source code repository.
-            <code>git clone https://bitbucket.org/josebagar/pixtudio.git
+            <code>git clone https://gitlab.com/josebagar/pixtudio.git
             </code>
         </li>
         <li>
@@ -242,7 +242,7 @@
         </li>
         <li>
             Clone the source code repository.
-            <code>git clone https://bitbucket.org/josebagar/pixtudio.git
+            <code>git clone https://gitlab.com/josebagar/pixtudio.git
             </code>
         </li>
         <li>
@@ -303,7 +303,7 @@
         </li>
         <li>
             Clone the source code repository.
-            <code>git clone https://bitbucket.org/josebagar/pixtudio.git
+            <code>git clone https://gitlab.com/josebagar/pixtudio.git
             </code>
         </li>
         <li>
@@ -359,7 +359,7 @@
         </li>
         <li>
             Clone the source code repository.
-            <code>git clone https://bitbucket.org/josebagar/pixtudio.git
+            <code>git clone https://gitlab.com/josebagar/pixtudio.git
             </code>
         </li>
         <li>
@@ -403,8 +403,8 @@
         Android SDK manager.
     </p>
     <p>
-        Download the PixTudio source code, either with Git (see instructions in the native compilation
-        section) or from <a href="https://bitbucket.org/josebagar/pixtudio/downloads">here</a>.
+        Download the PixTudio source code with Git (see instructions in the native compilation
+        section).
     </p>
     <p>
         Edit projects/android/local.properties and change the sdk.dir property to point to your
@@ -464,8 +464,8 @@
     <h2 id="bugs">Bugs</h2>
     <p>
         Do you believe you found a bug? Report it at the
-        <a href="https://bitbucket.org/josebagar/pixtudio/issues?status=new&status=open">
-            Bitbucket bugtrack
+        <a href="https://gitlab.com/josebagar/pixtudio/issues">
+            GitLab bugtrack
         </a>.
     </p>
 
