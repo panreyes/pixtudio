@@ -48,80 +48,20 @@
     </p>
 
     <h2 id="showcase">Games showcase</h2>
-    <?php
-    switch (mt_rand(0, 2)) {
-        case 0:
-            ?>
-            <h3>Tiki Brawl</h3>
-            <p>
-                Created in two days, Tiki Brawl is Last Five's entry for the
-                <a href="http://globalgamejam.org/">2016 Global Game Jam</a>.
-            </p>
-            <p>
-                You can download a copy of the game from
-                <a href="http://globalgamejam.org/2016/games/tiki-brawl">its GGJ entry page</a>.
-            </p>
-            <p style="text-align: center;">
-                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/GbtDFRhlIhk"
-                        style="border: none;" allowfullscreen></iframe>
-            </p>
-            <p>
-                You can also vote for the game in
-                <a href="http://steamcommunity.com/sharedfiles/filedetails/?id=612666493">Steam Greelight</a>
-                so that it gets included in Steam.
-            </p>
-            <?php
-            break;
-
-        case 1:
-            ?>
-            <h3>Spidey Technical Demo</h3>
-            <p>
-                Developed by Gabriel Garrote in 2011, the video shows the technical demo
-                adapted for PixTudio running at a 1080p resolution and 60fps.<br/>
-                You can find more info in Spanish
-                <a href="http://forum.bennugd.org/index.php?topic=2708.0">here</a>.
-            </p>
-            <p style="text-align: center;">
-                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/gOAtYSW-VU0"
-                        style="border: none;" allowfullscreen></iframe>
-            </p>
-            <?php
-            break;
-
-        case 2:
-            ?>
-            <h3>Hoboy - The Incredible Journey</h3>
-            <div style="margin: 20px 20px 0 0; overflow: auto">
-                <div style="float: left; margin-right: 10px;">
-                    <img src="img/hoboy/logo.png" style="display: block; height:150px;" />
-                </div>
-                <div style="margin-left:170px;">
-                    Released by Benjamin Hoffmann (Grew) in August 2016 for Android, Hoboy is an hardcore arcade shooter with a retro style. You
-                    are attacked by invaders! Defend yourself, pick up coins to collect all the stars to unlock the ultimate level!
-                    <div style="display: table; margin: 5px auto 0;">
-                        <a href="https://play.google.com/store/apps/details?id=org.unigames.hoboy" style="display: table-cell;">
-                            <img src="img/hoboy/img1.png" style="height:200px; margin:2px;" />
-                        </a>
-                        <a href="https://play.google.com/store/apps/details?id=org.unigames.hoboy" style="display: table-cell;">
-                            <img src="img/hoboy/img2.png" style="height:200px; margin:2px;" />
-                        </a>
-                        <a href="https://play.google.com/store/apps/details?id=org.unigames.hoboy" style="display: table-cell;">
-                            <img src="img/hoboy/img3.png" style="height:200px; margin:2px;" />
-                        </a>
-                    </div>
-                    <div style="display: table; margin: 0 auto;">
-                        <a href='https://play.google.com/store/apps/details?id=org.unigames.hoboy'>
-                            <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' style="height:80px" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <?php
-            break;
-    }
-    ?>
-
+    <h3>eXplosive Sinosaurs</h3>
+    <p>
+    	Collection of +30 FRIENDSHIP DESTROYER COMPETITIVE MINIGAMES, up to 4 players.
+    	The main objective of this videogame is to DESTROY FRIENDSHIPS THROUGH PURE
+    	COMPETITION.
+	</p>
+	<p>
+		You can purchase the game from <a href="https://store.steampowered.com/app/671150/Explosive_Dinosaurs/">its Steam portal</a>.
+	</p>
+	<p style="text-align: center">
+		<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/P4-i8XZsGQQ"
+		        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+		        allowfullscreen></iframe>
+	</p>
     <h2 id="project_page">Project page</h2>
     <p>
         Check out the project page at
