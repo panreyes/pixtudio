@@ -142,6 +142,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
      */
     protected String[] getLibraries() {
         return new String[] {
+            "hidapi",
             "mikmod",
             "SDL2",
             "SDL2_mixer",
