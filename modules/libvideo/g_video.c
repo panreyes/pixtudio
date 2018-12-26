@@ -141,7 +141,10 @@ int gr_set_mode(int width, int height) {
     scale_resolution             = GLODWORD(libvideo, SCALE_RESOLUTION);
     scale_resolution_aspectratio = GLODWORD(libvideo, SCALE_RESOLUTION_ASPECTRATIO);
     scale_quality                = GLOBYTE(libvideo, SCALE_QUALITY);
-    if (scale_quality >= 1) {
+	
+    if (scale_quality > 1) {
+        scale_quality = '2';
+    } else if (scale_quality == 1) {
         scale_quality = '1';
     } else {
         scale_quality = '0';
@@ -231,14 +234,10 @@ int gr_set_mode(int width, int height) {
         if (waitvsync) {
             sdl_flags |= SDL_RENDERER_PRESENTVSYNC;
         }
-        // If we didn't set the hint, SDL would use DirectX on Windows
-        // and the behaviour of the DirectX renderer is not exactly like
-        // that of the OpenGL one
-        // Let the user override this default via a environment var
+        // We will trust SDL's render driver choice, but also
+        // let the user override this default via a environment var
         if ((e = getenv("SDL_HINT_RENDER_DRIVER"))) {
             SDL_SetHint(SDL_HINT_RENDER_DRIVER, e);
-        } else {
-            SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
         }
 #ifdef SDL_HINT_RENDER_BATCHING
         // Use SDL_Renderer's batching capability (if present)
@@ -389,7 +388,9 @@ void __pxtexport(libvideo, module_initialize)() {
     if ((e = getenv("VIDEO_FULLSCREEN")))
         GLODWORD(libvideo, GRAPH_MODE) |= atoi(e) ? MODE_FULLSCREEN : 0;
 
-    gr_init(scr_width, scr_height);
+    // Disabled. It's better to use set_mode manually once, instead of setting the mode twice
+	// as it bugs vsync and scale_quality for some reason.
+    // gr_init(scr_width, scr_height);
 }
 
 /* --------------------------------------------------------------------------- */

@@ -181,7 +181,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_achivement_check(INSTANCE *my, int *params) {
+    int steam_achievement_check(INSTANCE *my, int *params) {
         if(!steam_loaded) {
             return -1;
         }

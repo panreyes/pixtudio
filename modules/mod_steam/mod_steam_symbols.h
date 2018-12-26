@@ -38,7 +38,7 @@ extern "C" {
 #ifndef __PXTB__
 extern int steam_achievement_unlock(INSTANCE *my, int *params);
 extern int steam_achievement_delete(INSTANCE *my, int *params);
-extern int steam_achivement_check(INSTANCE *my, int *params);
+extern int steam_achievement_check(INSTANCE *my, int *params);
 extern int steam_achievement_get_icon(INSTANCE *my, int *params);
 extern int steam_avatar_get(INSTANCE *my, int *params);
 extern int steam_friend_count(INSTANCE *my, int *params);
@@ -66,7 +66,7 @@ char __pxtexport( mod_steam, globals_def )[] =
 DLSYSFUNCS __pxtexport(mod_steam, exported_functions)[] = {
     FUNC("STEAM_ACHIEVEMENT_UNLOCK"  , "S" , TYPE_INT   , steam_achievement_unlock  ),
     FUNC("STEAM_ACHIEVEMENT_DELETE"  , "S" , TYPE_INT   , steam_achievement_delete  ),
-    FUNC("STEAM_ACHIEVEMENT_CHECK"   , "S" , TYPE_INT   , steam_achivement_check    ),
+    FUNC("STEAM_ACHIEVEMENT_CHECK"   , "S" , TYPE_INT   , steam_achievement_check   ),
     FUNC("STEAM_ACHIEVEMENT_GET_ICON", "S" , TYPE_INT   , steam_achievement_get_icon),
     FUNC("STEAM_AVATAR_GET"          , "I" , TYPE_INT   , steam_avatar_get          ),
     FUNC("STEAM_FRIEND_COUNT"        , ""  , TYPE_INT   , steam_friend_count        ),

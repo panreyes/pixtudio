@@ -100,7 +100,10 @@ void parse_input_events() {
     SDL_Event e;
 
     int window_width, window_height;
-    SDL_GetWindowSize(window, &window_width, &window_height);
+	
+    if (window) {
+        SDL_GetWindowSize(window, &window_width, &window_height);
+    }
 
     // SDL will give us the touch position relative to the whole window
     // but we might have set a different virtual resolution
