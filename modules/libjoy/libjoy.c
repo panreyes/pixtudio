@@ -348,7 +348,7 @@ void __pxtexport(libjoy, module_initialize)() {
     int i;
 
 #ifdef WIN32
-    SDL_SetHint(SDL_HINT_XINPUT_ENABLED, "0");
+    SDL_SetHint(SDL_HINT_XINPUT_ENABLED, "1");
 #endif
 	
     if (!SDL_WasInit(SDL_INIT_JOYSTICK)) {
