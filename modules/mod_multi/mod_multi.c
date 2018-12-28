@@ -101,29 +101,26 @@ void parse_input_events() {
 
     int window_width, window_height;
 	
-    if (window) {
-        SDL_GetWindowSize(window, &window_width, &window_height);
-    }
-
     // SDL will give us the touch position relative to the whole window
     // but we might have set a different virtual resolution
     if (screen) {
+        SDL_GetWindowSize(window, &window_width, &window_height);
         width  = screen->w;
         height = screen->h;
         if (window_width > window_height) {
             scale_ratio = (double) window_height / height;
-            offset_x = (window_width - (width * scale_ratio)) / 2;
+            offset_x = (int)((window_width - (width * scale_ratio)) / 2);
             offset_y = 0;
         } else {
             scale_ratio = (double) window_width / width;
             offset_x = 0;
-            offset_y = (window_height - (height * scale_ratio)) / 2;
+            offset_y = (int)((window_height - (height * scale_ratio)) / 2);
         }
         max_x = window_width - offset_x;
         max_y = window_height - offset_y;
     } else {
         // This'll avoid division-by-zero below
-        PXTRTM_LOGERROR("Unexpected condition getting resolution, refusing to parse events");
+        PXTRTM_LOGERROR("Unexpected condition getting resolution (did you call set_mode?), refusing to parse events");
         return;
     }
 
