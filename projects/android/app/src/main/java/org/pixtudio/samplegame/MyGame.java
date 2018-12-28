@@ -1,4 +1,4 @@
-package org.libsdl.app;
+package org.pixtudio.samplegame;
 
 import org.libsdl.app.SDLActivity;
 import android.os.Bundle;
