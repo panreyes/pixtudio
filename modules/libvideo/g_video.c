@@ -144,11 +144,11 @@ int gr_set_mode(int width, int height) {
     scale_quality                = GLOBYTE(libvideo, SCALE_QUALITY);
 
     if (scale_quality > 1) {
-        scale_quality_hint = "2";
+        scale_quality_hint = "best";
     } else if (scale_quality == 1) {
-        scale_quality_hint = "1";
+        scale_quality_hint = "linear";
     } else {
-        scale_quality_hint = "0";
+        scale_quality_hint = "nearest";
     }
 
     // Overwrite all params with environment vars
@@ -160,11 +160,11 @@ int gr_set_mode(int width, int height) {
     }
     if ((e = getenv("SCALE_QUALITY"))) {
         if (strcmp(e, "0") == 0) {
-            scale_quality_hint = "0";
+            scale_quality_hint = "nearest";
         } else if(strcmp(e, "1") == 0) {
-            scale_quality_hint = "1";
+            scale_quality_hint = "linear";
         } else if(strcmp(e, "2") == 0) {
-            scale_quality_hint = "2";
+            scale_quality_hint = "best";
         }
     }
 
