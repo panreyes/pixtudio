@@ -6,18 +6,27 @@ import "mod_proc"
 import "mod_math"
 import "mod_say"
 import "mod_sys"
+import "mod_wm"
 
 Process main()
+private
+    string title = "";
 begin
-    if(argc == 2 && argv[1] == '--nearest')
-        say("Using nearest neighbour scaling");
-        scale_quality = SCALE_NEAREST;
+    if(argc == 2)
+        if(argv[1] == '--nearest')
+            title = "Nearest neighbour scaling";
+            scale_quality = SCALE_NEAREST;
+        elif(argv[1] == '--anisotropic')
+            title = "Anisotropic scaling";
+            scale_quality = SCALE_ANISOTROPIC;
+        end
     else
-        say("Using linear scaling");
+        title = "Linear scaling";
         scale_quality = SCALE_LINEAR;
     end
 
-    set_mode(640, 480, MODE_FULLSCREEN);
+    set_mode(640, 480, MODE_WINDOW);
+    set_title(title);
     set_fps(60,0);
 
     x=400;

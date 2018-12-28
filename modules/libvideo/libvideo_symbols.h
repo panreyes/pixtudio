@@ -75,6 +75,7 @@ DLCONSTANT  __pxtexport( libvideo, constants_def )[] = {
 
     { "SCALE_NEAREST"       , TYPE_BYTE     , 0                     },
     { "SCALE_LINEAR"        , TYPE_BYTE     , 1                     },
+    { "SCALE_ANISOTROPIC"   , TYPE_BYTE     , 2                     },
 
     { NULL                  , 0             , 0                     }
 } ;

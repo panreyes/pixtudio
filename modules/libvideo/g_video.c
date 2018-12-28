@@ -131,6 +131,7 @@ int gr_set_mode(int width, int height) {
     Uint32 Amask       = 0;
     char *e;
     char scale_quality;
+    char *scale_quality_hint;
 
     full_screen = (GLODWORD(libvideo, GRAPH_MODE) & MODE_FULLSCREEN) ? 1 : 0;
     grab_input  = (GLODWORD(libvideo, GRAPH_MODE) & MODE_MODAL) ? 1 : 0;
@@ -141,13 +142,13 @@ int gr_set_mode(int width, int height) {
     scale_resolution             = GLODWORD(libvideo, SCALE_RESOLUTION);
     scale_resolution_aspectratio = GLODWORD(libvideo, SCALE_RESOLUTION_ASPECTRATIO);
     scale_quality                = GLOBYTE(libvideo, SCALE_QUALITY);
-	
+
     if (scale_quality > 1) {
-        scale_quality = '2';
+        scale_quality_hint = "2";
     } else if (scale_quality == 1) {
-        scale_quality = '1';
+        scale_quality_hint = "1";
     } else {
-        scale_quality = '0';
+        scale_quality_hint = "0";
     }
 
     // Overwrite all params with environment vars
@@ -159,9 +160,11 @@ int gr_set_mode(int width, int height) {
     }
     if ((e = getenv("SCALE_QUALITY"))) {
         if (strcmp(e, "0") == 0) {
-            scale_quality = '0';
-        } else {
-            scale_quality = '1';
+            scale_quality_hint = "0";
+        } else if(strcmp(e, "1") == 0) {
+            scale_quality_hint = "1";
+        } else if(strcmp(e, "2") == 0) {
+            scale_quality_hint = "2";
         }
     }
 
@@ -274,7 +277,7 @@ int gr_set_mode(int width, int height) {
     SDL_RenderPresent(renderer);
 
     // make the scaled rendering look smoother.
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, &scale_quality);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, scale_quality_hint);
 
     // Enable SDL scaling, if needed
     if (renderer_width != width || renderer_height != height) {
@@ -381,12 +384,15 @@ void __pxtexport(libvideo, module_initialize)() {
 
     apptitle = appname;
 
-    if ((e = getenv("VIDEO_WIDTH")))
+    if ((e = getenv("VIDEO_WIDTH"))) {
         scr_width = atoi(e);
-    if ((e = getenv("VIDEO_HEIGHT")))
+    }
+    if ((e = getenv("VIDEO_HEIGHT"))) {
         scr_height = atoi(e);
-    if ((e = getenv("VIDEO_FULLSCREEN")))
+    }
+    if ((e = getenv("VIDEO_FULLSCREEN"))) {
         GLODWORD(libvideo, GRAPH_MODE) |= atoi(e) ? MODE_FULLSCREEN : 0;
+    }
 
     // Disabled. It's better to use set_mode manually once, instead of setting the mode twice
 	// as it bugs vsync and scale_quality for some reason.
@@ -404,8 +410,9 @@ void __pxtexport(libvideo, module_finalize)() {
         SDL_DestroyWindow(window);
     }
 
-    if (SDL_WasInit(SDL_INIT_VIDEO))
+    if (SDL_WasInit(SDL_INIT_VIDEO)) {
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
+    }
 }
 
 /* --------------------------------------------------------------------------- */
