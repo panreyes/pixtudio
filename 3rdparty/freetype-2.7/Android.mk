@@ -58,6 +58,6 @@ LOCAL_SRC_FILES := \
     $(LOCAL_PATH)/src/winfonts/winfnt.c)
 
 
-LOCAL_LDLIBS := -ldl -llog
+# LOCAL_LDLIBS := -ldl -llog
 
 include $(BUILD_STATIC_LIBRARY)
