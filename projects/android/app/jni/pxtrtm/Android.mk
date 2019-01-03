@@ -19,6 +19,7 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(LOCAL_PATH)/../../../../../3rdparty/tre/lib \
 	$(LOCAL_PATH)/../../../../../3rdparty/openal-soft-1.17.0/include/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/freetype-2.7/include/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/libjpeg-turbo-2.0.0/ \
 	$(MODULES_PATH)/libbgload/ \
 	$(MODULES_PATH)/mod_say/ \
 	$(MODULES_PATH)/mod_string/ \
@@ -70,7 +71,6 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 LOCAL_CFLAGS := -DVERSION='"1.0.0"' \
 	-D__PXTRTM__ \
 	-D__MONOLITHIC__ \
-	-DNO_JPEG \
 	-DNO_MODCHIPMUNK \
 	-DNO_MODICONV \
 	-DNO_MODCURL \
@@ -166,6 +166,6 @@ LOCAL_SRC_FILES := \
 
 LOCAL_LDLIBS := -llog -ldl -lz
 LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png theora libopenal
-LOCAL_STATIC_LIBRARIES += tre freetype
+LOCAL_STATIC_LIBRARIES += tre freetype libjpeg-turbo
 
 include $(BUILD_SHARED_LIBRARY)
