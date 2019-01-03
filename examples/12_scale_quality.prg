@@ -25,7 +25,7 @@ begin
         scale_quality = SCALE_LINEAR;
     end
 
-    set_mode(640, 480, MODE_WINDOW);
+    set_mode(640, 480, MODE_FULLSCREEN);
     set_title(title);
     set_fps(60,0);
 
