@@ -32,9 +32,7 @@
 #include <strings.h>
 #include <files.h>
 #include <pxtrtm.h>
-#ifndef NO_JPEG
 #include <jpeglib.h>
-#endif
 
 #include "mod_map.h"
 #include "g_bitmap.h"
@@ -42,12 +40,6 @@
 /* --------------------------------------------------------------------------- */
 
 GRAPH *gr_read_jpg(const char *filename) {
-#ifdef NO_JPEG
-	if(debug) {
-		PXTRTM_LOGERROR("Could not load '%s', JPEG loading not compiled in\n", filename);
-	}
-	return NULL;
-#else
     // First of all, we read the whole JPEG file into memory
     file *infd = file_open(filename, "rb");
     if(! infd) {
@@ -67,15 +59,14 @@ GRAPH *gr_read_jpg(const char *filename) {
         return NULL;
     }
     int read = file_read(infd, data, size);
+    file_close(infd);
     if(read != size) {
         PXTRTM_LOGERROR("Error reading data from '%s'\n", filename);
         PXTRTM_LOGERROR("expected to read %d bytes and got %d\n", size, read);
-        file_close(infd);
         free(data);
         return NULL;
     }
 
-    file_close(infd);
 
     // We will now prepare the information needed to decode this data
     struct jpeg_decompress_struct cinfo;
@@ -123,7 +114,6 @@ GRAPH *gr_read_jpg(const char *filename) {
     // Happily return the GRAPH
     gr->needs_texture_update = 1;
     return gr;
-#endif
 }
 
 /* --------------------------------------------------------------------------- */
