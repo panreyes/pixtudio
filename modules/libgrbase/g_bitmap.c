@@ -193,8 +193,9 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
     Uint32 format;
     TEXTURE_PIECE *piece = NULL;
 
-    if (w < 1 || h < 1)
+    if (w < 1 || h < 1) {
         return NULL;
+    }
 
     /* Create and fill the struct */
 
@@ -237,8 +238,9 @@ GRAPH *bitmap_new(int code, int w, int h, int depth) {
             gr->texture = SDL_CreateTexture(
                 renderer, format, SDL_TEXTUREACCESS_STATIC | SDL_RENDERER_TARGETTEXTURE, w, h);
             if (!gr->texture) {
-                if (gr->data)
+                if (gr->data) {
                     free(gr->data);
+                }
                 free(gr);
                 PXTRTM_LOGERROR("bitmap_new: Could not create GRAPH texture (%s)\n", SDL_GetError());
                 return NULL;

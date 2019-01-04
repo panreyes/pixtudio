@@ -88,6 +88,7 @@ extern int gr_load_map(const char *filename);
 extern int gr_load_pal(const char *filename);
 extern int gr_load_png(const char *filename);
 extern int gr_load_jpg(const char *filename);
+extern int gr_load_webp(const char *filename);
 extern int gr_load_pcx(const char *filename);
 
 extern int gr_save_system_pal(const char *filename);
@@ -99,6 +100,7 @@ extern int gr_save_png(GRAPH *gr, const char *filename);
 
 extern GRAPH *gr_read_png(const char *filename);
 extern GRAPH *gr_read_jpg(const char *filename);
+extern GRAPH *gr_read_webp(const char *filename);
 
 extern PALETTE *gr_read_pal(file *fp);
 extern PALETTE *gr_read_pal_with_gamma(file *fp);

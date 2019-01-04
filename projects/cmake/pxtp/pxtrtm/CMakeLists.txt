@@ -321,7 +321,8 @@ include_directories(${pxtrtm_SOURCE_DIR}/../../../../core/pxtrtm/include
                     ${OPENAL_INCLUDE_DIR}
                     ${TRE_INCLUDE_DIR}
                     ${PNG_INCLUDE_DIR}
-                    ${JPEG_INCLUDE_DIR})
+                    ${JPEG_INCLUDE_DIR}
+                    ${WEBP_INCLUDE_DIR})
 # Main executable
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 

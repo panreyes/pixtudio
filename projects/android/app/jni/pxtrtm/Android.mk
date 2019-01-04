@@ -20,6 +20,7 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(LOCAL_PATH)/../../../../../3rdparty/openal-soft-1.17.0/include/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/freetype-2.7/include/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/libjpeg-turbo-2.0.0/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/libwebp-1.0.0/src/ \
 	$(MODULES_PATH)/libbgload/ \
 	$(MODULES_PATH)/mod_say/ \
 	$(MODULES_PATH)/mod_string/ \
@@ -140,6 +141,7 @@ LOCAL_SRC_FILES := \
 	../../../../../modules/mod_map/file_pcx.c \
 	../../../../../modules/mod_map/file_png.c \
 	../../../../../modules/mod_map/file_jpg.c \
+	../../../../../modules/mod_map/file_webp.c \
 	../../../../../modules/mod_map/mod_map.c \
 	../../../../../modules/mod_math/mod_math.c \
 	../../../../../modules/mod_mem/mod_mem.c \
