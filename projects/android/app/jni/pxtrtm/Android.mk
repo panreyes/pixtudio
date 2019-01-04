@@ -166,6 +166,6 @@ LOCAL_SRC_FILES := \
 
 LOCAL_LDLIBS := -llog -ldl -lz
 LOCAL_SHARED_LIBRARIES += SDL2 SDL2_mixer png theora libopenal
-LOCAL_STATIC_LIBRARIES += tre freetype libjpeg-turbo
+LOCAL_STATIC_LIBRARIES += tre freetype libjpeg-turbo webp
 
 include $(BUILD_SHARED_LIBRARY)
