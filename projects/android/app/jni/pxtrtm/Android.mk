@@ -10,7 +10,7 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(CORE_PATH)/pxtrtm/include/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/SDL2/include/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/SDL2_mixer-2.0.4/ \
-	$(LOCAL_PATH)/../../../../../3rdparty/libpng-1.6.23/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/libpng-1.6.36/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/libglob-bsd/include/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/stb/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/theoraplay/ \
