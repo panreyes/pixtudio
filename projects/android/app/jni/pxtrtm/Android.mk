@@ -18,7 +18,7 @@ LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(LOCAL_PATH)/../../../../../3rdparty/SDL2_mixer-2.0.4/external/libvorbis-1.3.5/include \
 	$(LOCAL_PATH)/../../../../../3rdparty/tre/lib \
 	$(LOCAL_PATH)/../../../../../3rdparty/openal-soft-1.17.0/include/ \
-	$(LOCAL_PATH)/../../../../../3rdparty/freetype-2.7/include/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/freetype-2.9.1/include/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/libjpeg-turbo-2.0.0/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/libwebp-1.0.0/src/ \
 	$(MODULES_PATH)/libbgload/ \
