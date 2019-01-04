@@ -98,6 +98,11 @@ GRAPH *gr_read_jpg(const char *filename) {
     // 24bpp should be fine, but PixTudio cannot handle that...
     cinfo.out_color_space = JCS_EXT_BGRA;
     GRAPH *gr = bitmap_new(0, cinfo.output_width, cinfo.output_height, 32);
+    if(!gr) {
+        PXTRTM_LOGERROR("Could not create bitmap for reading '%s'\n", filename);
+        free(data);
+        return NULL;
+    }
 
     // Read the data line by line
     while(cinfo.output_scanline < cinfo.output_height) {
