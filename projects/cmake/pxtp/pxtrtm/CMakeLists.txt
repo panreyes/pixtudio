@@ -7,6 +7,7 @@ find_package(SDL2_Mixer REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(PNG REQUIRED)
 find_package(JPEG REQUIRED)
+find_package(WEBP REQUIRED)
 find_package(Vorbis REQUIRED)
 find_package(Theora REQUIRED)
 find_package(Freetype REQUIRED)
@@ -175,6 +176,7 @@ set(SOURCE_FILES
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/file_pcx.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/file_png.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/file_jpg.c
+  ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/file_webp.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/mod_map.c
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/mod_map.h
   ${pxtrtm_SOURCE_DIR}/../../../../modules/mod_map/mod_map_symbols.h
