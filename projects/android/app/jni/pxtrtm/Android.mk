@@ -9,13 +9,13 @@ LOCAL_MODULE := pxtrtm
 LOCAL_C_INCLUDES := $(CORE_PATH)/include \
 	$(CORE_PATH)/pxtrtm/include/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/SDL2/include/ \
-	$(LOCAL_PATH)/../../../../../3rdparty/SDL2_mixer/ \
+	$(LOCAL_PATH)/../../../../../3rdparty/SDL2_mixer-2.0.4/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/libpng-1.6.23/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/libglob-bsd/include/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/stb/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/theoraplay/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/libtheora-1.1.1/include/ \
-	$(LOCAL_PATH)/../../../../../3rdparty/SDL2_mixer/external/libvorbis-1.3.3/include \
+	$(LOCAL_PATH)/../../../../../3rdparty/SDL2_mixer-2.0.4/external/libvorbis-1.3.5/include \
 	$(LOCAL_PATH)/../../../../../3rdparty/tre/lib \
 	$(LOCAL_PATH)/../../../../../3rdparty/openal-soft-1.17.0/include/ \
 	$(LOCAL_PATH)/../../../../../3rdparty/freetype-2.7/include/ \
