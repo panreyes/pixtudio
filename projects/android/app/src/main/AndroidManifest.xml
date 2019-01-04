@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Replace com.test.game with the identifier of your game below, e.g.
-     com.gamemaker.game
+<!-- Replace org.pixtudio.samplegame with the identifier of your game below, e.g.
+     org.pixjuegos.ripo
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.pixtudio.samplegame"
