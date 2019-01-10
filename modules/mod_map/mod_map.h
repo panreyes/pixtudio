@@ -90,6 +90,7 @@ extern int gr_load_png(const char *filename);
 extern int gr_load_jpg(const char *filename);
 extern int gr_load_webp(const char *filename);
 extern int gr_load_pcx(const char *filename);
+extern int gr_load_image(const char *filename);
 
 extern int gr_save_system_pal(const char *filename);
 

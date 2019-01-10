@@ -206,6 +206,37 @@ int modmap_load_webp(INSTANCE *my, int *params) {
     return r;
 }
 
+int modmap_load_image(INSTANCE *my, int *params) {
+	const char *filename = string_get(params[0]);
+	unsigned char header[12];
+	int r = -1;
+	
+	file *fp = file_open(filename, "rb");
+    if(! fp) {
+        PXTRTM_LOGERROR("Could not open '%s'\n", filename);
+		string_discard(params[0]);
+        return -1;
+    }
+	
+	file_read(fp, header, 12);
+	
+	file_close(fp);
+
+	if (header[0]==137 && header[1]=='P' && header[2]=='N' && header[3]=='G') { /* PNG */
+		r = gr_load_png(filename);
+	} else if(header[0]==255 && header[1]==216) { /* JPG */
+		r = gr_load_jpg(filename);
+	} else if (header[8]=='W' && header[9]=='E' && header[10]=='B' && header[11]=='P') { /* WEBP */
+		r = gr_load_webp(filename);
+	} else if (header[0]=='m' && ((header[1]=='a' && header[2]=='p') || (header[1]=='0' && header[2]=='1') || 
+		(header[1]=='1' && header[2]=='6') || (header[1]=='3' && header[2]=='2'))){ /* MAP */
+		r = gr_load_map(filename);
+	}
+	
+	string_discard(params[0]);
+	return r;
+}
+
 /* --------------------------------------------------------------------------- */
 
 int modmap_save_png(INSTANCE *my, int *params) {

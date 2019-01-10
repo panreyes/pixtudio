@@ -115,6 +115,7 @@ extern int modmap_load_jpg( INSTANCE * my, int * params );
 extern int modmap_bgload_jpg( INSTANCE * my, int * params );
 extern int modmap_load_webp( INSTANCE * my, int * params );
 extern int modmap_bgload_webp( INSTANCE * my, int * params );
+extern int modmap_load_image( INSTANCE * my, int * params );
 extern int modmap_save_png( INSTANCE * my, int * params );
 
 extern void __pxtexport( mod_map, module_finalize )();
@@ -241,6 +242,7 @@ DLSYSFUNCS  __pxtexport( mod_map, exported_functions )[] = {
     FUNC( "JPG_LOAD"            , "SP"          , TYPE_INT      , modmap_bgload_jpg         ),
     FUNC( "WEBP_LOAD"           , "S"           , TYPE_INT      , modmap_load_webp          ),
     FUNC( "WEBP_LOAD"           , "SP"          , TYPE_INT      , modmap_bgload_webp        ),
+	FUNC( "IMAGE_LOAD"          , "S"           , TYPE_INT      , modmap_load_image         ),
     FUNC( "PCX_LOAD"            , "S"           , TYPE_INT      , modmap_load_pcx           ),
     FUNC( "PCX_LOAD"            , "SP"          , TYPE_INT      , modmap_bgload_pcx         ),
 
