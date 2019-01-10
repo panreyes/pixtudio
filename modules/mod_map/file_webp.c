@@ -89,7 +89,7 @@ GRAPH *gr_read_webp(const char *filename) {
     if(WebPDecodeBGRAInto((const uint8_t*)data, (size_t)size, (uint8_t *)gr->data,
     	                  gr->pitch * height, gr->pitch) == NULL) {
         PXTRTM_LOGERROR("Could not decode bitmap for '%s'\n", filename);
-        bitmap_destroy(bitmap);
+        bitmap_destroy(gr);
         free(data);
         return NULL;
     }
