@@ -60,7 +60,7 @@ extern int modsound_sound_resume( INSTANCE * my, int * params );
 extern int modsound_sound_is_playing( INSTANCE * my, int * params );
 extern int modsound_music_fade_in( INSTANCE * my, int * params );
 extern int modsound_music_fade_out( INSTANCE * my, int * params );
-extern int modsound_wav_set_volume( INSTANCE * my, int * params );
+extern int modsound_sound_set_volume( INSTANCE * my, int * params );
 extern int modsound_channel_set_volume( INSTANCE * my, int * params );
 extern int modsound_channels_reserve( INSTANCE * my, int * params );
 extern int modsound_channel_set_panning( INSTANCE * my, int * params );
@@ -126,7 +126,7 @@ DLSYSFUNCS  __pxtexport( mod_sound, exported_functions )[] = {
     FUNC( "MUSIC_FADE_IN"       , "III"  , TYPE_INT , modsound_music_fade_in        ),
     FUNC( "MUSIC_FADE_OUT"      , "I"    , TYPE_INT , modsound_music_fade_out       ),
 
-    FUNC( "WAV_SET_VOLUME"      , "II"   , TYPE_INT , modsound_wav_set_volume       ),
+    FUNC( "SOUND_SET_VOLUME"    , "II"   , TYPE_INT , modsound_sound_set_volume     ),
     FUNC( "CHANNEL_SET_VOLUME"  , "II"   , TYPE_INT , modsound_channel_set_volume   ),
 
     FUNC( "CHANNELS_RESERVE"    , "I"    , TYPE_INT , modsound_channels_reserve     ),

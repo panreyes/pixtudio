@@ -1538,7 +1538,7 @@ int modsound_channels_reserve(INSTANCE *my, int *params) {
  *
  */
 
-int modsound_wav_set_volume(INSTANCE *my, int *params) {
+int modsound_sound_set_volume(INSTANCE *my, int *params) {
     return (set_wav_volume(params[0], params[1]));
 }
 
