@@ -30,20 +30,21 @@
 #ifndef __MODDIR_SYMBOLS_H
 #define __MODDIR_SYMBOLS_H
 
+#include <stdint.h>
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int moddir_cd( INSTANCE * my, int * params );
-extern int moddir_chdir( INSTANCE * my, int * params );
-extern int moddir_mkdir( INSTANCE * my, int * params );
-extern int moddir_rmdir( INSTANCE * my, int * params );
-extern int moddir_glob( INSTANCE * my, int * params );
-extern int moddir_rm( INSTANCE * my, int * params );
-extern int moddir_open( INSTANCE * my, int * params );
-extern int moddir_close( INSTANCE * my, int * params );
-extern int moddir_read( INSTANCE * my, int * params );
-extern int moddir_get_basepath( INSTANCE * my, int * params );
-extern int moddir_get_prefpath( INSTANCE * my, int * params );
+extern int moddir_cd( INSTANCE * my, intptr_t * params );
+extern int moddir_chdir( INSTANCE * my, intptr_t * params );
+extern int moddir_mkdir( INSTANCE * my, intptr_t * params );
+extern int moddir_rmdir( INSTANCE * my, intptr_t * params );
+extern int moddir_glob( INSTANCE * my, intptr_t * params );
+extern int moddir_rm( INSTANCE * my, intptr_t * params );
+extern int moddir_open( INSTANCE * my, intptr_t * params );
+extern int moddir_close( INSTANCE * my, intptr_t * params );
+extern int moddir_read( INSTANCE * my, intptr_t * params );
+extern int moddir_get_basepath( INSTANCE * my, intptr_t * params );
+extern int moddir_get_prefpath( INSTANCE * my, intptr_t * params );
 
 DLVARFIXUP __pxtexport( mod_dir, globals_fixup)[] = {
     /* varname, pointer (NULL), size, # elements */

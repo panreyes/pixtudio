@@ -22,6 +22,7 @@
  *
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -138,7 +139,7 @@ static int bgDoLoad(void *d) {
 
 /* --------------------------------------------------------------------------- */
 // Maps curl_formadd
-int bgd_curl_formadd(INSTANCE *my, int *params) {
+int bgd_curl_formadd(INSTANCE *my, intptr_t *params) {
     int retval = 0;
 
     if (params[0] == -1 || params[0] > MAX_DOWNLOADS)
@@ -156,7 +157,7 @@ int bgd_curl_formadd(INSTANCE *my, int *params) {
 }
 
 // Maps curl_formfree
-int bgd_curl_formfree(INSTANCE *my, int *params) {
+int bgd_curl_formfree(INSTANCE *my, intptr_t *params) {
     if (params[0] == -1 || params[0] > MAX_DOWNLOADS)
         return -1;
 
@@ -167,7 +168,7 @@ int bgd_curl_formfree(INSTANCE *my, int *params) {
 }
 
 // Maps curl_easy_init
-int bgd_curl_easy_init(INSTANCE *my, int *params) {
+int bgd_curl_easy_init(INSTANCE *my, intptr_t *params) {
     int i;
 
     // Get the index of the connection
@@ -183,7 +184,7 @@ int bgd_curl_easy_init(INSTANCE *my, int *params) {
 }
 
 // Maps curl_easy_cleanup
-int bgd_curl_easy_cleanup(INSTANCE *my, int *params) {
+int bgd_curl_easy_cleanup(INSTANCE *my, intptr_t *params) {
     if (params[0] == -1 || params[0] > MAX_DOWNLOADS)
         return -1;
 
@@ -195,7 +196,7 @@ int bgd_curl_easy_cleanup(INSTANCE *my, int *params) {
 }
 
 // Maps curl_easy_setopt for options which require an integer
-int bgd_curl_easy_setopt(INSTANCE *my, int *params) {
+int bgd_curl_easy_setopt(INSTANCE *my, intptr_t *params) {
     if (params[0] == -1 || params[0] > MAX_DOWNLOADS)
         return -1;
 
@@ -217,7 +218,7 @@ int bgd_curl_easy_setopt(INSTANCE *my, int *params) {
 }
 
 // Maps curl_easy_setopt for options which require a string
-int bgd_curl_easy_setopt2(INSTANCE *my, int *params) {
+int bgd_curl_easy_setopt2(INSTANCE *my, intptr_t *params) {
     if (params[0] == -1 || params[0] > MAX_DOWNLOADS)
         return -1;
 
@@ -248,7 +249,7 @@ int bgd_curl_easy_setopt2(INSTANCE *my, int *params) {
 }
 
 // Maps curl_easy_setopt when downloading data to a string directly
-int bgd_curl_easy_setopt3(INSTANCE *my, int *params) {
+int bgd_curl_easy_setopt3(INSTANCE *my, intptr_t *params) {
     if (params[0] == -1 || params[0] > MAX_DOWNLOADS)
         return -1;
 
@@ -305,7 +306,7 @@ int curl_perform(int id) {
 }
 
 // Map curl_easy_perform
-int bgd_curl_easy_perform(INSTANCE *my, int *params) {
+int bgd_curl_easy_perform(INSTANCE *my, intptr_t *params) {
     bgdata *t = prep(params);
     t->fn     = curl_perform;
 

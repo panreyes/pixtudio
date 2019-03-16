@@ -25,18 +25,19 @@
 #ifndef __MODCURL_SYMBOLS_H
 #define __MODCURL_SYMBOLS_H
 
+#include <stdint.h>
 #include <curl/curl.h>
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int bgd_curl_easy_init(INSTANCE * my, int * params);
-extern int bgd_curl_easy_cleanup(INSTANCE * my, int * params);
-extern int bgd_curl_formadd(INSTANCE * my, int * params);
-extern int bgd_curl_formfree(INSTANCE * my, int * params);
-extern int bgd_curl_easy_setopt(INSTANCE * my, int * params);
-extern int bgd_curl_easy_setopt2(INSTANCE * my, int * params);
-extern int bgd_curl_easy_setopt3(INSTANCE * my, int * params);
-extern int bgd_curl_easy_perform(INSTANCE * my, int * params);
+extern int bgd_curl_easy_init(INSTANCE * my, intptr_t * params);
+extern int bgd_curl_easy_cleanup(INSTANCE * my, intptr_t * params);
+extern int bgd_curl_formadd(INSTANCE * my, intptr_t * params);
+extern int bgd_curl_formfree(INSTANCE * my, intptr_t * params);
+extern int bgd_curl_easy_setopt(INSTANCE * my, intptr_t * params);
+extern int bgd_curl_easy_setopt2(INSTANCE * my, intptr_t * params);
+extern int bgd_curl_easy_setopt3(INSTANCE * my, intptr_t * params);
+extern int bgd_curl_easy_perform(INSTANCE * my, intptr_t * params);
 
 extern void __pxtexport( mod_curl, module_initialize )();
 extern void __pxtexport( mod_curl, module_finalize )();

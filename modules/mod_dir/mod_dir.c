@@ -27,6 +27,7 @@
  *
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -78,7 +79,7 @@ enum {
 /* ----------------------------------------------------------------- */
 /* DIRECTORY FUNCTIONS */
 
-int moddir_cd(INSTANCE *my, int *params) {
+int moddir_cd(INSTANCE *my, intptr_t *params) {
     char *d = dir_current();
     int r = string_new(d);
     string_use(r);
@@ -87,28 +88,28 @@ int moddir_cd(INSTANCE *my, int *params) {
     return r;
 }
 
-int moddir_chdir(INSTANCE *my, int *params) {
+int moddir_chdir(INSTANCE *my, intptr_t *params) {
     const char *d = string_get(params[0]);
     int ret = dir_change(d);
     string_discard(params[0]);
     return (ret);
 }
 
-int moddir_mkdir(INSTANCE *my, int *params) {
+int moddir_mkdir(INSTANCE *my, intptr_t *params) {
     const char *d = string_get(params[0]);
     int ret = dir_create(d);
     string_discard(params[0]);
     return (ret);
 }
 
-int moddir_rmdir(INSTANCE *my, int *params) {
+int moddir_rmdir(INSTANCE *my, intptr_t *params) {
     const char *d = string_get(params[0]);
     int ret = dir_delete(d);
     string_discard(params[0]);
     return (ret);
 }
 
-int moddir_rm(INSTANCE *my, int *params) {
+int moddir_rm(INSTANCE *my, intptr_t *params) {
     const char *d = string_get(params[0]);
     int ret = dir_deletefile(d);
     string_discard(params[0]);
@@ -185,7 +186,7 @@ static int __moddir_read(__DIR_ST *dh) {
  *  until no more files exists. It then returns NIL.
  */
 
-int moddir_glob(INSTANCE *my, int *params) {
+int moddir_glob(INSTANCE *my, intptr_t *params) {
     const char *path    = string_get(params[0]);
     static __DIR_ST *dh = NULL;
     int result;
@@ -215,7 +216,7 @@ int moddir_glob(INSTANCE *my, int *params) {
  *  return 0 if fail.
  */
 
-int moddir_open(INSTANCE *my, int *params) {
+int moddir_open(INSTANCE *my, intptr_t *params) {
     int result = (int)dir_open(string_get(params[0]));
     string_discard(params[0]);
     return result;
@@ -224,7 +225,7 @@ int moddir_open(INSTANCE *my, int *params) {
 /*  int DIRCLOSE (INT handle)
  */
 
-int moddir_close(INSTANCE *my, int *params) {
+int moddir_close(INSTANCE *my, intptr_t *params) {
     if (params[0])
         dir_close((__DIR_ST *)params[0]);
     return 1;
@@ -237,14 +238,14 @@ int moddir_close(INSTANCE *my, int *params) {
  *  until no more files exists. It then returns NIL.
  */
 
-int moddir_read(INSTANCE *my, int *params) {
+int moddir_read(INSTANCE *my, intptr_t *params) {
     return (__moddir_read((__DIR_ST *)params[0]));
 }
 
 /*  string
  *
  */
-int moddir_get_basepath(INSTANCE *my, int *params) {
+int moddir_get_basepath(INSTANCE *my, intptr_t *params) {
     int code;
     char *path = SDL_GetBasePath();
     if(! path) {
@@ -258,7 +259,7 @@ int moddir_get_basepath(INSTANCE *my, int *params) {
     return code;
 }
 
-int moddir_get_prefpath(INSTANCE *my, int *params) {
+int moddir_get_prefpath(INSTANCE *my, intptr_t *params) {
     int code;
     char *path = SDL_GetPrefPath(string_get(params[0]), string_get(params[1]));
     if(! path) {

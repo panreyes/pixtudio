@@ -30,26 +30,27 @@
 #ifndef __MODDRAW_SYMBOLS_H
 #define __MODDRAW_SYMBOLS_H
 
+#include <stdint.h>
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int moddraw_drawing_map( INSTANCE * my, int * params );
-extern int moddraw_drawing_color( INSTANCE * my, int * params );
-extern int moddraw_line( INSTANCE * my, int * params );
-extern int moddraw_rect( INSTANCE * my, int * params );
-extern int moddraw_box( INSTANCE * my, int * params );
-extern int moddraw_circle( INSTANCE * my, int * params );
-extern int moddraw_fcircle( INSTANCE * my, int * params );
-extern int moddraw_bezier( INSTANCE * my, int * params );
-extern int moddraw_drawing_at( INSTANCE * my, int * params );
-extern int moddraw_delete_drawing( INSTANCE * my, int * params );
-extern int moddraw_move_drawing( INSTANCE * my, int * params );
-extern int moddraw_drawing_alpha( INSTANCE * my, int * params );
-extern int moddraw_drawing_stipple( INSTANCE * my, int * params );
-extern int moddraw_put_pixel( INSTANCE * my, int * params );
-extern int moddraw_get_pixel( INSTANCE * my, int * params );
-extern int moddraw_map_get_pixel( INSTANCE * my, int * params );
-extern int moddraw_map_put_pixel( INSTANCE * my, int * params );
+extern int moddraw_drawing_map( INSTANCE * my, intptr_t * params );
+extern int moddraw_drawing_color( INSTANCE * my, intptr_t * params );
+extern int moddraw_line( INSTANCE * my, intptr_t * params );
+extern int moddraw_rect( INSTANCE * my, intptr_t * params );
+extern int moddraw_box( INSTANCE * my, intptr_t * params );
+extern int moddraw_circle( INSTANCE * my, intptr_t * params );
+extern int moddraw_fcircle( INSTANCE * my, intptr_t * params );
+extern int moddraw_bezier( INSTANCE * my, intptr_t * params );
+extern int moddraw_drawing_at( INSTANCE * my, intptr_t * params );
+extern int moddraw_delete_drawing( INSTANCE * my, intptr_t * params );
+extern int moddraw_move_drawing( INSTANCE * my, intptr_t * params );
+extern int moddraw_drawing_alpha( INSTANCE * my, intptr_t * params );
+extern int moddraw_drawing_stipple( INSTANCE * my, intptr_t * params );
+extern int moddraw_put_pixel( INSTANCE * my, intptr_t * params );
+extern int moddraw_get_pixel( INSTANCE * my, intptr_t * params );
+extern int moddraw_map_get_pixel( INSTANCE * my, intptr_t * params );
+extern int moddraw_map_put_pixel( INSTANCE * my, intptr_t * params );
 #endif
 DLSYSFUNCS __pxtexport( mod_draw, exported_functions )[] = {
     FUNC( "DRAWING_MAP"     , "II"          , TYPE_INT  , moddraw_drawing_map       ),
