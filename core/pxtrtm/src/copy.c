@@ -37,6 +37,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #include <math.h>
 #include <time.h>
@@ -195,21 +196,21 @@ static int copytype(void *dst, void *src, DCB_TYPEDEF *var) {
  *  Copy struct data from src to dst, using the information varspace given
  **/
 
-int pxt_copy_struct(INSTANCE *my, int *params) {
+int pxt_copy_struct(INSTANCE *my, intptr_t *params) {
     return copytypes((void *)params[0], (void *)params[1], (DCB_TYPEDEF *)params[2], params[3],
                      params[4]);
 }
 
-int pxt_internal_memcopy(INSTANCE *my, int *params) {
-    memmove((void *)params[0], (void *)params[1], params[2]);
+int pxt_internal_memcopy(INSTANCE *my, intptr_t *params) {
+    memmove((void *)params[0], (void *)params[1], (size_t)params[2]);
     return 1;
 }
 
-int pxt_internal_copy_string_array(INSTANCE *my, int *params) {
-    int n = params[2];
+int pxt_internal_copy_string_array(INSTANCE *my, intptr_t *params) {
+    intptr_t n = params[2];
     while (n--) {
-        ((int *)(params[0]))[n] = ((int *)(params[1]))[n];
-        string_use(((int *)(params[0]))[n]);
+        ((intptr_t *)(params[0]))[n] = ((intptr_t *)(params[1]))[n];
+        string_use( ((int *)(params[0]))[n] );
     }
 
     return 1;

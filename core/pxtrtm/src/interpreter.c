@@ -196,8 +196,9 @@ int instance_go_all() {
 /* ---------------------------------------------------------------------- */
 
 int instance_go(INSTANCE *r) {
-    if (!r)
+    if (!r) {
         return 0;
+    }
 
     register int *ptr = r->codeptr;
 
@@ -256,10 +257,12 @@ int instance_go(INSTANCE *r) {
         if (debug_DCB > 0) {
             if (debug_DCB > 2) {
                 int c = 45 - stack_dump(r) * 9;
-                if (debug_DCB > 1)
+                if (debug_DCB > 1) {
                     PXTRTM_LOG("%*.*s[%4u] ", c, c, "", (ptr - r->code));
-            } else if (debug_DCB > 1)
+                }
+            } else if (debug_DCB > 1) {
                 PXTRTM_LOG("[%4u] ", (ptr - r->code));
+            }
             mnemonic_dump(*ptr, ptr[1]);
         }
 
@@ -323,8 +326,9 @@ int instance_go(INSTANCE *r) {
 
                 assert(i);
 
-                for (n = 0; n < proc->params; n++)
+                for (n = 0; n < proc->params; n++) {
                     PRIDWORD(i, 4 * n) = r->stack_ptr[-proc->params + n];
+                }
 
                 r->stack_ptr -= proc->params;
 
@@ -360,10 +364,11 @@ int instance_go(INSTANCE *r) {
                     r->codeptr = ptr;
 
                     /* If it don't was a CALL, then I set a flag in "len" for no return value */
-                    if (ptr[-2] == MN_CALL)
+                    if (ptr[-2] == MN_CALL) {
                         r->stack[0] |= STACK_RETURN_VALUE;
-                    else
+                    } else {
                         r->stack[0] &= ~STACK_RETURN_VALUE;
+                    }
 
                     if (debug_next && trace_sentence != -1) {
                         force_debug = 1;
@@ -374,8 +379,9 @@ int instance_go(INSTANCE *r) {
 
                 /* Wake up! */
                 LOCDWORD(r, STATUS) &= ~STATUS_WAITING_MASK;
-                if (child_is_alive)
+                if (child_is_alive) {
                     i->called_by = NULL;
+                }
 
                 break;
             }

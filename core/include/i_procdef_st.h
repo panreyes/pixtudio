@@ -31,6 +31,7 @@
 #define __I_PROCDEF_ST_H
 
 #include "instance_st.h"
+#include <stdint.h>
 
 /* Process definitions, more simple than in the compiler */
 
@@ -54,7 +55,7 @@ typedef struct _procdef {
     int string_count;
     int pubstring_count;
 
-    int params;
+    intptr_t params;
     int id;
     int type;
     int flags;
@@ -70,13 +71,13 @@ typedef struct _procdef {
 
 /* System functions */
 
-typedef int SYSFUNC(INSTANCE *, int *);
+typedef int SYSFUNC(INSTANCE *, intptr_t *);
 typedef struct _sysproc {
     int code;
     char *name;
     char *paramtypes;
     int type;
-    int params;
+    intptr_t params;
     SYSFUNC *func;
     int id;
 } SYSPROC;

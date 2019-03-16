@@ -33,34 +33,18 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modmem_calloc( INSTANCE * my, int * params );
-extern int modmem_alloc( INSTANCE * my, int * params );
-extern int modmem_free( INSTANCE * my, int * params );
-extern int modmem_realloc( INSTANCE * my, int * params );
-extern int modmem_memcmp( INSTANCE * my, int * params );
-extern int modmem_memset( INSTANCE * my, int * params );
-extern int modmem_memsetw( INSTANCE * my, int * params );
-extern int modmem_memseti( INSTANCE * my, int * params );
-extern int modmem_memsetw( INSTANCE * my, int * params );
-extern int modmem_memseti( INSTANCE * my, int * params );
-extern int modmem_memcopy( INSTANCE * my, int * params );
-extern int modmem_memmove( INSTANCE * my, int * params );
-extern int modmem_memory_free( INSTANCE * my, int * params );
-extern int modmem_memory_total( INSTANCE * my, int * params );
-extern int modmem_calloc( INSTANCE * my, int * params );
-extern int modmem_alloc( INSTANCE * my, int * params );
-extern int modmem_free( INSTANCE * my, int * params );
-extern int modmem_realloc( INSTANCE * my, int * params );
-extern int modmem_memcmp( INSTANCE * my, int * params );
-extern int modmem_memset( INSTANCE * my, int * params );
-extern int modmem_memsetw( INSTANCE * my, int * params );
-extern int modmem_memseti( INSTANCE * my, int * params );
-extern int modmem_memsetw( INSTANCE * my, int * params );
-extern int modmem_memseti( INSTANCE * my, int * params );
-extern int modmem_memcopy( INSTANCE * my, int * params );
-extern int modmem_memmove( INSTANCE * my, int * params );
-extern int modmem_memory_free( INSTANCE * my, int * params );
-extern int modmem_memory_total( INSTANCE * my, int * params );
+extern int modmem_calloc( INSTANCE * my, intptr_t * params );
+extern int modmem_alloc( INSTANCE * my, intptr_t * params );
+extern int modmem_free( INSTANCE * my, intptr_t * params );
+extern int modmem_realloc( INSTANCE * my, intptr_t * params );
+extern int modmem_memcmp( INSTANCE * my, intptr_t * params );
+extern int modmem_memset( INSTANCE * my, intptr_t * params );
+extern int modmem_memsetw( INSTANCE * my, intptr_t * params );
+extern int modmem_memseti( INSTANCE * my, intptr_t * params );
+extern int modmem_memcopy( INSTANCE * my, intptr_t * params );
+extern int modmem_memmove( INSTANCE * my, intptr_t * params );
+extern int modmem_memory_free( INSTANCE * my, intptr_t * params );
+extern int modmem_memory_total( INSTANCE * my, intptr_t * params );
 #endif
 
 DLSYSFUNCS __pxtexport( mod_mem, exported_functions )[] = {

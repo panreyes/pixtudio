@@ -27,8 +27,9 @@
  *
  */
 
-#include <loadlib.h> /* Must be fist include */
+#include <loadlib.h> /* Must be first include */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -42,9 +43,9 @@
 
 /* ---------------------------------------------------------------------- */
 
-extern int pxt_copy_struct(INSTANCE *my, int *params);
-extern int pxt_internal_memcopy(INSTANCE *my, int *params);
-extern int pxt_internal_copy_string_array(INSTANCE *my, int *params);
+extern int pxt_copy_struct(INSTANCE *my, intptr_t *params);
+extern int pxt_internal_memcopy(INSTANCE *my, intptr_t *params);
+extern int pxt_internal_copy_string_array(INSTANCE *my, intptr_t *params);
 
 #include "sysprocs.h"
 #include "sysprocs_p.h"

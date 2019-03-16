@@ -120,7 +120,7 @@ static int kernel_version_type(void) {
  *  and may or may not be an approximation.
  */
 
-int modmem_memory_free(INSTANCE *my, int *params) {
+int modmem_memory_free(INSTANCE *my, intptr_t *params) {
 #ifdef WIN32
     MEMORYSTATUS mem;
     GlobalMemoryStatus(&mem);
@@ -154,7 +154,7 @@ int modmem_memory_free(INSTANCE *my, int *params) {
  *  Return total number of bytes of physical memory
  */
 
-int modmem_memory_total(INSTANCE *my, int *params) {
+int modmem_memory_total(INSTANCE *my, intptr_t *params) {
 #ifdef WIN32
     MEMORYSTATUS mem;
     GlobalMemoryStatus(&mem);
@@ -200,36 +200,37 @@ int modmem_memory_total(INSTANCE *my, int *params) {
 #endif
 }
 
-int modmem_memcmp(INSTANCE *my, int *params) {
-    return (memcmp((void *)params[0], (void *)params[1], params[2]));
+int modmem_memcmp(INSTANCE *my, intptr_t *params) {
+    return (memcmp((void *)params[0], (void *)params[1], (size_t)params[2]));
 }
 
-int modmem_memmove(INSTANCE *my, int *params) {
-    memmove((void *)params[0], (void *)params[1], params[2]);
+int modmem_memmove(INSTANCE *my, intptr_t *params) {
+    memmove((void *)params[0], (void *)params[1], (size_t)params[2]);
     return 1;
 }
 
-int modmem_memcopy(INSTANCE *my, int *params) {
-    memcpy((void *)params[0], (void *)params[1], params[2]);
+int modmem_memcopy(INSTANCE *my, intptr_t *params) {
+    memcpy((void *)params[0], (void *)params[1], (size_t)params[2]);
     return 1;
 }
 
-int modmem_memset(INSTANCE *my, int *params) {
-    memset((void *)params[0], params[1], params[2]);
+int modmem_memset(INSTANCE *my, intptr_t *params) {
+    memset((void *)params[0], params[1], (size_t)params[2]);
     return 1;
 }
 
-int modmem_memsetw(INSTANCE *my, int *params) {
+int modmem_memsetw(INSTANCE *my, intptr_t *params) {
     uint16_t *ptr    = (uint16_t *)params[0];
     const uint16_t b = params[1];
-    int n;
+    intptr_t n;
 
-    for (n = params[2]; n; n--)
+    for (n = params[2]; n; n--) {
         *ptr++ = b;
+    }
     return 1;
 }
 
-int modmem_memseti(INSTANCE *my, int *params) {
+int modmem_memseti(INSTANCE *my, intptr_t *params) {
     uint32_t *ptr    = (uint32_t *)params[0];
     const uint32_t b = params[1];
     int n;
@@ -239,19 +240,19 @@ int modmem_memseti(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modmem_calloc(INSTANCE *my, int *params) {
+int modmem_calloc(INSTANCE *my, intptr_t *params) {
     return ((int)calloc(params[0], params[1]));
 }
 
-int modmem_alloc(INSTANCE *my, int *params) {
+int modmem_alloc(INSTANCE *my, intptr_t *params) {
     return ((int)malloc(params[0]));
 }
 
-int modmem_realloc(INSTANCE *my, int *params) {
+int modmem_realloc(INSTANCE *my, intptr_t *params) {
     return ((int)realloc((void *)params[0], params[1]));
 }
 
-int modmem_free(INSTANCE *my, int *params) {
+int modmem_free(INSTANCE *my, intptr_t *params) {
     free((void *)params[0]);
     return 1;
 }

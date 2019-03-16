@@ -37,6 +37,8 @@
 #define STACK_SIZE_MASK 0x7FFF
 #define STACK_SIZE 2048
 
+#include <stdint.h>
+
 /* Instancias. Una instancia se crea a partir de un proceso, pero en
  * realidad es independiente del proceso original */
 
@@ -88,8 +90,8 @@ typedef struct _instance {
     /* The first integer at the stack is the stack size,
        with optional NO_RETURN_VALUE mask. The stack contents follows */
 
-    int *stack;
-    int *stack_ptr;
+    intptr_t *stack;
+    intptr_t *stack_ptr;
 
     /* For debugging */
 
