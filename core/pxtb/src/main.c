@@ -35,10 +35,10 @@
 
 #ifdef _WIN32
 /* NEEDED FOR LOCALE DETECTION */
-#include <Windows.h>
+#include <windows.h>
 #include <windef.h>
 #include <winnls.h>
-#include "Shlwapi.h"
+#include <shlwapi.h>
 #endif
 
 #include "pxtb.h"
