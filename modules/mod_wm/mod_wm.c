@@ -84,8 +84,9 @@ int bgd_move_window(INSTANCE *my, int *params) {
 /* --------------------------------------------------------------------------- */
 
 int bgd_get_window_pos(INSTANCE *my, int *params) {
-    if (full_screen)
+    if (full_screen) {
         return -1;
+    }
 
     int x, y;
 

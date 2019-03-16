@@ -5,6 +5,7 @@ if (${CMAKE_C_COMPILER_ID} MATCHES "GNU" OR
     ${CMAKE_C_COMPILER_ID} MATCHES "Clang" OR
     ${CMAKE_C_COMPILER_ID} MATCHES "AppleClang")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11 -Wall -Wshadow -fno-strict-aliasing")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--dynamicbase -Wl,--nxcompat -Wl,--high-entropy-va")
         set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG} -g")
         set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -O2")
 elseif (MSVC)

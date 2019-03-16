@@ -202,8 +202,8 @@ int instance_go(INSTANCE *r) {
     register int *ptr = r->codeptr;
 
     int n, return_value = LOCDWORD(r, PROCESS_ID);
-    SYSPROC *p          = NULL;
-    INSTANCE *i         = NULL;
+    SYSPROC *p = NULL;
+    INSTANCE *i = NULL;
     static char buffer[16];
     char *str = NULL;
     int status;
@@ -217,18 +217,21 @@ int instance_go(INSTANCE *r) {
 
     if (debug_DCB > 0) {
         PXTRTM_LOG("\n>>> Instance:%s ProcID:%d StackUsed:%u/%d\n", r->proc->name,
-               LOCDWORD(r, PROCESS_ID), (r->stack_ptr - r->stack) / sizeof(r->stack[0]),
-               (r->stack[0] & ~STACK_RETURN_VALUE));
+                   LOCDWORD(r, PROCESS_ID), (r->stack_ptr - r->stack) / sizeof(r->stack[0]),
+                   (r->stack[0] & ~STACK_RETURN_VALUE));
     }
 
     /* Hook */
-    if (instance_pre_execute_hook_count)
-        for (n = 0; n < instance_pre_execute_hook_count; n++)
+    if (instance_pre_execute_hook_count) {
+        for (n = 0; n < instance_pre_execute_hook_count; n++) {
             instance_pre_execute_hook_list[n](r);
+        }
+    }
     /* Hook */
 
-    if ((r->proc->breakpoint || r->breakpoint) && trace_instance != r)
+    if ((r->proc->breakpoint || r->breakpoint) && trace_instance != r) {
         debug_next = 1;
+    }
 
     trace_sentence = -1;
 

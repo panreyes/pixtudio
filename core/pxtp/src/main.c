@@ -115,6 +115,14 @@ int main(int argc, char *argv[]) {
     /* add binary path */
     file_addp(appexepath);
 
+    /* Allocate 3GB of RAM so that -hopefully- 64bit porting errors arise */
+    printf("WARNING!!! Allocating a lot of RAM!!\n");
+    size_t limit = (size_t)(4 * 1024 * 1024) * 1024;
+    if(!malloc(limit)) {
+        printf("Could not allocated memory...\n");
+        exit(EXIT_FAILURE);
+    }
+
     if (!standalone) {
         /* Hand-made interpreter: search for DCB at EOF */
         fp = file_open(argv[0], "rb0");
