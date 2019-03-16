@@ -127,29 +127,32 @@ int copytypes(void *dst, void *src, DCB_TYPEDEF *var, int nvars, int reps) {
  */
 
 static int copytype(void *dst, void *src, DCB_TYPEDEF *var) {
-    int count  = 1;
+    size_t count  = 1;
     int result = 0;
     int n      = 0;
 
     for (;;) {
         switch (var->BaseType[n]) {
+            case TYPE_POINTER:
+                memcpy(dst, src, 8 * count);
+                return (int)(8 * count);
+
             case TYPE_FLOAT:
             case TYPE_INT:
             case TYPE_DWORD:
-            case TYPE_POINTER:
                 memcpy(dst, src, 4 * count);
-                return 4 * count;
+                return (int)(4 * count);
 
             case TYPE_WORD:
             case TYPE_SHORT:
                 memcpy(dst, src, 2 * count);
-                return 2 * count;
+                return (int)(2 * count);
 
             case TYPE_BYTE:
             case TYPE_SBYTE:
             case TYPE_CHAR:
                 memcpy(dst, src, count);
-                return count;
+                return (int)(count);
 
             case TYPE_STRING:
                 while (count--) {
