@@ -538,30 +538,36 @@ int compile_sizeof(VARSPACE *here, int *content_size, char *content_type, int *p
         CODEBLOCK_POS p = codeblock_pos(code);
 
         /* Cadenas y punteros se indexan en otro nivel */
-        if (typedef_is_pointer(type) || typedef_is_string(type))
+        if (typedef_is_pointer(type) || typedef_is_string(type)) {
             break;
+        }
 
         /* De estructuras o arrays */
-        if (typedef_is_struct(type) && typedef_count(type) == 1)
+        if (typedef_is_struct(type) && typedef_count(type) == 1) {
             compile_error(MSG_NOT_AN_ARRAY);
+        }
 
-        if (!typedef_is_struct(type) && !typedef_is_array(type))
+        if (!typedef_is_struct(type) && !typedef_is_array(type)) {
             compile_error(MSG_NOT_AN_ARRAY);
+        }
 
         ind = compile_expresion(0, 0, 0, TYPE_DWORD);
-        if (!ind.constant || (ind.value < 0 || ind.value >= typedef_count(type)))
+        if (!ind.constant || (ind.value < 0 || ind.value >= typedef_count(type))) {
             compile_error(MSG_BOUND);
+        }
 
         codeblock_setpos(code, p);
 
         token_next();
-        if (token.type != IDENTIFIER || token.code != identifier_rightb)
+        if (token.type != IDENTIFIER || token.code != identifier_rightb) {
             compile_error(MSG_EXPECTED, "]"); /* "]" */
+        }
 
-        if (typedef_is_array(type))
+        if (typedef_is_array(type)) {
             type = typedef_reduce(type);
-        else
+        } else {
             break;
+        }
 
         token_next();
     }
@@ -1372,11 +1378,13 @@ expresion_result compile_value() {
         if (token.code == identifier_leftb) /* "[" */ /* POINTER */
         {
             res = compile_subexpresion();
-            if (!typedef_is_pointer(res.type))
+            if (!typedef_is_pointer(res.type)) {
                 compile_error(MSG_NOT_A_POINTER);
+            }
 
-            if (res.lvalue)
+            if (res.lvalue) {
                 codeblock_add(code, mntype(res.type, 0) | MN_PTR, 0);
+            }
 
             res.type = typedef_reduce(res.type);
             token_next();
@@ -1575,15 +1583,16 @@ expresion_result compile_factor() {
     res.asignation = 0;
 
     /* "+2" (Positivo) */
-    if (token.type == IDENTIFIER && token.code == identifier_plus)
+    if (token.type == IDENTIFIER && token.code == identifier_plus) {
         token_next(); /* "+" */
+    }
 
     if (token.type == IDENTIFIER) {
-        if (token.code == identifier_minus) /* "-" */ /* "-2" (Negativo) */
-        {
+        if (token.code == identifier_minus) {/* "-" */ /* "-2" (Negativo) */
             part = compile_factor();
-            if (part.lvalue)
+            if (part.lvalue) {
                 codeblock_add(code, mntype(part.type, 0) | MN_PTR, 0);
+            }
             codeblock_add(code, (mntype(part.type, 0) == MN_FLOAT ? MN_FLOAT : 0) | MN_NEG, 0);
             res.type = part.type;
             if (typedef_is_numeric(part.type)) {
@@ -2929,8 +2938,9 @@ expresion_result compile_expresion(int need_constant, int need_lvalue, int disca
 
     CODEBLOCK_POS pos;
 
-    if (code)
+    if (code) {
         pos = codeblock_pos(code);
+    }
 
     res = compile_subexpresion();
 

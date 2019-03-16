@@ -139,6 +139,19 @@ int main(int argc, char *argv[]) {
 #endif
     langinfo[2] = 0;
 
+    /* Allocate 3GB of RAM so that -hopefully- 64bit porting errors arise */
+    printf("WARNING!!! Allocating a lot of RAM!!\n");
+    size_t allocated = 0;
+    size_t limit = 3 * 1024 * 1024 * 1024;
+    size_t chunk_size = 100 * 1024 * 1024;
+    printf("Limit: %zu\n", limit);
+    while(allocated < limit) {
+        if(!malloc(chunk_size)) {
+            printf("Could not allocate 100MB chunk (%zuGB allocated), quitting\n", allocated);
+            exit(EXIT_FAILURE);
+        }
+        allocated += chunk_size;
+    }
     srand(time(NULL));
 
     /* build error messages list */

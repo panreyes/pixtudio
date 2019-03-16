@@ -62,13 +62,15 @@ segment *segment_new() {
     /* Creates the segment */
 
     segment *s = (segment *)calloc(1, sizeof(segment));
-    if (!s)
+    if (!s) {
         compile_error("segment_new: out of memory\n");
+    }
 
-    if (free_count)
+    if (free_count) {
         s->id = free_id[--free_count];
-    else
+    } else {
         s->id = max_id++;
+    }
 
     s->current  = 0;
     s->reserved = 128;
@@ -83,21 +85,24 @@ segment *segment_new() {
 
 segment *segment_duplicate(segment *b) {
     segment *s = (segment *)calloc(1, sizeof(segment));
-    if (!s)
+    if (!s) {
         compile_error("segment_new: out of memory\n");
+    }
 
-    if (free_count)
+    if (free_count) {
         s->id = free_id[--free_count];
-    else
+    } else {
         s->id = max_id++;
+    }
 
     s->current  = b->current;
     s->reserved = b->reserved;
 
     s->bytes = (int *)calloc(s->reserved, sizeof(char)); /* Tamaño en bytes */
-    if (!s->bytes)
+    if (!s->bytes) {
         compile_error("segment_new: out of memory\n");
-    memcpy(s->bytes, b->bytes, s->current);
+    }
+    memcpy(s->bytes, b->bytes, (size_t)s->current);
 
     segment_register(s);
     return s;
@@ -105,8 +110,9 @@ segment *segment_duplicate(segment *b) {
 
 void segment_destroy(segment *s) {
     segments[s->id] = 0;
-    if (free_count < 1024)
+    if (free_count < 1024) {
         free_id[free_count++] = s->id;
+    }
 
     free(s->bytes);
     free(s);
@@ -114,18 +120,21 @@ void segment_destroy(segment *s) {
 
 void segment_alloc(segment *n, int count) {
     n->reserved += count;
-    n->bytes = realloc(n->bytes, n->reserved);
-    if (!n->bytes)
+    n->bytes = realloc(n->bytes, (size_t)n->reserved);
+    if (!n->bytes) {
         compile_error("segment_alloc: out of memory\n");
+    }
 }
 
-int segment_add_as(segment *n, int32_t value, BASETYPE t) {
+int32_t segment_add_as(segment *n, int32_t value, BASETYPE t) {
     switch (t) {
+        case TYPE_POINTER:
+            return segment_add_qword(n, (int64_t)value);
+
         case TYPE_DWORD:
         case TYPE_INT:
         case TYPE_FLOAT:
         case TYPE_STRING:
-        case TYPE_POINTER:
             return segment_add_dword(n, (int32_t)value);
 
         case TYPE_WORD:
@@ -143,34 +152,47 @@ int segment_add_as(segment *n, int32_t value, BASETYPE t) {
     }
 }
 
-int segment_add_from(segment *n, segment *s) {
-    if (n->current + s->current >= n->reserved)
+int32_t segment_add_from(segment *n, segment *s) {
+    if (n->current + s->current >= n->reserved) {
         segment_alloc(n, s->current);
+    }
     memcpy((uint8_t *)n->bytes + n->current, s->bytes, s->current);
     return n->current += s->current;
 }
 
-int segment_add_byte(segment *n, int8_t value) {
-    if (n->current + 1 >= n->reserved)
+int32_t segment_add_byte(segment *n, int8_t value) {
+    if (n->current + 1 >= n->reserved) {
         segment_alloc(n, 64);
+    }
     *((int8_t *)n->bytes + n->current) = value;
     return n->current++;
 }
 
-int segment_add_word(segment *n, int16_t value) {
-    if (n->current + 2 >= n->reserved)
+int32_t segment_add_word(segment *n, int16_t value) {
+    if (n->current + 2 >= n->reserved) {
         segment_alloc(n, 64);
+    }
     *(int16_t *)((uint8_t *)n->bytes + n->current) = value;
     n->current += 2;
     return n->current - 2;
 }
 
-int segment_add_dword(segment *n, int32_t value) {
-    if (n->current + 4 >= n->reserved)
+int32_t segment_add_dword(segment *n, int32_t value) {
+    if (n->current + 4 >= n->reserved) {
         segment_alloc(n, 64);
+    }
     *(int32_t *)((uint8_t *)n->bytes + n->current) = value;
     n->current += 4;
     return n->current - 4;
+}
+
+int32_t segment_add_qword(segment *n, int64_t value) {
+    if (n->current + 8 >= n->reserved) {
+        segment_alloc(n, 64);
+    }
+    *(int64_t *)((uint8_t *)n->bytes + n->current) = value;
+    n->current += 8;
+    return n->current - 8;
 }
 
 segment *segment_get(int id) {
@@ -186,8 +208,9 @@ void segment_dump(segment *s) {
 }
 
 void segment_copy(segment *s, int base_offset, int total_length) {
-    if (s->reserved < s->current + total_length)
+    if (s->reserved < s->current + total_length) {
         segment_alloc(s, total_length);
+    }
     memcpy((uint8_t *)s->bytes + s->current, (uint8_t *)s->bytes + base_offset, total_length);
     s->current += total_length;
 }

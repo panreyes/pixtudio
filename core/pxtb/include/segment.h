@@ -48,11 +48,12 @@ extern segment *segment_duplicate(segment *s);
 extern segment *segment_get(int id);
 
 /* Devuelven el offset del nuevo dato */
-extern int segment_add_as(segment *s, int32_t value, BASETYPE t);
-extern int segment_add_dword(segment *s, int32_t value);
-extern int segment_add_word(segment *s, int16_t value);
-extern int segment_add_byte(segment *s, int8_t value);
-extern int segment_add_from(segment *s, segment *from);
+extern int32_t segment_add_as(segment *s, int32_t value, BASETYPE t);
+extern int32_t segment_add_qword(segment *s, int64_t value);
+extern int32_t segment_add_dword(segment *s, int32_t value);
+extern int32_t segment_add_word(segment *s, int16_t value);
+extern int32_t segment_add_byte(segment *s, int8_t value);
+extern int32_t segment_add_from(segment *s, segment *from);
 
 extern void segment_dump(segment *);
 extern void segment_destroy(segment *);

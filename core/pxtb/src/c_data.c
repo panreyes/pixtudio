@@ -209,8 +209,9 @@ int compile_struct_data(VARSPACE *n, segment *data, int size, int sub) {
 
             if (typedef_is_pointer(next_type)) {
                 res = compile_expresion(1, 0, 0, TYPE_DWORD);
-                if (!res.constant)
+                if (!res.constant) {
                     compile_error(MSG_INCORRECT_PTR_INIT);
+                }
                 segment_add_as(data, 0, TYPE_POINTER);
             } else if (typedef_is_array(next_type)) {  /* Next variable is an array */
                 int elems = typedef_tcount(next_type);
