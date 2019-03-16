@@ -141,16 +141,10 @@ int main(int argc, char *argv[]) {
 
     /* Allocate 3GB of RAM so that -hopefully- 64bit porting errors arise */
     printf("WARNING!!! Allocating a lot of RAM!!\n");
-    size_t allocated = 0;
-    size_t limit = 3 * 1024 * 1024 * 1024;
-    size_t chunk_size = 100 * 1024 * 1024;
-    printf("Limit: %zu\n", limit);
-    while(allocated < limit) {
-        if(!malloc(chunk_size)) {
-            printf("Could not allocate 100MB chunk (%zuGB allocated), quitting\n", allocated);
-            exit(EXIT_FAILURE);
-        }
-        allocated += chunk_size;
+    size_t limit = (size_t)(3 * 1024 * 1024) * 1024;
+    if(!malloc(limit)) {
+        printf("Could not allocated memory...\n");
+        exit(EXIT_FAILURE);
     }
     srand(time(NULL));
 
