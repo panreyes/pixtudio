@@ -75,7 +75,7 @@ static void _modproc_kill_all() {
 
 /* ----------------------------------------------------------------- */
 
-int modproc_exit_0(INSTANCE *my, int *params) {
+int modproc_exit_0(INSTANCE *my, intptr_t *params) {
     exit_value = 0;
     must_exit  = 1;
 
@@ -84,7 +84,7 @@ int modproc_exit_0(INSTANCE *my, int *params) {
 
 /* ----------------------------------------------------------------- */
 
-int modproc_exit_1(INSTANCE *my, int *params) {
+int modproc_exit_1(INSTANCE *my, intptr_t *params) {
     PXTRTM_LOG("%s\n", string_get(params[0]));
     fflush(stdout);
     string_discard(params[0]);
@@ -97,7 +97,7 @@ int modproc_exit_1(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modproc_exit(INSTANCE *my, int *params) {
+int modproc_exit(INSTANCE *my, intptr_t *params) {
     _modproc_kill_all();
 
     PXTRTM_LOG("%s\n", string_get(params[0]));
@@ -112,7 +112,7 @@ int modproc_exit(INSTANCE *my, int *params) {
 
 /* ----------------------------------------------------------------- */
 
-int modproc_running(INSTANCE *my, int *params) {
+int modproc_running(INSTANCE *my, intptr_t *params) {
     INSTANCE *i, *ctx;
 
     if (params[0] == 0)
@@ -136,7 +136,7 @@ int modproc_running(INSTANCE *my, int *params) {
 
 /* ----------------------------------------------------------------- */
 
-int modproc_signal(INSTANCE *my, int *params) {
+int modproc_signal(INSTANCE *my, intptr_t *params) {
     INSTANCE *i, *ctx;
     int fake_params[2];
 
@@ -253,7 +253,7 @@ int modproc_signal(INSTANCE *my, int *params) {
 
 /* ----------------------------------------------------------------- */
 
-int modproc_signal_action(INSTANCE *my, int *params) {
+int modproc_signal_action(INSTANCE *my, intptr_t *params) {
     int action = params[1];
 
     if (my) {
@@ -360,7 +360,7 @@ int modproc_signal_action(INSTANCE *my, int *params) {
 
 /* ----------------------------------------------------------------- */
 
-int modproc_signal_action3(INSTANCE *my, int *params) {
+int modproc_signal_action3(INSTANCE *my, intptr_t *params) {
     INSTANCE *i, *ctx;
 
     if (params[0] == ALL_PROCESS) {
@@ -387,7 +387,7 @@ int modproc_signal_action3(INSTANCE *my, int *params) {
 
 /* ----------------------------------------------------------------- */
 
-int modproc_let_me_alone(INSTANCE *my, int *params) {
+int modproc_let_me_alone(INSTANCE *my, intptr_t *params) {
     INSTANCE *i = first_instance;
 
     while (i) {
@@ -403,7 +403,7 @@ int modproc_let_me_alone(INSTANCE *my, int *params) {
 
 /* ----------------------------------------------------------------- */
 
-int modproc_get_id(INSTANCE *my, int *params) {
+int modproc_get_id(INSTANCE *my, intptr_t *params) {
     INSTANCE *ptr = first_instance, **ctx;
 
     if (!params[0]) {
@@ -452,7 +452,7 @@ int modproc_get_id(INSTANCE *my, int *params) {
 
 /* ----------------------------------------------------------------- */
 
-int modproc_get_status(INSTANCE *my, int *params) {
+int modproc_get_status(INSTANCE *my, intptr_t *params) {
     INSTANCE *i;
     if (!params[0] || !(i = instance_get(params[0])))
         return 0;

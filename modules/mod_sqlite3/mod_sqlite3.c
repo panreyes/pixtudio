@@ -47,11 +47,11 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName) { /*
     return 0;
 }
 
-int modsqlite3_enableCache(INSTANCE *my, int *params) {
+int modsqlite3_enableCache(INSTANCE *my, intptr_t *params) {
     return sqlite3_enable_shared_cache(params[0]);
 }
 
-int modsqlite3_openDb(INSTANCE *my, int *params) {
+int modsqlite3_openDb(INSTANCE *my, intptr_t *params) {
     sqlite3 *db;
     const char *text = (const char *)string_get(params[0]);
 
@@ -67,13 +67,13 @@ int modsqlite3_openDb(INSTANCE *my, int *params) {
     return rc;
 }
 
-int modsqlite3_closeDb(INSTANCE *my, int *params) {
+int modsqlite3_closeDb(INSTANCE *my, intptr_t *params) {
     if (params[0])
         sqlite3_close((sqlite3 *)params[0]);
     return 1;
 }
 
-int modsqlite3_execDb(INSTANCE *my, int *params) {
+int modsqlite3_execDb(INSTANCE *my, intptr_t *params) {
     char *zErrMsg    = 0;
     const char *text = (const char *)string_get(params[1]);
 
@@ -87,7 +87,7 @@ int modsqlite3_execDb(INSTANCE *my, int *params) {
     return rc;
 }
 
-int modsqlite3_openTable(INSTANCE *my, int *params) {
+int modsqlite3_openTable(INSTANCE *my, intptr_t *params) {
     char *zErrMsg        = 0;
     const char *text     = (const char *)string_get(params[1]);
     SqlResult *resultado = (SqlResult *)params[2];
@@ -104,14 +104,14 @@ int modsqlite3_openTable(INSTANCE *my, int *params) {
     return rc;
 }
 
-int modsqlite3_closeTable(INSTANCE *my, int *params) {
+int modsqlite3_closeTable(INSTANCE *my, intptr_t *params) {
     SqlResult *resultado = (SqlResult *)params[0];
 
     sqlite3_free_table(resultado->pazResult);
     return 1;
 }
 
-int modsqlite3_getFieldName(INSTANCE *my, int *params) {
+int modsqlite3_getFieldName(INSTANCE *my, intptr_t *params) {
     SqlResult *resultado = (SqlResult *)params[0];
     int res              = 0;
 
@@ -121,7 +121,7 @@ int modsqlite3_getFieldName(INSTANCE *my, int *params) {
     return res;
 }
 
-int modsqlite3_getFieldValue(INSTANCE *my, int *params) {
+int modsqlite3_getFieldValue(INSTANCE *my, intptr_t *params) {
     SqlResult *resultado = (SqlResult *)params[0];
     int res              = 0;
     int i                = (resultado->cols * resultado->CurrentRow) + params[1];
@@ -134,15 +134,15 @@ int modsqlite3_getFieldValue(INSTANCE *my, int *params) {
     return res;
 }
 
-int modsqlite3_lastId(INSTANCE *my, int *params) {
+int modsqlite3_lastId(INSTANCE *my, intptr_t *params) {
     return sqlite3_last_insert_rowid((sqlite3 *)params[0]);
 }
 
-int modsqlite3_totalChanges(INSTANCE *my, int *params) {
+int modsqlite3_totalChanges(INSTANCE *my, intptr_t *params) {
     return sqlite3_total_changes((sqlite3 *)params[0]);
 }
 
-int modsqlite3_errMsg(INSTANCE *my, int *params) {
+int modsqlite3_errMsg(INSTANCE *my, intptr_t *params) {
     int res         = 0;
     const char *cad = sqlite3_errmsg((sqlite3 *)params[0]);
 

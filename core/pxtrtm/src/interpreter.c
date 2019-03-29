@@ -945,7 +945,8 @@ int instance_go(INSTANCE *r) {
                                     r->proc->name, LOCDWORD(r, PROCESS_ID));
                     exit(0);
                 }
-                r->stack_ptr[-2] /= r->stack_ptr[-1];
+                //r->stack_ptr[-2] /= r->stack_ptr[-1];
+				r->stack_ptr[-2] = (int32_t)r->stack_ptr[-2] / (int32_t)r->stack_ptr[-1];
                 r->stack_ptr--;
                 ptr++;
                 break;
@@ -1135,19 +1136,19 @@ int instance_go(INSTANCE *r) {
             /* Comparisons */
 
             case MN_EQ:
-                r->stack_ptr[-2] = (r->stack_ptr[-2] == r->stack_ptr[-1]);
+                r->stack_ptr[-2] = ((int32_t)r->stack_ptr[-2] == (int32_t)r->stack_ptr[-1]);
                 r->stack_ptr--;
                 ptr++;
                 break;
 
             case MN_NE:
-                r->stack_ptr[-2] = (r->stack_ptr[-2] != r->stack_ptr[-1]);
+                r->stack_ptr[-2] = ((int32_t)r->stack_ptr[-2] != (int32_t)r->stack_ptr[-1]);
                 r->stack_ptr--;
                 ptr++;
                 break;
 
             case MN_GTE:
-                r->stack_ptr[-2] = (r->stack_ptr[-2] >= r->stack_ptr[-1]);
+                r->stack_ptr[-2] = ((int32_t)r->stack_ptr[-2] >= (int32_t)r->stack_ptr[-1]);
                 r->stack_ptr--;
                 ptr++;
                 break;
@@ -1159,7 +1160,7 @@ int instance_go(INSTANCE *r) {
                 break;
 
             case MN_LTE:
-                r->stack_ptr[-2] = (r->stack_ptr[-2] <= r->stack_ptr[-1]);
+                r->stack_ptr[-2] = ((int32_t)r->stack_ptr[-2] <= (int32_t)r->stack_ptr[-1]);
                 r->stack_ptr--;
                 ptr++;
                 break;
@@ -1171,7 +1172,7 @@ int instance_go(INSTANCE *r) {
                 break;
 
             case MN_LT:
-                r->stack_ptr[-2] = (r->stack_ptr[-2] < r->stack_ptr[-1]);
+                r->stack_ptr[-2] = ((int32_t)r->stack_ptr[-2] < (int32_t)r->stack_ptr[-1]);
                 r->stack_ptr--;
                 ptr++;
                 break;
@@ -1183,7 +1184,7 @@ int instance_go(INSTANCE *r) {
                 break;
 
             case MN_GT:
-                r->stack_ptr[-2] = (r->stack_ptr[-2] > r->stack_ptr[-1]);
+                r->stack_ptr[-2] = ((int32_t)r->stack_ptr[-2] > (int32_t)r->stack_ptr[-1]);
                 r->stack_ptr--;
                 ptr++;
                 break;

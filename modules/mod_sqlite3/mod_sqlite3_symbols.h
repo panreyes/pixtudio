@@ -23,17 +23,17 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modsqlite3_enableCache(INSTANCE * my, int * params);
-extern int modsqlite3_openDb (INSTANCE * my, int * params);
-extern int modsqlite3_closeDb (INSTANCE * my, int * params);
-extern int modsqlite3_execDb (INSTANCE * my, int * params);
-extern int modsqlite3_openTable (INSTANCE * my, int * params);
-extern int modsqlite3_closeTable (INSTANCE * my, int * params);
-extern int modsqlite3_getFieldName (INSTANCE * my, int * params);
-extern int modsqlite3_getFieldValue (INSTANCE * my, int * params);
-extern int modsqlite3_lastId (INSTANCE * my, int * params);
-extern int modsqlite3_totalChanges(INSTANCE * my, int * params);
-extern int modsqlite3_errMsg (INSTANCE * my, int * params);
+extern int modsqlite3_enableCache(INSTANCE * my, intptr_t * params);
+extern int modsqlite3_openDb (INSTANCE * my, intptr_t * params);
+extern int modsqlite3_closeDb (INSTANCE * my, intptr_t * params);
+extern int modsqlite3_execDb (INSTANCE * my, intptr_t * params);
+extern int modsqlite3_openTable (INSTANCE * my, intptr_t * params);
+extern int modsqlite3_closeTable (INSTANCE * my, intptr_t * params);
+extern int modsqlite3_getFieldName (INSTANCE * my, intptr_t * params);
+extern int modsqlite3_getFieldValue (INSTANCE * my, intptr_t * params);
+extern int modsqlite3_lastId (INSTANCE * my, intptr_t * params);
+extern int modsqlite3_totalChanges(INSTANCE * my, intptr_t * params);
+extern int modsqlite3_errMsg (INSTANCE * my, intptr_t * params);
 #endif
 
 /* ----------------------------------------------------------------- */

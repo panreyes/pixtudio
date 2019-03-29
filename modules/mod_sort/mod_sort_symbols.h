@@ -33,11 +33,11 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modsort_quicksort( INSTANCE *my, int *params );
-extern int modsort_ksort( INSTANCE * my, int * params );
-extern int modsort_ksort_n( INSTANCE * my, int * params );
-extern int modsort_sort_n( INSTANCE * my, int * params );
-extern int modsort_sort( INSTANCE * my, int * params );
+extern int modsort_quicksort( INSTANCE *my, intptr_t *params );
+extern int modsort_ksort( INSTANCE * my, intptr_t * params );
+extern int modsort_ksort_n( INSTANCE * my, intptr_t * params );
+extern int modsort_sort_n( INSTANCE * my, intptr_t * params );
+extern int modsort_sort( INSTANCE * my, intptr_t * params );
 #endif
 
 DLSYSFUNCS  __pxtexport( mod_sort, exported_functions )[] = {

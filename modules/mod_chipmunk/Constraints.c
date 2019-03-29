@@ -28,7 +28,7 @@ extern cpSpace *modChipmunk_cpEspacio;
     z->data = malloc(sizeof(DatosConstraint));                                                     \
     ((DatosConstraint *)z->data)->fatherA = params[0];                                             \
     ((DatosConstraint *)z->data)->fatherB = params[1];
-int modaddDampedSpring(INSTANCE *my, int *params) {
+int modaddDampedSpring(INSTANCE *my, intptr_t *params) {
     cpBody *b1, *b2;
     cpConstraint *z;
 
@@ -54,7 +54,7 @@ int modaddDampedSpring(INSTANCE *my, int *params) {
     agregaData return (int)z;
 }
 
-int modaddPinJoint(INSTANCE *my, int *params) {
+int modaddPinJoint(INSTANCE *my, intptr_t *params) {
     cpBody *b1, *b2;
     cpConstraint *z;
 
@@ -79,7 +79,7 @@ int modaddPinJoint(INSTANCE *my, int *params) {
     agregaData return (int)z;
 }
 
-int modaddPivotJoint2(INSTANCE *my, int *params) {
+int modaddPivotJoint2(INSTANCE *my, intptr_t *params) {
     cpBody *b1, *b2;
     cpConstraint *z;
 
@@ -104,7 +104,7 @@ int modaddPivotJoint2(INSTANCE *my, int *params) {
     agregaData return (int)z;
 }
 
-int modaddSlideJoint(INSTANCE *my, int *params) {
+int modaddSlideJoint(INSTANCE *my, intptr_t *params) {
     cpBody *b1, *b2;
     cpConstraint *z;
 
@@ -130,7 +130,7 @@ int modaddSlideJoint(INSTANCE *my, int *params) {
     agregaData return (int)z;
 }
 
-int modaddGrooveJoint(INSTANCE *my, int *params) {
+int modaddGrooveJoint(INSTANCE *my, intptr_t *params) {
     cpBody *b1, *b2;
     cpConstraint *z;
 
@@ -156,7 +156,7 @@ int modaddGrooveJoint(INSTANCE *my, int *params) {
     agregaData return (int)z;
 }
 
-int modaddSimpleMotor(INSTANCE *my, int *params) {
+int modaddSimpleMotor(INSTANCE *my, intptr_t *params) {
     cpBody *b1, *b2;
     cpConstraint *z;
 
@@ -180,7 +180,7 @@ int modaddSimpleMotor(INSTANCE *my, int *params) {
     agregaData return (int)z;
 }
 
-int modaddRatchetJoint(INSTANCE *my, int *params) {
+int modaddRatchetJoint(INSTANCE *my, intptr_t *params) {
     cpBody *b1, *b2;
     cpConstraint *z;
 
@@ -204,7 +204,7 @@ int modaddRatchetJoint(INSTANCE *my, int *params) {
     //    addConstr(b1,b2,z);
     agregaData return (int)z;
 }
-int modaddRotaryLimitJoint(INSTANCE *my, int *params) {
+int modaddRotaryLimitJoint(INSTANCE *my, intptr_t *params) {
     cpBody *b1, *b2;
     cpConstraint *z;
 
@@ -229,7 +229,7 @@ int modaddRotaryLimitJoint(INSTANCE *my, int *params) {
     agregaData return (int)z;
 }
 
-int modaddGearJoint(INSTANCE *my, int *params) {
+int modaddGearJoint(INSTANCE *my, intptr_t *params) {
     cpBody *b1, *b2;
     cpConstraint *z;
     INSTANCE *b;
@@ -253,7 +253,7 @@ int modaddGearJoint(INSTANCE *my, int *params) {
     agregaData return (int)z;
 }
 
-int modaddDampedRotarySpring(INSTANCE *my, int *params) {
+int modaddDampedRotarySpring(INSTANCE *my, intptr_t *params) {
     cpBody *b1, *b2;
     cpConstraint *z;
 
@@ -278,7 +278,7 @@ int modaddDampedRotarySpring(INSTANCE *my, int *params) {
     agregaData return (int)z;
 }
 
-int modaddPivotJoint(INSTANCE *my, int *params) {
+int modaddPivotJoint(INSTANCE *my, intptr_t *params) {
     cpBody *b1, *b2;
     cpConstraint *z;
 
@@ -302,7 +302,7 @@ int modaddPivotJoint(INSTANCE *my, int *params) {
     agregaData return (int)z;
 }
 
-int modsetPinJointProperties(INSTANCE *my, int *params) {
+int modsetPinJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
         case CP_C_ANCHR1:
@@ -319,7 +319,7 @@ int modsetPinJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modsetSlideJointProperties(INSTANCE *my, int *params) {
+int modsetSlideJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
         case CP_C_ANCHR1:
@@ -339,7 +339,7 @@ int modsetSlideJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modsetPivotJointProperties(INSTANCE *my, int *params) {
+int modsetPivotJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
         case CP_C_ANCHR1:
@@ -353,7 +353,7 @@ int modsetPivotJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modsetGrooveJointProperties(INSTANCE *my, int *params) {
+int modsetGrooveJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
         case CP_C_GROOVEA:
@@ -370,7 +370,7 @@ int modsetGrooveJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modsetDampedSpringProperties(INSTANCE *my, int *params) {
+int modsetDampedSpringProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
         case CP_C_ANCHR1:
@@ -393,7 +393,7 @@ int modsetDampedSpringProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modsetDampedRotarySpringProperties(INSTANCE *my, int *params) {
+int modsetDampedRotarySpringProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
         case CP_C_RESTANGLE:
@@ -410,7 +410,7 @@ int modsetDampedRotarySpringProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modsetRotaryLimitJointProperties(INSTANCE *my, int *params) {
+int modsetRotaryLimitJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
         case CP_C_MIN:
@@ -424,7 +424,7 @@ int modsetRotaryLimitJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modsetRatchetJointProperties(INSTANCE *my, int *params) {
+int modsetRatchetJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
         case CP_C_ANGLE:
@@ -441,7 +441,7 @@ int modsetRatchetJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modsetGearJointProperties(INSTANCE *my, int *params) {
+int modsetGearJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
         case CP_C_RATIO:
@@ -455,7 +455,7 @@ int modsetGearJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modsetSimpleMotorProperties(INSTANCE *my, int *params) {
+int modsetSimpleMotorProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     switch (params[1]) {
         case CP_C_RATIO:
@@ -467,7 +467,7 @@ int modsetSimpleMotorProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modgetPinJointProperties(INSTANCE *my, int *params) {
+int modgetPinJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     cpVect ar;
     float *a, *b, res;
@@ -496,7 +496,7 @@ int modgetPinJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modgetSlideJointProperties(INSTANCE *my, int *params) {
+int modgetSlideJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     cpVect ar;
     float *a, *b, res;
@@ -528,7 +528,7 @@ int modgetSlideJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modgetPivotJointProperties(INSTANCE *my, int *params) {
+int modgetPivotJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     cpVect ar;
     float *a, *b, res;
@@ -552,7 +552,7 @@ int modgetPivotJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modgetGrooveJointProperties(INSTANCE *my, int *params) {
+int modgetGrooveJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     cpVect ar;
     float *a, *b, res;
@@ -583,7 +583,7 @@ int modgetGrooveJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modgetDampedSpringProperties(INSTANCE *my, int *params) {
+int modgetDampedSpringProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     cpVect ar;
     float *a, *b, res;
@@ -619,7 +619,7 @@ int modgetDampedSpringProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modgetDampedRotarySpringProperties(INSTANCE *my, int *params) {
+int modgetDampedRotarySpringProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     float res;
     switch (params[1]) {
@@ -641,7 +641,7 @@ int modgetDampedRotarySpringProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modgetRotaryLimitJointProperties(INSTANCE *my, int *params) {
+int modgetRotaryLimitJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     float res;
     switch (params[1]) {
@@ -660,7 +660,7 @@ int modgetRotaryLimitJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modgetRatchetJointProperties(INSTANCE *my, int *params) {
+int modgetRatchetJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     float res;
     switch (params[1]) {
@@ -684,7 +684,7 @@ int modgetRatchetJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modgetGearJointProperties(INSTANCE *my, int *params) {
+int modgetGearJointProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     float res;
     switch (params[1]) {
@@ -703,7 +703,7 @@ int modgetGearJointProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modgetSimpleMotorProperties(INSTANCE *my, int *params) {
+int modgetSimpleMotorProperties(INSTANCE *my, intptr_t *params) {
     cpConstraint *constr = (cpConstraint *)params[0];
     float res;
     switch (params[1]) {
@@ -717,12 +717,12 @@ int modgetSimpleMotorProperties(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modcpConstraintGetImpulse(INSTANCE *my, int *params) {
+int modcpConstraintGetImpulse(INSTANCE *my, intptr_t *params) {
     float a = cpConstraintGetImpulse((cpConstraint *)params[0]);
     return *((int *)&a);
 }
 
-int modDefcpConstraint(INSTANCE *my, int *params) {
+int modDefcpConstraint(INSTANCE *my, intptr_t *params) {
     cpConstraint *espacio = (cpConstraint *)params[0];
     int res               = params[1];
 
@@ -746,7 +746,7 @@ int modDefcpConstraint(INSTANCE *my, int *params) {
     return 0;
 }
 
-int modGetcpConstraint(INSTANCE *my, int *params) {
+int modGetcpConstraint(INSTANCE *my, intptr_t *params) {
     cpConstraint *espacio = (cpConstraint *)params[0];
     switch (params[1]) {
         case CP_C_MAXFORCE:
@@ -775,7 +775,7 @@ void modChipmunkJointPostSolve(cpConstraint *constraint, cpSpace *space) {
     instance_go(r);                                                      // Call Function
 }
 
-int modcpConstraintSetPostSolveFunc(INSTANCE *my, int *params) {
+int modcpConstraintSetPostSolveFunc(INSTANCE *my, intptr_t *params) {
     cpConstraint *constraint = params[0];
     char *postSolv = string_get(params[1]);
     modChipmunk_mayusStr(postSolv);
@@ -801,7 +801,7 @@ void modChipmunkJointPreSolve(cpConstraint *constraint, cpSpace *space) {
     instance_go(r);                                                         // Call Function
 }
 
-int modcpConstraintSetPreSolveFunc(INSTANCE *my, int *params) {
+int modcpConstraintSetPreSolveFunc(INSTANCE *my, intptr_t *params) {
     cpConstraint *constraint = params[0];
     char *preSolv = string_get(params[1]);
     modChipmunk_mayusStr(preSolv);
@@ -820,11 +820,11 @@ int modcpConstraintSetPreSolveFunc(INSTANCE *my, int *params) {
     return -1;
 }
 
-int modGetFathetA(INSTANCE *my, int *params) {
+int modGetFathetA(INSTANCE *my, intptr_t *params) {
     return ((DatosConstraint *)((cpConstraint *)params[0])->data)->fatherA;
 }
 
-int modGetFathetB(INSTANCE *my, int *params) {
+int modGetFathetB(INSTANCE *my, intptr_t *params) {
     return ((DatosConstraint *)((cpConstraint *)params[0])->data)->fatherB;
 }
 
@@ -833,7 +833,7 @@ static void rompeJoint(cpSpace *space, cpConstraint *joint, void *unused) {
     cpConstraintFree(joint);
 }
 
-int modremoveConstraint(INSTANCE *my, int *params) {
+int modremoveConstraint(INSTANCE *my, intptr_t *params) {
     cpConstraint *c = params[0];
     //    INSTANCE * a = instance_get( ((DatosConstraint *)((cpConstraint
     //    *)params[1])->data)->fatherA ) ;

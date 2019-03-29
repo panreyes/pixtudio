@@ -13,11 +13,11 @@
 #include "librender.h"
 #include "mod_map.h"
 
-int modcpSpaceGetCurrentTimeStep(INSTANCE *my, int *params);
-int modGetStaticBody(INSTANCE *my, int *params);
-int modcpSpaceActivateShapesTouchingShape(INSTANCE *my, int *params);
-int modcpSpaceResizeStaticHash(INSTANCE *my, int *params);
-int modcpSpaceResizeActiveHash(INSTANCE *my, int *params);
-int modcpSpaceUseSpatialHash(INSTANCE *my, int *params);
+int modcpSpaceGetCurrentTimeStep(INSTANCE *my, intptr_t *params);
+int modGetStaticBody(INSTANCE *my, intptr_t *params);
+int modcpSpaceActivateShapesTouchingShape(INSTANCE *my, intptr_t *params);
+int modcpSpaceResizeStaticHash(INSTANCE *my, intptr_t *params);
+int modcpSpaceResizeActiveHash(INSTANCE *my, intptr_t *params);
+int modcpSpaceUseSpatialHash(INSTANCE *my, intptr_t *params);
 
 #endif

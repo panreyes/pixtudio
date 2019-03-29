@@ -30,14 +30,14 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modsensor_number( INSTANCE * my, int * params );
-extern int modsensor_open( INSTANCE * my, int * params );
-extern void modsensor_close( INSTANCE * my, int * params );
-extern int modsensor_name ( INSTANCE * my, int * params );
-extern int modsensor_numaxes( INSTANCE * my, int * params );
-extern float modsensor_getaxis( INSTANCE * my, int * params );
-extern int modsensor_type( INSTANCE * my, int * params );
-extern void modsensor_log( INSTANCE * my, int * params );
+extern int modsensor_number( INSTANCE * my, intptr_t * params );
+extern int modsensor_open( INSTANCE * my, intptr_t * params );
+extern void modsensor_close( INSTANCE * my, intptr_t * params );
+extern int modsensor_name ( INSTANCE * my, intptr_t * params );
+extern int modsensor_numaxes( INSTANCE * my, intptr_t * params );
+extern float modsensor_getaxis( INSTANCE * my, intptr_t * params );
+extern int modsensor_type( INSTANCE * my, intptr_t * params );
+extern void modsensor_log( INSTANCE * my, intptr_t * params );
 
 extern void  __pxtexport( mod_sensor, module_initialize )();
 extern void  __pxtexport( mod_sensor, module_finalize )();

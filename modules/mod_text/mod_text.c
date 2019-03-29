@@ -48,7 +48,7 @@
 /* --------------------------------------------------------------------------- */
 /* Text visualization routines */
 
-int modtext_write(INSTANCE *my, int *params) {
+int modtext_write(INSTANCE *my, intptr_t *params) {
     const char *text = string_get(params[4]);
     int r = text ? gr_text_new(params[0], params[1], params[2], params[3], text) : 0;
     string_discard(params[4]);
@@ -57,7 +57,7 @@ int modtext_write(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_write2(INSTANCE *my, int *params) {
+int modtext_write2(INSTANCE *my, intptr_t *params) {
     const char *text = string_get(params[5]);
     int r = text ? gr_text_new2(params[0], params[1], params[2], params[3], params[4], text) : 0;
     string_discard(params[5]);
@@ -66,7 +66,7 @@ int modtext_write2(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_write_in_map(INSTANCE *my, int *params) {
+int modtext_write_in_map(INSTANCE *my, intptr_t *params) {
     const char *text = string_get(params[1]);
     GRAPH *gr;
     if (!text)
@@ -97,7 +97,7 @@ int modtext_write_in_map(INSTANCE *my, int *params) {
  *
  */
 
-static int __modtext_write_var(int withz, INSTANCE *my, int *params) {
+static int __modtext_write_var(int withz, INSTANCE *my, intptr_t *params) {
     DCB_TYPEDEF *var;
     int t = 0;
 
@@ -167,13 +167,13 @@ static int __modtext_write_var(int withz, INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_write_var(INSTANCE *my, int *params) {
+int modtext_write_var(INSTANCE *my, intptr_t *params) {
     return __modtext_write_var(0, my, params);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_write_var2(INSTANCE *my, int *params) {
+int modtext_write_var2(INSTANCE *my, intptr_t *params) {
     return __modtext_write_var(1, my, params);
 }
 
@@ -182,14 +182,14 @@ int modtext_write_var2(INSTANCE *my, int *params) {
  *  Same as modtext_write_var, but param[5] not given and always set to VAR_STRING
  */
 
-int modtext_write_string(INSTANCE *my, int *params) {
+int modtext_write_string(INSTANCE *my, intptr_t *params) {
     return gr_text_new_var(params[0], params[1], params[2], params[3], (void *)params[4],
                            TEXT_STRING);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_write_string2(INSTANCE *my, int *params) {
+int modtext_write_string2(INSTANCE *my, intptr_t *params) {
     return gr_text_new_var2(params[0], params[1], params[2], params[3], params[4],
                             (void *)params[5], TEXT_STRING);
 }
@@ -199,13 +199,13 @@ int modtext_write_string2(INSTANCE *my, int *params) {
  *  Same as modtext_write_var, but param[5] not given and always set to VAR_INT
  */
 
-int modtext_write_int(INSTANCE *my, int *params) {
+int modtext_write_int(INSTANCE *my, intptr_t *params) {
     return gr_text_new_var(params[0], params[1], params[2], params[3], (void *)params[4], TEXT_INT);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_write_int2(INSTANCE *my, int *params) {
+int modtext_write_int2(INSTANCE *my, intptr_t *params) {
     return gr_text_new_var2(params[0], params[1], params[2], params[3], params[4],
                             (void *)params[5], TEXT_INT);
 }
@@ -215,42 +215,42 @@ int modtext_write_int2(INSTANCE *my, int *params) {
  *  Same as modtext_write_var, but param[5] not given and always set to VAR_FLOAT
  */
 
-int modtext_write_float(INSTANCE *my, int *params) {
+int modtext_write_float(INSTANCE *my, intptr_t *params) {
     return gr_text_new_var(params[0], params[1], params[2], params[3], (void *)params[4],
                            TEXT_FLOAT);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_write_float2(INSTANCE *my, int *params) {
+int modtext_write_float2(INSTANCE *my, intptr_t *params) {
     return gr_text_new_var2(params[0], params[1], params[2], params[3], params[4],
                             (void *)params[5], TEXT_FLOAT);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_move_text(INSTANCE *my, int *params) {
+int modtext_move_text(INSTANCE *my, intptr_t *params) {
     gr_text_move(params[0], params[1], params[2]);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_move_text2(INSTANCE *my, int *params) {
+int modtext_move_text2(INSTANCE *my, intptr_t *params) {
     gr_text_move2(params[0], params[1], params[2], params[3]);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_delete_text(INSTANCE *my, int *params) {
+int modtext_delete_text(INSTANCE *my, intptr_t *params) {
     gr_text_destroy(params[0]);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_text_height(INSTANCE *my, int *params) {
+int modtext_text_height(INSTANCE *my, intptr_t *params) {
     const char *str = string_get(params[1]);
     int result = gr_text_height(params[0], (const unsigned char *)str);
     string_discard(params[1]);
@@ -259,7 +259,7 @@ int modtext_text_height(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_text_width(INSTANCE *my, int *params) {
+int modtext_text_width(INSTANCE *my, intptr_t *params) {
     const char *str = string_get(params[1]);
     uint32_t result = gr_text_width(params[0], (const unsigned char *)str);
     string_discard(params[1]);
@@ -268,27 +268,27 @@ int modtext_text_width(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_set_text_color(INSTANCE *my, int *params) {
+int modtext_set_text_color(INSTANCE *my, intptr_t *params) {
     gr_text_setcolor(params[0]);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_set_text_color2(INSTANCE *my, int *params) {
+int modtext_set_text_color2(INSTANCE *my, intptr_t *params) {
     gr_text_setcolor2(params[0], params[1]);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_get_text_color(INSTANCE *my, int *params) {
+int modtext_get_text_color(INSTANCE *my, intptr_t *params) {
     return (gr_text_getcolor());
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modtext_get_text_color2(INSTANCE *my, int *params) {
+int modtext_get_text_color2(INSTANCE *my, intptr_t *params) {
     return (gr_text_getcolor2(params[0]));
 }
 

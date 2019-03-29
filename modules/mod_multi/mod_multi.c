@@ -214,12 +214,12 @@ void parse_input_events() {
 }
 
 // Return the total number of active pointers
-int modmulti_numpointers(INSTANCE *my, int *params) {
+int modmulti_numpointers(INSTANCE *my, intptr_t *params) {
     return numpointers;
 }
 
 // Get some info about the given pointer
-int modmulti_info(INSTANCE *my, int *params) {
+int modmulti_info(INSTANCE *my, intptr_t *params) {
     const char *info = (char *)string_get(params[1]);
     int n            = params[0];
 

@@ -88,7 +88,7 @@ enum { MOUSEX = 0, MOUSEY, SCROLLS };
 /* Funciones del sistema                                                       */
 /* --------------------------------------------------------------------------- */
 
-int grproc_advance(INSTANCE *my, int *params) {
+int grproc_advance(INSTANCE *my, intptr_t *params) {
     int angle = LOCINT32(mod_grproc, my, ANGLE);
     LOCINT32(mod_grproc, my, COORDX) += fixedtoi(fixed_mul(fixed_cos(angle), itofixed(params[0])));
     LOCINT32(mod_grproc, my, COORDY) -= fixedtoi(fixed_mul(fixed_sin(angle), itofixed(params[0])));
@@ -97,7 +97,7 @@ int grproc_advance(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int grproc_xadvance(INSTANCE *my, int *params) {
+int grproc_xadvance(INSTANCE *my, intptr_t *params) {
     int angle = params[0];
     LOCINT32(mod_grproc, my, COORDX) += fixedtoi(fixed_mul(fixed_cos(angle), itofixed(params[1])));
     LOCINT32(mod_grproc, my, COORDY) -= fixedtoi(fixed_mul(fixed_sin(angle), itofixed(params[1])));
@@ -106,7 +106,7 @@ int grproc_xadvance(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int grproc_get_angle(INSTANCE *my, int *params) {
+int grproc_get_angle(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
 
     if (my && b) {
@@ -203,13 +203,13 @@ static int get_distance_proc(INSTANCE *a, INSTANCE *b) {
 
 /* --------------------------------------------------------------------------- */
 
-int grproc_get_dist(INSTANCE *a, int *params) {
+int grproc_get_dist(INSTANCE *a, intptr_t *params) {
     return (get_distance_proc(a, instance_get(params[0])));
 }
 
 /* --------------------------------------------------------------------------- */
 
-int grproc_get_real_point(INSTANCE *my, int *params) {
+int grproc_get_real_point(INSTANCE *my, intptr_t *params) {
     GRAPH *b;
     int x, y, centerx, centery, px = 0, py = 0, rx = 0, ry = 0;
     int _angle = 0, angle = 0;
@@ -833,19 +833,19 @@ static int __collision(INSTANCE *my, int id, int colltype) {
 
 /* --------------------------------------------------------------------------- */
 
-int grproc_collision(INSTANCE *my, int *params) {
+int grproc_collision(INSTANCE *my, intptr_t *params) {
     return __collision(my, params[0], COLLISION_NORMAL);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int grproc_collision_box(INSTANCE *my, int *params) {
+int grproc_collision_box(INSTANCE *my, intptr_t *params) {
     return __collision(my, params[0], COLLISION_BOX);
 }
 
 /* ----------------------------------------------------------------- */
 
-int grproc_collision_circle(INSTANCE *my, int *params) {
+int grproc_collision_circle(INSTANCE *my, intptr_t *params) {
     return __collision(my, params[0], COLLISION_CIRCLE);
 }
 

@@ -33,28 +33,28 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int math_abs( INSTANCE * my, int * params );
-extern int math_pow( INSTANCE * my, int * params );
-extern int math_sqrt( INSTANCE * my, int * params );
-extern int math_cos( INSTANCE * my, int * params );
-extern int math_sin( INSTANCE * my, int * params );
-extern int math_tan( INSTANCE * my, int * params );
-extern int math_acos( INSTANCE * my, int * params );
-extern int math_asin( INSTANCE * my, int * params );
-extern int math_atan( INSTANCE * my, int * params );
-extern int math_atan2( INSTANCE * my, int * params );
-extern int math_atan2( INSTANCE * my, int * params );
-extern int math_isinf( INSTANCE * my, int * params );
-extern int math_isnan( INSTANCE * my, int * params );
-extern int math_finite( INSTANCE * my, int * params );
-extern int math_fget_angle( INSTANCE * my, int * params );
-extern int math_fget_dist( INSTANCE * my, int * params );
-extern int math_near_angle( INSTANCE * my, int * params );
-extern int math_get_distx( INSTANCE * my, int * params );
-extern int math_get_disty( INSTANCE * my, int * params );
-extern int math_round( INSTANCE * my, int * params );
-extern int math_floor( INSTANCE * my, int * params );
-extern int math_ceil( INSTANCE * my, int * params );
+extern int math_abs( INSTANCE * my, intptr_t * params );
+extern int math_pow( INSTANCE * my, intptr_t * params );
+extern int math_sqrt( INSTANCE * my, intptr_t * params );
+extern int math_cos( INSTANCE * my, intptr_t * params );
+extern int math_sin( INSTANCE * my, intptr_t * params );
+extern int math_tan( INSTANCE * my, intptr_t * params );
+extern int math_acos( INSTANCE * my, intptr_t * params );
+extern int math_asin( INSTANCE * my, intptr_t * params );
+extern int math_atan( INSTANCE * my, intptr_t * params );
+extern int math_atan2( INSTANCE * my, intptr_t * params );
+extern int math_atan2( INSTANCE * my, intptr_t * params );
+extern int math_isinf( INSTANCE * my, intptr_t * params );
+extern int math_isnan( INSTANCE * my, intptr_t * params );
+extern int math_finite( INSTANCE * my, intptr_t * params );
+extern int math_fget_angle( INSTANCE * my, intptr_t * params );
+extern int math_fget_dist( INSTANCE * my, intptr_t * params );
+extern int math_near_angle( INSTANCE * my, intptr_t * params );
+extern int math_get_distx( INSTANCE * my, intptr_t * params );
+extern int math_get_disty( INSTANCE * my, intptr_t * params );
+extern int math_round( INSTANCE * my, intptr_t * params );
+extern int math_floor( INSTANCE * my, intptr_t * params );
+extern int math_ceil( INSTANCE * my, intptr_t * params );
 #endif
 
 DLCONSTANT __pxtexport( mod_math, constants_def )[] = {

@@ -33,28 +33,28 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modjoy_axes( INSTANCE * my, int * params );
-extern int modjoy_axes_specific( INSTANCE * my, int * params );
-extern int modjoy_get_position( INSTANCE * my, int * params );
-extern int modjoy_get_position_specific( INSTANCE * my, int * params );
-extern int modjoy_buttons( INSTANCE * my, int * params );
-extern int modjoy_buttons_specific( INSTANCE * my, int * params );
-extern int modjoy_name( INSTANCE * my, int * params );
-extern int modjoy_num( INSTANCE * my, int * params );
-extern int modjoy_select( INSTANCE * my, int * params );
-extern int modjoy_get_button( INSTANCE * my, int * params );
-extern int modjoy_get_button_specific( INSTANCE * my, int * params );
-extern int modjoy_hats( INSTANCE * my, int * params );
-extern int modjoy_hats_specific( INSTANCE * my, int * params );
-extern int modjoy_balls( INSTANCE * my, int * params );
-extern int modjoy_balls_specific( INSTANCE * my, int * params );
-extern int modjoy_get_hat( INSTANCE * my, int * params );
-extern int modjoy_get_hat_specific( INSTANCE * my, int * params );
-extern int modjoy_get_ball( INSTANCE * my, int * params );
-extern int modjoy_get_ball_specific( INSTANCE * my, int * params );
-extern int modjoy_get_accel( INSTANCE * my, int * params );
-extern int modjoy_get_accel_specific( INSTANCE * my, int * params );
-extern int modjoy_rumble( INSTANCE * my, int * params );
+extern int modjoy_axes( INSTANCE * my, intptr_t * params );
+extern int modjoy_axes_specific( INSTANCE * my, intptr_t * params );
+extern int modjoy_get_position( INSTANCE * my, intptr_t * params );
+extern int modjoy_get_position_specific( INSTANCE * my, intptr_t * params );
+extern int modjoy_buttons( INSTANCE * my, intptr_t * params );
+extern int modjoy_buttons_specific( INSTANCE * my, intptr_t * params );
+extern int modjoy_name( INSTANCE * my, intptr_t * params );
+extern int modjoy_num( INSTANCE * my, intptr_t * params );
+extern int modjoy_select( INSTANCE * my, intptr_t * params );
+extern int modjoy_get_button( INSTANCE * my, intptr_t * params );
+extern int modjoy_get_button_specific( INSTANCE * my, intptr_t * params );
+extern int modjoy_hats( INSTANCE * my, intptr_t * params );
+extern int modjoy_hats_specific( INSTANCE * my, intptr_t * params );
+extern int modjoy_balls( INSTANCE * my, intptr_t * params );
+extern int modjoy_balls_specific( INSTANCE * my, intptr_t * params );
+extern int modjoy_get_hat( INSTANCE * my, intptr_t * params );
+extern int modjoy_get_hat_specific( INSTANCE * my, intptr_t * params );
+extern int modjoy_get_ball( INSTANCE * my, intptr_t * params );
+extern int modjoy_get_ball_specific( INSTANCE * my, intptr_t * params );
+extern int modjoy_get_accel( INSTANCE * my, intptr_t * params );
+extern int modjoy_get_accel_specific( INSTANCE * my, intptr_t * params );
+extern int modjoy_rumble( INSTANCE * my, intptr_t * params );
 #endif
 
 DLSYSFUNCS  __pxtexport( mod_joy, exported_functions )[] = {

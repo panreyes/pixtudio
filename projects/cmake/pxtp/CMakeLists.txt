@@ -1,34 +1,33 @@
 project(pxtp C)
 cmake_minimum_required(VERSION 3.4)
+set(C_PXTP 1)
+
 # Require pxtrtm
 add_subdirectory(pxtrtm)
+
 # Required stuff
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${pxtp_SOURCE_DIR}/../include")
-find_package(SDL2 2.0.4 REQUIRED)
-find_package(SDL2_Mixer REQUIRED)
-find_package(ZLIB REQUIRED)
-find_package(PNG REQUIRED)
-find_package(JPEG REQUIRED)
-find_package(WEBP REQUIRED)
-find_package(OGG REQUIRED)
-find_package(Vorbis REQUIRED)
-find_package(Theora REQUIRED)
-find_package(Freetype REQUIRED)
-find_package(OpenAL REQUIRED)
-find_package(TRE REQUIRED)
-find_package(CURL)
-find_package(STEAMWORKS)
+set(PXT_MODULES_PATH "${pxtp_SOURCE_DIR}/../../../modules")
+set(PXT_3RDPARTY "${pxtp_SOURCE_DIR}/../../../3rdparty")
+set(PXT_CORE_PATH "${pxtp_SOURCE_DIR}/../../../core")
+include(optional_modules)
+include(do_find_libs)
+
 # Preprocessor macros
 add_definitions(-D__PXTP__)
+
+# Common defines
 include(common_defs)
+
 # Source files
 set(SOURCE_FILES
-  ${pxtp_SOURCE_DIR}/../../../core/pxtp/include/pxtp.h
-  ${pxtp_SOURCE_DIR}/../../../core/pxtp/src/main.c)
+  ${PXT_CORE_PATH}/pxtp/include/pxtp.h
+  ${PXT_CORE_PATH}/pxtp/src/main.c)
+  
 # Include dirs
-include_directories(${pxtp_SOURCE_DIR}/../../../core/pxtp/include
-                    ${pxtp_SOURCE_DIR}/../../../core/include
-                    ${pxtp_SOURCE_DIR}/../../../core/pxtrtm/include/)
+include_directories(${PXT_CORE_PATH}/pxtp/include
+                    ${PXT_CORE_PATH}/include
+                    ${PXT_CORE_PATH}/pxtrtm/include/)
 
 if(WIN32)
     set(EXTRA_LIBS "-lshlwapi -lwsock32 -lm")
@@ -43,16 +42,23 @@ endif()
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # Optional libraries
-if(CURL_FOUND)
+if(NOT NO_MODCURL)
     set(CURL_LIBRARY ${CURL_LIBRARY})
 else()
     set(CURL_LIBRARY "")
 endif()
-if(STEAMWORKS_FOUND)
+if(NOT NO_MODSTEAM)
     set(STEAM_LIB ${STEAMWORKS_LIBRARY})
 else()
     set(STEAM_LIB "")
 endif()
+if(NO_MODTHEORA)
+    set(THEORA_LIBRARIES "")
+	set(OPENAL_LIBRARY "")
+endif(NO_MODTHEORA)
+if(NO_MODREGEX)
+    set(TRE_LIBRARY "")
+endif(NO_MODREGEX)
 
 # Include the compiler flags from the external include file
 include(compiler_flags)
@@ -68,13 +74,13 @@ target_link_libraries(${PROJECT_NAME}
                       ${WEBP_LIBRARY}
                       ${OGG_LIBRARY}
                       ${VORBIS_LIBRARY}
-                      ${THEORA_LIBRARIES}
                       ${FREETYPE_LIBRARIES}
-                      ${OPENAL_LIBRARY}
-                      ${TRE_LIBRARY}
-                      ${CURL_LIBRARY}
                       ${EXTRA_LIBS}
-                      ${STEAM_LIB})
+                      ${OPENAL_LIBRARY}
+					  ${TRE_LIBRARY}
+					  ${CURL_LIBRARY}
+					  ${STEAM_LIB}
+					  ${THEORA_LIBRARIES})
 
 # Installation instructions
 if(WIN32)

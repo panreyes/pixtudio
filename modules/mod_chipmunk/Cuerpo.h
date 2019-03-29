@@ -15,34 +15,34 @@
 #include "Arreglos.h"
 #include "LL.h"
 
-int modgetBody(INSTANCE *my, int *params);
-int modcpBodyLocal2World(INSTANCE *my, int *params);
-int modDefcpBody(INSTANCE *my, int *params);
-int modGetEcpBody(INSTANCE *my, int *params);
-int modcpBodySetMass(INSTANCE *my, int *params);
-int modcpBodySetMoment(INSTANCE *my, int *params);
-int modcpBodySetAngle(INSTANCE *my, int *params);
-int modcpBodyUpdatePosition(INSTANCE *my, int *params);
-int modcpBodyResetForces(INSTANCE *my, int *params);
-int modcpBodyIsSleeping(INSTANCE *my, int *params);
-int modcpBodySleep(INSTANCE *my, int *params);
-int modcpBodyActivate(INSTANCE *my, int *params);
-int modcpBodyIsStatic(INSTANCE *my, int *params);
-int modcpBodyIsRogue(INSTANCE *my, int *params);
-int modcpBodySleepWithGroup(INSTANCE *my, int *params);
-int modcpBodyApplyForce(INSTANCE *my, int *params);
-int modcpBodyApplyImpulse(INSTANCE *my, int *params);
-int modcpBodyWorld2Local(INSTANCE *my, int *params);
-int modcpBodySlew(INSTANCE *my, int *params);
-int modcpBodyUpdateVelocity(INSTANCE *my, int *params);
-int modActivateProcessTouchingIt(INSTANCE *my, int *params);
+int modgetBody(INSTANCE *my, intptr_t *params);
+int modcpBodyLocal2World(INSTANCE *my, intptr_t *params);
+int modDefcpBody(INSTANCE *my, intptr_t *params);
+int modGetEcpBody(INSTANCE *my, intptr_t *params);
+int modcpBodySetMass(INSTANCE *my, intptr_t *params);
+int modcpBodySetMoment(INSTANCE *my, intptr_t *params);
+int modcpBodySetAngle(INSTANCE *my, intptr_t *params);
+int modcpBodyUpdatePosition(INSTANCE *my, intptr_t *params);
+int modcpBodyResetForces(INSTANCE *my, intptr_t *params);
+int modcpBodyIsSleeping(INSTANCE *my, intptr_t *params);
+int modcpBodySleep(INSTANCE *my, intptr_t *params);
+int modcpBodyActivate(INSTANCE *my, intptr_t *params);
+int modcpBodyIsStatic(INSTANCE *my, intptr_t *params);
+int modcpBodyIsRogue(INSTANCE *my, intptr_t *params);
+int modcpBodySleepWithGroup(INSTANCE *my, intptr_t *params);
+int modcpBodyApplyForce(INSTANCE *my, intptr_t *params);
+int modcpBodyApplyImpulse(INSTANCE *my, intptr_t *params);
+int modcpBodyWorld2Local(INSTANCE *my, intptr_t *params);
+int modcpBodySlew(INSTANCE *my, intptr_t *params);
+int modcpBodyUpdateVelocity(INSTANCE *my, intptr_t *params);
+int modActivateProcessTouchingIt(INSTANCE *my, intptr_t *params);
 void addListaProcesos(INSTANCE *ins);
-int modaddCircleShape(INSTANCE *my, int *params);
-int modaddSegmentShape(INSTANCE *my, int *params);
-int modaddPolyShape(INSTANCE *my, int *params);
+int modaddCircleShape(INSTANCE *my, intptr_t *params);
+int modaddSegmentShape(INSTANCE *my, intptr_t *params);
+int modaddPolyShape(INSTANCE *my, intptr_t *params);
 int creaPoly(int *params, cpBody *bod);
-int modaddSegmentShapeTo(INSTANCE *my, int *params);
+int modaddSegmentShapeTo(INSTANCE *my, intptr_t *params);
 #define ajustaTam LOCDWORD(mod_chipmunk, my, LOC_SIZE) / 100.0
 int creaBodyAndShapeAutomat(INSTANCE *my);
-int modcpCalculaConvexHull(INSTANCE *my, int *params);
+int modcpCalculaConvexHull(INSTANCE *my, intptr_t *params);
 #endif

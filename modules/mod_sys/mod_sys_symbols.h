@@ -34,8 +34,8 @@
 #include "mod_sys.h"
 
 #ifndef __PXTB__
-extern int modsys_getenv( INSTANCE * my, int * params );
-extern int modsys_exec( INSTANCE * my, int * params );
+extern int modsys_getenv( INSTANCE * my, intptr_t * params );
+extern int modsys_exec( INSTANCE * my, intptr_t * params );
 #endif
 
 DLCONSTANT __pxtexport( mod_sys, constants_def )[] = {

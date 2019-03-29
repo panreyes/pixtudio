@@ -20,16 +20,16 @@ SET(STEAMWORKS_SEARCH_PATHS
 
 if(WIN32)
     list(APPEND STEAMWORKS_SEARCH_PATHS
-         ${STEAMWORKS_PATH}/redistributable_bin
-         $ENV{STEAMWORKSDIR}/redistributable_bin)
+         ${STEAMWORKS_PATH}/redistributable_bin/win64
+         $ENV{STEAMWORKSDIR}/redistributable_bin/win64)
 elseif(APPLE)
     list(APPEND STEAMWORKS_SEARCH_PATHS
          ${STEAMWORKS_PATH}/redistributable_bin/osx32
          $ENV{STEAMWORKSDIR}/redistributable_bin/osx32)
 else()
     list(APPEND STEAMWORKS_SEARCH_PATHS
-         ${STEAMWORKS_PATH}/redistributable_bin/linux32
-         $ENV{STEAMWORKSDIR}/redistributable_bin/linux32)
+         ${STEAMWORKS_PATH}/redistributable_bin/linux64
+         $ENV{STEAMWORKSDIR}/redistributable_bin/linux64)
 endif()
 
 SET(MSVC_YEAR_NAME)
@@ -52,7 +52,7 @@ FIND_PATH(STEAMWORKS_INCLUDE_DIR
 )
 
 FIND_LIBRARY(STEAMWORKS_LIBRARY
-    NAMES steam_api
+    NAMES steam_api64
     HINTS ENV STEAMWORKSDIR
     PATHS ${STEAMWORKS_SEARCH_PATHS}
 )

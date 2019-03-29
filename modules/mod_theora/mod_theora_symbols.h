@@ -28,11 +28,11 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int video_play(INSTANCE *my, int * params);
-extern int video_stop(INSTANCE *my, int * params);
+extern int video_play(INSTANCE *my, intptr_t * params);
+extern int video_stop(INSTANCE *my, intptr_t * params);
 extern int video_pause();
 extern int video_is_playing();
-extern int video_set_volume(INSTANCE *my, int * params);
+extern int video_set_volume(INSTANCE *my, intptr_t * params);
 extern void refresh_video();
 
 HOOK __pxtexport( mod_theora, handler_hooks )[] = {

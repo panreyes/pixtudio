@@ -284,171 +284,171 @@ void cpBodySlew(cpBody *body, cpVect pos, cpFloat dt) {
 
 // funciones matemáticas
 
-static int modcpflerp(INSTANCE *my, int *params) {
+static int modcpflerp(INSTANCE *my, intptr_t *params) {
     float res = cpflerp(*(float *)&params[0], *(float *)&params[1], *(float *)&params[2]);
     return *((int *)&(res));
 }
 
-static int modcpfclamp(INSTANCE *my, int *params) {
+static int modcpfclamp(INSTANCE *my, intptr_t *params) {
     float res = cpfclamp(*(float *)&params[0], *(float *)&params[1], *(float *)&params[2]);
     return *((int *)&(res));
 }
 
-static int modcpflerpconst(INSTANCE *my, int *params) {
+static int modcpflerpconst(INSTANCE *my, intptr_t *params) {
     float res = cpflerpconst(*(float *)&params[0], *(float *)&params[1], *(float *)&params[2]);
     return *((int *)&(res));
 }
 
 // FUNCIONES DE LOS VECTORES
 
-static int modcpveql(INSTANCE *my, int *params) {
+static int modcpveql(INSTANCE *my, intptr_t *params) {
     return cpveql(*(cpVect *)params[0], *(cpVect *)params[1]);
 }
 
-static int modcpvadd(INSTANCE *my, int *params) {
+static int modcpvadd(INSTANCE *my, intptr_t *params) {
     cpVect *v1 = params[2];
     *v1        = cpvadd(*(cpVect *)params[0], *(cpVect *)params[1]);
     return 0;
 }
 
-static int modcpvsub(INSTANCE *my, int *params) {
+static int modcpvsub(INSTANCE *my, intptr_t *params) {
     cpVect *v1 = params[2];
     *v1        = cpvsub(*(cpVect *)params[0], *(cpVect *)params[1]);
     return 0;
 }
 
-static int modcpvneg(INSTANCE *my, int *params) {
+static int modcpvneg(INSTANCE *my, intptr_t *params) {
     cpVect *v1 = params[2];
     *v1        = cpvneg(*(cpVect *)params[0]);
     return 0;
 }
 
-static int modcpvmult(INSTANCE *my, int *params) {
+static int modcpvmult(INSTANCE *my, intptr_t *params) {
     cpVect *v1 = params[2];
     *v1        = cpvmult(*(cpVect *)params[0], *(float *)&params[1]);
 
     return 0;
 }
 
-static int modcpvdot(INSTANCE *my, int *params) {
+static int modcpvdot(INSTANCE *my, intptr_t *params) {
     float res = cpvdot(*(cpVect *)params[0], *(cpVect *)params[2]);
     return *((int *)&(res));
 }
 
-static int modcpvcross(INSTANCE *my, int *params) {
+static int modcpvcross(INSTANCE *my, intptr_t *params) {
     float res = cpvcross(*(cpVect *)params[0], *(cpVect *)params[2]);
     return *((int *)&(res));
 }
 
-static int modcpvperp(INSTANCE *my, int *params) // un vector
+static int modcpvperp(INSTANCE *my, intptr_t *params) // un vector
 {
     cpVect *v1 = params[1];
     *v1        = cpvperp(*(cpVect *)params[0]);
     return 0;
 }
 
-static int modcpvrperp(INSTANCE *my, int *params) // un vector
+static int modcpvrperp(INSTANCE *my, intptr_t *params) // un vector
 {
     cpVect *v1 = params[1];
     *v1        = cpvrperp(*(cpVect *)params[0]);
     return 0;
 }
 
-static int modcpvnormalize(INSTANCE *my, int *params) // un vector
+static int modcpvnormalize(INSTANCE *my, intptr_t *params) // un vector
 {
     cpVect *v1 = params[1];
     *v1        = cpvnormalize(*(cpVect *)params[0]);
     return 0;
 }
 
-static int modcpvnormalize_safe(INSTANCE *my, int *params) // un vector
+static int modcpvnormalize_safe(INSTANCE *my, intptr_t *params) // un vector
 {
     cpVect *v1 = params[1];
     *v1        = cpvnormalize_safe(*(cpVect *)params[0]);
     return 0;
 }
 
-static int modcpvproject(INSTANCE *my, int *params) // dos vectores
+static int modcpvproject(INSTANCE *my, intptr_t *params) // dos vectores
 {
     cpVect *v1 = params[2];
     *v1        = cpvproject(*(cpVect *)params[0], *(cpVect *)params[1]);
     return 0;
 }
 
-static int modcpvrotate(INSTANCE *my, int *params) {
+static int modcpvrotate(INSTANCE *my, intptr_t *params) {
     cpVect *v1 = params[2];
     *v1        = cpvrotate(*(cpVect *)params[0], *(cpVect *)params[1]);
     return 0;
 }
 
-static int modcpvunrotate(INSTANCE *my, int *params) {
+static int modcpvunrotate(INSTANCE *my, intptr_t *params) {
     cpVect *v1 = params[2];
     *v1        = cpvunrotate(*(cpVect *)params[0], *(cpVect *)params[1]);
     return 0;
 }
 
-static int modcpvlength(INSTANCE *my, int *params) // un vector
+static int modcpvlength(INSTANCE *my, intptr_t *params) // un vector
 {
     float res = cpvlength(*(cpVect *)params[0]);
     return *((int *)&(res));
 }
 
-static int modcpvlengthsq(INSTANCE *my, int *params) // un vector
+static int modcpvlengthsq(INSTANCE *my, intptr_t *params) // un vector
 {
     float res = cpvlengthsq(*(cpVect *)params[0]);
     return *((int *)&(res));
 }
 
-static int modcpvtoangle(INSTANCE *my, int *params) // un vector
+static int modcpvtoangle(INSTANCE *my, intptr_t *params) // un vector
 {
     float res = cpvtoangle(*(cpVect *)params[0]);
     return *((int *)&(res));
 }
 
-static int modcpvstr(INSTANCE *my, int *params) // un vector
+static int modcpvstr(INSTANCE *my, intptr_t *params) // un vector
 {
     char *res    = cpvstr(*(cpVect *)params[0]);
     char *result = string_new(res);
     return result;
 }
 
-static int modcpvforangle(INSTANCE *my, int *params) {
+static int modcpvforangle(INSTANCE *my, intptr_t *params) {
     cpVect *ve = params[1];
     *ve        = cpvforangle(*(float *)&params[0]);
     return 0;
 }
 
-static int modcpvclamp(INSTANCE *my, int *params) {
+static int modcpvclamp(INSTANCE *my, intptr_t *params) {
     cpVect *v1 = params[2];
     *v1        = cpvclamp(*(cpVect *)params[0], *(float *)&params[1]);
     return 0;
 }
 
-static int modcpvdist(INSTANCE *my, int *params) {
+static int modcpvdist(INSTANCE *my, intptr_t *params) {
     float res = cpvdist(*(cpVect *)params[0], *(cpVect *)params[1]);
     return *((int *)&(res));
 }
 
-static int modcpvdistsq(INSTANCE *my, int *params) {
+static int modcpvdistsq(INSTANCE *my, intptr_t *params) {
     float res = cpvdistsq(*(cpVect *)params[0], *(cpVect *)params[1]);
     return *((int *)&(res));
 }
 
-static int modcpvlerp(INSTANCE *my, int *params) // vec,vec,flot, ret int
+static int modcpvlerp(INSTANCE *my, intptr_t *params) // vec,vec,flot, ret int
 {
     cpVect *v1 = params[3];
     *v1        = cpvlerp(*(cpVect *)params[0], *(cpVect *)params[1], *(float *)&params[2]);
     return 0;
 }
 
-static int modcpvlerpconst(INSTANCE *my, int *params) // vec,vec,flot, ret int
+static int modcpvlerpconst(INSTANCE *my, intptr_t *params) // vec,vec,flot, ret int
 {
     cpVect *v1 = params[3];
     *v1        = cpvlerpconst(*(cpVect *)params[0], *(cpVect *)params[1], *(float *)&params[2]);
     return 0;
 }
 
-static int modcpvslerp(INSTANCE *my, int *params) // vec,vec,flot, ret int
+static int modcpvslerp(INSTANCE *my, intptr_t *params) // vec,vec,flot, ret int
 {
     cpVect *v1 = params[2];
     *v1        = cpvslerp(*(cpVect *)params[0], *(cpVect *)params[1], *(float *)&params[2]);
@@ -456,19 +456,19 @@ static int modcpvslerp(INSTANCE *my, int *params) // vec,vec,flot, ret int
     return 0;
 }
 
-static int modcpvslerpconst(INSTANCE *my, int *params) // vec,vec,flot, ret int
+static int modcpvslerpconst(INSTANCE *my, intptr_t *params) // vec,vec,flot, ret int
 {
     cpVect *v1 = params[3];
     *v1        = cpvslerpconst(*(cpVect *)params[0], *(cpVect *)params[1], *(float *)&params[2]);
     return 0;
 }
 
-static int modcpvnear(INSTANCE *my, int *params) // vec,vec,flot, ret int
+static int modcpvnear(INSTANCE *my, intptr_t *params) // vec,vec,flot, ret int
 {
     return cpvnear(*(cpVect *)params[0], *(cpVect *)params[1], *(float *)&params[2]);
 }
 
-static int modcpv(INSTANCE *my, int *params) // vec,vec,flot, ret int
+static int modcpv(INSTANCE *my, intptr_t *params) // vec,vec,flot, ret int
 {
     cpVect *v1 = (cpVect *)params[2];
     v1->x      = *(float *)&params[0];
@@ -478,14 +478,14 @@ static int modcpv(INSTANCE *my, int *params) // vec,vec,flot, ret int
 
 // cpBB
 
-static int modcpBBNew(INSTANCE *my, int *params) {
+static int modcpBBNew(INSTANCE *my, intptr_t *params) {
     cpBB *ve = params[4];
     *ve = cpBBNew(*(float *)&params[0], *(float *)&params[1], *(float *)&params[2],
                   *(float *)&params[3]);
     return 0;
 }
 
-static int modcpBBNewCircle(INSTANCE *my, int *params) {
+static int modcpBBNewCircle(INSTANCE *my, intptr_t *params) {
     cpBB *ve = params[4];
     //    *ve = cpBBNew(*( float * ) &params[0],*( float * ) &params[1],*( float * ) &params[2],*(
     //    float * ) &params[3]);
@@ -493,15 +493,15 @@ static int modcpBBNewCircle(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modcpBBintersects(INSTANCE *my, int *params) {
+static int modcpBBintersects(INSTANCE *my, intptr_t *params) {
     return cpBBIntersects(*(cpBB *)params[0], *(cpBB *)params[1]);
 }
 
-static int modcpBBcontainsBB(INSTANCE *my, int *params) {
+static int modcpBBcontainsBB(INSTANCE *my, intptr_t *params) {
     return cpBBContainsBB(*(cpBB *)params[0], *(cpBB *)params[1]);
 }
 
-static int modcpBBmerge(INSTANCE *my, int *params) {
+static int modcpBBmerge(INSTANCE *my, intptr_t *params) {
     cpBB *ve = params[2];
     (*ve) = cpBBNew(cpfmin((*(cpBB *)params[0]).l, (*(cpBB *)params[1]).l),
                     cpfmin((*(cpBB *)params[0]).b, (*(cpBB *)params[1]).b),
@@ -511,11 +511,11 @@ static int modcpBBmerge(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modcpBBcontainsVect(INSTANCE *my, int *params) {
+static int modcpBBcontainsVect(INSTANCE *my, intptr_t *params) {
     return cpBBContainsVect(*(cpBB *)params[0], *(cpVect *)params[1]);
 }
 
-static int modcpBBexpand(INSTANCE *my, int *params) {
+static int modcpBBexpand(INSTANCE *my, intptr_t *params) {
     cpBB *ve = params[2];
     *ve = cpBBNew(cpfmin((*(cpBB *)params[0]).l, (*(cpVect *)params[0]).x),
                   cpfmin((*(cpBB *)params[0]).b, (*(cpVect *)params[0]).y),
@@ -524,13 +524,13 @@ static int modcpBBexpand(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modcpBBClampVect(INSTANCE *my, int *params) {
+static int modcpBBClampVect(INSTANCE *my, intptr_t *params) {
     cpVect *aux = params[2];
     *aux        = cpBBClampVect(*(cpBB *)params[0], *(cpVect *)params[1]);
     return 0;
 }
 
-static int modcpBBWrapVect(INSTANCE *my, int *params) {
+static int modcpBBWrapVect(INSTANCE *my, intptr_t *params) {
     cpVect *aux = params[2];
     *aux        = cpBBWrapVect(*(cpBB *)params[0], *(cpVect *)params[1]);
     return 0;
@@ -538,68 +538,68 @@ static int modcpBBWrapVect(INSTANCE *my, int *params) {
 
 // cpBody
 
-static int modcpMomentForCircle(INSTANCE *my, int *params) {
+static int modcpMomentForCircle(INSTANCE *my, intptr_t *params) {
     float res = cpMomentForCircle(*(float *)&params[0], *(float *)&params[1], *(float *)&params[2],
                                   *(cpVect *)params[3]);
     return *((int *)&res);
 }
 
-static int modcpMomentForSegment(INSTANCE *my, int *params) {
+static int modcpMomentForSegment(INSTANCE *my, intptr_t *params) {
     float res =
         cpMomentForSegment(*(float *)&params[0], *(cpVect *)params[1], *(cpVect *)params[2]);
     return *((int *)&res);
 }
 
-static int modcpMomentForPoly(INSTANCE *my, int *params) {
+static int modcpMomentForPoly(INSTANCE *my, intptr_t *params) {
     float res = cpMomentForPoly(*(float *)&params[0], params[1], params[2], *(cpVect *)params[3]);
 
     return *((int *)&res);
 }
 
-static int modcpMomentForCircle1(INSTANCE *my, int *params) {
+static int modcpMomentForCircle1(INSTANCE *my, intptr_t *params) {
     float res = cpMomentForCircle(*(float *)&params[0], *(float *)&params[1], *(float *)&params[2],
                                   cpv(*(float *)&params[3], *(float *)&params[4]));
     return *((int *)&res);
 }
 
-static int modcpMomentForSegment1(INSTANCE *my, int *params) {
+static int modcpMomentForSegment1(INSTANCE *my, intptr_t *params) {
     float res =
         cpMomentForSegment(*(float *)&params[0], cpv(*(float *)&params[1], *(float *)&params[2]),
                            cpv(*(float *)&params[3], *(float *)&params[4]));
     return *((int *)&res);
 }
 
-static int modcpMomentForPoly1(INSTANCE *my, int *params) {
+static int modcpMomentForPoly1(INSTANCE *my, intptr_t *params) {
     cpVect a  = cpv(*(float *)&params[3], *(float *)&params[4]);
     float res = cpMomentForPoly(*(float *)&params[0], params[1], params[2], a);
     return *((int *)&res);
 }
 
-static int modcpMomentForBox(INSTANCE *my, int *params) {
+static int modcpMomentForBox(INSTANCE *my, intptr_t *params) {
     float res = cpMomentForBox(*(float *)&params[0], *(float *)&params[1], *(float *)&params[2]);
     return *((int *)&res);
 }
 
-static int modcpAreaForCircle(INSTANCE *my, int *params) {
+static int modcpAreaForCircle(INSTANCE *my, intptr_t *params) {
     float res = cpAreaForCircle(*(float *)&params[0], *(float *)&params[1]);
     return *((int *)&res);
 }
 
-static int modcpAreaForSegment(INSTANCE *my, int *params) {
+static int modcpAreaForSegment(INSTANCE *my, intptr_t *params) {
     float res =
         cpAreaForSegment(cpv(*(float *)&params[0], *(float *)&params[1]),
                          cpv(*(float *)&params[2], *(float *)&params[3]), *(float *)&params[4]);
     return *((int *)&res);
 }
 
-static int modcpAreaForPoly(INSTANCE *my, int *params) {
+static int modcpAreaForPoly(INSTANCE *my, intptr_t *params) {
     float res = cpAreaForPoly(params[0], params[1]);
     return *((int *)&res);
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 
-static int modDefcpShape(INSTANCE *my, int *params) {
+static int modDefcpShape(INSTANCE *my, intptr_t *params) {
     float flo2;         // = *( float * ) &params[0];
     cpCollisionType ct; //= *( cpCollisionType * ) &params[2];
     cpDataPointer *dP;
@@ -653,7 +653,7 @@ static int modDefcpShape(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modGetcpShape(INSTANCE *my, int *params) {
+static int modGetcpShape(INSTANCE *my, intptr_t *params) {
     cpShape *espacio = (cpShape *)params[0];
     int res          = params[1];
     cpVect *vc;
@@ -700,86 +700,86 @@ static int modGetcpShape(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modcpPolyShapeGetVert(INSTANCE *my, int *params) {
+static int modcpPolyShapeGetVert(INSTANCE *my, intptr_t *params) {
     cpVect *a = params[2];
     *a = cpPolyShapeGetVert((cpShape *)params[0], params[1]);
     return (0);
 }
 
-static int modcpResetShapeIdCounter(INSTANCE *my, int *params) {
+static int modcpResetShapeIdCounter(INSTANCE *my, intptr_t *params) {
     cpResetShapeIdCounter();
     return (0);
 }
 
-static int modcpShapeCacheBB(INSTANCE *my, int *params) {
+static int modcpShapeCacheBB(INSTANCE *my, intptr_t *params) {
     cpBB *ve = params[1];
     *ve = cpShapeCacheBB((cpShape *)params[0]);
     return (0);
 }
 
-static int modcpPolyShapeGetNumVerts(INSTANCE *my, int *params) {
+static int modcpPolyShapeGetNumVerts(INSTANCE *my, intptr_t *params) {
     return cpPolyShapeGetNumVerts((cpShape *)params[0]);
 }
 
-static int modcpSegmentShapeGetA(INSTANCE *my, int *params) {
+static int modcpSegmentShapeGetA(INSTANCE *my, intptr_t *params) {
     cpVect *aux = params[1];
     *aux        = cpSegmentShapeGetA((cpShape *)params[0]);
     return 0;
 }
 
-static int modcpSegmentShapeGetB(INSTANCE *my, int *params) {
+static int modcpSegmentShapeGetB(INSTANCE *my, intptr_t *params) {
     cpVect *aux = params[1];
     *aux        = cpSegmentShapeGetB((cpShape *)params[0]);
     return 0;
 }
 
-static int modcpCircleShapeGetOffset(INSTANCE *my, int *params) {
+static int modcpCircleShapeGetOffset(INSTANCE *my, intptr_t *params) {
     cpVect *aux = params[1];
     *aux        = cpCircleShapeGetOffset((cpShape *)params[0]);
     return 0;
 }
 
-static int modcpSegmentShapeGetNormal(INSTANCE *my, int *params) {
+static int modcpSegmentShapeGetNormal(INSTANCE *my, intptr_t *params) {
     cpVect *aux = params[1];
     *aux        = cpSegmentShapeGetNormal((cpShape *)params[0]);
     return 0;
 }
 
-static int modcpCircleShapeGetRadius(INSTANCE *my, int *params) {
+static int modcpCircleShapeGetRadius(INSTANCE *my, intptr_t *params) {
     float res = cpCircleShapeGetRadius((cpShape *)params[0]);
     return *((int *)&res);
 }
 
-static int modcpSegmentShapeGetRadius(INSTANCE *my, int *params) {
+static int modcpSegmentShapeGetRadius(INSTANCE *my, intptr_t *params) {
     float res = cpSegmentShapeGetRadius((cpShape *)params[0]);
     return *((int *)&res);
 }
 
-static int modcpCentroidForPoly(INSTANCE *my, int *params) {
+static int modcpCentroidForPoly(INSTANCE *my, intptr_t *params) {
     cpVect *aux = params[2];
     *aux        = cpCentroidForPoly(params[0], params[1]);
     return 0;
 }
 
-static int modcpRecenterPoly(INSTANCE *my, int *params) {
+static int modcpRecenterPoly(INSTANCE *my, intptr_t *params) {
     cpRecenterPoly(params[0], params[1]);
     return 0;
 }
 
 // Collision points y raycast
-static int modcpSpacePointQueryFirst(INSTANCE *my, int *params) {
+static int modcpSpacePointQueryFirst(INSTANCE *my, intptr_t *params) {
     cpShape *res =
         cpSpacePointQueryFirst(modChipmunk_cpEspacio, *(cpVect *)params[0], params[1], params[2]);
     return (int)res;
 }
 
-static int modcpShapePointQuery(INSTANCE *my, int *params) {
+static int modcpShapePointQuery(INSTANCE *my, intptr_t *params) {
     cpVect *p = params[1];
     int res   = (int)cpShapePointQuery((cpShape *)params[0], *(cpVect *)params[1]);
     return res;
 }
 
-static int modcpShapeSegmentQuery(INSTANCE *my, int *params) {
+static int modcpShapeSegmentQuery(INSTANCE *my, intptr_t *params) {
     cpSegmentQueryInfo info;
     cpsegmentqueryinfoB *inf;
     int res = (int)cpShapeSegmentQuery((cpShape *)params[0], *(cpVect *)params[1],
@@ -800,7 +800,7 @@ static int modcpShapeSegmentQuery(INSTANCE *my, int *params) {
 
     return res;
 }
-static int modcpSegmentQueryHitPoint(INSTANCE *my, int *params) {
+static int modcpSegmentQueryHitPoint(INSTANCE *my, intptr_t *params) {
     cpVect *a = params[0], *b = params[1];
     cpSegmentQueryInfo info;
     cpsegmentqueryinfoB *inf = params[2];
@@ -813,7 +813,7 @@ static int modcpSegmentQueryHitPoint(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modcpSegmentQueryHitDist(INSTANCE *my, int *params) {
+static int modcpSegmentQueryHitDist(INSTANCE *my, intptr_t *params) {
     cpVect *a = params[0], *b = params[1];
     cpSegmentQueryInfo info;
     cpsegmentqueryinfoB *inf = params[2];
@@ -825,7 +825,7 @@ static int modcpSegmentQueryHitDist(INSTANCE *my, int *params) {
     return *(int *)&res;
 }
 
-static int modcpSpaceSegmentQueryFirst(INSTANCE *my, int *params) {
+static int modcpSpaceSegmentQueryFirst(INSTANCE *my, intptr_t *params) {
     cpVect *a = params[0], *b = params[1];
     cpSegmentQueryInfo info;
     cpShape *res =
@@ -849,13 +849,13 @@ static int modcpSpaceSegmentQueryFirst(INSTANCE *my, int *params) {
 
 // funciones ide body
 
-static int modSlew(INSTANCE *my, int *params) {
+static int modSlew(INSTANCE *my, intptr_t *params) {
     cpBodySlew(LOCDWORD(mod_chipmunk, my, LOC_BODY),
                cpv(*(float *)&params[0], *(float *)&params[1]), *(float *)&params[2]);
     return 0;
 }
 
-static int modUpdateVelocity(INSTANCE *my, int *params) {
+static int modUpdateVelocity(INSTANCE *my, intptr_t *params) {
     cpBodyUpdateVelocity(LOCDWORD(mod_chipmunk, my, LOC_BODY),
                          cpv(*(float *)GLOADDR(mod_chipmunk, GLO_GRAVITY_X),
                              *(float *)GLOADDR(mod_chipmunk, GLO_GRAVITY_Y)),
@@ -865,7 +865,7 @@ static int modUpdateVelocity(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modUpdateVelocityAg(INSTANCE *my, int *params) {
+static int modUpdateVelocityAg(INSTANCE *my, intptr_t *params) {
     INSTANCE *i = instance_get(params[0]);
     cpBodyUpdateVelocity(LOCDWORD(mod_chipmunk, i, LOC_BODY),
                          cpv(*(float *)GLOADDR(mod_chipmunk, GLO_GRAVITY_X),
@@ -876,7 +876,7 @@ static int modUpdateVelocityAg(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modUpdateVelocity2(INSTANCE *my, int *params) {
+static int modUpdateVelocity2(INSTANCE *my, intptr_t *params) {
     cpBodyUpdateVelocity(LOCDWORD(mod_chipmunk, my, LOC_BODY),
                          cpv(*(float *)GLOADDR(mod_chipmunk, GLO_GRAVITY_X),
                              *(float *)GLOADDR(mod_chipmunk, GLO_GRAVITY_Y)),
@@ -885,7 +885,7 @@ static int modUpdateVelocity2(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modLocal2World(INSTANCE *my, int *params) {
+static int modLocal2World(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     cpVect vc = cpBodyLocal2World(LOCDWORD(mod_chipmunk, b, LOC_BODY),
                                   cpv(*(float *)&params[1], *(float *)&params[2]));
@@ -897,7 +897,7 @@ static int modLocal2World(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modWorld2Local(INSTANCE *my, int *params) {
+static int modWorld2Local(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     cpVect vc = cpBodyWorld2Local(LOCDWORD(mod_chipmunk, b, LOC_BODY),
                                   cpv(*(float *)&params[1], *(float *)&params[2]));
@@ -910,7 +910,7 @@ static int modWorld2Local(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modApplyImpulse(INSTANCE *my, int *params) {
+static int modApplyImpulse(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     cpBodyApplyImpulse(LOCDWORD(mod_chipmunk, b, LOC_BODY),
                        cpv(*(float *)&params[1], *(float *)&params[2]),
@@ -918,19 +918,19 @@ static int modApplyImpulse(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modSpaceUseSpatialHash(INSTANCE *my, int *params) {
+static int modSpaceUseSpatialHash(INSTANCE *my, intptr_t *params) {
     cpSpaceUseSpatialHash(modChipmunk_cpEspacio, *(float *)&params[1], params[1]);
     modChipmunk_espacioHash = 1;
     return 0;
 }
 
-static int modResetForces(INSTANCE *my, int *params) {
+static int modResetForces(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     cpBodyResetForces(LOCDWORD(mod_chipmunk, b, LOC_BODY));
     return 0;
 }
 
-static int modApplyForce(INSTANCE *my, int *params) {
+static int modApplyForce(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     cpBodyApplyForce(LOCDWORD(mod_chipmunk, b, LOC_BODY),
                      cpv(*(float *)&params[1], *(float *)&params[2]),
@@ -938,20 +938,20 @@ static int modApplyForce(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modSleep(INSTANCE *my, int *params) {
+static int modSleep(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     if (!cpBodyIsSleeping(LOCDWORD(mod_chipmunk, b, LOC_BODY)))
         cpBodySleep(LOCDWORD(mod_chipmunk, b, LOC_BODY));
     return 0;
 }
 
-static int modActivate(INSTANCE *my, int *params) {
+static int modActivate(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     cpBodyActivate(LOCDWORD(mod_chipmunk, b, LOC_BODY));
     return 0;
 }
 
-static int modSleepWithGroup(INSTANCE *my, int *params) {
+static int modSleepWithGroup(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     INSTANCE *c = instance_get(params[1]);
     if (!cpBodyIsSleeping(LOCDWORD(mod_chipmunk, b, LOC_BODY)))
@@ -960,28 +960,28 @@ static int modSleepWithGroup(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modActivateStatic(INSTANCE *my, int *params) {
+static int modActivateStatic(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     cpBodyActivateStatic(LOCDWORD(mod_chipmunk, b, LOC_BODY), params[1]);
     return 0;
 }
 
-static int modIsStatic(INSTANCE *my, int *params) {
+static int modIsStatic(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     return cpBodyIsStatic(LOCDWORD(mod_chipmunk, b, LOC_BODY));
 }
 
-static int modIsRogue(INSTANCE *my, int *params) {
+static int modIsRogue(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     return cpBodyIsRogue(LOCDWORD(mod_chipmunk, b, LOC_BODY));
 }
 
-static int modIsSleeping(INSTANCE *my, int *params) {
+static int modIsSleeping(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     return cpBodyIsSleeping(LOCDWORD(mod_chipmunk, b, LOC_BODY));
 }
 
-static int modShapeCacheBB(INSTANCE *my, int *params) {
+static int modShapeCacheBB(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     cpBB *ve    = params[1];
     *ve = cpShapeCacheBB((cpShape *)LOCDWORD(mod_chipmunk, b, LOC_SHAPE));
@@ -989,14 +989,14 @@ static int modShapeCacheBB(INSTANCE *my, int *params) {
 }
 
 // boundingbox ids
-static int modIntersects(INSTANCE *my, int *params) {
+static int modIntersects(INSTANCE *my, intptr_t *params) {
     INSTANCE *a = instance_get(params[0]);
     INSTANCE *b = instance_get(params[1]);
     return cpBBIntersects(cpShapeCacheBB(LOCDWORD(mod_chipmunk, a, LOC_SHAPE)),
                           cpShapeCacheBB(LOCDWORD(mod_chipmunk, b, LOC_SHAPE)));
 }
 
-static int modContains(INSTANCE *my, int *params) {
+static int modContains(INSTANCE *my, intptr_t *params) {
     INSTANCE *a = instance_get(params[0]);
     INSTANCE *b = instance_get(params[1]);
     return (int)cpBBContainsBB(cpShapeCacheBB(LOCDWORD(mod_chipmunk, a, LOC_SHAPE)),
@@ -1004,7 +1004,7 @@ static int modContains(INSTANCE *my, int *params) {
     ;
 }
 
-static int modContainsVec(INSTANCE *my, int *params) {
+static int modContainsVec(INSTANCE *my, intptr_t *params) {
     INSTANCE *a = instance_get(params[0]);
     return (int)cpBBContainsVect(cpShapeCacheBB(LOCDWORD(mod_chipmunk, a, LOC_SHAPE)),
                                  cpv(*(float *)&params[1], *(float *)&params[2]));
@@ -1015,7 +1015,7 @@ static int modContainsVec(INSTANCE *my, int *params) {
 modChipmunkStruct_nodo *indiceConstraints = NULL;
 int idConstraints                         = -1;
 
-static int modgetConstraints(INSTANCE *my, int *params) {
+static int modgetConstraints(INSTANCE *my, intptr_t *params) {
     //    INSTANCE * a = instance_get( params[0] ) ;
     //    cpBody *bod =(cpBody *)LOCDWORD( mod_chipmunk, a, LOC_BODY );
     //    int z,i;
@@ -1037,7 +1037,7 @@ static int modgetConstraints(INSTANCE *my, int *params) {
 
 int indiceShapes;
 DataPointer dataShapes;
-static int modgetShapes(INSTANCE *my, int *params) {
+static int modgetShapes(INSTANCE *my, intptr_t *params) {
     //    INSTANCE * a = instance_get( params[0] ) ;
     //    cpBody *bod =(cpBody *)LOCDWORD( mod_chipmunk, a, LOC_BODY );
     //    int z,i;
@@ -1065,7 +1065,7 @@ static int modgetShapes(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modSpacePointQueryFirst(INSTANCE *my, int *params) {
+static int modSpacePointQueryFirst(INSTANCE *my, intptr_t *params) {
 
     cpShape *a = cpSpacePointQueryFirst(modChipmunk_cpEspacio,
                                         cpv(*(float *)&params[0], *(float *)&params[1]), params[2],
@@ -1080,7 +1080,7 @@ static int modSpacePointQueryFirst(INSTANCE *my, int *params) {
     return id;
 }
 
-static int modSpaceSegmentQueryFirst(INSTANCE *my, int *params) {
+static int modSpaceSegmentQueryFirst(INSTANCE *my, intptr_t *params) {
     cpLayers lay  = params[4];
     cpGroup group = params[5];
     cpSegmentQueryInfo info;
@@ -1110,7 +1110,7 @@ static int modSpaceSegmentQueryFirst(INSTANCE *my, int *params) {
     free(setM);
 }*/
 
-static int modgetColInfo(INSTANCE *my, int *params) {
+static int modgetColInfo(INSTANCE *my, intptr_t *params) {
     modChipmunkStruct_colHand *col = (modChipmunkStruct_colHand *)params[0];
     // col->colisiones=col->colisiones;
     if (modChipmunk_ArregloCantidad(col->colisiones) > 0) {
@@ -1137,7 +1137,7 @@ static int modgetColInfo(INSTANCE *my, int *params) {
     return 1;
 }
 
-static int modSegmentQueryHitPoint(INSTANCE *my, int *params) {
+static int modSegmentQueryHitPoint(INSTANCE *my, intptr_t *params) {
     cpSegmentQueryInfo info;
     cpsegmentqueryinfoB *inf = params[4];
     info.t                   = inf->t;
@@ -1152,7 +1152,7 @@ static int modSegmentQueryHitPoint(INSTANCE *my, int *params) {
     return 1;
 }
 
-static int modSegmentQueryHitDist(INSTANCE *my, int *params) {
+static int modSegmentQueryHitDist(INSTANCE *my, intptr_t *params) {
     cpSegmentQueryInfo info;
     cpsegmentqueryinfoB *inf = params[4];
     info.t                   = inf->t;
@@ -1163,13 +1163,13 @@ static int modSegmentQueryHitDist(INSTANCE *my, int *params) {
     return *(int *)&res;
 }
 
-static int moddeg2rad(INSTANCE *my, int *params) {
+static int moddeg2rad(INSTANCE *my, intptr_t *params) {
     return ((*(float *)&params[0]) / 180000) * CM_PI;
 }
 
 // agregan cuerpos est[aticos al fondo
 
-static int modaddInanimateShape(INSTANCE *my, int *params) {
+static int modaddInanimateShape(INSTANCE *my, intptr_t *params) {
     if (params[0] <= TYPE_NONE || params[0] >= TYPE_EMPTY)
         return 0;
     cpBody *bod = modChipmunk_cpEspacio->staticBody;
@@ -1203,7 +1203,7 @@ void modChipmunkEliminaEstatico(void *parametro) {
     cpShapeFree(parametro);
 }
 
-int modChipmunkRemoveInanimateShape(INSTANCE *my, int *params) {
+int modChipmunkRemoveInanimateShape(INSTANCE *my, intptr_t *params) {
     // LLelimina(modChipmunk_ListaEstaticosFondo,params[0], modChipmunkCompara,
     // modChipmunkEliminaEstatico,1);
     cpSpaceRemoveShape(modChipmunk_cpEspacio, params[0]);
@@ -1211,7 +1211,7 @@ int modChipmunkRemoveInanimateShape(INSTANCE *my, int *params) {
     return 0;
 }
 
-static int modGetOptimalInertia(INSTANCE *my, int *params) {
+static int modGetOptimalInertia(INSTANCE *my, intptr_t *params) {
     float sha      = 0;
     cpShape *shape = params[1];
     if (params[0] == TYPE_CONVEX_POLYGON || params[0] == TYPE_BOX) {
@@ -1236,58 +1236,58 @@ static int modGetOptimalInertia(INSTANCE *my, int *params) {
     return *(int *)&sha;
 }
 
-static int modsetEndPointsLine(INSTANCE *my, int *params) {
+static int modsetEndPointsLine(INSTANCE *my, intptr_t *params) {
     cpSegmentShapeSetEndpoints((cpShape *)LOCDWORD(mod_chipmunk, my, LOC_SHAPE),
                                cpv(*(float *)&params[0], *(float *)&params[1]),
                                cpv(*(float *)&params[2], *(float *)&params[3]));
     return 0;
 }
 
-static int modsetRadiusLine(INSTANCE *my, int *params) {
+static int modsetRadiusLine(INSTANCE *my, intptr_t *params) {
     cpSegmentShapeSetRadius((cpShape *)LOCDWORD(mod_chipmunk, my, LOC_SHAPE), *(float *)&params[0]);
     return 0;
 }
 
-static int modsetOffsetCircle(INSTANCE *my, int *params) {
+static int modsetOffsetCircle(INSTANCE *my, intptr_t *params) {
     cpCircleShapeSetOffset((cpShape *)LOCDWORD(mod_chipmunk, my, LOC_SHAPE),
                            cpv(*(float *)&params[0], *(float *)&params[1]));
     return 0;
 }
 
-static int modsetRadiusCircle(INSTANCE *my, int *params) {
+static int modsetRadiusCircle(INSTANCE *my, intptr_t *params) {
     cpCircleShapeSetRadius((cpShape *)LOCDWORD(mod_chipmunk, my, LOC_SHAPE), *(float *)&params[0]);
     return 0;
 }
 
-static int modsetVertConvexPoligon(INSTANCE *my, int *params) {
+static int modsetVertConvexPoligon(INSTANCE *my, intptr_t *params) {
     cpPolyShapeSetVerts((cpShape *)LOCDWORD(mod_chipmunk, my, LOC_SHAPE), params[2], params[3],
                         cpv(*(float *)&params[0], *(float *)&params[1]));
     return 0;
 }
 
-static int modsetEndPointsLineI(INSTANCE *my, int *params) {
+static int modsetEndPointsLineI(INSTANCE *my, intptr_t *params) {
     cpSegmentShapeSetEndpoints((cpShape *)params[0],
                                cpv(*(float *)&params[1], *(float *)&params[2]),
                                cpv(*(float *)&params[3], *(float *)&params[4]));
     return 0;
 }
 
-static int modsetRadiusLineI(INSTANCE *my, int *params) {
+static int modsetRadiusLineI(INSTANCE *my, intptr_t *params) {
     cpSegmentShapeSetRadius((cpShape *)params[0], *(float *)&params[1]);
     return 0;
 }
 
-static int modsetOffsetCircleI(INSTANCE *my, int *params) {
+static int modsetOffsetCircleI(INSTANCE *my, intptr_t *params) {
     cpCircleShapeSetOffset((cpShape *)params[0], cpv(*(float *)&params[1], *(float *)&params[2]));
     return 0;
 }
 
-static int modsetRadiusCircleI(INSTANCE *my, int *params) {
+static int modsetRadiusCircleI(INSTANCE *my, intptr_t *params) {
     cpCircleShapeSetRadius((cpShape *)params[0], *(float *)&params[1]);
     return 0;
 }
 
-static int modsetVertConvexPoligonI(INSTANCE *my, int *params) {
+static int modsetVertConvexPoligonI(INSTANCE *my, intptr_t *params) {
     cpPolyShapeSetVerts((cpShape *)params[0], params[3], params[4],
                         cpv(*(float *)&params[1], *(float *)&params[2]));
     return 0;
@@ -1633,7 +1633,7 @@ void __pxtexport(mod_chipmunk, module_initialize)() {
         raiz[i]=sqrt(i);*/
 }
 
-static int modInfinity(INSTANCE *my, int *params) {
+static int modInfinity(INSTANCE *my, intptr_t *params) {
     cpFloat a = INFINITY;
     return *(int *)&a;
 }
@@ -1712,7 +1712,7 @@ void __pxtexport(mod_chipmunk, module_finalize)() {
     // free(raiz);
 }
 
-static int modChipmunk_cleanSpace(INSTANCE *my, int *params) {
+static int modChipmunk_cleanSpace(INSTANCE *my, intptr_t *params) {
 
     // elimina todo el mundo físico
     LLeliminaTodo(&modChipmunk_ListaHandlers, funcionElmHand, 1);
@@ -1736,7 +1736,7 @@ static int modChipmunk_cleanSpace(INSTANCE *my, int *params) {
     modChipmunk_numLista = 0;
 }
 
-static int modForceCreateBody(INSTANCE *my, int *params) {
+static int modForceCreateBody(INSTANCE *my, intptr_t *params) {
     if (LOCDWORD(mod_chipmunk, my, LOC_BODY) != 0) {
         cpBody *bod     = (cpBody *)LOCDWORD(mod_chipmunk, my, LOC_BODY);
         DataPointer est = (DataPointer)bod->data;
@@ -1748,7 +1748,7 @@ static int modForceCreateBody(INSTANCE *my, int *params) {
     return 1;
 }
 
-static int modForceCreateBodyI(INSTANCE *i, int *params) {
+static int modForceCreateBodyI(INSTANCE *i, intptr_t *params) {
     INSTANCE *my = params[0];
     if (LOCDWORD(mod_chipmunk, my, LOC_BODY) != 0) {
         cpBody *bod     = (cpBody *)LOCDWORD(mod_chipmunk, my, LOC_BODY);
@@ -1764,12 +1764,12 @@ static int modForceCreateBodyI(INSTANCE *i, int *params) {
 char *__pxtexport(mod_chipmunk, module_dependencies)[] = {"librender", "libgrbase", "libdraw",
                                                           "libblit", NULL};
 
-static int modEQ(INSTANCE *my, int *params) {
+static int modEQ(INSTANCE *my, intptr_t *params) {
     cpFloat a = INFINITY;
     return a == *((float *)&params[0]);
 }
 
-static int modIntersectsBB(INSTANCE *my, int *params) {
+static int modIntersectsBB(INSTANCE *my, intptr_t *params) {
     INSTANCE *b = instance_get(params[0]);
     cpBB v1     = cpShapeCacheBB((cpShape *)LOCDWORD(mod_chipmunk, my, LOC_SHAPE));
     cpBB v2     = cpShapeCacheBB((cpShape *)LOCDWORD(mod_chipmunk, b, LOC_SHAPE));

@@ -103,7 +103,7 @@ int sensor_axes(int i) {
 // Get the total number of sensors attached to the system
 // This is considered constant during the whole run of the program, but
 // theoretically might not be so
-int modsensor_number(INSTANCE *my, int *params) {
+int modsensor_number(INSTANCE *my, intptr_t *params) {
     int n = 0;
 
     n = SDL_NumSensors();
@@ -112,7 +112,7 @@ int modsensor_number(INSTANCE *my, int *params) {
 }
 
 // Open a sensor. The user needn't call this manually, but may choose to do so
-int modsensor_open(INSTANCE *my, int *params) {
+int modsensor_open(INSTANCE *my, intptr_t *params) {
     int n = 0;
 
     n = sensor_open(params[0]);
@@ -122,13 +122,13 @@ int modsensor_open(INSTANCE *my, int *params) {
 
 // Close a sensor. The user needn't do this manually, but may choose to do so
 // nonetheless to free system resources since having an open sensor
-void modsensor_close(INSTANCE *my, int *params) {
+void modsensor_close(INSTANCE *my, intptr_t *params) {
     sensor_close(params[0]);
 }
 
 // Return the name for the given sensor index
 // The sensor needn't be open
-int modsensor_name(INSTANCE *my, int *params) {
+int modsensor_name(INSTANCE *my, intptr_t *params) {
     int result;
 
     result = string_new(SDL_SensorNameForIndex(params[0]));
@@ -139,7 +139,7 @@ int modsensor_name(INSTANCE *my, int *params) {
 }
 
 // Get the total number of axes in a sensor
-int modsensor_numaxes(INSTANCE *my, int *params) {
+int modsensor_numaxes(INSTANCE *my, intptr_t *params) {
     int n = 0;
 
     if (sensor_open(params[0]) != -1) {
@@ -150,7 +150,7 @@ int modsensor_numaxes(INSTANCE *my, int *params) {
 }
 
 // Get the type for a sensor
-int modsensor_type(INSTANCE *my, int *params) {
+int modsensor_type(INSTANCE *my, intptr_t *params) {
     int type = 0;
 
     if (sensor_open(params[0]) != -1) {
@@ -161,7 +161,7 @@ int modsensor_type(INSTANCE *my, int *params) {
 }
 
 // Get the value for a sensor axis
-float modsensor_getaxis(INSTANCE *my, int *params) {
+float modsensor_getaxis(INSTANCE *my, intptr_t *params) {
     float value = 0.0;
 
     if (sensor_open(params[0]) != -1) {
@@ -172,7 +172,7 @@ float modsensor_getaxis(INSTANCE *my, int *params) {
 }
 
 // Update the sensor data
-void modsensor_log(INSTANCE *my, int *params) {
+void modsensor_log(INSTANCE *my, intptr_t *params) {
     SDL_SensorUpdate();
 }
 

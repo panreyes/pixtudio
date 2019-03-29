@@ -27,9 +27,9 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modtime_get_timer( INSTANCE * my, int * params );
-extern int modtime_time( INSTANCE * my, int * params );
-extern int modtime_ftime( INSTANCE * my, int * params );
+extern int modtime_get_timer( INSTANCE * my, intptr_t * params );
+extern int modtime_time( INSTANCE * my, intptr_t * params );
+extern int modtime_ftime( INSTANCE * my, intptr_t * params );
 
 extern void __pxtexport( mod_time, module_initialize )();
 extern void __pxtexport( mod_time, module_finalize )();

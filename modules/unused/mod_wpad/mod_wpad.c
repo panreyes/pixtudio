@@ -80,7 +80,7 @@ int has_guitar(int i) {
 }
 
 /* Check the status of each Wiimote */
-int modwpad_is_ready(INSTANCE *my, int *params) {
+int modwpad_is_ready(INSTANCE *my, intptr_t *params) {
     int res = 0;
     u32 type;
 
@@ -92,7 +92,7 @@ int modwpad_is_ready(INSTANCE *my, int *params) {
 }
 
 // Get info from generic controller
-int modwpad_info(INSTANCE *my, int *params) {
+int modwpad_info(INSTANCE *my, intptr_t *params) {
     u32 type;
     WPADData *wd;
 
@@ -143,7 +143,7 @@ int modwpad_info(INSTANCE *my, int *params) {
 }
 
 // Get info from nunchuk
-int modwpad_info_nunchuk(INSTANCE *my, int *params) {
+int modwpad_info_nunchuk(INSTANCE *my, intptr_t *params) {
     u32 type;
     struct expansion_t exp;
 
@@ -184,7 +184,7 @@ int modwpad_info_nunchuk(INSTANCE *my, int *params) {
 }
 
 // Get data from the Wii Balance Board
-int modwpad_info_bb(INSTANCE *my, int *params) {
+int modwpad_info_bb(INSTANCE *my, intptr_t *params) {
     struct expansion_t exp;
     u32 type;
 
@@ -219,7 +219,7 @@ int modwpad_info_bb(INSTANCE *my, int *params) {
 }
 
 // Get info from classic controller
-int modwpad_info_classic(INSTANCE *my, int *params) {
+int modwpad_info_classic(INSTANCE *my, intptr_t *params) {
     u32 type;
     struct expansion_t exp;
 
@@ -242,7 +242,7 @@ int modwpad_info_classic(INSTANCE *my, int *params) {
 }
 
 // Get info from guitar controller
-int modwpad_info_guitar(INSTANCE *my, int *params) {
+int modwpad_info_guitar(INSTANCE *my, intptr_t *params) {
     u32 type;
     struct expansion_t exp;
 
@@ -265,7 +265,7 @@ int modwpad_info_guitar(INSTANCE *my, int *params) {
 }
 
 // Make a controller rumble (or stop rumbling)
-int modwpad_rumble(INSTANCE *my, int *params) {
+int modwpad_rumble(INSTANCE *my, intptr_t *params) {
     // Ensure it's been correctly initialized
     if (WPAD_Probe(params[0], NULL) != 0)
         return 0;

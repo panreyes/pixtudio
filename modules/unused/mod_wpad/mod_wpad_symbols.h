@@ -49,13 +49,13 @@ extern DLSYSFUNCS  __pxtexport( mod_wpad, exported_functions )[];
 
 #ifndef __PXTB__
 /* Function declaration */
-extern int modwpad_is_ready( INSTANCE * my, int * params );
-extern int modwpad_info( INSTANCE * my, int * params );
-extern int modwpad_info_nunchuk( INSTANCE * my, int * params );
-extern int modwpad_info_classic( INSTANCE * my, int * params );
-extern int modwpad_info_guitar( INSTANCE * my, int * params );
-extern int modwpad_info_bb( INSTANCE * my, int * params );
-extern int modwpad_rumble( INSTANCE * my, int * params);
+extern int modwpad_is_ready( INSTANCE * my, intptr_t * params );
+extern int modwpad_info( INSTANCE * my, intptr_t * params );
+extern int modwpad_info_nunchuk( INSTANCE * my, intptr_t * params );
+extern int modwpad_info_classic( INSTANCE * my, intptr_t * params );
+extern int modwpad_info_guitar( INSTANCE * my, intptr_t * params );
+extern int modwpad_info_bb( INSTANCE * my, intptr_t * params );
+extern int modwpad_rumble( INSTANCE * my, intptr_t * params);
 #endif
 
 

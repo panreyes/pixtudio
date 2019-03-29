@@ -58,7 +58,7 @@ enum { SCROLLS = 0 };
 
 /* --------------------------------------------------------------------------- */
 
-int modscreen_define_region(INSTANCE *my, int *params) {
+int modscreen_define_region(INSTANCE *my, intptr_t *params) {
     REGION *orig = region_get(params[0]);
 
     gr_mark_rect(MIN(orig->x, params[1]), MIN(orig->y, params[2]),
@@ -70,7 +70,7 @@ int modscreen_define_region(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modscreen_out_region(INSTANCE *my, int *params) {
+int modscreen_out_region(INSTANCE *my, intptr_t *params) {
     INSTANCE *proc = instance_get(params[0]);
     int region     = params[1];
     REGION bbox;
@@ -116,7 +116,7 @@ int modscreen_out_region(INSTANCE *my, int *params) {
 /* --------------------------------------------------------------------------- */
 /* Funciones gráficas */
 
-int modscreen_put(INSTANCE *my, int *params) {
+int modscreen_put(INSTANCE *my, intptr_t *params) {
     GRAPH *map = bitmap_get(params[0], params[1]);
 
     if (!map)
@@ -129,7 +129,7 @@ int modscreen_put(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modscreen_xput(INSTANCE *my, int *params) {
+int modscreen_xput(INSTANCE *my, intptr_t *params) {
     int r;
     GRAPH *map = bitmap_get(params[0], params[1]);
     if (!map)
@@ -150,7 +150,7 @@ int modscreen_xput(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modscreen_put_screen(INSTANCE *my, int *params) {
+int modscreen_put_screen(INSTANCE *my, intptr_t *params) {
     int x, y;
     GRAPH *map = bitmap_get(params[0], params[1]);
 
@@ -173,14 +173,14 @@ int modscreen_put_screen(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modscreen_clear_screen(INSTANCE *my, int *params) {
+int modscreen_clear_screen(INSTANCE *my, intptr_t *params) {
     gr_clear(background);
     return 1;
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modscreen_get_screen(INSTANCE *my, int *params) {
+int modscreen_get_screen(INSTANCE *my, intptr_t *params) {
     GRAPH *map = bitmap_clone(bitmap_get(0, -1));
 
     map->info_flags = GI_NOCOLORKEY;

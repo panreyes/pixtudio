@@ -46,7 +46,7 @@
 
 /* ----------------------------------------------------------------- */
 
-int modfile_save(INSTANCE *my, int *params) {
+int modfile_save(INSTANCE *my, intptr_t *params) {
     file *fp;
     const char *filename;
     int result = 0;
@@ -64,7 +64,7 @@ int modfile_save(INSTANCE *my, int *params) {
     return result;
 }
 
-int modfile_load(INSTANCE *my, int *params) {
+int modfile_load(INSTANCE *my, intptr_t *params) {
     file *fp;
     const char *filename;
     int result = 0;
@@ -82,7 +82,7 @@ int modfile_load(INSTANCE *my, int *params) {
     return result;
 }
 
-int modfile_fopen(INSTANCE *my, int *params) {
+int modfile_fopen(INSTANCE *my, intptr_t *params) {
     static char *ops[] = {"rb0", "r+b0", "wb0", "rb", "wb6"};
     int r;
 
@@ -94,49 +94,49 @@ int modfile_fopen(INSTANCE *my, int *params) {
     return r;
 }
 
-int modfile_fclose(INSTANCE *my, int *params) {
+int modfile_fclose(INSTANCE *my, intptr_t *params) {
     file_close((file *)params[0]);
     return 1;
 }
 
-int modfile_fread(INSTANCE *my, int *params) {
+int modfile_fread(INSTANCE *my, intptr_t *params) {
     return loadtypes((file *)params[0], (void *)params[1], (void *)params[2], params[3], 0);
 }
 
-int modfile_fwrite(INSTANCE *my, int *params) {
+int modfile_fwrite(INSTANCE *my, intptr_t *params) {
     return savetypes((file *)params[0], (void *)params[1], (void *)params[2], params[3], 0);
 }
 
-int modfile_freadC(INSTANCE *my, int *params) {
+int modfile_freadC(INSTANCE *my, intptr_t *params) {
     return file_read((file *)params[2], (void *)params[0], params[1]);
 }
 
-int modfile_fwriteC(INSTANCE *my, int *params) {
+int modfile_fwriteC(INSTANCE *my, intptr_t *params) {
     return file_write((file *)params[2], (void *)params[0], params[1]);
 }
 
-int modfile_fseek(INSTANCE *my, int *params) {
+int modfile_fseek(INSTANCE *my, intptr_t *params) {
     return file_seek((file *)params[0], params[1], params[2]);
 }
 
-int modfile_frewind(INSTANCE *my, int *params) {
+int modfile_frewind(INSTANCE *my, intptr_t *params) {
     file_rewind((file *)params[0]);
     return 1;
 }
 
-int modfile_ftell(INSTANCE *my, int *params) {
+int modfile_ftell(INSTANCE *my, intptr_t *params) {
     return file_pos((file *)params[0]);
 }
 
-int modfile_fflush(INSTANCE *my, int *params) {
+int modfile_fflush(INSTANCE *my, intptr_t *params) {
     return file_flush((file *)params[0]);
 }
 
-int modfile_filelength(INSTANCE *my, int *params) {
+int modfile_filelength(INSTANCE *my, intptr_t *params) {
     return file_size((file *)params[0]);
 }
 
-int modfile_fputs(INSTANCE *my, int *params) {
+int modfile_fputs(INSTANCE *my, intptr_t *params) {
     char *str = (char *)string_get(params[1]);
     int r = file_puts((file *)params[0], str);
     if (str[strlen(str) - 1] != '\n')
@@ -146,7 +146,7 @@ int modfile_fputs(INSTANCE *my, int *params) {
     return r;
 }
 
-int modfile_fgets(INSTANCE *my, int *params) {
+int modfile_fgets(INSTANCE *my, intptr_t *params) {
     char buffer[1025];
     int len, done = 0;
     int str       = string_new("");
@@ -169,7 +169,7 @@ int modfile_fgets(INSTANCE *my, int *params) {
     return str;
 }
 
-int modfile_file(INSTANCE *my, int *params) {
+int modfile_file(INSTANCE *my, intptr_t *params) {
     char buffer[1025];
     int str = string_new("");
     file *f;
@@ -196,30 +196,30 @@ int modfile_file(INSTANCE *my, int *params) {
     return str;
 }
 
-int modfile_feof(INSTANCE *my, int *params) {
+int modfile_feof(INSTANCE *my, intptr_t *params) {
     return file_eof((file *)params[0]);
 }
 
-int modfile_exists(INSTANCE *my, int *params) {
+int modfile_exists(INSTANCE *my, intptr_t *params) {
     int r = file_exists(string_get(params[0]));
     string_discard(params[0]);
     return r;
 }
 
-int modfile_remove(INSTANCE *my, int *params) {
+int modfile_remove(INSTANCE *my, intptr_t *params) {
     int r = file_remove(string_get(params[0]));
     string_discard(params[0]);
     return r;
 }
 
-int modfile_move(INSTANCE *my, int *params) {
+int modfile_move(INSTANCE *my, intptr_t *params) {
     int r = file_move(string_get(params[0]), string_get(params[1]));
     string_discard(params[1]);
     string_discard(params[0]);
     return r;
 }
 
-int modfile_dirname(INSTANCE *my, int *params) {
+int modfile_dirname(INSTANCE *my, intptr_t *params) {
     char *path = strdup(string_get(params[0]));
     string_discard(params[0]);
     int str_code = string_new(dirname(path));
@@ -228,7 +228,7 @@ int modfile_dirname(INSTANCE *my, int *params) {
     return str_code;
 }
 
-int modfile_basename(INSTANCE *my, int *params) {
+int modfile_basename(INSTANCE *my, intptr_t *params) {
     char *path = strdup(string_get(params[0]));
     string_discard(params[0]);
     int str_code = string_new(basename(path));

@@ -1,55 +1,51 @@
 project(pxtb C)
 cmake_minimum_required(VERSION 3.4)
+set(C_PXTB 1)
+
 # Required stuff
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${pxtb_SOURCE_DIR}/../include")
-find_package(SDL2 REQUIRED)     # We need the SDL_gamecontroller symbols, but we don't link against SDL2
-find_package(ZLIB REQUIRED)
-find_package(STEAMWORKS)
-find_package(CURL)              # We need some symbols, but we don't link against libcurl
+set(PXT_MODULES_PATH "${pxtb_SOURCE_DIR}/../../../modules")
+set(PXT_3RDPARTY "${pxtb_SOURCE_DIR}/../../../3rdparty")
+set(PXT_CORE_PATH "${pxtb_SOURCE_DIR}/../../../core")
+include(optional_modules)
+include(do_find_libs)
+
 # Preprocessor macros
 add_definitions(-D__PXTB__)
-
-# Determine if optional libraries should be built in or not
-if(NOT STEAMWORKS_FOUND)
-  add_definitions(-DNO_MODSTEAM)
-endif(NOT STEAMWORKS_FOUND)
-if(NOT CURL_FOUND)
-  add_definitions(-DNO_MODCURL)
-endif(NOT CURL_FOUND)
 
 # Common defines
 include(common_defs)
 
 # Source files
 file(GLOB SOURCE_FILES
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/src/*.c
-  ${pxtb_SOURCE_DIR}/../../../core/common/debug.c
-  ${pxtb_SOURCE_DIR}/../../../core/common/files.c
-  ${pxtb_SOURCE_DIR}/../../../core/common/xctype.c
-  ${pxtb_SOURCE_DIR}/../../../core/common/commons_defs.h
-  ${pxtb_SOURCE_DIR}/../../../core/common/dirs.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/codeblock.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/compiler.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/constants.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/errors.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/errors_st.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/identifiers.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/messages.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/procdef.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/pxtb.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/segment.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/token.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/varspace.h
-  ${pxtb_SOURCE_DIR}/../../../core/pxtb/include/procdef.h
-  ${pxtb_SOURCE_DIR}/../../../core/include/pxtdl.h
-  ${pxtb_SOURCE_DIR}/../../../core/include/loadlib.h
-  ${pxtb_SOURCE_DIR}/../../../core/include/files.h
-  ${pxtb_SOURCE_DIR}/../../../core/include/monolithic_includes.h)
+  ${PXT_CORE_PATH}/pxtb/src/*.c
+  ${PXT_CORE_PATH}/common/debug.c
+  ${PXT_CORE_PATH}/common/files.c
+  ${PXT_CORE_PATH}/common/xctype.c
+  ${PXT_CORE_PATH}/common/commons_defs.h
+  ${PXT_CORE_PATH}/common/dirs.h
+  ${PXT_CORE_PATH}/pxtb/include/codeblock.h
+  ${PXT_CORE_PATH}/pxtb/include/compiler.h
+  ${PXT_CORE_PATH}/pxtb/include/constants.h
+  ${PXT_CORE_PATH}/pxtb/include/errors.h
+  ${PXT_CORE_PATH}/pxtb/include/errors_st.h
+  ${PXT_CORE_PATH}/pxtb/include/identifiers.h
+  ${PXT_CORE_PATH}/pxtb/include/messages.h
+  ${PXT_CORE_PATH}/pxtb/include/procdef.h
+  ${PXT_CORE_PATH}/pxtb/include/pxtb.h
+  ${PXT_CORE_PATH}/pxtb/include/segment.h
+  ${PXT_CORE_PATH}/pxtb/include/token.h
+  ${PXT_CORE_PATH}/pxtb/include/varspace.h
+  ${PXT_CORE_PATH}/pxtb/include/procdef.h
+  ${PXT_CORE_PATH}/include/pxtdl.h
+  ${PXT_CORE_PATH}/include/loadlib.h
+  ${PXT_CORE_PATH}/include/files.h
+  ${PXT_CORE_PATH}/include/monolithic_includes.h)
+  
 # Include dirs
-include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include
-                    ${pxtb_SOURCE_DIR}/../../../core/include
+include_directories(${PXT_CORE_PATH}/pxtb/include
+                    ${PXT_CORE_PATH}/include
                     ${pxtb_SOURCE_DIR}/../../../modules/libbgload/
-                    ${pxtb_SOURCE_DIR}/../../../modules/mod_debug/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_say/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_string/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_math/
@@ -61,7 +57,6 @@ include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_gamecontroller/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_joy/
                     ${pxtb_SOURCE_DIR}/../../../modules/libjoy/
-                    ${pxtb_SOURCE_DIR}/../../../modules/mod_theora/
                     ${pxtb_SOURCE_DIR}/../../../modules/libkey/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_key/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_proc/
@@ -74,7 +69,6 @@ include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_video/
                     ${pxtb_SOURCE_DIR}/../../../modules/libmouse/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_mouse/
-                    ${pxtb_SOURCE_DIR}/../../../modules/mod_multi/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_map/
                     ${pxtb_SOURCE_DIR}/../../../modules/libfont/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_dir/
@@ -91,19 +85,12 @@ include_directories(${pxtb_SOURCE_DIR}/../../../core/pxtb/include
                     ${pxtb_SOURCE_DIR}/../../../modules/libwm/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_wm/
                     ${pxtb_SOURCE_DIR}/../../../modules/mod_sys/
-                    ${pxtb_SOURCE_DIR}/../../../modules/mod_steam/
-                    ${pxtb_SOURCE_DIR}/../../../modules/mod_regex/
-                    ${pxtb_SOURCE_DIR}/../../../modules/mod_fsock/
-                    ${pxtb_SOURCE_DIR}/../../../modules/mod_effects/
-                    ${pxtb_SOURCE_DIR}/../../../modules/mod_curl/
                     ${SDL2_INCLUDE_DIR}
                     ${ZLIB_INCLUDE_DIRS})
 
-# Add CURL include dir, if mod_curl is to be built
-if(CURL_FOUND)
-    include_directories(${CURL_INCLUDE_DIR})
-endif(CURL_FOUND)
-
+# Optional modules
+include(optional_modules_includes)
+	
 # In windows? Add an icon and link agains shlwapi
 if(WIN32)
 	set(SOURCE_FILES

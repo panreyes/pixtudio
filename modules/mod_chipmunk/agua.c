@@ -57,7 +57,7 @@ static inline int Metaball(int x, int y, int *xp, int *yp, int tam, float t, flo
     return v > tr;
 }
 // encontrar minx y miny para el pintado...
-int modChipmunkPintaAgua(INSTANCE *my, int *params) {
+int modChipmunkPintaAgua(INSTANCE *my, intptr_t *params) {
     GRAPH *map = bitmap_get(params[0], params[1]);
     int anc    = map->width;
     int alt    = map->height;
@@ -109,7 +109,7 @@ int modChipmunkPintaAgua(INSTANCE *my, int *params) {
     map->needs_texture_update = 1;
 }
 
-int modChipmunkMetaball(INSTANCE *my, int *params) {
+int modChipmunkMetaball(INSTANCE *my, intptr_t *params) {
     // printf("%d %d %d %p %d\n",params[0],params[1],params[2],params[3],params[4]); fflush(stdout);
     float v = 0.0, a, b, t;
     int z;
@@ -126,7 +126,7 @@ int modChipmunkMetaball(INSTANCE *my, int *params) {
     return v > (*(float *)&params[5]);
 }
 
-int modChipmunkSetEfector(INSTANCE *my, int *params) {
+int modChipmunkSetEfector(INSTANCE *my, intptr_t *params) {
     ((DataPointer)((cpShape *)params[0])->body->data)->grupoEfector = params[1];
 }
 
@@ -244,7 +244,7 @@ int modChipmunkAgua(int *ids, int tam, float kNorm, float kNearNorm, float kRest
     }
 }
 
-int modChipmunkEmulateAgua(INSTANCE *my, int *params) {
+int modChipmunkEmulateAgua(INSTANCE *my, intptr_t *params) {
     float kdt = *(float *)GLOADDR(mod_chipmunk, GLO_INTERVAL) /
                 (float)GLODWORD(mod_chipmunk, GLO_PHRESOLUTION);
     WaterS *ws = params[0];

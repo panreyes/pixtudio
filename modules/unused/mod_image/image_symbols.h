@@ -33,17 +33,17 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int bgd_load_image (INSTANCE * i, int * params);
-extern int bgd_is_PCX (INSTANCE * i, int * params);
-extern int bgd_is_GIF (INSTANCE * i, int * params);
-extern int bgd_is_JPG (INSTANCE * i, int * params);
-extern int bgd_is_PNG (INSTANCE * i, int * params);
-extern int bgd_is_XPM (INSTANCE * i, int * params);
-extern int bgd_is_BMP (INSTANCE * i, int * params);
-extern int bgd_is_PNM (INSTANCE * i, int * params);
-extern int bgd_is_TIF (INSTANCE * i, int * params);
-extern int bgd_is_LBM (INSTANCE * i, int * params);
-extern int bgd_is_XCF (INSTANCE * i, int * params);
+extern int bgd_load_image (INSTANCE * i, intptr_t * params);
+extern int bgd_is_PCX (INSTANCE * i, intptr_t * params);
+extern int bgd_is_GIF (INSTANCE * i, intptr_t * params);
+extern int bgd_is_JPG (INSTANCE * i, intptr_t * params);
+extern int bgd_is_PNG (INSTANCE * i, intptr_t * params);
+extern int bgd_is_XPM (INSTANCE * i, intptr_t * params);
+extern int bgd_is_BMP (INSTANCE * i, intptr_t * params);
+extern int bgd_is_PNM (INSTANCE * i, intptr_t * params);
+extern int bgd_is_TIF (INSTANCE * i, intptr_t * params);
+extern int bgd_is_LBM (INSTANCE * i, intptr_t * params);
+extern int bgd_is_XCF (INSTANCE * i, intptr_t * params);
 #endif
 
 DLSYSFUNCS __pxtexport( image, exported_functions )[] =

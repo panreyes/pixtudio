@@ -58,7 +58,7 @@ extern JNIEnv *Android_JNI_GetEnv();
 
 /* ---------------------------------------------------------------------- */
 
-int modsys_exec(INSTANCE *my, int *params) {
+int modsys_exec(INSTANCE *my, intptr_t *params) {
 #if (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
     NSString *urlString = [NSString stringWithFormat:@"%s", string_get(params[1])];
     string_discard(params[1]);
@@ -135,7 +135,7 @@ int modsys_exec(INSTANCE *my, int *params) {
 
 /* ---------------------------------------------------------------------- */
 
-int modsys_getenv(INSTANCE *my, int *params) {
+int modsys_getenv(INSTANCE *my, intptr_t *params) {
     char *e;
     int str;
 

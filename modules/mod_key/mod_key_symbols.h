@@ -33,7 +33,7 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modkey_key( INSTANCE * my, int * params );
+extern int modkey_key( INSTANCE * my, intptr_t * params );
 #endif
 
 DLSYSFUNCS  __pxtexport( mod_key, exported_functions )[] = {

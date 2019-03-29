@@ -66,7 +66,7 @@ JNIEnv *BGD_JNI_GetEnv(void) {
 }
 
 // Calls the initialize function in the Java IAP code
-static int bgd_iap_init(INSTANCE *my, int *params) {
+static int bgd_iap_init(INSTANCE *my, intptr_t *params) {
     jmethodID mid;
     JNIEnv *mEnv = BGD_JNI_GetEnv();
     mid = (*mEnv)->GetStaticMethodID(mEnv, mActivityClass, "init", "(Ljava/lang/String;)I");
@@ -81,7 +81,7 @@ static int bgd_iap_init(INSTANCE *my, int *params) {
 }
 
 // Check if the receipts are already available
-static int bgd_iap_receipts_ready(INSTANCE *my, int *params) {
+static int bgd_iap_receipts_ready(INSTANCE *my, intptr_t *params) {
     jmethodID mid;
 
     JNIEnv *mEnv = BGD_JNI_GetEnv();
@@ -106,7 +106,7 @@ static void bgd_iap_shutdown() {
 }
 
 // Try to determine if player has already purchased given product ID
-static int bgd_iap_purchased(INSTANCE *my, int *params) {
+static int bgd_iap_purchased(INSTANCE *my, intptr_t *params) {
     jmethodID mid;
 
     JNIEnv *mEnv = BGD_JNI_GetEnv();
@@ -124,7 +124,7 @@ static int bgd_iap_purchased(INSTANCE *my, int *params) {
 }
 
 // Is the game being run in a real Ouya?
-static int bgd_iap_isouya(INSTANCE *my, int *params) {
+static int bgd_iap_isouya(INSTANCE *my, intptr_t *params) {
     jmethodID mid;
 
     JNIEnv *mEnv = BGD_JNI_GetEnv();
@@ -138,7 +138,7 @@ static int bgd_iap_isouya(INSTANCE *my, int *params) {
 }
 
 // Start the purchase for the given product ID
-static int bgd_iap_purchase(INSTANCE *my, int *params) {
+static int bgd_iap_purchase(INSTANCE *my, intptr_t *params) {
     jmethodID mid;
 
     // Mark the purchase as "In-progress"

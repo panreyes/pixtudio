@@ -30,12 +30,12 @@
 /* --------------------------------------------------------------------------- */
 
 // Calls the initialize function in the Java IAP code
-static int bgd_iap_init(INSTANCE *my, int *params) {
+static int bgd_iap_init(INSTANCE *my, intptr_t *params) {
     return 0;
 }
 
 // Check if the receipts are already available
-static int bgd_iap_receipts_ready(INSTANCE *my, int *params) {
+static int bgd_iap_receipts_ready(INSTANCE *my, intptr_t *params) {
     return 0;
 }
 
@@ -43,15 +43,15 @@ static int bgd_iap_receipts_ready(INSTANCE *my, int *params) {
 static void bgd_iap_shutdown() {
 }
 
-static int bgd_iap_purchased(INSTANCE *my, int *params) {
+static int bgd_iap_purchased(INSTANCE *my, intptr_t *params) {
     return 0;
 }
 
-static int bgd_iap_isouya(INSTANCE *my, int *params) {
+static int bgd_iap_isouya(INSTANCE *my, intptr_t *params) {
     return 0;
 }
 
-static int bgd_iap_purchase(INSTANCE *my, int *params) {
+static int bgd_iap_purchase(INSTANCE *my, intptr_t *params) {
     return 0;
 }
 

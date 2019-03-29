@@ -70,14 +70,14 @@ DLVARFIXUP __pxtexport( mod_grproc, globals_fixup )[] = {
 
 extern void __pxtexport( mod_grproc, process_exec_hook )( INSTANCE * r );
 
-extern int grproc_advance( INSTANCE * my, int * params );
-extern int grproc_xadvance( INSTANCE * my, int * params );
-extern int grproc_get_angle( INSTANCE * my, int * params );
-extern int grproc_get_dist( INSTANCE * a, int * params );
-extern int grproc_collision( INSTANCE * my, int * params );
-extern int grproc_collision_box( INSTANCE * my, int * params );
-extern int grproc_collision_circle( INSTANCE * my, int * params );
-extern int grproc_get_real_point( INSTANCE * my, int * params );
+extern int grproc_advance( INSTANCE * my, intptr_t * params );
+extern int grproc_xadvance( INSTANCE * my, intptr_t * params );
+extern int grproc_get_angle( INSTANCE * my, intptr_t * params );
+extern int grproc_get_dist( INSTANCE * a, intptr_t * params );
+extern int grproc_collision( INSTANCE * my, intptr_t * params );
+extern int grproc_collision_box( INSTANCE * my, intptr_t * params );
+extern int grproc_collision_circle( INSTANCE * my, intptr_t * params );
+extern int grproc_get_real_point( INSTANCE * my, intptr_t * params );
 #endif
 
 char __pxtexport( mod_grproc, locals_def )[] =

@@ -36,16 +36,16 @@ extern "C" {
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int steam_achievement_unlock(INSTANCE *my, int *params);
-extern int steam_achievement_delete(INSTANCE *my, int *params);
-extern int steam_achievement_check(INSTANCE *my, int *params);
-extern int steam_achievement_get_icon(INSTANCE *my, int *params);
-extern int steam_avatar_get(INSTANCE *my, int *params);
-extern int steam_friend_count(INSTANCE *my, int *params);
-extern int steam_friend_name(INSTANCE *my, int *params);
-extern int steam_friend_nickname(INSTANCE *my, int *params);
-extern int steam_friend_avatar(INSTANCE *my, int *params);
-extern int steam_lang_get(INSTANCE *my, int *params);
+extern int steam_achievement_unlock(INSTANCE *my, intptr_t *params);
+extern int steam_achievement_delete(INSTANCE *my, intptr_t *params);
+extern int steam_achievement_check(INSTANCE *my, intptr_t *params);
+extern int steam_achievement_get_icon(INSTANCE *my, intptr_t *params);
+extern int steam_avatar_get(INSTANCE *my, intptr_t *params);
+extern int steam_friend_count(INSTANCE *my, intptr_t *params);
+extern int steam_friend_name(INSTANCE *my, intptr_t *params);
+extern int steam_friend_nickname(INSTANCE *my, intptr_t *params);
+extern int steam_friend_avatar(INSTANCE *my, intptr_t *params);
+extern int steam_lang_get(INSTANCE *my, intptr_t *params);
 
 extern void __pxtexport( mod_steam, module_initialize )();
 extern void __pxtexport( mod_steam, module_finalize )();

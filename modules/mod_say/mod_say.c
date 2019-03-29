@@ -45,7 +45,7 @@
 
 /* ---------------------------------------------------------------------- */
 
-int modsay_say(INSTANCE *my, int *params) {
+int modsay_say(INSTANCE *my, intptr_t *params) {
 #if defined(__ANDROID__)
     SDL_Log("%s\n", string_get(params[0]));
     string_discard(params[0]);
@@ -59,7 +59,7 @@ int modsay_say(INSTANCE *my, int *params) {
 
 /* ---------------------------------------------------------------------- */
 
-int modsay_say_fast(INSTANCE *my, int *params) {
+int modsay_say_fast(INSTANCE *my, intptr_t *params) {
 #if defined(__ANDROID__)
     SDL_Log("%s\n", string_get(params[0]));
     string_discard(params[0]);

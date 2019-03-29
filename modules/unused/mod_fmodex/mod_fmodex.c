@@ -120,7 +120,7 @@ void fmodex_init() {
 }
 
 /* Load a song as a stream (for decoding it at runtime) */
-int mod_fmodex_load_song(INSTANCE *i, int *params) {
+int mod_fmodex_load_song(INSTANCE *i, intptr_t *params) {
     FMOD_SOUND *sound;
     FMOD_CHANNEL *channel = 0;
     FMOD_RESULT result;
@@ -145,7 +145,7 @@ int mod_fmodex_load_song(INSTANCE *i, int *params) {
 
 /* Pause/Unpause a song   */
 /* Also used as PLAY_SONG */
-int mod_fmodex_pause_song(INSTANCE *i, int *params) {
+int mod_fmodex_pause_song(INSTANCE *i, intptr_t *params) {
     FMOD_RESULT result;
     FMOD_CHANNEL *channel = 0;
     int paused;
@@ -164,7 +164,7 @@ int mod_fmodex_pause_song(INSTANCE *i, int *params) {
 }
 
 /* Check wether a given song is playing */
-int mod_fmodex_is_playing_song(INSTANCE *i, int *params) {
+int mod_fmodex_is_playing_song(INSTANCE *i, intptr_t *params) {
     FMOD_RESULT result;
     FMOD_CHANNEL *channel = 0;
     int playing           = 0;
@@ -180,7 +180,7 @@ int mod_fmodex_is_playing_song(INSTANCE *i, int *params) {
 }
 
 /* Stop song playback */
-int mod_fmodex_stop_song(INSTANCE *i, int *params) {
+int mod_fmodex_stop_song(INSTANCE *i, intptr_t *params) {
     FMOD_RESULT result;
     FMOD_CHANNEL *channel = 0;
     FMOD_SOUND *sound;
@@ -206,7 +206,7 @@ int mod_fmodex_stop_song(INSTANCE *i, int *params) {
 
 /* Initialize spectrum analysis for a song that's already playing
  http://www.cs.cf.ac.uk/Dave/Multimedia/node271.html */
-int mod_fmodex_song_get_spectrum(INSTANCE *i, int *params) {
+int mod_fmodex_song_get_spectrum(INSTANCE *i, intptr_t *params) {
     FMOD_RESULT result;
     FMOD_CHANNEL *channel = 0;
     int playing           = 0;
@@ -241,12 +241,12 @@ int mic_num() {
 }
 
 /* Get number of available input devices (mikes) */
-int mod_fmodex_mic_num(INSTANCE *i, int *params) {
+int mod_fmodex_mic_num(INSTANCE *i, intptr_t *params) {
     return mic_num();
 }
 
 /* Return the name for the n-th input device */
-int mod_fmodex_mic_name(INSTANCE *i, int *params) {
+int mod_fmodex_mic_name(INSTANCE *i, intptr_t *params) {
     FMOD_RESULT result;
     int strid = 0;
     char micname[256];
@@ -310,7 +310,7 @@ void fmodex_stop_spectrum_analysis() {
 
 /* Initialize spectrum analysis
    http://www.cs.cf.ac.uk/Dave/Multimedia/node271.html */
-int mod_fmodex_mic_get_spectrum(INSTANCE *i, int *params) {
+int mod_fmodex_mic_get_spectrum(INSTANCE *i, intptr_t *params) {
     FMOD_RESULT result;
     FMOD_CREATESOUNDEXINFO exinfo;
     int outputrate = 0;
@@ -359,7 +359,7 @@ int mod_fmodex_mic_get_spectrum(INSTANCE *i, int *params) {
 }
 
 /* Stop performing spectrum analysis */
-int mod_fmodex_stop_spectrum(INSTANCE *i, int *params) {
+int mod_fmodex_stop_spectrum(INSTANCE *i, intptr_t *params) {
     fmodex_stop_spectrum_analysis();
     return 0;
 }

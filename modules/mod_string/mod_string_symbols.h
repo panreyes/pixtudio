@@ -33,31 +33,31 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modstring_strlen( INSTANCE * my, int * params );
-extern int modstring_strlen( INSTANCE * my, int * params );
-extern int modstring_strupper( INSTANCE * my, int * params );
-extern int modstring_strlower( INSTANCE * my, int * params );
-extern int modstring_strcasecmp( INSTANCE * my, int * params );
-extern int modstring_substr( INSTANCE * my, int * params );
-extern int modstring_substr2( INSTANCE * my, int * params );
-extern int modstring_substr2( INSTANCE * my, int * params );
-extern int modstring_strfind( INSTANCE * my, int * params );
-extern int modstring_strfindSSI( INSTANCE * my, int * params );
-extern int modstring_strfindSSI( INSTANCE * my, int * params );
-extern int modstring_lpad( INSTANCE * my, int * params );
-extern int modstring_rpad( INSTANCE * my, int * params );
-extern int modstring_itos( INSTANCE * my, int * params );
-extern int modstring_ftos( INSTANCE * my, int * params );
-extern int modstring_stoi( INSTANCE * my, int * params );
-extern int modstring_stof( INSTANCE * my, int * params );
-extern int modstring_asc( INSTANCE * my, int * params );
-extern int modstring_chr( INSTANCE * my, int * params );
-extern int modstring_trim( INSTANCE * my, int * params );
-extern int modstring_strrev( INSTANCE * my, int * params );
-extern int modstring_formatI( INSTANCE * my, int * params );
-extern int modstring_formatF( INSTANCE * my, int * params );
-extern int modstring_formatFI( INSTANCE * my, int * params );
-extern int modstring_formatFI( INSTANCE * my, int * params );
+extern int modstring_strlen( INSTANCE * my, intptr_t * params );
+extern int modstring_strlen( INSTANCE * my, intptr_t * params );
+extern int modstring_strupper( INSTANCE * my, intptr_t * params );
+extern int modstring_strlower( INSTANCE * my, intptr_t * params );
+extern int modstring_strcasecmp( INSTANCE * my, intptr_t * params );
+extern int modstring_substr( INSTANCE * my, intptr_t * params );
+extern int modstring_substr2( INSTANCE * my, intptr_t * params );
+extern int modstring_substr2( INSTANCE * my, intptr_t * params );
+extern int modstring_strfind( INSTANCE * my, intptr_t * params );
+extern int modstring_strfindSSI( INSTANCE * my, intptr_t * params );
+extern int modstring_strfindSSI( INSTANCE * my, intptr_t * params );
+extern int modstring_lpad( INSTANCE * my, intptr_t * params );
+extern int modstring_rpad( INSTANCE * my, intptr_t * params );
+extern int modstring_itos( INSTANCE * my, intptr_t * params );
+extern int modstring_ftos( INSTANCE * my, intptr_t * params );
+extern int modstring_stoi( INSTANCE * my, intptr_t * params );
+extern int modstring_stof( INSTANCE * my, intptr_t * params );
+extern int modstring_asc( INSTANCE * my, intptr_t * params );
+extern int modstring_chr( INSTANCE * my, intptr_t * params );
+extern int modstring_trim( INSTANCE * my, intptr_t * params );
+extern int modstring_strrev( INSTANCE * my, intptr_t * params );
+extern int modstring_formatI( INSTANCE * my, intptr_t * params );
+extern int modstring_formatF( INSTANCE * my, intptr_t * params );
+extern int modstring_formatFI( INSTANCE * my, intptr_t * params );
+extern int modstring_formatFI( INSTANCE * my, intptr_t * params );
 #endif
 
 DLSYSFUNCS  __pxtexport( mod_string, exported_functions )[] = {

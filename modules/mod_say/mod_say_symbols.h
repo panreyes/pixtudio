@@ -33,8 +33,8 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modsay_say( INSTANCE * my, int * params );
-extern int modsay_say_fast( INSTANCE * my, int * params );
+extern int modsay_say( INSTANCE * my, intptr_t * params );
+extern int modsay_say_fast( INSTANCE * my, intptr_t * params );
 #endif
 
 DLSYSFUNCS  __pxtexport( mod_say, exported_functions )[] = {

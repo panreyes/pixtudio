@@ -34,7 +34,7 @@
 // Convert the charset of the string.
 // Acceptable params are:
 // string fromcharset, string tocharset, string translate_string
-int bgd_iconv(INSTANCE *my, int *params) {
+int bgd_iconv(INSTANCE *my, intptr_t *params) {
     size_t inbytesleft, outbytesleft, retval;
     SDL_iconv_t cd;
     const char *inchar = string_get(params[2]);
