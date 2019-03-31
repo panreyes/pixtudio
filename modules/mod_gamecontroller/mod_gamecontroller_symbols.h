@@ -35,13 +35,13 @@
 extern void  __pxtexport( mod_gamecontroller, module_initialize )();
 extern void __pxtexport( mod_gamecontroller, module_finalize )();
 
-extern int modgamecontroller_num( INSTANCE * my, int * params );
-extern int modgamecontroller_open( INSTANCE * my, int * params );
-extern int modgamecontroller_close( INSTANCE * my, int * params );
-extern int modgamecontroller_getbutton( INSTANCE * my, int * params );
-extern int modgamecontroller_getaxis( INSTANCE * my, int * params );
-extern int modgamecontroller_getname( INSTANCE * my, int * params );
-extern int modgamecontroller_rumble( INSTANCE * my, int * params );
+extern int modgamecontroller_num( INSTANCE * my, intptr_t * params );
+extern int modgamecontroller_open( INSTANCE * my, intptr_t * params );
+extern int modgamecontroller_close( INSTANCE * my, intptr_t * params );
+extern int modgamecontroller_getbutton( INSTANCE * my, intptr_t * params );
+extern int modgamecontroller_getaxis( INSTANCE * my, intptr_t * params );
+extern int modgamecontroller_getname( INSTANCE * my, intptr_t * params );
+extern int modgamecontroller_rumble( INSTANCE * my, intptr_t * params );
 #endif
 
 DLCONSTANT  __pxtexport( mod_gamecontroller, constants_def )[] = {

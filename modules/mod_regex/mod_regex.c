@@ -128,7 +128,7 @@ static int replace(const char *reg, const char *str, const char *rep, int cflags
  *  of the match or -1 if none found.
  */
 
-int modregex_regex(INSTANCE *my, int *params) {
+int modregex_regex(INSTANCE *my, intptr_t *params) {
     const char *reg = string_get(params[0]);
     const char *str = string_get(params[1]);
     int pos         = -1;
@@ -178,7 +178,7 @@ int modregex_regex(INSTANCE *my, int *params) {
  *  Returns the resulting string. REGEX_REG variables are
  *  filled with information about the first match.
  */
-int modregex_string_replace(INSTANCE *my, int *params) {
+int modregex_string_replace(INSTANCE *my, intptr_t *params) {
     /* Replacing is, basically,
        splitting followed by joining */
     const char *reg = string_get(params[0]);
@@ -201,7 +201,7 @@ int modregex_string_replace(INSTANCE *my, int *params) {
  *  Returns the resulting string. REGEX_REG variables are
  *  filled with information about the first match.
  */
-int modregex_regex_replace(INSTANCE *my, int *params) {
+int modregex_regex_replace(INSTANCE *my, intptr_t *params) {
     /* Replacing is, basically,
        splitting followed by joining */
     const char *reg = string_get(params[0]);
@@ -225,7 +225,7 @@ int modregex_regex_replace(INSTANCE *my, int *params) {
  *
  */
 
-int modregex_split(INSTANCE *my, int *params) {
+int modregex_split(INSTANCE *my, intptr_t *params) {
     const char *reg       = string_get(params[0]);
     const char *str       = string_get(params[1]);
     int *result_array     = (int *)params[2];
@@ -272,7 +272,7 @@ int modregex_split(INSTANCE *my, int *params) {
  *  resulting string.
  */
 
-int modregex_join(INSTANCE *my, int *params) {
+int modregex_join(INSTANCE *my, intptr_t *params) {
     const char *sep   = string_get(params[0]);
     int *string_array = (int *)params[1];
     int count         = params[2];

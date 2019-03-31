@@ -27,28 +27,28 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modfile_save( INSTANCE * my, int * params );
-extern int modfile_load( INSTANCE * my, int * params );
-extern int modfile_fopen( INSTANCE * my, int * params );
-extern int modfile_fclose( INSTANCE * my, int * params );
-extern int modfile_fread( INSTANCE * my, int * params );
-extern int modfile_freadC( INSTANCE * my, int * params );
-extern int modfile_fwrite( INSTANCE * my, int * params );
-extern int modfile_fwriteC( INSTANCE * my, int * params );
-extern int modfile_fseek( INSTANCE * my, int * params );
-extern int modfile_frewind( INSTANCE * my, int * params );
-extern int modfile_ftell( INSTANCE * my, int * params );
-extern int modfile_fflush( INSTANCE * my, int * params );
-extern int modfile_filelength( INSTANCE * my, int * params );
-extern int modfile_fputs( INSTANCE * my, int * params );
-extern int modfile_fgets( INSTANCE * my, int * params );
-extern int modfile_feof( INSTANCE * my, int * params );
-extern int modfile_file( INSTANCE * my, int * params );
-extern int modfile_exists( INSTANCE * my, int * params );
-extern int modfile_remove( INSTANCE * my, int * params );
-extern int modfile_move( INSTANCE * my, int * params );
-extern int modfile_dirname( INSTANCE * my, int * params );
-extern int modfile_basename( INSTANCE * my, int * params );
+extern int modfile_save( INSTANCE * my, intptr_t * params );
+extern int modfile_load( INSTANCE * my, intptr_t * params );
+extern int modfile_fopen( INSTANCE * my, intptr_t * params );
+extern int modfile_fclose( INSTANCE * my, intptr_t * params );
+extern int modfile_fread( INSTANCE * my, intptr_t * params );
+extern int modfile_freadC( INSTANCE * my, intptr_t * params );
+extern int modfile_fwrite( INSTANCE * my, intptr_t * params );
+extern int modfile_fwriteC( INSTANCE * my, intptr_t * params );
+extern int modfile_fseek( INSTANCE * my, intptr_t * params );
+extern int modfile_frewind( INSTANCE * my, intptr_t * params );
+extern int modfile_ftell( INSTANCE * my, intptr_t * params );
+extern int modfile_fflush( INSTANCE * my, intptr_t * params );
+extern int modfile_filelength( INSTANCE * my, intptr_t * params );
+extern int modfile_fputs( INSTANCE * my, intptr_t * params );
+extern int modfile_fgets( INSTANCE * my, intptr_t * params );
+extern int modfile_feof( INSTANCE * my, intptr_t * params );
+extern int modfile_file( INSTANCE * my, intptr_t * params );
+extern int modfile_exists( INSTANCE * my, intptr_t * params );
+extern int modfile_remove( INSTANCE * my, intptr_t * params );
+extern int modfile_move( INSTANCE * my, intptr_t * params );
+extern int modfile_dirname( INSTANCE * my, intptr_t * params );
+extern int modfile_basename( INSTANCE * my, intptr_t * params );
 #endif
 
 DLCONSTANT __pxtexport(mod_file, constants_def)[] = {

@@ -18,20 +18,20 @@ void modChipmunkEliminaTerrenoC(modChipmunkStruct_Arreglo *arr) {
     modChipmunk_arregloItera(arr, eliminaVect, NULL);
     modChipmunk_destruyeArreglo(&arr, 0);
 }
-int modChipmunkEliminaTerreno(INSTANCE *my, int *params) {
+int modChipmunkEliminaTerreno(INSTANCE *my, intptr_t *params) {
     modChipmunkStruct_Arreglo *arr = (modChipmunkStruct_Arreglo *)params[0];
     modChipmunkEliminaTerrenoC(arr);
 }
 
-int modChipmunkGetElement(INSTANCE *my, int *params) {
+int modChipmunkGetElement(INSTANCE *my, intptr_t *params) {
     return mCh_AAt(params[0], params[1]);
 }
 
-int modChipmunkCantElement(INSTANCE *my, int *params) {
+int modChipmunkCantElement(INSTANCE *my, intptr_t *params) {
     return modChipmunk_ArregloCantidad(params[0]);
 }
 
-int modChipmunkGeneraTerreno(INSTANCE *my, int *params) {
+int modChipmunkGeneraTerreno(INSTANCE *my, intptr_t *params) {
     GRAPH *map = bitmap_get(params[0], params[1]);
     map        = modChipmunkObtenTodosBordes(map);
     // return map->code;

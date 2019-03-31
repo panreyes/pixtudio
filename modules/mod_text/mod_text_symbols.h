@@ -33,26 +33,26 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modtext_write( INSTANCE * my, int * params );
-extern int modtext_write2( INSTANCE * my, int * params );
-extern int modtext_write_int( INSTANCE * my, int * params );
-extern int modtext_write_int2( INSTANCE * my, int * params );
-extern int modtext_move_text( INSTANCE * my, int * params );
-extern int modtext_move_text2( INSTANCE * my, int * params );
-extern int modtext_delete_text( INSTANCE * my, int * params );
-extern int modtext_write_in_map( INSTANCE * my, int * params );
-extern int modtext_text_width( INSTANCE * my, int * params );
-extern int modtext_text_height( INSTANCE * my, int * params );
-extern int modtext_get_text_color( INSTANCE * my, int * params );
-extern int modtext_get_text_color2( INSTANCE * my, int * params );
-extern int modtext_set_text_color( INSTANCE * my, int * params );
-extern int modtext_set_text_color2( INSTANCE * my, int * params );
-extern int modtext_write_var( INSTANCE * my, int * params );
-extern int modtext_write_var2( INSTANCE * my, int * params );
-extern int modtext_write_float( INSTANCE * my, int * params );
-extern int modtext_write_float2( INSTANCE * my, int * params );
-extern int modtext_write_string( INSTANCE * my, int * params );
-extern int modtext_write_string2( INSTANCE * my, int * params );
+extern int modtext_write( INSTANCE * my, intptr_t * params );
+extern int modtext_write2( INSTANCE * my, intptr_t * params );
+extern int modtext_write_int( INSTANCE * my, intptr_t * params );
+extern int modtext_write_int2( INSTANCE * my, intptr_t * params );
+extern int modtext_move_text( INSTANCE * my, intptr_t * params );
+extern int modtext_move_text2( INSTANCE * my, intptr_t * params );
+extern int modtext_delete_text( INSTANCE * my, intptr_t * params );
+extern int modtext_write_in_map( INSTANCE * my, intptr_t * params );
+extern int modtext_text_width( INSTANCE * my, intptr_t * params );
+extern int modtext_text_height( INSTANCE * my, intptr_t * params );
+extern int modtext_get_text_color( INSTANCE * my, intptr_t * params );
+extern int modtext_get_text_color2( INSTANCE * my, intptr_t * params );
+extern int modtext_set_text_color( INSTANCE * my, intptr_t * params );
+extern int modtext_set_text_color2( INSTANCE * my, intptr_t * params );
+extern int modtext_write_var( INSTANCE * my, intptr_t * params );
+extern int modtext_write_var2( INSTANCE * my, intptr_t * params );
+extern int modtext_write_float( INSTANCE * my, intptr_t * params );
+extern int modtext_write_float2( INSTANCE * my, intptr_t * params );
+extern int modtext_write_string( INSTANCE * my, intptr_t * params );
+extern int modtext_write_string2( INSTANCE * my, intptr_t * params );
 #endif
 
 #define ALIGN_TOP_LEFT      0

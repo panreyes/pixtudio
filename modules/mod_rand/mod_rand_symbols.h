@@ -33,8 +33,8 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int rand_seed( INSTANCE * my, int * params );
-extern int rand_std( INSTANCE * my, int * params );
+extern int rand_seed( INSTANCE * my, intptr_t * params );
+extern int rand_std( INSTANCE * my, intptr_t * params );
 #endif
 
 DLSYSFUNCS  __pxtexport( mod_rand, exported_functions )[] = {

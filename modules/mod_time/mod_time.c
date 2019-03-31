@@ -49,14 +49,14 @@
 /* --------------------------------------------------------------------------- */
 /* Timer                                                                       */
 
-int modtime_get_timer(INSTANCE *my, int *params) {
+int modtime_get_timer(INSTANCE *my, intptr_t *params) {
     return SDL_GetTicks();
 }
 
 /* --------------------------------------------------------------------------- */
 /* Time of day                                                                 */
 
-int modtime_time(INSTANCE *my, int *params) {
+int modtime_time(INSTANCE *my, intptr_t *params) {
     return time(0);
 }
 
@@ -74,7 +74,7 @@ int modtime_time(INSTANCE *my, int *params) {
  *
  */
 
-int modtime_ftime(INSTANCE *my, int *params) {
+int modtime_ftime(INSTANCE *my, intptr_t *params) {
     char buffer[128];
     char *format;
     struct tm *t;

@@ -13,12 +13,12 @@
 #include "mod_map.h"
 #include "Arreglos.h"
 
-int modChipmunkGeneraTerreno(INSTANCE *my, int *params);
+int modChipmunkGeneraTerreno(INSTANCE *my, intptr_t *params);
 GRAPH *modChipmunkObtenTodosBordes(GRAPH *mapa1);
 void recursApro(int inic, int fin, modChipmunkStruct_Arreglo *coord, uint8_t res[], float umb);
 modChipmunkStruct_Arreglo *modChipmunkVertices(GRAPH *map, int i, int j);
 modChipmunkStruct_Arreglo *aproxP(modChipmunkStruct_Arreglo *coord, float umb);
-int modChipmunkEliminaTerreno(INSTANCE *my, int *params);
-int modChipmunkGetElement(INSTANCE *my, int *params);
-int modChipmunkCantElement(INSTANCE *my, int *params);
+int modChipmunkEliminaTerreno(INSTANCE *my, intptr_t *params);
+int modChipmunkGetElement(INSTANCE *my, intptr_t *params);
+int modChipmunkCantElement(INSTANCE *my, intptr_t *params);
 #endif

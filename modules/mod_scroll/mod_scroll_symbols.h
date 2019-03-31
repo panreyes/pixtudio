@@ -33,10 +33,10 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int mod_scroll_start( INSTANCE * my, int * params );
-extern int mod_scroll_start2( INSTANCE * my, int * params );
-extern int mod_scroll_stop( INSTANCE * my, int * params );
-extern int mod_scroll_move( INSTANCE * my, int * params );
+extern int mod_scroll_start( INSTANCE * my, intptr_t * params );
+extern int mod_scroll_start2( INSTANCE * my, intptr_t * params );
+extern int mod_scroll_stop( INSTANCE * my, intptr_t * params );
+extern int mod_scroll_move( INSTANCE * my, intptr_t * params );
 #endif
 
 DLSYSFUNCS __pxtexport( mod_scroll, exported_functions )[] = {

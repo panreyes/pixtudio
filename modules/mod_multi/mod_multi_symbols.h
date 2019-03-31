@@ -30,8 +30,8 @@
 
 #ifndef __PXTB__
 // Fucntion declarations
-extern int modmulti_numpointers(INSTANCE * my, int * params);
-extern int modmulti_info(INSTANCE * my, int * params);
+extern int modmulti_numpointers(INSTANCE * my, intptr_t * params);
+extern int modmulti_info(INSTANCE * my, intptr_t * params);
 extern void parse_input_events();
 
 // Symbol tables

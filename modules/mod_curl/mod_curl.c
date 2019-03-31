@@ -114,7 +114,7 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
  * Helper function preparing params
  **/
 
-static bgdata *prep(int *params) {
+static bgdata *prep(intptr_t *params) {
     bgdata *t = (bgdata *)malloc(sizeof(bgdata));
 
     t->id     = (int *)params[0];

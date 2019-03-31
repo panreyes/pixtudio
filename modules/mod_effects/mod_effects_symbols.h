@@ -34,10 +34,10 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modeffects_grayscale( INSTANCE *my, int *params );
-extern int modeffects_rgbscale( INSTANCE *my, int *params );
-extern int modeffects_blur( INSTANCE *my, int *params );
-extern int modeffects_filter( INSTANCE *my, int *params );
+extern int modeffects_grayscale( INSTANCE *my, intptr_t *params );
+extern int modeffects_rgbscale( INSTANCE *my, intptr_t *params );
+extern int modeffects_blur( INSTANCE *my, intptr_t *params );
+extern int modeffects_filter( INSTANCE *my, intptr_t *params );
 #endif
 
 DLCONSTANT __pxtexport( mod_effects, constants_def )[] = {

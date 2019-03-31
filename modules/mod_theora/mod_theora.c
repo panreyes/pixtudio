@@ -209,7 +209,7 @@ int video_is_playing() {
     return playing_video;
 }
 
-int video_play(INSTANCE *my, int *params) {
+int video_play(INSTANCE *my, intptr_t *params) {
     int graphid;
     const int MAX_FRAMES = 30;
     void *pixels;
@@ -313,7 +313,7 @@ int video_play(INSTANCE *my, int *params) {
 }
 
 /* Stop the currently being played video and release theoraplay stuff */
-int video_stop(INSTANCE *my, int *params) {
+int video_stop(INSTANCE *my, intptr_t *params) {
     ALuint error;
     ALuint audio_buffer;
 
@@ -361,7 +361,7 @@ int video_pause() {
    Input must be an integer 0-255.
    Returns 0 on success and -1 on error
 */
-int video_set_volume(INSTANCE *my, int *params) {
+int video_set_volume(INSTANCE *my, intptr_t *params) {
     ALuint error;
 
     float new_volume = (float)params[0] / 255.0;

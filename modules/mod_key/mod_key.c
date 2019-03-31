@@ -81,7 +81,7 @@ static _inline int _get_key(int code) {
 
 /* --------------------------------------------------------------------------- */
 
-int modkey_key(INSTANCE *my, int *params) {
+int modkey_key(INSTANCE *my, intptr_t *params) {
     return (_get_key(params[0]));
 }
 

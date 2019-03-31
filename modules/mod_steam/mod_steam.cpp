@@ -143,7 +143,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_achievement_unlock(INSTANCE *my, int *params) {
+    int steam_achievement_unlock(INSTANCE *my, intptr_t *params) {
         if(!steam_loaded) {
             return -1;
         }
@@ -162,7 +162,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_achievement_delete(INSTANCE *my, int *params) {
+    int steam_achievement_delete(INSTANCE *my, intptr_t *params) {
         if(!steam_loaded) {
             return -1;
         }
@@ -181,7 +181,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_achievement_check(INSTANCE *my, int *params) {
+    int steam_achievement_check(INSTANCE *my, intptr_t *params) {
         if(!steam_loaded) {
             return -1;
         }
@@ -200,7 +200,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_achievement_get_icon(INSTANCE *my, int *params) {
+    int steam_achievement_get_icon(INSTANCE *my, intptr_t *params) {
         if(!steam_loaded) {
             return -1;
         }
@@ -225,7 +225,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_avatar_get(INSTANCE *my, int *params) {
+    int steam_avatar_get(INSTANCE *my, intptr_t *params) {
         if(!steam_loaded) {
             return -1;
         }
@@ -247,7 +247,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_friend_count(INSTANCE *my, int *params) {
+    int steam_friend_count(INSTANCE *my, intptr_t *params) {
         // Get the number of friends
         if(!steam_loaded) {
             return -1;
@@ -265,7 +265,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_friend_name(INSTANCE *my, int *params) {
+    int steam_friend_name(INSTANCE *my, intptr_t *params) {
         // Get a friend's name
         if(!steam_loaded) {
             return -1;
@@ -302,7 +302,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_friend_nickname(INSTANCE *my, int *params) {
+    int steam_friend_nickname(INSTANCE *my, intptr_t *params) {
         // Get the user-assigned nickname for a friend
         if(!steam_loaded) {
             return -1;
@@ -345,7 +345,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_friend_avatar(INSTANCE *my, int *params) {
+    int steam_friend_avatar(INSTANCE *my, intptr_t *params) {
         // Get a friend's avatar image, given its size
         if(!steam_loaded) {
             return -1;
@@ -381,7 +381,7 @@ extern "C" {
 
     /* ---------------------------------------------------------------------- */
 
-    int steam_lang_get(INSTANCE *my, int *params) {
+    int steam_lang_get(INSTANCE *my, intptr_t *params) {
         // Returns a string with the lang the game should be run in
         const char *lang = SteamApps()->GetCurrentGameLanguage();
 

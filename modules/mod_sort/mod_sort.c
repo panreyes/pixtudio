@@ -279,7 +279,7 @@ static int sort_variables(void *data, int key_offset, int key_type, int element_
  *  variable as a key for sorting order.
  **/
 
-int modsort_sort(INSTANCE *my, int *params) {
+int modsort_sort(INSTANCE *my, intptr_t *params) {
     /* Get the description of the data to be sorted */
 
     void *data        = (void *)params[0];
@@ -329,7 +329,7 @@ int modsort_sort(INSTANCE *my, int *params) {
  *  Sorts an array of structs, using the given variable as a key
  **/
 
-int modsort_ksort(INSTANCE *my, int *params) {
+int modsort_ksort(INSTANCE *my, intptr_t *params) {
     /* Get the description of the data to be sorted */
 
     void *data        = (void *)params[0];
@@ -392,7 +392,7 @@ int modsort_ksort(INSTANCE *my, int *params) {
  *  or a pointer to an array, unlike the simple SORT version.
  **/
 
-int modsort_sort_n(INSTANCE *my, int *params) {
+int modsort_sort_n(INSTANCE *my, intptr_t *params) {
     /* Get the description of the data to be sorted */
 
     void *data        = (void *)params[0];
@@ -445,7 +445,7 @@ int modsort_sort_n(INSTANCE *my, int *params) {
  *  single elements, unlike the previous version of KSORT above.
  **/
 
-int modsort_ksort_n(INSTANCE *my, int *params) {
+int modsort_ksort_n(INSTANCE *my, intptr_t *params) {
     /* Get the description of the data to be sorted */
 
     void *data        = (void *)params[0];
@@ -510,7 +510,7 @@ int modsort_ksort_n(INSTANCE *my, int *params) {
  *
  */
 
-static double GetData(uint8_t *Data, int pos, int *params) {
+static double GetData(uint8_t *Data, int pos, intptr_t *params) {
     if (params[4] == sizeof(uint8_t))
         return Data[pos * params[1] + params[3]];
     if (params[4] == sizeof(uint16_t))
@@ -522,7 +522,7 @@ static double GetData(uint8_t *Data, int pos, int *params) {
     return 1;
 }
 
-static void QuickSort(uint8_t *Data, int inf, int sup, int *params) {
+static void QuickSort(uint8_t *Data, int inf, int sup, intptr_t *params) {
     register int left, rigth;
     double middle;
     uint8_t *x = (uint8_t *)malloc(params[1]);
@@ -560,7 +560,7 @@ static void QuickSort(uint8_t *Data, int inf, int sup, int *params) {
  *      datatype (int=0, float=1)
  */
 
-int modsort_quicksort(INSTANCE *my, int *params) {
+int modsort_quicksort(INSTANCE *my, intptr_t *params) {
 
     uint8_t *Data = (uint8_t *)params[0];
     QuickSort(Data, 0, params[2] - 1, params);

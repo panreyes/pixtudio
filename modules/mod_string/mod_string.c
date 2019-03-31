@@ -46,7 +46,7 @@
  *  Returns the size of a string
  */
 
-int modstring_strlen(INSTANCE *my, int *params) {
+int modstring_strlen(INSTANCE *my, intptr_t *params) {
     const char *str = string_get(params[0]);
     int r = str ? strlen(str) : 0;
     string_discard(params[0]);
@@ -57,7 +57,7 @@ int modstring_strlen(INSTANCE *my, int *params) {
  *  Converts a string to upper-case
  */
 
-int modstring_strupper(INSTANCE *my, int *params) {
+int modstring_strupper(INSTANCE *my, intptr_t *params) {
     int r = string_ucase(params[0]);
     string_discard(params[0]);
     string_use(r);
@@ -68,7 +68,7 @@ int modstring_strupper(INSTANCE *my, int *params) {
  *  Converts a string to lower-case
  */
 
-int modstring_strlower(INSTANCE *my, int *params) {
+int modstring_strlower(INSTANCE *my, intptr_t *params) {
     int r = string_lcase(params[0]);
     string_discard(params[0]);
     string_use(r);
@@ -79,7 +79,7 @@ int modstring_strlower(INSTANCE *my, int *params) {
  *  Compares two strings, case-insensitive
  */
 
-int modstring_strcasecmp(INSTANCE *my, int *params) {
+int modstring_strcasecmp(INSTANCE *my, intptr_t *params) {
     int r = string_casecmp(params[0], params[1]);
     string_discard(params[0]);
     string_discard(params[1]);
@@ -91,7 +91,7 @@ int modstring_strcasecmp(INSTANCE *my, int *params) {
  *  and returning a string limited to COUNT characters
  */
 
-int modstring_substr(INSTANCE *my, int *params) {
+int modstring_substr(INSTANCE *my, intptr_t *params) {
     int r = string_substr(params[0], params[1], (params[2] < 0) ? (params[2] - 1) : params[2]);
     string_discard(params[0]);
     string_use(r);
@@ -102,7 +102,7 @@ int modstring_substr(INSTANCE *my, int *params) {
  *  Returns a substring, from the character given to the end of the source string
  */
 
-int modstring_substr2(INSTANCE *my, int *params) {
+int modstring_substr2(INSTANCE *my, intptr_t *params) {
     int r = string_substr(params[0], params[1], -1);
     string_discard(params[0]);
     string_use(r);
@@ -113,7 +113,7 @@ int modstring_substr2(INSTANCE *my, int *params) {
  *  Searchs a substring in a string, and returns its position
  */
 
-int modstring_strfind(INSTANCE *my, int *params) {
+int modstring_strfind(INSTANCE *my, intptr_t *params) {
     int r = string_find(params[0], params[1], 0);
     string_discard(params[0]);
     string_discard(params[1]);
@@ -124,7 +124,7 @@ int modstring_strfind(INSTANCE *my, int *params) {
  *  Searchs a substring in a string, starting from the given position, and returns its position
  */
 
-int modstring_strfindSSI(INSTANCE *my, int *params) {
+int modstring_strfindSSI(INSTANCE *my, intptr_t *params) {
     int r = string_find(params[0], params[1], params[2]);
     string_discard(params[0]);
     string_discard(params[1]);
@@ -135,7 +135,7 @@ int modstring_strfindSSI(INSTANCE *my, int *params) {
  *  Expands the string up to the given length, adding spaces at the left
  */
 
-int modstring_lpad(INSTANCE *my, int *params) {
+int modstring_lpad(INSTANCE *my, intptr_t *params) {
     int r = string_pad(params[0], params[1], 0);
     string_discard(params[0]);
     string_use(r);
@@ -146,7 +146,7 @@ int modstring_lpad(INSTANCE *my, int *params) {
  *  Expands the string up to the given length, adding spaces at the right
  */
 
-int modstring_rpad(INSTANCE *my, int *params) {
+int modstring_rpad(INSTANCE *my, intptr_t *params) {
     int r = string_pad(params[0], params[1], 1);
     string_discard(params[0]);
     string_use(r);
@@ -157,7 +157,7 @@ int modstring_rpad(INSTANCE *my, int *params) {
  *  Converts an integer to string
  */
 
-int modstring_itos(INSTANCE *my, int *params) {
+int modstring_itos(INSTANCE *my, intptr_t *params) {
     int r = string_itoa(params[0]);
     string_use(r);
     return r;
@@ -167,7 +167,7 @@ int modstring_itos(INSTANCE *my, int *params) {
  *  Converts a floating-point number to string
  */
 
-int modstring_ftos(INSTANCE *my, int *params) {
+int modstring_ftos(INSTANCE *my, intptr_t *params) {
     int r = string_ftoa(*(float *)&params[0]);
     string_use(r);
     return r;
@@ -177,7 +177,7 @@ int modstring_ftos(INSTANCE *my, int *params) {
  *  Converts a string to integer
  */
 
-int modstring_stoi(INSTANCE *my, int *params) {
+int modstring_stoi(INSTANCE *my, intptr_t *params) {
     const char *str = string_get(params[0]);
     int r = str ? atoi(str) : 0;
     string_discard(params[0]);
@@ -188,7 +188,7 @@ int modstring_stoi(INSTANCE *my, int *params) {
  *  Converts a string to floating-point number
  */
 
-int modstring_stof(INSTANCE *my, int *params) {
+int modstring_stof(INSTANCE *my, intptr_t *params) {
     const char *str = string_get(params[0]);
     float res = (float)(str ? atof(str) : 0);
     string_discard(params[0]);
@@ -199,7 +199,7 @@ int modstring_stof(INSTANCE *my, int *params) {
  *  Return the ASCII code of the first character at the string
  */
 
-int modstring_asc(INSTANCE *my, int *params) {
+int modstring_asc(INSTANCE *my, intptr_t *params) {
     const unsigned char *str = (unsigned char *)string_get(params[0]);
     int r = str ? *str : '\0';
     string_discard(params[0]);
@@ -210,7 +210,7 @@ int modstring_asc(INSTANCE *my, int *params) {
  *  Returns a string of length 1, with the character of the given ASCII code
  */
 
-int modstring_chr(INSTANCE *my, int *params) {
+int modstring_chr(INSTANCE *my, intptr_t *params) {
     unsigned char buffer[2] = " ";
     int r;
     buffer[0] = (unsigned char)params[0];
@@ -223,7 +223,7 @@ int modstring_chr(INSTANCE *my, int *params) {
  *  Returns the given string, stripping any space characters at the beginning or the end
  */
 
-int modstring_trim(INSTANCE *my, int *params) {
+int modstring_trim(INSTANCE *my, intptr_t *params) {
     int r = string_strip(params[0]);
     string_discard(params[0]);
     string_use(r);
@@ -254,7 +254,7 @@ static char *strrev(char *str) {
  *  Returns the reverse of the source string
  */
 
-int modstring_strrev(INSTANCE *my, int *params) {
+int modstring_strrev(INSTANCE *my, intptr_t *params) {
     int r = string_new(string_get(params[0]));
     string_discard(params[0]);
     string_use(r);
@@ -266,7 +266,7 @@ int modstring_strrev(INSTANCE *my, int *params) {
  *  Converts a given integer value to string form
  */
 
-int modstring_formatI(INSTANCE *my, int *params) {
+int modstring_formatI(INSTANCE *my, intptr_t *params) {
     int r = string_format(params[0], 0, '.', ',');
     string_use(r);
     return r;
@@ -276,7 +276,7 @@ int modstring_formatI(INSTANCE *my, int *params) {
  *  Converts a given value to string form
  */
 
-int modstring_formatF(INSTANCE *my, int *params) {
+int modstring_formatF(INSTANCE *my, intptr_t *params) {
     int r = string_format(*(float *)&params[0], -1, '.', ',');
     string_use(r);
     return r;
@@ -287,7 +287,7 @@ int modstring_formatF(INSTANCE *my, int *params) {
  *  of decimals, as given with the second parameter.
  */
 
-int modstring_formatFI(INSTANCE *my, int *params) {
+int modstring_formatFI(INSTANCE *my, intptr_t *params) {
     int r = string_format(*(float *)&params[0], params[1], '.', ',');
     string_use(r);
     return r;

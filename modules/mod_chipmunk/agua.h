@@ -11,8 +11,8 @@
 #include "mod_map.h"
 #include "globales.h"
 #include "locales.h"
-int modChipmunkPintaAgua(INSTANCE *my, int *params);
-int modChipmunkMetaball(INSTANCE *my, int *params);
-int modChipmunkSetEfector(INSTANCE *my, int *params);
-int modChipmunkEmulateAgua(INSTANCE *my, int *params);
+int modChipmunkPintaAgua(INSTANCE *my, intptr_t *params);
+int modChipmunkMetaball(INSTANCE *my, intptr_t *params);
+int modChipmunkSetEfector(INSTANCE *my, intptr_t *params);
+int modChipmunkEmulateAgua(INSTANCE *my, intptr_t *params);
 #endif

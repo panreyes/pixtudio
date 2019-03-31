@@ -36,9 +36,9 @@
 #define PF_REVERSE      2
 
 #ifndef __PXTB__
-extern int modpathfind_path_find( INSTANCE * my, int * params );
-extern int modpathfind_path_getxy( INSTANCE * my, int * params );
-extern int modpathfind_path_wall( INSTANCE * my, int * params );
+extern int modpathfind_path_find( INSTANCE * my, intptr_t * params );
+extern int modpathfind_path_getxy( INSTANCE * my, intptr_t * params );
+extern int modpathfind_path_wall( INSTANCE * my, intptr_t * params );
 #endif
 
 DLCONSTANT __pxtexport( mod_path, constants_def )[] = {

@@ -33,11 +33,11 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modvideo_set_mode( INSTANCE * my, int * params );
-extern int modvideo_set_mode_2( INSTANCE * my, int * params );
-extern int modvideo_set_fps( INSTANCE * my, int * params );
-extern int modvideo_list_modes( INSTANCE * my, int * params );
-extern int modvideo_mode_is_ok( INSTANCE * my, int * params );
+extern int modvideo_set_mode( INSTANCE * my, intptr_t * params );
+extern int modvideo_set_mode_2( INSTANCE * my, intptr_t * params );
+extern int modvideo_set_fps( INSTANCE * my, intptr_t * params );
+extern int modvideo_list_modes( INSTANCE * my, intptr_t * params );
+extern int modvideo_mode_is_ok( INSTANCE * my, intptr_t * params );
 
 DLVARFIXUP __pxtexport( mod_video, globals_fixup )[] = {
     { "graph_mode" , NULL, -1, -1 },

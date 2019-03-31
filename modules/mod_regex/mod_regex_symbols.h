@@ -33,11 +33,11 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modregex_regex (INSTANCE * my, int * params);
-extern int modregex_string_replace (INSTANCE * my, int * params);
-extern int modregex_regex_replace (INSTANCE * my, int * params);
-extern int modregex_split (INSTANCE * my, int * params);
-extern int modregex_join (INSTANCE * my, int * params);
+extern int modregex_regex (INSTANCE * my, intptr_t * params);
+extern int modregex_string_replace (INSTANCE * my, intptr_t * params);
+extern int modregex_regex_replace (INSTANCE * my, intptr_t * params);
+extern int modregex_split (INSTANCE * my, intptr_t * params);
+extern int modregex_join (INSTANCE * my, intptr_t * params);
 
 DLVARFIXUP __pxtexport( mod_regex, globals_fixup) [] = {
     { "regex_reg", NULL, -1, -1 },

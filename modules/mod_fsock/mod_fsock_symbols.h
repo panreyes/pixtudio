@@ -34,30 +34,30 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int mod_fsock_init( INSTANCE * my, int * params );
-extern int mod_fsock_geterror( INSTANCE * my, int * params );
-extern int mod_fsock_getfdsetsize( INSTANCE * my, int * params );
-extern int mod_fsock_tcpopen( INSTANCE * my, int * params );
-extern int mod_fsock_udpopen( INSTANCE * my, int * params );
-extern int mod_fsock_setblock( INSTANCE * my, int * params );
-extern int mod_fsock_close( INSTANCE * my, int * params );
-extern int mod_fsock_bind( INSTANCE * my, int * params );
-extern int mod_fsock_listen( INSTANCE * my, int * params );
-extern int mod_fsock_accept_tcp( INSTANCE * my, int * params );
-extern int mod_fsock_connect_tcp( INSTANCE * my, int * params );
-extern int mod_fsock_select_socketset( INSTANCE * my, int * params );
-extern int mod_fsock_send_tcp( INSTANCE * my, int * params );
-extern int mod_fsock_send_udp( INSTANCE * my, int * params );
-extern int mod_fsock_recv_tcp( INSTANCE * my, int * params );
-extern int mod_fsock_recv_udp( INSTANCE * my, int * params );
-extern int mod_fsock_check_socketset( INSTANCE * my, int * params );
-extern void mod_fsock_fdzero( INSTANCE * my, int * params );
-extern int mod_fsock_fdset( INSTANCE * my, int * params );
-extern int mod_fsock_fdclr( INSTANCE * my, int * params );
-extern int mod_fsock_get_iphost( INSTANCE * my, int * params );
-extern int mod_fsock_get_ipstr( INSTANCE * my, int * params );
-extern int mod_fsock_quit( INSTANCE * my, int * params );
-extern int mod_fsock_fdisset( INSTANCE * my, int * params );
+extern int mod_fsock_init( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_geterror( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_getfdsetsize( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_tcpopen( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_udpopen( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_setblock( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_close( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_bind( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_listen( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_accept_tcp( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_connect_tcp( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_select_socketset( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_send_tcp( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_send_udp( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_recv_tcp( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_recv_udp( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_check_socketset( INSTANCE * my, intptr_t * params );
+extern void mod_fsock_fdzero( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_fdset( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_fdclr( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_get_iphost( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_get_ipstr( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_quit( INSTANCE * my, intptr_t * params );
+extern int mod_fsock_fdisset( INSTANCE * my, intptr_t * params );
 #endif
 
 DLSYSFUNCS  __pxtexport( mod_fsock, exported_functions )[] = {

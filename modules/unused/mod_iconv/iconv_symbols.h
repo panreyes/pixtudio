@@ -33,7 +33,7 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int bgd_iconv(INSTANCE * my, int * params);
+extern int bgd_iconv(INSTANCE * my, intptr_t * params);
 #endif
 
 DLSYSFUNCS __pxtexport( mod_iconv, exported_functions )[] =

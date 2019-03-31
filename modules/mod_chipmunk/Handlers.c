@@ -76,7 +76,7 @@ void modChipmunkFalloHandler(int *params, Hands *h) {
     free(h);
 }
 
-int modcpSpaceAddCollisionHandler(INSTANCE *my, int *params) {
+int modcpSpaceAddCollisionHandler(INSTANCE *my, intptr_t *params) {
     modChipmunkStruct_param2d par = modChipmunkParam(params[0], params[1]);
     if (LLbusca(modChipmunk_ListaHandlers, &par, compara)) {
         printf("Se intentó crear un handler a (%d, %d), pero ya existe uno \n", params[0],
@@ -172,7 +172,7 @@ int modcpSpaceAddCollisionHandler(INSTANCE *my, int *params) {
     return 1;
 }
 
-int modcpSpaceRemoveCollisionHandler(INSTANCE *my, int *params) {
+int modcpSpaceRemoveCollisionHandler(INSTANCE *my, intptr_t *params) {
     // cpSpaceRemoveCollisionHandler(modChipmunk_cpEspacio, params[0], params[1],funcionElmHand);
     modChipmunkStruct_param2d par = modChipmunkParam(params[0], params[1]);
     LLelimina(modChipmunk_ListaHandlers, &par, compara, funcionElmHand, 1);
@@ -225,7 +225,7 @@ void buscaABCol(void *ptr, void *data) {
     }
 }
 
-int modcrearHandler(INSTANCE *my, int *params) {
+int modcrearHandler(INSTANCE *my, intptr_t *params) {
     modChipmunk_Crear = 1;
     int par[2];
     par[0] = params[0];
@@ -250,7 +250,7 @@ int modcrearHandler(INSTANCE *my, int *params) {
     return (int)col;
 }
 
-int modremoveHandler(INSTANCE *my, int *params) {
+int modremoveHandler(INSTANCE *my, intptr_t *params) {
     modChipmunkStruct_colHand *col = (modChipmunkStruct_colHand *)params[0];
     cpSpaceRemoveCollisionHandler(modChipmunk_cpEspacio, col->a, col->b);
     cpArrayDeleteObj(HandlerColisions, col);

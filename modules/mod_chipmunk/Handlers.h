@@ -16,10 +16,10 @@
 #include "LL.h"
 
 int beginCall(cpArbiter *arb, struct cpSpace *space, void *data);
-int modcpSpaceAddCollisionHandler(INSTANCE *my, int *params);
-int modcpSpaceRemoveCollisionHandler(INSTANCE *my, int *params);
-int modremoveHandler(INSTANCE *my, int *params);
-int modcrearHandler(INSTANCE *my, int *params);
+int modcpSpaceAddCollisionHandler(INSTANCE *my, intptr_t *params);
+int modcpSpaceRemoveCollisionHandler(INSTANCE *my, intptr_t *params);
+int modremoveHandler(INSTANCE *my, intptr_t *params);
+int modcrearHandler(INSTANCE *my, intptr_t *params);
 void recogeColisionHandler(cpArbiter *arb, cpSpace *space, void *dat);
 void buscaABCol(void *ptr, void *data);
 typedef struct {

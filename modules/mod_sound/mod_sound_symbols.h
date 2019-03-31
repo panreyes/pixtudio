@@ -33,41 +33,41 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modsound_init( INSTANCE * my, int * params );
-extern int modsound_close( INSTANCE * my, int * params );
-extern int32_t modsound_song_load( INSTANCE * my, int * params );
-extern int modsound_song_bgload( INSTANCE * my, int * params );
-extern int modsound_song_unload( INSTANCE * my, int * params );
-extern int modsound_song_unload2( INSTANCE * my, int * params );
-extern int modsound_song_unload2( INSTANCE * my, int * params );
-extern int modsound_song_play( INSTANCE * my, int * params );
-extern int modsound_song_stop( INSTANCE * my, int * params );
-extern int modsound_song_pause( INSTANCE * my, int * params );
-extern int modsound_song_resume( INSTANCE * my, int * params );
-extern int modsound_song_set_volume( INSTANCE * my, int * params );
-extern int modsound_song_is_playing( INSTANCE * my, int * params );
-extern int32_t modsound_sound_load( INSTANCE * my, int * params );
-extern int modsound_sound_bgload( INSTANCE * my, int * params );
-extern int modsound_sound_unload( INSTANCE * my, int * params );
-extern int modsound_sound_unload2( INSTANCE * my, int * params );
-extern int modsound_sound_unload2( INSTANCE * my, int * params );
-extern int modsound_sound_play( INSTANCE * my, int * params );
-extern int modsound_sound_play_channel( INSTANCE * my, int * params );
-extern int modsound_sound_play_channel( INSTANCE * my, int * params );
-extern int modsound_sound_stop( INSTANCE * my, int * params );
-extern int modsound_sound_pause( INSTANCE * my, int * params );
-extern int modsound_sound_resume( INSTANCE * my, int * params );
-extern int modsound_sound_is_playing( INSTANCE * my, int * params );
-extern int modsound_music_fade_in( INSTANCE * my, int * params );
-extern int modsound_music_fade_out( INSTANCE * my, int * params );
-extern int modsound_sound_set_volume( INSTANCE * my, int * params );
-extern int modsound_channel_set_volume( INSTANCE * my, int * params );
-extern int modsound_channels_reserve( INSTANCE * my, int * params );
-extern int modsound_channel_set_panning( INSTANCE * my, int * params );
-extern int modsound_channel_set_position( INSTANCE * my, int * params );
-extern int modsound_channel_set_distance( INSTANCE * my, int * params );
-extern int modsound_stereo_reserve( INSTANCE * my, int * params );
-extern int modsound_music_set_position( INSTANCE * my, int * params );
+extern int modsound_init( INSTANCE * my, intptr_t * params );
+extern int modsound_close( INSTANCE * my, intptr_t * params );
+extern int32_t modsound_song_load( INSTANCE * my, intptr_t * params );
+extern int modsound_song_bgload( INSTANCE * my, intptr_t * params );
+extern int modsound_song_unload( INSTANCE * my, intptr_t * params );
+extern int modsound_song_unload2( INSTANCE * my, intptr_t * params );
+extern int modsound_song_unload2( INSTANCE * my, intptr_t * params );
+extern int modsound_song_play( INSTANCE * my, intptr_t * params );
+extern int modsound_song_stop( INSTANCE * my, intptr_t * params );
+extern int modsound_song_pause( INSTANCE * my, intptr_t * params );
+extern int modsound_song_resume( INSTANCE * my, intptr_t * params );
+extern int modsound_song_set_volume( INSTANCE * my, intptr_t * params );
+extern int modsound_song_is_playing( INSTANCE * my, intptr_t * params );
+extern int32_t modsound_sound_load( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_bgload( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_unload( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_unload2( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_unload2( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_play( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_play_channel( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_play_channel( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_stop( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_pause( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_resume( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_is_playing( INSTANCE * my, intptr_t * params );
+extern int modsound_music_fade_in( INSTANCE * my, intptr_t * params );
+extern int modsound_music_fade_out( INSTANCE * my, intptr_t * params );
+extern int modsound_sound_set_volume( INSTANCE * my, intptr_t * params );
+extern int modsound_channel_set_volume( INSTANCE * my, intptr_t * params );
+extern int modsound_channels_reserve( INSTANCE * my, intptr_t * params );
+extern int modsound_channel_set_panning( INSTANCE * my, intptr_t * params );
+extern int modsound_channel_set_position( INSTANCE * my, intptr_t * params );
+extern int modsound_channel_set_distance( INSTANCE * my, intptr_t * params );
+extern int modsound_stereo_reserve( INSTANCE * my, intptr_t * params );
+extern int modsound_music_set_position( INSTANCE * my, intptr_t * params );
 
 DLVARFIXUP  __pxtexport( mod_sound, globals_fixup )[] = {
     { "sound_freq",     NULL, -1, -1 },

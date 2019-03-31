@@ -54,13 +54,13 @@ enum { GRAPH_MODE = 0 };
 
 /* --------------------------------------------------------------------------- */
 
-int modvideo_set_mode(INSTANCE *my, int *params) {
+int modvideo_set_mode(INSTANCE *my, intptr_t *params) {
     return gr_set_mode(params[0], params[1]);
 }
 
 /* --------------------------------------------------------------------------- */
 
-int modvideo_set_mode_2(INSTANCE *my, int *params) {
+int modvideo_set_mode_2(INSTANCE *my, intptr_t *params) {
     GLODWORD(mod_video, GRAPH_MODE) = params[2];
     if(params[2] > 0 && params[2] <= 32) {
         PXTRTM_LOG("DEPRECATION WARNING: Setting the bit depth in set_mode is no longer valid\n");
@@ -70,7 +70,7 @@ int modvideo_set_mode_2(INSTANCE *my, int *params) {
 
 /* --------------------------------------------------------------------------- */
 
-int modvideo_set_fps(INSTANCE *my, int *params) {
+int modvideo_set_fps(INSTANCE *my, intptr_t *params) {
     gr_set_fps(params[0], params[1]);
     return params[0];
 }
@@ -84,7 +84,7 @@ Returns NULL if there are no dimensions available for a particular format,
 or -1 if any dimension is okay for the given format.
 */
 
-int modvideo_list_modes(INSTANCE *my, int *params) {
+int modvideo_list_modes(INSTANCE *my, intptr_t *params) {
 #warning modvideo_list_modes is a stub implementation (See https://wiki.libsdl.org/SDL_GetDisplayMode)
     return -1;
 }
@@ -101,7 +101,7 @@ int modvideo_list_modes(INSTANCE *my, int *params) {
 
 */
 
-int modvideo_mode_is_ok(INSTANCE *my, int *params) {
+int modvideo_mode_is_ok(INSTANCE *my, intptr_t *params) {
 #warning modvideo_mode_is_ok is a stub implementation
     return 1;
 }

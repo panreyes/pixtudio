@@ -34,17 +34,17 @@
 #include <SDL_messagebox.h>
 
 #ifndef __PXTB__
-extern int bgd_set_title( INSTANCE * my, int * params );
-extern int bgd_set_icon( INSTANCE * my, int * params );
-extern int bgd_minimize( INSTANCE * my, int * params );
-extern int bgd_move_window( INSTANCE * my, int * params );
-extern int bgd_get_window_pos( INSTANCE * my, int * params );
-extern int bgd_get_window_size( INSTANCE * my, int * params );
-extern int bgd_get_desktop_size( INSTANCE * my, int * params );
-extern int bgd_disable_screensaver( INSTANCE * my, int * params );
-extern int bgd_enable_screensaver( INSTANCE * my, int * params );
-extern int bgd_get_locale( INSTANCE * my, int * params );
-extern void bgd_show_messagebox( INSTANCE * my, int * params );
+extern int bgd_set_title( INSTANCE * my, intptr_t * params );
+extern int bgd_set_icon( INSTANCE * my, intptr_t * params );
+extern int bgd_minimize( INSTANCE * my, intptr_t * params );
+extern int bgd_move_window( INSTANCE * my, intptr_t * params );
+extern int bgd_get_window_pos( INSTANCE * my, intptr_t * params );
+extern int bgd_get_window_size( INSTANCE * my, intptr_t * params );
+extern int bgd_get_desktop_size( INSTANCE * my, intptr_t * params );
+extern int bgd_disable_screensaver( INSTANCE * my, intptr_t * params );
+extern int bgd_enable_screensaver( INSTANCE * my, intptr_t * params );
+extern int bgd_get_locale( INSTANCE * my, intptr_t * params );
+extern void bgd_show_messagebox( INSTANCE * my, intptr_t * params );
 #endif
 
 DLCONSTANT __pxtexport( mod_wm, constants_def)[] = {

@@ -9,17 +9,17 @@
 extern cpSpace *modChipmunk_cpEspacio;
 extern DataPointer modChipmunk_ListaCuerpos;
 
-int modgetBody(INSTANCE *my, int *params) {
+int modgetBody(INSTANCE *my, intptr_t *params) {
     return (int)modChipmunk_cpEspacio->staticBody;
 }
 
-int modcpBodyLocal2World(INSTANCE *my, int *params) {
+int modcpBodyLocal2World(INSTANCE *my, intptr_t *params) {
     cpVect *ind = params[2];
     *ind        = cpBodyLocal2World((cpBody *)params[0], *(cpVect *)params[1]);
     return 0;
 }
 
-int modDefcpBody(INSTANCE *my, int *params) {
+int modDefcpBody(INSTANCE *my, intptr_t *params) {
     cpVect *flo2;
     int sel = params[1];
     float flo1;
@@ -79,7 +79,7 @@ int modDefcpBody(INSTANCE *my, int *params) {
     return 0;
 }
 
-int modGetEcpBody(INSTANCE *my, int *params) {
+int modGetEcpBody(INSTANCE *my, intptr_t *params) {
     int sel          = params[1];
     cpBody *espacioM = (cpBody *)params[0];
     cpVect cp;
@@ -146,88 +146,88 @@ int modGetEcpBody(INSTANCE *my, int *params) {
     return 0;
 }
 
-int modcpBodySetMass(INSTANCE *my, int *params) {
+int modcpBodySetMass(INSTANCE *my, intptr_t *params) {
     cpBodySetMass((cpBody *)params[0], *((float *)&params[1]));
     return 0;
 }
 
-int modcpBodySetMoment(INSTANCE *my, int *params) {
+int modcpBodySetMoment(INSTANCE *my, intptr_t *params) {
     cpBodySetMoment((cpBody *)params[0], *((float *)&params[1]));
     return 0;
 }
 
-int modcpBodySetAngle(INSTANCE *my, int *params) {
+int modcpBodySetAngle(INSTANCE *my, intptr_t *params) {
     cpBodySetAngle((cpBody *)params[0], *((float *)&params[1]));
     return 0;
 }
 
-int modcpBodyUpdatePosition(INSTANCE *my, int *params) {
+int modcpBodyUpdatePosition(INSTANCE *my, intptr_t *params) {
     cpBodyUpdatePosition((cpBody *)params[0], *((float *)&params[1]));
     return 0;
 }
 
-int modcpBodyResetForces(INSTANCE *my, int *params) {
+int modcpBodyResetForces(INSTANCE *my, intptr_t *params) {
     cpBodyResetForces((cpBody *)params[0]);
     return 0;
 }
 
-int modcpBodyIsSleeping(INSTANCE *my, int *params) {
+int modcpBodyIsSleeping(INSTANCE *my, intptr_t *params) {
     return cpBodyIsSleeping((cpBody *)params[0]);
 }
 
-int modcpBodySleep(INSTANCE *my, int *params) {
+int modcpBodySleep(INSTANCE *my, intptr_t *params) {
     cpBodySleep((cpBody *)params[0]);
     return 0;
 }
 
-int modcpBodyActivate(INSTANCE *my, int *params) {
+int modcpBodyActivate(INSTANCE *my, intptr_t *params) {
     cpBodyActivate((cpBody *)params[0]);
     return 0;
 }
 
-int modcpBodyIsStatic(INSTANCE *my, int *params) {
+int modcpBodyIsStatic(INSTANCE *my, intptr_t *params) {
     int a = cpBodyIsStatic((cpBody *)params[0]);
     return a;
 }
 
-int modcpBodyIsRogue(INSTANCE *my, int *params) {
+int modcpBodyIsRogue(INSTANCE *my, intptr_t *params) {
     int a = cpBodyIsRogue((cpBody *)params[0]);
     return a;
 }
 
-int modcpBodySleepWithGroup(INSTANCE *my, int *params) {
+int modcpBodySleepWithGroup(INSTANCE *my, intptr_t *params) {
     cpBodySleepWithGroup((cpBody *)params[0], (cpBody *)params[1]);
     return 0;
 }
 
-int modcpBodyApplyForce(INSTANCE *my, int *params) {
+int modcpBodyApplyForce(INSTANCE *my, intptr_t *params) {
     cpBodyApplyForce((cpBody *)params[0], *(cpVect *)params[1], *(cpVect *)params[2]);
     return 0;
 }
 
-int modcpBodyApplyImpulse(INSTANCE *my, int *params) {
+int modcpBodyApplyImpulse(INSTANCE *my, intptr_t *params) {
     cpBodyApplyImpulse((cpBody *)params[0], *(cpVect *)params[1], *(cpVect *)params[2]);
     return 0;
 }
 
-int modcpBodyWorld2Local(INSTANCE *my, int *params) {
+int modcpBodyWorld2Local(INSTANCE *my, intptr_t *params) {
     cpVect *vc = params[2];
     *vc        = cpBodyWorld2Local((cpBody *)params[0], *(cpVect *)params[1]);
     return 0;
 }
 
-int modcpBodySlew(INSTANCE *my, int *params) {
+int modcpBodySlew(INSTANCE *my, intptr_t *params) {
     cpBodySlew((cpBody *)params[0], *(cpVect *)params[1], *((float *)&params[2]));
     return 0;
 }
 
-int modcpBodyUpdateVelocity(INSTANCE *my, int *params) {
+int modcpBodyUpdateVelocity(INSTANCE *my, intptr_t *params) {
     cpBodyUpdateVelocity((cpBody *)params[0], *(cpVect *)params[1], *(float *)&params[2],
                          *(float *)&params[3]);
     return 0;
 }
 
-int modActivateProcessTouchingIt(INSTANCE *my, int *params) {
+int modActivateProcessTouchingIt(INSTANCE *my, intptr_t *params) {
     cpSpaceActivateShapesTouchingShape(modChipmunk_cpEspacio,
                                        (cpShape *)LOCDWORD(mod_chipmunk, my, LOC_SHAPE));
     return 0;
@@ -264,7 +264,7 @@ void addListaProcesos(INSTANCE *ins) {
     modChipmunk_ListaCuerpos->sig = dataP;
 }
 
-int modaddCircleShape(INSTANCE *my, int *params) {
+int modaddCircleShape(INSTANCE *my, intptr_t *params) {
     if (LOCDWORD(mod_chipmunk, my, LOC_SHAPETYPE) == TYPE_NONE) {
         LOCDWORD(mod_chipmunk, my, LOC_SHAPETYPE) = TYPE_CIRCLE;
     } else {
@@ -310,7 +310,7 @@ int modaddCircleShape(INSTANCE *my, int *params) {
     return (int)sha;
 }
 
-int modaddSegmentShape(INSTANCE *my, int *params) {
+int modaddSegmentShape(INSTANCE *my, intptr_t *params) {
     if (LOCDWORD(mod_chipmunk, my, LOC_SHAPETYPE) == TYPE_NONE) {
         LOCDWORD(mod_chipmunk, my, LOC_SHAPETYPE) = TYPE_LINE;
     } else {
@@ -355,7 +355,7 @@ int modaddSegmentShape(INSTANCE *my, int *params) {
     return (int)sha;
 }
 
-int modaddSegmentShapeTo(INSTANCE *my, int *params) {
+int modaddSegmentShapeTo(INSTANCE *my, intptr_t *params) {
     my = instance_get(params[5]);
     if (LOCDWORD(mod_chipmunk, my, LOC_SHAPETYPE) == TYPE_NONE) {
         LOCDWORD(mod_chipmunk, my, LOC_SHAPETYPE) = TYPE_LINE;
@@ -401,7 +401,7 @@ int modaddSegmentShapeTo(INSTANCE *my, int *params) {
     return (int)sha;
 }
 
-int modaddPolyShape(INSTANCE *my, int *params) {
+int modaddPolyShape(INSTANCE *my, intptr_t *params) {
     if (LOCDWORD(mod_chipmunk, my, LOC_SHAPETYPE) == TYPE_NONE) {
         LOCDWORD(mod_chipmunk, my, LOC_SHAPETYPE) = TYPE_CONVEX_POLYGON;
     } else {
@@ -542,7 +542,7 @@ int calculaCuerpoConvexo(GRAPH *map, modChipmunkStruct_Point *r) {
     return cantCH;
 }
 
-int modcpCalculaConvexHull(INSTANCE *my, int *params) {
+int modcpCalculaConvexHull(INSTANCE *my, intptr_t *params) {
     GRAPH *map                 = bitmap_get(params[0], params[1]);
     modChipmunkStruct_Point *r = params[2];
     // printf("%p\n",r); fflush(stdout);

@@ -33,13 +33,13 @@
 #include <pxtdl.h>
 
 #ifndef __PXTB__
-extern int modscreen_define_region( INSTANCE * my, int * params );
-extern int modscreen_out_region( INSTANCE * my, int * params );
-extern int modscreen_put( INSTANCE * my, int * params );
-extern int modscreen_xput( INSTANCE * my, int * params );
-extern int modscreen_put_screen( INSTANCE * my, int * params );
-extern int modscreen_clear_screen( INSTANCE * my, int * params );
-extern int modscreen_get_screen( INSTANCE * my, int * params );
+extern int modscreen_define_region( INSTANCE * my, intptr_t * params );
+extern int modscreen_out_region( INSTANCE * my, intptr_t * params );
+extern int modscreen_put( INSTANCE * my, intptr_t * params );
+extern int modscreen_xput( INSTANCE * my, intptr_t * params );
+extern int modscreen_put_screen( INSTANCE * my, intptr_t * params );
+extern int modscreen_clear_screen( INSTANCE * my, intptr_t * params );
+extern int modscreen_get_screen( INSTANCE * my, intptr_t * params );
 
 DLVARFIXUP __pxtexport( mod_screen, locals_fixup )[] = {
     { "ctype"       , NULL, -1, -1 },

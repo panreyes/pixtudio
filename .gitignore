@@ -3,3 +3,4 @@
 *.a
 *.dcb
 .idea
+/3rdparty/steamworks

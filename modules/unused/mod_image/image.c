@@ -272,7 +272,7 @@ int gr_image_type(const char *filename, int type) {
 /*
  *  LOAD_IMAGE (STRING file)
  */
-int bgd_load_image(INSTANCE *i, int *params) {
+int bgd_load_image(INSTANCE *i, intptr_t *params) {
     const char *ptr = string_get(params[0]);
     int result = gr_load_image(ptr);
     string_discard(params[0]);
@@ -282,7 +282,7 @@ int bgd_load_image(INSTANCE *i, int *params) {
 /*
  *  IS_PCX (STRING file)
  */
-int bgd_is_PCX(INSTANCE *i, int *params) {
+int bgd_is_PCX(INSTANCE *i, intptr_t *params) {
     const char *ptr = string_get(params[0]);
     int result = gr_image_type(ptr, TYPE_PCX);
     string_discard(params[0]);
@@ -292,7 +292,7 @@ int bgd_is_PCX(INSTANCE *i, int *params) {
 /*
  *  IS_GIF (STRING file)
  */
-int bgd_is_GIF(INSTANCE *i, int *params) {
+int bgd_is_GIF(INSTANCE *i, intptr_t *params) {
     const char *ptr = string_get(params[0]);
     int result = gr_image_type(ptr, TYPE_GIF);
     string_discard(params[0]);
@@ -302,7 +302,7 @@ int bgd_is_GIF(INSTANCE *i, int *params) {
 /*
  *  IS_JPG (STRING file)
  */
-int bgd_is_JPG(INSTANCE *i, int *params) {
+int bgd_is_JPG(INSTANCE *i, intptr_t *params) {
     const char *ptr = string_get(params[0]);
     int result = gr_image_type(ptr, TYPE_JPG);
     string_discard(params[0]);
@@ -312,7 +312,7 @@ int bgd_is_JPG(INSTANCE *i, int *params) {
 /*
  *  IS_PNG (STRING file)
  */
-int bgd_is_PNG(INSTANCE *i, int *params) {
+int bgd_is_PNG(INSTANCE *i, intptr_t *params) {
     const char *ptr = string_get(params[0]);
     int result = gr_image_type(ptr, TYPE_PNG);
     string_discard(params[0]);
@@ -322,7 +322,7 @@ int bgd_is_PNG(INSTANCE *i, int *params) {
 /*
  *  IS_XPM (STRING file)
  */
-int bgd_is_XPM(INSTANCE *i, int *params) {
+int bgd_is_XPM(INSTANCE *i, intptr_t *params) {
     const char *ptr = string_get(params[0]);
     int result = gr_image_type(ptr, TYPE_XPM);
     string_discard(params[0]);
@@ -332,7 +332,7 @@ int bgd_is_XPM(INSTANCE *i, int *params) {
 /*
  *  IS_BMP (STRING file)
  */
-int bgd_is_BMP(INSTANCE *i, int *params) {
+int bgd_is_BMP(INSTANCE *i, intptr_t *params) {
     const char *ptr = string_get(params[0]);
     int result = gr_image_type(ptr, TYPE_BMP);
     string_discard(params[0]);
@@ -342,7 +342,7 @@ int bgd_is_BMP(INSTANCE *i, int *params) {
 /*
  *  IS_PNM (STRING file)
  */
-int bgd_is_PNM(INSTANCE *i, int *params) {
+int bgd_is_PNM(INSTANCE *i, intptr_t *params) {
     const char *ptr = string_get(params[0]);
     int result = gr_image_type(ptr, TYPE_PNM);
     string_discard(params[0]);
@@ -352,7 +352,7 @@ int bgd_is_PNM(INSTANCE *i, int *params) {
 /*
  *  IS_TIF (STRING file)
  */
-int bgd_is_TIF(INSTANCE *i, int *params) {
+int bgd_is_TIF(INSTANCE *i, intptr_t *params) {
     const char *ptr = string_get(params[0]);
     int result = gr_image_type(ptr, TYPE_TIF);
     string_discard(params[0]);
@@ -362,7 +362,7 @@ int bgd_is_TIF(INSTANCE *i, int *params) {
 /*
  *  IS_LBM (STRING file)
  */
-int bgd_is_LBM(INSTANCE *i, int *params) {
+int bgd_is_LBM(INSTANCE *i, intptr_t *params) {
     const char *ptr = string_get(params[0]);
     int result = gr_image_type(ptr, TYPE_LBM);
     string_discard(params[0]);
@@ -372,7 +372,7 @@ int bgd_is_LBM(INSTANCE *i, int *params) {
 /*
  *  IS_XCF (STRING file)
  */
-int bgd_is_XCF(INSTANCE *i, int *params) {
+int bgd_is_XCF(INSTANCE *i, intptr_t *params) {
     const char *ptr = string_get(params[0]);
     int result = gr_image_type(ptr, TYPE_XCF);
     string_discard(params[0]);

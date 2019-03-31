@@ -2193,7 +2193,7 @@ static int debug_mode_handler_cb(SDL_Keysym k) {
 
 /* --------------------------------------------------------------------------- */
 
-static int moddebug_trace(INSTANCE *my, int *params) {
+static int moddebug_trace(INSTANCE *my, intptr_t *params) {
     debug_DCB = params[0];
     return 0;
 }

@@ -79,7 +79,7 @@ int convert_32_8(int file1, int graph1, PALETTE *pal2) {
     return (temp_graph->code);
 }
 
-static int modconversor_32_8(INSTANCE *my, int *params) {
+static int modconversor_32_8(INSTANCE *my, intptr_t *params) {
     return convert_32_8(params[0], params[1], (PALETTE *)params[2]);
 }
 
@@ -120,7 +120,7 @@ int convert_32_16(file1, graph1) {
     return (temp_graph->code);
 }
 
-static int modconversor_32_16(INSTANCE *my, int *params) {
+static int modconversor_32_16(INSTANCE *my, intptr_t *params) {
     return convert_32_16(params[0], params[1]);
 }
 
@@ -161,7 +161,7 @@ int convert_8_32(file1, graph1) {
     return (temp_graph->code);
 }
 
-static int modconversor_8_32(INSTANCE *my, int *params) {
+static int modconversor_8_32(INSTANCE *my, intptr_t *params) {
     return convert_8_32(params[0], params[1]);
 }
 
@@ -200,7 +200,7 @@ int convert_8_16(file1, graph1) {
     return (temp_graph->code);
 }
 
-static int modconversor_8_16(INSTANCE *my, int *params) {
+static int modconversor_8_16(INSTANCE *my, intptr_t *params) {
     return convert_8_16(params[0], params[1]);
 }
 
@@ -238,7 +238,7 @@ int convert_16_32(file1, graph1) {
     return (temp_graph->code);
 }
 
-static int modconversor_16_32(INSTANCE *my, int *params) {
+static int modconversor_16_32(INSTANCE *my, intptr_t *params) {
     return convert_16_32(params[0], params[1]);
 }
 
@@ -283,7 +283,7 @@ int convert_16_8(int file1, int graph1, PALETTE *pal2) {
     return (temp_graph->code);
 }
 
-static int modconversor_16_8(INSTANCE *my, int *params) {
+static int modconversor_16_8(INSTANCE *my, intptr_t *params) {
     return convert_16_8(params[0], params[1], (PALETTE *)params[2]);
 }
 
@@ -350,11 +350,11 @@ int convert_8_8(int file1, int graph1, PALETTE *pal2) {
     return (temp_graph->code);
 }
 
-static int modconversor_campal(INSTANCE *my, int *params) {
+static int modconversor_campal(INSTANCE *my, intptr_t *params) {
     return convert_8_8(params[0], params[1], (PALETTE *)params[2]);
 }
 
-int modconversor_8(INSTANCE *my, int *params) {
+int modconversor_8(INSTANCE *my, intptr_t *params) {
     GRAPH *map = bitmap_get(params[0], params[1]);
     switch (map->format->depth) {
         case 8:
@@ -370,7 +370,7 @@ int modconversor_8(INSTANCE *my, int *params) {
     return (0);
 }
 
-int modconversor_16(INSTANCE *my, int *params) {
+int modconversor_16(INSTANCE *my, intptr_t *params) {
     GRAPH *map = bitmap_get(params[0], params[1]);
     switch (map->format->depth) {
         case 8:
@@ -383,7 +383,7 @@ int modconversor_16(INSTANCE *my, int *params) {
     return (0);
 }
 
-int modconversor_32(INSTANCE *my, int *params) {
+int modconversor_32(INSTANCE *my, intptr_t *params) {
     GRAPH *map = bitmap_get(params[0], params[1]);
     switch (map->format->depth) {
         case 8:

@@ -115,7 +115,7 @@ void controller_close(int index) {
 
 /* --------------------------------------------------------------------------- */
 
-int modgamecontroller_getaxis(INSTANCE *my, int *params) {
+int modgamecontroller_getaxis(INSTANCE *my, intptr_t *params) {
     int id   = params[0];
     int axis = params[1];
 
@@ -126,7 +126,7 @@ int modgamecontroller_getaxis(INSTANCE *my, int *params) {
     return SDL_GameControllerGetAxis(open_controllers[id], axis);
 }
 
-int modgamecontroller_getbutton(INSTANCE *my, int *params) {
+int modgamecontroller_getbutton(INSTANCE *my, intptr_t *params) {
     int id     = params[0];
     int button = params[1];
 
@@ -137,7 +137,7 @@ int modgamecontroller_getbutton(INSTANCE *my, int *params) {
     return SDL_GameControllerGetButton(open_controllers[id], button);
 }
 
-int modgamecontroller_getname(INSTANCE *my, int *params) {
+int modgamecontroller_getname(INSTANCE *my, intptr_t *params) {
     int str = 0;
     int id  = params[0];
 
@@ -153,11 +153,11 @@ int modgamecontroller_getname(INSTANCE *my, int *params) {
     return str;
 }
 
-int modgamecontroller_num(INSTANCE *my, int *params) {
+int modgamecontroller_num(INSTANCE *my, intptr_t *params) {
     return (SDL_NumJoysticks());
 }
 
-int modgamecontroller_close(INSTANCE *my, int *params) {
+int modgamecontroller_close(INSTANCE *my, intptr_t *params) {
     int id = params[0];
 
     if (!check_controller_id(id)) {
@@ -169,7 +169,7 @@ int modgamecontroller_close(INSTANCE *my, int *params) {
     return 0;
 }
 
-int modgamecontroller_open(INSTANCE *my, int *params) {
+int modgamecontroller_open(INSTANCE *my, intptr_t *params) {
     SDL_GameController *controller;
     int n, index = params[0];
 
@@ -201,7 +201,7 @@ int modgamecontroller_open(INSTANCE *my, int *params) {
  *      duration of the rumble effect, in milliseconds
  *
  **/
-int modgamecontroller_rumble( INSTANCE * my, int * params ) {
+int modgamecontroller_rumble( INSTANCE * my, intptr_t * params ) {
     int id     = params[0];
     int low_frequency_rumble = params[1];
     int high_frequency_rumble = params[2];
