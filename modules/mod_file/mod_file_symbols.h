@@ -49,6 +49,8 @@ extern int modfile_remove( INSTANCE * my, int * params );
 extern int modfile_move( INSTANCE * my, int * params );
 extern int modfile_dirname( INSTANCE * my, int * params );
 extern int modfile_basename( INSTANCE * my, int * params );
+
+extern void __pxtexport( mod_sound, module_finalize )();
 #endif
 
 DLCONSTANT __pxtexport(mod_file, constants_def)[] = {
@@ -95,3 +97,5 @@ DLSYSFUNCS __pxtexport(mod_file, exported_functions)[] = {
 
     FUNC( 0             , 0      , 0                , 0                   )
 };
+
+extern void __pxtexport( mod_sound, module_finalize )();
