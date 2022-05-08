@@ -172,3 +172,26 @@ void bgd_show_messagebox(INSTANCE *my, int *params) {
 }
 
 /* --------------------------------------------------------------------------- */
+
+void bgd_window_enable_text_drop(INSTANCE *my, int *params) {
+    if(params[0]){
+        SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+    } else {
+        SDL_EventState(SDL_DROPFILE, SDL_DISABLE);
+    }
+}
+
+/* --------------------------------------------------------------------------- */
+
+int bgd_window_get_dropped_text(INSTANCE *my, int *params) {
+    int str_dropped_text;
+    SDL_Event e;
+    if(SDL_PeepEvents(&e, 1, SDL_GETEVENT, SDL_DROPFILE, SDL_DROPTEXT) > 0){
+        str_dropped_text = string_new(e.drop.file);
+        SDL_free(e.drop.file);
+    } else {
+        str_dropped_text = string_new("");
+    }
+    string_use(str_dropped_text);
+    return str_dropped_text;
+}

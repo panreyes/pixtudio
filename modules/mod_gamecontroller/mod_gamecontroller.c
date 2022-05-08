@@ -154,7 +154,16 @@ int modgamecontroller_getname(INSTANCE *my, int *params) {
 }
 
 int modgamecontroller_num(INSTANCE *my, int *params) {
-    return (SDL_NumJoysticks());
+    int i;
+    int game_controllers = 0;
+    
+    for (i = 0; i < SDL_NumJoysticks(); ++i) {
+        if (SDL_IsGameController(i)) {
+            game_controllers++;
+        }
+    }
+
+    return game_controllers;
 }
 
 int modgamecontroller_close(INSTANCE *my, int *params) {
@@ -235,6 +244,19 @@ int modgamecontroller_rumble( INSTANCE * my, int * params ) {
 /* Module initialisation routines                               */
 
 void __pxtexport(mod_gamecontroller, module_initialize)() {
+    char *e;
+    
+    if ((e = getenv("SDL_GAMECONTROLLERCONFIG"))) {
+        SDL_SetHint(SDL_HINT_GAMECONTROLLERCONFIG, e);
+    }
+
+/* 
+    // Requires SDL 2.0.10 and we are targetting SDL 2.0.9!
+    if ((e = getenv("SDL_GAMECONTROLLERCONFIG_FILE"))) {
+        SDL_SetHint(SDL_HINT_GAMECONTROLLERCONFIG_FILE, e);
+    }
+*/
+    
     if (!SDL_WasInit(SDL_INIT_GAMECONTROLLER)) {
         SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER);
     }

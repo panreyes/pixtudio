@@ -41,9 +41,11 @@
 #include "systemfont.h"
 #include "mod_map.h"
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-#include FT_GLYPH_H
+#ifndef NO_FREETYPE
+    #include <ft2build.h>
+    #include FT_FREETYPE_H
+    #include FT_GLYPH_H
+#endif
 
 #ifndef __MONOLITHIC__
 #include "libfont_symbols.h"
@@ -53,7 +55,10 @@
 
 FONT *fonts[MAX_FONTS] = {0};
 int font_count         = 0;   /* System font */
+
+#ifndef NO_FREETYPE
 FT_Library font_library;      /* For FreeType-rendered fonts */
+#endif
 
 /* --------------------------------------------------------------------------- */
 
@@ -101,7 +106,10 @@ int gr_font_new(int charset, uint8_t bpp, uint8_t type) {
     f->type      = type;
     f->maxwidth  = 0;
     f->maxheight = 0;
+
+#ifndef NO_FREETYPE
     f->face_data = NULL;    // To be filled by loader, if needed
+#endif
 
     fonts[font_count] = f;
     return font_count++;
@@ -461,6 +469,7 @@ void gr_font_destroy(int fontid) {
             }
         }
 
+        #ifndef NO_FREETYPE
         if(fonts[fontid]->type == FONT_TYPE_VECTOR) {
             FT_Done_Face(fonts[fontid]->face);
             if(fonts[fontid]->face_data) {
@@ -468,6 +477,7 @@ void gr_font_destroy(int fontid) {
                 fonts[fontid]->face_data = NULL;
             }
         }
+        #endif
 
         free(fonts[fontid]);
         fonts[fontid] = NULL;
@@ -503,10 +513,12 @@ FONT *gr_font_get(int id) {
 /* --------------------------------------------------------------------------- */
 
 void __pxtexport(libfont, module_initialize)() {
+#ifndef NO_FREETYPE
     int error = FT_Init_FreeType(&font_library);
     if (error) {
         PXTRTM_LOGERROR("ERROR: Could not start Freetype library\n");
     }
+#endif
 
     gr_font_systemfont();
 }

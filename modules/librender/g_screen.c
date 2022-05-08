@@ -35,8 +35,9 @@
 
 /* --------------------------------------------------------------------------- */
 
-static int updaterects_count = 0;
-static REGION updaterects[DIRTYCOLS * DIRTYROWS];
+/* Not used anymore */
+// static int updaterects_count = 0;
+// static REGION updaterects[DIRTYCOLS * DIRTYROWS];
 
 /* --------------------------------------------------------------------------- */
 /*
@@ -61,11 +62,19 @@ static REGION updaterects[DIRTYCOLS * DIRTYROWS];
  */
 
 void gr_draw_screen(GRAPH *dest, int restore_type, int dump_type) {
+    int x, y, scalex, scaley;
+    
     /* Update the object list */
     gr_update_objects_mark_rects(restore_type, dump_type);
     
+    scalex = 100 + GLOINT32(librender, SCREENOFFSETSIZEX);
+    scaley = 100 + GLOINT32(librender, SCREENOFFSETSIZEY);
+    x = ((int) background->width / 2) - ((((int) background->width / 2) - GLOINT32(librender, SCREENOFFSETX)) * scalex / 100);
+    y = ((int) background->height / 2) - ((((int) background->height / 2) - GLOINT32(librender, SCREENOFFSETY)) * scaley / 100);
+    
     /* Blit the background map */
-    gr_blit(scrbitmap, NULL, 0, 0, B_NOCOLORKEY, 255, 255, 255, background);
+    //gr_blit(scrbitmap, NULL, GLOINT32(librender, SCREENOFFSETX), GLOINT32(librender, SCREENOFFSETY), B_NOCOLORKEY, 255, 255, 255, background, 0);
+    gr_rotated_blit(scrbitmap, NULL, x, y, B_NOCOLORKEY, 0, scalex, scaley,	255, 255, 255, background, 0);
     
     /* Dump everything */
     gr_draw_objects_complete();

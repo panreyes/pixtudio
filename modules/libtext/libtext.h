@@ -65,6 +65,12 @@
 #define ALIGN_BOTTOM 7
 #define ALIGN_BOTTOM_RIGHT 8
 
+/* Variables globales de librender */
+#define SCREENOFFSETX 8
+#define SCREENOFFSETY 9
+#define SCREENOFFSETSIZEX 10
+#define SCREENOFFSETSIZEY 11
+
 /* --------------------------------------------------------------------------- */
 
 /* Colors for drawing text at different pixel depths */

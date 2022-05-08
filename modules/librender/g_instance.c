@@ -98,7 +98,8 @@ GRAPH *instance_collision_graph(INSTANCE *i) {
 void instance_get_bbox(INSTANCE *i, GRAPH *gr, REGION *dest) {
     REGION *region;
     int x, y, r;
-    int scalex, scaley;
+    float scalex, scaley;
+    int sizeresolution;
 
     r = LOCINT32(librender, i, REGIONID);
     if (r > 0 && r < 32)
@@ -114,8 +115,16 @@ void instance_get_bbox(INSTANCE *i, GRAPH *gr, REGION *dest) {
     scalex = LOCINT32(librender, i, GRAPHSIZEX);
     scaley = LOCINT32(librender, i, GRAPHSIZEY);
 
-    if (scalex == 100 && scaley == 100)
+    if (scalex == 100 && scaley == 100) {
         scalex = scaley = LOCINT32(librender, i, GRAPHSIZE);
+    }
+    
+    sizeresolution = LOCINT32(librender, i, SIZERESOLUTION);
+    
+    if (sizeresolution > 0) {
+        scalex = scalex / sizeresolution;
+        scaley = scaley / sizeresolution;
+    }
 
     gr_get_bbox(dest, region, x, y, LOCDWORD(librender, i, FLAGS), LOCINT32(librender, i, ANGLE),
                 scalex, scaley, gr);
@@ -127,11 +136,13 @@ void draw_instance_at(INSTANCE *i, REGION *region, int x, int y, GRAPH *dest) {
     GRAPH *map;
     int16_t *blend_table = NULL;
     int flags;
-    int scalex, scaley;
+    float scalex, scaley;
     int alpha;
     int blendop;
     PALETTE *palette = NULL;
     int paletteid;
+    int sizeresolution;
+    int shader;
 
     map = instance_graph(i);
     if (!map)
@@ -148,8 +159,17 @@ void draw_instance_at(INSTANCE *i, REGION *region, int x, int y, GRAPH *dest) {
 
     scalex = LOCINT32(librender, i, GRAPHSIZEX);
     scaley = LOCINT32(librender, i, GRAPHSIZEY);
+    shader = LOCINT32(librender, i, SHADERID);
+    
     if (scalex == 100 && scaley == 100) {
         scalex = scaley = LOCINT32(librender, i, GRAPHSIZE);
+    }
+    
+    sizeresolution = LOCINT32(librender, i, SIZERESOLUTION);
+    
+    if (sizeresolution > 0) {
+        scalex = scalex / sizeresolution;
+        scaley = scaley / sizeresolution;
     }
 
     if ((blendop = LOCDWORD(librender, i, BLENDOP))) {
@@ -163,13 +183,13 @@ void draw_instance_at(INSTANCE *i, REGION *region, int x, int y, GRAPH *dest) {
     }
 
     /* WARNING: don't remove "scalex != 100 || scaley != 100 ||" from begin the next condition */
-    if (scalex != 100 || scaley != 100 || LOCINT32(librender, i, ANGLE)) {
+    if (sizeresolution > 0 || scalex != 100 || scaley != 100 || LOCINT32(librender, i, ANGLE)) {
         gr_rotated_blit(dest, region, x, y, flags, LOCINT32(librender, i, ANGLE), scalex, scaley,
                         LOCUINT8(librender, i, MODR), LOCUINT8(librender, i, MODG),
-                        LOCUINT8(librender, i, MODB), map);
+                        LOCUINT8(librender, i, MODB), map, shader);
     } else {
         gr_blit(dest, region, x, y, flags, LOCUINT8(librender, i, MODR),
-                LOCUINT8(librender, i, MODG), LOCUINT8(librender, i, MODB), map);
+                LOCUINT8(librender, i, MODG), LOCUINT8(librender, i, MODB), map, shader);
     }
 
     if (paletteid)
@@ -185,15 +205,18 @@ void draw_instance(void *pi, REGION *clip) {
     GRAPH *map;
     int16_t *blend_table = NULL;
     int flags;
-    int scalex, scaley;
+    float scalex, scaley;
     REGION region;
     int alpha;
     int blendop      = 0;
     PALETTE *palette = NULL;
     int paletteid;
+    int sizeresolution;
+    int shader;
 
     /* Difference with draw_instance_at from here */
     int x, y, r;
+    int screen_offset_x, screen_offset_y, screen_offset_size_x, screen_offset_size_y;
     /* Difference with draw_instance_at to here */
 
     INSTANCE *i = (INSTANCE *)pi;
@@ -214,9 +237,19 @@ void draw_instance(void *pi, REGION *clip) {
 
     scalex = LOCINT32(librender, i, GRAPHSIZEX);
     scaley = LOCINT32(librender, i, GRAPHSIZEY);
-    if (scalex == 100 && scaley == 100)
+    if (scalex == 100 && scaley == 100) {
         scalex = scaley = LOCINT32(librender, i, GRAPHSIZE);
-
+    }
+    
+    sizeresolution = LOCINT32(librender, i, SIZERESOLUTION);
+    
+    if (sizeresolution > 0) {
+        scalex = scalex / sizeresolution;
+        scaley = scaley / sizeresolution;
+    }
+    
+    shader = LOCINT32(librender, i, SHADERID);
+    
     if ((blendop = LOCDWORD(librender, i, BLENDOP))) {
         blend_table      = map->blend_table;
         map->blend_table = (int16_t *)blendop;
@@ -226,12 +259,25 @@ void draw_instance(void *pi, REGION *clip) {
         palette              = map->format->palette;
         map->format->palette = (PALETTE *)paletteid;
     }
-
+    
     /* Difference with draw_instance_at from here */
 
     x = LOCINT32(librender, i, COORDX);
     y = LOCINT32(librender, i, COORDY);
 
+    /* Applying screen offsets */
+    screen_offset_x = GLOINT32(librender, SCREENOFFSETX);
+    screen_offset_y = GLOINT32(librender, SCREENOFFSETY);
+    screen_offset_size_x = GLOINT32(librender, SCREENOFFSETSIZEX);
+    screen_offset_size_y = GLOINT32(librender, SCREENOFFSETSIZEY);
+    
+    x += screen_offset_x;
+    y += screen_offset_y;
+    scalex += screen_offset_size_x;
+    scaley += screen_offset_size_y;
+    x = ((int) background->width / 2) - ((((int) background->width / 2) - x) * (100 + screen_offset_size_x) / 100);
+    y = ((int) background->height / 2) - ((((int) background->height / 2) - y) * (100 + screen_offset_size_y) / 100);
+    
     RESOLXY(librender, i, x, y);
 
     r = LOCINT32(librender, i, REGIONID);
@@ -244,15 +290,16 @@ void draw_instance(void *pi, REGION *clip) {
         region_union(&region, clip);
     /* Difference with draw_instance_at to here */
 
-    /* WARNING: don't remove "scalex != 100 || scaley != 100 ||" from begin the next condition */
-    if (scalex != 100 || scaley != 100 || LOCINT32(librender, i, ANGLE))
+    /* WARNING: don't remove "sizeresolution != 0 || scalex != 100 || scaley != 100 ||" from begin the next condition */
+    if (sizeresolution > 0 || scalex != 100 || scaley != 100 || LOCINT32(librender, i, ANGLE)) {
         gr_rotated_blit(0, &region, x, y, flags, LOCINT32(librender, i, ANGLE), scalex, scaley,
                         LOCUINT8(librender, i, MODR), LOCUINT8(librender, i, MODG),
-                        LOCUINT8(librender, i, MODB), map);
-    else
+                        LOCUINT8(librender, i, MODB), map, shader);
+    } else {
         gr_blit(0, &region, x, y, flags, LOCUINT8(librender, i, MODR), LOCUINT8(librender, i, MODG),
-                LOCUINT8(librender, i, MODB), map);
-
+                LOCUINT8(librender, i, MODB), map, shader);
+    }
+    
     if (paletteid)
         map->format->palette = palette;
     if (blendop)
@@ -375,7 +422,7 @@ int draw_instance_info(void *pi, REGION *region, int *z, int *drawme) {
 
 void __pxtexport(librender, instance_create_hook)(INSTANCE *r) {
     /* COORZ is 0 when a new instance is created */
-    LOCDWORD(librender, r, OBJECTID) = gr_new_object(/* LOCINT32( librender, r, COORDZ ) */ 0,
+    LOCDWORD(librender, r, RENDER_OBJECTID) = gr_new_object(/* LOCINT32( librender, r, COORDZ ) */ 0,
                                                      draw_instance_info, draw_instance, r);
 }
 
@@ -390,6 +437,6 @@ void __pxtexport(librender, instance_create_hook)(INSTANCE *r) {
  */
 
 void __pxtexport(librender, instance_destroy_hook)(INSTANCE *r) {
-    if (LOCDWORD(librender, r, OBJECTID))
-        gr_destroy_object(LOCDWORD(librender, r, OBJECTID));
+    if (LOCDWORD(librender, r, RENDER_OBJECTID))
+        gr_destroy_object(LOCDWORD(librender, r, RENDER_OBJECTID));
 }

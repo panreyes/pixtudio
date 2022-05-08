@@ -207,34 +207,34 @@ int modmap_load_webp(INSTANCE *my, int *params) {
 }
 
 int modmap_load_image(INSTANCE *my, int *params) {
-	const char *filename = string_get(params[0]);
-	unsigned char header[12];
-	int r = -1;
-	
-	file *fp = file_open(filename, "rb");
+    const char *filename = string_get(params[0]);
+    unsigned char header[12];
+    int r = -1;
+    
+    file *fp = file_open(filename, "rb");
     if(! fp) {
         PXTRTM_LOGERROR("Could not open '%s'\n", filename);
-		string_discard(params[0]);
+        string_discard(params[0]);
         return -1;
     }
-	
-	file_read(fp, header, 12);
-	
-	file_close(fp);
+    
+    file_read(fp, header, 12);
+    
+    file_close(fp);
 
-	if (header[0]==137 && header[1]=='P' && header[2]=='N' && header[3]=='G') { /* PNG */
-		r = gr_load_png(filename);
-	} else if(header[0]==255 && header[1]==216) { /* JPG */
-		r = gr_load_jpg(filename);
-	} else if (header[8]=='W' && header[9]=='E' && header[10]=='B' && header[11]=='P') { /* WEBP */
-		r = gr_load_webp(filename);
-	} else if (header[0]=='m' && ((header[1]=='a' && header[2]=='p') || (header[1]=='0' && header[2]=='1') || 
-		(header[1]=='1' && header[2]=='6') || (header[1]=='3' && header[2]=='2'))){ /* MAP */
-		r = gr_load_map(filename);
-	}
-	
-	string_discard(params[0]);
-	return r;
+    if (header[0]==137 && header[1]=='P' && header[2]=='N' && header[3]=='G') { /* PNG */
+        r = gr_load_png(filename);
+    } else if(header[0]==255 && header[1]==216) { /* JPG */
+        r = gr_load_jpg(filename);
+    } else if (header[8]=='W' && header[9]=='E' && header[10]=='B' && header[11]=='P') { /* WEBP */
+        r = gr_load_webp(filename);
+    } else if (header[0]=='m' && ((header[1]=='a' && header[2]=='p') || (header[1]=='0' && header[2]=='1') || 
+        (header[1]=='1' && header[2]=='6') || (header[1]=='3' && header[2]=='2'))){ /* MAP */
+        r = gr_load_map(filename);
+    }
+    
+    string_discard(params[0]);
+    return r;
 }
 
 /* --------------------------------------------------------------------------- */
@@ -310,7 +310,7 @@ int modmap_map_put(INSTANCE *my, int *params) {
     if (!dest || !orig)
         return 0;
 
-    gr_blit(dest, NULL, params[3], params[4], 0, 255, 255, 255, orig);
+    gr_blit(dest, NULL, params[3], params[4], 0, 255, 255, 255, orig, 0);
     return 1;
 }
 
@@ -328,10 +328,10 @@ int modmap_map_xput(INSTANCE *my, int *params) {
     }
 
     if (params[5] == 0 && params[6] == 100)
-        gr_blit(dest, 0, params[3], params[4], params[7], 255, 255, 255, orig);
+        gr_blit(dest, 0, params[3], params[4], params[7], 255, 255, 255, orig, 0);
     else
         gr_rotated_blit(dest, 0, params[3], params[4], params[7], params[5], params[6], params[6],
-                        255, 255, 255, orig);
+                        255, 255, 255, orig, 0);
     return 1;
 }
 
@@ -349,10 +349,10 @@ int modmap_map_xputnp(INSTANCE *my, int *params) {
     }
 
     if (params[6] == 0 && params[7] == 100 && params[8] == 100) {
-        gr_blit(dest, 0, params[4], params[5], params[9], 255, 255, 255, orig);
+        gr_blit(dest, 0, params[4], params[5], params[9], 255, 255, 255, orig, 0);
     } else {
         gr_rotated_blit(dest, 0, params[4], params[5], params[9], params[6], params[7], params[8],
-                        255, 255, 255, orig);
+                        255, 255, 255, orig, 0);
     }
     return 1;
 }
@@ -468,7 +468,7 @@ int modmap_map_block_copy(INSTANCE *my, int *params) {
     clip.y  = dy;
     clip.x2 = dx + w - 1;
     clip.y2 = dy + h - 1;
-    gr_blit(dest, &clip, dx - x + centerx, dy - y + centery, flag, 255, 255, 255, orig);
+    gr_blit(dest, &clip, dx - x + centerx, dy - y + centery, flag, 255, 255, 255, orig, 0);
 
     return 1;
 }
@@ -826,6 +826,8 @@ int modmap_set_glyph(INSTANCE *my, int *params) {
  *  Set the size of a vector font (in pixels)
  */
 
+#ifndef NO_FREETYPE
+
 int modmap_ttf_set_size(INSTANCE *my, int *params) {
     FONT *font = gr_font_get(params[0]);
 
@@ -898,6 +900,17 @@ int modmap_ttf_get_style(INSTANCE *my, int *params) {
 
     return str_id;
 }
+#else
+int modmap_ttf_set_size(INSTANCE *my, int *params) {
+    return -1;
+}
+int modmap_ttf_get_family(INSTANCE *my, int *params) {
+    return 0;
+}
+int modmap_ttf_get_style(INSTANCE *my, int *params) {
+    return 0;
+}
+#endif
 
 /* --------------------------------------------------------------------------- */
 /** SAVE_FNT (FONT, STRING FILENAME)
@@ -968,5 +981,7 @@ void __pxtexport(mod_map, module_finalize)() {
     }
 #endif
 
-    FT_Done_FreeType(font_library);
+    #ifndef NO_FREETYPE
+        FT_Done_FreeType(font_library);
+    #endif
 }

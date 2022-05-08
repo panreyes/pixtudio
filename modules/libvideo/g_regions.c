@@ -62,13 +62,13 @@ void region_define(int region, int x, int y, int width, int height) {
 #if 1
     regions[region].x  = x;
     regions[region].y  = y;
-    regions[region].x2 = (x + width) - 1;
-    regions[region].y2 = (y + height) - 1;
+    regions[region].x2 = (x + width);
+    regions[region].y2 = (y + height);
 #else
     regions[region].x  = MAX(x, 0);
-    regions[region].y  = MAX(y, 0);
-    regions[region].x2 = MIN(scr_width, x + width) - 1;
-    regions[region].y2 = MIN(scr_height, y + height) - 1;
+    regions[region].y  = MAX(y, 0);  
+    regions[region].x2 = MIN(scr_width, x + width);
+    regions[region].y2 = MIN(scr_height, y + height);
 #endif
 }
 

@@ -45,6 +45,8 @@ extern int bgd_disable_screensaver( INSTANCE * my, int * params );
 extern int bgd_enable_screensaver( INSTANCE * my, int * params );
 extern int bgd_get_locale( INSTANCE * my, int * params );
 extern void bgd_show_messagebox( INSTANCE * my, int * params );
+extern void bgd_window_enable_text_drop(INSTANCE *my, int *params);
+extern int bgd_window_get_dropped_text(INSTANCE *my, int *params);
 #endif
 
 DLCONSTANT __pxtexport( mod_wm, constants_def)[] = {
@@ -67,7 +69,8 @@ DLSYSFUNCS __pxtexport( mod_wm, exported_functions )[] = {
     FUNC( "ENABLE_SCREENSAVER"  , ""    , TYPE_INT      , bgd_enable_screensaver  ),
     FUNC( "GET_LOCALE"          , ""    , TYPE_STRING   , bgd_get_locale          ),
     FUNC( "MESSAGEBOX"          , "ISS" , TYPE_UNDEFINED, bgd_show_messagebox     ),
-
+    FUNC( "WINDOW_GET_DROPPED_TEXT", "" , TYPE_STRING   , bgd_window_get_dropped_text ),
+    FUNC( "WINDOW_ENABLE_TEXT_DROP", "I" , TYPE_UNDEFINED, bgd_window_enable_text_drop ),
     FUNC( 0                     , 0     , 0           , 0                       )
 };
 

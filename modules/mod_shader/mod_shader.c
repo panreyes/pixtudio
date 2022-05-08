@@ -27,29 +27,46 @@
  *
  */
 
-#ifndef __BLIT_H
-#define __BLIT_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-/* --------------------------------------------------------------------------- */
+#include "pxtrtm.h"
+#include "pxtdl.h"
+#include "xstrings.h"
 
-#include "libgrbase.h"
-#include "g_blitflags.h"
-
-/* --------------------------------------------------------------------------- */
-
-#define B_ALPHA_MASK 0xFF00
-#define B_ALPHA_SHIFT 8
-
-/* --------------------------------------------------------------------------- */
-
-extern void gr_blit(GRAPH *dest, REGION *clip, int x, int y, int flags, uint8_t modr, uint8_t modg,
-                    uint8_t modb, GRAPH *gr, int shader);
-extern void gr_get_bbox(REGION *dest, REGION *clip, int x, int y, int flags, int angle, float scalex,
-                        float scaley, GRAPH *gr);
-extern void gr_rotated_blit(GRAPH *dest, REGION *clip, int x, int y, int flags, int angle,
-                            float scalex, float scaley, uint8_t modr, uint8_t modg, uint8_t modb,
-                            GRAPH *gr, int shader);
-
-/* --------------------------------------------------------------------------- */
-
+#ifndef __MONOLITHIC__
+#include "mod_shader_symbols.h"
 #endif
+
+#include "g_shaders.h"
+
+/* ---------------------------------------------------------------------- */
+
+int MODSHADER_load_shader(INSTANCE *my, int *params) {
+    int shader_id = 0;
+    
+    const char *vert_source = string_get(params[1]);
+    const char *frag_source = string_get(params[2]);
+        
+    if (!strcmp(vert_source, "")){
+        printf("Could not compile shader: empty vert source!\n");
+        string_discard(params[1]);
+        string_discard(params[2]);
+        return 0;
+    }
+
+    if (!strcmp(frag_source, "")){
+        printf("Could not compile shader: empty frag source!\n");
+        string_discard(params[1]);
+        string_discard(params[2]);
+        return 0;
+    }
+    
+    shader_id = g_shaders_load_shader( params[0], vert_source, frag_source);
+    
+    string_discard(params[1]);
+    string_discard(params[2]);
+    
+    return shader_id;
+}

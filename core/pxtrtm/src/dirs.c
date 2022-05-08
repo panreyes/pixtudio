@@ -194,6 +194,10 @@ int dir_deletefile(const char *filename) {
 /* ------------------------------------------------------------------------------------ */
 
 __DIR_ST *dir_open(const char *path) {
+#ifdef __NINTENDO_SWITCH__
+    PXTRTM_LOGERROR("glob/dir_open are not available in NSwitch! %s\n", path);
+    return NULL;
+#else
     __DIR_ST *hDir = malloc(sizeof(__DIR_ST));
     if (!hDir)
         return NULL;
@@ -252,7 +256,7 @@ __DIR_ST *dir_open(const char *path) {
         fptr[-2] = 0;
 
 #if defined(GLOB_PERIOD)
-    r            = glob(hDir->pattern, GLOB_ERR | GLOB_PERIOD | GLOB_NOSORT, NULL, &hDir->globd);
+    r = glob(hDir->pattern, GLOB_ERR | GLOB_PERIOD | GLOB_NOSORT, NULL, &hDir->globd);
 #else
     r = glob(hDir->pattern, GLOB_ERR | GLOB_NOSORT, NULL, &hDir->globd);
 #endif
@@ -268,12 +272,17 @@ __DIR_ST *dir_open(const char *path) {
 #endif
 
     return hDir;
+#endif
 }
 
 /* ------------------------------------------------------------------------------------ */
 
 void dir_close(__DIR_ST *hDir) {
+#ifdef __NINTENDO_SWITCH__
+    return;
+#else
     free(hDir->path);
+
 
 #ifdef _WIN32
     FindClose(hDir->handle);
@@ -283,6 +292,7 @@ void dir_close(__DIR_ST *hDir) {
 #endif
 
     free(hDir);
+#endif
 }
 
 /* ------------------------------------------------------------------------------------ */

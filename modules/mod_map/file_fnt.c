@@ -288,6 +288,7 @@ int render_glyphs(int fontid) {
         return -1;
     }
 
+#ifndef NO_FREETYPE
     // Pre-render all tha glyph graphs
     for (uint16_t charcode = 0; charcode < 256; charcode++) {
         // Is there a previous graph? -> unload it
@@ -334,11 +335,14 @@ int render_glyphs(int fontid) {
         }
     }
 
+#endif
+
     return -1;
 }
 
 /* --------------------------------------------------------------------------- */
 
+#ifndef NO_FREETYPE
 int gr_font_ttf_loadfromdata(unsigned char *data, long int size) {
     // Create the font face and perform some basic checks
     int fontid = gr_font_new(CHARSET_CP850, 32, FONT_TYPE_VECTOR);
@@ -442,6 +446,14 @@ static int gr_font_ttf_loadfrom(file *fp) {
 
     return fontid;
 }
+#else
+int gr_font_ttf_loadfromdata(unsigned char *data, long int size) {
+    return -1;
+}
+static int gr_font_ttf_loadfrom(file *fp) {
+    return -1;
+}
+#endif
 
 /* --------------------------------------------------------------------------- */
 /*

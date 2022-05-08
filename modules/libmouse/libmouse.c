@@ -322,11 +322,11 @@ static void mouse_draw(void *i, REGION *clip) {
                         GLODWORD(libmouse, MOUSEFLAGS), GLOINT32(libmouse, MOUSEANGLE),
                         GLOINT32(libmouse, MOUSESIZE), GLOINT32(libmouse, MOUSESIZE),
                         GLOUINT8(libmouse, MOUSEMODR), GLOUINT8(libmouse, MOUSEMODG),
-                        GLOUINT8(libmouse, MOUSEMODB), mouse_map);
+                        GLOUINT8(libmouse, MOUSEMODB), mouse_map, 0);
     else
         gr_blit(0, &region, GLOINT32(libmouse, MOUSEX), GLOINT32(libmouse, MOUSEY),
                 GLODWORD(libmouse, MOUSEFLAGS), GLOUINT8(libmouse, MOUSEMODR),
-                GLOUINT8(libmouse, MOUSEMODG), GLOUINT8(libmouse, MOUSEMODB), mouse_map);
+                GLOUINT8(libmouse, MOUSEMODG), GLOUINT8(libmouse, MOUSEMODB), mouse_map, 0);
 
     mouse_map->modified = 0;
 }

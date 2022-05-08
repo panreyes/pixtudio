@@ -32,13 +32,15 @@
 #include <strings.h>
 #include <files.h>
 #include <pxtrtm.h>
-#include <jpeglib.h>
+#ifndef NO_JPEG
+    #include <jpeglib.h>
+#endif
 
 #include "mod_map.h"
 #include "g_bitmap.h"
 
 /* --------------------------------------------------------------------------- */
-
+#ifndef NO_JPEG
 GRAPH *gr_read_jpg(const char *filename) {
     // First of all, we read the whole JPEG file into memory
     file *infd = file_open(filename, "rb");
@@ -132,5 +134,14 @@ int gr_load_jpg(const char *mapname) {
     grlib_add_map(0, gr);
     return gr->code;
 }
+#else
+//Stubs:
+GRAPH *gr_read_jpg(const char *filename) {
+    return NULL;
+}
+int gr_load_jpg(const char *mapname) {
+    return 0;
+}
 
+#endif
 /* --------------------------------------------------------------------------- */

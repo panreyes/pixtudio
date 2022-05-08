@@ -46,8 +46,10 @@
 #include "xstrings.h"
 #include "dirs.h"
 
-#if (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
 #include <SDL.h>
+
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
 #endif
 
 /* ---------------------------------------------------------------------- */
@@ -71,20 +73,26 @@ static int embedded   = 0; /* 1 only if this is a stub with an embedded DCB */
  *      No value
  *
  */
+ 
+#ifdef __NINTENDO_SWITCH__
+
+    #include "nintendo_switch_main.inc.c"
+    
+#else
 
 int main(int argc, char *argv[]) {
     char *filename = NULL, dcbname[__MAX_PATH], *ptr;
     int i, j, ret  = -1;
     file *fp       = NULL;
     dcb_signature signature;
-
+    
     /* get my executable name */
     ptr = argv[0] + strlen(argv[0]);
     while (ptr > argv[0] && ptr[-1] != '\\' && ptr[-1] != '/') {
         ptr--;
     }
     appexename = strdup(ptr);
-
+    
     /* get executable full pathname  */
     appexefullpath = getfullpath(argv[0]);
     if ((!strchr(argv[0], '\\') && !strchr(argv[0], '/')) && !file_exists(appexefullpath)) {
@@ -110,7 +118,9 @@ int main(int argc, char *argv[]) {
     appname = strdup(appexename);
 #endif
 
+#ifndef FORCE_USE_MAIN_DCB
     standalone = (pxtrtm_strncmpi(appexename, "pxtp", 4) == 0);
+#endif
 
     /* add binary path */
     file_addp(appexepath);
@@ -213,6 +223,10 @@ int main(int argc, char *argv[]) {
 
     string_init();
     init_c_type();
+    
+#ifdef FORCE_USE_MAIN_DCB
+    filename = "main.dcb";
+#endif
 
     /* Init application title for windowed modes */
 
@@ -269,10 +283,19 @@ int main(int argc, char *argv[]) {
 
     if (mainproc) {
         instance_new(mainproc, NULL);
+        #ifdef __EMSCRIPTEN__
+        emscripten_set_main_loop(instance_go_all, 25, 0);
+        return 0;
+        #else
         ret = instance_go_all();
+        #endif
     }
 
+    #ifdef __EMSCRIPTEN__
+    pxtrtm_exit(0);
+    #else
     pxtrtm_exit(ret);
+    #endif
 
     free(appexename);
     free(appexepath);
@@ -281,3 +304,5 @@ int main(int argc, char *argv[]) {
 
     return ret;
 }
+
+#endif

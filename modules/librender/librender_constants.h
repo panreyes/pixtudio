@@ -50,7 +50,12 @@ enum {
     DUMPTYPE,
 
     FADING,
-    ALPHA_STEPS
+    ALPHA_STEPS,
+    
+    SCREENOFFSETX,
+    SCREENOFFSETY,
+    SCREENOFFSETSIZEX,
+    SCREENOFFSETSIZEY
 };
 
 /* Locals */
@@ -76,7 +81,7 @@ enum {
     BLENDOP,
     COLLISIONGRAPHID,
 
-    OBJECTID,
+    RENDER_OBJECTID,
     GRAPHPTR,
 
     SAVED_COORDX,
@@ -99,7 +104,11 @@ enum {
 
     MODR,
     MODG,
-    MODB
+    MODB,
+    
+    SIZERESOLUTION,
+    
+    SHADERID
 };
 
 #endif

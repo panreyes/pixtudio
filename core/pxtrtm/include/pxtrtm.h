@@ -42,14 +42,21 @@
 
 /* --------------------------------------------------------------------------- */
 
-#ifdef __ANDROID__
-#include <SDL_log.h>
-
-#define PXTRTM_LOG(...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, __VA_ARGS__)
-#define PXTRTM_LOGERROR(...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, __VA_ARGS__)
+#ifdef __NINTENDO_SWITCH__
+    #include <SDL_log.h>
+    
+    #define PXTRTM_LOG(...) SDL_Log(__VA_ARGS__)
+    #define PXTRTM_LOGERROR(...) SDL_Log(__VA_ARGS__)
 #else
-#define PXTRTM_LOG(...) fprintf(stdout, __VA_ARGS__)
-#define PXTRTM_LOGERROR(...) fprintf(stderr, __VA_ARGS__)
+    #ifdef __ANDROID__
+        #include <SDL_log.h>
+
+        #define PXTRTM_LOG(...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, __VA_ARGS__)
+        #define PXTRTM_LOGERROR(...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, __VA_ARGS__)
+    #else
+        #define PXTRTM_LOG(...) fprintf(stdout, __VA_ARGS__)
+        #define PXTRTM_LOGERROR(...) fprintf(stderr, __VA_ARGS__)
+    #endif 
 #endif
 
 /* --------------------------------------------------------------------------- */

@@ -145,6 +145,20 @@ int debug = 0;
 #define _OS_ID OS_ANDROID
 #endif
 
+#ifdef __NINTENDO_SWITCH__
+#ifdef _OS_ID
+#undef _OS_ID
+#endif
+#define _OS_ID OS_NINTENDO_SWITCH
+#endif
+
+#ifdef __EMSCRIPTEN__
+#ifdef _OS_ID
+#undef _OS_ID
+#endif
+#define _OS_ID OS_EMSCRIPTEN
+#endif
+
 /* --------------------------------------------------------------------------- */
 /*
  *  FUNCTION : pxtrtm_strncmpi
@@ -192,10 +206,11 @@ void pxtrtm_entry(int argc, char *argv[]) {
         string_use(args[i]);
     }
 
-    if ((os_id = getenv("OS_ID")))
+    if ((os_id = getenv("OS_ID"))) {
         GLODWORD(OS_ID) = atol(os_id);
-    else
+    } else {
         GLODWORD(OS_ID) = _OS_ID;
+    }
 
     init_cos_tables();
 }

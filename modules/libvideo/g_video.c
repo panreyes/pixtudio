@@ -242,6 +242,15 @@ int gr_set_mode(int width, int height) {
         if ((e = getenv("SDL_HINT_RENDER_DRIVER"))) {
             SDL_SetHint(SDL_HINT_RENDER_DRIVER, e);
         }
+        
+        #ifndef NO_MODSHADER
+        /* Force OpenGL. We will need it for GLSL shaders */
+        #ifdef __NINTENDO_SWITCH__
+        SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengles");
+        #else
+        SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+        #endif
+        #endif
 #ifdef SDL_HINT_RENDER_BATCHING
         // Use SDL_Renderer's batching capability (if present)
         SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
@@ -346,8 +355,8 @@ int gr_set_mode(int width, int height) {
 
     regions[0].x  = 0;
     regions[0].y  = 0;
-    regions[0].x2 = screen->w - 1;
-    regions[0].y2 = screen->h - 1;
+    regions[0].x2 = screen->w;
+    regions[0].y2 = screen->h;
 
     // Finalmente seteamos icono de aplicacion
     // Necesitamos crear una surface a partir de un MAP generico de 16x16...
@@ -395,7 +404,7 @@ void __pxtexport(libvideo, module_initialize)() {
     }
 
     // Disabled. It's better to use set_mode manually once, instead of setting the mode twice
-	// as it bugs vsync and scale_quality for some reason.
+    // as it bugs vsync and scale_quality for some reason.
     // gr_init(scr_width, scr_height);
 }
 

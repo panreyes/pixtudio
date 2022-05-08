@@ -62,17 +62,23 @@ DLCONSTANT __pxtexport( librender, constants_def )[] =
 
 char __pxtexport( librender, globals_def )[] =
     /* Frame */
-    "fps;\n"
-    "speed_gauge = 0;\n"
+    "INT fps;\n"
+    "INT speed_gauge = 0;\n"
     "FLOAT frame_time = 0;\n"
 
     /* Screen */
-    "restore_type;\n"
-    "dump_type;\n"
+    "INT restore_type;\n"
+    "INT dump_type;\n"
 
     /* Fade */
-    "fading;\n"
-    "alpha_steps = 16;\n"
+    "INT fading;\n"
+    "INT alpha_steps = 16;\n"
+    
+    /* "Screen" Offsets */
+    "INT screen_offset_x = 0;\n"
+    "INT screen_offset_y = 0;\n"
+    "INT screen_offset_size_x = 0;\n"
+    "INT screen_offset_size_y = 0;\n"
 ;
 
 /* --------------------------------------------------------------------------- */
@@ -126,6 +132,10 @@ char __pxtexport( librender, locals_def )[] =
     "BYTE modr=255;\n"
     "BYTE modg=255;\n"
     "BYTE modb=255;\n"
+    
+    "int size_resolution=0;\n"
+    
+    "int shader=0;\n"
     ;
 
 char * __pxtexport( librender, module_dependencies )[] =

@@ -52,8 +52,8 @@ echo "Build type: ${BUILD_TYPE}"
 # Set some variables we'll be using
 EXTRACMAKEFLAGS=""
 if [ "$OS" = "Msys" ]; then
-	PROJECTTYPE="Ninja"
-	EXT=".exe"
+    PROJECTTYPE="Ninja"
+    EXT=".exe"
     BINDIR="bin/win32"
     BUILDTOOL="ninja"
     INSTALLTOOL="ninja install"
@@ -69,10 +69,15 @@ elif [ "$OS" = "GNU/Linux" ]; then
         INSTALLTOOL="ninja-build install"
     fi
 
-    # Ubuntu? => Manually specify library locations (beats me)
-    if [ "$(lsb_release -is)" = "Ubuntu" ]; then
-        EXTRACMAKEFLAGS="-DZLIB_LIBRARY=/usr/lib/i386-linux-gnu/libz.so -DPNG_LIBRARY=/usr/lib/i386-linux-gnu/libpng.so -DFREETYPE_LIBRARY=/usr/lib/i386-linux-gnu/libfreetype.so -DOPENAL_LIBRARY=/usr/lib/i386-linux-gnu/libopenal.so"
+    if [ "$(lsb_release -is)" == "Ubuntu" ]; then
+        EXTRACMAKEFLAGS="-DCMAKE_LIBRARY_PATH=/usr/lib/i386-linux-gnu"
     fi
+    
+    # -m32 seems to be only required in Linux x86_64
+    if [ "`uname -m`" == "x86_64" ]; then
+        EXTRACMAKEFLAGS="${EXTRACMAKEFLAGS} -DUSE_M32=1"
+    fi
+    
 elif [ "$OS" = "Darwin" ]; then
     PROJECTTYPE="Ninja"
     EXT=""
@@ -82,29 +87,39 @@ elif [ "$OS" = "Darwin" ]; then
 fi
 
 # Compile PXTB and PXTP
+dont_install=0
 for PROJECT in pxtb pxtp; do
     echo "Making ${PROJECT}"
     rm -rf ${PROJECT}_build
     mkdir ${PROJECT}_build
     cd ${PROJECT}_build
     cmake -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" ${EXTRACMAKEFLAGS} -G "${PROJECTTYPE}" -DSTEAMWORKS_PATH=$(pwd)/../../../3rdparty/steamworks -DCMAKE_INSTALL_PREFIX=$(pwd)/../ ../${PROJECT}
-    $BUILDTOOL && $INSTALLTOOL
+    $BUILDTOOL 
+    if [ $? -eq 0 ]; then
+        $INSTALLTOOL
+    else
+        dont_install=1
+        echo "Could not compile $PROJECT"
+        continue
+    fi
     cd ..
 done
 
 # Copy binaries to a common "bin" folder
-if ! [ -d ${BINDIR} ]; then
-    mkdir -p ${BINDIR}
-fi
-cp pxtb_build/pxtb${EXT} ${BINDIR}
-cp pxtp_build/pxtp${EXT} ${BINDIR}
+if [ $dont_install -eq 0 ]; then
+    if ! [ -d ${BINDIR} ]; then
+        mkdir -p ${BINDIR}
+    fi
+    cp pxtb_build/pxtb${EXT} ${BINDIR}
+    cp pxtp_build/pxtp${EXT} ${BINDIR}
 
-# Copy dependencies to the bin dir (for Windows/OS X)
-# However, we could do better:
-# We can download SDL2 & SDL_mixer from their sites, and use their binaries
-# which include far less deps
-if [ "$OS" = "Msys" ] || [ "$OS" = "Darwin" ]; then
-    if ! [ "${BUILD_TYPE}" = "Debug" ]; then
-        copy_dependencies ${BINDIR} /mingw32/bin/
+    # Copy dependencies to the bin dir (for Windows/OS X)
+    # However, we could do better:
+    # We can download SDL2 & SDL_mixer from their sites, and use their binaries
+    # which include far less deps
+    if [ "$OS" = "Msys" ] || [ "$OS" = "Darwin" ]; then
+        if ! [ "${BUILD_TYPE}" = "Debug" ]; then
+            copy_dependencies ${BINDIR} /mingw32/bin/
+        fi
     fi
 fi

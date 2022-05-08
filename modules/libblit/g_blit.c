@@ -38,6 +38,9 @@
 
 #include "libblit.h"
 #include "g_video.h"
+#ifndef NO_MODSHADER
+#include "g_shaders.h"
+#endif
 #include "pxtrtm.h"
 
 /* --------------------------------------------------------------------------- */
@@ -1198,7 +1201,7 @@ static void draw_hspan_32to32_nocolorkey(uint32_t *scr, uint32_t *tex, int pixel
  */
 
 static void gr_calculate_corners(GRAPH *dest, int screen_x, int screen_y, int flags, int angle,
-                                 int scalex, int scaley, _POINTF *corners) {
+                                 float scalex, float scaley, _POINTF *corners) {
     float center_x, center_y;
     float top_y, bot_y;
     float lef_x, rig_x;
@@ -1314,8 +1317,8 @@ static void gr_calculate_corners(GRAPH *dest, int screen_x, int screen_y, int fl
  *
  */
 
-void gr_get_bbox(REGION *dest, REGION *clip, int x, int y, int flags, int angle, int scalex,
-                 int scaley, GRAPH *gr) {
+void gr_get_bbox(REGION *dest, REGION *clip, int x, int y, int flags, int angle, float scalex,
+                 float scaley, GRAPH *gr) {
     _POINTF corners[4];
     _POINT min, max;
     int i;
@@ -1366,7 +1369,7 @@ void gr_get_bbox(REGION *dest, REGION *clip, int x, int y, int flags, int angle,
  */
 
 void gr_rotated_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, int angle,
-                     int scalex, int scaley, uint8_t modr, uint8_t modg, uint8_t modb, GRAPH *gr) {
+                     float scalex, float scaley, uint8_t modr, uint8_t modg, uint8_t modb, GRAPH *gr, int shader) {
     _POINTF corners[4];
     _POINT min, max;
     VERTEX vertex[4];
@@ -1445,8 +1448,9 @@ void gr_rotated_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, i
         flip      = SDL_FLIP_NONE;
         dstRect.x = scrx - rcenter.x;
         dstRect.y = scry - rcenter.y;
-        dstRect.w = (int)(gr->width * scalex / 100.);
-        dstRect.h = (int)(gr->height * scaley / 100.);
+        dstRect.w = (gr->width * scalex / 100.);
+        dstRect.h = (gr->height * scaley / 100.);
+        
         if (flags & B_HMIRROR) {
             flip |= SDL_FLIP_HORIZONTAL;
             flip_factor *= -1.0;
@@ -1486,12 +1490,25 @@ void gr_rotated_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, i
         SDL_SetTextureBlendMode(gr->texture, mode);
         SDL_RenderSetClipRect(renderer, &clipRect);
 
+        #ifndef NO_MODSHADER
+        if(shader>0){
+            g_shaders_apply(gr, shader, (float) alpha / 255.0f );
+        }
+        #endif
+
         SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, flip_factor * angle / -1000.,
                          &rcenter, flip);
         if(gr->next_piece){
             PXTRTM_LOGERROR("WARNING: GRAPH %d is larger than supported by your graphics card.\n", gr->code);
             PXTRTM_LOGERROR("         Such graphics can only be displayed correctly if not rotated\n");
         }
+        
+        #ifndef NO_MODSHADER
+        if(shader>0){
+            g_shaders_close_program();
+        }
+        #endif
+        
     } else {
         // Software blit
         if (!dest->data || !gr->data) {
@@ -1830,7 +1847,7 @@ void gr_rotated_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, i
  */
 
 void gr_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, uint8_t modr, uint8_t modg,
-             uint8_t modb, GRAPH *gr) {
+             uint8_t modb, GRAPH *gr, int shader) {
     _POINT min, max;
     _POINT center;
     SDL_Rect dstRect;
@@ -1920,8 +1937,15 @@ void gr_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, uint8_t m
 
         SDL_SetTextureBlendMode(gr->texture, mode);
         SDL_RenderSetClipRect(renderer, &clipRect);
-
+        
+        #ifndef NO_MODSHADER
+        if(shader>0){
+            g_shaders_apply(gr, shader, (float) alpha / 255.0f );
+        }
+        #endif
+        
         SDL_RenderCopyEx(renderer, gr->texture, NULL, &dstRect, 0., NULL, flip);
+        
         piece = gr->next_piece;
         while (piece) {
             dstRect.x = scrx - center.x + piece->x;
@@ -1935,6 +1959,11 @@ void gr_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, uint8_t m
             }
             piece = piece->next;
         }
+        #ifndef NO_MODSHADER
+        if(shader>0){
+            g_shaders_close_program();
+        }
+        #endif
     } else {
         // Software blitting
         if (!dest->data || !gr->data) {
@@ -2081,7 +2110,10 @@ void gr_blit(GRAPH *dest, REGION *clip, int scrx, int scry, int flags, uint8_t m
                 } else if (flags & B_NOCOLORKEY) {
                     draw_hspan = (DRAW_HSPAN *)draw_hspan_32to32_nocolorkey;
                 } else {
-                    draw_hspan = (DRAW_HSPAN *)draw_hspan_32to32;
+                    // This provokes some antialiasing defects with Photoshop's PNGs:
+                    // draw_hspan = (DRAW_HSPAN *)draw_hspan_32to32;
+                    
+                    draw_hspan = (DRAW_HSPAN *)draw_hspan_32to32_nocolorkey;
                 }
             } else if (gr->format->depth == 1) {
                 draw_hspan = (DRAW_HSPAN *)draw_hspan_1to32;

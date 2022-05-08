@@ -22,7 +22,7 @@
     <h1 id="intro">PixTudio</h1>
     <h2>Introduction</h2>
     <p>
-        PixTudio is a 2D game engine for Windows, Linux, macOS, Android &amp; iOS.
+        PixTudio is a 2D game engine for Windows, Linux, macOS, Android, iOS &amp; Nintendo Switch.
     </p>
     <p>
         <a href="http://opensource.org/licenses/Zlib">
@@ -38,30 +38,30 @@
         The following example shows the code for a simple process named "enemy" whose graphic
         is loaded from a PNG file and is positioned at coordinates (x, y) = (100, 200).
         <code style="white-space: pre;"><b>Process</b> enemy()
-    <b>Begin</b>
-        graph = png_load("img/enemy.png");
-        x = 100; y = 200;
-        <b>LOOP</b>
-            <b>FRAME;</b>
-        <b>End</b>
-    <b>End</b></code>
+<b>Begin</b>
+    graph = image_load("img/enemy.png");
+    x = 100; y = 200;
+    <b>LOOP</b>
+        <b>FRAME;</b>
+    <b>End</b>
+<b>End</b></code>
     </p>
 
     <h2 id="showcase">Games showcase</h2>
     <h3>eXplosive Dinosaurs</h3>
     <p>
-    	Collection of +30 FRIENDSHIP DESTROYER COMPETITIVE MINIGAMES, up to 4 players.
-    	The main objective of this videogame is to DESTROY FRIENDSHIPS THROUGH PURE
-    	COMPETITION.
-	</p>
-	<p>
-		You can purchase the game from <a href="https://store.steampowered.com/app/671150/Explosive_Dinosaurs/">its Steam portal</a>.
-	</p>
-	<p style="text-align: center">
-		<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/P4-i8XZsGQQ"
-		        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-		        allowfullscreen></iframe>
-	</p>
+        Collection of +30 FRIENDSHIP DESTROYER COMPETITIVE MINIGAMES, up to 4 players.
+        The main objective of this videogame is to DESTROY FRIENDSHIPS THROUGH PURE
+        COMPETITION.
+    </p>
+    <p>
+        You can purchase the game from <a href="https://store.steampowered.com/app/671150/Explosive_Dinosaurs/">its Steam portal</a>.
+    </p>
+    <p style="text-align: center">
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/P4-i8XZsGQQ"
+                frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+    </p>
     <h2 id="project_page">Project page</h2>
     <p>
         Check out the project page at
@@ -92,6 +92,142 @@
         <li>
             If you're going to package Android games, install ncurses-compat-libs, too.
             <code>sudo dnf install ncurses-compat-libs
+            </code>
+        </li>
+        <li>
+            Clone the source code repository.
+            <code>git clone https://gitlab.com/josebagar/pixtudio.git
+            </code>
+        </li>
+        <li>
+            If you want basic <a href="http://store.steampowered.com/">Steam</a> integration, download the SDK from
+            <a href="https://partner.steamgames.com/">here</a>
+            and unzip it to the '3rdparty' dir, then rename the uncrompressed folder to "steamworks".
+            <code>cd pixtudio/3rdparty
+                unzip [DOWNLOAD_PATH]/steamworks_sdk_142.zip
+                mv sdk steamworks
+            </code>
+        </li>
+        <li>
+            Compile the source code.
+            <code>cd pixtudio/projects/cmake
+                ./build.sh Release
+            </code>
+            If you want to manually specify the location of a non-systemwide SDL2 installation,
+            you can set the SDL2DIR environment variable.
+            <code>cd pixtudio/projects/cmake
+                SDL2DIR=[SDL2_INSTALL_PATH] ./build.sh Release
+            </code>
+        </li>
+        <li>
+            The binaries should be in bin/gnulinux32.
+        </li>
+    </ul>
+
+    <h3>Ubuntu 20.04 LTS</h3>
+    <p>
+        These instructions might work in earlier versions of Ubuntu and in other Ubuntu
+        flavours, too, but have only been tested in a fresh installation of Ubuntu 20.04 Desktop
+        (64-bit).
+    </p>
+    <ul>
+        <li>Open a terminal</li>
+
+        <li>
+            Add i386 architecture.
+            <code>sudo dpkg --add-architecture i386
+            </code>
+        </li>
+        
+        <li>
+            Install the required command line utilities.
+            <code>sudo apt update
+                sudo apt install git cmake ninja-build g++
+            </code>
+        </li>
+        <li>
+            Install the required dependencies.
+            <code>sudo apt install libsdl2-dev:i386 libsdl2-mixer-dev:i386 libpng-dev:i386 zlib1g-dev:i386 libogg-dev:i386 libvorbis-dev:i386 libtheora-dev:i386 libsqlite3-dev:i386 libcurl4-gnutls-dev:i386 libopenal-dev:i386 libfreetype6-dev:i386 libwebp-dev:i386 libjpeg-turbo8-dev:i386 libc6-dev-i386
+            </code>
+        </li>
+        <li>
+            Manually download and install libtre5 and libtre-dev packages (not available in Ubuntu 20.04).
+            <code>
+                wget http://mirrors.kernel.org/ubuntu/pool/universe/t/tre/libtre5_0.8.0-6_i386.deb
+                wget http://mirrors.kernel.org/ubuntu/pool/universe/t/tre/libtre-dev_0.8.0-6_i386.deb
+                sudo dpkg -i libtre5_0.8.0-6_i386.deb
+                sudo dpkg -i libtre-dev_0.8.0-6_i386.deb			
+            </code>
+        </li>
+        <li>
+            Clone the source code repository.
+            <code>git clone https://gitlab.com/josebagar/pixtudio.git
+            </code>
+        </li>
+        <li>
+            If you want basic <a href="http://store.steampowered.com/">Steam</a> integration, download the SDK from
+            <a href="https://partner.steamgames.com/">here</a>
+            and unzip it to the '3rdparty' dir, then rename the uncrompressed folder to "steamworks".
+            <code>cd pixtudio/3rdparty
+                unzip [DOWNLOAD_PATH]/steamworks_sdk_142.zip
+                mv sdk steamworks
+            </code>
+        </li>
+        <li>
+            Compile the source code.
+            <code>cd pixtudio/projects/cmake
+                ./build.sh Release
+            </code>
+            If you want to manually specify the location of a non-systemwide SDL2 installation,
+            you can set the SDL2DIR environment variable.
+            <code>cd pixtudio/projects/cmake
+                SDL2DIR=[SDL2_INSTALL_PATH] ./build.sh Release
+            </code>
+        </li>
+        <li>
+            The binaries should be in bin/gnulinux32.
+        </li>
+    </ul>
+    
+
+    <h3>Ubuntu 18.04 LTS</h3>
+    <p>
+        These instructions might work in earlier versions of Ubuntu and in other Ubuntu
+        flavours, too, but have only been tested in a fresh installation of Ubuntu 18.04 Desktop
+        (64-bit).
+    </p>
+    <ul>
+        <li>Open a terminal</li>
+
+        <li>
+            Add i386 architecture.
+            <code>sudo dpkg --add-architecture i386
+            </code>
+        </li>
+
+        <li>
+            PixTudio requires at least SDL2 2.0.10 at least but Ubuntu 18.04 includes SDL2 2.0.8. Use this PPA to have it in Ubuntu 18.04.
+            <code>sudo add-apt-repository ppa:cybermax-dexter/sdl2-backport
+            </code>
+        </li>		
+        
+        <li>
+            Install the required command line utilities.
+            <code>sudo apt update
+                sudo apt install git cmake ninja-build g++
+            </code>
+        </li>
+        <li>
+            Install the required dependencies.
+            <code>sudo apt install libsdl2-dev:i386 libsdl2-mixer-dev:i386 libpng-dev:i386 zlib1g-dev:i386 libogg-dev:i386 libvorbis-dev:i386 libtheora-dev:i386 libtre-dev:i386 libsqlite3-dev:i386 libcurl4-gnutls-dev:i386 libopenal-dev:i386 libfreetype6-dev:i386 libwebp-dev:i386 libjpeg-turbo8-dev:i386 libc6-dev-i386
+            </code>
+        </li>
+        <li>
+            Manually download and install libtre5 and libtre-dev packages (not available in Ubuntu 20.04).
+            <code>wget http://mirrors.kernel.org/ubuntu/pool/universe/t/tre/libtre5_0.8.0-6_i386.deb
+                wget http://mirrors.kernel.org/ubuntu/pool/universe/t/tre/libtre-dev_0.8.0-6_i386.deb
+                sudo dpkg -i libtre5_0.8.0-6_i386.deb
+                sudo dpkg -i libtre-dev_0.8.0-6_i386.deb			
             </code>
         </li>
         <li>
@@ -175,7 +311,7 @@
 
     <h3>macOS</h3>
     <p>
-    	Building for macOS Mojave is broken as of now; the instructions below are left as a reference.
+        Building for macOS Mojave is broken as of now; the instructions below are left as a reference.
     </p>
     <ul>
         <li>

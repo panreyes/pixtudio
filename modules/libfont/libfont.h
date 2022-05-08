@@ -31,8 +31,10 @@
 #define __FONT_H
 
 #include "libgrbase.h"
-#include <ft2build.h>
-#include FT_FREETYPE_H
+#ifndef NO_FREETYPE
+    #include <ft2build.h>
+    #include FT_FREETYPE_H
+#endif
 
 /* -------------------------------------------------------------------------- */
 
@@ -57,8 +59,10 @@ enum { FONT_TYPE_BITMAP = 0,
 typedef struct _font {
     uint8_t type;
     uint32_t bpp;
+#ifndef NO_FREETYPE
     FT_Face face;
     FT_Byte *face_data;
+#endif
     uint16_t size;  // Size in px (only used in vector fonts)
 
     struct _glyph {
@@ -83,7 +87,9 @@ extern unsigned char default_font[];
 
 extern FONT *fonts[MAX_FONTS];
 extern int font_count;
+#ifndef NO_FREETYPE
 extern FT_Library font_library;
+#endif
 
 /* -------------------------------------------------------------------------- */
 

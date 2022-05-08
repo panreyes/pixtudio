@@ -499,7 +499,7 @@ void bitmap_update_texture(GRAPH *map) {
                 }
                 gr_blit(aux, &clip, centerx - i * renderer_info.max_texture_width,
                         centery - j * renderer_info.max_texture_height, B_NOCOLORKEY, 255, 255, 255,
-                        map);
+                        map, 0);
                 if (SDL_UpdateTexture(piece->texture, NULL, aux->data, aux->pitch) < 0) {
                     PXTRTM_LOGERROR("Error updating texture: %s", SDL_GetError());
                 }

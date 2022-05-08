@@ -32,13 +32,15 @@
 #include <strings.h>
 #include <files.h>
 #include <pxtrtm.h>
+#ifndef NO_WEBP
 #include <webp/decode.h>
+#endif
 
 #include "mod_map.h"
 #include "g_bitmap.h"
 
 /* --------------------------------------------------------------------------- */
-
+#ifndef NO_WEBP
 GRAPH *gr_read_webp(const char *filename) {
     // First of all, we read the whole JPEG file into memory
     file *infd = file_open(filename, "rb");
@@ -87,7 +89,7 @@ GRAPH *gr_read_webp(const char *filename) {
 
     // Decode the webp image into the GRAPH
     if(WebPDecodeBGRAInto((const uint8_t*)data, (size_t)size, (uint8_t *)gr->data,
-    	                  gr->pitch * height, gr->pitch) == NULL) {
+                          gr->pitch * height, gr->pitch) == NULL) {
         PXTRTM_LOGERROR("Could not decode bitmap for '%s'\n", filename);
         bitmap_destroy(gr);
         free(data);
@@ -113,5 +115,16 @@ int gr_load_webp(const char *mapname) {
     grlib_add_map(0, gr);
     return gr->code;
 }
+#else
+GRAPH *gr_read_webp(const char *filename) {
+    return NULL;
+}
 
+/* --------------------------------------------------------------------------- */
+
+int gr_load_webp(const char *mapname) {
+    return 0;
+}
+
+#endif
 /* --------------------------------------------------------------------------- */

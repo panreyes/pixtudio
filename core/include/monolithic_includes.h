@@ -28,11 +28,15 @@
 #include <mod_math_symbols.h>
 #include <mod_time_symbols.h>
 #include <mod_file_symbols.h>
+#ifndef NO_MODSOUND
 #include <mod_sound_symbols.h>
+#endif
 #include <mod_proc_symbols.h>
 #include <mod_sort_symbols.h>
 #include <mod_timers_symbols.h>
+#ifndef NO_MODREGEX
 #include <mod_regex_symbols.h>
+#endif
 #include <libgrbase_symbols.h>
 #include <libblit_symbols.h>
 #include <libvideo_symbols.h>
@@ -60,13 +64,20 @@
 #include <libwm_symbols.h>
 #include <mod_wm_symbols.h>
 #include <mod_sys_symbols.h>
+
+#ifndef NO_MODSHADER
+#   include <mod_shader_symbols.h>
+#endif
+
 #ifndef NO_MODMEM
 #  include <mod_mem_symbols.h>
 #endif
 #ifndef NO_MODDEBUG
 #   include <mod_debug_symbols.h>
 #endif
-#include <mod_effects_symbols.h>
+#ifndef NO_MODEFFECTS
+#   include <mod_effects_symbols.h>
+#endif
 /* Unofficial modules */
 #ifndef NO_MODICONV
 #   include <iconv_symbols.h>
@@ -74,14 +85,23 @@
 #ifndef NO_MODCHIPMUNK
 #   include <mod_chipmunk_symbols.h>
 #endif
+#ifndef NO_MODMULTI
 #include <mod_multi_symbols.h>
+#endif
 #ifndef NO_MODCURL
 #   include <mod_curl_symbols.h>
 #endif
+#ifndef NO_MODFSOCK
 #include <mod_fsock_symbols.h>
+#endif
+#ifndef NO_MODTHEORA
 #include <mod_theora_symbols.h>
+#endif
 #ifndef NO_MODSTEAM
 #include <mod_steam_symbols.h>
+#endif
+#ifndef NO_MODNSWITCH
+#include <mod_nswitch_symbols.h>
 #endif
 
 typedef struct
@@ -133,11 +153,15 @@ basic_symbols symbol_list[] = {
     { "mod_math.fakelib"     , NULL, mod_math_constants_def, NULL, NULL, NULL, mod_math_exported_functions },
     { "mod_time.fakelib"     , NULL, NULL, NULL, NULL, NULL, mod_time_exported_functions },
     { "mod_file.fakelib"     , NULL, mod_file_constants_def, NULL, NULL, NULL, mod_file_exported_functions },
+#ifndef NO_MODSOUND
     { "mod_sound.fakelib"    , NULL, mod_sound_constants_def, NULL, mod_sound_globals_def, NULL, mod_sound_exported_functions },
+#endif
     { "mod_proc.fakelib"     , NULL, mod_proc_constants_def, NULL, NULL, mod_proc_locals_def, mod_proc_exported_functions },
     { "mod_sort.fakelib"     , NULL, NULL, NULL, NULL, NULL, mod_sort_exported_functions },
     { "mod_timers.fakelib"   , NULL, NULL, NULL, mod_timers_globals_def, NULL, NULL },
+#ifndef NO_MODREGEX
     { "mod_regex.fakelib"    , NULL, NULL, NULL, mod_regex_globals_def, NULL, mod_regex_exported_functions },
+#endif
     { "mod_video.fakelib"    , mod_video_module_dependencies, NULL, NULL, NULL, NULL, mod_video_exported_functions },
     { "mod_mouse.fakelib"    , mod_mouse_module_dependencies, NULL, NULL, NULL, NULL, NULL },
     { "mod_map.fakelib"      , mod_map_module_dependencies, mod_map_constants_def, NULL, NULL, NULL, mod_map_exported_functions },
@@ -152,13 +176,18 @@ basic_symbols symbol_list[] = {
     { "mod_path.fakelib"     , mod_path_module_dependencies, mod_path_constants_def, NULL, NULL, NULL, mod_path_exported_functions },
     { "mod_wm.fakelib"       , mod_wm_module_dependencies, mod_wm_constants_def, NULL, NULL, NULL, mod_wm_exported_functions },
     { "mod_sys.fakelib"      , NULL, mod_sys_constants_def, NULL, NULL, NULL, mod_sys_exported_functions },
+#ifndef NO_MODSHADER
+    { "mod_shader.fakelib"   , NULL, NULL, NULL, NULL, NULL, mod_shader_exported_functions },
+#endif
 #ifndef NO_MODMEM
     { "mod_mem.fakelib"      , NULL, NULL, NULL, NULL, NULL, mod_mem_exported_functions },
 #endif
 #ifndef NO_MODDEBUG
     { "mod_debug.fakelib"    , mod_debug_module_dependencies, NULL, NULL, NULL, NULL, NULL },
 #endif
+#ifndef NO_MODEFFECTS
     { "mod_effects.fakelib"  , mod_effects_module_dependencies, mod_effects_constants_def, NULL, NULL, NULL, mod_effects_exported_functions },
+#endif
     /* Unofficial modules */
 #ifndef NO_MODICONV
     { "mod_iconv.fakelib"    , NULL, NULL, NULL, NULL, NULL, mod_iconv_exported_functions },
@@ -166,15 +195,24 @@ basic_symbols symbol_list[] = {
 #ifndef NO_MODCHIPMUNK
     { "mod_chipmunk.fakelib" , mod_chipmunk_module_dependencies, mod_chipmunk_constants_def, mod_chipmunk_types_def, mod_chipmunk_globals_def, mod_chipmunk_locals_def, mod_chipmunk_exported_functions },
 #endif
+#ifndef NO_MODMULTI
     { "mod_multi.fakelib"    , mod_multi_module_dependencies, mod_multi_constants_def, NULL, NULL, NULL, mod_multi_exported_functions },
+#endif
 #ifndef NO_MODCURL
     { "mod_curl.fakelib"     , NULL, mod_curl_constants_def, NULL, NULL, NULL, mod_curl_exported_functions },
 #endif
 #ifndef NO_MODSTEAM
     { "mod_steam.fakelib"    , mod_steam_module_dependencies, mod_steam_constants_def, NULL, mod_steam_globals_def, NULL, mod_steam_exported_functions },
 #endif
+#ifndef NO_MODNSWITCH
+    { "mod_nswitch.fakelib"  , mod_nswitch_module_dependencies, mod_nswitch_constants_def, NULL, mod_nswitch_globals_def, NULL, mod_nswitch_exported_functions },
+#endif
+#ifndef NO_MODFSOCK
     { "mod_fsock.fakelib"    , NULL, NULL, NULL, NULL, NULL, mod_fsock_exported_functions },
+#endif
+#ifndef NO_MODTHEORA
     { "mod_theora.fakelib"   , mod_theora_module_dependencies, NULL, NULL, NULL, NULL, mod_theora_exported_functions },
+#endif
     { NULL                   , NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
@@ -201,12 +239,16 @@ extra_symbols symbol_list_runtime[] = {
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_string
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_math
     { NULL, NULL, mod_time_module_initialize, mod_time_module_finalize, NULL, NULL, NULL, NULL }, //mod_time
-    { NULL, NULL, NULL, mod_file_module_finalize, NULL, NULL, NULL, NULL }, //mod_file
+    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_file
+#ifndef NO_MODSOUND
     { mod_sound_globals_fixup, NULL, mod_sound_module_initialize, mod_sound_module_finalize, NULL, NULL, NULL, NULL}, //mod_sound
+#endif
     { NULL, mod_proc_locals_fixup, NULL, NULL, NULL, NULL, mod_proc_process_exec_hook, NULL}, //mod_proc
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_sort
     { mod_timers_globals_fixup, NULL, NULL, NULL, NULL, NULL, NULL, mod_timers_handler_hooks }, //mod_timers
+    #ifndef NO_MODREGEX
     { mod_regex_globals_fixup, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_regex
+    #endif
     { mod_video_globals_fixup, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_video
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_mouse
     { NULL, NULL, NULL, mod_map_module_finalize, NULL, NULL, NULL, NULL }, //mod_map
@@ -221,13 +263,18 @@ extra_symbols symbol_list_runtime[] = {
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_path
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_wm
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_sys
+#ifndef NO_MODSHADER
+    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_shader
+#endif
 #ifndef NO_MODMEM
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_mem
 #endif
 #ifndef NO_MODDEBUG
     { mod_debug_globals_fixup, mod_debug_locals_fixup, mod_debug_module_initialize, mod_debug_module_finalize, NULL, NULL, mod_debug_process_exec_hook, NULL }, //mod_debug
 #endif
+#ifndef NO_MODEFFECTS
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //modeffects
+#endif
     /* Unofficial modules */
 #ifndef NO_MODICONV
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_iconv
@@ -235,15 +282,24 @@ extra_symbols symbol_list_runtime[] = {
 #ifndef NO_MODCHIPMUNK
     { mod_chipmunk_globals_fixup, mod_chipmunk_locals_fixup, mod_chipmunk_module_initialize, mod_chipmunk_module_finalize, NULL, NULL, NULL, mod_chipmunk_handler_hooks }, //mod_chipmunk
 #endif
+#ifndef NO_MODMULTI
     { NULL, NULL, mod_multi_module_initialize, NULL, NULL, NULL, NULL, mod_multi_handler_hooks }, //mod_multi
+#endif
 #ifndef NO_MODCURL
     { NULL, NULL, mod_curl_module_initialize, mod_curl_module_finalize, NULL, NULL, NULL, NULL }, //mod_curl
 #endif
 #ifndef NO_MODSTEAM
     { mod_steam_globals_fixup, NULL, mod_steam_module_initialize, mod_steam_module_finalize, NULL, NULL, NULL, NULL }, //mod_steam
 #endif
+#ifndef NO_MODNSWITCH
+    { mod_nswitch_globals_fixup, NULL, mod_nswitch_module_initialize, mod_nswitch_module_finalize, NULL, NULL, NULL, NULL }, //mod_nswitch
+#endif
+#ifndef NO_MODFSOCK
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_fsock
+#endif
+#ifndef NO_MODTHEORA
     { NULL, NULL, mod_theora_module_initialize, mod_theora_module_finalize, NULL, NULL, NULL, mod_theora_handler_hooks }, //mod_theora
+#endif
 };
 #endif
 

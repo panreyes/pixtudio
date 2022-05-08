@@ -25,33 +25,16 @@
  *
  */
 
-#include "pxtdl.h"
+#ifndef __g_shaders_H
+#define __g_shaders_H
 
-#include <SDL.h>
+#include "libblit.h"
 
-#ifndef __MONOLITHIC__
-#include "libsdlhandler_symbols.h"
+extern void g_shaders_initialize();
+extern void g_shaders_update();
+extern void g_shaders_finalize();
+extern void g_shaders_close_program();
+extern void g_shaders_apply(GRAPH * gr, int current_shader, float alpha);
+extern int g_shaders_load_shader(int shader_number, const char *vert_source, const char *frag_source);
+
 #endif
-
-/* ----------------------------------------------------------------- */
-/* Public functions                                                  */
-
-void dump_new_events() {
-    /* Remove all pendings events */
-
-    /* We can't return -1, just return 0 (no event) on error */
-    // We'll only discard events that no module knows how to handle here...
-    // Otherwise some events seem to get discarded
-	
-    SDL_FlushEvents(SDL_SYSWMEVENT, SDL_SYSWMEVENT);
-    SDL_FlushEvents(SDL_TEXTEDITING, SDL_TEXTINPUT);
-    SDL_FlushEvents(SDL_JOYDEVICEADDED, SDL_CONTROLLERDEVICEREMAPPED);
-    SDL_FlushEvents(SDL_DOLLARGESTURE, SDL_LASTEVENT);
-	SDL_FlushEvents(SDL_JOYAXISMOTION,SDL_JOYDEVICEREMOVED);
-    SDL_FlushEvents(SDL_CONTROLLERAXISMOTION, SDL_CONTROLLERDEVICEREMAPPED);
-	
-    /* Get new events */
-    SDL_PumpEvents();
-}
-
-/* ----------------------------------------------------------------- */

@@ -543,7 +543,9 @@ uint32_t gr_text_width(int fontid, const unsigned char *text) {
 uint32_t gr_text_widthn(int fontid, const unsigned char *text, int n) {
     uint32_t l = 0;
     FONT *f;
+#ifndef NO_FREETYPE
     FT_UInt glyph_index = 0, previous = 0;
+#endif
 
     if (!text || !*text) {
         return 0;
@@ -566,6 +568,7 @@ uint32_t gr_text_widthn(int fontid, const unsigned char *text, int n) {
         }
 
         // If the font is based on FreeType, we must also consider kerning
+#ifndef NO_FREETYPE
         if(f->type == FONT_TYPE_VECTOR) {
             glyph_index = FT_Get_Char_Index(f->face, cp850_to_utf8[*text]);
             if (FT_HAS_KERNING(f->face) && previous && glyph_index) {
@@ -579,6 +582,7 @@ uint32_t gr_text_widthn(int fontid, const unsigned char *text, int n) {
             // Store the previous character
             previous = glyph_index;
         }
+#endif
 
         // Go to the next character
         text++;
@@ -744,7 +748,10 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
     uint8_t current_char;
     int flags;
     int save8, save16, save32;
-
+    int x_out;
+    int y_out;
+    int scalex, scaley;
+    
     if (!text || !*text) {
         return -1;
     }
@@ -791,14 +798,24 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
 
             ch = f->glyph[current_char].bitmap;
             if (ch) {
-                gr_blit(dest, clip, x + f->glyph[current_char].xoffset,
-                        y + f->glyph[current_char].yoffset, flags, 255, 255, 255, ch);
+                scalex = 100 + GLOINT32(librender, SCREENOFFSETSIZEX);
+                scaley = 100 + GLOINT32(librender, SCREENOFFSETSIZEY);
+                x_out = x + f->glyph[current_char].xoffset + GLOINT32(librender, SCREENOFFSETX);
+                y_out = y + f->glyph[current_char].yoffset + GLOINT32(librender, SCREENOFFSETY);
+                x_out = ((int) background->width / 2) - ((((int) background->width / 2) - x_out) * scalex / 100);
+                y_out = ((int) background->height / 2) - ((((int) background->height / 2) - y_out) * scaley / 100);
+                
+                gr_rotated_blit(dest, clip, x_out, y_out, flags, 0, scalex, scaley,	255, 255, 255, ch, 0);
             }
             x += f->glyph[current_char].xadvance;
             text++;
         }
     } else if(f->type == FONT_TYPE_VECTOR) {
+#ifndef NO_FREETYPE
         FT_UInt glyph_index = 0, previous = 0;
+#else
+        uint32_t glyph_index = 0, previous = 0;
+#endif
 
         // Compute the height of the text
         uint32_t h = gr_text_height(fontid, text);
@@ -809,6 +826,7 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
             current_char = cp850_to_utf8[*text];
 
             // Get the font's glyph index for the character
+#ifndef NO_FREETYPE
             glyph_index = FT_Get_Char_Index(f->face, current_char);
 
             // If the font has kerning, take it into account
@@ -820,6 +838,7 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
 
                 x += (delta.x >> 6);
             }
+#endif
 
             ch = f->glyph[*text].bitmap;
             if (ch) {
@@ -847,7 +866,7 @@ int gr_text_put(GRAPH *dest, REGION *clip, int fontid, int x, int y, const unsig
                 gr_blit(dest, clip,
                         x + f->glyph[*text].xoffset,
                         y + h - f->glyph[*text].yoffset - baseline_y,
-                        flags, 255, 255, 255, aux);
+                        flags, 255, 255, 255, aux, 0);
 
                 // Destroy glyph32
                 bitmap_destroy(aux);

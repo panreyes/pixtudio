@@ -95,6 +95,7 @@ typedef struct {
     char name[__MAX_PATH];
     long pos;
     int eof;
+    int write_mode;
 } file;
 
 #endif

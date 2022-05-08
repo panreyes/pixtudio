@@ -45,6 +45,7 @@
 #include <process.h>
 #endif
 
+
 #if (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
 #import <UIKit/UIKit.h>
 #elif defined(__ANDROID__)
@@ -59,6 +60,9 @@ extern JNIEnv *Android_JNI_GetEnv();
 /* ---------------------------------------------------------------------- */
 
 int modsys_exec(INSTANCE *my, int *params) {
+#ifdef __NINTENDO_SWITCH__
+    return 0;
+#else
 #if (defined(TARGET_OS_IPHONE) || defined(TARGET_IPHONE_SIMULATOR))
     NSString *urlString = [NSString stringWithFormat:@"%s", string_get(params[1])];
     string_discard(params[1]);
@@ -121,6 +125,7 @@ int modsys_exec(INSTANCE *my, int *params) {
                 break;
         }
     }
+    #endif
 #endif
 
     // Free resources

@@ -57,5 +57,7 @@
 #define OS_PSP 1001
 #define OS_IOS 1002
 #define OS_ANDROID 1003
+#define OS_NINTENDO_SWITCH 2000
+#define OS_EMSCRIPTEN 2001
 
 /* --------------------------------------------------------------------------- */

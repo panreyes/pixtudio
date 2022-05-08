@@ -46,6 +46,8 @@ extern int steam_friend_name(INSTANCE *my, int *params);
 extern int steam_friend_nickname(INSTANCE *my, int *params);
 extern int steam_friend_avatar(INSTANCE *my, int *params);
 extern int steam_lang_get(INSTANCE *my, int *params);
+extern int steam_is_subscribed_app(INSTANCE *my, int *params);
+extern int steam_init(INSTANCE *my, int *params);
 
 extern void __pxtexport( mod_steam, module_initialize )();
 extern void __pxtexport( mod_steam, module_finalize )();
@@ -74,6 +76,8 @@ DLSYSFUNCS __pxtexport(mod_steam, exported_functions)[] = {
     FUNC("STEAM_FRIEND_NICKNAME"     , "I" , TYPE_STRING, steam_friend_name         ),
     FUNC("STEAM_FRIEND_AVATAR"       , "II", TYPE_INT   , steam_friend_avatar       ),
     FUNC("STEAM_LANG_GET"            , ""  , TYPE_STRING, steam_lang_get            ),
+    FUNC("STEAM_IS_SUBSCRIBED_APP"   , "I"  , TYPE_INT  , steam_is_subscribed_app   ),
+    FUNC("STEAM_INIT"                , "I" , TYPE_INT   , steam_init                ),
     FUNC(0, 0, 0, 0)};
 
 char * __pxtexport( mod_steam, module_dependencies )[] = {

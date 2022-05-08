@@ -64,7 +64,9 @@ extern "C" {
     };
 
     void SteamAPIDebugTextHook(int nSeverity, const char *pchDebugText) {
-        printf( "%s\n", pchDebugText );
+        if (debug) {
+            printf( "%s\n", pchDebugText );
+        }
     }
 
     /* ---------------------------------------------------------------------- */
@@ -390,37 +392,64 @@ extern "C" {
 
         return str_id;
     }
+    
+    /* ---------------------------------------------------------------------- */
+    
+    int steam_is_subscribed_app(INSTANCE *my, int *params) {
+        // Find out if the user "subscribed" the app (bought the game)
+        // May be used to limit a DEMO
+        if(!steam_loaded) {
+            return 0;
+        }
+        
+        int steam_appid = params[0];
 
+        bool subscribed = SteamApps()->BIsSubscribedApp(steam_appid);
+        if(subscribed) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    
     /* ---------------------------------------------------------------------- */
 
-    void __pxtexport(mod_steam, module_initialize)() {
-        if (!SteamAPI_Init()) {
-            fprintf(stderr, "Steam Error: SteamAPI_Init - "
-                            "Steam must be running to play this game\n");
-            fflush(stderr);
-
-            return;
+    int steam_init(INSTANCE *my, int *params) {
+        if(steam_loaded) {
+            return 1;
         }
-
+        
         // Get a few IDs from Steam
-        steam_appid = SteamUtils()->GetAppID();
-        GLODWORD(mod_steam, STEAM_APPID) = steam_appid;
+        int steam_appid = params[0];
 
         if (SteamAPI_RestartAppIfNecessary(steam_appid)) {
-            fprintf(stderr, "Steam Error: SteamAPI_RestartAppIfNecessary\n");
-            fflush(stderr);
+            if (debug) {
+                fprintf(stderr, "Steam Error: SteamAPI_RestartAppIfNecessary\n");
+                fflush(stderr);
+            }
 
-            return;
+            return 0;
+        }
+        
+        if (!SteamAPI_Init()) {
+            if (debug) {
+                fprintf(stderr, "Steam Error: SteamAPI_Init - "
+                                "Steam must be running to play this game\n");
+                fflush(stderr);
+            }
+            return 0;
         }
 
         SteamClient()->SetWarningMessageHook( &SteamAPIDebugTextHook );
 
         if (!SteamUser()->BLoggedOn()) {
-            fprintf(stderr, "Steam Error: Steam user is not logged in - "
-                            "Steam user must be logged in to play this game\n");
-            fflush(stderr);
+            if (debug) {
+                fprintf(stderr, "Steam Error: Steam user is not logged in - "
+                                "Steam user must be logged in to play this game\n");
+                fflush(stderr);
+            }
 
-            return;
+            return 0;
         }
 
         // Set the steam username to the global var
@@ -435,11 +464,19 @@ extern "C" {
 
         // Mark the process as successful
         steam_loaded = 1;
+        
+        if (debug) {
+            printf("%s\n", SteamApps()->GetCurrentGameLanguage());
+            fprintf(stdout, "Steam Init OK.\n");
+            fflush(stdout);
+        }
+        
+        return 1;
+    }
+    
+    /* ---------------------------------------------------------------------- */
 
-        printf("%s\n", SteamApps()->GetCurrentGameLanguage());
-
-        fprintf(stdout, "Steam Init OK.\n");
-        fflush(stdout);
+    void __pxtexport(mod_steam, module_initialize)() {
     }
 
     /* ---------------------------------------------------------------------- */

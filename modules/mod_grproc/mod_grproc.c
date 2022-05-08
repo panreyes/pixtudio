@@ -349,10 +349,10 @@ static void draw_at(GRAPH *dest, int x, int y, REGION *r, INSTANCE *i) {
     if (LOCINT32(mod_grproc, i, ANGLE) || scaley != 100 || scalex != 100) {
         gr_rotated_blit(dest, r, x, y,
                         LOCDWORD(mod_grproc, i, FLAGS) & (B_HMIRROR | B_VMIRROR),
-                        LOCINT32(mod_grproc, i, ANGLE), scalex, scaley, 255, 255, 255, map);
+                        LOCINT32(mod_grproc, i, ANGLE), scalex, scaley, 255, 255, 255, map, 0);
     } else {
         gr_blit(dest, r, x, y, LOCDWORD(mod_grproc, i, FLAGS) & (B_HMIRROR | B_VMIRROR), 255, 255,
-                255, map);
+                255, map, 0);
     }
 }
 

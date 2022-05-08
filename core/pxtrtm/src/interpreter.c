@@ -188,6 +188,10 @@ int instance_go_all() {
                 continue;
             }
         }
+
+        #ifdef __EMSCRIPTEN__
+        return 0;
+        #endif
     }
 
     return exit_value;

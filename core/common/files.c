@@ -36,11 +36,22 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <assert.h>
+#include <SDL.h>
 #ifdef WITH_SDLRWOPS
 #include <SDL_rwops.h>
 #endif
 
+#ifdef __NINTENDO_SWITCH__
+#include "pxtrtm.h"
+#endif
+
 #include <stdint.h>
+#include <zlib.h>
+
+#ifdef __NINTENDO_SWITCH__
+#include <realpath.h>
+#include "nintendo_switch_macros.inc.c"
+#endif
 
 #include "files.h"
 
@@ -743,6 +754,12 @@ file *file_open(const char *filename, char *mode) {
     p[0] = '\0';
 
     filename = f->name;
+    f->write_mode = 0;
+
+    /* if writable, we set the flag to commit changes after closing the file */
+    if (strchr(mode, '+') || strchr(mode, 'w')) {
+        f->write_mode = 1;
+    }
 
     if (open_raw(f, filename, mode)) {
         opened_files++;
@@ -820,6 +837,13 @@ void file_close(file *fp) {
         SDL_RWclose(fp->rwops);
 #endif
     opened_files--;
+
+#ifdef __NINTENDO_SWITCH__
+    if (fp->write_mode == 1) {
+        NSWITCH_SAVEFUNCTION;
+    }
+#endif
+
     free(fp);
 }
 
@@ -915,7 +939,12 @@ char *getfullpath(char *rel_path) {
 #ifdef _WIN32
     GetFullPathName(rel_path, sizeof(fullpath), fullpath, NULL);
 #else
-    realpath(rel_path, fullpath);
+    #ifndef __NINTENDO_SWITCH__
+        realpath(rel_path, fullpath);
+    #else
+        strcpy(fullpath, NSWITCH_MAINPATH);
+        strcat(fullpath, rel_path);
+    #endif
 #endif
     if (*fullpath)
         return strdup(fullpath);

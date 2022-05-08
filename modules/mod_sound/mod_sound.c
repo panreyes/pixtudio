@@ -42,7 +42,9 @@
 
 #include "mod_sound.h"
 
-#include <SDL_mixer.h>
+#ifndef NO_SDL2_MIXER
+    #include <SDL_mixer.h>
+#endif
 
 #include "files.h"
 #include "xstrings.h"
@@ -214,6 +216,10 @@ int sound_init() {
         else
             audio_rate = 11025;
 
+        #ifdef __NINTENDO_SWITCH__
+            audio_rate = 48000;
+        #endif
+
         audio_format   = AUDIO_S16;
         audio_channels = GLODWORD(mod_sound, SOUND_MODE) + 1;
         audio_buffers  = 1024 * audio_rate / 22050;
@@ -296,8 +302,13 @@ static int32_t load_song(const char *filename) {
         return (0);
     }
 
-    if (!(music = Mix_LoadMUS_RW(SDL_RWFromBGDFP(fp), 0))) {
-        file_close(fp);
+    SDL_RWops * rwops = SDL_RWFromBGDFP( fp );
+    if ( !rwops ) {
+        file_close( fp );
+        return( 0 );
+    }
+
+    if (!(music = Mix_LoadMUS_RW( rwops, 1))) {
         PXTRTM_LOGERROR("Couldn't load %s: %s\n", filename, SDL_GetError());
         return (0);
     }
@@ -589,8 +600,13 @@ static int32_t load_wav(const char *filename) {
         return (0);
     }
 
-    if (!(sound = Mix_LoadWAV_RW(SDL_RWFromBGDFP(fp), 1))) {
-        file_close(fp);
+    SDL_RWops * rwops = SDL_RWFromBGDFP( fp );
+    if ( !rwops ) {
+        file_close( fp );
+        return( 0 );
+    }
+
+    if (!(sound = Mix_LoadWAV_RW(rwops, 1))) {
         PXTRTM_LOGERROR("Couldn't load %s: %s\n", filename, SDL_GetError());
         return (0);
     }

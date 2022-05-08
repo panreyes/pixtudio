@@ -31,6 +31,10 @@
 #include <string.h>
 #include <time.h>
 
+#ifdef __EMSCRIPTEN__
+   #include <emscripten.h>
+#endif
+
 #define __LIB_RENDER
 #include "librender.h"
 
@@ -86,6 +90,11 @@ void gr_set_fps(int fps, int skip) {
     FPS_init_sync = FPS_init = 0;
     FPS_count_sync = FPS_count = 0;
 
+    #ifdef __EMSCRIPTEN__
+    emscripten_cancel_main_loop();
+    emscripten_set_main_loop(instance_go_all, fps_value, 0);
+    #endif
+
     jump = 0;
 }
 
@@ -123,8 +132,11 @@ void gr_wait_frame() {
     }
 
     /* Tiempo transcurrido total del ejecucion del ultimo frame (Frame time en ms) */
-    *(float *)&GLODWORD(librender, FRAME_TIME) = (frame_ticks - last_frame_ticks) / 1000.0f;
+    *(float *)&GLODWORD(librender, FRAME_TIME) = (float)((frame_ticks - last_frame_ticks) / 1000.0f);
 
+    /* Tiempo inicial del nuevo frame */
+    last_frame_ticks = frame_ticks;
+    
     /* -------------- */
 
     FPS_count++;
@@ -145,7 +157,9 @@ void gr_wait_frame() {
             int delay = FPS_count_sync * frame_ms - (frame_ticks - FPS_init_sync);
 
             if (delay > 0) {
-                SDL_Delay(delay);
+                #ifndef __EMSCRIPTEN__
+                   SDL_Delay(delay);
+                #endif
                 /* Reajust after delay */
                 frame_ticks     = SDL_GetTicks();
                 ticks_per_frame = ((float)(frame_ticks - FPS_init_sync)) / (float)FPS_count_sync;
@@ -177,9 +191,6 @@ void gr_wait_frame() {
         FPS_init  = frame_ticks;
         FPS_count = 0;
     }
-
-    /* Tiempo inicial del nuevo frame */
-    last_frame_ticks = frame_ticks;
 }
 
 /* --------------------------------------------------------------------------- */

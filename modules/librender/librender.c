@@ -50,11 +50,18 @@
 
 DLVARFIXUP __pxtexport(librender, globals_fixup)[] = {
     /* Nombre de variable global, puntero al dato, tamaño del elemento, cantidad de elementos */
-    {"fps", NULL, -1, -1},        {"speed_gauge", NULL, -1, -1},  {"frame_time", NULL, -1, -1},
-
-    {"scale_mode", NULL, -1, -1}, {"restore_type", NULL, -1, -1}, {"dump_type", NULL, -1, -1},
-
-    {"fading", NULL, -1, -1},     {"alpha_steps", NULL, -1, -1},
+    {"fps", NULL, -1, -1},
+    {"speed_gauge", NULL, -1, -1},
+    {"frame_time", NULL, -1, -1},
+    {"scale_mode", NULL, -1, -1},
+    {"restore_type", NULL, -1, -1},
+    {"dump_type", NULL, -1, -1},
+    {"fading", NULL, -1, -1},
+    {"alpha_steps", NULL, -1, -1},
+    {"screen_offset_x", NULL, -1, -1},
+    {"screen_offset_y", NULL, -1, -1},
+    {"screen_offset_size_x", NULL, -1, -1},
+    {"screen_offset_size_y", NULL, -1, -1},
 
     {NULL, NULL, -1, -1}};
 
@@ -79,7 +86,7 @@ DLVARFIXUP __pxtexport(librender, locals_fixup)[] = {
     {"blendop", NULL, -1, -1},         // 16           BLENDOP             16
     {"collision_graph", NULL, -1, -1}, // 17           COLLISIONGRAPHID    17
 
-    {"_render_reserved_.object_id", NULL, -1, -1}, // 18           OBJECTID            18
+    {"_render_reserved_.object_id", NULL, -1, -1}, // 18           RENDER_OBJECTID            18
     {"_render_reserved_.graph_ptr", NULL, -1, -1}, // 19           GRAPHPTR            19
 
     {"_render_reserved_._saved_.x", NULL, -1, -1},       // 20           SAVED_COORDX        20
@@ -103,6 +110,10 @@ DLVARFIXUP __pxtexport(librender, locals_fixup)[] = {
     {"modr", NULL, -1, -1}, // 36           MODR                36
     {"modg", NULL, -1, -1}, // 37           MODG                37
     {"modb", NULL, -1, -1}, // 38           MODB                38
+    
+    {"size_resolution", NULL, -1, -1}, // 39  SIZERESOLUTION    39
+    
+    {"shader", NULL, -1, -1}, // 39  SHADER    40
 
     {NULL, NULL, -1, -1}};
 

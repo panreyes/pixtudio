@@ -27,29 +27,18 @@
  *
  */
 
-#ifndef __BLIT_H
-#define __BLIT_H
+#ifndef __MODSHADER_SYMBOLS_H
+#define __MODSHADER_SYMBOLS_H
 
-/* --------------------------------------------------------------------------- */
+#include <pxtdl.h>
 
-#include "libgrbase.h"
-#include "g_blitflags.h"
+#ifndef __PXTB__
+extern int MODSHADER_load_shader(INSTANCE *my, int *params);
+#endif
 
-/* --------------------------------------------------------------------------- */
-
-#define B_ALPHA_MASK 0xFF00
-#define B_ALPHA_SHIFT 8
-
-/* --------------------------------------------------------------------------- */
-
-extern void gr_blit(GRAPH *dest, REGION *clip, int x, int y, int flags, uint8_t modr, uint8_t modg,
-                    uint8_t modb, GRAPH *gr, int shader);
-extern void gr_get_bbox(REGION *dest, REGION *clip, int x, int y, int flags, int angle, float scalex,
-                        float scaley, GRAPH *gr);
-extern void gr_rotated_blit(GRAPH *dest, REGION *clip, int x, int y, int flags, int angle,
-                            float scalex, float scaley, uint8_t modr, uint8_t modg, uint8_t modb,
-                            GRAPH *gr, int shader);
-
-/* --------------------------------------------------------------------------- */
+DLSYSFUNCS  __pxtexport( mod_shader, exported_functions )[] = {
+    FUNC("SHADER_LOAD"  , "ISS" , TYPE_INT , MODSHADER_load_shader ),
+    FUNC( 0             , 0     , 0        , 0                     )
+};
 
 #endif

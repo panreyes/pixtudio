@@ -2,3 +2,17 @@
 *.a
 *.dcb
 .idea
+/projects/cmake/pxtp_build
+/projects/cmake/bin/win32
+/projects/cmake/pxtb_build
+/3rdparty/steamworks
+/modules/mod_nswitch/mod_nswitch.7z
+/projects/cmake/build-pxtp.sh
+/projects/cmake/compila-pxtp.sh
+/projects/cmake/compila.sh
+/projects/cmake/debug.sh
+build
+/modules/mod_nswitch/mod_nswitch.cpp
+/modules/mod_nswitch/mod_nswitch.h
+/modules/mod_nswitch/mod_nswitch_symbols.h
+/nda_code
