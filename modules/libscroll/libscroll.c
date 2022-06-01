@@ -72,7 +72,8 @@ enum { CTYPE = 0,
        COORDX,
        COORDY,
        COORDZ,
-       RESOLUTION };
+       RESOLUTION,
+       REGIONID };
 
 /* Globals */
 
@@ -88,6 +89,7 @@ DLVARFIXUP __pxtexport(libscroll, locals_fixup)[] = {
     {"y", NULL, -1, -1},
     {"z", NULL, -1, -1},
     {"resolution", NULL, -1, -1},
+    {"region", NULL, -1, -1},
     {NULL, NULL, -1, -1}
 };
 
@@ -338,7 +340,9 @@ void scroll_draw(int n, REGION *clipping) {
     static int proclist_reserved = 0;
     int proclist_count;
     REGION r;
+    REGION process_r;
     int status;
+    int process_region_id;
 
     GRAPH *graph, *back, *dest = NULL;
 
@@ -443,11 +447,22 @@ void scroll_draw(int n, REGION *clipping) {
         for (nproc = 0; nproc < proclist_count; nproc++) {
             x = LOCDWORD(libscroll, proclist[nproc], COORDX);
             y = LOCDWORD(libscroll, proclist[nproc], COORDY);
+            process_region_id = LOCDWORD(libscroll, proclist[nproc], REGIONID);
+            if (process_region_id) {
+                region_union(&r, &regions[process_region_id]);
+            }
 
             RESOLXY(libscroll, proclist[nproc], x, y);
 
             draw_instance_at(proclist[nproc], &r, x - scrolls[n].posx0 + scrolls[n].region->x,
                              y - scrolls[n].posy0 + scrolls[n].region->y, dest);
+                             
+            if (process_region_id) { // Reset scroll region
+                r = *scrolls[n].region;
+                if (!dest && clipping) {
+                    region_union(&r, clipping);
+                }
+            }
         }
     }
 }
