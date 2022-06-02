@@ -239,7 +239,7 @@ extra_symbols symbol_list_runtime[] = {
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_string
     { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_math
     { NULL, NULL, mod_time_module_initialize, mod_time_module_finalize, NULL, NULL, NULL, NULL }, //mod_time
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_file
+    { NULL, NULL, NULL, mod_file_module_finalize, NULL, NULL, NULL, NULL }, //mod_file
 #ifndef NO_MODSOUND
     { mod_sound_globals_fixup, NULL, mod_sound_module_initialize, mod_sound_module_finalize, NULL, NULL, NULL, NULL}, //mod_sound
 #endif

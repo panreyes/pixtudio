@@ -340,7 +340,6 @@ void scroll_draw(int n, REGION *clipping) {
     static int proclist_reserved = 0;
     int proclist_count;
     REGION r;
-    REGION process_r;
     int status;
     int process_region_id;
 
