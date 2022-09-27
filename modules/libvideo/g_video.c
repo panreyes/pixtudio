@@ -73,6 +73,8 @@ int waitvsync     = 0;
 int scale_resolution             = 0;
 int scale_resolution_aspectratio = 0;
 
+char former_scale_quality = 0;
+
 enum { GRAPH_MODE = 0,
        FULL_SCREEN,
        SCALE_RESOLUTION,
@@ -231,8 +233,15 @@ int gr_set_mode(int width, int height) {
     } else {
         SDL_SetWindowGrab(window, SDL_FALSE);
     }
+    
+    // Destroy renderer if SDL_HINT_RENDER_SCALE_QUALITY has changed.
+    if (renderer && former_scale_quality != scale_quality) {
+        SDL_DestroyRenderer(renderer);
+        renderer = NULL;
+    }
 
     if (!renderer) {
+        former_scale_quality = scale_quality;
         sdl_flags = SDL_RENDERER_ACCELERATED;
         if (waitvsync) {
             sdl_flags |= SDL_RENDERER_PRESENTVSYNC;
