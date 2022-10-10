@@ -211,6 +211,8 @@ int modgamecontroller_open(INSTANCE *my, int *params) {
  *
  **/
 int modgamecontroller_rumble( INSTANCE * my, int * params ) {
+    /* Old SDL2 compatibility */
+    #ifndef DISABLE_RUMBLE
     int id     = params[0];
     int low_frequency_rumble = params[1];
     int high_frequency_rumble = params[2];
@@ -234,8 +236,6 @@ int modgamecontroller_rumble( INSTANCE * my, int * params ) {
         high_frequency_rumble = 255;
     }
     
-    /* Old SDL2 compatibility */
-    #ifndef DISABLE_RUMBLE
     return SDL_GameControllerRumble(open_controllers[id],
                                     (Uint16) (low_frequency_rumble * 65535 / 255),
                                     (Uint16) (high_frequency_rumble * 65535 / 255),
