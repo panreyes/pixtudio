@@ -54,4 +54,4 @@ endif(EMSCRIPTEN)
 
 if(NO_SDL_RUMBLE)
     add_definitions(-DDISABLE_RUMBLE)
-end
+endif(NO_SDL_RUMBLE)
