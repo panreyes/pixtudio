@@ -14,7 +14,10 @@ if(NOT EMSCRIPTEN)
     find_package(Freetype REQUIRED)
     find_package(JPEG REQUIRED)
     find_package(WEBP REQUIRED)
-    find_package(CHIPMUNK REQUIRED)
+	
+	if(NOT NO_MODCHIPMUNK)
+		find_package(CHIPMUNK REQUIRED)
+	endif(NOT NO_MODCHIPMUNK)
 
     if(NOT NO_MODSHADER)
         find_package(OpenGL REQUIRED)
