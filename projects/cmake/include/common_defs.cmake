@@ -51,3 +51,7 @@ if(EMSCRIPTEN)
     add_definitions(-DNO_WEBP)
     add_definitions(-DNO_MODSHADER)
 endif(EMSCRIPTEN)
+
+if(NO_SDL_RUMBLE)
+    add_definitions(-DDISABLE_RUMBLE)
+end

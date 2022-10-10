@@ -331,10 +331,15 @@ int libjoy_rumble(int joy, int low_frequency_rumble, int high_frequency_rumble, 
             high_frequency_rumble = 255;
         }
 
+        /* Old SDL2 compatibility */
+        #ifndef DISABLE_RUMBLE
         return SDL_JoystickRumble(_joysticks[joy],
                                   (Uint16) (low_frequency_rumble * 65535 / 255),
                                   (Uint16) (high_frequency_rumble * 65535 / 255),
                                   (Uint32) duration);
+        #else
+        return 0;
+        #endif
     }
 
     return -1;
@@ -350,7 +355,7 @@ void __pxtexport(libjoy, module_initialize)() {
 #ifdef WIN32
     SDL_SetHint(SDL_HINT_XINPUT_ENABLED, "1");
 #endif
-	
+    
     if (!SDL_WasInit(SDL_INIT_JOYSTICK)) {
         SDL_InitSubSystem(SDL_INIT_JOYSTICK);
         SDL_JoystickEventState(SDL_ENABLE);

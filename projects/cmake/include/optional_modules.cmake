@@ -15,4 +15,7 @@ set(NO_MODDEBUG 1)
 set(NO_MODSTEAM 1)
 set(NO_MODNSWITCH 1)
 
+# For compatibility with old SDL2 versions:
+#set(NO_SDL_RUMBLE 1)
+
 # ----------

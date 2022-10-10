@@ -233,11 +233,16 @@ int modgamecontroller_rumble( INSTANCE * my, int * params ) {
     } else if (high_frequency_rumble > 255) {
         high_frequency_rumble = 255;
     }
-
+    
+    /* Old SDL2 compatibility */
+    #ifndef DISABLE_RUMBLE
     return SDL_GameControllerRumble(open_controllers[id],
                                     (Uint16) (low_frequency_rumble * 65535 / 255),
                                     (Uint16) (high_frequency_rumble * 65535 / 255),
                                     (Uint32) duration);
+    #else
+    return 0;
+    #endif
 }
 
 /* ------------------------------------------------------------ */
