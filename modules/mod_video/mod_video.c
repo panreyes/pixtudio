@@ -76,34 +76,3 @@ int modvideo_set_fps(INSTANCE *my, int *params) {
 }
 
 /* --------------------------------------------------------------------------- */
-/*
-Return a pointer to an array of available screen dimensions for the given format and video flags,
-sorted largest to smallest.
-
-Returns NULL if there are no dimensions available for a particular format,
-or -1 if any dimension is okay for the given format.
-*/
-
-int modvideo_list_modes(INSTANCE *my, int *params) {
-#warning modvideo_list_modes is a stub implementation (See https://wiki.libsdl.org/SDL_GetDisplayMode)
-    return -1;
-}
-
-/* --------------------------------------------------------------------------- */
-
-/*
-   returns 0 if the requested mode is not supported under any bit depth,
-   or returns the bits-per-pixel of the closest available
-   mode with the given width, height and requested flags
-
-   params:
-        height,width,depth,flags
-
-*/
-
-int modvideo_mode_is_ok(INSTANCE *my, int *params) {
-#warning modvideo_mode_is_ok is a stub implementation
-    return 1;
-}
-
-/* --------------------------------------------------------------------------- */
