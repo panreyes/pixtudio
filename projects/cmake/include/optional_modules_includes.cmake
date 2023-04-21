@@ -36,6 +36,18 @@ if(NOT NO_MODSTEAM)
                         ${STEAMWORKS_INCLUDE_DIR})
 endif(NOT NO_MODSTEAM)
 
+if(NOT NO_MODEPIC)
+    if(C_PXTRTM)
+      list(APPEND SOURCE_FILES
+           ${PXT_MODULES_PATH}/mod_epic/mod_epic.cpp
+           ${PXT_MODULES_PATH}/mod_epic/mod_epic.h
+           ${PXT_MODULES_PATH}/mod_epic/mod_epic_symbols.h)
+    endif(C_PXTRTM)
+    include_directories(${PXT_MODULES_PATH}/mod_epic/
+                        ${EPICSDK_INCLUDE_DIR})
+endif(NOT NO_MODEPIC)
+
+
 if(NOT NO_MODCURL)
     if(C_PXTRTM)
       list(APPEND SOURCE_FILES
@@ -141,3 +153,14 @@ if(NOT NO_MODSHADER)
     endif(C_PXTRTM)
     include_directories(${PXT_MODULES_PATH}/mod_shader/)
 endif(NOT NO_MODSHADER)
+
+if(NOT NO_MODTMX)
+    if(C_PXTRTM)
+        list(APPEND SOURCE_FILES
+            ${PXT_MODULES_PATH}/mod_tmx/mod_tmx.c
+			${PXT_MODULES_PATH}/mod_tmx/mod_tmx.h
+            ${PXT_MODULES_PATH}/mod_tmx/mod_tmx_symbols.h)
+    endif(C_PXTRTM)
+    include_directories(${PXT_MODULES_PATH}/mod_tmx/
+						${TMX_INCLUDE_DIR})
+endif(NOT NO_MODTMX)

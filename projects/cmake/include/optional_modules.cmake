@@ -13,7 +13,9 @@ set(NO_MODTHEORA 1)
 set(NO_MODSQLITE 1)
 set(NO_MODDEBUG 1)
 set(NO_MODSTEAM 1)
-set(NO_MODNSWITCH 1)
+#set(NO_MODNSWITCH 1)
+#set(NO_MODEPIC 1)
+#set(NO_MODTMX 1)
 
 # For compatibility with old SDL2 versions:
 #set(NO_SDL_RUMBLE 1)

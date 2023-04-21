@@ -1,4 +1,4 @@
-project(pxtrtm)
+project(pxtrtm CXX)
 cmake_minimum_required(VERSION 3.4)
 set(C_PXTRTM 1)
 
@@ -184,7 +184,8 @@ set(SOURCE_FILES
   ${PXT_MODULES_PATH}/mod_video/mod_video_symbols.h
   ${PXT_MODULES_PATH}/mod_wm/locale/get_locale.h
   ${PXT_MODULES_PATH}/mod_wm/mod_wm.c
-  ${PXT_MODULES_PATH}/mod_wm/mod_wm_symbols.h)
+  ${PXT_MODULES_PATH}/mod_wm/mod_wm_symbols.h
+  )
 
 # OS-specific files
 if(WIN32)

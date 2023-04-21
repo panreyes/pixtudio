@@ -40,4 +40,13 @@ if(NOT EMSCRIPTEN)
     if(NOT NO_MODSTEAM)
         find_package(STEAMWORKS REQUIRED)
     endif(NOT NO_MODSTEAM)
+	
+    if(NOT NO_MODEPIC)
+        find_package(EPICSDK REQUIRED)
+    endif(NOT NO_MODEPIC)
+	
+    if(NOT NO_MODTMX)
+        find_package(TMX REQUIRED)
+		find_package(XML2 REQUIRED)
+    endif(NOT NO_MODTMX)
 endif(NOT EMSCRIPTEN)

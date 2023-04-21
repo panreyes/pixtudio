@@ -57,6 +57,11 @@ if(NOT NO_MODSTEAM)
 else()
     set(STEAM_LIB "")
 endif()
+if(NOT NO_MODEPIC)
+    set(EPICSDK_LIB ${EPICSDK_LIBRARY})
+else()
+    set(EPICSDK_LIB "")
+endif()
 if(NO_MODTHEORA)
     set(THEORA_LIBRARIES "")
 endif(NO_MODTHEORA)
@@ -70,6 +75,10 @@ endif(NO_MODSHADER)
 if(NO_MODCHIPMUNK)
     set(CHIPMUNK_LIBRARIES "")
 endif(NO_MODCHIPMUNK)
+if(NO_MODTMX)
+    set(TMX_LIBRARIES "")
+	set(XML2_LIBRARIES "")
+endif(NO_MODTMX)
 
 
 # Include the compiler flags from the external include file
@@ -80,7 +89,6 @@ target_link_libraries(${PROJECT_NAME}
                       pxtrtm
                       ${SDL2_LIBRARY}
                       ${SDL2_MIXER_LIBRARIES}
-                      ${ZLIB_LIBRARIES}
                       ${PNG_LIBRARIES}
                       ${JPEG_LIBRARIES}
                       ${WEBP_LIBRARY}
@@ -92,10 +100,14 @@ target_link_libraries(${PROJECT_NAME}
                       ${TRE_LIBRARY}
                       ${CURL_LIBRARY}
                       ${STEAM_LIB}
+					  ${EPICSDK_LIB}
                       ${THEORA_LIBRARIES}
                       ${OPENGL_LIBRARIES}
                       ${OPENGLES2_LIBRARIES}
-                      ${CHIPMUNK_LIBRARIES})
+                      ${CHIPMUNK_LIBRARIES}
+					  ${TMX_LIBRARIES}
+					  ${XML2_LIBRARIES}
+					  ${ZLIB_LIBRARIES})
 
 # Installation instructions
 if(WIN32)

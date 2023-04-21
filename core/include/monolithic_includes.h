@@ -100,8 +100,14 @@
 #ifndef NO_MODSTEAM
 #include <mod_steam_symbols.h>
 #endif
+#ifndef NO_MODEPIC
+#include <mod_epic_symbols.h>
+#endif
 #ifndef NO_MODNSWITCH
 #include <mod_nswitch_symbols.h>
+#endif
+#ifndef NO_MODTMX
+#   include <mod_tmx_symbols.h>
 #endif
 
 typedef struct
@@ -204,6 +210,9 @@ basic_symbols symbol_list[] = {
 #ifndef NO_MODSTEAM
     { "mod_steam.fakelib"    , mod_steam_module_dependencies, mod_steam_constants_def, NULL, mod_steam_globals_def, NULL, mod_steam_exported_functions },
 #endif
+#ifndef NO_MODEPIC
+    { "mod_epic.fakelib"    , mod_epic_module_dependencies, NULL, NULL, mod_epic_globals_def, NULL, mod_epic_exported_functions },
+#endif
 #ifndef NO_MODNSWITCH
     { "mod_nswitch.fakelib"  , mod_nswitch_module_dependencies, mod_nswitch_constants_def, NULL, mod_nswitch_globals_def, NULL, mod_nswitch_exported_functions },
 #endif
@@ -212,6 +221,9 @@ basic_symbols symbol_list[] = {
 #endif
 #ifndef NO_MODTHEORA
     { "mod_theora.fakelib"   , mod_theora_module_dependencies, NULL, NULL, NULL, NULL, mod_theora_exported_functions },
+#endif
+#ifndef NO_MODTMX
+	{ "mod_tmx.fakelib"   , NULL, NULL, NULL, NULL, NULL, mod_tmx_exported_functions },
 #endif
     { NULL                   , NULL, NULL, NULL, NULL, NULL, NULL }
 };
@@ -291,6 +303,9 @@ extra_symbols symbol_list_runtime[] = {
 #ifndef NO_MODSTEAM
     { mod_steam_globals_fixup, NULL, mod_steam_module_initialize, mod_steam_module_finalize, NULL, NULL, NULL, NULL }, //mod_steam
 #endif
+#ifndef NO_MODEPIC
+    { mod_epic_globals_fixup, NULL, mod_epic_module_initialize, mod_epic_module_finalize, NULL, NULL, NULL, NULL }, //mod_steam
+#endif
 #ifndef NO_MODNSWITCH
     { mod_nswitch_globals_fixup, NULL, mod_nswitch_module_initialize, mod_nswitch_module_finalize, NULL, NULL, NULL, NULL }, //mod_nswitch
 #endif
@@ -299,6 +314,9 @@ extra_symbols symbol_list_runtime[] = {
 #endif
 #ifndef NO_MODTHEORA
     { NULL, NULL, mod_theora_module_initialize, mod_theora_module_finalize, NULL, NULL, NULL, mod_theora_handler_hooks }, //mod_theora
+#endif
+#ifndef NO_MODTMX
+	{ NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, //mod_tmx
 #endif
 };
 #endif

@@ -42,7 +42,7 @@ fi
 # Valid values are:
 # Debug Release RelWithDebInfo MinSizeRel
 # Otherwise compile with Debug configuration
-BUILD_TYPE="Debug"
+BUILD_TYPE="Release"
 if [ $# -eq 1 ]; then
     BUILD_TYPE=$1
 fi
@@ -93,7 +93,7 @@ for PROJECT in pxtb pxtp; do
     rm -rf ${PROJECT}_build
     mkdir ${PROJECT}_build
     cd ${PROJECT}_build
-    cmake -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" ${EXTRACMAKEFLAGS} -G "${PROJECTTYPE}" -DSTEAMWORKS_PATH=$(pwd)/../../../3rdparty/steamworks -DCMAKE_INSTALL_PREFIX=$(pwd)/../ ../${PROJECT}
+    cmake -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" ${EXTRACMAKEFLAGS} -G "${PROJECTTYPE}" -DSTEAMWORKS_PATH=$(pwd)/../../../3rdparty/steamworks -DEPICSDK_PATH=$(pwd)/../../../3rdparty/epicsdk -DTMX_PATH=$(pwd)/../../../3rdparty/libtmx -DXML2_PATH=$(pwd)/../../../3rdparty/libxml2 -DCMAKE_INSTALL_PREFIX=$(pwd)/../ ../${PROJECT}
     $BUILDTOOL 
     if [ $? -eq 0 ]; then
         $INSTALLTOOL
