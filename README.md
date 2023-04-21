@@ -1,7 +1,7 @@
 # README
 PixTudio is a 2D game engine with an emphasis on PC, Nintendo Switch™ & mobile devices, with a code syntax based on DIV Games Studio.
 
-PixTudio was originally developed by [Joseba García](https://github.com/josebagar) to support the needs of the [eXplosive Dinosaurs](https://www.nintendo.com/store/products/explosive-dinosaurs-switch/) video game, but has subsequently received some further enhancements by [Pablo Navarro](https://github.com/panreyes) to support other [RAWRLAB Games](https://www.rawrlab.com/) projects.
+PixTudio was originally developed by [Joseba Etxebarria](https://github.com/josebagar) to support the needs of the [eXplosive Dinosaurs](https://www.nintendo.com/store/products/explosive-dinosaurs-switch/) video game, but has subsequently received some further enhancements by [Pablo Navarro](https://github.com/panreyes) to support other [RAWRLAB Games](https://www.rawrlab.com/) projects.
 
 ## RELATED LINKS
 * [PixTudio official website](https://pixtudio.divhub.org/)
